@@ -1,0 +1,57 @@
+/* Field — label + controlo + hint + erro */
+
+.mg-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mg-field__label {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-field__hint {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-field__error {
+  font-size: var(--text-sm);
+  color: var(--danger);
+}
+
+.mg-field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mg-form-error {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: var(--text-sm);
+}
+
+/* Checkbox nativo com estilo dourado */
+.mg-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.mg-checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold-500);
+  cursor: pointer;
+}

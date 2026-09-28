@@ -1,0 +1,63 @@
+/* TextInput e select nativo */
+
+.mg-input,
+.mg-select {
+  width: 100%;
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  background: var(--input-bg);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: var(--weight-regular);
+  transition: border-color var(--duration) var(--ease), background var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+}
+
+.mg-input::placeholder {
+  color: var(--text-muted);
+}
+
+.mg-input:hover:not(:disabled),
+.mg-select:hover:not(:disabled) {
+  border-color: var(--glass-border-strong);
+}
+
+.mg-input:focus-visible,
+.mg-select:focus-visible {
+  border-color: var(--gold-500);
+  background: var(--input-bg-focus);
+  border-radius: var(--radius-md);
+}
+
+.mg-input:disabled,
+.mg-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mg-input--error,
+.mg-input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.mg-input[type="date"],
+.mg-input[type="time"] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.mg-input::-webkit-calendar-picker-indicator {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.mg-select {
+  cursor: pointer;
+}
+
+.mg-select option {
+  background: var(--glass-bg-solid);
+  color: var(--text-primary);
+}

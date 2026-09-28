@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Fonte dos ícones PWA: círculo dourado com lua crescente. Cores iguais aos tokens gold e bg-base. -->
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F3DFAE"/>
+      <stop offset="0.55" stop-color="#D4AE66"/>
+      <stop offset="1" stop-color="#B58A42"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="0.32" cy="0.28" r="0.6">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="crescent">
+      <rect width="512" height="512" fill="#000"/>
+      <circle cx="256" cy="256" r="132" fill="#fff"/>
+      <circle cx="312" cy="214" r="118" fill="#000"/>
+    </mask>
+  </defs>
+  <circle cx="256" cy="256" r="248" fill="url(#gold)"/>
+  <circle cx="256" cy="256" r="248" fill="url(#shine)"/>
+  <circle cx="256" cy="256" r="236" fill="none" stroke="#FBF7EF" stroke-opacity="0.55" stroke-width="3"/>
+  <rect width="512" height="512" fill="#FBF7EF" mask="url(#crescent)"/>
+  <circle cx="376" cy="356" r="7" fill="#FBF7EF"/>
+  <circle cx="404" cy="304" r="4" fill="#FBF7EF" opacity="0.8"/>
+</svg>

@@ -1,0 +1,53 @@
+/* WeekTitleCard: faixa com lua e sol e título editável */
+
+.mg-week-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-card), inset 0 1px 0 var(--glass-highlight);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mg-week-title {
+    background: var(--glass-bg-strong);
+  }
+}
+
+.mg-week-title__label {
+  flex-shrink: 0;
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-week-title__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--space-1) 0;
+  border: 0;
+  border-bottom: var(--border-width) solid transparent;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+}
+
+.mg-week-title__input::placeholder {
+  color: var(--text-secondary);
+}
+
+.mg-week-title__input:focus-visible {
+  border-bottom-color: var(--gold-500);
+  box-shadow: none;
+  border-radius: 0;
+}

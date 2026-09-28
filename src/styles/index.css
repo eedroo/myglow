@@ -29,3 +29,15 @@
 @import './components/body-bar.css';
 @import './components/reflection.css';
 @import './components/save-status.css';
+@import './components/progress-dots.css';
+@import './components/week.css';
+@import './components/week-nav.css';
+@import './components/week-title.css';
+@import './components/week-sky.css';
+@import './components/week-day.css';
+@import './components/weight.css';
+@import './components/projects.css';
+@import './components/month-nav.css';
+@import './components/calendar.css';
+@import './components/month-weeks.css';
+@import './components/month-moon.css';

@@ -1,0 +1,79 @@
+/* WeekDayRow: uma linha por dia (ícone planetário, dia, lua, notas, progresso) */
+
+.mg-week-day {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "icon head progress"
+    "text text text";
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--glass-bg);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+}
+
+.mg-week-day__icon {
+  grid-area: icon;
+  display: inline-flex;
+}
+
+.mg-week-day__head {
+  grid-area: head;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.mg-week-day__label {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-week-day__date {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.mg-week-day__moon {
+  display: inline-flex;
+  align-self: center;
+}
+
+.mg-week-day__text {
+  grid-area: text;
+}
+
+.mg-week-day__progress {
+  grid-area: progress;
+  display: inline-flex;
+  justify-content: flex-end;
+  min-width: 48px;
+}
+
+.mg-week-day--today {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-glow), inset 0 1px 0 var(--glass-highlight);
+}
+
+.mg-week-day--future {
+  background: transparent;
+  border-style: dashed;
+}
+
+@media (min-width: 768px) {
+  .mg-week-day {
+    grid-template-columns: auto 140px minmax(0, 1fr) auto;
+    grid-template-areas: "icon head text progress";
+  }
+}

@@ -1,0 +1,43 @@
+/* DayProgressDots: manhã · corpo · noite */
+
+.mg-progress-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+}
+
+a.mg-progress-dots:hover {
+  background: var(--scrim);
+}
+
+a.mg-progress-dots:focus-visible {
+  border-radius: var(--radius-pill);
+}
+
+.mg-progress-dots__dot {
+  width: 10px;
+  height: 10px;
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+}
+
+.mg-progress-dots__dot--done {
+  border-color: transparent;
+  background: var(--gold-gradient);
+  box-shadow: var(--shadow-glow);
+}
+
+.mg-progress-dots--sm {
+  gap: 2px;
+  padding: 0;
+}
+
+.mg-progress-dots--sm .mg-progress-dots__dot {
+  width: 6px;
+  height: 6px;
+  box-shadow: none;
+}

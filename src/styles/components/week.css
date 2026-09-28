@@ -1,0 +1,51 @@
+/* WeekView: grelha da página da semana */
+
+.mg-week {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mg-week__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.mg-week__cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mg-week__cell > * {
+  flex: 1 1 auto;
+}
+
+.mg-week__days {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .mg-week__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      "title title title"
+      "intention intention intention"
+      "sky sky sky"
+      "days days days"
+      "weight projects projects"
+      "reflection reflection reflection";
+    gap: var(--space-5);
+  }
+
+  .mg-week__cell--title { grid-area: title; }
+  .mg-week__cell--intention { grid-area: intention; }
+  .mg-week__cell--sky { grid-area: sky; }
+  .mg-week__cell--days { grid-area: days; }
+  .mg-week__cell--weight { grid-area: weight; }
+  .mg-week__cell--projects { grid-area: projects; }
+  .mg-week__cell--reflection { grid-area: reflection; }
+}

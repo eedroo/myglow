@@ -1,0 +1,112 @@
+/* MonthCalendar: grelha domingo → sábado */
+
+.mg-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mg-calendar__head,
+.mg-calendar__row {
+  display: grid;
+  grid-template-columns: 20px repeat(7, minmax(0, 1fr));
+  gap: var(--space-1);
+  align-items: stretch;
+}
+
+.mg-calendar__head {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+  text-align: center;
+}
+
+.mg-calendar__week {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.mg-calendar__week:hover {
+  color: var(--gold-accent);
+  background: var(--scrim);
+}
+
+.mg-calendar__cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  min-height: 64px;
+  padding: var(--space-1) 2px;
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: border-color var(--duration) var(--ease), background var(--duration) var(--ease);
+}
+
+a.mg-calendar__cell:hover {
+  border-color: var(--glass-border-strong);
+  background: var(--glass-bg-strong);
+}
+
+a.mg-calendar__cell:focus-visible {
+  border-radius: var(--radius-sm);
+}
+
+.mg-calendar__num {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+}
+
+.mg-calendar__moon {
+  display: inline-flex;
+}
+
+.mg-calendar__cell--out {
+  visibility: hidden;
+}
+
+.mg-calendar__cell--future {
+  background: transparent;
+  border-style: dashed;
+  color: var(--text-secondary);
+}
+
+.mg-calendar__cell--partial {
+  background: var(--glass-bg-strong);
+}
+
+.mg-calendar__cell--complete {
+  border-color: var(--gold-500);
+  background: var(--glass-bg-strong);
+}
+
+.mg-calendar__cell--today {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-glow);
+}
+
+@media (min-width: 768px) {
+  .mg-calendar__head,
+  .mg-calendar__row {
+    grid-template-columns: 28px repeat(7, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .mg-calendar__cell {
+    min-height: 84px;
+    padding: var(--space-2);
+  }
+}

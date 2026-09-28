@@ -1,0 +1,59 @@
+/* WeightCard + WeightInput */
+
+.mg-weight__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-weight__delta {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-weight-input {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.mg-weight-input__field {
+  width: 100%;
+  max-width: 160px;
+  padding: var(--space-1) 0;
+  border: 0;
+  border-bottom: var(--border-width) solid var(--line-rule);
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-medium);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-weight-input__field::placeholder {
+  color: var(--text-muted);
+}
+
+.mg-weight-input__field:focus-visible {
+  border-bottom-color: var(--gold-500);
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.mg-weight-input__field[aria-invalid="true"] {
+  border-bottom-color: var(--danger);
+}
+
+.mg-weight-input__unit {
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+}

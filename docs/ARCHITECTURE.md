@@ -92,6 +92,16 @@ scripts/icons-doc.ts        gera docs/ICONS.md (`npm run docs:icons`)
 src/styles/                 tokens, base, components/*
 ```
 
+## Deploy (Vercel + Neon)
+
+1. **Neon:** criar projecto (região Frankfurt `eu-central-1`). Copiar a *connection string pooled* (host com `-pooler`) → `DATABASE_URL` e a *directa* (sem `-pooler`) → `DIRECT_URL`. Ambas com `?sslmode=require`.
+2. **Vercel:** importar o repositório GitHub. Framework Next.js (detectado). Em *Environment Variables*:
+   - `DATABASE_URL`, `DIRECT_URL` (do Neon)
+   - `AUTH_SECRET` (`openssl rand -base64 32`)
+   - `AUTH_URL` não é necessário na Vercel (`trustHost: true`).
+3. O script `vercel-build` corre `prisma generate && prisma migrate deploy && next build`: as migrações são aplicadas ao Neon em cada deploy.
+4. Verificar: registo → onboarding (pesquisa de local via Open-Meteo) → `/today`; Lighthouse → PWA instalável.
+
 ## Fases
 
 1. **Fundações** (esta) — schema, auth, i18n, tema, onboarding, definições, shell PWA, primitivos.

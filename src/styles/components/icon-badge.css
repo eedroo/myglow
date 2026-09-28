@@ -1,0 +1,28 @@
+/* IconBadge — círculo de vidro com contorno dourado */
+
+.mg-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg-strong);
+  border: var(--border-width) solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow-card);
+  color: var(--gold-accent);
+}
+
+.mg-icon-badge--sm {
+  width: calc(var(--icon-sm) + var(--space-3));
+  height: calc(var(--icon-sm) + var(--space-3));
+}
+
+.mg-icon-badge--md {
+  width: calc(var(--icon-md) + var(--space-4));
+  height: calc(var(--icon-md) + var(--space-4));
+}
+
+.mg-icon-badge--lg {
+  width: calc(var(--icon-lg) + var(--space-5));
+  height: calc(var(--icon-lg) + var(--space-5));
+}

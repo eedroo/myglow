@@ -368,7 +368,7 @@
     "title": "Meu peso da semana",
     "label": "Peso em quilos",
     "unit": "kg",
-    "placeholder": "—",
+    "placeholder": "0,0",
     "invalid": "Escreve o peso em kg, por exemplo 76,4.",
     "delta": "{delta} face à semana anterior"
   },

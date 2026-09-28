@@ -368,7 +368,7 @@
     "title": "My weight this week",
     "label": "Weight in kilograms",
     "unit": "kg",
-    "placeholder": "—",
+    "placeholder": "0.0",
     "invalid": "Enter your weight in kg, e.g. 76.4.",
     "delta": "{delta} vs last week"
   },

@@ -51,3 +51,24 @@
   box-shadow: none;
   border-radius: 0;
 }
+
+@media (max-width: 479px) {
+  .mg-week-title {
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+  }
+
+  /* O label continua disponível para leitores de ecrã. */
+  .mg-week-title__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .mg-week-title__input {
+    font-size: var(--text-lg);
+  }
+}

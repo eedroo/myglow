@@ -1,5 +1,10 @@
 /* WeekView: grelha da página da semana */
 
+/* A semana e o mês usam um contentor mais largo que o diário. */
+.mg-shell__main:has(.mg-week, .mg-month) {
+  max-width: var(--content-wide);
+}
+
 .mg-week {
   display: flex;
   flex-direction: column;

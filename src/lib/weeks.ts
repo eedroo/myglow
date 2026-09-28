@@ -12,6 +12,9 @@ export interface WeekKey {
   weekOfMonth: number; // 1–5: ordem do domingo dentro do mês
 }
 
+/** Planear à frente: semanas futuras editáveis até este limite. */
+export const MAX_WEEKS_AHEAD = 52;
+
 const MONTH_KEY_RE = /^(\d{4})-(0[1-9]|1[0-2])$/;
 
 function dt(date: DateISO): DateTime {

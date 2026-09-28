@@ -1,0 +1,20 @@
+/* DateBadge: ícone de calendário + dd / mm / aaaa */
+
+.mg-date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-4) var(--space-1) var(--space-2);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg-strong);
+}
+
+.mg-date-badge__text {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}

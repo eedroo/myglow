@@ -18,3 +18,14 @@
 @import './components/toast.css';
 @import './components/motto.css';
 @import './components/shell.css';
+@import './components/day.css';
+@import './components/day-nav.css';
+@import './components/daily-header.css';
+@import './components/moon-strip.css';
+@import './components/zodiac-strip.css';
+@import './components/date-badge.css';
+@import './components/sky-card.css';
+@import './components/period.css';
+@import './components/body-bar.css';
+@import './components/reflection.css';
+@import './components/save-status.css';

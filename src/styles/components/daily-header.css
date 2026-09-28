@@ -1,0 +1,45 @@
+/* DailyHeader: faixas de fases e signos + data */
+
+.mg-daily-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card), inset 0 1px 0 var(--glass-highlight);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mg-daily-header {
+    background: var(--glass-bg-strong);
+  }
+}
+
+.mg-daily-header__strips {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.mg-daily-header__date {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .mg-daily-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .mg-daily-header__date {
+    flex-shrink: 0;
+  }
+}

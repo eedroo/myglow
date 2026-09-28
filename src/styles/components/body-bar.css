@@ -1,0 +1,44 @@
+/* BodyFocusBar: faixa "Foco no meu corpo" com 3 chips */
+
+.mg-body-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: var(--glass-bg);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-card), inset 0 1px 0 var(--glass-highlight);
+}
+
+.mg-body-bar--current {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-card), var(--shadow-glow), inset 0 1px 0 var(--glass-highlight);
+}
+
+.mg-body-bar__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-body-bar__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+@media (max-width: 479px) {
+  .mg-body-bar {
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+}

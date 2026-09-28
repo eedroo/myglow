@@ -1,0 +1,26 @@
+/* MoonPhaseStrip: 8 fases, a activa com halo */
+
+.mg-moon-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-moon-strip__phase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  border-radius: var(--radius-pill);
+  opacity: 0.5;
+  transition: opacity var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+}
+
+.mg-moon-strip__phase--active {
+  opacity: 1;
+  background: var(--glass-bg-strong);
+  box-shadow: var(--shadow-glow);
+}

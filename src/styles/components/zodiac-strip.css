@@ -1,0 +1,26 @@
+/* ZodiacStrip: 12 signos, o activo com halo */
+
+.mg-zodiac-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-zodiac-strip__sign {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: var(--radius-pill);
+  opacity: 0.45;
+  transition: opacity var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+}
+
+.mg-zodiac-strip__sign--active {
+  opacity: 1;
+  background: var(--glass-bg-strong);
+  box-shadow: var(--shadow-glow);
+}

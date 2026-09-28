@@ -1,0 +1,73 @@
+/* SaveStatus: indicador discreto por baixo da TopBar */
+
+.mg-save-status {
+  position: fixed;
+  top: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--space-2));
+  right: var(--space-4);
+  z-index: var(--z-nav);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-card);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(calc(var(--space-1) * -1));
+  transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease);
+}
+
+.mg-save-status--visible {
+  opacity: 1;
+  transform: none;
+}
+
+.mg-save-status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-500);
+}
+
+.mg-save-status--saving .mg-save-status__dot {
+  animation: mg-save-pulse 1s ease-in-out infinite alternate;
+}
+
+.mg-save-status--saved .mg-save-status__dot {
+  background: var(--success);
+}
+
+.mg-save-status--offline {
+  color: var(--text-primary);
+}
+
+.mg-save-status--offline .mg-save-status__dot {
+  background: var(--ready-off);
+}
+
+.mg-save-status--error {
+  color: var(--danger);
+}
+
+.mg-save-status--error .mg-save-status__dot {
+  background: var(--danger);
+}
+
+@keyframes mg-save-pulse {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-save-status,
+  .mg-save-status__dot {
+    animation: none !important;
+    transition: none;
+  }
+}

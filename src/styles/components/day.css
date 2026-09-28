@@ -1,0 +1,85 @@
+/* DayView: grelha da página diária e cartões simples (intenção, acordar, gratidão) */
+
+.mg-day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mg-day__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .mg-day__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "intention intention"
+      "morning   wake"
+      "body      body"
+      "night     gratitude"
+      "reflection reflection"
+      "summary   summary";
+    gap: var(--space-5);
+  }
+
+  .mg-day__cell--intention { grid-area: intention; }
+  .mg-day__cell--morning { grid-area: morning; }
+  .mg-day__cell--wake { grid-area: wake; }
+  .mg-day__cell--body { grid-area: body; }
+  .mg-day__cell--night { grid-area: night; }
+  .mg-day__cell--gratitude { grid-area: gratitude; }
+  .mg-day__cell--reflection { grid-area: reflection; }
+  .mg-day__cell--summary { grid-area: summary; }
+}
+
+.mg-day__cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mg-day__cell > * {
+  flex: 1 1 auto;
+}
+
+/* Cabeçalho comum de cartão: ícone + label em maiúsculas */
+.mg-intention__head,
+.mg-wake__head,
+.mg-gratitude__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mg-intention__label,
+.mg-wake__label,
+.mg-gratitude__label {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-wake .mg-mood__legend {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-primary);
+}
+
+.mg-gratitude__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-gratitude__block + .mg-gratitude__block {
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--line-rule);
+}

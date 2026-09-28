@@ -1,0 +1,53 @@
+/* ReflectionCard / DaySummaryCard: texto pautado + cristal decorativo */
+
+.mg-reflection {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-5);
+}
+
+.mg-reflection__body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.mg-reflection__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mg-reflection__title {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-reflection__subtitle {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.mg-reflection__crystal {
+  display: none;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+@media (min-width: 480px) {
+  .mg-reflection__crystal {
+    display: inline-flex;
+  }
+}
+
+.mg-reflection--summary .mg-reflection__crystal {
+  align-self: flex-end;
+}

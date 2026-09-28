@@ -1,0 +1,30 @@
+/* MorningSection / NightSection */
+
+.mg-period {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card), inset 0 1px 0 var(--glass-highlight);
+  transition: border-color var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mg-period {
+    background: var(--glass-bg-strong);
+  }
+}
+
+.mg-period .mg-section-header {
+  margin-bottom: var(--space-2);
+}
+
+.mg-period--current {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-card), var(--shadow-glow), inset 0 1px 0 var(--glass-highlight);
+}

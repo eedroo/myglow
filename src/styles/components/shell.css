@@ -1,0 +1,406 @@
+/* Shell: AmbientBackground, AppShell, TopBar, BottomNav, PageHeader + layouts de auth e dev */
+
+/* ---------- AmbientBackground ---------- */
+
+.mg-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-ambient);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mg-ambient__orb {
+  position: absolute;
+  border-radius: var(--radius-pill);
+  filter: blur(var(--orb-blur));
+  will-change: transform;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.mg-ambient__orb--1 {
+  top: -10vmax;
+  left: -10vmax;
+  width: 55vmax;
+  height: 55vmax;
+  background: var(--orb-1);
+  animation-name: mg-orb-drift-1;
+  animation-duration: 48s;
+}
+
+.mg-ambient__orb--2 {
+  top: 30vh;
+  right: -15vmax;
+  width: 50vmax;
+  height: 50vmax;
+  background: var(--orb-2);
+  animation-name: mg-orb-drift-2;
+  animation-duration: 56s;
+}
+
+.mg-ambient__orb--3 {
+  bottom: -20vmax;
+  left: 10vw;
+  width: 45vmax;
+  height: 45vmax;
+  background: var(--orb-3);
+  animation-name: mg-orb-drift-3;
+  animation-duration: 42s;
+}
+
+.mg-ambient__orb--4 {
+  top: 10vh;
+  left: 40vw;
+  width: 28vmax;
+  height: 28vmax;
+  background: var(--orb-4);
+  animation-name: mg-orb-drift-4;
+  animation-duration: 60s;
+}
+
+@keyframes mg-orb-drift-1 {
+  to { transform: translate(12vw, 10vh) scale(1.08); }
+}
+
+@keyframes mg-orb-drift-2 {
+  to { transform: translate(-14vw, -8vh) scale(0.94); }
+}
+
+@keyframes mg-orb-drift-3 {
+  to { transform: translate(10vw, -12vh) scale(1.1); }
+}
+
+@keyframes mg-orb-drift-4 {
+  to { transform: translate(-8vw, 14vh) scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-ambient__orb {
+    animation: none !important;
+  }
+}
+
+/* ---------- AppShell ---------- */
+
+.mg-shell {
+  position: relative;
+  z-index: var(--z-content);
+  min-height: 100dvh;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+}
+
+.mg-shell__main {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+@media (min-width: 960px) {
+  .mg-shell {
+    padding-bottom: 0;
+    padding-left: var(--rail-width);
+  }
+
+  .mg-shell__main {
+    padding: var(--space-6);
+  }
+}
+
+/* ---------- TopBar ---------- */
+
+.mg-topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--topbar-height);
+  padding: 0 var(--space-4);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-bottom: var(--border-width) solid var(--glass-border);
+}
+
+.mg-topbar__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-topbar__wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-logo);
+}
+
+.mg-topbar__settings {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-gradient);
+  color: var(--text-on-gold);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  box-shadow: var(--shadow-button);
+}
+
+.mg-topbar__settings:focus-visible {
+  border-radius: var(--radius-pill);
+}
+
+/* ---------- BottomNav ---------- */
+
+.mg-bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+  padding: 0 var(--space-2) env(safe-area-inset-bottom);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-top: var(--border-width) solid var(--glass-border);
+}
+
+.mg-bottom-nav__list {
+  display: contents;
+}
+
+.mg-bottom-nav__item {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color var(--duration) var(--ease);
+}
+
+.mg-bottom-nav__item:hover {
+  color: var(--text-primary);
+}
+
+.mg-bottom-nav__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  transition: background var(--duration) var(--ease), color var(--duration) var(--ease);
+}
+
+.mg-bottom-nav__item--active {
+  color: var(--gold-accent);
+  font-weight: var(--weight-medium);
+}
+
+.mg-bottom-nav__item--active .mg-bottom-nav__icon {
+  background: var(--gold-gradient);
+  color: var(--text-on-gold);
+  box-shadow: var(--shadow-button);
+}
+
+@media (min-width: 960px) {
+  .mg-bottom-nav {
+    top: 0;
+    right: auto;
+    width: var(--rail-width);
+    height: 100dvh;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-5);
+    padding: var(--space-5) 0;
+    border-top: 0;
+    border-right: var(--border-width) solid var(--glass-border);
+  }
+
+  .mg-bottom-nav__item {
+    flex: 0 0 auto;
+  }
+
+  .mg-topbar {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+/* ---------- PageHeader ---------- */
+
+.mg-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) 0 var(--space-2);
+}
+
+.mg-page-header__eyebrow {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-page-header__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.mg-page-header__subtitle {
+  color: var(--text-secondary);
+  font-weight: var(--weight-light);
+}
+
+/* ---------- Layout de autenticação / onboarding ---------- */
+
+.mg-auth {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  min-height: 100dvh;
+  padding: calc(var(--space-6) + env(safe-area-inset-top)) var(--space-4) calc(var(--space-6) + env(safe-area-inset-bottom));
+}
+
+.mg-auth__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.mg-auth__wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-logo);
+}
+
+.mg-auth__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-medium);
+}
+
+.mg-auth__tagline {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-auth__card {
+  width: 100%;
+  max-width: 440px;
+}
+
+.mg-auth__card--wide {
+  max-width: 560px;
+}
+
+.mg-auth__footer {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.mg-steps {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.mg-steps__dot {
+  flex: 1 1 0;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-border);
+}
+
+.mg-steps__dot--active {
+  background: var(--gold-gradient);
+}
+
+.mg-form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+/* ---------- Definições ---------- */
+
+.mg-dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.mg-dl dt {
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+  align-self: center;
+}
+
+.mg-dl dd {
+  color: var(--text-primary);
+}
+
+/* ---------- Showcase /dev/ui ---------- */
+
+.mg-dev {
+  position: relative;
+  z-index: var(--z-content);
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.mg-dev__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.mg-dev__caption {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}

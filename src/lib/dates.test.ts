@@ -56,3 +56,28 @@ describe('conversões', () => {
     expect(formatLongDate('2026-05-06', 'en')).toContain('6 May 2026');
   });
 });
+
+describe('formatação com Intl', () => {
+  it('intervalo da semana', async () => {
+    const { formatDateRange } = await import('./dates');
+    expect(formatDateRange('2026-05-03', '2026-05-09', 'pt-PT')).toBe('3–9 mai 2026');
+    expect(formatDateRange('2026-04-26', '2026-05-02', 'en')).toBe('26 Apr – 2 May 2026');
+    expect(formatDateRange('2025-12-28', '2026-01-03', 'pt-BR')).toBe('28 dez 2025 – 3 jan 2026');
+  });
+  it('nomes de meses e dias', async () => {
+    const { formatMonthName, formatMonthYear, formatWeekdayShort } = await import('./dates');
+    expect(formatMonthName(2026, 5, 'pt-PT')).toBe('Maio');
+    expect(formatMonthName(2026, 5, 'en')).toBe('May');
+    expect(formatMonthYear(2026, 5, 'pt-BR')).toBe('Maio de 2026');
+    expect(formatWeekdayShort('2026-05-03', 'pt-PT')).toBe('dom');
+    expect(formatWeekdayShort('2026-05-09', 'pt-BR')).toBe('sáb');
+    expect(formatWeekdayShort('2026-05-04', 'en')).toBe('Mon');
+  });
+  it('instante no fuso do utilizador', async () => {
+    const { formatInstant } = await import('./dates');
+    expect(formatInstant('2026-05-01T17:23:47Z', 'Europe/Lisbon', 'pt-PT', 'weekday')).toBe('sex, 18:23');
+    expect(formatInstant('2026-05-01T17:23:47Z', 'Europe/Lisbon', 'en', 'date')).toBe('1 May, 18:23');
+    // 23:30Z em Lisboa (WEST) já é o dia seguinte
+    expect(formatInstant('2026-05-06T23:30:00Z', 'Europe/Lisbon', 'pt-PT', 'date')).toBe('7 mai, 00:30');
+  });
+});

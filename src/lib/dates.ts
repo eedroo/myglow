@@ -73,3 +73,62 @@ export function formatNumericDate(date: DateISO): string {
 export function formatTimeInTz(isoUtc: string, tz: string): string {
   return DateTime.fromISO(isoUtc, { zone: 'utc' }).setZone(tz).toFormat('HH:mm');
 }
+
+const capitalize = (s: string) => s.charAt(0).toLocaleUpperCase() + s.slice(1);
+
+function monthShort(date: DateISO, locale: AppLocale): string {
+  return new Intl.DateTimeFormat(intlLocale(locale), { month: 'short', timeZone: 'UTC' })
+    .format(toDbDate(date))
+    .replace('.', '');
+}
+
+/**
+ * "3–9 mai 2026" / "26 abr – 2 mai 2026" / "28 dez 2025 – 3 jan 2026".
+ * Montado com partes do Intl (o formatRange de pt-PT cai em formato numérico).
+ */
+export function formatDateRange(from: DateISO, to: DateISO, locale: AppLocale): string {
+  const [fy, , fd] = from.split('-').map(Number);
+  const [ty, , td] = to.split('-').map(Number);
+  const fm = monthShort(from, locale);
+  const tm = monthShort(to, locale);
+  if (fy !== ty) return `${fd} ${fm} ${fy} – ${td} ${tm} ${ty}`;
+  if (fm !== tm) return `${fd} ${fm} – ${td} ${tm} ${ty}`;
+  return `${fd}–${td} ${fm} ${ty}`;
+}
+
+/** "dom", "seg"… / "Sun", "Mon"… (em português, as 3 primeiras letras do nome, como no papel). */
+export function formatWeekdayShort(date: DateISO, locale: AppLocale): string {
+  if (locale === 'en') {
+    return new Intl.DateTimeFormat(intlLocale(locale), { weekday: 'short', timeZone: 'UTC' }).format(toDbDate(date));
+  }
+  const long = new Intl.DateTimeFormat(intlLocale(locale), { weekday: 'long', timeZone: 'UTC' }).format(toDbDate(date));
+  return long.slice(0, 3);
+}
+
+/** Nome do mês com maiúscula: "Maio" / "May". */
+export function formatMonthName(year: number, month: number, locale: AppLocale): string {
+  const d = new Date(Date.UTC(year, month - 1, 1));
+  return capitalize(new Intl.DateTimeFormat(intlLocale(locale), { month: 'long', timeZone: 'UTC' }).format(d));
+}
+
+/** "Maio de 2026" / "May 2026". */
+export function formatMonthYear(year: number, month: number, locale: AppLocale): string {
+  const d = new Date(Date.UTC(year, month - 1, 1));
+  return capitalize(new Intl.DateTimeFormat(intlLocale(locale), { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(d));
+}
+
+/** Instante no fuso do utilizador: "ter, 18:23" (weekday) ou "1 mai, 18:23" (date). */
+export function formatInstant(isoUtc: string, tz: string, locale: AppLocale, style: 'weekday' | 'date'): string {
+  const time = new Intl.DateTimeFormat(intlLocale(locale), {
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+    timeZone: tz,
+  }).format(new Date(isoUtc));
+  const localDate = DateTime.fromISO(isoUtc, { zone: 'utc' }).setZone(tz).toISODate() as DateISO;
+  const day =
+    style === 'weekday'
+      ? formatWeekdayShort(localDate, locale)
+      : `${Number(localDate.slice(8))} ${monthShort(localDate, locale)}`;
+  return `${day}, ${time}`;
+}

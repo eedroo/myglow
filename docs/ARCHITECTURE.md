@@ -30,7 +30,7 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 7. **Enums fixos** (Prisma) para áreas de projecto, fases da lua, signos, fontes de XP.
 8. **i18n.** Nenhum texto visível hardcoded — tudo em `messages/pt-PT.json`, `messages/pt-BR.json`, `messages/en.json`. Cada língua escrita de forma nativa (PT-PT: "ecrã", "registar", "telemóvel", "tu"; PT-BR: "tela", "cadastrar", "celular", "você").
 9. **Alterações cirúrgicas.** Editar apenas o necessário; não reescrever ficheiros existentes.
-10. **Commits** com prefixos `feat:`, `fix:`, `style:`, `chore:`, `docs:`, `test:` — um commit por ficheiro.
+10. **Commits** com prefixos `feat:`, `fix:`, `style:`, `chore:`, `docs:`, `test:` — um commit por alteração lógica (uma funcionalidade, correcção ou ajuste), independentemente de quantos ficheiros toca. Não misturar alterações independentes no mesmo commit.
 11. **Acessibilidade.** `prefers-reduced-motion` respeitado; contraste AA; todos os controlos com label.
 
 ## Domínio

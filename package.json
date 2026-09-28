@@ -19,6 +19,7 @@
     "@neon/config": "^1.8.2",
     "@neon/env": "^1.4.7",
     "@prisma/client": "^6.19.3",
+    "astronomy-engine": "^2.1.19",
     "bcryptjs": "^3.0.3",
     "lucide-react": "^0.577.0",
     "luxon": "^3.7.2",

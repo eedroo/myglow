@@ -110,3 +110,23 @@ a.mg-calendar__cell:focus-visible {
     padding: var(--space-2);
   }
 }
+
+/* Página do mês: calendário, depois semanas + lua lado a lado */
+.mg-month {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mg-month__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .mg-month__grid {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: start;
+  }
+}

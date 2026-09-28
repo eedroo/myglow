@@ -1,0 +1,20 @@
+/* Ponto de entrada: tokens → base → componentes */
+@import './tokens.css';
+@import './base.css';
+
+@import './components/card.css';
+@import './components/section-header.css';
+@import './components/magic-icon.css';
+@import './components/icon-badge.css';
+@import './components/button.css';
+@import './components/field.css';
+@import './components/input.css';
+@import './components/lined.css';
+@import './components/segmented.css';
+@import './components/autocomplete.css';
+@import './components/check-tile.css';
+@import './components/check-chip.css';
+@import './components/mood.css';
+@import './components/toast.css';
+@import './components/motto.css';
+@import './components/shell.css';

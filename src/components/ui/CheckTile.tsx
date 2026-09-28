@@ -16,6 +16,8 @@ interface CheckTileProps {
   withText?: boolean;
   text?: string;
   onTextChange?: (text: string) => void;
+  onTextBlur?: () => void;
+  textMaxLength?: number;
   textLabel?: string;
   textPlaceholder?: string;
 }
@@ -29,6 +31,8 @@ export function CheckTile({
   withText,
   text = '',
   onTextChange,
+  onTextBlur,
+  textMaxLength,
   textLabel,
   textPlaceholder,
 }: CheckTileProps) {
@@ -49,7 +53,9 @@ export function CheckTile({
             value={text}
             placeholder={textPlaceholder}
             aria-label={textLabel ?? label}
+            maxLength={textMaxLength}
             onChange={(e) => onTextChange?.(e.target.value)}
+            onBlur={onTextBlur}
           />
         )}
       </div>

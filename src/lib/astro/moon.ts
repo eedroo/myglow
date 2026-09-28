@@ -15,8 +15,8 @@ export function moonLongitude(t: Date | Astronomy.AstroTime): number {
   return Astronomy.EclipticGeoMoon(t).lon;
 }
 
-/** Fase intermédia pelo ângulo Sol–Lua. */
-function intermediatePhase(angle: number): MoonPhase {
+/** Fase intermédia pelo ângulo Sol–Lua (0–360). */
+export function classifyIntermediatePhase(angle: number): MoonPhase {
   if (angle < 90) return 'WAXING_CRESCENT';
   if (angle < 180) return 'WAXING_GIBBOUS';
   if (angle < 270) return 'WANING_GIBBOUS';
@@ -65,7 +65,7 @@ export function getDailyMoon(date: DateISO, tz: string): DailyMoon {
   }
 
   return {
-    phase: event?.phase ?? intermediatePhase(phaseAngle),
+    phase: event?.phase ?? classifyIntermediatePhase(phaseAngle),
     phaseAngle,
     illumination,
     signAtNoon,

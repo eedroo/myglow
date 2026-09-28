@@ -1,0 +1,196 @@
+{
+  "common": {
+    "appName": "MYGLOW",
+    "tagline": "Seu diário mágico, planner e grimório.",
+    "description": "Diário mágico, planner e grimório astrológico personalizado.",
+    "loading": "Carregando…",
+    "saving": "Salvando…",
+    "save": "Salvar",
+    "saved": "Alterações salvas.",
+    "cancel": "Cancelar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "edit": "Editar",
+    "close": "Fechar",
+    "done": "Feito",
+    "comingSoon": "Em breve",
+    "comingSoonBody": "Esta página está sendo preparada com todo o carinho. Volte em breve.",
+    "motto": "Pequenas escolhas, grandes transformações.",
+    "skipToContent": "Pular para o conteúdo",
+    "errors": {
+      "generic": "Algo deu errado. Tente de novo.",
+      "unauthorized": "Sua sessão expirou. Entre novamente."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Que bom ver você de novo",
+      "subtitle": "Entre para continuar sua jornada.",
+      "submit": "Entrar",
+      "noAccount": "Ainda não tem conta?",
+      "registerLink": "Cadastre-se"
+    },
+    "register": {
+      "title": "Crie sua conta",
+      "subtitle": "Comece hoje a registrar sua evolução, dia após dia.",
+      "submit": "Cadastrar",
+      "hasAccount": "Já tem conta?",
+      "loginLink": "Entrar"
+    },
+    "fields": {
+      "name": "Nome",
+      "namePlaceholder": "Qual é o seu nome?",
+      "email": "E-mail",
+      "emailPlaceholder": "nome@exemplo.com",
+      "password": "Senha",
+      "passwordHint": "No mínimo 8 caracteres.",
+      "locale": "Idioma"
+    },
+    "errors": {
+      "invalidCredentials": "E-mail ou senha incorretos.",
+      "emailTaken": "Já existe uma conta com esse e-mail."
+    },
+    "logout": "Sair"
+  },
+  "onboarding": {
+    "title": "Seu mapa natal",
+    "subtitle": "Precisamos de alguns dados do seu nascimento para personalizar o seu grimório.",
+    "editTitle": "Dados de nascimento",
+    "editSubtitle": "Corrija ou complete seus dados de nascimento.",
+    "stepLabel": "Etapa {current} de {total}",
+    "step1": {
+      "title": "Quando você nasceu?",
+      "birthDate": "Data de nascimento",
+      "birthTime": "Hora de nascimento",
+      "unknownTime": "Não sei a hora exata",
+      "unknownTimeHelp": "Sem a hora, o mapa é calculado sem ascendente e sem casas. Você pode adicioná-la depois nas configurações."
+    },
+    "step2": {
+      "title": "Onde você nasceu?",
+      "place": "Local de nascimento",
+      "placePlaceholder": "Comece a digitar uma cidade…",
+      "placeHint": "Escolha um local da lista para sabermos o fuso horário.",
+      "searching": "Buscando…",
+      "noResults": "Nenhum local encontrado.",
+      "searchError": "Não foi possível buscar. Tente de novo.",
+      "selected": "Fuso horário: {timezone}"
+    },
+    "submit": "Concluir",
+    "saveEdit": "Salvar dados"
+  },
+  "settings": {
+    "title": "Configurações",
+    "subtitle": "Deixe o MYGLOW do seu jeito.",
+    "profileSection": "Perfil",
+    "preferencesSection": "Preferências",
+    "name": "Nome",
+    "language": "Idioma",
+    "theme": "Tema",
+    "timezone": "Fuso horário",
+    "timezoneHint": "Usado para definir quando começa cada dia no seu diário.",
+    "sleepGoal": "Meta de sono (horas)",
+    "sleepGoalHint": "Entre 4 e 12 horas.",
+    "languageOptions": {
+      "PT_PT": "Português (PT)",
+      "PT_BR": "Português (BR)",
+      "EN": "English"
+    },
+    "themeOptions": {
+      "LIGHT": "Claro",
+      "DARK": "Escuro",
+      "SYSTEM": "Sistema"
+    },
+    "birth": {
+      "title": "Dados de nascimento",
+      "date": "Data",
+      "time": "Hora",
+      "unknownTime": "Desconhecida",
+      "place": "Local",
+      "timezone": "Fuso",
+      "edit": "Editar",
+      "empty": "Você ainda não informou seus dados de nascimento."
+    },
+    "accountSection": "Conta",
+    "email": "E-mail"
+  },
+  "nav": {
+    "label": "Navegação principal",
+    "today": "Hoje",
+    "week": "Semana",
+    "month": "Mês",
+    "year": "Ano",
+    "profile": "Perfil"
+  },
+  "shell": {
+    "home": "MYGLOW — ir para hoje",
+    "settings": "Configurações",
+    "pages": {
+      "today": { "title": "Hoje", "subtitle": "Sua intenção, seus rituais e sua reflexão do dia." },
+      "week": { "title": "Semana", "subtitle": "Planeje a semana por áreas e acompanhe o seu corpo." },
+      "month": { "title": "Mês", "subtitle": "Ciclos lunares, intenções e balanço do mês." },
+      "year": { "title": "Ano", "subtitle": "Sua palavra do ano e a visão que guia você." }
+    }
+  },
+  "validation": {
+    "required": "Campo obrigatório.",
+    "email": "Informe um e-mail válido.",
+    "nameLength": "O nome precisa ter entre 2 e 60 caracteres.",
+    "passwordLength": "A senha precisa ter entre 8 e 72 caracteres.",
+    "birthDate": "Informe uma data válida que não esteja no futuro.",
+    "birthTime": "Informe a hora (HH:MM) ou marque que não sabe.",
+    "place": "Escolha um local da lista.",
+    "timezone": "Escolha um fuso horário válido.",
+    "sleepGoal": "A meta de sono precisa estar entre 4 e 12 horas."
+  },
+  "dev": {
+    "title": "Showcase de UI",
+    "subtitle": "Primitivos da Fase 1 em todas as variantes.",
+    "theme": "Tema da página",
+    "cards": "Cards",
+    "cardDefault": "Vidro",
+    "cardAccent": "Destaque",
+    "cardFlat": "Chapado",
+    "cardInteractive": "Interativo",
+    "cardBody": "Vidro fosco quente sobre luzes douradas.",
+    "sectionHeaders": "Cabeçalhos de seção",
+    "morning": "Manhã",
+    "night": "Noite",
+    "buttons": "Botões",
+    "primary": "Principal",
+    "ghost": "Contorno",
+    "subtle": "Sutil",
+    "block": "Largura total",
+    "loadingBtn": "Carregando",
+    "disabled": "Desativado",
+    "fields": "Campos",
+    "textLabel": "Texto",
+    "textPlaceholder": "Digite aqui…",
+    "textHint": "Uma dica útil.",
+    "errorLabel": "Com erro",
+    "errorMessage": "Mensagem de erro.",
+    "disabledLabel": "Desativado",
+    "lined": "Caderno pautado",
+    "linedPlaceholder": "Hoje agradeço por…",
+    "segmented": "Controle segmentado",
+    "autocomplete": "Autocomplete",
+    "crystals": ["Ametista", "Citrino", "Quartzo rosa", "Obsidiana", "Selenita", "Turmalina", "Labradorita"],
+    "autocompleteLabel": "Cristal",
+    "checks": "Checks",
+    "banish": "Banimento",
+    "banishPlaceholder": "O que você quer banir?",
+    "banishName": "Nome do banimento",
+    "ritual": "Ritual da manhã",
+    "stretch": "Alongamento",
+    "workout": "Treino",
+    "water": "Água",
+    "mood": "Humor",
+    "moodLabels": ["Muito pra baixo", "Pra baixo", "Neutro", "Bem", "Radiante"],
+    "toasts": "Toasts",
+    "toastSuccess": "Salvo com sucesso.",
+    "toastError": "Não foi possível salvar.",
+    "badges": "Badges de ícone",
+    "icons": "Ícones mágicos",
+    "iconsReady": "{ready} de {total} prontos",
+    "motto": "Lema"
+  }
+}

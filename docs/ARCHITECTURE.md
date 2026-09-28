@@ -42,6 +42,28 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - **Conteúdo IA:** `SignContent` (partilhado por signo/período/língua) e `UserAiContent` (por utilizador) são tabelas separadas porque em Postgres `NULL` numa unique constraint não colide.
 - **Notificações:** `NotificationLog.periodKey` garante envio único por período (`2026-05-06`, `2026-W05-03`, `2026-05`).
 
+### Datas de calendário
+
+- O "dia" é sempre calculado no fuso do utilizador (`User.timezone`) com `todayInTz`.
+- Uma data de calendário circula como string `YYYY-MM-DD` (`DateISO`) e só vira `Date` na fronteira com o Prisma, com `toDbDate` / `fromDbDate` (meia-noite UTC) de `src/lib/dates.ts`.
+- **Proibido:** `new Date('YYYY-MM-DD')` solto e `toLocaleDateString` para chaves — origem clássica de bugs de "dia anterior".
+- `dayBoundsUtc` devolve `[00:00, 24:00)` locais; em dias de mudança de hora dura 23 ou 25 h.
+
+### Astrologia (`src/lib/astro/`, `astronomy-engine`)
+
+- Zodíaco tropical, longitudes na eclíptica verdadeira da data, geocêntricas.
+- **Céu do dia:** Sol ao meio-dia local. **Fase da lua:** se uma fase principal exacta (0/90/180/270°) cai dentro do dia local, a fase do dia é essa (a lua cheia aparece num só dia, como nos calendários); senão, fase intermédia pelo ângulo Sol–Lua ao meio-dia local. **Signo da lua:** ao meio-dia local, com hora de ingresso se muda de signo durante o dia.
+- **Mapa natal:** calculado no onboarding e gravado em `BirthProfile.natalChart` (JSON com `version: 1`, validado com Zod ao ler). `ensureNatalChart` faz backfill para contas antigas ao abrir o diário.
+- **Casas por signo inteiro** (whole sign): estáveis em qualquer latitude (Placidus falha acima dos círculos polares) e o sistema mais usado na astrologia contemporânea. `houseSystem` fica no JSON para permitir outros sistemas.
+- Sem hora de nascimento: mapa ao meio-dia local, sem ascendente, meio-do-céu nem casas; `moonSignUncertain` se a Lua mudou de signo nesse dia.
+
+### Diário
+
+- Hoje e dias passados são editáveis (permite transcrever o diário em papel); dias futuros não existem no diário — a intenção para o futuro vive no planner semanal (F3). Datas anteriores a 2000-01-01 são rejeitadas.
+- `DailyEntry` é criado no primeiro patch, com um snapshot de `moonPhase` e `moonSign` desse dia.
+- Gravação automática (`useDailyAutosave`): checks/escalas imediatos, textos com debounce de 800 ms e flush no blur, um pedido de cada vez, modo offline com repetição no evento `online` e a cada 15 s.
+- Na UI os textos vazios são `''`; na DB são `null`.
+
 ## Autenticação e fluxo
 
 - `src/auth.config.ts` — config edge-safe (sem Prisma/bcrypt), usada pelo `middleware`.
@@ -71,6 +93,7 @@ npm install
 npx prisma migrate dev      # aplica prisma/migrations
 npm run dev                 # http://localhost:3000 · showcase em /dev/ui
 npm test && npm run typecheck && npm run build
+npm run test:e2e            # Playwright (arranca o next dev; precisa da DB local)
 ```
 
 ## Estrutura

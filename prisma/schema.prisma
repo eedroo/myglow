@@ -1,0 +1,319 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum ThemePref {
+  LIGHT
+  DARK
+  SYSTEM
+}
+
+enum Locale {
+  PT_PT
+  PT_BR
+  EN
+}
+
+enum ProjectArea {
+  MAGIC
+  PERSONAL
+  LEISURE
+  PROFESSIONAL
+  STUDIES
+}
+
+enum PeriodKind {
+  WEEK
+  MONTH
+  YEAR
+}
+
+enum MoonPhase {
+  NEW_MOON
+  WAXING_CRESCENT
+  FIRST_QUARTER
+  WAXING_GIBBOUS
+  FULL_MOON
+  WANING_GIBBOUS
+  LAST_QUARTER
+  WANING_CRESCENT
+}
+
+enum ZodiacSign {
+  ARIES
+  TAURUS
+  GEMINI
+  CANCER
+  LEO
+  VIRGO
+  LIBRA
+  SCORPIO
+  SAGITTARIUS
+  CAPRICORN
+  AQUARIUS
+  PISCES
+}
+
+enum XpSource {
+  DAY_MORNING
+  DAY_BODY
+  DAY_NIGHT
+  DAY_COMPLETE
+  WEEK_PLAN
+  WEEK_REFLECTION
+  MONTH_PLAN
+  MONTH_REFLECTION
+  YEAR_PLAN
+  STREAK_BONUS
+}
+
+enum SignContentKind {
+  DAY_HOROSCOPE
+  WEEK_ENERGY
+  MONTH_ENERGY
+}
+
+enum UserContentKind {
+  DAY_PERSONAL
+  WEEK_PERSONAL
+  MONTH_PERSONAL
+  MONTH_RITUALS
+}
+
+enum NotificationKind {
+  MORNING
+  BODY
+  NIGHT
+  WEEK_START
+  WEEK_END
+  MONTH_START
+  MONTH_END
+}
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  passwordHash     String
+  name             String
+  locale           Locale    @default(PT_PT)
+  theme            ThemePref @default(LIGHT)
+  timezone         String    @default("Europe/Lisbon")
+  sleepGoalMinutes Int       @default(420)
+  xpTotal          Int       @default(0)
+  onboardedAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  birthProfile      BirthProfile?
+  notificationPrefs NotificationPrefs?
+  dailyEntries      DailyEntry[]
+  weeks             Week[]
+  months            Month[]
+  years             Year[]
+  projectIntentions ProjectIntention[]
+  xpEvents          XpEvent[]
+  userAiContent     UserAiContent[]
+  pushSubscriptions PushSubscription[]
+  notificationLogs  NotificationLog[]
+}
+
+model BirthProfile {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  birthDate       DateTime  @db.Date // data local de nascimento
+  birthTime       String? // "HH:mm" local; null = hora desconhecida
+  birthTimeKnown  Boolean // false → mapa sem ascendente nem casas
+  placeName       String
+  latitude        Float
+  longitude       Float
+  timezone        String // IANA do local de nascimento
+  birthUtc        DateTime // instante em UTC (Luxon, fuso histórico); se hora desconhecida usa 12:00 local
+  natalChart      Json? // preenchido na Fase 2
+  chartComputedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model DailyEntry {
+  id                String     @id @default(cuid())
+  userId            String
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date              DateTime   @db.Date
+  moonPhase         MoonPhase
+  moonSign          ZodiacSign
+  intention         String?
+  morningBanishName String?
+  morningBanishDone Boolean    @default(false)
+  morningRitualDone Boolean    @default(false)
+  sleepGoalMet      Boolean    @default(false)
+  wakeMood          Int? // 1–5
+  wakeNote          String?
+  stretchDone       Boolean    @default(false)
+  workoutDone       Boolean    @default(false)
+  waterDone         Boolean    @default(false)
+  nightBanishName   String?
+  nightBanishDone   Boolean    @default(false)
+  nightRitualDone   Boolean    @default(false)
+  gratitude         String?
+  mood              Int? // 1–5
+  reflection        String?
+  summary           String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@unique([userId, date])
+}
+
+model Week {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  startDate   DateTime      @db.Date // sempre um domingo
+  year        Int // ano do domingo
+  month       Int // 1–12, mês do domingo
+  weekOfMonth Int // 1..5
+  title       String?
+  intention   String?
+  weightGrams Int?
+  reflection  String?
+  dayNotes    WeekDayNote[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@unique([userId, startDate])
+}
+
+model WeekDayNote {
+  id     String   @id @default(cuid())
+  weekId String
+  week   Week     @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  date   DateTime @db.Date
+  text   String
+
+  @@unique([weekId, date])
+}
+
+model Month {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  year       Int
+  month      Int
+  intention  String?
+  reflection String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, year, month])
+}
+
+model Year {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  year       Int
+  word       String?
+  intention  String?
+  reflection String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, year])
+}
+
+model ProjectIntention {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  period      PeriodKind
+  periodStart DateTime    @db.Date // domingo da semana, dia 1 do mês, 1 jan do ano
+  area        ProjectArea
+  text        String
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([userId, period, periodStart, area])
+}
+
+model XpEvent {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  source      XpSource
+  periodStart DateTime @db.Date
+  points      Int
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, source, periodStart])
+}
+
+// Conteúdo partilhado por signo (gerado 1x por signo/período/língua)
+model SignContent {
+  id          String          @id @default(cuid())
+  kind        SignContentKind
+  periodStart DateTime        @db.Date
+  sign        ZodiacSign
+  locale      Locale
+  payload     Json
+  model       String
+  createdAt   DateTime        @default(now())
+
+  @@unique([kind, periodStart, sign, locale])
+}
+
+// Camada personalizada por utilizador
+model UserAiContent {
+  id          String          @id @default(cuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind        UserContentKind
+  periodStart DateTime        @db.Date
+  locale      Locale
+  payload     Json
+  model       String
+  createdAt   DateTime        @default(now())
+
+  @@unique([userId, kind, periodStart, locale])
+}
+
+model NotificationPrefs {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  enabled     Boolean @default(true)
+  morningTime String  @default("08:00")
+  bodyTime    String  @default("13:00")
+  nightTime   String  @default("21:30")
+  weekStart   Boolean @default(true)
+  weekEnd     Boolean @default(true)
+  monthStart  Boolean @default(true)
+  monthEnd    Boolean @default(true)
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  userAgent String?
+  createdAt DateTime @default(now())
+}
+
+model NotificationLog {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      NotificationKind
+  periodKey String // ex: "2026-05-06", "2026-W05-03", "2026-05"
+  sentAt    DateTime         @default(now())
+
+  @@unique([userId, kind, periodKey])
+}

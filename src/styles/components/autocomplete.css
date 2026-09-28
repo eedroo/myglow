@@ -1,0 +1,50 @@
+/* Autocomplete — combobox com lista flutuante */
+
+.mg-autocomplete {
+  position: relative;
+}
+
+.mg-autocomplete__list {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  right: 0;
+  z-index: var(--z-popover);
+  max-height: 280px;
+  margin: 0;
+  padding: var(--space-2);
+  overflow-y: auto;
+  list-style: none;
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mg-autocomplete__list {
+    background: var(--glass-bg-solid);
+  }
+}
+
+.mg-autocomplete__option {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.mg-autocomplete__option:hover,
+.mg-autocomplete__option--active {
+  background: var(--gold-gradient-soft);
+  color: var(--text-on-gold);
+}
+
+.mg-autocomplete__status {
+  padding: var(--space-3);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}

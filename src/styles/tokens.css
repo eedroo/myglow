@@ -1,0 +1,164 @@
+/* MYGLOW — design tokens. Única fonte de cores, espaços, raios, sombras, blur e tipografia. */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Superfícies */
+  --bg-base: #FBF7EF;
+  --bg-base-2: #F4ECDD;
+  --bg-gradient: radial-gradient(ellipse at 20% 0%, var(--bg-base) 0%, var(--bg-base-2) 70%);
+  --glass-bg: rgba(255, 251, 243, 0.62);
+  --glass-bg-strong: rgba(255, 251, 243, 0.82);
+  --glass-bg-solid: #FFFBF3;
+  --glass-border: rgba(201, 162, 92, 0.38);
+  --glass-border-strong: rgba(201, 162, 92, 0.75);
+  --glass-highlight: rgba(255, 255, 255, 0.7);
+  --glass-blur: 18px;
+  --glass-saturate: 140%;
+  --input-bg: rgba(255, 255, 255, 0.55);
+  --input-bg-focus: rgba(255, 255, 255, 0.85);
+  --scrim: rgba(59, 47, 30, 0.08);
+
+  /* Dourados */
+  --gold-300: #E9D09A;
+  --gold-500: #C9A25C;
+  --gold-700: #9C7632;
+  --gold-gradient: linear-gradient(135deg, #F3DFAE 0%, #D4AE66 55%, #B58A42 100%);
+  --gold-gradient-soft: linear-gradient(135deg, rgba(243, 223, 174, 0.9) 0%, rgba(212, 174, 102, 0.9) 100%);
+  --gold-halo: radial-gradient(circle, rgba(233, 196, 120, 0.45) 0%, rgba(233, 196, 120, 0) 70%);
+  --gold-accent: var(--gold-700);       /* labels, ícones de UI, links */
+  --gold-icon: var(--gold-500);         /* ícones mágicos placeholder */
+  --line-rule: rgba(201, 162, 92, 0.28); /* linhas de caderno */
+
+  /* Orbes do fundo */
+  --orb-1: rgba(233, 196, 120, 0.55);
+  --orb-2: rgba(245, 222, 170, 0.6);
+  --orb-3: rgba(214, 170, 110, 0.35);
+  --orb-4: rgba(250, 232, 190, 0.5);
+  --orb-blur: 80px;
+
+  /* Texto */
+  --text-primary: #3B2F1E;
+  --text-secondary: #6F5F47;
+  --text-muted: #8C7A60;
+  --text-on-gold: #3B2A10;
+
+  /* Estado */
+  --danger: #B5523B;
+  --danger-bg: rgba(181, 82, 59, 0.1);
+  --success: #5E7A40;
+  --success-bg: rgba(110, 139, 78, 0.12);
+  --ready-on: #5E9A4A;
+  --ready-off: #B8AE9E;
+
+  /* Sombras */
+  --shadow-card: 0 8px 32px rgba(156, 118, 50, 0.12);
+  --shadow-card-hover: 0 14px 44px rgba(156, 118, 50, 0.2);
+  --shadow-glow: 0 0 24px rgba(233, 196, 120, 0.45);
+  --shadow-button: 0 4px 14px rgba(156, 118, 50, 0.28);
+  --focus-ring: 0 0 0 3px rgba(201, 162, 92, 0.45);
+
+  /* Raios */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* Espaços */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* Tamanhos */
+  --icon-sm: 24px;
+  --icon-md: 40px;
+  --icon-lg: 56px;
+  --icon-xl: 120px;
+  --control-height: 46px;
+  --topbar-height: 60px;
+  --bottom-nav-height: 68px;
+  --rail-width: 96px;
+  --content-max: 720px;
+  --border-width: 1px;
+
+  /* Tipografia */
+  --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-ui: var(--font-jost), 'Jost', system-ui, sans-serif;
+  --font-symbol: 'Segoe UI Symbol', 'Noto Sans Symbols', 'Apple Symbols', var(--font-ui);
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.5rem;
+  --leading-tight: 1.15;
+  --leading-normal: 1.5;
+  --leading-lined: 32px;
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --tracking-label: 0.14em;
+  --tracking-logo: 0.28em;
+
+  /* Movimento */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration: 280ms;
+  --z-ambient: 0;
+  --z-content: 1;
+  --z-nav: 20;
+  --z-popover: 30;
+  --z-toast: 40;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-base: #15110B;
+  --bg-base-2: #1E1810;
+  --glass-bg: rgba(44, 35, 22, 0.55);
+  --glass-bg-strong: rgba(44, 35, 22, 0.78);
+  --glass-bg-solid: #2A2115;
+  --glass-border: rgba(226, 190, 120, 0.28);
+  --glass-border-strong: rgba(226, 190, 120, 0.6);
+  --glass-highlight: rgba(255, 236, 200, 0.08);
+  --input-bg: rgba(20, 16, 10, 0.45);
+  --input-bg-focus: rgba(20, 16, 10, 0.7);
+  --scrim: rgba(0, 0, 0, 0.3);
+
+  --gold-300: #F0D69C;
+  --gold-500: #E2BE78;
+  --gold-700: #B8904A;
+  --gold-halo: radial-gradient(circle, rgba(226, 190, 120, 0.28) 0%, rgba(226, 190, 120, 0) 70%);
+  --gold-accent: var(--gold-300);
+  --gold-icon: var(--gold-300);
+  --line-rule: rgba(226, 190, 120, 0.18);
+
+  --orb-1: rgba(226, 180, 90, 0.28);
+  --orb-2: rgba(180, 130, 60, 0.22);
+  --orb-3: rgba(240, 210, 150, 0.14);
+  --orb-4: rgba(200, 150, 80, 0.16);
+
+  --text-primary: #F3E9D6;
+  --text-secondary: #CDBE9F;
+  --text-muted: #A69679;
+
+  --danger: #E08A72;
+  --danger-bg: rgba(224, 138, 114, 0.14);
+  --success: #A9C98A;
+  --success-bg: rgba(169, 201, 138, 0.14);
+  --ready-on: #8FC77A;
+  --ready-off: #6A5F4F;
+
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover: 0 14px 44px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 28px rgba(226, 190, 120, 0.3);
+  --shadow-button: 0 4px 18px rgba(0, 0, 0, 0.4);
+  --focus-ring: 0 0 0 3px rgba(226, 190, 120, 0.5);
+}

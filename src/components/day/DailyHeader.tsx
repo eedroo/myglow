@@ -1,4 +1,6 @@
 import type { MoonPhase, ZodiacSign } from '@prisma/client';
+import Link from 'next/link';
+import { MagicIcon } from '@/components/ui/MagicIcon';
 import { MoonPhaseStrip } from '@/components/ui/MoonPhaseStrip';
 import { ZodiacStrip } from '@/components/ui/ZodiacStrip';
 import { DateBadge } from '@/components/ui/DateBadge';
@@ -13,6 +15,8 @@ interface DailyHeaderProps {
   signLabels: Record<ZodiacSign, string>;
   phasesLabel: string;
   signsLabel: string;
+  /** Chip "Semana {n} · {mês}" que liga à semana desse dia. */
+  week?: { label: string; href: string };
 }
 
 /** Faixas de fases e signos (signo da lua) + data. */
@@ -25,6 +29,12 @@ export function DailyHeader(props: DailyHeaderProps) {
       </div>
       <div className="mg-daily-header__date">
         <DateBadge date={props.date} label={props.dateLabel} />
+        {props.week && (
+          <Link href={props.week.href} className="mg-daily-header__week">
+            <MagicIcon name="calendar" size="sm" decorative />
+            {props.week.label}
+          </Link>
+        )}
       </div>
     </div>
   );

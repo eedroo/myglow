@@ -3,7 +3,8 @@ import { redirect } from 'next/navigation';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
-import { addDays, compareDates, formatLongDate, todayInTz, type DateISO } from '@/lib/dates';
+import { addDays, compareDates, formatLongDate, formatMonthName, todayInTz, type DateISO } from '@/lib/dates';
+import { weekKey, weekStartOf } from '@/lib/weeks';
 import { getDailySky } from '@/lib/astro/sky';
 import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
 import { ZODIAC_ORDER } from '@/lib/astro/zodiac';
@@ -37,6 +38,15 @@ export async function DayPage({ date }: { date: DateISO }) {
   const sky = getDailySky(date, user.timezone);
   const longDate = formatLongDate(date, isAppLocale(locale) ? locale : 'pt-PT');
 
+  const week = weekKey(weekStartOf(date));
+  const weekChip = {
+    label: (await getTranslations('week'))('chip', {
+      n: week.weekOfMonth,
+      month: formatMonthName(week.year, week.month, isAppLocale(locale) ? locale : 'pt-PT'),
+    }),
+    href: week.start === weekStartOf(today) ? '/week' : `/week/${week.start}`,
+  };
+
   const phaseLabels = Object.fromEntries(MOON_PHASE_ORDER.map((p) => [p, ta(`phases.${p}`)])) as Record<MoonPhase, string>;
   const signLabels = Object.fromEntries(ZODIAC_ORDER.map((s) => [s, ta(`signs.${s}`)])) as Record<ZodiacSign, string>;
 
@@ -57,6 +67,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         signLabels={signLabels}
         phasesLabel={td('header.phases')}
         signsLabel={td('header.signs')}
+        week={weekChip}
       />
       <DailySkyCard sky={sky} natal={natal} isToday={isToday} />
       <DayView

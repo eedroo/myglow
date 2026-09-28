@@ -1,0 +1,196 @@
+{
+  "common": {
+    "appName": "MYGLOW",
+    "tagline": "Your magical journal, planner and grimoire.",
+    "description": "Magical journal, planner and personalised astrological grimoire.",
+    "loading": "Loading…",
+    "saving": "Saving…",
+    "save": "Save",
+    "saved": "Changes saved.",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "edit": "Edit",
+    "close": "Close",
+    "done": "Done",
+    "comingSoon": "Coming soon",
+    "comingSoonBody": "This page is being crafted with care. Check back soon.",
+    "motto": "Small choices, great transformations.",
+    "skipToContent": "Skip to content",
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "unauthorized": "Your session has expired. Please sign in again."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to continue your journey.",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account yet?",
+      "registerLink": "Sign up"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Start recording your growth today, one day at a time.",
+      "submit": "Create account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in"
+    },
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "What's your name?",
+      "email": "Email",
+      "emailPlaceholder": "name@example.com",
+      "password": "Password",
+      "passwordHint": "At least 8 characters.",
+      "locale": "Language"
+    },
+    "errors": {
+      "invalidCredentials": "Incorrect email or password.",
+      "emailTaken": "An account with this email already exists."
+    },
+    "logout": "Sign out"
+  },
+  "onboarding": {
+    "title": "Your birth chart",
+    "subtitle": "We need a few birth details to personalise your grimoire.",
+    "editTitle": "Birth details",
+    "editSubtitle": "Correct or complete your birth details.",
+    "stepLabel": "Step {current} of {total}",
+    "step1": {
+      "title": "When were you born?",
+      "birthDate": "Date of birth",
+      "birthTime": "Time of birth",
+      "unknownTime": "I don't know the exact time",
+      "unknownTimeHelp": "Without the time, your chart is calculated without an ascendant or houses. You can add it later in settings."
+    },
+    "step2": {
+      "title": "Where were you born?",
+      "place": "Place of birth",
+      "placePlaceholder": "Start typing a city…",
+      "placeHint": "Pick a place from the list so we know its time zone.",
+      "searching": "Searching…",
+      "noResults": "No places found.",
+      "searchError": "Search failed. Please try again.",
+      "selected": "Time zone: {timezone}"
+    },
+    "submit": "Finish",
+    "saveEdit": "Save details"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Make MYGLOW your own.",
+    "profileSection": "Profile",
+    "preferencesSection": "Preferences",
+    "name": "Name",
+    "language": "Language",
+    "theme": "Theme",
+    "timezone": "Time zone",
+    "timezoneHint": "Used to decide when each day starts in your journal.",
+    "sleepGoal": "Sleep goal (hours)",
+    "sleepGoalHint": "Between 4 and 12 hours.",
+    "languageOptions": {
+      "PT_PT": "Português (PT)",
+      "PT_BR": "Português (BR)",
+      "EN": "English"
+    },
+    "themeOptions": {
+      "LIGHT": "Light",
+      "DARK": "Dark",
+      "SYSTEM": "System"
+    },
+    "birth": {
+      "title": "Birth details",
+      "date": "Date",
+      "time": "Time",
+      "unknownTime": "Unknown",
+      "place": "Place",
+      "timezone": "Time zone",
+      "edit": "Edit",
+      "empty": "You haven't added your birth details yet."
+    },
+    "accountSection": "Account",
+    "email": "Email"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "today": "Today",
+    "week": "Week",
+    "month": "Month",
+    "year": "Year",
+    "profile": "Profile"
+  },
+  "shell": {
+    "home": "MYGLOW — go to today",
+    "settings": "Settings",
+    "pages": {
+      "today": { "title": "Today", "subtitle": "Your intention, your rituals and your reflection for the day." },
+      "week": { "title": "Week", "subtitle": "Plan your week by area and keep track of your body." },
+      "month": { "title": "Month", "subtitle": "Lunar cycles, intentions and your monthly review." },
+      "year": { "title": "Year", "subtitle": "Your word of the year and the vision that guides you." }
+    }
+  },
+  "validation": {
+    "required": "This field is required.",
+    "email": "Enter a valid email address.",
+    "nameLength": "Name must be between 2 and 60 characters.",
+    "passwordLength": "Password must be between 8 and 72 characters.",
+    "birthDate": "Enter a valid date that isn't in the future.",
+    "birthTime": "Enter the time (HH:MM) or tick that you don't know it.",
+    "place": "Pick a place from the list.",
+    "timezone": "Choose a valid time zone.",
+    "sleepGoal": "Sleep goal must be between 4 and 12 hours."
+  },
+  "dev": {
+    "title": "UI showcase",
+    "subtitle": "Phase 1 primitives in every variant.",
+    "theme": "Page theme",
+    "cards": "Cards",
+    "cardDefault": "Glass",
+    "cardAccent": "Accent",
+    "cardFlat": "Flat",
+    "cardInteractive": "Interactive",
+    "cardBody": "Warm frosted glass over golden lights.",
+    "sectionHeaders": "Section headers",
+    "morning": "Morning",
+    "night": "Night",
+    "buttons": "Buttons",
+    "primary": "Primary",
+    "ghost": "Ghost",
+    "subtle": "Subtle",
+    "block": "Full width",
+    "loadingBtn": "Loading",
+    "disabled": "Disabled",
+    "fields": "Fields",
+    "textLabel": "Text",
+    "textPlaceholder": "Type here…",
+    "textHint": "A helpful hint.",
+    "errorLabel": "With error",
+    "errorMessage": "Error message.",
+    "disabledLabel": "Disabled",
+    "lined": "Lined notebook",
+    "linedPlaceholder": "Today I'm grateful for…",
+    "segmented": "Segmented control",
+    "autocomplete": "Autocomplete",
+    "crystals": ["Amethyst", "Citrine", "Rose quartz", "Obsidian", "Selenite", "Tourmaline", "Labradorite"],
+    "autocompleteLabel": "Crystal",
+    "checks": "Checks",
+    "banish": "Banishing",
+    "banishPlaceholder": "What do you want to banish?",
+    "banishName": "Banishing name",
+    "ritual": "Morning ritual",
+    "stretch": "Stretching",
+    "workout": "Workout",
+    "water": "Water",
+    "mood": "Mood",
+    "moodLabels": ["Very low", "Low", "Neutral", "Good", "Radiant"],
+    "toasts": "Toasts",
+    "toastSuccess": "Saved successfully.",
+    "toastError": "Couldn't save.",
+    "badges": "Icon badges",
+    "icons": "Magic icons",
+    "iconsReady": "{ready} of {total} ready",
+    "motto": "Motto"
+  }
+}

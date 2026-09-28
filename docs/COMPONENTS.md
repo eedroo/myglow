@@ -102,16 +102,20 @@ Referência visual: diário físico em papel — fundo creme com mármore dourad
 - **Props:** `name`, `legend`, `labels: [string ×5]`, `value: number | null`, `onChange`
 
 ### MoonPhaseStrip — F2
+- **TSX:** `MoonPhaseStrip.tsx` (Server) · **CSS:** `moon-strip.css`
 - **Classes:** `mg-moon-strip`, `mg-moon-strip__phase`, `mg-moon-strip__phase--active`
-- 8 fases (`phase-*`), destaca a actual. **Props:** `phase: MoonPhase`, `labels`
+- 8 fases (`phase-*`) como lista; cada glifo com `aria-label`; o activo tem halo dourado (`--shadow-glow`) e `aria-current`
+- **Props:** `phase: MoonPhase`, `labels: Record<MoonPhase, string>`, `label` (nome da lista)
 
 ### ZodiacStrip — F2
+- **TSX:** `ZodiacStrip.tsx` (Server) · **CSS:** `zodiac-strip.css`
 - **Classes:** `mg-zodiac-strip`, `mg-zodiac-strip__sign`, `mg-zodiac-strip__sign--active`
-- 12 signos (`sign-*`), destaca o signo da lua. **Props:** `sign: ZodiacSign`, `labels`
+- 12 signos (`sign-*`), destaca o signo da lua. **Props:** `sign: ZodiacSign`, `labels: Record<ZodiacSign, string>`, `label`
 
 ### DateBadge — F2
-- **Classes:** `mg-date-badge`
-- Ícone `calendar` + data formatada com `Intl.DateTimeFormat`. **Props:** `date: Date`, `locale`, `timeZone`
+- **TSX:** `DateBadge.tsx` (Server) · **CSS:** `date-badge.css`
+- **Classes:** `mg-date-badge`, `mg-date-badge__text`
+- `MagicIcon name="calendar"` + `dd / mm / aaaa` (a partir de `DateISO`, sem conversão de fuso). **Props:** `date: DateISO`, `label`
 
 ### ProgressBar — F5
 - **Classes:** `mg-progress`, `mg-progress__fill`
@@ -197,19 +201,31 @@ Compõem primitivos; não têm CSS próprio além de `field.css` (`mg-form-error
 
 ## Compostos por feature (só documentados)
 
-### Diário — F2
-| Componente | Composição |
-|---|---|
-| `DailyHeader` | `MoonPhaseStrip` + `ZodiacStrip` + `DateBadge` |
-| `IntentionCard` | `GlassCard` + `LinedTextArea` + ícone `sparkles` |
-| `MorningSection` | `SectionHeader("MANHÃ", sun)` + `CheckTile withText` (banimento) + `CheckTile` (ritual) + `CheckTile` (meta de sono) |
-| `WakeMoodCard` | `MoodScale` + nota curta |
-| `BodyFocusBar` | 3 × `CheckChip` (alongamento, treino, água) |
-| `NightSection` | `SectionHeader("NOITE", moon-crescent)` + banimento + ritual |
-| `GratitudeMoodCard` | `LinedTextArea` (gratidão) + `MoodScale` |
-| `ReflectionCard` | `LinedTextArea` + cristal decorativo (`crystal-cluster`, `xl`) |
-| `DaySummaryCard` | resumo do dia + `Motto` |
-| `DailyAstroCard` (F6) | conteúdo IA do dia |
+### Diário — F2 (`src/components/day/`)
+
+Mobile: coluna única pela ordem abaixo. ≥ 768 px: grelha de 2 colunas que espelha o diário em papel
+(Manhã | Como me senti; Noite | Gratidão + Humor; restantes a toda a largura).
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `DayPage` | server | — | — | carrega utilizador, entrada, mapa natal e céu; compõe a página |
+| `DayNav` | client | `day-nav.css` | `mg-day-nav`, `__btn`, `__btn--disabled`, `__label`, `__today` | ← data longa → (`<Link>`); botão "Hoje" quando não é hoje; → desactivado em hoje |
+| `DailyHeader` | server | `daily-header.css` | `mg-daily-header`, `__strips`, `__date` | `MoonPhaseStrip` + `ZodiacStrip` (signo da lua ao meio-dia) + `DateBadge` |
+| `DailySkyCard` | server | `sky-card.css` | `mg-sky-card`, `__section`, `__heading`, `__row`, `__label`, `__value`, `__note`, `__you`, `__soon` | **O céu hoje:** Sol, Lua (signo · fase · iluminação), ingresso/evento com hora local. **Tu:** Sol, Lua, Ascendente natais (convite para a hora se faltar; "incerta" se `moonSignUncertain`). `__soon`: horóscopo (F6) |
+| `DayView` | client | `day.css` | `mg-day`, `__grid`, `__cell--*` | `useDailyAutosave` + cartões interactivos + `SaveStatus` + `Toast` de erro |
+| `IntentionCard` | client | `day.css` | `mg-intention`, `__head` | `MagicIcon sparkles` + "Intenção do dia" + `LinedTextArea` (3) |
+| `MorningSection` | client | `period.css` | `mg-period`, `--morning`, `--current` | `SectionHeader(sun)` + banimento (`CheckTile withText`, tea-cup) + ritual (lotus) + sono (bed, "{h}h de sono") |
+| `WakeMoodCard` | client | `day.css` | `mg-wake` | "Como me senti ao acordar?" + `MoodScale` + `TextInput` de nota |
+| `BodyFocusBar` | client | `body-bar.css` | `mg-body-bar`, `__label`, `__chips`, `--current` | "Foco no meu corpo" + 3 × `CheckChip` (stretch, dumbbell, water-drop) |
+| `NightSection` | client | `period.css` | `mg-period`, `--night`, `--current` | `SectionHeader(moon-crescent)` + banimento (feather) + ritual (crystal-ball) |
+| `GratitudeMoodCard` | client | `day.css` | `mg-gratitude`, `__block` | gratidão (heart + `LinedTextArea` 3) + humor (thermometer + `MoodScale`) |
+| `ReflectionCard` | client | `reflection.css` | `mg-reflection`, `__body`, `__head`, `__subtitle`, `__crystal` | moon-stars + "Reflexão final" + `LinedTextArea` 3 + cristal `xl` (oculto < 480 px) |
+| `DaySummaryCard` | client | `reflection.css` | `mg-reflection`, `mg-reflection--summary` | journal + "Resumo do meu dia" + `LinedTextArea` 4 + cristal |
+| `SaveStatus` | client | `save-status.css` | `mg-save-status`, `--saving`, `--saved`, `--offline`, `--error` | indicador fixo por baixo da `TopBar`, `aria-live="polite"` |
+
+`--current` (só em "hoje", no período dado por `getDayPeriod`): borda `--gold-500` + `--shadow-glow` subtil.
+
+O texto IA do dia (antes `DailyAstroCard`) passa a viver dentro do `DailySkyCard` (bloco `__soon` na F2, conteúdo na F6).
 
 ### Semana — F3
 `WeekTitle`, `WeekIntentionCard`, `WeekDayRow`, `WeightCard`, `ProjectIntentionsGrid`, `ProjectIntentionCard`, `WeekReflectionCard`

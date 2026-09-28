@@ -1,0 +1,42 @@
+{
+  "name": "myglow",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "postinstall": "prisma generate",
+    "docs:icons": "vite-node --config vitest.config.ts scripts/icons-doc.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
+    "lucide-react": "^0.577.0",
+    "luxon": "^3.7.2",
+    "next": "14.2.35",
+    "next-auth": "5.0.0-beta.32",
+    "next-intl": "^3.26.5",
+    "next-themes": "^0.4.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "server-only": "^0.0.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.7.5",
+    "@types/node": "^20.17.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.35",
+    "prisma": "^6.19.3",
+    "typescript": "^5.6.3",
+    "vitest": "^3.2.7"
+  }
+}

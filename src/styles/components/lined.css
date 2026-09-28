@@ -1,0 +1,27 @@
+/* LinedTextArea — linhas pautadas de caderno */
+
+.mg-lined {
+  display: block;
+  width: 100%;
+  padding: 0 var(--space-2);
+  border: 0;
+  border-bottom: var(--border-width) solid var(--line-rule);
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, transparent calc(var(--leading-lined) - 1px), var(--line-rule) calc(var(--leading-lined) - 1px), var(--line-rule) var(--leading-lined));
+  background-size: 100% var(--leading-lined);
+  background-attachment: local;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--leading-lined);
+  resize: vertical;
+}
+
+.mg-lined::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.mg-lined:focus-visible {
+  border-radius: var(--radius-sm);
+}

@@ -15,12 +15,15 @@ async function registerAndOnboard(page: Page) {
   );
   const email = `e2e-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@example.com`;
   await page.goto('/register');
+  await page.waitForLoadState('networkidle');
   await page.locator('#register-name').fill('Teste E2E');
   await page.locator('#register-email').fill(email);
   await page.locator('#register-password').fill(PASSWORD);
   await page.locator('label:has(input[name=locale][value=PT_PT])').click();
   await page.getByRole('button', { name: 'Criar conta' }).click();
   await page.waitForURL('**/onboarding');
+  // Espera pela hidratação: antes disso o React repõe os inputs controlados.
+  await page.waitForLoadState('networkidle');
 
   await page.locator('#birth-date').fill('1990-07-15');
   await page.locator('#birth-time').fill('14:30');

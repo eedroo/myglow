@@ -85,11 +85,17 @@
 }
 
 .mg-gratitude__block--mood {
-  flex-direction: row;
-  align-items: flex-start;
+  position: relative;
 }
 
-.mg-gratitude__block--mood .mg-mood {
-  flex: 1 1 auto;
-  min-width: 0;
+/* Termómetro na mesma linha da legenda do humor */
+.mg-gratitude__block--mood > .mg-gratitude__head {
+  position: absolute;
+  top: var(--space-4);
+  left: 0;
+}
+
+.mg-gratitude__block--mood .mg-mood__legend {
+  padding-left: calc(var(--icon-sm) + var(--space-2));
+  line-height: var(--icon-sm);
 }

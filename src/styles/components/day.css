@@ -83,3 +83,13 @@
   padding-top: var(--space-4);
   border-top: var(--border-width) solid var(--line-rule);
 }
+
+.mg-gratitude__block--mood {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.mg-gratitude__block--mood .mg-mood {
+  flex: 1 1 auto;
+  min-width: 0;
+}

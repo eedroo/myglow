@@ -117,6 +117,18 @@ Referência visual: diário físico em papel — fundo creme com mármore dourad
 - **Classes:** `mg-date-badge`, `mg-date-badge__text`
 - `MagicIcon name="calendar"` + `dd / mm / aaaa` (a partir de `DateISO`, sem conversão de fuso). **Props:** `date: DateISO`, `label`
 
+### DayProgressDots — F3
+- **TSX:** `DayProgressDots.tsx` (Server) · **CSS:** `progress-dots.css`
+- **Classes:** `mg-progress-dots`, `mg-progress-dots--sm`, `mg-progress-dots__dot`, `mg-progress-dots__dot--done`
+- 3 pontos (manhã, corpo, noite) a partir de `DayProgress`; `aria-label` com o estado; com `href` vira link para o dia
+- **Props:** `progress: DayProgress`, `label: string`, `href?: string`, `size?: 'sm' | 'md'`
+
+### WeightInput — F3
+- **TSX:** `WeightInput.tsx` (`'use client'`) · **CSS:** `weight.css`
+- **Classes:** `mg-weight-input`, `mg-weight-input__field`, `mg-weight-input__unit`
+- `inputMode="decimal"`, aceita vírgula ou ponto; valida com `parseKgToGrams` no blur e mostra erro inline (via `Field`)
+- **Props:** `id`, `grams: number | null`, `locale`, `onCommit(grams | null)`, `unitLabel`, `errorLabel`, `label`
+
 ### ProgressBar — F5
 - **Classes:** `mg-progress`, `mg-progress__fill`
 - XP até ao próximo nível. **Props:** `value`, `max`, `label`
@@ -227,8 +239,39 @@ Mobile: coluna única pela ordem abaixo. ≥ 768 px: grelha de 2 colunas que esp
 
 O texto IA do dia (antes `DailyAstroCard`) passa a viver dentro do `DailySkyCard` (bloco `__soon` na F2, conteúdo na F6).
 
-### Semana — F3
-`WeekTitle`, `WeekIntentionCard`, `WeekDayRow`, `WeightCard`, `ProjectIntentionsGrid`, `ProjectIntentionCard`, `WeekReflectionCard`
+### Semana — F3 (`src/components/week/`)
+
+Referência: página "Semana" do diário em papel. Mobile em coluna (título, intenção, céu, 7 dias, peso, projectos, reflexão).
+≥ 768 px: título, intenção e dias a toda a largura; peso (1/3) + projectos (2/3) lado a lado; reflexão a toda a largura.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `WeekPage` | server | — | — | carrega `getWeekPageData`, compõe a página |
+| `WeekNav` | server | `week-nav.css` | `mg-week-nav`, `__btn`, `__btn--disabled`, `__center`, `__label`, `__links`, `__link` | ← → entre semanas, intervalo "3–9 mai 2026", "Esta semana" quando não é a actual, link para o mês |
+| `WeekView` | client | `week.css` | `mg-week`, `__grid`, `__cell--*` | `useWeekAutosave` + cartões interactivos + `SaveStatus` + `Toast` de erro |
+| `WeekTitleCard` | client | `week-title.css` | `mg-week-title`, `__label`, `__input` | faixa com `moon-crescent` e `sun`; input sem borda; placeholder "Semana {n} · {mês}" |
+| `WeekIntentionCard` | client | `day.css` (reutiliza `mg-intention`) | `mg-intention`, `__head`, `__label` | sparkles + "Intenção da semana" + `LinedTextArea` 3 |
+| `WeekSkyCard` | server | `week-sky.css` | `mg-week-sky`, `__title`, `__list`, `__event`, `__when` | eventos lunares da semana (glifo + "Lua Cheia em Escorpião · ter, 18:23"); sem eventos: fase dominante |
+| `WeekDayRow` | client | `week-day.css` | `mg-week-day`, `__icon`, `__label`, `__date`, `__moon`, `__text`, `__progress`, `--today`, `--future` | ícone planetário do dia, abreviatura, número, glifo da lua, `LinedTextArea` 2, `DayProgressDots` com link (não em futuros) |
+| `WeightCard` | client | `weight.css` | `mg-weight`, `__head`, `__input`, `__unit`, `__delta` | `scale` + "Meu peso da semana" + `WeightInput` + delta face à semana anterior (neutro, sem cor de bom/mau) |
+| `ProjectIntentionsGrid` | client | `projects.css` | `mg-projects`, `__header`, `__grid` | "Intenções por projectos" + 5 cartões; grelha 3+2 ≥ 768 px |
+| `ProjectIntentionCard` | client | `projects.css` | `mg-project`, `__head`, `__icon`, `__label`, `__text` | ícone da área (MAGIC `cauldron`, PERSONAL `heart`, LEISURE `lotus`, PROFESSIONAL `briefcase`, STUDIES `book-open`) + `LinedTextArea` 3 |
+| `WeekReflectionCard` | client | `reflection.css` (reutiliza) | `mg-reflection` | moon-stars + "Reflexão da semana" + `LinedTextArea` 4 + crystal-cluster |
+
+Ícones planetários dos dias: dom `sun`, seg `moon-crescent`, ter `planet-mars`, qua `planet-mercury`, qui `planet-jupiter`, sex `planet-venus`, sáb `planet-saturn`.
+
+### Mês — vista de navegação F3 (`src/components/month/`)
+
+O planner mensal (intenção, metas, reflexão) chega na F4; aqui só navegação e resumo visual.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `MonthOverviewPage` | server | — | — | carrega `getMonthOverview`, compõe a página |
+| `MonthNav` | server | `month-nav.css` | `mg-month-nav`, `__btn`, `__btn--disabled`, `__center`, `__label`, `__today` | ← → meses, "Maio 2026", "Este mês" |
+| `MonthCalendar` | server | `calendar.css` | `mg-calendar`, `__head`, `__row`, `__week`, `__cell`, `__num`, `__moon`, `--today`, `--future`, `--out`, `--empty`, `--partial`, `--complete` | grelha dom→sáb; número, glifo da lua, `DayProgressDots` pequeno; célula liga ao dia (não em futuros); link discreto para a semana à esquerda de cada linha |
+| `MonthWeeksList` | server | `month-weeks.css` | `mg-month-weeks`, `__item`, `__title`, `__intention`, `__count` | um item por domingo: "Semana n" + título, 1.ª linha da intenção, "4/7 dias"; liga à semana |
+| `MonthMoonCard` | server | `month-moon.css` | `mg-month-moon`, `__item`, `__when` | eventos lunares do mês (fase, signo, dia e hora) |
+| `MonthPlannerTeaser` | server | `card.css` | `mg-card--flat` | "O planner do mês chega em breve" (removido na F4) |
 
 ### Mês / Ano — F4
 `MonthHeader`, `LunarEventsCard`, `RitualSuggestionsCard` (F6), `MonthStatsCard`, `YearGrid`, `YearWordCard`

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Settings, X } from 'lucide-react';
 import { Autocomplete } from '@/components/ui/Autocomplete';
 import { Button } from '@/components/ui/Button';
@@ -20,16 +20,23 @@ import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { TextInput } from '@/components/ui/TextInput';
 import { Toast } from '@/components/ui/Toast';
 import { PageHeader } from '@/components/shell/PageHeader';
+import { DayProgressDots } from '@/components/ui/DayProgressDots';
+import { WeightInput } from '@/components/ui/WeightInput';
+import { WeekDayRow } from '@/components/week/WeekDayRow';
+import type { WeekDaySummary } from '@/types/week';
 import type { MagicIconName } from '@/lib/icons';
 import type { NextTheme, ThemePref } from '@/lib/theme';
 import { nextThemeToPref, prefToNextTheme } from '@/lib/theme';
 
 interface UiShowcaseProps {
   icons: { name: MagicIconName; ready: boolean }[];
+  /** Semana de exemplo (calculada no servidor, sem DB). */
+  sampleWeek: WeekDaySummary[];
 }
 
-export function UiShowcase({ icons }: UiShowcaseProps) {
+export function UiShowcase({ icons, sampleWeek }: UiShowcaseProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const { theme, setTheme } = useTheme();
   // O servidor não conhece o tema: só marcar a opção activa depois de montar (evita mismatch de hidratação).
   const [mounted, setMounted] = useState(false);
@@ -40,6 +47,9 @@ export function UiShowcase({ icons }: UiShowcaseProps) {
   const [chips, setChips] = useState({ stretch: true, workout: false, water: false });
   const [mood, setMood] = useState<number | null>(4);
   const [notes, setNotes] = useState('');
+  const [weight, setWeight] = useState<number | null>(76400);
+  const [weightInvalid, setWeightInvalid] = useState(false);
+  const [dayNotes, setDayNotes] = useState<Record<string, string>>({});
   const [segment, setSegment] = useState<'PT_PT' | 'PT_BR' | 'EN'>('PT_PT');
 
   const moodLabels = t.raw('dev.moodLabels') as [string, string, string, string, string];
@@ -266,6 +276,42 @@ export function UiShowcase({ icons }: UiShowcaseProps) {
             ))}
           </ul>
         </GlassCard>
+      </section>
+
+      <section className="mg-stack">
+        <SectionHeader title={t('dev.weekSample')} icon="calendar" />
+        <GlassCard title={t('dev.progressDots')}>
+          <div className="mg-row">
+            {sampleWeek.map((d) => (
+              <DayProgressDots key={d.date} progress={d.progress} label={d.date} />
+            ))}
+            {sampleWeek[0] && <DayProgressDots progress={sampleWeek[0].progress} label={sampleWeek[0].date} size="sm" />}
+          </div>
+          <Field id="dev-weight" label={t('weight.title')} error={weightInvalid ? t('weight.invalid') : undefined}>
+            <WeightInput
+              id="dev-weight"
+              grams={weight}
+              locale={locale}
+              unitLabel={t('weight.unit')}
+              placeholder={t('weight.placeholder')}
+              invalid={weightInvalid}
+              onInvalid={setWeightInvalid}
+              onCommit={setWeight}
+            />
+          </Field>
+        </GlassCard>
+        <div className="mg-week__days">
+          {sampleWeek.map((day, i) => (
+            <WeekDayRow
+              key={day.date}
+              index={i}
+              day={day}
+              text={dayNotes[day.date] ?? ''}
+              onChange={(v) => setDayNotes((n) => ({ ...n, [day.date]: v }))}
+              onBlur={() => undefined}
+            />
+          ))}
+        </div>
       </section>
 
       <Motto text={t('common.motto')} />

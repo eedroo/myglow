@@ -18,6 +18,12 @@ import { ZODIAC_ORDER } from '@/lib/astro/zodiac';
 import { toBirthUtc } from '@/lib/birth';
 import { formatLongDate } from '@/lib/dates';
 import { isAppLocale } from '@/i18n/locales';
+import { MonthCalendar } from '@/components/month/MonthCalendar';
+import { getMoonCalendar } from '@/lib/astro/moonCalendar';
+import { computeDayProgress, type ProgressEntry } from '@/lib/daily/progress';
+import { addDays, compareDates } from '@/lib/dates';
+import { monthGrid, weekDays } from '@/lib/weeks';
+import type { WeekDaySummary } from '@/types/week';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('dev');
@@ -28,6 +34,33 @@ export async function generateMetadata(): Promise<Metadata> {
 const SAMPLE_DATE = '2026-05-01';
 const SAMPLE_TZ = 'Europe/Lisbon';
 const sampleBirth = { latitude: 38.72, longitude: -9.14, birthDate: '1990-07-15', birthTz: SAMPLE_TZ };
+
+/** Entradas de exemplo: vazio, parcial e completo a alternar; "hoje" é 2026-05-06. */
+const SAMPLE_TODAY = '2026-05-06';
+const sampleEntry = (i: number): ProgressEntry | null => {
+  const blank: ProgressEntry = {
+    intention: null, morningBanishName: null, morningBanishDone: false, morningRitualDone: false, sleepGoalMet: false,
+    wakeMood: null, wakeNote: null, stretchDone: false, workoutDone: false, waterDone: false,
+    nightBanishName: null, nightBanishDone: false, nightRitualDone: false, gratitude: null, mood: null,
+    reflection: null, summary: null,
+  };
+  if (i % 3 === 0) return null;
+  if (i % 3 === 1) return { ...blank, intention: 'x', morningBanishDone: true, morningRitualDone: true, wakeMood: 4, waterDone: true };
+  return {
+    ...blank, intention: 'x', morningBanishDone: true, morningRitualDone: true, wakeMood: 4,
+    stretchDone: true, workoutDone: true, waterDone: true,
+    nightBanishDone: true, nightRitualDone: true, gratitude: 'x', mood: 5, reflection: 'x',
+  };
+};
+
+function sampleDay(date: string, i: number) {
+  const future = compareDates(date, SAMPLE_TODAY) > 0;
+  return {
+    progress: computeDayProgress(date, future ? null : sampleEntry(i)),
+    isToday: date === SAMPLE_TODAY,
+    isFuture: future,
+  };
+}
 
 export default async function DevUiPage() {
   if (process.env.NODE_ENV === 'production') notFound();
@@ -42,13 +75,24 @@ export default async function DevUiPage() {
   const sky = getDailySky(SAMPLE_DATE, SAMPLE_TZ);
   const withTime = computeNatalChart({ ...sampleBirth, birthUtc: toBirthUtc('1990-07-15', '14:30', SAMPLE_TZ), timeKnown: true });
   const withoutTime = computeNatalChart({ ...sampleBirth, birthUtc: toBirthUtc('1990-07-15', null, SAMPLE_TZ), timeKnown: false });
+  const moonMay = getMoonCalendar('2026-05-01', '2026-05-31', SAMPLE_TZ);
+  const sampleWeek: WeekDaySummary[] = weekDays('2026-05-03').map((date, i) => ({
+    date,
+    moon: moonMay[date]!,
+    ...sampleDay(date, i),
+  }));
+  const monthDays: Record<string, ReturnType<typeof sampleDay> & { moon: (typeof moonMay)[string] }> = {};
+  for (let d = '2026-05-01', i = 0; d <= '2026-05-31'; d = addDays(d, 1), i++) {
+    monthDays[d] = { ...sampleDay(d, i), moon: moonMay[d]! };
+  }
+
   const phaseLabels = Object.fromEntries(MOON_PHASE_ORDER.map((p) => [p, ta(`phases.${p}`)])) as Record<MoonPhase, string>;
   const signLabels = Object.fromEntries(ZODIAC_ORDER.map((s) => [s, ta(`signs.${s}`)])) as Record<ZodiacSign, string>;
 
   return (
     <>
       <AmbientBackground />
-      <UiShowcase icons={icons} />
+      <UiShowcase icons={icons} sampleWeek={sampleWeek} />
       <div className="mg-dev">
         <section className="mg-stack">
           <SectionHeader title={t('daily')} icon="moon-stars" />
@@ -61,6 +105,13 @@ export default async function DevUiPage() {
           <DailySkyCard sky={sky} natal={withTime} isToday />
           <p className="mg-dev__caption">{t('withoutTime')}</p>
           <DailySkyCard sky={sky} natal={withoutTime} isToday={false} />
+        </section>
+        <section className="mg-stack">
+          <SectionHeader title={t('monthSample')} icon="moon-stars" />
+          <MonthCalendar
+            overview={{ grid: monthGrid(2026, 5), days: monthDays, today: SAMPLE_TODAY }}
+            currentWeekStart="2026-05-03"
+          />
         </section>
       </div>
     </>

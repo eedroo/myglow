@@ -194,6 +194,9 @@
     "daily": "Journal (sample data)",
     "withTime": "With birth time",
     "withoutTime": "Without birth time",
+    "weekSample": "Week (sample data)",
+    "monthSample": "Month (sample data)",
+    "progressDots": "Progress dots",
     "motto": "Motto"
   },
   "day": {

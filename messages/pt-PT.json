@@ -194,6 +194,9 @@
     "daily": "Diário (dados de exemplo)",
     "withTime": "Com hora de nascimento",
     "withoutTime": "Sem hora de nascimento",
+    "weekSample": "Semana (dados de exemplo)",
+    "monthSample": "Mês (dados de exemplo)",
+    "progressDots": "Pontos de progresso",
     "motto": "Lema"
   },
   "day": {

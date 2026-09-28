@@ -1,0 +1,32 @@
+/* Motto — rodapé decorativo com estrelas */
+
+.mg-motto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4);
+  color: var(--gold-accent);
+  text-align: center;
+}
+
+.mg-motto__star {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
+}
+
+.mg-motto__line {
+  flex: 0 1 48px;
+  height: var(--border-width);
+  background: var(--glass-border-strong);
+}
+
+.mg-motto__text {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--text-secondary);
+}

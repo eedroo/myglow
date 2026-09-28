@@ -1,0 +1,58 @@
+/* CheckChip — check pequeno inline com ícone */
+
+.mg-check-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+  background: var(--input-bg);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background var(--duration) var(--ease), border-color var(--duration) var(--ease), color var(--duration) var(--ease);
+}
+
+.mg-check-chip:hover {
+  border-color: var(--glass-border-strong);
+}
+
+.mg-check-chip--checked {
+  background: var(--gold-gradient-soft);
+  border-color: var(--glass-border-strong);
+  color: var(--text-on-gold);
+}
+
+.mg-check-chip__input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.mg-check-chip:has(.mg-check-chip__input:focus-visible) {
+  box-shadow: var(--focus-ring);
+}
+
+.mg-check-chip__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-pill);
+  color: transparent;
+}
+
+.mg-check-chip--checked .mg-check-chip__box {
+  background: var(--glass-bg-strong);
+  color: var(--gold-700);
+}
+
+.mg-check-chip__label {
+  line-height: 1;
+}

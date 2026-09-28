@@ -325,5 +325,92 @@
       "PLUTO": "Plutão"
     },
     "retrograde": "retrógrado"
+  },
+  "week": {
+    "title": "Semana",
+    "defaultTitle": "Semana {n} · {month}",
+    "titleLabel": "Semana:",
+    "nav": {
+      "label": "Navegar entre as semanas",
+      "prev": "Semana anterior",
+      "next": "Próxima semana",
+      "current": "Esta semana",
+      "month": "Ver o mês"
+    },
+    "intention": {
+      "label": "Intenção da semana",
+      "placeholder": "Nesta semana eu quero…"
+    },
+    "sky": {
+      "title": "A lua nesta semana",
+      "event": "{phase} em {sign}",
+      "dominant": "Semana de {phase}"
+    },
+    "days": {
+      "label": "Dias da semana",
+      "notePlaceholder": "Intenções e compromissos…",
+      "noteLabel": "Anotações de {day}",
+      "openDay": "Abrir o diário de {day}"
+    },
+    "progress": "Manhã {morning, select, yes {feita} other {pendente}} · Corpo {bodyChecks}/3 · Noite {night, select, yes {feita} other {pendente}}",
+    "reflection": {
+      "title": "Reflexão da semana",
+      "placeholder": "O que esta semana me ensinou…"
+    },
+    "errors": {
+      "invalidWeek": "Semana inválida.",
+      "tooFar": "Você só pode planejar até 52 semanas à frente.",
+      "invalid": "Algum campo tem um valor inválido."
+    },
+    "chip": "Semana {n} · {month}"
+  },
+  "weight": {
+    "title": "Meu peso da semana",
+    "label": "Peso em quilos",
+    "unit": "kg",
+    "placeholder": "—",
+    "invalid": "Digite o peso em kg, por exemplo 76,4.",
+    "delta": "{delta} em relação à semana anterior"
+  },
+  "projects": {
+    "title": "Intenções por projetos",
+    "placeholder": "Uma intenção para esta área…",
+    "areas": {
+      "MAGIC": "Magic",
+      "PERSONAL": "Pessoal",
+      "LEISURE": "Lazer",
+      "PROFESSIONAL": "Profissional",
+      "STUDIES": "Estudos"
+    }
+  },
+  "month": {
+    "title": "Mês",
+    "nav": {
+      "label": "Navegar entre os meses",
+      "prev": "Mês anterior",
+      "next": "Próximo mês",
+      "current": "Este mês"
+    },
+    "calendar": {
+      "title": "Calendário",
+      "weekLink": "Abrir a semana {n}",
+      "openDay": "Abrir o diário de {date}"
+    },
+    "weeks": {
+      "title": "Semanas do mês",
+      "item": "Semana {n}",
+      "count": "{touched}/7 dias",
+      "countLabel": "{touched} de 7 dias com diário, {complete} completos",
+      "noIntention": "Ainda sem intenção"
+    },
+    "moon": {
+      "title": "A lua neste mês",
+      "event": "{phase} em {sign}",
+      "none": "Sem fases principais neste mês."
+    },
+    "teaser": {
+      "title": "Planner do mês",
+      "body": "O planner do mês chega em breve."
+    }
   }
 }

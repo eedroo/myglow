@@ -325,5 +325,92 @@
       "PLUTO": "Pluto"
     },
     "retrograde": "retrograde"
+  },
+  "week": {
+    "title": "Week",
+    "defaultTitle": "Week {n} · {month}",
+    "titleLabel": "Week:",
+    "nav": {
+      "label": "Move between weeks",
+      "prev": "Previous week",
+      "next": "Next week",
+      "current": "This week",
+      "month": "See the month"
+    },
+    "intention": {
+      "label": "This week's intention",
+      "placeholder": "This week I want to…"
+    },
+    "sky": {
+      "title": "The Moon this week",
+      "event": "{phase} in {sign}",
+      "dominant": "A {phase} week"
+    },
+    "days": {
+      "label": "Days of the week",
+      "notePlaceholder": "Intentions and plans…",
+      "noteLabel": "Notes for {day}",
+      "openDay": "Open the journal for {day}"
+    },
+    "progress": "Morning {morning, select, yes {done} other {to do}} · Body {bodyChecks}/3 · Night {night, select, yes {done} other {to do}}",
+    "reflection": {
+      "title": "Weekly reflection",
+      "placeholder": "What this week taught me…"
+    },
+    "errors": {
+      "invalidWeek": "Invalid week.",
+      "tooFar": "You can only plan up to 52 weeks ahead.",
+      "invalid": "One of the fields has an invalid value."
+    },
+    "chip": "Week {n} · {month}"
+  },
+  "weight": {
+    "title": "My weight this week",
+    "label": "Weight in kilograms",
+    "unit": "kg",
+    "placeholder": "—",
+    "invalid": "Enter your weight in kg, e.g. 76.4.",
+    "delta": "{delta} vs last week"
+  },
+  "projects": {
+    "title": "Intentions by project",
+    "placeholder": "An intention for this area…",
+    "areas": {
+      "MAGIC": "Magic",
+      "PERSONAL": "Personal",
+      "LEISURE": "Leisure",
+      "PROFESSIONAL": "Professional",
+      "STUDIES": "Studies"
+    }
+  },
+  "month": {
+    "title": "Month",
+    "nav": {
+      "label": "Move between months",
+      "prev": "Previous month",
+      "next": "Next month",
+      "current": "This month"
+    },
+    "calendar": {
+      "title": "Calendar",
+      "weekLink": "Open week {n}",
+      "openDay": "Open the journal for {date}"
+    },
+    "weeks": {
+      "title": "Weeks of the month",
+      "item": "Week {n}",
+      "count": "{touched}/7 days",
+      "countLabel": "{touched} of 7 days journaled, {complete} complete",
+      "noIntention": "No intention yet"
+    },
+    "moon": {
+      "title": "The Moon this month",
+      "event": "{phase} in {sign}",
+      "none": "No main phases this month."
+    },
+    "teaser": {
+      "title": "Monthly planner",
+      "body": "The monthly planner is coming soon."
+    }
   }
 }

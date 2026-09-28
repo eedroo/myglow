@@ -192,5 +192,135 @@
     "icons": "Magic icons",
     "iconsReady": "{ready} of {total} ready",
     "motto": "Motto"
+  },
+  "day": {
+    "title": "Today",
+    "nav": {
+      "label": "Move between days",
+      "prev": "Previous day",
+      "next": "Next day",
+      "today": "Back to today"
+    },
+    "header": {
+      "phases": "Moon phases",
+      "signs": "Moon sign"
+    },
+    "sky": {
+      "title": "Today's sky",
+      "titlePast": "The sky on this day",
+      "you": "You",
+      "sun": "Sun",
+      "moon": "Moon",
+      "ascendant": "Rising",
+      "position": "{sign} {degree}°",
+      "moonValue": "{sign} · {phase} · {illumination}%",
+      "ingress": "The Moon enters {sign} at {time}",
+      "event": "{phase} at {time}",
+      "moonUncertain": "{sign} (uncertain)",
+      "addBirthTime": "Add your birth time",
+      "noBirthData": "Add your birth details to see your chart.",
+      "soon": "Your horoscope is coming soon."
+    },
+    "intention": {
+      "label": "Today's intention",
+      "placeholder": "Today I choose…"
+    },
+    "morning": {
+      "title": "Morning",
+      "banish": "Morning banishing",
+      "banishName": "Morning banishing name",
+      "banishPlaceholder": "What are you banishing?",
+      "ritual": "Morning ritual",
+      "sleep": "{hours, number}h of sleep"
+    },
+    "wake": {
+      "title": "How did I feel when I woke up?",
+      "note": "Note",
+      "notePlaceholder": "A word, a dream, a feeling…"
+    },
+    "body": {
+      "title": "Focus on my body",
+      "stretch": "Stretching",
+      "workout": "Workout",
+      "water": "Water"
+    },
+    "night": {
+      "title": "Night",
+      "banish": "Night banishing",
+      "banishName": "Night banishing name",
+      "banishPlaceholder": "What are you banishing?",
+      "ritual": "Night ritual"
+    },
+    "gratitude": {
+      "title": "Gratitude",
+      "placeholder": "Today I'm grateful for…",
+      "mood": "My mood"
+    },
+    "moodLabels": [
+      "Very low",
+      "Low",
+      "Neutral",
+      "Good",
+      "Radiant"
+    ],
+    "reflection": {
+      "title": "Final reflection",
+      "subtitle": "What did I learn today? What can I do better tomorrow?"
+    },
+    "summary": {
+      "title": "My day in brief",
+      "placeholder": "In a few lines, my day was…"
+    },
+    "done": "Done",
+    "save": {
+      "saving": "Saving…",
+      "saved": "Saved",
+      "offline": "Offline — we'll save when you're back",
+      "error": "Couldn't save"
+    },
+    "errors": {
+      "invalidDate": "Invalid date.",
+      "futureDate": "You can't write in a future day yet.",
+      "invalid": "One of the fields has an invalid value."
+    }
+  },
+  "astro": {
+    "signs": {
+      "ARIES": "Aries",
+      "TAURUS": "Taurus",
+      "GEMINI": "Gemini",
+      "CANCER": "Cancer",
+      "LEO": "Leo",
+      "VIRGO": "Virgo",
+      "LIBRA": "Libra",
+      "SCORPIO": "Scorpio",
+      "SAGITTARIUS": "Sagittarius",
+      "CAPRICORN": "Capricorn",
+      "AQUARIUS": "Aquarius",
+      "PISCES": "Pisces"
+    },
+    "phases": {
+      "NEW_MOON": "New Moon",
+      "WAXING_CRESCENT": "Waxing Crescent",
+      "FIRST_QUARTER": "First Quarter",
+      "WAXING_GIBBOUS": "Waxing Gibbous",
+      "FULL_MOON": "Full Moon",
+      "WANING_GIBBOUS": "Waning Gibbous",
+      "LAST_QUARTER": "Last Quarter",
+      "WANING_CRESCENT": "Waning Crescent"
+    },
+    "bodies": {
+      "SUN": "Sun",
+      "MOON": "Moon",
+      "MERCURY": "Mercury",
+      "VENUS": "Venus",
+      "MARS": "Mars",
+      "JUPITER": "Jupiter",
+      "SATURN": "Saturn",
+      "URANUS": "Uranus",
+      "NEPTUNE": "Neptune",
+      "PLUTO": "Pluto"
+    },
+    "retrograde": "retrograde"
   }
 }

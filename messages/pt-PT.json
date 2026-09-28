@@ -192,5 +192,135 @@
     "icons": "Ícones mágicos",
     "iconsReady": "{ready} de {total} prontos",
     "motto": "Lema"
+  },
+  "day": {
+    "title": "Hoje",
+    "nav": {
+      "label": "Navegar entre dias",
+      "prev": "Dia anterior",
+      "next": "Dia seguinte",
+      "today": "Voltar a hoje"
+    },
+    "header": {
+      "phases": "Fases da lua",
+      "signs": "Signo da lua"
+    },
+    "sky": {
+      "title": "O céu hoje",
+      "titlePast": "O céu neste dia",
+      "you": "Tu",
+      "sun": "Sol",
+      "moon": "Lua",
+      "ascendant": "Ascendente",
+      "position": "{sign} {degree}°",
+      "moonValue": "{sign} · {phase} · {illumination}%",
+      "ingress": "A Lua entra em {sign} às {time}",
+      "event": "{phase} às {time}",
+      "moonUncertain": "{sign} (incerta)",
+      "addBirthTime": "Acrescenta a hora de nascimento",
+      "noBirthData": "Acrescenta os teus dados de nascimento para veres o teu mapa.",
+      "soon": "O teu horóscopo chega em breve."
+    },
+    "intention": {
+      "label": "Intenção do dia",
+      "placeholder": "Hoje escolho…"
+    },
+    "morning": {
+      "title": "Manhã",
+      "banish": "Banimento matinal",
+      "banishName": "Nome do banimento matinal",
+      "banishPlaceholder": "Qual o banimento?",
+      "ritual": "Ritual matinal",
+      "sleep": "{hours, number}h de sono"
+    },
+    "wake": {
+      "title": "Como me senti ao acordar?",
+      "note": "Nota",
+      "notePlaceholder": "Uma palavra, um sonho, uma sensação…"
+    },
+    "body": {
+      "title": "Foco no meu corpo",
+      "stretch": "Alongamento",
+      "workout": "Treino",
+      "water": "Água"
+    },
+    "night": {
+      "title": "Noite",
+      "banish": "Banimento nocturno",
+      "banishName": "Nome do banimento nocturno",
+      "banishPlaceholder": "Qual o banimento?",
+      "ritual": "Ritual nocturno"
+    },
+    "gratitude": {
+      "title": "Gratidão",
+      "placeholder": "Hoje sinto gratidão por…",
+      "mood": "O meu humor"
+    },
+    "moodLabels": [
+      "Muito em baixo",
+      "Em baixo",
+      "Neutro",
+      "Bem",
+      "Radiante"
+    ],
+    "reflection": {
+      "title": "Reflexão final",
+      "subtitle": "O que aprendi hoje? O que posso melhorar amanhã?"
+    },
+    "summary": {
+      "title": "Resumo do meu dia",
+      "placeholder": "Em poucas linhas, o meu dia foi…"
+    },
+    "done": "Feito",
+    "save": {
+      "saving": "A guardar…",
+      "saved": "Guardado",
+      "offline": "Sem ligação — guardamos quando voltares",
+      "error": "Não foi possível guardar"
+    },
+    "errors": {
+      "invalidDate": "Data inválida.",
+      "futureDate": "Ainda não podes escrever num dia futuro.",
+      "invalid": "Há um campo com um valor inválido."
+    }
+  },
+  "astro": {
+    "signs": {
+      "ARIES": "Carneiro",
+      "TAURUS": "Touro",
+      "GEMINI": "Gémeos",
+      "CANCER": "Caranguejo",
+      "LEO": "Leão",
+      "VIRGO": "Virgem",
+      "LIBRA": "Balança",
+      "SCORPIO": "Escorpião",
+      "SAGITTARIUS": "Sagitário",
+      "CAPRICORN": "Capricórnio",
+      "AQUARIUS": "Aquário",
+      "PISCES": "Peixes"
+    },
+    "phases": {
+      "NEW_MOON": "Lua Nova",
+      "WAXING_CRESCENT": "Crescente",
+      "FIRST_QUARTER": "Quarto Crescente",
+      "WAXING_GIBBOUS": "Crescente gibosa",
+      "FULL_MOON": "Lua Cheia",
+      "WANING_GIBBOUS": "Minguante gibosa",
+      "LAST_QUARTER": "Quarto Minguante",
+      "WANING_CRESCENT": "Minguante"
+    },
+    "bodies": {
+      "SUN": "Sol",
+      "MOON": "Lua",
+      "MERCURY": "Mercúrio",
+      "VENUS": "Vénus",
+      "MARS": "Marte",
+      "JUPITER": "Júpiter",
+      "SATURN": "Saturno",
+      "URANUS": "Úrano",
+      "NEPTUNE": "Neptuno",
+      "PLUTO": "Plutão"
+    },
+    "retrograde": "retrógrado"
   }
 }

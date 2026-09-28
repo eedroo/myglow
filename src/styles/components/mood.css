@@ -1,0 +1,59 @@
+/* MoodScale — 5 caras, radiogroup */
+
+.mg-mood {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mg-mood__legend {
+  margin-bottom: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-mood__faces {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.mg-mood__face {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-pill);
+  opacity: 0.55;
+  cursor: pointer;
+  transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease), border-color var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+}
+
+.mg-mood__face:hover {
+  opacity: 0.85;
+}
+
+.mg-mood__face--selected {
+  opacity: 1;
+  transform: scale(1.1);
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-glow);
+}
+
+.mg-mood__input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.mg-mood__face:has(.mg-mood__input:focus-visible) {
+  box-shadow: var(--focus-ring);
+}

@@ -96,6 +96,8 @@ export function useAutosaveQueue<TPatch extends object>({ save, merge, resetKey,
     (patch: TPatch, mode: 'now' | 'debounced') => {
       pending.current = pending.current ? latest.current.merge(pending.current, patch) : patch;
       setErrorKey(null);
+      // Há alterações por gravar: "Guardado" só volta a aparecer depois de gravarem mesmo.
+      setSafeStatus('saving');
       if (mode === 'debounced') {
         if (debounce.current) clearTimeout(debounce.current);
         debounce.current = setTimeout(() => void flush(), TEXT_DEBOUNCE_MS);
@@ -103,7 +105,7 @@ export function useAutosaveQueue<TPatch extends object>({ save, merge, resetKey,
         void flush();
       }
     },
-    [flush],
+    [flush, setSafeStatus],
   );
 
   // Mudança de chave: grava o que falta com o `save` anterior e passa a usar o novo.

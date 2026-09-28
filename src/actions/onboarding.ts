@@ -5,6 +5,8 @@ import { IANAZone } from 'luxon';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { toBirthUtc } from '@/lib/birth';
+import { computeNatalChart } from '@/lib/astro/natal';
+import { toDbDate } from '@/lib/dates';
 import { birthProfileSchema, type BirthProfileInput } from '@/lib/validation/onboarding';
 
 export type BirthField = 'birthDate' | 'birthTime' | 'placeName' | 'timezone';
@@ -55,7 +57,7 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
   }
 
   const profile = {
-    birthDate: new Date(`${data.birthDate}T00:00:00.000Z`),
+    birthDate: toDbDate(data.birthDate),
     birthTime,
     birthTimeKnown: data.birthTimeKnown,
     placeName: data.placeName,
@@ -63,6 +65,15 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
     longitude: data.longitude,
     timezone: data.timezone,
     birthUtc,
+    natalChart: computeNatalChart({
+      birthUtc,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      timeKnown: data.birthTimeKnown,
+      birthDate: data.birthDate,
+      birthTz: data.timezone,
+    }) as unknown as Prisma.InputJsonValue,
+    chartComputedAt: new Date(),
   };
 
   const userId = session.user.id;
@@ -72,8 +83,7 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
     db.birthProfile.upsert({
       where: { userId },
       create: { userId, ...profile },
-      // Dados de nascimento mudaram: o mapa (Fase 2) tem de ser recalculado.
-      update: { ...profile, natalChart: Prisma.DbNull, chartComputedAt: null },
+      update: profile,
     }),
     db.user.update({
       where: { id: userId },

@@ -1,0 +1,72 @@
+/* GlassCard */
+
+.mg-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card), inset 0 1px 0 var(--glass-highlight);
+  color: var(--text-primary);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mg-card {
+    background: var(--glass-bg-strong);
+  }
+}
+
+.mg-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.mg-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.mg-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  color: var(--text-secondary);
+}
+
+.mg-card--accent {
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-card), var(--shadow-glow), inset 0 1px 0 var(--glass-highlight);
+}
+
+.mg-card--flat {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.mg-card--interactive {
+  cursor: pointer;
+  transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.mg-card--interactive:hover,
+.mg-card--interactive:focus-within {
+  transform: translateY(-2px);
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-card-hover), inset 0 1px 0 var(--glass-highlight);
+}
+
+@media (min-width: 640px) {
+  .mg-card {
+    padding: var(--space-6);
+  }
+}

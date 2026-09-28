@@ -1,0 +1,32 @@
+/* SectionHeader — pílula dourada com gradiente */
+
+.mg-section-header {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  padding: var(--space-2) var(--space-5) var(--space-2) var(--space-3);
+  background: var(--gold-gradient);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-button), inset 0 1px 0 var(--glass-highlight);
+  color: var(--text-on-gold);
+}
+
+.mg-section-header__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.mg-section-header__icon .mg-magic-icon--placeholder {
+  color: var(--text-on-gold);
+}
+
+.mg-section-header__title {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  color: var(--text-on-gold);
+}

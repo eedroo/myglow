@@ -26,7 +26,8 @@ export function BottomNav({ labels, ariaLabel }: BottomNavProps) {
   return (
     <nav className="mg-bottom-nav" aria-label={ariaLabel}>
       {ITEMS.map(({ key, href, icon: Icon }) => {
-        const active = pathname === href || pathname.startsWith(`${href}/`);
+        const active =
+          pathname === href || pathname.startsWith(`${href}/`) || (key === 'today' && pathname.startsWith('/day/'));
         return (
           <Link
             key={key}

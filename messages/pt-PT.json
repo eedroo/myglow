@@ -191,6 +191,9 @@
     "badges": "Badges de ícone",
     "icons": "Ícones mágicos",
     "iconsReady": "{ready} de {total} prontos",
+    "daily": "Diário (dados de exemplo)",
+    "withTime": "Com hora de nascimento",
+    "withoutTime": "Sem hora de nascimento",
     "motto": "Lema"
   },
   "day": {

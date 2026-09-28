@@ -191,6 +191,9 @@
     "badges": "Icon badges",
     "icons": "Magic icons",
     "iconsReady": "{ready} of {total} ready",
+    "daily": "Journal (sample data)",
+    "withTime": "With birth time",
+    "withoutTime": "Without birth time",
     "motto": "Motto"
   },
   "day": {

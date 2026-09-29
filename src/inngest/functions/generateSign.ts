@@ -1,4 +1,5 @@
 import { inngest } from '../client';
+import { aiRequestsPerMinute } from '@/lib/env';
 import { generateSignContent } from '@/lib/ai/generate';
 
 /** Gera um conteúdo partilhado (signo × período × língua). */
@@ -7,7 +8,8 @@ export const generateSign = inngest.createFunction(
     id: 'generate-sign',
     idempotency: 'event.data.kind + ":" + event.data.periodStart + ":" + event.data.sign + ":" + event.data.locale',
     concurrency: { limit: 5 },
-    throttle: { limit: 60, period: '1m' },
+    throttle: { limit: aiRequestsPerMinute(), period: '1m' }, // partilhado com o limite do fornecedor de IA
+    // (as duas funções têm throttle próprio: o limite efectivo pode chegar ao dobro; usar metade do plano)
     retries: 3,
   },
   { event: 'ai/sign.generate' },

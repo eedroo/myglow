@@ -15,7 +15,8 @@
     "docs:icons": "vite-node --config vitest.config.ts scripts/icons-doc.ts",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "test:e2e": "playwright test",
-    "ai:seed": "tsx --conditions=react-server prisma/scripts/seed-ai.ts"
+    "ai:seed": "tsx --conditions=react-server prisma/scripts/seed-ai.ts",
+    "ai:check": "tsx --conditions=react-server prisma/scripts/ai-check.ts"
   },
   "dependencies": {
     "@neon/config": "^1.8.2",

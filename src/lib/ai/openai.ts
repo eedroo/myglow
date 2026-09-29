@@ -3,14 +3,19 @@ import OpenAI from 'openai';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import type { z } from 'zod';
 import type { SignContentKind, UserContentKind } from '@prisma/client';
-import { getEnv } from '@/lib/env';
+import { getAiEnv } from '@/lib/env';
 import { wireSchema } from './schemas';
 
-/** Cliente OpenAI (lazy) e wrapper de saída estruturada. Só corre dentro de funções Inngest. */
+/**
+ * Cliente (lazy) de uma API compatível com a da OpenAI e wrapper de saída estruturada. Só corre dentro de
+ * funções Inngest e dos scripts. Com `OPENAI_BASE_URL` pode apontar para outro fornecedor (ex.: Gemini).
+ */
 let client: OpenAI | null = null;
 
 function getClient(): OpenAI {
-  client ??= new OpenAI({ apiKey: getEnv().OPENAI_API_KEY });
+  const env = getAiEnv();
+  // maxRetries: repete com espera em 429/5xx (limites de planos gratuitos).
+  client ??= new OpenAI({ apiKey: env.OPENAI_API_KEY, baseURL: env.OPENAI_BASE_URL, maxRetries: 5 });
   return client;
 }
 
@@ -18,7 +23,7 @@ export type AiKind = SignContentKind | UserContentKind;
 
 /** DAY_* e WEEK_* usam o modelo rápido; MONTH_* o modelo maior. */
 export function modelFor(kind: AiKind): string {
-  const env = getEnv();
+  const env = getAiEnv();
   return kind.startsWith('MONTH_') ? env.OPENAI_MODEL_RICH : env.OPENAI_MODEL_DAILY;
 }
 

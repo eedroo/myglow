@@ -9,7 +9,7 @@ import { generateSignContent } from '../../src/lib/ai/generate';
 import { currentSignJobs } from '../../src/lib/ai/schedule';
 import { ZODIAC_ORDER } from '../../src/lib/astro/zodiac';
 import { db } from '../../src/lib/db';
-import { getEnv } from '../../src/lib/env';
+import { aiRequestsPerMinute, getAiEnv } from '../../src/lib/env';
 
 try {
   process.loadEnvFile('.env');
@@ -18,11 +18,12 @@ try {
 }
 
 const LOCALES: Locale[] = ['PT_PT', 'PT_BR', 'EN'];
-const CONCURRENCY = 5;
+// Com limites baixos (planos gratuitos) gera um de cada vez; o cliente repete sozinho em 429.
+const CONCURRENCY = aiRequestsPerMinute() < 30 ? 1 : 5;
 const only = process.argv.find((a) => a.startsWith('--only='))?.split('=')[1];
 
 async function main() {
-  getEnv(); // falha já, com a lista de variáveis em falta
+  getAiEnv(); // falha já, com a lista de variáveis em falta (só as da IA)
   const tasks = currentSignJobs(new Date())
     .filter((j) => !only || j.kind === only)
     .flatMap((j) => ZODIAC_ORDER.flatMap((sign) => LOCALES.map((locale) => ({ ...j, sign, locale }))));

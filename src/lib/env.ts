@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 /**
  * Variáveis de ambiente da IA, Inngest e Upstash (Fase 6), validadas com Zod.
- * Em produção a app falha no arranque se faltar alguma (ver `src/instrumentation.ts`);
- * em desenvolvimento e testes as funcionalidades que dependem delas degradam com aviso.
+ * Se faltar alguma, o arranque regista um erro claro (ver `src/instrumentation.ts`) mas a app continua a
+ * funcionar: as funcionalidades de IA degradam (leituras ficam "a preparar", eventos não são enviados).
  */
 const envSchema = z.object({
   OPENAI_API_KEY: z.string().min(1),
@@ -31,7 +31,7 @@ export function getEnv(): AppEnv {
   return cached;
 }
 
-/** Chamado no arranque do servidor em produção. */
+/** Lança se faltar configuração; chamado no arranque do servidor em produção. */
 export function assertEnv(): void {
   getEnv();
 }

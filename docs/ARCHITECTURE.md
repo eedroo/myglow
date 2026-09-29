@@ -96,7 +96,7 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - **Páginas só lêem** (`lib/ai/queries.ts` → `AiState` ready / pending / unavailable; payload inválido = pending). Em falta num período aberto → `ReadingPending` chama `requestAiContent` (Server Action, 10/h por utilizador no Upstash; sem Upstash não limita) e faz `router.refresh()` a cada 10 s durante 1 min. Onboarding e mudança de língua pedem hoje, esta semana e este mês.
 - **Privacidade:** para a IA vão só factos astrológicos, o resumo do mapa natal, o locale e (com `aiUseIntentions`) as intenções do período e metas por projecto, lidas com `select` explícitos. `privacy.test.ts` garante que nome, email, reflexões, gratidão, resumos, humor, peso, banimentos e notas nunca entram nos prompts.
 - `addRitualToWeek`: acrescenta `✦ {título} ({n} min)` à nota do dia na semana do ritual, pela mesma transacção de `patchWeek` (`lib/week/save.ts`).
-- Env validado com Zod em `lib/env.ts`; em produção a app falha no arranque se faltar alguma variável (`src/instrumentation.ts`). Em dev sem chaves as páginas mostram "a preparar" e os eventos não são enviados (com o dev server do Inngest: `INNGEST_DEV=1`).
+- Env validado com Zod em `lib/env.ts`; em produção o arranque regista um erro com as variáveis em falta (`src/instrumentation.ts`), mas não impede a app de funcionar — sem elas a IA fica desactivada. Em dev sem chaves as páginas mostram "a preparar" e os eventos não são enviados (com o dev server do Inngest: `INNGEST_DEV=1`).
 - **Seed no deploy:** `npm run ai:seed` gera o conteúdo por signo de hoje, desta semana e deste mês (`prisma/scripts/seed-ai.ts`, salta o que existe; `-- --only=DAY_HOROSCOPE`).
 
 ### Diário

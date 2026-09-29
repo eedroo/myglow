@@ -4,8 +4,8 @@ import { authConfig } from './auth.config';
 export default NextAuth(authConfig).auth;
 
 export const config = {
-  // Ignora assets, PWA e endpoints do Auth.js.
+  // Ignora assets, PWA, endpoints do Auth.js e o do Inngest (autenticado pela assinatura INNGEST_SIGNING_KEY).
   matcher: [
-    '/((?!_next/|icons/|api/auth|manifest.webmanifest|sw.js|favicon.ico|robots.txt).*)',
+    '/((?!_next/|icons/|api/auth|api/inngest|manifest.webmanifest|sw.js|favicon.ico|robots.txt).*)',
   ],
 };

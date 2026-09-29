@@ -1,0 +1,62 @@
+{
+  "rituals": [
+    {
+      "id": "ignorado",
+      "title": "Libertar com a Lua Cheia",
+      "date": "2026-05-01",
+      "occasion": "Lua Cheia em Escorpião",
+      "intention": "Deixar ir o que já não te serve.",
+      "area": "MAGIC",
+      "durationMinutes": 20,
+      "materials": [
+        "Papel",
+        "Caneta",
+        "Taça com água"
+      ],
+      "steps": [
+        "Escreve num papel o que queres libertar.",
+        "Lê em voz baixa e respira fundo três vezes.",
+        "Rasga o papel e deita-o fora com gratidão."
+      ],
+      "safety": "Não uses fogo; se acenderes uma vela, nunca a deixes sozinha."
+    },
+    {
+      "id": "ignorado",
+      "title": "Semear na Lua Nova",
+      "date": "2026-05-12",
+      "occasion": "Lua Nova em Touro",
+      "intention": "Plantar uma intenção de estabilidade para o mês.",
+      "area": "PERSONAL",
+      "durationMinutes": 15,
+      "materials": [
+        "Vaso pequeno",
+        "Sementes",
+        "Terra"
+      ],
+      "steps": [
+        "Segura as sementes e pensa na tua intenção.",
+        "Planta-as no vaso com calma.",
+        "Rega e promete cuidar delas ao longo do mês."
+      ],
+      "safety": "Lava as mãos depois de mexer na terra."
+    },
+    {
+      "id": "ignorado",
+      "title": "Balanço do quarto crescente",
+      "date": "2026-05-23",
+      "occasion": "Quarto Crescente em Virgem",
+      "intention": "Ajustar o plano com clareza.",
+      "area": "STUDIES",
+      "durationMinutes": 10,
+      "materials": [
+        "Caderno"
+      ],
+      "steps": [
+        "Relê as tuas metas do mês.",
+        "Escolhe uma a ajustar.",
+        "Escreve o próximo passo concreto."
+      ],
+      "safety": "Faz uma pausa se sentires cansaço."
+    }
+  ]
+}

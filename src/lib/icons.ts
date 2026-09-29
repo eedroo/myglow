@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import type { ProjectArea } from '@prisma/client';
 import type { LucideIcon } from 'lucide-react';
 import {
   Sun, Moon, Sparkles, Coffee, Flower2, BedDouble, PersonStanding, Dumbbell, Droplet, Feather,
@@ -122,4 +123,13 @@ export const MAGIC_ICONS: Record<MagicIconName, MagicIconDef> = {
   'sign-capricorn': glyph(createZodiacGlyph('CAPRICORN')),
   'sign-aquarius': glyph(createZodiacGlyph('AQUARIUS')),
   'sign-pisces': glyph(createZodiacGlyph('PISCES')),
+};
+
+/** Ícone de cada área de projecto (partilhado por componentes server e client). */
+export const PROJECT_ICONS: Record<ProjectArea, MagicIconName> = {
+  MAGIC: 'cauldron',
+  PERSONAL: 'heart',
+  LEISURE: 'lotus',
+  PROFESSIONAL: 'briefcase',
+  STUDIES: 'book-open',
 };

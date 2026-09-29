@@ -27,6 +27,10 @@
   flex: 1 1 auto;
 }
 
+.mg-week__cell--reading:empty {
+  display: none;
+}
+
 .mg-week__days {
   display: flex;
   flex-direction: column;
@@ -40,6 +44,7 @@
       "title title title"
       "intention intention intention"
       "sky sky sky"
+      "reading reading reading"
       "days days days"
       "weight projects projects"
       "reflection reflection reflection";
@@ -49,6 +54,7 @@
   .mg-week__cell--title { grid-area: title; }
   .mg-week__cell--intention { grid-area: intention; }
   .mg-week__cell--sky { grid-area: sky; }
+  .mg-week__cell--reading { grid-area: reading; }
   .mg-week__cell--days { grid-area: days; }
   .mg-week__cell--weight { grid-area: weight; }
   .mg-week__cell--projects { grid-area: projects; }

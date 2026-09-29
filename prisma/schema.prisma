@@ -115,6 +115,8 @@ model User {
   xpTotal          Int        @default(0)
   levelSeen        Int        @default(1) // último nível cujo diálogo de subida o user já viu
   bestMagicStreak  Int        @default(0)
+  lastActiveAt     DateTime?
+  aiUseIntentions  Boolean    @default(true)
   onboardedAt      DateTime?
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
@@ -264,29 +266,31 @@ model XpEvent {
 
 // Conteúdo partilhado por signo (gerado 1x por signo/período/língua)
 model SignContent {
-  id          String          @id @default(cuid())
-  kind        SignContentKind
-  periodStart DateTime        @db.Date
-  sign        ZodiacSign
-  locale      Locale
-  payload     Json
-  model       String
-  createdAt   DateTime        @default(now())
+  id            String          @id @default(cuid())
+  kind          SignContentKind
+  periodStart   DateTime        @db.Date
+  sign          ZodiacSign
+  locale        Locale
+  payload       Json
+  model         String
+  promptVersion Int             @default(1)
+  createdAt     DateTime        @default(now())
 
   @@unique([kind, periodStart, sign, locale])
 }
 
 // Camada personalizada por utilizador
 model UserAiContent {
-  id          String          @id @default(cuid())
-  userId      String
-  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  kind        UserContentKind
-  periodStart DateTime        @db.Date
-  locale      Locale
-  payload     Json
-  model       String
-  createdAt   DateTime        @default(now())
+  id            String          @id @default(cuid())
+  userId        String
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind          UserContentKind
+  periodStart   DateTime        @db.Date
+  locale        Locale
+  payload       Json
+  model         String
+  promptVersion Int             @default(1)
+  createdAt     DateTime        @default(now())
 
   @@unique([userId, kind, periodStart, locale])
 }

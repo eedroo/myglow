@@ -225,21 +225,21 @@ Mobile: coluna única pela ordem abaixo. ≥ 768 px: grelha de 2 colunas que esp
 | `DayPage` | server | — | — | carrega utilizador, entrada, mapa natal e céu; compõe a página |
 | `DayNav` | client | `day-nav.css` | `mg-day-nav`, `__btn`, `__btn--disabled`, `__label`, `__today` | ← data longa → (`<Link>`); botão "Hoje" quando não é hoje; → desactivado em hoje |
 | `DailyHeader` | server | `daily-header.css` | `mg-daily-header`, `__strips`, `__date` | `MoonPhaseStrip` + `ZodiacStrip` (signo da lua ao meio-dia) + `DateBadge` |
-| `DailySkyCard` | server | `sky-card.css` | `mg-sky-card`, `__section`, `__heading`, `__row`, `__label`, `__value`, `__note`, `__you`, `__soon` | **O céu hoje:** Sol, Lua (signo · fase · iluminação), ingresso/evento com hora local. **Tu:** Sol, Lua, Ascendente natais (convite para a hora se faltar; "incerta" se `moonSignUncertain`). `__soon`: horóscopo (F6) |
+| `DailySkyCard` | server | `sky-card.css` | `mg-sky-card`, `__section`, `__heading`, `__row`, `__label`, `__value`, `__note`, `__you` | **O céu hoje:** Sol, Lua (signo · fase · iluminação), ingresso/evento com hora local. **Tu:** Sol, Lua, Ascendente natais (convite para a hora se faltar; "incerta" se `moonSignUncertain`). O horóscopo segue no `DailyReadingCard` (F6) |
 | `DayView` | client | `day.css` | `mg-day`, `__grid`, `__cell--*` | `useDailyAutosave` + cartões interactivos + `SaveStatus` + `Toast` de erro |
-| `IntentionCard` | client | `day.css` | `mg-intention`, `__head` | `MagicIcon sparkles` + "Intenção do dia" + `LinedTextArea` (3) |
-| `MorningSection` | client | `period.css` | `mg-period`, `--morning`, `--current` | `SectionHeader(sun)` + banimento (`CheckTile withText`, tea-cup) + ritual (lotus) + sono (bed, "{h}h de sono") |
+| `IntentionCard` | client | `day.css` | `mg-intention`, `__head` | `MagicIcon sparkles` + "Intenção do dia" + `LinedTextArea` (3); F6: `suggestion?` → placeholder + botão "Usar sugestão" (`__use`) |
+| `MorningSection` | client | `period.css` | `mg-period`, `--morning`, `--current` | `SectionHeader(sun)` + banimento (`CheckTile withText`, tea-cup; F6: placeholder = `banishSuggestion`) + ritual (lotus) + sono (bed, "{h}h de sono") |
 | `WakeMoodCard` | client | `day.css` | `mg-wake` | "Como me senti ao acordar?" + `MoodScale` + `TextInput` de nota |
 | `BodyFocusBar` | client | `body-bar.css` | `mg-body-bar`, `__label`, `__chips`, `--current` | "Foco no meu corpo" + 3 × `CheckChip` (stretch, dumbbell, water-drop) |
 | `NightSection` | client | `period.css` | `mg-period`, `--night`, `--current` | `SectionHeader(moon-crescent)` + banimento (feather) + ritual (crystal-ball) |
 | `GratitudeMoodCard` | client | `day.css` | `mg-gratitude`, `__block` | gratidão (heart + `LinedTextArea` 3) + humor (thermometer + `MoodScale`) |
-| `ReflectionCard` | client | `reflection.css` | `mg-reflection`, `__body`, `__head`, `__subtitle`, `__crystal` | moon-stars + "Reflexão final" + `LinedTextArea` 3 + cristal `xl` (oculto < 480 px) |
+| `ReflectionCard` | client | `reflection.css` | `mg-reflection`, `__body`, `__head`, `__subtitle`, `__crystal` | moon-stars + "Reflexão final" + `LinedTextArea` 3 + cristal `xl` (oculto < 480 px); F6: `hint?` = `reflectionQuestion` em vez do subtítulo fixo |
 | `DaySummaryCard` | client | `reflection.css` | `mg-reflection`, `mg-reflection--summary` | journal + "Resumo do meu dia" + `LinedTextArea` 4 + cristal |
 | `SaveStatus` | client | `save-status.css` | `mg-save-status`, `--saving`, `--saved`, `--offline`, `--error` | indicador fixo por baixo da `TopBar`, `aria-live="polite"` |
 
 `--current` (só em "hoje", no período dado por `getDayPeriod`): borda `--gold-500` + `--shadow-glow` subtil.
 
-O texto IA do dia (antes `DailyAstroCard`) passa a viver dentro do `DailySkyCard` (bloco `__soon` na F2, conteúdo na F6).
+O texto IA do dia vive no `DailyReadingCard` (F6), logo a seguir ao `DailySkyCard`.
 
 ### Semana — F3 (`src/components/week/`)
 
@@ -269,19 +269,18 @@ Partilhados por semana, mês e ano. Os três primeiros substituem `WeekIntention
 |---|---|---|---|---|
 | `PeriodIntentionCard` | client | `day.css` | `mg-intention`, `__head`, `__label` | `{ id; label; placeholder?; value; onChange; onBlur; rows? }` — sparkles + label + `LinedTextArea` |
 | `PeriodProjectsCard` | client | `projects.css` | `mg-projects`, `mg-projects--compact`, `__header`, `__grid` | `{ title; values: Record<ProjectArea,string>; onChange; onBlur; compact?; idPrefix? }` — 5 áreas, 3+2 ou coluna única (`compact`) |
-| `ProjectIntentionCard` | client | `projects.css` | `mg-project`, `__head`, `__icon`, `__label`, `__text` | ícone da área (MAGIC `cauldron`, PERSONAL `heart`, LEISURE `lotus`, PROFESSIONAL `briefcase`, STUDIES `book-open`) + `LinedTextArea` |
+| `ProjectIntentionCard` | client | `projects.css` | `mg-project`, `__head`, `__icon`, `__label`, `__text` | ícone da área (MAGIC `cauldron`, PERSONAL `heart`, LEISURE `lotus`, PROFESSIONAL `briefcase`, STUDIES `book-open`; mapa em `lib/icons.ts`) + `LinedTextArea`; F6: `note?` (`__note`) com o foco sugerido pela leitura da semana |
 | `PeriodReflectionCard` | client | `reflection.css` | `mg-reflection` | `{ id; label; hint?; placeholder?; value; onChange; onBlur; rows? }` — moon-stars + `LinedTextArea` + crystal-cluster |
 | `PeriodStatsCard` | server | `stats.css` | `mg-stats`, `__grid`, `__stat`, `__value`, `__label`, `__habits`, `__habit`, `__bar`, `__bar-track`, `__bar-fill`, `__weight`, `__spark` | dias registados/completos, sequência actual/melhor, humor médio (com `mood-N`), hábitos em barras SVG `done/of`, peso primeiro → último + sparkline SVG (sem cores de bom/mau) |
 | `SkyEventsCard` | server | `sky-events.css` | `mg-sky-events`, `__item`, `__icon`, `__text`, `__when`, `--moon`, `--eclipse`, `--sabbat`, `--season`, `--station`, `--ingress` | lista cronológica do céu com glifo/ícone por tipo e data + hora no fuso do utilizador |
 | `RetrogradesCard` | server | `retro.css` | `mg-retro`, `__item`, `__range`, `__sign`, `__now`, `--active` | "Mercúrio retrógrado · 30 jun → 24 jul · em Caranguejo"; destaca o activo hoje; vazio: "Sem retrógrados neste período" |
-| `RitualsTeaserCard` | server | `card.css` | `mg-card--flat` | "Rituais do mês · em breve" (candle); substituído na F6 |
 
 Ícones do céu: fases → `phase-*`; eclipse lunar `phase-full`, solar `sun`; ingresso do Sol → `sign-*`; estação do ano `sun`; sabbat `candle`; estação planetária → `planet-mercury` / `planet-venus` / `planet-mars`.
 
 ### Mês — planner F4 (`src/components/month/`)
 
 Ordem (coluna no telemóvel; pares `|` lado a lado ≥ 1024 px):
-`MonthNav` → `MonthHeroCard` → `PeriodIntentionCard` | `PeriodProjectsCard compact` → `MonthCalendar` → `SkyEventsCard` | `RetrogradesCard` → `MonthWeeksList` → `PeriodStatsCard` (oculto em meses futuros) → `RitualsTeaserCard` → `PeriodReflectionCard` → `Motto`
+`MonthNav` → `MonthHeroCard` → `PeriodIntentionCard` | `PeriodProjectsCard compact` → `MonthCalendar` → `SkyEventsCard` | `RetrogradesCard` → `MonthWeeksList` → `PeriodStatsCard` (oculto em meses futuros) → `MonthReadingCard` → `RitualsCard` → `PeriodReflectionCard` → `Motto`
 
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
@@ -327,3 +326,20 @@ Os pontos chamam-se **Glow** na UI (no código: `xp`). Lógica em `src/lib/xp/`.
 | `LevelPathCard` | server | `level-path.css` | `mg-level-path`, `__step`, `__icon`, `__name`, `__min`, `--done`, `--current`, `--locked` | 7 níveis com ícone, nome e Glow mínimo; o actual com `ProgressBar` |
 | `StreakCard` | server | `streak.css` | `mg-streak`, `__value`, `__best`, `__next` | `flame` + streak mágico actual e melhor; próximo marco; streak 0 → "Cada dia é um recomeço" |
 | `GlowHistoryCard` | server | `glow-history.css` | `mg-glow-history`, `__item`, `__label`, `__date`, `__points` | últimos 30 eventos do ledger com data e rótulo |
+
+### Grimório IA — F6 (`src/components/reading/`)
+
+Conteúdo gerado em Inngest e só lido da DB (`lib/ai/queries.ts`). Em falta num período aberto → `ReadingPending`; passado ou sem mapa → "indisponível" (ou nada, se não houver mapa natal).
+Dia: `DailySkyCard` → `DailyReadingCard` → `RitualTodayCard` (se houver). Semana: `WeekReadingCard` a seguir ao céu da semana. Mês: ver ordem acima.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `DailyReadingCard` | server | `reading.css` | `mg-reading`, `__section`, `__heading`, `__headline`, `__text`, `__sign`, `__personal`, `__keywords`, `__crystal`, `__transits`, `__chip`, `__symbol`, `__meaning`, `__advice`, `__label`, `__disclaimer`, `--split`, `--pending` | **O teu signo hoje** (headline, energia, conselho, 3 palavras-chave, cristal do dia com `MagicIcon crystal-cluster` sm). **Para ti** (headline, leitura, até 3 chips de trânsito `<details>`: significado ao tocar). Rodapé "Para inspiração e reflexão." |
+| `ReadingPending` | client | `reading.css` | `mg-reading__pending`, `__shimmer`, `__line`, `__pending-text` (o cartão todo por preparar leva `mg-reading--pending`) | shimmer dourado suave (estático com reduced-motion) + "A tua leitura está a ser preparada"; ao montar chama `requestAiContent` para cada pedido e `router.refresh()` a cada 10 s durante 1 min (depois: "volta daqui a pouco") |
+| `RitualTodayCard` | server | `ritual-today.css` | `mg-ritual-today`, `__icon`, `__body`, `__title`, `__meta` | ritual do mês nesta data: `candle`, título, ocasião · duração, botão "Ver ritual" (`RitualSheet`) |
+| `WeekReadingCard` | server | `reading.css` | `mg-reading`, `__section`, `__highlights`, `__date`, `__focus` | energia da semana (signo) + leitura pessoal + destaques por data + áreas de foco (também como nota no `ProjectIntentionCard`) |
+| `MonthReadingCard` | server | `reading.css` | `mg-reading`, `__section`, `__highlights`, `__date`, `__focus` | energia do mês + leitura pessoal + datas-chave + áreas de foco |
+| `PeriodReadingCard` | server | `reading.css` | `mg-reading`, `__section`, `__highlights`, `__focus` | base partilhada de `WeekReadingCard` e `MonthReadingCard` (`{ id; title; signTitle; personalTitle; datesTitle; sign; personal; pending }`) |
+| `RitualsCard` | server | `rituals.css` | `mg-rituals`, `__list`, `__item`, `__date`, `__body`, `__title`, `__meta`, `__icon` | 3–5 rituais: data, ocasião, ícone da área, duração; cada item abre o `RitualSheet` |
+| `RitualSheet` | client | `ritual-sheet.css` | `mg-ritual-sheet`, `__trigger`, `__head`, `__title`, `__meta`, `__intention`, `__label`, `__materials`, `__steps`, `__safety`, `__actions`, `__status` | `<dialog>` modal nativo (foco preso, Esc fecha): intenção, materiais, passos numerados, nota de segurança destacada (`candle`); **"Adicionar à minha semana"** → `addRitualToWeek` |
+

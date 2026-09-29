@@ -1,0 +1,105 @@
+import { z } from 'zod';
+import { ProjectArea } from '@prisma/client';
+
+/** Esquemas de saída da IA (Zod). Validação estrutural; a semântica vive em `validate.ts`. */
+const text = (max: number) => z.string().min(1).max(max);
+
+export const dayHoroscopeSchema = z.object({
+  headline: text(80),
+  energy: text(450),
+  advice: text(220),
+  keywords: z.array(text(24)).length(3),
+  crystal: z.object({ name: text(40), why: text(140) }),
+});
+
+export const dayPersonalSchema = z.object({
+  headline: text(80),
+  reading: text(650),
+  transits: z.array(z.object({ label: z.string(), meaning: text(180) })).max(3),
+  intentionSuggestion: text(120),
+  banishSuggestion: text(120),
+  reflectionQuestion: text(140),
+});
+
+export const weekEnergySchema = z.object({
+  headline: text(80),
+  overview: text(650),
+  highlights: z.array(z.object({ date: z.string(), note: text(160) })).max(4),
+});
+
+export const weekPersonalSchema = z.object({
+  headline: text(80),
+  reading: text(850),
+  focusAreas: z.array(z.object({ area: z.nativeEnum(ProjectArea), note: text(160) })).max(3),
+});
+
+export const monthEnergySchema = z.object({
+  headline: text(80),
+  overview: text(950),
+  keyDates: z.array(z.object({ date: z.string(), note: text(180) })).max(6),
+});
+
+export const monthPersonalSchema = z.object({
+  headline: text(80),
+  reading: text(1100),
+  focusAreas: z.array(z.object({ area: z.nativeEnum(ProjectArea), note: text(180) })).max(3),
+});
+
+export const ritualSchema = z.object({
+  id: z.string(), // slug gerado pelo código após a resposta (o da IA é ignorado)
+  title: text(60),
+  date: z.string(), // DateISO — tem de ser uma das datas-chave fornecidas
+  occasion: text(60),
+  intention: text(160),
+  area: z.nativeEnum(ProjectArea),
+  durationMinutes: z.number().int().min(5).max(90),
+  materials: z.array(text(60)).max(6),
+  steps: z.array(text(220)).min(3).max(7),
+  safety: text(200),
+});
+
+export const monthRitualsSchema = z.object({ rituals: z.array(ritualSchema).min(3).max(5) });
+
+export type DayHoroscope = z.infer<typeof dayHoroscopeSchema>;
+export type DayPersonal = z.infer<typeof dayPersonalSchema>;
+export type WeekEnergy = z.infer<typeof weekEnergySchema>;
+export type WeekPersonal = z.infer<typeof weekPersonalSchema>;
+export type MonthEnergy = z.infer<typeof monthEnergySchema>;
+export type MonthPersonal = z.infer<typeof monthPersonalSchema>;
+export type Ritual = z.infer<typeof ritualSchema>;
+export type MonthRituals = z.infer<typeof monthRitualsSchema>;
+
+export const SIGN_SCHEMAS = {
+  DAY_HOROSCOPE: dayHoroscopeSchema,
+  WEEK_ENERGY: weekEnergySchema,
+  MONTH_ENERGY: monthEnergySchema,
+} as const;
+
+export const USER_SCHEMAS = {
+  DAY_PERSONAL: dayPersonalSchema,
+  WEEK_PERSONAL: weekPersonalSchema,
+  MONTH_PERSONAL: monthPersonalSchema,
+  MONTH_RITUALS: monthRitualsSchema,
+} as const;
+
+/**
+ * Versão "de fio" enviada à OpenAI (structured outputs em modo estrito): sem limites de comprimento
+ * nas strings, que o modo estrito não aceita. Os limites de arrays e números mantêm-se; os de texto
+ * são pedidos no prompt e verificados depois com o esquema completo.
+ */
+export function wireSchema(schema: z.ZodTypeAny): z.ZodTypeAny {
+  if (schema instanceof z.ZodString) return z.string();
+  if (schema instanceof z.ZodObject) {
+    const shape = schema.shape as Record<string, z.ZodTypeAny>;
+    return z.object(Object.fromEntries(Object.entries(shape).map(([k, v]) => [k, wireSchema(v)])));
+  }
+  if (schema instanceof z.ZodArray) {
+    const def = schema._def;
+    let out = z.array(wireSchema(def.type));
+    if (def.exactLength) out = out.length(def.exactLength.value);
+    if (def.minLength) out = out.min(def.minLength.value);
+    if (def.maxLength) out = out.max(def.maxLength.value);
+    return out;
+  }
+  return schema;
+}

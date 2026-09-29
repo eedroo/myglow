@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import type { ProjectArea } from '@prisma/client';
 import { useTranslations } from 'next-intl';
 import { SaveStatus } from '@/components/day/SaveStatus';
 import { Toast } from '@/components/ui/Toast';
@@ -22,10 +23,14 @@ interface WeekViewProps {
   sky: ReactNode;
   /** Nota do Glow (plano e reflexão da semana). */
   glowNote?: ReactNode;
+  /** Leitura IA da semana (server component). */
+  reading?: ReactNode;
+  /** Foco sugerido por área (da leitura pessoal da semana). */
+  focusNotes?: Partial<Record<ProjectArea, string>>;
 }
 
 /** Cartões interactivos da semana com gravação automática. */
-export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky, glowNote }: WeekViewProps) {
+export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky, glowNote, reading, focusNotes }: WeekViewProps) {
   const t = useTranslations();
   const { data, setText, setWeight, setDayNote, setProject, status, errorKey, flush } = useWeekAutosave(initial);
   const onBlur = () => void flush();
@@ -54,6 +59,7 @@ export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky
           />
         </div>
         <div className="mg-week__cell mg-week__cell--sky">{sky}</div>
+        {reading && <div className="mg-week__cell mg-week__cell--reading">{reading}</div>}
         <section className="mg-week__cell mg-week__cell--days mg-week__days" aria-label={t('week.days.label')}>
           {days.map((day, i) => (
             <WeekDayRow
@@ -70,7 +76,13 @@ export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky
           <WeightCard grams={data.weightGrams} previousGrams={previousWeightGrams} onCommit={setWeight} />
         </div>
         <div className="mg-week__cell mg-week__cell--projects">
-          <PeriodProjectsCard title={t('projects.title')} values={data.projects} onChange={setProject} onBlur={onBlur} />
+          <PeriodProjectsCard
+            title={t('projects.title')}
+            values={data.projects}
+            onChange={setProject}
+            onBlur={onBlur}
+            notes={focusNotes}
+          />
         </div>
         <div className="mg-week__cell mg-week__cell--reflection">
           <PeriodReflectionCard

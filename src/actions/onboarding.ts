@@ -9,6 +9,8 @@ import { computeNatalChart } from '@/lib/astro/natal';
 import { toDbDate } from '@/lib/dates';
 import { guessHemisphere } from '@/lib/hemisphere';
 import { birthProfileSchema, type BirthProfileInput } from '@/lib/validation/onboarding';
+import { currentUserJobs } from '@/lib/ai/schedule';
+import { sendSafely, userEvents } from '@/inngest/client';
 
 export type BirthField = 'birthDate' | 'birthTime' | 'placeName' | 'timezone';
 
@@ -78,7 +80,7 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
   };
 
   const userId = session.user.id;
-  const existing = await db.user.findUnique({ where: { id: userId }, select: { onboardedAt: true } });
+  const existing = await db.user.findUnique({ where: { id: userId }, select: { onboardedAt: true, locale: true } });
 
   await db.$transaction([
     db.birthProfile.upsert({
@@ -94,6 +96,11 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
         : { timezone: userTimezone, hemisphere: guessHemisphere(userTimezone), onboardedAt: new Date() },
     }),
   ]);
+
+  // Primeiras leituras (hoje, esta semana, este mês) — assíncronas, via Inngest.
+  if (existing && !existing.onboardedAt) {
+    await sendSafely(userEvents(userId, existing.locale, currentUserJobs(new Date(), userTimezone)));
+  }
 
   return { ok: true };
 }

@@ -36,6 +36,15 @@ import { GlowWindowNote } from '@/components/glow/GlowWindowNote';
 import { LevelBadge } from '@/components/glow/LevelBadge';
 import { LevelPathCard } from '@/components/journey/LevelPathCard';
 import { StreakCard } from '@/components/journey/StreakCard';
+import { DailyReadingCard } from '@/components/reading/DailyReadingCard';
+import { MonthReadingCard } from '@/components/reading/MonthReadingCard';
+import { RitualsCard } from '@/components/reading/RitualsCard';
+import { RitualTodayCard } from '@/components/reading/RitualTodayCard';
+import { dayHoroscopeSchema, dayPersonalSchema, monthRitualsSchema } from '@/lib/ai/schemas';
+import { finalizeRituals } from '@/lib/ai/rituals';
+import sampleHoroscope from '../../../../tests/fixtures/ai/day-horoscope.valid.json';
+import samplePersonal from '../../../../tests/fixtures/ai/day-personal.valid.json';
+import sampleRituals from '../../../../tests/fixtures/ai/month-rituals.valid.json';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('dev');
@@ -125,6 +134,11 @@ export default async function DevUiPage() {
     sampleEntries.filter((e) => e.date.startsWith('2026-05')).map((e) => [e.date, computeDayProgress(e.date, e).level]),
   );
 
+  // Leituras IA de exemplo (fixtures dos testes, validadas pelos esquemas).
+  const appLocale = isAppLocale(locale) ? locale : 'pt-PT';
+  const rituals = finalizeRituals(monthRitualsSchema.parse(sampleRituals));
+  const ready = <T,>(data: T) => ({ status: 'ready' as const, data });
+
   const phaseLabels = Object.fromEntries(MOON_PHASE_ORDER.map((p) => [p, ta(`phases.${p}`)])) as Record<MoonPhase, string>;
   const signLabels = Object.fromEntries(ZODIAC_ORDER.map((s) => [s, ta(`signs.${s}`)])) as Record<ZodiacSign, string>;
 
@@ -169,6 +183,25 @@ export default async function DevUiPage() {
             />
           </div>
           <YearMoodCard year={2026} months={yearMonthly} />
+        </section>
+        <section className="mg-stack">
+          <SectionHeader title={t('readingSample')} icon="crystal-ball" />
+          <DailyReadingCard
+            horoscope={ready(dayHoroscopeSchema.parse(sampleHoroscope))}
+            personal={ready(dayPersonalSchema.parse(samplePersonal))}
+            pending={[]}
+            signLabel={ta('signs.CANCER')}
+          />
+          <RitualTodayCard ritual={rituals.rituals[0]!} locale={appLocale} />
+          <p className="mg-dev__caption">{t('readingPending')}</p>
+          <MonthReadingCard
+            energy={{ status: 'pending' }}
+            personal={{ status: 'pending' }}
+            pending={[]}
+            signLabel={ta('signs.CANCER')}
+            locale={appLocale}
+          />
+          <RitualsCard rituals={ready(rituals)} pending={[]} year={2026} month={5} locale={appLocale} />
         </section>
         <section className="mg-stack">
           <SectionHeader title={t('glowSample')} icon="glow-orb" />

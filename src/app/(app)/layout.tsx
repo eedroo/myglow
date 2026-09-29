@@ -12,6 +12,8 @@ import { LevelBadge } from '@/components/glow/LevelBadge';
 import { db } from '@/lib/db';
 import { levelFor } from '@/lib/xp/levels';
 
+const ACTIVE_THROTTLE_MS = 60 * 60 * 1000;
+
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const session = await auth();
   if (!session?.user) redirect('/login');
@@ -19,9 +21,15 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
 
   const [t, glow] = await Promise.all([
     getTranslations(),
-    db.user.findUnique({ where: { id: session.user.id }, select: { xpTotal: true, levelSeen: true } }),
+    db.user.findUnique({ where: { id: session.user.id }, select: { xpTotal: true, levelSeen: true, lastActiveAt: true } }),
   ]);
   const xpTotal = glow?.xpTotal ?? 0;
+
+  // Actividade recente (pré-geração IA só para activos nos últimos 7 dias): no máximo 1 escrita por hora.
+  const now = new Date();
+  if (glow && (!glow.lastActiveAt || now.getTime() - glow.lastActiveAt.getTime() > ACTIVE_THROTTLE_MS)) {
+    await db.user.update({ where: { id: session.user.id }, data: { lastActiveAt: now } }).catch(() => undefined);
+  }
 
   return (
     <>

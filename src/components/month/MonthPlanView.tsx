@@ -21,6 +21,7 @@ interface MonthPlanViewProps {
     retrogrades: ReactNode;
     weeks: ReactNode;
     stats: ReactNode; // null em meses futuros
+    reading?: ReactNode;
     rituals: ReactNode;
     glowNote?: ReactNode;
   };
@@ -67,6 +68,7 @@ export function MonthPlanView({ initial, slots }: MonthPlanViewProps) {
       </div>
       {slots.weeks}
       {slots.stats}
+      {slots.reading}
       {slots.rituals}
       <PeriodReflectionCard
         id="month-reflection"

@@ -1,0 +1,75 @@
+/* RitualsCard: rituais sugeridos do mês */
+
+.mg-rituals__subtitle {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-rituals__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.mg-rituals__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease), box-shadow var(--duration-fast) var(--ease);
+}
+
+.mg-rituals__item:hover {
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.mg-rituals__item:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-rituals__date {
+  flex-shrink: 0;
+  min-width: 56px;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--gold-accent);
+  text-align: center;
+}
+
+.mg-rituals__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.mg-rituals__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+}
+
+.mg-rituals__meta {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-rituals__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}

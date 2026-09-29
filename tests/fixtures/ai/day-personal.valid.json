@@ -1,0 +1,11 @@
+{
+  "headline": "Coragem com os pés na terra",
+  "reading": "Com a Lua em Capricórnio, o dia pede estrutura e passos pequenos. Marte a tocar a tua Lua natal acende vontade de agir: canaliza-a para uma tarefa concreta que tens adiado.",
+  "transits": [
+    { "label": "MARS_CONJUNCTION_NATAL_MOON", "meaning": "Energia emocional alta — ótima para começar, pede paciência nas conversas." },
+    { "label": "SATURN_TRINE_NATAL_MERCURY", "meaning": "Pensamento claro e disciplinado; bom dia para planear." }
+  ],
+  "intentionSuggestion": "Hoje dou um passo firme naquilo que é importante para mim.",
+  "banishSuggestion": "A pressa de ter tudo resolvido de uma vez.",
+  "reflectionQuestion": "Que pequeno gesto de hoje te aproximou de quem queres ser?"
+}

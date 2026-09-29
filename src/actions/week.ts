@@ -3,7 +3,8 @@
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { compareDates, isDateISO, toDbDate, todayInTz, type DateISO } from '@/lib/dates';
-import { MAX_WEEKS_AHEAD, isSunday, weekDays, weekKey, weekStartOf, weeksBetween } from '@/lib/weeks';
+import { MAX_WEEKS_AHEAD, isSunday, weekDays, weekStartOf, weeksBetween } from '@/lib/weeks';
+import { saveWeekPatch } from '@/lib/week/save';
 import { weekPatchSchema } from '@/lib/validation/week';
 import type { WeekPatch } from '@/types/week';
 import { weekCandidates } from '@/lib/xp/rules';
@@ -13,10 +14,8 @@ export type PatchWeekResult = { ok: true; updatedAt: string; xp?: XpResult } | {
 
 const MIN_DATE: DateISO = '2000-01-01';
 
-const emptyToNull = (v: string | undefined) => (v === undefined ? undefined : v.trim() === '' ? null : v);
-
 /**
- * Grava um patch parcial da semana numa só transacção: `Week`, notas dos dias e intenções por projecto.
+ * Grava um patch parcial da semana (transacção em `saveWeekPatch`).
  * Semanas passadas, actual e futuras (até 52) são editáveis. O registo só é criado na primeira gravação.
  */
 export async function patchWeek(start: DateISO, patch: WeekPatch): Promise<PatchWeekResult> {
@@ -41,49 +40,8 @@ export async function patchWeek(start: DateISO, patch: WeekPatch): Promise<Patch
   const days = new Set(weekDays(start));
   if (p.dayNotes?.some((n) => !days.has(n.date))) return { ok: false, error: 'week.errors.invalid' };
 
-  const key = weekKey(start);
   const startDate = toDbDate(start);
-  const fields = {
-    title: emptyToNull(p.title),
-    intention: emptyToNull(p.intention),
-    reflection: emptyToNull(p.reflection),
-    weightGrams: p.weightGrams,
-  };
-
-  const week = await db.$transaction(async (tx) => {
-    const w = await tx.week.upsert({
-      where: { userId_startDate: { userId, startDate } },
-      create: { userId, startDate, year: key.year, month: key.month, weekOfMonth: key.weekOfMonth, ...fields },
-      update: { ...fields, updatedAt: new Date() },
-    });
-
-    for (const note of p.dayNotes ?? []) {
-      const date = toDbDate(note.date);
-      if (note.text.trim() === '') {
-        await tx.weekDayNote.deleteMany({ where: { weekId: w.id, date } });
-      } else {
-        await tx.weekDayNote.upsert({
-          where: { weekId_date: { weekId: w.id, date } },
-          create: { weekId: w.id, date, text: note.text },
-          update: { text: note.text },
-        });
-      }
-    }
-
-    for (const project of p.projects ?? []) {
-      const where = { userId, period: 'WEEK' as const, periodStart: startDate, area: project.area };
-      if (project.text.trim() === '') {
-        await tx.projectIntention.deleteMany({ where });
-      } else {
-        await tx.projectIntention.upsert({
-          where: { userId_period_periodStart_area: where },
-          create: { ...where, text: project.text },
-          update: { text: project.text },
-        });
-      }
-    }
-    return w;
-  });
+  const week = await saveWeekPatch(userId, start, p);
 
   const today = todayInTz(user.timezone);
   const xp = await safeAwardXp(

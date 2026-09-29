@@ -1,0 +1,46 @@
+/* RitualTodayCard: ritual sugerido para hoje */
+
+.mg-ritual-today > .mg-card__body {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.mg-ritual-today__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.mg-ritual-today__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.mg-ritual-today__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-ritual-today__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+}
+
+.mg-ritual-today__meta {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+@media (max-width: 479px) {
+  .mg-ritual-today > .mg-card__body {
+    flex-wrap: wrap;
+  }
+}

@@ -206,6 +206,8 @@
     "monthSample": "Mês (dados de exemplo)",
     "progressDots": "Pontos de progresso",
     "plannerSample": "Mês e ano (dados de exemplo)",
+    "readingSample": "Leituras de IA",
+    "readingPending": "Preparando (shimmer)",
     "glowSample": "Glow (dados de exemplo)",
     "openLevelUp": "Ver diálogo de subida de nível",
     "motto": "Lema"
@@ -235,8 +237,7 @@
       "event": "{phase} às {time}",
       "moonUncertain": "{sign} (incerta)",
       "addBirthTime": "Adicione a hora de nascimento",
-      "noBirthData": "Adicione seus dados de nascimento para ver o seu mapa.",
-      "soon": "Seu horóscopo chega em breve."
+      "noBirthData": "Adicione seus dados de nascimento para ver o seu mapa."
     },
     "intention": {
       "label": "Intenção do dia",
@@ -431,10 +432,6 @@
       "sun": "Sol em {sign}",
       "sunChange": "Sol em {from} → {to} no dia {day}",
       "moonToday": "Lua de hoje: {phase} em {sign}"
-    },
-    "rituals": {
-      "title": "Rituais do mês",
-      "body": "Em breve: rituais sugeridos para as luas deste mês."
     },
     "yearLink": "Ver o ano"
   },
@@ -655,6 +652,73 @@
       "historyTitle": "Histórico de Glow",
       "historyEmpty": "Seu primeiro Glow está esperando por você.",
       "settings": "Configurações"
+    }
+  },
+  "reading": {
+    "day": {
+      "signTitle": "Seu signo hoje · {sign}",
+      "personalTitle": "Para você",
+      "keywords": "Palavras-chave",
+      "crystal": "Cristal do dia",
+      "transits": "Trânsitos de hoje"
+    },
+    "week": {
+      "title": "Leitura da semana",
+      "signTitle": "{sign} nesta semana",
+      "personalTitle": "Sua semana",
+      "highlights": "Destaques"
+    },
+    "month": {
+      "title": "Leitura do mês",
+      "signTitle": "{sign} neste mês",
+      "personalTitle": "Seu mês",
+      "keyDates": "Datas-chave"
+    },
+    "pending": "Sua leitura está sendo preparada…",
+    "pendingLong": "Ainda preparando — volte daqui a pouco.",
+    "unavailable": "Não há leitura para este período.",
+    "disclaimer": "Para inspiração e reflexão.",
+    "natalPoint": "{point} natal",
+    "ascendant": "Ascendente",
+    "aspects": {
+      "CONJUNCTION": "conjunção",
+      "SEXTILE": "sextil",
+      "SQUARE": "quadratura",
+      "TRINE": "trígono",
+      "OPPOSITION": "oposição"
+    },
+    "useSuggestion": "Usar sugestão",
+    "focus": "Foco sugerido",
+    "ritual": {
+      "today": "Ritual de hoje",
+      "open": "Ver ritual",
+      "duration": "{n} min",
+      "intention": "Intenção",
+      "materials": "Materiais",
+      "steps": "Passo a passo",
+      "safety": "Segurança",
+      "add": "Adicionar à minha semana",
+      "adding": "Adicionando…",
+      "added": "Adicionado à sua semana ✦",
+      "alreadyAdded": "Já está na sua semana",
+      "seeWeek": "Ver a semana",
+      "close": "Fechar"
+    },
+    "rituals": {
+      "title": "Rituais do mês",
+      "subtitle": "Sugestões para as datas mágicas deste mês"
+    },
+    "settings": {
+      "title": "Leituras",
+      "aiUseIntentions": "Personalizar leituras com minhas intenções",
+      "aiPrivacy": "Suas reflexões, gratidão e notas nunca são enviadas."
+    },
+    "errors": {
+      "invalid": "Este pedido não é válido.",
+      "rateLimited": "Muitos pedidos seguidos. Tente de novo daqui a pouco.",
+      "unavailable": "As leituras estão indisponíveis no momento.",
+      "ritualNotFound": "Não encontramos este ritual.",
+      "noteFull": "A anotação desse dia já está cheia."
     }
   }
 }

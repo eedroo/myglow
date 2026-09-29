@@ -1,4 +1,4 @@
-/* DailySkyCard: o céu hoje + tu + horóscopo em breve */
+/* DailySkyCard: o céu hoje + tu */
 
 .mg-sky-card > .mg-card__body {
   display: grid;
@@ -9,10 +9,6 @@
 @media (min-width: 768px) {
   .mg-sky-card > .mg-card__body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .mg-sky-card__soon {
-    grid-column: 1 / -1;
   }
 }
 
@@ -74,16 +70,4 @@
     border-top: 0;
     border-left: var(--border-width) solid var(--line-rule);
   }
-}
-
-.mg-sky-card__soon {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  border: var(--border-width) dashed var(--glass-border-strong);
-  border-radius: var(--radius-md);
-  color: var(--text-secondary);
-  font-size: var(--text-sm);
-  font-style: italic;
 }

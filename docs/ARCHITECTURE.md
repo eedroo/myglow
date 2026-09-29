@@ -16,6 +16,9 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 | Ícones | `lucide-react` só para ícones de linha e placeholders de `MagicIcon` |
 | Geocoding | Open-Meteo Geocoding API (sem chave; devolve `timezone` IANA) |
 | CSS | CSS próprio por componente; fontes Cormorant Garamond + Jost via `next/font/google` |
+| IA | OpenAI (`openai`, saída estruturada com `zodResponseFormat`) — só dentro de funções Inngest |
+| Jobs | Inngest (cron + eventos), endpoint `/api/inngest` |
+| Rate limit | Upstash Redis (`@upstash/ratelimit`) |
 | Testes | Vitest |
 | Deploy | Vercel |
 
@@ -79,6 +82,22 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - `safeAwardXp` é chamado por `patchDailyEntry`, `patchWeek`, `patchMonth` e `patchYear` depois de gravar; nunca faz falhar a gravação. O resultado (`xp`) chega ao cliente via `useAutosaveQueue({ onResult })` → `GlowProvider` (toasts, diálogo de nível, `router.refresh()`).
 - `/profile` (`JourneyPage`): nível, caminho dos níveis, streak mágico, histórico.
 - Manutenção: `npx tsx prisma/scripts/recompute-xp.ts [--dry-run]` recalcula `xpTotal` e `bestMagicStreak` a partir do ledger (fonte de verdade).
+
+### Grimório IA (Fase 6, `src/lib/ai/`, `src/inngest/`)
+
+**A app calcula, a IA interpreta.**
+
+- `lib/astro/aspects.ts`: aspectos trânsito → natal (orbes 8/8/6/6/4; Lua em trânsito com metade), rótulos estáveis `MOON_TRINE_NATAL_SUN`.
+- `lib/ai/facts.ts`: factos do dia/período (lua, Sol, retrógrados, eventos, aspectos, casa da Lua, intenções). Conteúdo por signo usa `{ shared: true }`: UTC, sem horas e sem sabbats.
+- `lib/ai/schemas.ts` (Zod) + `validate.ts` (datas no período, rituais em datas de eventos, rótulos de trânsitos existentes, signos da Lua/Sol só os dos factos, nas 3 línguas). À OpenAI vai uma versão "de fio" do esquema sem limites de texto (modo estrito); os limites vão no prompt e são verificados depois.
+- `lib/ai/prompts/*`: um `build(facts, locale)` por tipo; `system.ts` com `PROMPT_VERSION` e as regras (língua nativa, só factos, sem fatalismo, sem conselhos médicos/financeiros/legais, rituais seguros).
+- `lib/ai/generate.ts` (`generateSignContent`, `generateUserContent`): já existe e é válido? → factos → prompt → OpenAI (`openai.ts`, modelo por tipo) → Zod → validação (1 retry com a razão) → upsert com `model` e `promptVersion`. Ids dos rituais gerados em código (`rituals.ts`).
+- **Fluxo:** crons Inngest (`signDaily` 06:00 UTC → amanhã; `signWeekly` quinta → semana seguinte; `signMonthly` dia 20 → mês seguinte; 12 signos × 3 línguas) e `userDispatch` de hora a hora (activos ≤ 7 dias, lotes de 500; `dueUserJobs` em `schedule.ts`: 03:xx locais → dia; quinta → semana seguinte; dia 24 → mês seguinte + rituais) enviam `ai/sign.generate` / `ai/user.generate`; `generateSign` / `generateUser` geram (idempotência pela chave `kind:periodStart:sign|userId:locale`, concorrência 5, 3 retries, throttle).
+- **Páginas só lêem** (`lib/ai/queries.ts` → `AiState` ready / pending / unavailable; payload inválido = pending). Em falta num período aberto → `ReadingPending` chama `requestAiContent` (Server Action, 10/h por utilizador no Upstash; sem Upstash não limita) e faz `router.refresh()` a cada 10 s durante 1 min. Onboarding e mudança de língua pedem hoje, esta semana e este mês.
+- **Privacidade:** para a IA vão só factos astrológicos, o resumo do mapa natal, o locale e (com `aiUseIntentions`) as intenções do período e metas por projecto, lidas com `select` explícitos. `privacy.test.ts` garante que nome, email, reflexões, gratidão, resumos, humor, peso, banimentos e notas nunca entram nos prompts.
+- `addRitualToWeek`: acrescenta `✦ {título} ({n} min)` à nota do dia na semana do ritual, pela mesma transacção de `patchWeek` (`lib/week/save.ts`).
+- Env validado com Zod em `lib/env.ts`; em produção a app falha no arranque se faltar alguma variável (`src/instrumentation.ts`). Em dev sem chaves as páginas mostram "a preparar" e os eventos não são enviados (com o dev server do Inngest: `INNGEST_DEV=1`).
+- **Seed no deploy:** `npm run ai:seed` gera o conteúdo por signo de hoje, desta semana e deste mês (`prisma/scripts/seed-ai.ts`, salta o que existe; `-- --only=DAY_HOROSCOPE`).
 
 ### Diário
 

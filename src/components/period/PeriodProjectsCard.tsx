@@ -15,10 +15,12 @@ interface PeriodProjectsCardProps {
   compact?: boolean;
   /** Prefixo dos ids dos campos (ex.: "project" → "project-magic"). */
   idPrefix?: string;
+  /** Foco sugerido por área (leitura IA da semana). */
+  notes?: Partial<Record<ProjectArea, string>>;
 }
 
 /** Intenções/metas por projecto: 5 áreas, grelha 3 + 2 como no papel (ou compacta). */
-export function PeriodProjectsCard({ title, values, onChange, onBlur, compact, idPrefix = 'project' }: PeriodProjectsCardProps) {
+export function PeriodProjectsCard({ title, values, onChange, onBlur, compact, idPrefix = 'project', notes }: PeriodProjectsCardProps) {
   const titleId = `${idPrefix}-title`;
   return (
     <GlassCard>
@@ -37,6 +39,7 @@ export function PeriodProjectsCard({ title, values, onChange, onBlur, compact, i
               value={values[area]}
               onChange={(v) => onChange(area, v)}
               onBlur={onBlur}
+              note={notes?.[area]}
             />
           ))}
         </div>

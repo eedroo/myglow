@@ -9,9 +9,11 @@ interface ReflectionCardProps {
   value: string;
   onChange: (value: string) => void;
   onBlur: () => void;
+  /** Pergunta de reflexão da leitura do dia (substitui o subtítulo fixo). */
+  hint?: string;
 }
 
-export function ReflectionCard({ value, onChange, onBlur }: ReflectionCardProps) {
+export function ReflectionCard({ value, onChange, onBlur, hint }: ReflectionCardProps) {
   const t = useTranslations('day.reflection');
   return (
     <GlassCard>
@@ -22,7 +24,7 @@ export function ReflectionCard({ value, onChange, onBlur }: ReflectionCardProps)
             <span className="mg-reflection__title">{t('title')}</span>
           </label>
           <p id="day-reflection-hint" className="mg-reflection__subtitle">
-            {t('subtitle')}
+            {hint || t('subtitle')}
           </p>
           <LinedTextArea
             id="day-reflection"

@@ -18,6 +18,9 @@ import { DayNav } from './DayNav';
 import { DayView } from './DayView';
 import { GlowWindowNote } from '@/components/glow/GlowWindowNote';
 import { getPeriodAwards } from '@/lib/xp/queries';
+import { getDayReading } from '@/lib/ai/queries';
+import { DailyReadingCard } from '@/components/reading/DailyReadingCard';
+import { RitualTodayCard } from '@/components/reading/RitualTodayCard';
 import { DAY_SOURCES } from '@/lib/xp/rules';
 
 /** Página de um dia do diário (hoje ou passado). */
@@ -26,7 +29,7 @@ export async function DayPage({ date }: { date: DateISO }) {
   if (!session?.user) redirect('/login');
   const userId = session.user.id;
 
-  const [user, entry, natal, locale, ta, td, dayAwards] = await Promise.all([
+  const [user, entry, natal, locale, ta, td, dayAwards, reading] = await Promise.all([
     db.user.findUnique({ where: { id: userId }, select: { timezone: true, sleepGoalMinutes: true } }),
     getDailyEntry(userId, date),
     ensureNatalChart(userId),
@@ -34,13 +37,16 @@ export async function DayPage({ date }: { date: DateISO }) {
     getTranslations('astro'),
     getTranslations('day'),
     getPeriodAwards(userId, [...DAY_SOURCES], date),
+    getDayReading(userId, date),
   ]);
   if (!user) redirect('/login');
 
   const today = todayInTz(user.timezone);
   const isToday = compareDates(date, today) === 0;
   const sky = getDailySky(date, user.timezone);
-  const longDate = formatLongDate(date, isAppLocale(locale) ? locale : 'pt-PT');
+  const appLocale = isAppLocale(locale) ? locale : 'pt-PT';
+  const longDate = formatLongDate(date, appLocale);
+  const personal = reading.personal.status === 'ready' ? reading.personal.data : null;
 
   const week = weekKey(weekStartOf(date));
   const weekChip = {
@@ -75,12 +81,24 @@ export async function DayPage({ date }: { date: DateISO }) {
         glowNote={<GlowWindowNote period="day" periodStart={date} timezone={user.timezone} today={today} earned={dayAwards} />}
       />
       <DailySkyCard sky={sky} natal={natal} isToday={isToday} />
+      <DailyReadingCard
+        horoscope={reading.horoscope}
+        personal={reading.personal}
+        pending={reading.pending}
+        signLabel={natal ? ta(`signs.${natal.bodies.SUN.sign}`) : null}
+      />
+      {reading.ritualToday && <RitualTodayCard ritual={reading.ritualToday} locale={appLocale} />}
       <DayView
         key={date}
         date={date}
         initial={entry}
         sleepGoalMinutes={user.sleepGoalMinutes}
         currentPeriod={isToday ? getDayPeriod(new Date(), user.timezone) : null}
+        suggestions={
+          personal
+            ? { intention: personal.intentionSuggestion, banish: personal.banishSuggestion, reflection: personal.reflectionQuestion }
+            : undefined
+        }
       />
     </>
   );

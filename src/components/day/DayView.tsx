@@ -20,10 +20,12 @@ interface DayViewProps {
   sleepGoalMinutes: number;
   /** Período actual (só em "hoje"); null em dias passados. */
   currentPeriod: DayPeriod | null;
+  /** Sugestões da leitura IA do dia (F6). */
+  suggestions?: { intention?: string; banish?: string; reflection?: string };
 }
 
 /** Cartões interactivos do diário com gravação automática. */
-export function DayView({ date, initial, sleepGoalMinutes, currentPeriod }: DayViewProps) {
+export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions }: DayViewProps) {
   const t = useTranslations();
   const { data, setField, status, errorKey, flush } = useDailyAutosave(date, initial);
   const onBlur = () => void flush();
@@ -33,7 +35,12 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod }: DayV
       <SaveStatus status={status} />
       <div className="mg-day__grid">
         <div className="mg-day__cell mg-day__cell--intention">
-          <IntentionCard value={data.intention} onChange={(v) => setField('intention', v)} onBlur={onBlur} />
+          <IntentionCard
+            value={data.intention}
+            onChange={(v) => setField('intention', v)}
+            onBlur={onBlur}
+            suggestion={suggestions?.intention}
+          />
         </div>
         <div className="mg-day__cell mg-day__cell--morning">
           <MorningSection
@@ -42,6 +49,7 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod }: DayV
             onTextBlur={onBlur}
             sleepGoalMinutes={sleepGoalMinutes}
             current={currentPeriod === 'morning'}
+            banishSuggestion={suggestions?.banish}
           />
         </div>
         <div className="mg-day__cell mg-day__cell--wake">
@@ -69,7 +77,12 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod }: DayV
           />
         </div>
         <div className="mg-day__cell mg-day__cell--reflection">
-          <ReflectionCard value={data.reflection} onChange={(v) => setField('reflection', v)} onBlur={onBlur} />
+          <ReflectionCard
+            value={data.reflection}
+            onChange={(v) => setField('reflection', v)}
+            onBlur={onBlur}
+            hint={suggestions?.reflection}
+          />
         </div>
         <div className="mg-day__cell mg-day__cell--summary">
           <DaySummaryCard value={data.summary} onChange={(v) => setField('summary', v)} onBlur={onBlur} />

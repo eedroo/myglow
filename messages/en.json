@@ -206,6 +206,8 @@
     "monthSample": "Month (sample data)",
     "progressDots": "Progress dots",
     "plannerSample": "Month and year (sample data)",
+    "readingSample": "AI readings",
+    "readingPending": "Preparing (shimmer)",
     "glowSample": "Glow (sample data)",
     "openLevelUp": "Show level-up dialog",
     "motto": "Motto"
@@ -235,8 +237,7 @@
       "event": "{phase} at {time}",
       "moonUncertain": "{sign} (uncertain)",
       "addBirthTime": "Add your birth time",
-      "noBirthData": "Add your birth details to see your chart.",
-      "soon": "Your horoscope is coming soon."
+      "noBirthData": "Add your birth details to see your chart."
     },
     "intention": {
       "label": "Today's intention",
@@ -431,10 +432,6 @@
       "sun": "Sun in {sign}",
       "sunChange": "Sun in {from} → {to} on the {day}",
       "moonToday": "Today's Moon: {phase} in {sign}"
-    },
-    "rituals": {
-      "title": "Rituals of the month",
-      "body": "Coming soon: suggested rituals for this month's moons."
     },
     "yearLink": "See the year"
   },
@@ -655,6 +652,73 @@
       "historyTitle": "Glow history",
       "historyEmpty": "Your first Glow is waiting for you.",
       "settings": "Settings"
+    }
+  },
+  "reading": {
+    "day": {
+      "signTitle": "Your sign today · {sign}",
+      "personalTitle": "For you",
+      "keywords": "Keywords",
+      "crystal": "Crystal of the day",
+      "transits": "Today's transits"
+    },
+    "week": {
+      "title": "This week's reading",
+      "signTitle": "{sign} this week",
+      "personalTitle": "Your week",
+      "highlights": "Highlights"
+    },
+    "month": {
+      "title": "This month's reading",
+      "signTitle": "{sign} this month",
+      "personalTitle": "Your month",
+      "keyDates": "Key dates"
+    },
+    "pending": "Your reading is being prepared…",
+    "pendingLong": "Still preparing — check back in a little while.",
+    "unavailable": "There's no reading for this period.",
+    "disclaimer": "For inspiration and reflection.",
+    "natalPoint": "natal {point}",
+    "ascendant": "Ascendant",
+    "aspects": {
+      "CONJUNCTION": "conjunction",
+      "SEXTILE": "sextile",
+      "SQUARE": "square",
+      "TRINE": "trine",
+      "OPPOSITION": "opposition"
+    },
+    "useSuggestion": "Use suggestion",
+    "focus": "Suggested focus",
+    "ritual": {
+      "today": "Today's ritual",
+      "open": "See ritual",
+      "duration": "{n} min",
+      "intention": "Intention",
+      "materials": "Materials",
+      "steps": "Steps",
+      "safety": "Safety",
+      "add": "Add to my week",
+      "adding": "Adding…",
+      "added": "Added to your week ✦",
+      "alreadyAdded": "Already in your week",
+      "seeWeek": "See the week",
+      "close": "Close"
+    },
+    "rituals": {
+      "title": "Rituals of the month",
+      "subtitle": "Suggestions for this month's magical dates"
+    },
+    "settings": {
+      "title": "Readings",
+      "aiUseIntentions": "Personalise readings with my intentions",
+      "aiPrivacy": "Your reflections, gratitude and notes are never sent."
+    },
+    "errors": {
+      "invalid": "This request isn't valid.",
+      "rateLimited": "Too many requests in a row. Try again shortly.",
+      "unavailable": "Readings are unavailable right now.",
+      "ritualNotFound": "We couldn't find this ritual.",
+      "noteFull": "That day's note is already full."
     }
   }
 }

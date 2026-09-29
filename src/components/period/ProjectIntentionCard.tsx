@@ -4,15 +4,7 @@ import type { ProjectArea } from '@prisma/client';
 import { useTranslations } from 'next-intl';
 import { LinedTextArea } from '@/components/ui/LinedTextArea';
 import { MagicIcon } from '@/components/ui/MagicIcon';
-import type { MagicIconName } from '@/lib/icons';
-
-export const PROJECT_ICONS: Record<ProjectArea, MagicIconName> = {
-  MAGIC: 'cauldron',
-  PERSONAL: 'heart',
-  LEISURE: 'lotus',
-  PROFESSIONAL: 'briefcase',
-  STUDIES: 'book-open',
-};
+import { PROJECT_ICONS } from '@/lib/icons';
 
 interface ProjectIntentionCardProps {
   id: string;
@@ -21,10 +13,13 @@ interface ProjectIntentionCardProps {
   value: string;
   onChange: (value: string) => void;
   onBlur: () => void;
+  /** Foco sugerido pela leitura da semana (F6). */
+  note?: string;
 }
 
-export function ProjectIntentionCard({ id, area, rows = 3, value, onChange, onBlur }: ProjectIntentionCardProps) {
+export function ProjectIntentionCard({ id, area, rows = 3, value, onChange, onBlur, note }: ProjectIntentionCardProps) {
   const t = useTranslations('projects');
+  const tr = useTranslations('reading');
   return (
     <div className="mg-project">
       <label htmlFor={id} className="mg-project__head">
@@ -43,6 +38,15 @@ export function ProjectIntentionCard({ id, area, rows = 3, value, onChange, onBl
         onChange={(e) => onChange(e.target.value)}
         onBlur={onBlur}
       />
+      {note && (
+        <p className="mg-project__note">
+          <MagicIcon name="sparkles" size="sm" decorative />
+          <span>
+            <span className="mg-visually-hidden">{tr('focus')}: </span>
+            {note}
+          </span>
+        </p>
+      )}
     </div>
   );
 }

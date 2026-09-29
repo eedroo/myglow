@@ -11,7 +11,7 @@ interface DailySkyCardProps {
   isToday: boolean;
 }
 
-/** O céu do dia (Sol, Lua, ingresso/evento) e o mapa natal resumido do utilizador. */
+/** O céu do dia (Sol, Lua, ingresso/evento) e o mapa natal resumido do utilizador. O horóscopo segue no `DailyReadingCard`. */
 export async function DailySkyCard({ sky, natal, isToday }: DailySkyCardProps) {
   const t = await getTranslations('day.sky');
   const ta = await getTranslations('astro');
@@ -90,11 +90,6 @@ export async function DailySkyCard({ sky, natal, isToday }: DailySkyCardProps) {
           </Link>
         )}
       </section>
-
-      <p className="mg-sky-card__soon">
-        <MagicIcon name="crystal-ball" size="sm" decorative />
-        {t('soon')}
-      </p>
     </GlassCard>
   );
 }

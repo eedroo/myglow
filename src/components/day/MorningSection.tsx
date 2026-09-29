@@ -11,9 +11,11 @@ interface MorningSectionProps {
   onTextBlur: () => void;
   sleepGoalMinutes: number;
   current: boolean;
+  /** Banimento sugerido pela leitura do dia (placeholder). */
+  banishSuggestion?: string;
 }
 
-export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, current }: MorningSectionProps) {
+export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, current, banishSuggestion }: MorningSectionProps) {
   const t = useTranslations('day');
   return (
     <section className={current ? 'mg-period mg-period--morning mg-period--current' : 'mg-period mg-period--morning'}>
@@ -24,7 +26,7 @@ export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, c
         withText
         text={data.morningBanishName}
         textLabel={t('morning.banishName')}
-        textPlaceholder={t('morning.banishPlaceholder')}
+        textPlaceholder={banishSuggestion || t('morning.banishPlaceholder')}
         textMaxLength={80}
         onTextChange={(v) => setField('morningBanishName', v)}
         onTextBlur={onTextBlur}

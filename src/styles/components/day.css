@@ -99,3 +99,9 @@
   padding-left: calc(var(--icon-sm) + var(--space-2));
   line-height: var(--icon-sm);
 }
+
+/* F6: "Usar sugestão" no cartão da intenção */
+.mg-intention__use {
+  align-self: flex-start;
+  margin-top: var(--space-2);
+}

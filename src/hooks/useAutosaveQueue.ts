@@ -1,10 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { XpResult } from '@/lib/xp/award';
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'offline' | 'error';
 
-export type SaveResult = { ok: true; updatedAt: string } | { ok: false; error: string };
+export type SaveResult = { ok: true; updatedAt: string; xp?: XpResult } | { ok: false; error: string };
+export type SaveOk = Extract<SaveResult, { ok: true }>;
 
 const TEXT_DEBOUNCE_MS = 800;
 const RETRY_MS = 15_000;
@@ -16,6 +18,8 @@ interface AutosaveQueueOptions<TPatch extends object> {
   /** Muda → grava o que estiver pendente com o `save` anterior e reinicia. */
   resetKey: string;
   onSaved?: (updatedAt: string) => void;
+  /** Chamado em cada resposta `ok` (ex.: Glow ganho). */
+  onResult?: (result: SaveOk) => void;
 }
 
 /**
@@ -25,7 +29,7 @@ interface AutosaveQueueOptions<TPatch extends object> {
  * - falha de rede → `offline`, mantém pendentes e repete no evento `online` e a cada 15 s
  * - falha de validação → `error` (chave i18n em `errorKey`)
  */
-export function useAutosaveQueue<TPatch extends object>({ save, merge, resetKey, onSaved }: AutosaveQueueOptions<TPatch>) {
+export function useAutosaveQueue<TPatch extends object>({ save, merge, resetKey, onSaved, onResult }: AutosaveQueueOptions<TPatch>) {
   const [status, setStatus] = useState<SaveStatus>('idle');
   const [errorKey, setErrorKey] = useState<string | null>(null);
 
@@ -35,8 +39,8 @@ export function useAutosaveQueue<TPatch extends object>({ save, merge, resetKey,
   const mounted = useRef(true);
 
   // `save` ligado à chave actual; só muda depois de gravar o que é da chave anterior.
-  const latest = useRef({ save, merge, onSaved });
-  latest.current = { save, merge, onSaved };
+  const latest = useRef({ save, merge, onSaved, onResult });
+  latest.current = { save, merge, onSaved, onResult };
   const bound = useRef({ key: resetKey, save, onSaved });
 
   const setSafeStatus = useCallback((s: SaveStatus) => {
@@ -56,6 +60,8 @@ export function useAutosaveQueue<TPatch extends object>({ save, merge, resetKey,
           const result = await doSave(patch);
           if (result.ok) {
             if (mounted.current && bound.current.key === key) notify?.(result.updatedAt);
+            // O Glow é do utilizador, não do período: entrega sempre (mesmo depois de mudar de dia).
+            latest.current.onResult?.(result);
             if (!pending.current) setSafeStatus('saved');
           } else {
             // Erro de validação: não adianta repetir o mesmo patch.

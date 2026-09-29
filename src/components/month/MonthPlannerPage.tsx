@@ -16,6 +16,8 @@ import { MonthHeroCard } from './MonthHeroCard';
 import { MonthNav } from './MonthNav';
 import { MonthPlanView } from './MonthPlanView';
 import { MonthWeeksList } from './MonthWeeksList';
+import { GlowWindowNote } from '@/components/glow/GlowWindowNote';
+import { getPeriodAwards } from '@/lib/xp/queries';
 
 /** Planner mensal (intenção, metas, reflexão) + calendário, céu, retrógrados, semanas e estatísticas. */
 export async function MonthPlannerPage({ year, month }: { year: number; month: number }) {
@@ -27,10 +29,12 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
   });
   if (!user) redirect('/login');
 
-  const [data, tsky, rawLocale] = await Promise.all([
+  const monthStart = `${monthKey(year, month)}-01`;
+  const [data, tsky, rawLocale, monthAwards] = await Promise.all([
     getMonthPageData(session.user.id, year, month, user.timezone, user.hemisphere),
     getTranslations('sky'),
     getLocale(),
+    getPeriodAwards(session.user.id, ['MONTH_PLAN', 'MONTH_REFLECTION'], monthStart),
   ]);
   const locale = isAppLocale(rawLocale) ? rawLocale : 'pt-PT';
   const { overview } = data;
@@ -73,6 +77,9 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
         weeks: <MonthWeeksList year={year} month={month} weeks={overview.weeks} currentWeekStart={currentWeekStart} />,
         stats: data.isFuture ? null : <PeriodStatsCard stats={data.stats} />,
         rituals: <RitualsTeaserCard />,
+        glowNote: (
+          <GlowWindowNote period="month" periodStart={monthStart} timezone={user.timezone} today={overview.today} earned={monthAwards} />
+        ),
       }}
     />
   );

@@ -9,6 +9,8 @@ import { isAppLocale } from '@/i18n/locales';
 import { WeekNav } from './WeekNav';
 import { WeekSkyCard } from './WeekSkyCard';
 import { WeekView } from './WeekView';
+import { GlowWindowNote } from '@/components/glow/GlowWindowNote';
+import { getPeriodAwards } from '@/lib/xp/queries';
 
 /** Planner de uma semana (domingo → sábado). */
 export async function WeekPage({ start }: { start: DateISO }) {
@@ -17,10 +19,11 @@ export async function WeekPage({ start }: { start: DateISO }) {
   const user = await db.user.findUnique({ where: { id: session.user.id }, select: { timezone: true } });
   if (!user) redirect('/login');
 
-  const [data, t, rawLocale] = await Promise.all([
+  const [data, t, rawLocale, weekAwards] = await Promise.all([
     getWeekPageData(session.user.id, start, user.timezone),
     getTranslations('week'),
     getLocale(),
+    getPeriodAwards(session.user.id, ['WEEK_PLAN', 'WEEK_REFLECTION'], start),
   ]);
   const locale = isAppLocale(rawLocale) ? rawLocale : 'pt-PT';
   const { week } = data;
@@ -44,6 +47,7 @@ export async function WeekPage({ start }: { start: DateISO }) {
         days={data.days}
         previousWeightGrams={data.previousWeightGrams}
         defaultTitle={defaultTitle}
+        glowNote={<GlowWindowNote period="week" periodStart={start} timezone={user.timezone} today={data.today} earned={weekAwards} />}
         sky={<WeekSkyCard events={data.moonEvents} moonDays={data.days.map((d) => d.moon)} timezone={user.timezone} />}
       />
     </>

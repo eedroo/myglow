@@ -20,6 +20,7 @@ interface YearPlanViewProps {
     retrogrades: ReactNode;
     mood: ReactNode;
     stats: ReactNode;
+    glowNote?: ReactNode;
   };
 }
 
@@ -33,6 +34,7 @@ export function YearPlanView({ initial, slots }: YearPlanViewProps) {
     <div className="mg-year">
       <SaveStatus status={status} />
       {slots.nav}
+      {slots.glowNote}
       <YearWordCard value={data.word} onChange={(v) => setText('word', v)} onBlur={onBlur} />
       <div className="mg-year__pair">
         <div className="mg-year__cell">

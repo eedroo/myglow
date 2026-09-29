@@ -16,6 +16,9 @@ import { DailyHeader } from './DailyHeader';
 import { DailySkyCard } from './DailySkyCard';
 import { DayNav } from './DayNav';
 import { DayView } from './DayView';
+import { GlowWindowNote } from '@/components/glow/GlowWindowNote';
+import { getPeriodAwards } from '@/lib/xp/queries';
+import { DAY_SOURCES } from '@/lib/xp/rules';
 
 /** Página de um dia do diário (hoje ou passado). */
 export async function DayPage({ date }: { date: DateISO }) {
@@ -23,13 +26,14 @@ export async function DayPage({ date }: { date: DateISO }) {
   if (!session?.user) redirect('/login');
   const userId = session.user.id;
 
-  const [user, entry, natal, locale, ta, td] = await Promise.all([
+  const [user, entry, natal, locale, ta, td, dayAwards] = await Promise.all([
     db.user.findUnique({ where: { id: userId }, select: { timezone: true, sleepGoalMinutes: true } }),
     getDailyEntry(userId, date),
     ensureNatalChart(userId),
     getLocale(),
     getTranslations('astro'),
     getTranslations('day'),
+    getPeriodAwards(userId, [...DAY_SOURCES], date),
   ]);
   if (!user) redirect('/login');
 
@@ -68,6 +72,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         phasesLabel={td('header.phases')}
         signsLabel={td('header.signs')}
         week={weekChip}
+        glowNote={<GlowWindowNote period="day" periodStart={date} timezone={user.timezone} today={today} earned={dayAwards} />}
       />
       <DailySkyCard sky={sky} natal={natal} isToday={isToday} />
       <DayView

@@ -24,6 +24,8 @@ import { DayProgressDots } from '@/components/ui/DayProgressDots';
 import { WeightInput } from '@/components/ui/WeightInput';
 import { WeekDayRow } from '@/components/week/WeekDayRow';
 import type { WeekDaySummary } from '@/types/week';
+import { GlowToast } from '@/components/glow/GlowToast';
+import { LevelUpDialog } from '@/components/glow/LevelUpDialog';
 import type { MagicIconName } from '@/lib/icons';
 import type { NextTheme, ThemePref } from '@/lib/theme';
 import { nextThemeToPref, prefToNextTheme } from '@/lib/theme';
@@ -47,6 +49,7 @@ export function UiShowcase({ icons, sampleWeek }: UiShowcaseProps) {
   const [chips, setChips] = useState({ stretch: true, workout: false, water: false });
   const [mood, setMood] = useState<number | null>(4);
   const [notes, setNotes] = useState('');
+  const [levelUpOpen, setLevelUpOpen] = useState(false);
   const [weight, setWeight] = useState<number | null>(76400);
   const [weightInvalid, setWeightInvalid] = useState(false);
   const [dayNotes, setDayNotes] = useState<Record<string, string>>({});
@@ -312,6 +315,19 @@ export function UiShowcase({ icons, sampleWeek }: UiShowcaseProps) {
             />
           ))}
         </div>
+      </section>
+
+      <section className="mg-stack">
+        <SectionHeader title={t('dev.glowSample')} icon="glow-orb" />
+        <GlassCard>
+          <GlowToast inline points={10} sources={['DAY_MORNING']} />
+          <GlowToast inline points={50} sources={['DAY_MORNING', 'DAY_BODY', 'DAY_NIGHT', 'DAY_COMPLETE']} />
+          <GlowToast inline points={55} sources={['DAY_NIGHT', 'DAY_COMPLETE', 'STREAK_BONUS']} />
+          <Button variant="ghost" onClick={() => setLevelUpOpen(true)}>
+            {t('dev.openLevelUp')}
+          </Button>
+          <LevelUpDialog level={3} open={levelUpOpen} onClose={() => setLevelUpOpen(false)} />
+        </GlassCard>
       </section>
 
       <Motto text={t('common.motto')} />

@@ -20,10 +20,12 @@ interface WeekViewProps {
   defaultTitle: string;
   /** Cartão do céu (server component) inserido na grelha. */
   sky: ReactNode;
+  /** Nota do Glow (plano e reflexão da semana). */
+  glowNote?: ReactNode;
 }
 
 /** Cartões interactivos da semana com gravação automática. */
-export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky }: WeekViewProps) {
+export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky, glowNote }: WeekViewProps) {
   const t = useTranslations();
   const { data, setText, setWeight, setDayNote, setProject, status, errorKey, flush } = useWeekAutosave(initial);
   const onBlur = () => void flush();
@@ -31,6 +33,7 @@ export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky
   return (
     <div className="mg-week">
       <SaveStatus status={status} />
+      {glowNote}
       <div className="mg-week__grid">
         <div className="mg-week__cell mg-week__cell--title">
           <WeekTitleCard

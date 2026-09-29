@@ -1,0 +1,38 @@
+/* GlowWindowNote: nota discreta sobre as janelas do Glow */
+
+.mg-glow-note {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-glow-note__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+.mg-glow-note__item--open {
+  border-color: var(--glass-border-strong);
+  color: var(--text-primary);
+}
+
+.mg-glow-note__item--earned {
+  border-color: var(--gold-500);
+  color: var(--gold-accent);
+}
+
+.mg-glow-note__item--closed,
+.mg-glow-note__item--upcoming {
+  opacity: 0.8;
+}

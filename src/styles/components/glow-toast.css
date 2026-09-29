@@ -1,0 +1,55 @@
+/* GlowToast: "+15 Glow · Noite completa" por baixo do SaveStatus */
+
+.mg-glow-toast {
+  position: fixed;
+  top: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--space-7));
+  right: var(--space-4);
+  z-index: var(--z-toast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  color: var(--text-primary);
+  pointer-events: none;
+  animation: mg-glow-in var(--duration) var(--ease);
+}
+
+.mg-glow-toast--inline {
+  position: static;
+  animation: none;
+}
+
+.mg-glow-toast__icon {
+  display: inline-flex;
+}
+
+.mg-glow-toast__points {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  color: var(--gold-accent);
+}
+
+.mg-glow-toast__label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+@keyframes mg-glow-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--space-2) * -1)) scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-glow-toast {
+    animation: none;
+  }
+}

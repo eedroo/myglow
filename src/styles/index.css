@@ -52,3 +52,12 @@
 @import './components/year-month.css';
 @import './components/wheel.css';
 @import './components/year-mood.css';
+@import './components/progress.css';
+@import './components/glow-toast.css';
+@import './components/levelup.css';
+@import './components/level-badge.css';
+@import './components/glow-note.css';
+@import './components/journey.css';
+@import './components/level-path.css';
+@import './components/streak.css';
+@import './components/glow-history.css';

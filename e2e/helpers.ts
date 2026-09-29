@@ -3,7 +3,7 @@ import type { Page } from '@playwright/test';
 const PASSWORD = 'segredo123';
 
 /** Regista um utilizador novo e conclui o onboarding (geocoding simulado). */
-export async function registerAndOnboard(page: Page) {
+export async function registerAndOnboard(page: Page): Promise<string> {
   await page.route('**/api/geocode?**', (route) =>
     route.fulfill({
       json: {
@@ -32,5 +32,23 @@ export async function registerAndOnboard(page: Page) {
   await page.getByRole('option', { name: 'Lisboa, Lisboa, Portugal' }).click();
   await page.getByRole('button', { name: 'Concluir' }).click();
   await page.waitForURL('**/today');
+  return email;
 }
 
+
+/** Acesso directo à DB de teste (lê DATABASE_URL do ambiente ou do .env). */
+export async function withTestDb<T>(fn: (db: import('@prisma/client').PrismaClient) => Promise<T>): Promise<T> {
+  const { readFileSync } = await import('node:fs');
+  const { PrismaClient } = await import('@prisma/client');
+  let url = process.env.DATABASE_URL;
+  if (!url) {
+    const env = readFileSync('.env', 'utf8');
+    url = /^DATABASE_URL="?([^"\n]+)"?/m.exec(env)?.[1];
+  }
+  const db = new PrismaClient({ datasources: { db: { url } } });
+  try {
+    return await fn(db);
+  } finally {
+    await db.$disconnect();
+  }
+}

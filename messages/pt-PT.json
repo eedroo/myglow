@@ -206,6 +206,8 @@
     "monthSample": "Mês (dados de exemplo)",
     "progressDots": "Pontos de progresso",
     "plannerSample": "Mês e ano (dados de exemplo)",
+    "glowSample": "Glow (dados de exemplo)",
+    "openLevelUp": "Ver diálogo de subida de nível",
     "motto": "Lema"
   },
   "day": {
@@ -567,6 +569,92 @@
       "invalidPeriod": "Período inválido.",
       "tooFar": "Não podes planear tão à frente.",
       "invalid": "Há um campo com um valor inválido."
+    }
+  },
+  "glow": {
+    "name": "Glow",
+    "points": "+{points} Glow",
+    "amount": "{points} Glow",
+    "sources": {
+      "DAY_MORNING": "Manhã completa",
+      "DAY_BODY": "Corpo em foco",
+      "DAY_NIGHT": "Noite completa",
+      "DAY_COMPLETE": "Dia completo ✦",
+      "WEEK_PLAN": "Semana planeada",
+      "WEEK_REFLECTION": "Reflexão da semana",
+      "MONTH_PLAN": "Mês planeado",
+      "MONTH_REFLECTION": "Reflexão do mês",
+      "YEAR_PLAN": "Ano planeado",
+      "YEAR_REFLECTION": "Reflexão do ano",
+      "STREAK_BONUS": "Streak mágico"
+    },
+    "levels": {
+      "seed": {
+        "name": "Semente",
+        "phrase": "Tudo começa com uma pequena intenção."
+      },
+      "sprout": {
+        "name": "Broto",
+        "phrase": "A tua prática está a ganhar raízes."
+      },
+      "flame": {
+        "name": "Chama",
+        "phrase": "Há um fogo constante no teu caminho."
+      },
+      "moon": {
+        "name": "Lua",
+        "phrase": "Conheces os teus ciclos e confias neles."
+      },
+      "star": {
+        "name": "Estrela",
+        "phrase": "A tua luz já guia outros passos."
+      },
+      "sun": {
+        "name": "Sol",
+        "phrase": "A tua presença aquece cada dia."
+      },
+      "constellation": {
+        "name": "Constelação",
+        "phrase": "Cada escolha tua já faz parte de um céu inteiro."
+      }
+    },
+    "level": "Nível {level}",
+    "badge": "Nível {level} · {name} — {total} Glow",
+    "levelUp": {
+      "eyebrow": "Novo nível",
+      "title": "Subiste para {name}",
+      "close": "Continuar"
+    },
+    "window": {
+      "dayToday": "Glow de hoje {earned}/{possible}",
+      "dayOpen": "Este dia ainda conta para o Glow até hoje às 23:59 · {earned}/{possible}",
+      "dayClosed": "Este dia já não conta para o Glow, mas continua teu.",
+      "dayEarned": "✓ Dia completo · {earned} Glow",
+      "planOpen": "Planeia até {until} para ganhar {points} Glow",
+      "planUpcoming": "O plano dá {points} Glow a partir de {from}",
+      "reflectionOpen": "Reflecte até {until} para ganhar {points} Glow",
+      "reflectionUpcoming": "A reflexão abre {from} · {points} Glow",
+      "earned": "✓ {label} · {points} Glow",
+      "closed": "{label}: esta janela do Glow já fechou"
+    },
+    "streak": {
+      "title": "Streak mágico",
+      "value": "{n, plural, one {# dia} other {# dias}}",
+      "best": "Melhor: {n, plural, one {# dia} other {# dias}}",
+      "next": "{days, plural, one {Falta # dia} other {Faltam # dias}} para +{points} Glow",
+      "zero": "Cada dia é um recomeço.",
+      "explain": "Dias seguidos em que completaste pelo menos uma secção a tempo."
+    },
+    "journey": {
+      "title": "A tua jornada",
+      "subtitle": "O teu Glow cresce com cada escolha feita com intenção.",
+      "toNext": "Faltam {n} Glow para {name}",
+      "max": "Chegaste ao nível mais alto. Continua a brilhar.",
+      "pathTitle": "Caminho dos níveis",
+      "minXp": "{min} Glow",
+      "historyTitle": "Histórico de Glow",
+      "historyEmpty": "O teu primeiro Glow está à tua espera.",
+      "settings": "Definições"
     }
   }
 }

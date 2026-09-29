@@ -6,7 +6,8 @@ import { patchWeek } from '@/actions/week';
 import type { DateISO } from '@/lib/dates';
 import { mergeWeekPatches } from '@/lib/week/patch';
 import type { WeekData, WeekPatch } from '@/types/week';
-import { useAutosaveQueue } from './useAutosaveQueue';
+import { useAutosaveQueue, type SaveOk } from './useAutosaveQueue';
+import { useGlow } from '@/components/glow/GlowProvider';
 
 type WeekTextField = 'title' | 'intention' | 'reflection';
 
@@ -17,11 +18,14 @@ export function useWeekAutosave(initial: WeekData) {
 
   const save = useCallback((patch: WeekPatch) => patchWeek(start, patch), [start]);
   const onSaved = useCallback((updatedAt: string) => setData((d) => ({ ...d, updatedAt })), []);
+  const glow = useGlow();
+  const onResult = useCallback((r: SaveOk) => r.xp && glow.push(r.xp), [glow]);
   const { queue, flush, status, errorKey } = useAutosaveQueue<WeekPatch>({
     save,
     merge: mergeWeekPatches,
     resetKey: start,
     onSaved,
+    onResult,
   });
 
   const setText = useCallback(

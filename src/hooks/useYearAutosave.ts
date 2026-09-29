@@ -5,7 +5,8 @@ import type { ProjectArea } from '@prisma/client';
 import { patchYear } from '@/actions/planner';
 import { mergePlanPatches } from '@/lib/planner/patch';
 import type { YearPatch, YearPlanData } from '@/types/planner';
-import { useAutosaveQueue } from './useAutosaveQueue';
+import { useAutosaveQueue, type SaveOk } from './useAutosaveQueue';
+import { useGlow } from '@/components/glow/GlowProvider';
 
 /** Planner anual com gravação automática (texto com debounce). */
 export function useYearAutosave(initial: YearPlanData) {
@@ -14,11 +15,14 @@ export function useYearAutosave(initial: YearPlanData) {
 
   const save = useCallback((patch: YearPatch) => patchYear(year, patch), [year]);
   const onSaved = useCallback((updatedAt: string) => setData((d) => ({ ...d, updatedAt })), []);
+  const glow = useGlow();
+  const onResult = useCallback((r: SaveOk) => r.xp && glow.push(r.xp), [glow]);
   const { queue, flush, status, errorKey } = useAutosaveQueue<YearPatch>({
     save,
     merge: mergePlanPatches,
     resetKey: String(year),
     onSaved,
+    onResult,
   });
 
   const setText = useCallback(

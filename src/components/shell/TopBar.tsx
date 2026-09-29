@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 
 interface TopBarProps {
@@ -6,10 +7,12 @@ interface TopBarProps {
   userName: string;
   settingsLabel: string;
   homeLabel: string;
+  /** Badge do nível (Glow), à esquerda do avatar. */
+  badge?: ReactNode;
 }
 
 /** Logo MYGLOW + avatar com link para definições. */
-export function TopBar({ appName, userName, settingsLabel, homeLabel }: TopBarProps) {
+export function TopBar({ appName, userName, settingsLabel, homeLabel, badge }: TopBarProps) {
   const initial = userName.trim().charAt(0).toUpperCase() || '·';
   return (
     <header className="mg-topbar">
@@ -19,9 +22,12 @@ export function TopBar({ appName, userName, settingsLabel, homeLabel }: TopBarPr
           {appName}
         </span>
       </Link>
-      <Link href="/settings" className="mg-topbar__settings" aria-label={settingsLabel} title={settingsLabel}>
-        <span aria-hidden="true">{initial}</span>
-      </Link>
+      <div className="mg-topbar__actions">
+        {badge}
+        <Link href="/settings" className="mg-topbar__settings" aria-label={settingsLabel} title={settingsLabel}>
+          <span aria-hidden="true">{initial}</span>
+        </Link>
+      </div>
     </header>
   );
 }

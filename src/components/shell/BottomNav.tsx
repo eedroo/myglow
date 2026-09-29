@@ -11,7 +11,7 @@ const ITEMS: { key: NavKey; href: string; icon: LucideIcon }[] = [
   { key: 'week', href: '/week', icon: CalendarRange },
   { key: 'month', href: '/month', icon: CalendarDays },
   { key: 'year', href: '/year', icon: Telescope },
-  { key: 'profile', href: '/settings', icon: UserRound },
+  { key: 'profile', href: '/profile', icon: UserRound },
 ];
 
 interface BottomNavProps {
@@ -27,7 +27,10 @@ export function BottomNav({ labels, ariaLabel }: BottomNavProps) {
     <nav className="mg-bottom-nav" aria-label={ariaLabel}>
       {ITEMS.map(({ key, href, icon: Icon }) => {
         const active =
-          pathname === href || pathname.startsWith(`${href}/`) || (key === 'today' && pathname.startsWith('/day/'));
+          pathname === href ||
+          pathname.startsWith(`${href}/`) ||
+          (key === 'today' && pathname.startsWith('/day/')) ||
+          (key === 'profile' && (pathname === '/settings' || pathname.startsWith('/settings/')));
         return (
           <Link
             key={key}

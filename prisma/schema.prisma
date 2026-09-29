@@ -76,6 +76,7 @@ enum XpSource {
   MONTH_REFLECTION
   YEAR_PLAN
   STREAK_BONUS
+  YEAR_REFLECTION
 }
 
 enum SignContentKind {
@@ -112,6 +113,8 @@ model User {
   sleepGoalMinutes Int        @default(420)
   hemisphere       Hemisphere @default(NORTH)
   xpTotal          Int        @default(0)
+  levelSeen        Int        @default(1) // último nível cujo diálogo de subida o user já viu
+  bestMagicStreak  Int        @default(0)
   onboardedAt      DateTime?
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt

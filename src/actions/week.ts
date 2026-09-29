@@ -6,8 +6,10 @@ import { compareDates, isDateISO, toDbDate, todayInTz, type DateISO } from '@/li
 import { MAX_WEEKS_AHEAD, isSunday, weekDays, weekKey, weekStartOf, weeksBetween } from '@/lib/weeks';
 import { weekPatchSchema } from '@/lib/validation/week';
 import type { WeekPatch } from '@/types/week';
+import { weekCandidates } from '@/lib/xp/rules';
+import { safeAwardXp, type XpResult } from '@/lib/xp/award';
 
-export type PatchWeekResult = { ok: true; updatedAt: string } | { ok: false; error: string };
+export type PatchWeekResult = { ok: true; updatedAt: string; xp?: XpResult } | { ok: false; error: string };
 
 const MIN_DATE: DateISO = '2000-01-01';
 
@@ -83,5 +85,19 @@ export async function patchWeek(start: DateISO, patch: WeekPatch): Promise<Patch
     return w;
   });
 
-  return { ok: true, updatedAt: week.updatedAt.toISOString() };
+  const today = todayInTz(user.timezone);
+  const xp = await safeAwardXp(
+    userId,
+    async () =>
+      weekCandidates({
+        start,
+        intention: week.intention ?? '',
+        projectsFilled: await db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: startDate } }),
+        reflection: week.reflection ?? '',
+        now: new Date(),
+        tz: user.timezone,
+      }),
+    { tz: user.timezone, today },
+  );
+  return { ok: true, updatedAt: week.updatedAt.toISOString(), ...(xp && { xp }) };
 }

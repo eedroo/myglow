@@ -72,6 +72,14 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - Cartões partilhados por semana, mês e ano em `src/components/period/`.
 - Autosave: `useMonthAutosave` / `useYearAutosave` sobre `useAutosaveQueue`; `patchMonth` / `patchYear` numa transacção (`Month`/`Year` + `ProjectIntention`).
 
+### Glow (gamificação, `src/lib/xp/`)
+
+- Regras puras e testadas: `rules.ts` (pontos, critérios, janelas), `streak.ts` (streak mágico e bónus), `levels.ts` (7 níveis), `window.ts` (estado da janela para a UI).
+- `award.ts` (servidor): `awardXp` numa transacção — `INSERT … ON CONFLICT DO NOTHING RETURNING` no ledger `XpEvent` (unique `(userId, source, periodStart)`), bónus de streak para os dias afectados, `xpTotal` incrementado só com os pontos criados, `bestMagicStreak` actualizado. **Não usar `create` + apanhar P2002 dentro da transacção**: em Postgres o erro aborta a transacção inteira.
+- `safeAwardXp` é chamado por `patchDailyEntry`, `patchWeek`, `patchMonth` e `patchYear` depois de gravar; nunca faz falhar a gravação. O resultado (`xp`) chega ao cliente via `useAutosaveQueue({ onResult })` → `GlowProvider` (toasts, diálogo de nível, `router.refresh()`).
+- `/profile` (`JourneyPage`): nível, caminho dos níveis, streak mágico, histórico.
+- Manutenção: `npx tsx prisma/scripts/recompute-xp.ts [--dry-run]` recalcula `xpTotal` e `bestMagicStreak` a partir do ledger (fonte de verdade).
+
 ### Diário
 
 - Hoje e dias passados são editáveis (permite transcrever o diário em papel); dias futuros não existem no diário — a intenção para o futuro vive no planner semanal (F3). Datas anteriores a 2000-01-01 são rejeitadas.

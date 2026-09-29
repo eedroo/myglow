@@ -32,6 +32,10 @@ import { SkyEventsCard } from '@/components/period/SkyEventsCard';
 import { YearMonthTile } from '@/components/year/YearMonthTile';
 import { YearMoodCard } from '@/components/year/YearMoodCard';
 import { formatMonthName } from '@/lib/dates';
+import { GlowWindowNote } from '@/components/glow/GlowWindowNote';
+import { LevelBadge } from '@/components/glow/LevelBadge';
+import { LevelPathCard } from '@/components/journey/LevelPathCard';
+import { StreakCard } from '@/components/journey/StreakCard';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('dev');
@@ -165,6 +169,30 @@ export default async function DevUiPage() {
             />
           </div>
           <YearMoodCard year={2026} months={yearMonthly} />
+        </section>
+        <section className="mg-stack">
+          <SectionHeader title={t('glowSample')} icon="glow-orb" />
+          <GlassCard>
+            <div className="mg-row">
+              {[0, 450, 1600, 15000].map((total) => (
+                <LevelBadge key={total} total={total} />
+              ))}
+            </div>
+            {/* Estados da nota de janela, com "agora" fixo */}
+            <GlowWindowNote period="day" periodStart="2026-05-06" timezone={SAMPLE_TZ} today="2026-05-06" earned={['DAY_MORNING', 'DAY_BODY']} now={new Date('2026-05-06T12:00:00Z')} />
+            <GlowWindowNote period="day" periodStart="2026-05-05" timezone={SAMPLE_TZ} today="2026-05-06" earned={[]} now={new Date('2026-05-06T12:00:00Z')} />
+            <GlowWindowNote period="day" periodStart="2026-05-01" timezone={SAMPLE_TZ} today="2026-05-06" earned={[]} now={new Date('2026-05-06T12:00:00Z')} />
+            <GlowWindowNote period="day" periodStart="2026-05-02" timezone={SAMPLE_TZ} today="2026-05-06" earned={['DAY_MORNING', 'DAY_BODY', 'DAY_NIGHT', 'DAY_COMPLETE']} now={new Date('2026-05-06T12:00:00Z')} />
+            <GlowWindowNote period="week" periodStart="2026-05-03" timezone={SAMPLE_TZ} today="2026-05-04" earned={[]} now={new Date('2026-05-04T12:00:00Z')} />
+            <GlowWindowNote period="week" periodStart="2026-05-03" timezone={SAMPLE_TZ} today="2026-05-09" earned={['WEEK_PLAN']} now={new Date('2026-05-09T12:00:00Z')} />
+            <GlowWindowNote period="month" periodStart="2026-05-01" timezone={SAMPLE_TZ} today="2026-05-20" earned={[]} now={new Date('2026-05-20T12:00:00Z')} />
+            <GlowWindowNote period="year" periodStart="2027-01-01" timezone={SAMPLE_TZ} today="2026-12-20" earned={[]} now={new Date('2026-12-20T12:00:00Z')} />
+          </GlassCard>
+          <LevelPathCard total={1600} />
+          <div className="mg-dev__grid">
+            <StreakCard current={4} best={12} />
+            <StreakCard current={0} best={12} />
+          </div>
         </section>
       </div>
     </>

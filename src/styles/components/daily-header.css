@@ -71,3 +71,13 @@
     flex-shrink: 0;
   }
 }
+
+.mg-daily-header__glow {
+  flex-basis: 100%;
+}
+
+@media (min-width: 768px) {
+  .mg-daily-header {
+    flex-wrap: wrap;
+  }
+}

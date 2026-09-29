@@ -5,7 +5,8 @@ import type { ProjectArea } from '@prisma/client';
 import { patchMonth } from '@/actions/planner';
 import { mergePlanPatches } from '@/lib/planner/patch';
 import type { MonthPatch, MonthPlanData } from '@/types/planner';
-import { useAutosaveQueue } from './useAutosaveQueue';
+import { useAutosaveQueue, type SaveOk } from './useAutosaveQueue';
+import { useGlow } from '@/components/glow/GlowProvider';
 
 /** Planner mensal com gravação automática (texto com debounce). */
 export function useMonthAutosave(initial: MonthPlanData) {
@@ -14,11 +15,14 @@ export function useMonthAutosave(initial: MonthPlanData) {
 
   const save = useCallback((patch: MonthPatch) => patchMonth(year, month, patch), [year, month]);
   const onSaved = useCallback((updatedAt: string) => setData((d) => ({ ...d, updatedAt })), []);
+  const glow = useGlow();
+  const onResult = useCallback((r: SaveOk) => r.xp && glow.push(r.xp), [glow]);
   const { queue, flush, status, errorKey } = useAutosaveQueue<MonthPatch>({
     save,
     merge: mergePlanPatches,
     resetKey: `${year}-${month}`,
     onSaved,
+    onResult,
   });
 
   const setText = useCallback(

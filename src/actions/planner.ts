@@ -7,8 +7,10 @@ import { toDbDate, todayInTz } from '@/lib/dates';
 import { MAX_MONTHS_AHEAD, MAX_YEARS_AHEAD, MIN_YEAR, addMonths, monthKey, monthOf } from '@/lib/weeks';
 import { monthPatchSchema, yearPatchSchema } from '@/lib/validation/planner';
 import type { MonthPatch, ProjectsPatch, YearPatch } from '@/types/planner';
+import { monthCandidates, yearCandidates } from '@/lib/xp/rules';
+import { safeAwardXp, type XpResult } from '@/lib/xp/award';
 
-export type PatchPlanResult = { ok: true; updatedAt: string } | { ok: false; error: string };
+export type PatchPlanResult = { ok: true; updatedAt: string; xp?: XpResult } | { ok: false; error: string };
 
 const emptyToNull = (v: string | undefined) => (v === undefined ? undefined : v.trim() === '' ? null : v);
 
@@ -66,7 +68,23 @@ export async function patchMonth(year: number, month: number, patch: MonthPatch)
     await saveProjects(tx, user.id, 'MONTH', toDbDate(`${monthKey(year, month)}-01`), p.projects);
     return m;
   });
-  return { ok: true, updatedAt: row.updatedAt.toISOString() };
+  const monthStart = `${monthKey(year, month)}-01`;
+  const xp = await safeAwardXp(
+    user.id,
+    async () =>
+      monthCandidates({
+        monthStart,
+        intention: row.intention ?? '',
+        projectsFilled: await db.projectIntention.count({
+          where: { userId: user.id, period: 'MONTH', periodStart: toDbDate(monthStart) },
+        }),
+        reflection: row.reflection ?? '',
+        now: new Date(),
+        tz: user.timezone,
+      }),
+    { tz: user.timezone, today: todayInTz(user.timezone) },
+  );
+  return { ok: true, updatedAt: row.updatedAt.toISOString(), ...(xp && { xp }) };
 }
 
 /** Planner anual: anos desde 2000 até ao próximo. */
@@ -96,5 +114,22 @@ export async function patchYear(year: number, patch: YearPatch): Promise<PatchPl
     await saveProjects(tx, user.id, 'YEAR', toDbDate(`${year}-01-01`), p.projects);
     return y;
   });
-  return { ok: true, updatedAt: row.updatedAt.toISOString() };
+  const yearStart = `${year}-01-01`;
+  const xp = await safeAwardXp(
+    user.id,
+    async () =>
+      yearCandidates({
+        yearStart,
+        word: row.word ?? '',
+        intention: row.intention ?? '',
+        projectsFilled: await db.projectIntention.count({
+          where: { userId: user.id, period: 'YEAR', periodStart: toDbDate(yearStart) },
+        }),
+        reflection: row.reflection ?? '',
+        now: new Date(),
+        tz: user.timezone,
+      }),
+    { tz: user.timezone, today: todayInTz(user.timezone) },
+  );
+  return { ok: true, updatedAt: row.updatedAt.toISOString(), ...(xp && { xp }) };
 }

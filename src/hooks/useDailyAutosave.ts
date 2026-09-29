@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { patchDailyEntry } from '@/actions/daily';
 import { isDailyTextField, type DailyEntryData, type DailyField, type DailyPatch } from '@/types/daily';
-import { useAutosaveQueue } from './useAutosaveQueue';
+import { useAutosaveQueue, type SaveOk } from './useAutosaveQueue';
+import { useGlow } from '@/components/glow/GlowProvider';
 
 export type { SaveStatus } from './useAutosaveQueue';
 
@@ -18,11 +19,14 @@ export function useDailyAutosave(date: string, initial: DailyEntryData) {
 
   const save = useCallback((patch: DailyPatch) => patchDailyEntry(date, patch), [date]);
   const onSaved = useCallback((updatedAt: string) => setData((d) => ({ ...d, updatedAt })), []);
+  const glow = useGlow();
+  const onResult = useCallback((r: SaveOk) => r.xp && glow.push(r.xp), [glow]);
   const { queue, flush, status, errorKey } = useAutosaveQueue<DailyPatch>({
     save,
     merge: mergePatches,
     resetKey: date,
     onSaved,
+    onResult,
   });
 
   const setField = useCallback(

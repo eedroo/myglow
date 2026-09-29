@@ -22,6 +22,7 @@ interface MonthPlanViewProps {
     weeks: ReactNode;
     stats: ReactNode; // null em meses futuros
     rituals: ReactNode;
+    glowNote?: ReactNode;
   };
 }
 
@@ -35,6 +36,7 @@ export function MonthPlanView({ initial, slots }: MonthPlanViewProps) {
     <div className="mg-month">
       <SaveStatus status={status} />
       {slots.nav}
+      {slots.glowNote}
       {slots.hero}
       <div className="mg-month__pair">
         <div className="mg-month__cell">

@@ -6,8 +6,11 @@ import { compareDates, isDateISO, toDbDate, todayInTz, type DateISO } from '@/li
 import { getDailyMoon } from '@/lib/astro/moon';
 import { dailyPatchSchema } from '@/lib/validation/daily';
 import { DAILY_TEXT_FIELDS, type DailyPatch } from '@/types/daily';
+import { computeDayProgress } from '@/lib/daily/progress';
+import { dayCandidates } from '@/lib/xp/rules';
+import { safeAwardXp, type XpResult } from '@/lib/xp/award';
 
-export type PatchDailyResult = { ok: true; updatedAt: string } | { ok: false; error: string };
+export type PatchDailyResult = { ok: true; updatedAt: string; xp?: XpResult } | { ok: false; error: string };
 
 const MIN_DATE: DateISO = '2000-01-01';
 
@@ -25,7 +28,8 @@ export async function patchDailyEntry(date: DateISO, patch: DailyPatch): Promise
 
   const user = await db.user.findUnique({ where: { id: session.user.id }, select: { timezone: true } });
   if (!user) return { ok: false, error: 'common.errors.unauthorized' };
-  if (compareDates(date, todayInTz(user.timezone)) > 0) return { ok: false, error: 'day.errors.futureDate' };
+  const today = todayInTz(user.timezone);
+  if (compareDates(date, today) > 0) return { ok: false, error: 'day.errors.futureDate' };
 
   const parsed = dailyPatchSchema.safeParse(patch);
   if (!parsed.success) return { ok: false, error: 'day.errors.invalid' };
@@ -53,5 +57,11 @@ export async function patchDailyEntry(date: DateISO, patch: DailyPatch): Promise
         });
       })();
 
-  return { ok: true, updatedAt: row.updatedAt.toISOString() };
+  // Glow: avaliado depois de gravar; nunca faz falhar a gravação.
+  const xp = await safeAwardXp(
+    userId,
+    () => dayCandidates({ date, progress: computeDayProgress(date, row), now: new Date(), tz: user.timezone }),
+    { tz: user.timezone, today },
+  );
+  return { ok: true, updatedAt: row.updatedAt.toISOString(), ...(xp && { xp }) };
 }

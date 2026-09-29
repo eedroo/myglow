@@ -1,0 +1,15 @@
+/* ProgressBar */
+
+.mg-progress {
+  display: block;
+  width: 100%;
+  height: 8px;
+}
+
+.mg-progress__track {
+  fill: var(--line-rule);
+}
+
+.mg-progress__fill {
+  fill: var(--gold-500);
+}

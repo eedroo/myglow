@@ -130,8 +130,10 @@ Referência visual: diário físico em papel — fundo creme com mármore dourad
 - **Props:** `id`, `grams: number | null`, `locale`, `onCommit(grams | null)`, `unitLabel`, `errorLabel`, `label`
 
 ### ProgressBar — F5
+- **TSX:** `ProgressBar.tsx` (Server) · **CSS:** `progress.css`
 - **Classes:** `mg-progress`, `mg-progress__fill`
-- XP até ao próximo nível. **Props:** `value`, `max`, `label`
+- `role="progressbar"` com `aria-valuenow/min/max` e `aria-label`; largura do preenchimento em SVG (sem cor literal)
+- Glow até ao próximo nível. **Props:** `value`, `max`, `label`
 
 ### Toast — F1
 - **TSX:** `Toast.tsx` (`'use client'`) · **CSS:** `toast.css`
@@ -305,5 +307,23 @@ Ordem: `YearNav` → `YearWordCard` → `PeriodIntentionCard` | `PeriodProjectsC
 | `WheelOfYearCard` | server | `wheel.css` | `mg-wheel`, `__list`, `__item`, `__name`, `__sub`, `__when`, `__eclipses`, `--next`, `--past` | 8 sabbats + 4 estações por ordem cronológica, próximo destacado; eclipses do ano |
 | `YearMoodCard` | server | `year-mood.css` | `mg-year-mood`, `__chart`, `__bar`, `__bar--empty`, `__label`, `__legend` | 12 barras SVG finas (humor médio) + dias completos; `<title>`/`aria-label` por barra |
 
-### Gamificação — F5
-`LevelBadge`, `XpToast`, `StreakCounter`
+### Glow — F5 (`src/components/glow/`)
+
+Os pontos chamam-se **Glow** na UI (no código: `xp`). Lógica em `src/lib/xp/`.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `GlowProvider` | client | — | — | contexto no layout `(app)`: `useGlow().push(xp)` enfileira toasts, abre `LevelUpDialog` (também ao carregar se `level > levelSeen`) e faz `router.refresh()` para actualizar badge e notas |
+| `GlowToast` | client | `glow-toast.css` | `mg-glow-toast`, `__icon`, `__points`, `__label` | "+15 Glow · Noite completa" com `glow-orb`; awards simultâneos num só toast ("+50 Glow · Dia completo ✦"); 3 s; `aria-live="polite"`; por baixo do `SaveStatus` |
+| `LevelUpDialog` | client | `levelup.css` | `mg-levelup`, `__icon`, `__title`, `__text`, `__actions` | `<dialog>` modal nativo (foco preso, Esc fecha) com `level-N` `xl`, "Subiste para Chama" + frase do nível; brilho suave (sem animação com `prefers-reduced-motion`); ao fechar chama `markLevelSeen` |
+| `LevelBadge` | server | `level-badge.css` | `mg-level-badge`, `__ring`, `__track`, `__arc`, `__icon` | na `TopBar`: `level-N` dentro de anel SVG de progresso; liga a `/profile` |
+| `GlowWindowNote` | server | `glow-note.css` | `mg-glow-note`, `__item`, `--open`, `--closed`, `--earned`, `--upcoming` | dia: "Glow de hoje 35/50" / "ainda conta até hoje às 23:59" / "já não conta, mas continua teu"; semana/mês/ano: estado do plano e da reflexão (a partir de `windowState`) |
+
+### Jornada — F5 (`src/components/journey/`, página `/profile`)
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `JourneyPage` | server | `journey.css` | `mg-journey`, `__summary`, `__total`, `__settings` | total de Glow, nível, cartões abaixo e link para Definições |
+| `LevelPathCard` | server | `level-path.css` | `mg-level-path`, `__step`, `__icon`, `__name`, `__min`, `--done`, `--current`, `--locked` | 7 níveis com ícone, nome e Glow mínimo; o actual com `ProgressBar` |
+| `StreakCard` | server | `streak.css` | `mg-streak`, `__value`, `__best`, `__next` | `flame` + streak mágico actual e melhor; próximo marco; streak 0 → "Cada dia é um recomeço" |
+| `GlowHistoryCard` | server | `glow-history.css` | `mg-glow-history`, `__item`, `__label`, `__date`, `__points` | últimos 30 eventos do ledger com data e rótulo |

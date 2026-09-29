@@ -37,6 +37,15 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Céu do grimório: fases, eclipses, ingressos do Sol, equinócios/solstícios, sabbats e estações/retrógrados de Mercúrio, Vénus e Marte calculados localmente (astronomy-engine) e guardados em cache (`unstable_cache`, sem expiração — o céu não muda).
 - Sabbats astronómicos (Sol a 315/0/45/90/135/180/225/270°), com o nome pelo hemisfério do utilizador (`User.hemisphere`, adivinhado pelo fuso no 1.º onboarding e editável nas definições): no Sul usa-se o nome da longitude +180° (ex.: Samhain no início de maio).
 - Estatísticas de período: streak = dias seguidos com nível ≥ parcial, limitado ao período; se hoje ainda está vazio, a sequência conta até ontem. Dias futuros não contam para hábitos nem médias.
+- Glow (Fase 5): os pontos chamam-se **Glow** na UI (no código continua `xp`). Pontos e janelas, em hora local do utilizador (`[abre, fecha)`):
+  - Dia (`D`, janela `[D, D+2)` — conta até às 23:59 do dia seguinte): manhã 10, corpo 10, noite 15, dia completo 15 (máx. 50/dia).
+  - Semana (`S` = domingo): plano 20 (intenção + ≥ 2 projectos) em `[S−3, S+3)`; reflexão 30 (≥ 20 caracteres) em `[S+5, S+8)`.
+  - Mês (`M1` = dia 1): plano 40 (intenção + ≥ 2 metas) em `[M1−7, M1+7)`; reflexão 50 (≥ 20 caracteres) em `[último dia−6, dia 2 do mês seguinte)`.
+  - Ano (`A`): plano 100 (palavra + intenção + ≥ 2 metas) em `[1 dez de A−1, 1 fev de A)`; reflexão 150 (≥ 20 caracteres) em `[15 dez de A, 8 jan de A+1)`.
+- Streak mágico = dias consecutivos com ≥ 1 evento `DAY_*` no ledger (dias que contaram dentro da janela); bónus de 7 em 7 dias (+25) e marcos 30 (+100), 100 (+300) e 365 (+1000); se dois marcos coincidem, fica o maior. Diferente do streak das estatísticas (qualquer dia preenchido).
+- 7 níveis: Semente, Broto, Chama, Lua, Estrela, Sol, Constelação, com limiares 0 / 300 / 1000 / 2500 / 5000 / 9000 / 15000 Glow. O diálogo de subida aparece uma vez (`User.levelSeen`), também se a subida aconteceu noutro dispositivo.
+- Sem retroactivos: dias e períodos anteriores ao lançamento não dão Glow (só contam janelas abertas). Sem punições: desmarcar não retira Glow; streak quebrado não gera mensagens negativas.
+- Uma falha no cálculo do Glow nunca bloqueia a gravação do diário/planners (é registada e a gravação segue).
 - Gamificação: ledger `XpEvent` com unique `(userId, source, periodStart)` → idempotente. XP não é retirado ao desmarcar. Um dia só gera XP se as secções forem concluídas até 24 h depois do fim desse dia (até às 23:59 do dia seguinte, no fuso do user); edições posteriores continuam permitidas mas não dão nem retiram pontos. Nível derivado do total com limiares em código. Separado da futura trilha de conhecimento.
 - Conteúdo IA: partilhado por signo (`SignContent`) + camada personalizada (`UserAiContent`), gerado por job e em cache — nunca ao abrir a página.
 - Notificações idempotentes via `NotificationLog` unique `(userId, kind, periodKey)`. iOS só com a app instalada no ecrã inicial (16.4+).

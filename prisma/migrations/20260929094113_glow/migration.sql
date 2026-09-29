@@ -1,0 +1,6 @@
+-- AlterEnum
+ALTER TYPE "XpSource" ADD VALUE 'YEAR_REFLECTION';
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "bestMagicStreak" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "levelSeen" INTEGER NOT NULL DEFAULT 1;

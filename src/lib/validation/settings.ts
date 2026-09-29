@@ -6,6 +6,7 @@ export const settingsSchema = z.object({
   theme: z.enum(['LIGHT', 'DARK', 'SYSTEM']),
   timezone: z.string().min(3),
   sleepGoalMinutes: z.number().int().min(240).max(720),
+  hemisphere: z.enum(['NORTH', 'SOUTH']),
 });
 
 export type SettingsInput = z.infer<typeof settingsSchema>;

@@ -1,0 +1,41 @@
+/* YearMoodCard: 12 barras finas (humor médio por mês), SVG próprio */
+
+.mg-year-mood__chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.mg-year-mood__grid {
+  stroke: var(--line-rule);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.mg-year-mood__bar {
+  fill: var(--gold-500);
+}
+
+.mg-year-mood__bar--empty {
+  fill: var(--line-rule);
+}
+
+.mg-year-mood__label {
+  fill: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.mg-year-mood__complete {
+  fill: var(--gold-accent);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  text-anchor: middle;
+}
+
+.mg-year-mood__legend {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}

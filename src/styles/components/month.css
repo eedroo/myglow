@@ -1,0 +1,36 @@
+/* MonthPlanView: pares lado a lado ≥ 1024 px */
+
+.mg-month__pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: stretch;
+}
+
+@media (min-width: 1024px) {
+  .mg-month__pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.mg-month__cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mg-month__cell > * {
+  flex: 1 1 auto;
+}
+
+/* Num par, a intenção estica até à altura do cartão vizinho (mais linhas de caderno). */
+.mg-month__cell > .mg-intention > .mg-card__body,
+.mg-year__cell > .mg-intention > .mg-card__body {
+  flex: 1 1 auto;
+}
+
+.mg-month__cell > .mg-intention .mg-lined,
+.mg-year__cell > .mg-intention .mg-lined {
+  flex: 1 1 auto;
+  min-height: calc(var(--leading-lined) * 3);
+}

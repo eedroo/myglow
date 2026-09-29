@@ -8,19 +8,21 @@ import { formatLongDate, formatWeekdayShort, type DateISO } from '@/lib/dates';
 import { weekDays, weekKey, weekStartOf } from '@/lib/weeks';
 import { isAppLocale } from '@/i18n/locales';
 import type { MonthOverview } from '@/lib/month/overview';
+import { skyEventText, type Translate } from '@/components/period/skyEventText';
 
 interface MonthCalendarProps {
-  overview: Pick<MonthOverview, 'grid' | 'days' | 'today'>;
+  overview: Pick<MonthOverview, 'grid' | 'days' | 'today'> & { eventDays?: MonthOverview['eventDays'] };
   /** Domingo da semana actual (para ligar a /week em vez de /week/<data>). */
   currentWeekStart: DateISO;
 }
 
 /** Grelha domingo → sábado com número, lua e progresso de cada dia. */
 export async function MonthCalendar({ overview, currentWeekStart }: MonthCalendarProps) {
-  const [t, ta, tw, rawLocale] = await Promise.all([
+  const [t, ta, tw, tsky, rawLocale] = await Promise.all([
     getTranslations('month.calendar'),
     getTranslations('astro'),
     getTranslations('week'),
+    getTranslations('sky'),
     getLocale(),
   ]);
   const locale = isAppLocale(rawLocale) ? rawLocale : 'pt-PT';
@@ -67,8 +69,11 @@ export async function MonthCalendar({ overview, currentWeekStart }: MonthCalenda
                   bodyChecks: day.progress.bodyChecks,
                   night: day.progress.night ? 'yes' : 'no',
                 });
+                const events = overview.eventDays?.[date] ?? [];
+                const eventTitle = events.map((e) => skyEventText(e, tsky as Translate, ta as Translate)).join(' · ');
                 const content = (
                   <>
+                    {events.length > 0 && <span className="mg-calendar__event" title={eventTitle} aria-hidden="true" />}
                     <span className="mg-calendar__num">{Number(date.slice(8))}</span>
                     <span className="mg-calendar__moon">
                       <MagicIcon name={MOON_PHASE_ICON[day.moon.phase]} size="sm" label={ta(`phases.${day.moon.phase}`)} />
@@ -77,7 +82,7 @@ export async function MonthCalendar({ overview, currentWeekStart }: MonthCalenda
                   </>
                 );
                 return day.isFuture ? (
-                  <span key={date} className={classes} role="gridcell">
+                  <span key={date} className={classes} role="gridcell" title={eventTitle || undefined}>
                     {content}
                   </span>
                 ) : (
@@ -86,7 +91,7 @@ export async function MonthCalendar({ overview, currentWeekStart }: MonthCalenda
                     href={day.isToday ? '/today' : `/day/${date}`}
                     className={classes}
                     role="gridcell"
-                    aria-label={`${t('openDay', { date: formatLongDate(date, locale) })} — ${status}`}
+                    aria-label={[t('openDay', { date: formatLongDate(date, locale) }), status, eventTitle].filter(Boolean).join(' — ')}
                     aria-current={day.isToday ? 'date' : undefined}
                   >
                     {content}

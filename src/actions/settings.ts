@@ -7,7 +7,7 @@ import { db } from '@/lib/db';
 import { settingsSchema, type SettingsInput } from '@/lib/validation/settings';
 import { LOCALE_COOKIE, LOCALE_COOKIE_OPTIONS, dbToAppLocale } from '@/i18n/locales';
 
-type SettingsField = 'name' | 'locale' | 'theme' | 'timezone' | 'sleepGoalMinutes';
+type SettingsField = 'name' | 'locale' | 'theme' | 'timezone' | 'sleepGoalMinutes' | 'hemisphere';
 
 export type SaveSettingsResult =
   | { ok: true }
@@ -19,6 +19,7 @@ const FIELD_ERRORS: Record<SettingsField, string> = {
   theme: 'validation.required',
   timezone: 'validation.timezone',
   sleepGoalMinutes: 'validation.sleepGoal',
+  hemisphere: 'validation.required',
 };
 
 /**

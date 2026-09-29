@@ -250,31 +250,60 @@ Referência: página "Semana" do diário em papel. Mobile em coluna (título, in
 | `WeekNav` | server | `week-nav.css` | `mg-week-nav`, `__btn`, `__btn--disabled`, `__center`, `__label`, `__links`, `__link` | ← → entre semanas, intervalo "3–9 mai 2026", "Esta semana" quando não é a actual, link para o mês |
 | `WeekView` | client | `week.css` | `mg-week`, `__grid`, `__cell--*` | `useWeekAutosave` + cartões interactivos + `SaveStatus` + `Toast` de erro |
 | `WeekTitleCard` | client | `week-title.css` | `mg-week-title`, `__label`, `__input` | faixa com `moon-crescent` e `sun`; input sem borda; placeholder "Semana {n} · {mês}" |
-| `WeekIntentionCard` | client | `day.css` (reutiliza `mg-intention`) | `mg-intention`, `__head`, `__label` | sparkles + "Intenção da semana" + `LinedTextArea` 3 |
+| `PeriodIntentionCard` | client | `day.css` | `mg-intention` | ver "Cartões de período" — "Intenção da semana" |
 | `WeekSkyCard` | server | `week-sky.css` | `mg-week-sky`, `__title`, `__list`, `__event`, `__when` | eventos lunares da semana (glifo + "Lua Cheia em Escorpião · ter, 18:23"); sem eventos: fase dominante |
 | `WeekDayRow` | client | `week-day.css` | `mg-week-day`, `__icon`, `__label`, `__date`, `__moon`, `__text`, `__progress`, `--today`, `--future` | ícone planetário do dia, abreviatura, número, glifo da lua, `LinedTextArea` 2, `DayProgressDots` com link (não em futuros) |
 | `WeightCard` | client | `weight.css` | `mg-weight`, `__head`, `__input`, `__unit`, `__delta` | `scale` + "Meu peso da semana" + `WeightInput` + delta face à semana anterior (neutro, sem cor de bom/mau) |
-| `ProjectIntentionsGrid` | client | `projects.css` | `mg-projects`, `__header`, `__grid` | "Intenções por projectos" + 5 cartões; grelha 3+2 ≥ 768 px |
-| `ProjectIntentionCard` | client | `projects.css` | `mg-project`, `__head`, `__icon`, `__label`, `__text` | ícone da área (MAGIC `cauldron`, PERSONAL `heart`, LEISURE `lotus`, PROFESSIONAL `briefcase`, STUDIES `book-open`) + `LinedTextArea` 3 |
-| `WeekReflectionCard` | client | `reflection.css` (reutiliza) | `mg-reflection` | moon-stars + "Reflexão da semana" + `LinedTextArea` 4 + crystal-cluster |
+| `PeriodProjectsCard` | client | `projects.css` | `mg-projects` | ver "Cartões de período" — "Intenções por projectos", grelha 3+2 |
+| `PeriodReflectionCard` | client | `reflection.css` | `mg-reflection` | ver "Cartões de período" — "Reflexão da semana" |
 
 Ícones planetários dos dias: dom `sun`, seg `moon-crescent`, ter `planet-mars`, qua `planet-mercury`, qui `planet-jupiter`, sex `planet-venus`, sáb `planet-saturn`.
 
-### Mês — vista de navegação F3 (`src/components/month/`)
+### Cartões de período — F4 (`src/components/period/`)
 
-O planner mensal (intenção, metas, reflexão) chega na F4; aqui só navegação e resumo visual.
+Partilhados por semana, mês e ano. Os três primeiros substituem `WeekIntentionCard`, `ProjectIntentionsGrid` e `WeekReflectionCard` (a semana fica visualmente igual).
+
+| Componente | Tipo | CSS | Classes | Props / conteúdo |
+|---|---|---|---|---|
+| `PeriodIntentionCard` | client | `day.css` | `mg-intention`, `__head`, `__label` | `{ id; label; placeholder?; value; onChange; onBlur; rows? }` — sparkles + label + `LinedTextArea` |
+| `PeriodProjectsCard` | client | `projects.css` | `mg-projects`, `mg-projects--compact`, `__header`, `__grid` | `{ title; values: Record<ProjectArea,string>; onChange; onBlur; compact?; idPrefix? }` — 5 áreas, 3+2 ou coluna única (`compact`) |
+| `ProjectIntentionCard` | client | `projects.css` | `mg-project`, `__head`, `__icon`, `__label`, `__text` | ícone da área (MAGIC `cauldron`, PERSONAL `heart`, LEISURE `lotus`, PROFESSIONAL `briefcase`, STUDIES `book-open`) + `LinedTextArea` |
+| `PeriodReflectionCard` | client | `reflection.css` | `mg-reflection` | `{ id; label; hint?; placeholder?; value; onChange; onBlur; rows? }` — moon-stars + `LinedTextArea` + crystal-cluster |
+| `PeriodStatsCard` | server | `stats.css` | `mg-stats`, `__grid`, `__stat`, `__value`, `__label`, `__habits`, `__habit`, `__bar`, `__bar-track`, `__bar-fill`, `__weight`, `__spark` | dias registados/completos, sequência actual/melhor, humor médio (com `mood-N`), hábitos em barras SVG `done/of`, peso primeiro → último + sparkline SVG (sem cores de bom/mau) |
+| `SkyEventsCard` | server | `sky-events.css` | `mg-sky-events`, `__item`, `__icon`, `__text`, `__when`, `--moon`, `--eclipse`, `--sabbat`, `--season`, `--station`, `--ingress` | lista cronológica do céu com glifo/ícone por tipo e data + hora no fuso do utilizador |
+| `RetrogradesCard` | server | `retro.css` | `mg-retro`, `__item`, `__range`, `__sign`, `__now`, `--active` | "Mercúrio retrógrado · 30 jun → 24 jul · em Caranguejo"; destaca o activo hoje; vazio: "Sem retrógrados neste período" |
+| `RitualsTeaserCard` | server | `card.css` | `mg-card--flat` | "Rituais do mês · em breve" (candle); substituído na F6 |
+
+Ícones do céu: fases → `phase-*`; eclipse lunar `phase-full`, solar `sun`; ingresso do Sol → `sign-*`; estação do ano `sun`; sabbat `candle`; estação planetária → `planet-mercury` / `planet-venus` / `planet-mars`.
+
+### Mês — planner F4 (`src/components/month/`)
+
+Ordem (coluna no telemóvel; pares `|` lado a lado ≥ 1024 px):
+`MonthNav` → `MonthHeroCard` → `PeriodIntentionCard` | `PeriodProjectsCard compact` → `MonthCalendar` → `SkyEventsCard` | `RetrogradesCard` → `MonthWeeksList` → `PeriodStatsCard` (oculto em meses futuros) → `RitualsTeaserCard` → `PeriodReflectionCard` → `Motto`
 
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
-| `MonthOverviewPage` | server | — | — | carrega `getMonthOverview`, compõe a página |
-| `MonthNav` | server | `month-nav.css` | `mg-month-nav`, `__btn`, `__btn--disabled`, `__center`, `__label`, `__today` | ← → meses, "Maio 2026", "Este mês" |
-| `MonthCalendar` | server | `calendar.css` | `mg-calendar`, `__head`, `__row`, `__week`, `__cell`, `__num`, `__moon`, `--today`, `--future`, `--out`, `--empty`, `--partial`, `--complete` | grelha dom→sáb; número, glifo da lua, `DayProgressDots` pequeno; célula liga ao dia (não em futuros); link discreto para a semana à esquerda de cada linha |
-| `MonthWeeksList` | server | `month-weeks.css` | `mg-month-weeks`, `__item`, `__title`, `__intention`, `__count` | um item por domingo: "Semana n" + título, 1.ª linha da intenção, "4/7 dias"; liga à semana |
-| `MonthMoonCard` | server | `month-moon.css` | `mg-month-moon`, `__item`, `__when` | eventos lunares do mês (fase, signo, dia e hora) |
-| `MonthPlannerTeaser` | server | `card.css` | `mg-card--flat` | "O planner do mês chega em breve" (removido na F4) |
+| `MonthPlannerPage` | server | — | — | carrega `getMonthPageData`, compõe a página |
+| `MonthPlanView` | client | `month.css` | `mg-month`, `__grid`, `__pair`, `__cell` | `useMonthAutosave` + cartões de período; cartões server entram como slots |
+| `MonthNav` | server | `month-nav.css` | `mg-month-nav`, `__btn`, `__btn--disabled`, `__center`, `__label`, `__links`, `__today` | ← → meses, "Maio de 2026", "Este mês", link para o ano |
+| `MonthHeroCard` | server | `hero.css` | `mg-hero`, `__title`, `__sub`, `__moon` | mês em Cormorant; "Sol em Touro → Gémeos a 21"; lua de hoje no mês actual |
+| `MonthCalendar` | server | `calendar.css` | `mg-calendar`, `__head`, `__row`, `__week`, `__cell`, `__num`, `__moon`, `__event`, `--today`, `--future`, `--out`, `--empty`, `--partial`, `--complete` | grelha dom→sáb; número, glifo da lua, `DayProgressDots` pequeno; ponto dourado `__event` (com `title`) em dias com eclipse, sabbat, estação ou estação planetária |
+| `MonthWeeksList` | server | `month-weeks.css` | `mg-month-weeks`, `__item`, `__title`, `__intention`, `__count` | um item por domingo: título, 1.ª linha da intenção, "4/7 dias"; liga à semana |
 
-### Mês / Ano — F4
-`MonthHeader`, `LunarEventsCard`, `RitualSuggestionsCard` (F6), `MonthStatsCard`, `YearGrid`, `YearWordCard`
+### Ano — planner F4 (`src/components/year/`)
+
+Ordem: `YearNav` → `YearWordCard` → `PeriodIntentionCard` | `PeriodProjectsCard compact` → `YearGrid` → `WheelOfYearCard` → `RetrogradesCard` → `YearMoodCard` → `PeriodStatsCard` → `PeriodReflectionCard` → `Motto`
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `YearPlannerPage` | server | — | — | carrega `getYearPageData`, compõe a página |
+| `YearPlanView` | client | `year.css` | `mg-year`, `__grid`, `__pair`, `__cell` | `useYearAutosave` + cartões de período; cartões server como slots |
+| `YearNav` | server | `year-nav.css` | `mg-year-nav`, `__btn`, `__btn--disabled`, `__center`, `__label`, `__today` | ← → anos, "Este ano" |
+| `YearWordCard` | client | `year-word.css` | `mg-year-word`, `__label`, `__input` | `MagicIcon scroll` + input grande centrado; placeholder "Uma palavra que te guie" |
+| `YearGrid` | server | `year-grid.css` | `mg-year-grid` | 3×4 (≥ 1024) / 2×6 (≥ 600) / 1 coluna |
+| `YearMonthTile` | server | `year-month.css` | `mg-year-month`, `__name`, `__intention`, `__mini`, `__dot`, `__count`, `--current`, `--future` | nome, 1.ª linha da intenção, mini-calendário de pontos (opacidade: vazio .15, parcial .5, completo 1), "12/31 completos"; liga ao mês |
+| `WheelOfYearCard` | server | `wheel.css` | `mg-wheel`, `__list`, `__item`, `__name`, `__sub`, `__when`, `__eclipses`, `--next`, `--past` | 8 sabbats + 4 estações por ordem cronológica, próximo destacado; eclipses do ano |
+| `YearMoodCard` | server | `year-mood.css` | `mg-year-mood`, `__chart`, `__bar`, `__bar--empty`, `__label`, `__legend` | 12 barras SVG finas (humor médio) + dias completos; `<title>`/`aria-label` por barra |
 
 ### Gamificação — F5
 `LevelBadge`, `XpToast`, `StreakCounter`

@@ -1,0 +1,57 @@
+/* SkyEventsCard: lista cronológica do céu */
+
+.mg-sky-events {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-sky-events__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.mg-sky-events__icon {
+  display: inline-flex;
+}
+
+.mg-sky-events__text {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  line-height: var(--leading-tight);
+}
+
+.mg-sky-events__when {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* Eclipses e sabbats em destaque; fases e ingressos discretos */
+.mg-sky-events__item--eclipse,
+.mg-sky-events__item--sabbat {
+  background: var(--glass-bg-strong);
+  border: var(--border-width) solid var(--glass-border-strong);
+}
+
+.mg-sky-events__item--season {
+  border: var(--border-width) solid var(--glass-border);
+}
+
+.mg-sky-events__item--moon .mg-sky-events__text,
+.mg-sky-events__item--ingress .mg-sky-events__text {
+  font-size: var(--text-md);
+}
+
+.mg-sky-events__item--station .mg-sky-events__text {
+  font-style: italic;
+}

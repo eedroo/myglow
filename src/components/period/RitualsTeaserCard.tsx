@@ -3,16 +3,16 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { IconBadge } from '@/components/ui/IconBadge';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 
-/** Anúncio do planner mensal (removido na Fase 4). */
-export async function MonthPlannerTeaser() {
-  const t = await getTranslations('month.teaser');
+/** "Rituais do mês · em breve" — substituído pelos rituais sugeridos na Fase 6. */
+export async function RitualsTeaserCard() {
+  const t = await getTranslations('month.rituals');
   return (
     <GlassCard
       variant="flat"
       title={t('title')}
       header={
         <IconBadge size="md">
-          <MagicIcon name="scroll" size="md" decorative />
+          <MagicIcon name="candle" size="md" decorative />
         </IconBadge>
       }
     >

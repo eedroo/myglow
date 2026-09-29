@@ -132,3 +132,8 @@ export function formatInstant(isoUtc: string, tz: string, locale: AppLocale, sty
       : `${Number(localDate.slice(8))} ${monthShort(localDate, locale)}`;
   return `${day}, ${time}`;
 }
+
+/** "30 jun" / "30 Jun". */
+export function formatDayMonth(date: DateISO, locale: AppLocale): string {
+  return `${Number(date.slice(8))} ${monthShort(date, locale)}`;
+}

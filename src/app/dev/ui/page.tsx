@@ -24,6 +24,14 @@ import { computeDayProgress, type ProgressEntry } from '@/lib/daily/progress';
 import { addDays, compareDates } from '@/lib/dates';
 import { monthGrid, weekDays } from '@/lib/weeks';
 import type { WeekDaySummary } from '@/types/week';
+import { getRetrogradePeriods, getSkyEvents } from '@/lib/astro/skyEvents';
+import { computePeriodStats, computeYearMonthly, type DailyEntryLike } from '@/lib/stats/period';
+import { PeriodStatsCard } from '@/components/period/PeriodStatsCard';
+import { RetrogradesCard } from '@/components/period/RetrogradesCard';
+import { SkyEventsCard } from '@/components/period/SkyEventsCard';
+import { YearMonthTile } from '@/components/year/YearMonthTile';
+import { YearMoodCard } from '@/components/year/YearMoodCard';
+import { formatMonthName } from '@/lib/dates';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('dev');
@@ -86,6 +94,33 @@ export default async function DevUiPage() {
     monthDays[d] = { ...sampleDay(d, i), moon: moonMay[d]! };
   }
 
+  // Mês e ano de exemplo (céu calculado, entradas fictícias; sem DB).
+  const sampleEntries: DailyEntryLike[] = [];
+  for (let d = '2026-01-01', i = 0; d <= SAMPLE_TODAY; d = addDays(d, 1), i++) {
+    const e = sampleEntry(i);
+    if (e) sampleEntries.push({ ...e, date: d, mood: (i % 5) + 1, wakeMood: ((i + 2) % 5) + 1 });
+  }
+  const maySky = getSkyEvents('2026-05-01', '2026-05-31', SAMPLE_TZ, 'NORTH');
+  const eventDays: Record<string, typeof maySky> = {};
+  for (const e of maySky) if (e.type === 'SABBAT' || e.type === 'SEASON' || e.type.endsWith('ECLIPSE') || e.type === 'STATION') (eventDays[e.date] ??= []).push(e);
+  const julyRetro = getRetrogradePeriods('2026-06-01', '2026-07-31', SAMPLE_TZ);
+  const mayStats = computePeriodStats({
+    from: '2026-05-01',
+    to: '2026-05-31',
+    today: '2026-05-31',
+    entries: sampleEntries,
+    weeks: [
+      { startDate: '2026-05-03', weightGrams: 76_400 },
+      { startDate: '2026-05-10', weightGrams: 76_100 },
+      { startDate: '2026-05-17', weightGrams: 76_250 },
+      { startDate: '2026-05-24', weightGrams: 75_900 },
+    ],
+  });
+  const yearMonthly = computeYearMonthly(2026, SAMPLE_TODAY, sampleEntries);
+  const mayLevels = Object.fromEntries(
+    sampleEntries.filter((e) => e.date.startsWith('2026-05')).map((e) => [e.date, computeDayProgress(e.date, e).level]),
+  );
+
   const phaseLabels = Object.fromEntries(MOON_PHASE_ORDER.map((p) => [p, ta(`phases.${p}`)])) as Record<MoonPhase, string>;
   const signLabels = Object.fromEntries(ZODIAC_ORDER.map((s) => [s, ta(`signs.${s}`)])) as Record<ZodiacSign, string>;
 
@@ -109,9 +144,27 @@ export default async function DevUiPage() {
         <section className="mg-stack">
           <SectionHeader title={t('monthSample')} icon="moon-stars" />
           <MonthCalendar
-            overview={{ grid: monthGrid(2026, 5), days: monthDays, today: SAMPLE_TODAY }}
+            overview={{ grid: monthGrid(2026, 5), days: monthDays, today: SAMPLE_TODAY, eventDays }}
             currentWeekStart="2026-05-03"
           />
+        </section>
+        <section className="mg-stack">
+          <SectionHeader title={t('plannerSample')} icon="zodiac-wheel" />
+          <div className="mg-dev__grid">
+            <SkyEventsCard title={ta('bodies.MOON')} events={maySky} timezone={SAMPLE_TZ} />
+            <RetrogradesCard periods={julyRetro} today="2026-07-10" />
+          </div>
+          <PeriodStatsCard stats={mayStats} />
+          <div className="mg-dev__grid">
+            <YearMonthTile
+              year={2026}
+              name={formatMonthName(2026, 5, isAppLocale(locale) ? locale : 'pt-PT')}
+              today={SAMPLE_TODAY}
+              href="/month/2026-05"
+              summary={{ month: 5, intention: '—', stats: yearMonthly[4]!, levels: mayLevels, isFuture: false, isCurrent: true }}
+            />
+          </div>
+          <YearMoodCard year={2026} months={yearMonthly} />
         </section>
       </div>
     </>

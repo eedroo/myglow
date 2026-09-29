@@ -30,7 +30,7 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 7. **Enums fixos** (Prisma) para áreas de projecto, fases da lua, signos, fontes de XP.
 8. **i18n.** Nenhum texto visível hardcoded — tudo em `messages/pt-PT.json`, `messages/pt-BR.json`, `messages/en.json`. Cada língua escrita de forma nativa (PT-PT: "ecrã", "registar", "telemóvel", "tu"; PT-BR: "tela", "cadastrar", "celular", "você").
 9. **Alterações cirúrgicas.** Editar apenas o necessário; não reescrever ficheiros existentes.
-10. **Commits** com prefixos `feat:`, `fix:`, `style:`, `chore:`, `docs:`, `test:` — um commit por alteração lógica (uma funcionalidade, correcção ou ajuste), independentemente de quantos ficheiros toca. Não misturar alterações independentes no mesmo commit.
+10. **Commits:** um commit único por fase, no fim, com testes, `tsc` e build a passar (ex.: `feat(fase-4): …`).
 11. **Acessibilidade.** `prefers-reduced-motion` respeitado; contraste AA; todos os controlos com label.
 
 ## Domínio
@@ -56,6 +56,21 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - **Mapa natal:** calculado no onboarding e gravado em `BirthProfile.natalChart` (JSON com `version: 1`, validado com Zod ao ler). `ensureNatalChart` faz backfill para contas antigas ao abrir o diário.
 - **Casas por signo inteiro** (whole sign): estáveis em qualquer latitude (Placidus falha acima dos círculos polares) e o sistema mais usado na astrologia contemporânea. `houseSystem` fica no JSON para permitir outros sistemas.
 - Sem hora de nascimento: mapa ao meio-dia local, sem ascendente, meio-do-céu nem casas; `moonSignUncertain` se a Lua mudou de signo nesse dia.
+
+### Céu do grimório (`src/lib/astro/skyEvents.ts`)
+
+- `getSkyEvents(from, to, tz, hemisphere)`: fases principais (`getMoonEvents`), eclipses (`SearchLunarEclipse` / `SearchGlobalSolarEclipse`, signo = lua no pico), ingressos do Sol (`SearchSunLongitude(k·30°)`), equinócios/solstícios (`Seasons`), sabbats (Sol a 315/0/45/…/270°) e estações de Mercúrio, Vénus e Marte (velocidade eclíptica amostrada por dia; mudança de sinal refinada com `Search`). Ordenado por instante; `date` = dia local.
+- `getRetrogradePeriods(from, to, tz)`: pares retrógrado → directo que tocam o intervalo, procurando 120 dias antes e depois.
+- Os componentes usam sempre as versões com cache de `skyCache.ts` (`unstable_cache`, `revalidate: false`).
+- Hemisfério (`User.hemisphere`): `guessHemisphere(tz)` no 1.º onboarding, editável nas definições; `prisma/scripts/backfill-hemisphere.ts` (`npx tsx`) para contas antigas.
+
+### Planners mensal e anual
+
+- `/month` e `/month/AAAA-MM` → `MonthPlannerPage`: intenção, metas por projecto, calendário com marcadores do céu, céu do mês, retrógrados, semanas, estatísticas (não em meses futuros), reflexão.
+- `/year` e `/year/AAAA` → `YearPlannerPage`: palavra, intenção, metas, 12 meses com mini-calendário, Roda do Ano, retrógrados, humor por mês, estatísticas, reflexão.
+- Estatísticas em `src/lib/stats/period.ts` (funções puras). Gráficos em SVG próprio, sem bibliotecas.
+- Cartões partilhados por semana, mês e ano em `src/components/period/`.
+- Autosave: `useMonthAutosave` / `useYearAutosave` sobre `useAutosaveQueue`; `patchMonth` / `patchYear` numa transacção (`Month`/`Year` + `ProjectIntention`).
 
 ### Diário
 
@@ -112,6 +127,7 @@ src/components/providers/   providers client
 src/i18n/                   configuração next-intl
 src/lib/                    db, birth, geocode, icons, theme, validation
 scripts/icons-doc.ts        gera docs/ICONS.md (`npm run docs:icons`)
+prisma/scripts/             scripts de manutenção de dados (`npx tsx …`)
 src/styles/                 tokens, base, components/*
 ```
 

@@ -14,6 +14,11 @@ enum ThemePref {
   SYSTEM
 }
 
+enum Hemisphere {
+  NORTH
+  SOUTH
+}
+
 enum Locale {
   PT_PT
   PT_BR
@@ -97,18 +102,19 @@ enum NotificationKind {
 }
 
 model User {
-  id               String    @id @default(cuid())
-  email            String    @unique
+  id               String     @id @default(cuid())
+  email            String     @unique
   passwordHash     String
   name             String
-  locale           Locale    @default(PT_PT)
-  theme            ThemePref @default(LIGHT)
-  timezone         String    @default("Europe/Lisbon")
-  sleepGoalMinutes Int       @default(420)
-  xpTotal          Int       @default(0)
+  locale           Locale     @default(PT_PT)
+  theme            ThemePref  @default(LIGHT)
+  timezone         String     @default("Europe/Lisbon")
+  sleepGoalMinutes Int        @default(420)
+  hemisphere       Hemisphere @default(NORTH)
+  xpTotal          Int        @default(0)
   onboardedAt      DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
 
   birthProfile      BirthProfile?
   notificationPrefs NotificationPrefs?

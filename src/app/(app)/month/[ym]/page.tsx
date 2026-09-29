@@ -6,7 +6,7 @@ import { db } from '@/lib/db';
 import { formatMonthYear, todayInTz } from '@/lib/dates';
 import { MAX_MONTHS_AHEAD, addMonths, isMonthKey, monthKey, monthOf, parseMonthKey } from '@/lib/weeks';
 import { isAppLocale } from '@/i18n/locales';
-import { MonthOverviewPage } from '@/components/month/MonthOverviewPage';
+import { MonthPlannerPage } from '@/components/month/MonthPlannerPage';
 
 interface MonthRouteProps {
   params: { ym: string };
@@ -35,5 +35,5 @@ export default async function MonthRoute({ params }: MonthRouteProps) {
     redirect('/month');
   }
 
-  return <MonthOverviewPage year={year} month={month} />;
+  return <MonthPlannerPage year={year} month={month} />;
 }

@@ -20,7 +20,7 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Datas do diário são datas de calendário (`@db.Date`) no fuso do user; timestamps em UTC.
 - Peso em gramas inteiras. Escalas de humor 1–5 (acordar e humor).
 - Enums fixos em código: ProjectArea, MoonPhase, ZodiacSign, XpSource, PeriodKind.
-- Commits: feat:/fix:/style: — um por alteração lógica (independentemente de quantos ficheiros toca). Alterações cirúrgicas, nunca reescrever ficheiros inteiros.
+- Commits: um commit único por fase, no fim, com testes, `tsc` e build a passar (ex.: `feat(fase-4): …`). Alterações cirúrgicas, nunca reescrever ficheiros inteiros.
 - Esta lista vive no projecto Claude (fonte de verdade) e é copiada para `docs/DECISIONS.md` no repo; cada prompt de fase termina a actualizar essa cópia.
 
 ## Regras de domínio
@@ -33,6 +33,10 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Peso: introduzido em kg (aceita vírgula ou ponto), gravado em gramas. Mostra diferença para a semana anterior. Libras ficam para depois.
 - Progresso do dia (base da gamificação): Manhã completa = intenção + banimento matinal feito + ritual matinal + "como acordei"; Corpo completo = 3/3 checks; Noite completa = banimento nocturno feito + ritual nocturno + gratidão + humor + reflexão final. Sono (meta cumprida ou não) e resumo não contam — não se penaliza dormir mal. Nível do dia: vazio / parcial / completo.
 - Mês (Fase 3): vista de navegação — calendário com fase da lua e progresso por dia, semanas do mês, eventos lunares. O planner mensal é acrescentado na Fase 4.
+- Mês e ano (Fase 4): planners editáveis no passado e no futuro (mês até +12 meses, ano até +1). Intenção e reflexão em `Month`/`Year`; metas por projecto em `ProjectIntention` (`MONTH` com o dia 1, `YEAR` com 1 de janeiro); texto vazio apaga a meta. O `/month` passa a planner (mantém calendário e semanas).
+- Céu do grimório: fases, eclipses, ingressos do Sol, equinócios/solstícios, sabbats e estações/retrógrados de Mercúrio, Vénus e Marte calculados localmente (astronomy-engine) e guardados em cache (`unstable_cache`, sem expiração — o céu não muda).
+- Sabbats astronómicos (Sol a 315/0/45/90/135/180/225/270°), com o nome pelo hemisfério do utilizador (`User.hemisphere`, adivinhado pelo fuso no 1.º onboarding e editável nas definições): no Sul usa-se o nome da longitude +180° (ex.: Samhain no início de maio).
+- Estatísticas de período: streak = dias seguidos com nível ≥ parcial, limitado ao período; se hoje ainda está vazio, a sequência conta até ontem. Dias futuros não contam para hábitos nem médias.
 - Gamificação: ledger `XpEvent` com unique `(userId, source, periodStart)` → idempotente. XP não é retirado ao desmarcar. Um dia só gera XP se as secções forem concluídas até 24 h depois do fim desse dia (até às 23:59 do dia seguinte, no fuso do user); edições posteriores continuam permitidas mas não dão nem retiram pontos. Nível derivado do total com limiares em código. Separado da futura trilha de conhecimento.
 - Conteúdo IA: partilhado por signo (`SignContent`) + camada personalizada (`UserAiContent`), gerado por job e em cache — nunca ao abrir a página.
 - Notificações idempotentes via `NotificationLog` unique `(userId, kind, periodKey)`. iOS só com a app instalada no ecrã inicial (16.4+).

@@ -7,6 +7,7 @@ import { db } from '@/lib/db';
 import { toBirthUtc } from '@/lib/birth';
 import { computeNatalChart } from '@/lib/astro/natal';
 import { toDbDate } from '@/lib/dates';
+import { guessHemisphere } from '@/lib/hemisphere';
 import { birthProfileSchema, type BirthProfileInput } from '@/lib/validation/onboarding';
 
 export type BirthField = 'birthDate' | 'birthTime' | 'placeName' | 'timezone';
@@ -87,8 +88,10 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
     }),
     db.user.update({
       where: { id: userId },
-      // Na edição posterior (/onboarding?edit=1) mantém o fuso escolhido nas definições.
-      data: existing?.onboardedAt ? {} : { timezone: userTimezone, onboardedAt: new Date() },
+      // Na edição posterior (/onboarding?edit=1) mantém o fuso e o hemisfério escolhidos nas definições.
+      data: existing?.onboardedAt
+        ? {}
+        : { timezone: userTimezone, hemisphere: guessHemisphere(userTimezone), onboardedAt: new Date() },
     }),
   ]);
 

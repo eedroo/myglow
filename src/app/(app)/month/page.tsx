@@ -5,7 +5,7 @@ import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { todayInTz } from '@/lib/dates';
 import { monthOf } from '@/lib/weeks';
-import { MonthOverviewPage } from '@/components/month/MonthOverviewPage';
+import { MonthPlannerPage } from '@/components/month/MonthPlannerPage';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('shell.pages.month');
@@ -19,5 +19,5 @@ export default async function CurrentMonthRoute() {
   if (!user) redirect('/login');
 
   const { year, month } = monthOf(todayInTz(user.timezone));
-  return <MonthOverviewPage year={year} month={month} />;
+  return <MonthPlannerPage year={year} month={month} />;
 }

@@ -7,11 +7,16 @@ interface MonthNavProps {
   prevHref: string | null;
   nextHref: string | null;
   isCurrent: boolean;
+  /** Link para o planner anual. */
+  yearHref: string;
+  /** O título grande vive no MonthHeroCard: o h1 fica só para leitores de ecrã. */
+  hideLabel?: boolean;
 }
 
 /** ← mês → ; "Este mês" quando não é o actual. */
-export async function MonthNav({ label, prevHref, nextHref, isCurrent }: MonthNavProps) {
+export async function MonthNav({ label, prevHref, nextHref, isCurrent, yearHref, hideLabel }: MonthNavProps) {
   const t = await getTranslations('month.nav');
+  const tm = await getTranslations('month');
   const arrow = (href: string | null, dir: 'prev' | 'next') => {
     const Icon = dir === 'prev' ? ChevronLeft : ChevronRight;
     return href ? (
@@ -29,12 +34,17 @@ export async function MonthNav({ label, prevHref, nextHref, isCurrent }: MonthNa
     <nav className="mg-month-nav" aria-label={t('label')}>
       {arrow(prevHref, 'prev')}
       <div className="mg-month-nav__center">
-        <h1 className="mg-month-nav__label">{label}</h1>
-        {!isCurrent && (
-          <Link href="/month" className="mg-month-nav__today">
-            {t('current')}
+        <h1 className={hideLabel ? 'mg-visually-hidden' : 'mg-month-nav__label'}>{label}</h1>
+        <div className="mg-month-nav__links">
+          {!isCurrent && (
+            <Link href="/month" className="mg-month-nav__today">
+              {t('current')}
+            </Link>
+          )}
+          <Link href={yearHref} className="mg-month-nav__today">
+            {tm('yearLink')}
           </Link>
-        )}
+        </div>
       </div>
       {arrow(nextHref, 'next')}
     </nav>

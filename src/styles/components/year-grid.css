@@ -1,0 +1,22 @@
+/* YearGrid: 12 meses — 1 coluna / 2×6 / 3×4 */
+
+.mg-year-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 600px) {
+  .mg-year-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .mg-year-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

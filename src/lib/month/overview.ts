@@ -4,6 +4,8 @@ import { addDays, compareDates, fromDbDate, toDbDate, todayInTz, type DateISO } 
 import { monthGrid, monthRange, weekDays, weekKey, weeksOfMonth } from '@/lib/weeks';
 import { computeDayProgress, PROGRESS_SELECT, type DayProgress } from '@/lib/daily/progress';
 import { getMoonCalendar, getMoonEvents, type MoonDay, type MoonEvent } from '@/lib/astro/moonCalendar';
+import type { DailyEntryLike } from '@/lib/stats/period';
+import type { SkyEvent } from '@/lib/astro/skyEvents';
 
 export interface MonthOverview {
   year: number;
@@ -20,6 +22,10 @@ export interface MonthOverview {
     daysComplete: number;
   }[];
   moonEvents: MoonEvent[];
+  /** Entradas cruas do intervalo consultado (mês + fim da última semana), para estatísticas. */
+  entries: DailyEntryLike[];
+  /** Dias com eventos do céu destacados no calendário (preenchido pelo planner mensal). */
+  eventDays: Record<DateISO, SkyEvent[]>;
 }
 
 /** Vista de navegação do mês: calendário com lua e progresso, semanas do mês e eventos lunares. */
@@ -71,5 +77,7 @@ export async function getMonthOverview(userId: string, year: number, month: numb
       };
     }),
     moonEvents: getMoonEvents(from, to, tz),
+    entries: entries.map((e) => ({ ...e, date: fromDbDate(e.date) })),
+    eventDays: {},
   };
 }

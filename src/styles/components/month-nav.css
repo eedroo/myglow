@@ -54,6 +54,13 @@
   text-transform: uppercase;
 }
 
+.mg-month-nav__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
 .mg-month-nav__today {
   font-size: var(--text-xs);
   font-weight: var(--weight-medium);

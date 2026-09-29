@@ -16,6 +16,8 @@ import { prefToNextTheme, type ThemePref } from '@/lib/theme';
 import type { SettingsInput } from '@/lib/validation/settings';
 
 const THEMES: ThemePref[] = ['LIGHT', 'DARK', 'SYSTEM'];
+const HEMISPHERES = ['NORTH', 'SOUTH'] as const;
+type HemisphereValue = (typeof HEMISPHERES)[number];
 
 interface SettingsFormProps {
   initial: SettingsInput;
@@ -33,6 +35,7 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
   const [locale, setLocale] = useState<DbLocale>(initial.locale);
   const [theme, setThemePref] = useState<ThemePref>(initial.theme);
   const [timezone, setTimezone] = useState(initial.timezone);
+  const [hemisphere, setHemisphere] = useState<HemisphereValue>(initial.hemisphere);
   const [sleepHours, setSleepHours] = useState(String(initial.sleepGoalMinutes / 60));
   const [errors, setErrors] = useState<Partial<Record<keyof SettingsInput, string>>>({});
   const [toast, setToast] = useState<{ variant: 'success' | 'error'; messageKey: string } | null>(null);
@@ -49,6 +52,7 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
         theme,
         timezone,
         sleepGoalMinutes: Number.isFinite(hours) ? Math.round(hours * 60) : NaN,
+        hemisphere,
       });
       if (!result.ok) {
         setErrors(result.fieldErrors ?? {});
@@ -132,6 +136,17 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
           aria-describedby={describedBy('settings-sleep', { hint: sleepHint, error: errors.sleepGoalMinutes })}
         />
       </Field>
+
+      <div className="mg-field">
+        <SegmentedControl<HemisphereValue>
+          name="hemisphere"
+          legend={t('settings.hemisphere.label')}
+          value={hemisphere}
+          onChange={setHemisphere}
+          options={HEMISPHERES.map((value) => ({ value, label: t(`settings.hemisphere.options.${value}`) }))}
+        />
+        <p className="mg-field__hint">{t('settings.hemisphere.hint')}</p>
+      </div>
 
       <Button type="submit" loading={pending} loadingLabel={t('common.saving')}>
         {t('common.save')}

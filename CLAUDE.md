@@ -13,5 +13,5 @@ Lê `docs/DECISIONS.md` e `docs/COMPONENTS.md` antes de implementar qualquer coi
 - Texto visível só em `messages/pt-PT.json`, `pt-BR.json`, `en.json`, escrito de forma nativa em cada língua.
 - Ícones mágicos via `MagicIcon` (`src/lib/icons.ts`); lucide directo só para ícones de UI de linha.
 - Alterações cirúrgicas: nunca reescrever ficheiros inteiros existentes.
-- Commits `feat:`/`fix:`/`style:`/`refactor:`/`test:`/`docs:`/`chore:` — um commit por alteração lógica, independentemente de quantos ficheiros toca.
+- Commits: um commit único por fase, no fim, com `vitest`, `tsc --noEmit`, build e Playwright a passar (ex.: `feat(fase-4): planner mensal, anual e céu do grimório`).
 - `docs/DECISIONS.md` é uma cópia: não mudar regras por iniciativa própria; só acrescentar o que o prompt da fase indicar.

@@ -1,0 +1,83 @@
+/* WheelOfYearCard: sabbats e estações por ordem, próximo destacado */
+
+.mg-wheel__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .mg-wheel__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.mg-wheel__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--input-bg);
+}
+
+.mg-wheel__item--past {
+  opacity: 0.55;
+}
+
+.mg-wheel__item--next {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-glow);
+  background: var(--glass-bg-strong);
+}
+
+.mg-wheel__name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.mg-wheel__sub,
+.mg-wheel__when {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-wheel__badge {
+  margin-left: var(--space-2);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--gold-gradient);
+  color: var(--text-on-gold);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  vertical-align: middle;
+}
+
+.mg-wheel__eclipses {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--line-rule);
+}
+
+.mg-wheel__eclipses-title {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}

@@ -130,3 +130,19 @@ a.mg-calendar__cell:focus-visible {
     align-items: start;
   }
 }
+
+/* Marcador de evento do céu (eclipse, sabbat, estação, estação planetária) */
+.mg-calendar__cell {
+  position: relative;
+}
+
+.mg-calendar__event {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-gradient);
+  box-shadow: var(--shadow-glow);
+}

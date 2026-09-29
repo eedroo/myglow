@@ -18,6 +18,10 @@ export const MAX_WEEKS_AHEAD = 52;
 /** Vista do mês: navegação até 12 meses à frente. */
 export const MAX_MONTHS_AHEAD = 12;
 
+/** Planner anual: de 2000 até ao próximo ano. */
+export const MIN_YEAR = 2000;
+export const MAX_YEARS_AHEAD = 1;
+
 const MONTH_KEY_RE = /^(\d{4})-(0[1-9]|1[0-2])$/;
 
 function dt(date: DateISO): DateTime {

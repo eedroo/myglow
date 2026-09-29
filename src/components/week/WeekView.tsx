@@ -6,10 +6,10 @@ import { SaveStatus } from '@/components/day/SaveStatus';
 import { Toast } from '@/components/ui/Toast';
 import { useWeekAutosave } from '@/hooks/useWeekAutosave';
 import type { WeekData, WeekDaySummary } from '@/types/week';
-import { ProjectIntentionsGrid } from './ProjectIntentionsGrid';
+import { PeriodIntentionCard } from '@/components/period/PeriodIntentionCard';
+import { PeriodProjectsCard } from '@/components/period/PeriodProjectsCard';
+import { PeriodReflectionCard } from '@/components/period/PeriodReflectionCard';
 import { WeekDayRow } from './WeekDayRow';
-import { WeekIntentionCard } from './WeekIntentionCard';
-import { WeekReflectionCard } from './WeekReflectionCard';
 import { WeekTitleCard } from './WeekTitleCard';
 import { WeightCard } from './WeightCard';
 
@@ -41,7 +41,14 @@ export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky
           />
         </div>
         <div className="mg-week__cell mg-week__cell--intention">
-          <WeekIntentionCard value={data.intention} onChange={(v) => setText('intention', v)} onBlur={onBlur} />
+          <PeriodIntentionCard
+            id="week-intention"
+            label={t('week.intention.label')}
+            placeholder={t('week.intention.placeholder')}
+            value={data.intention}
+            onChange={(v) => setText('intention', v)}
+            onBlur={onBlur}
+          />
         </div>
         <div className="mg-week__cell mg-week__cell--sky">{sky}</div>
         <section className="mg-week__cell mg-week__cell--days mg-week__days" aria-label={t('week.days.label')}>
@@ -60,10 +67,17 @@ export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky
           <WeightCard grams={data.weightGrams} previousGrams={previousWeightGrams} onCommit={setWeight} />
         </div>
         <div className="mg-week__cell mg-week__cell--projects">
-          <ProjectIntentionsGrid projects={data.projects} onChange={setProject} onBlur={onBlur} />
+          <PeriodProjectsCard title={t('projects.title')} values={data.projects} onChange={setProject} onBlur={onBlur} />
         </div>
         <div className="mg-week__cell mg-week__cell--reflection">
-          <WeekReflectionCard value={data.reflection} onChange={(v) => setText('reflection', v)} onBlur={onBlur} />
+          <PeriodReflectionCard
+            id="week-reflection"
+            label={t('week.reflection.title')}
+            placeholder={t('week.reflection.placeholder')}
+            value={data.reflection}
+            onChange={(v) => setText('reflection', v)}
+            onBlur={onBlur}
+          />
         </div>
       </div>
       {status === 'error' && errorKey && (

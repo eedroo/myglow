@@ -15,15 +15,16 @@ export const PROJECT_ICONS: Record<ProjectArea, MagicIconName> = {
 };
 
 interface ProjectIntentionCardProps {
+  id: string;
   area: ProjectArea;
+  rows?: number;
   value: string;
   onChange: (value: string) => void;
   onBlur: () => void;
 }
 
-export function ProjectIntentionCard({ area, value, onChange, onBlur }: ProjectIntentionCardProps) {
+export function ProjectIntentionCard({ id, area, rows = 3, value, onChange, onBlur }: ProjectIntentionCardProps) {
   const t = useTranslations('projects');
-  const id = `project-${area.toLowerCase()}`;
   return (
     <div className="mg-project">
       <label htmlFor={id} className="mg-project__head">
@@ -35,7 +36,7 @@ export function ProjectIntentionCard({ area, value, onChange, onBlur }: ProjectI
       <LinedTextArea
         id={id}
         className="mg-project__text"
-        rows={3}
+        rows={rows}
         maxLength={500}
         value={value}
         placeholder={t('placeholder')}

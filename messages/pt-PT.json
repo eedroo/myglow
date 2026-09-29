@@ -111,7 +111,15 @@
       "empty": "Ainda não indicaste os teus dados de nascimento."
     },
     "accountSection": "Conta",
-    "email": "Email"
+    "email": "Email",
+    "hemisphere": {
+      "label": "Hemisfério",
+      "hint": "Define os nomes dos sabbats.",
+      "options": {
+        "NORTH": "Norte",
+        "SOUTH": "Sul"
+      }
+    }
   },
   "nav": {
     "label": "Navegação principal",
@@ -197,6 +205,7 @@
     "weekSample": "Semana (dados de exemplo)",
     "monthSample": "Mês (dados de exemplo)",
     "progressDots": "Pontos de progresso",
+    "plannerSample": "Mês e ano (dados de exemplo)",
     "motto": "Lema"
   },
   "day": {
@@ -406,14 +415,158 @@
       "countLabel": "{touched} de 7 dias com diário, {complete} completos",
       "noIntention": "Ainda sem intenção"
     },
-    "moon": {
-      "title": "A lua este mês",
-      "event": "{phase} em {sign}",
-      "none": "Sem fases principais este mês."
+    "intention": {
+      "label": "Intenção do mês",
+      "placeholder": "Este mês quero…"
     },
-    "teaser": {
-      "title": "Planner do mês",
-      "body": "O planner do mês chega em breve."
+    "projects": "Metas do mês",
+    "reflection": {
+      "label": "Reflexão do mês",
+      "hint": "O que este mês me trouxe? O que levo para o próximo?",
+      "placeholder": "Este mês…"
+    },
+    "hero": {
+      "sun": "Sol em {sign}",
+      "sunChange": "Sol em {from} → {to} a {day}",
+      "moonToday": "Lua de hoje: {phase} em {sign}"
+    },
+    "rituals": {
+      "title": "Rituais do mês",
+      "body": "Em breve: rituais sugeridos para as luas deste mês."
+    },
+    "yearLink": "Ver o ano"
+  },
+  "sky": {
+    "title": "O céu do mês",
+    "yearTitle": "O céu do ano",
+    "none": "Sem eventos neste período.",
+    "moonPhase": "{phase} em {sign}",
+    "lunarEclipse": "Eclipse lunar {kind, select, penumbral {penumbral} partial {parcial} other {total}} em {sign}",
+    "solarEclipse": "Eclipse solar {kind, select, partial {parcial} annular {anular} other {total}} em {sign}",
+    "sunIngress": "O Sol entra em {sign}",
+    "station": "{planet} {direction, select, RETROGRADE {fica retrógrado} other {fica directo}} em {sign}",
+    "seasons": {
+      "MARCH_EQUINOX": "Equinócio de março",
+      "JUNE_SOLSTICE": "Solstício de junho",
+      "SEPTEMBER_EQUINOX": "Equinócio de setembro",
+      "DECEMBER_SOLSTICE": "Solstício de dezembro"
+    },
+    "retro": {
+      "title": "Retrógrados",
+      "item": "{planet} retrógrado",
+      "range": "{start} → {end}",
+      "since": "desde {start}",
+      "inSign": "em {sign}",
+      "now": "Agora",
+      "none": "Sem retrógrados neste período."
+    },
+    "sabbats": {
+      "IMBOLC": {
+        "name": "Imbolc",
+        "subtitle": "Os primeiros sinais de luz"
+      },
+      "OSTARA": {
+        "name": "Ostara",
+        "subtitle": "Equinócio da primavera"
+      },
+      "BELTANE": {
+        "name": "Beltane",
+        "subtitle": "Fogo e fertilidade"
+      },
+      "LITHA": {
+        "name": "Litha",
+        "subtitle": "Solstício de verão"
+      },
+      "LUGHNASADH": {
+        "name": "Lughnasadh",
+        "subtitle": "A primeira colheita"
+      },
+      "MABON": {
+        "name": "Mabon",
+        "subtitle": "Equinócio de outono"
+      },
+      "SAMHAIN": {
+        "name": "Samhain",
+        "subtitle": "O ano novo das bruxas"
+      },
+      "YULE": {
+        "name": "Yule",
+        "subtitle": "Solstício de inverno"
+      }
+    }
+  },
+  "stats": {
+    "title": "Estatísticas",
+    "daysTouched": "Dias registados",
+    "daysComplete": "Dias completos",
+    "currentStreak": "Sequência actual",
+    "bestStreak": "Melhor sequência",
+    "avgMood": "Humor médio",
+    "avgWakeMood": "Ao acordar",
+    "ofDays": "{n} de {total}",
+    "days": "{n, plural, one {# dia} other {# dias}}",
+    "noMood": "—",
+    "habitsTitle": "Hábitos",
+    "habitCount": "{done}/{of}",
+    "habits": {
+      "morningRitual": "Ritual matinal",
+      "nightRitual": "Ritual nocturno",
+      "morningBanish": "Banimento matinal",
+      "nightBanish": "Banimento nocturno",
+      "sleepGoal": "Meta de sono",
+      "stretch": "Alongamento",
+      "workout": "Treino",
+      "water": "Água"
+    },
+    "weightTitle": "Peso",
+    "weightRange": "{first} → {last} kg",
+    "noWeight": "Ainda sem registos de peso.",
+    "sparkLabel": "Evolução do peso em {n} semanas"
+  },
+  "year": {
+    "title": "Ano",
+    "nav": {
+      "label": "Navegar entre anos",
+      "prev": "Ano anterior",
+      "next": "Ano seguinte",
+      "current": "Este ano"
+    },
+    "word": {
+      "label": "Palavra do ano",
+      "placeholder": "Uma palavra que te guie"
+    },
+    "intention": {
+      "label": "Intenção do ano",
+      "placeholder": "Este ano quero…"
+    },
+    "projects": "Metas do ano",
+    "reflection": {
+      "label": "Reflexão do ano",
+      "hint": "O que este ano me ensinou?",
+      "placeholder": "Este ano…"
+    },
+    "grid": {
+      "title": "Os 12 meses",
+      "complete": "{complete}/{total} completos",
+      "openMonth": "Abrir {month}"
+    },
+    "wheel": {
+      "title": "Roda do Ano",
+      "next": "Próximo",
+      "eclipses": "Eclipses do ano"
+    },
+    "mood": {
+      "title": "Humor ao longo do ano",
+      "bar": "{month}: humor médio {mood}, {complete} dias completos",
+      "empty": "{month}: sem registos",
+      "legend": "Barras: humor médio (1–5). Números: dias completos."
+    }
+  },
+  "planner": {
+    "errors": {
+      "invalidPeriod": "Período inválido.",
+      "tooFar": "Não podes planear tão à frente.",
+      "invalid": "Há um campo com um valor inválido."
     }
   }
 }

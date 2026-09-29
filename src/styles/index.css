@@ -40,4 +40,15 @@
 @import './components/month-nav.css';
 @import './components/calendar.css';
 @import './components/month-weeks.css';
-@import './components/month-moon.css';
+@import './components/hero.css';
+@import './components/sky-events.css';
+@import './components/retro.css';
+@import './components/stats.css';
+@import './components/month.css';
+@import './components/year.css';
+@import './components/year-nav.css';
+@import './components/year-word.css';
+@import './components/year-grid.css';
+@import './components/year-month.css';
+@import './components/wheel.css';
+@import './components/year-mood.css';

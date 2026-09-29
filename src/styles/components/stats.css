@@ -1,0 +1,137 @@
+/* PeriodStatsCard: números, hábitos em barras e peso com sparkline (SVG próprio) */
+
+.mg-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mg-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .mg-stats__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .mg-stats__grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.mg-stats__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--input-bg);
+}
+
+.mg-stats__value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-stats__label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-stats__section-title {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-stats__habits {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .mg-stats__habits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.mg-stats__habit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-1) var(--space-3);
+  align-items: center;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-stats__habit-count {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.mg-stats__bar {
+  grid-column: 1 / -1;
+  display: block;
+  width: 100%;
+  height: 6px;
+}
+
+.mg-stats__bar-track {
+  fill: var(--line-rule);
+}
+
+.mg-stats__bar-fill {
+  fill: var(--gold-500);
+}
+
+.mg-stats__weight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--text-primary);
+}
+
+.mg-stats__spark {
+  flex: 1 1 160px;
+  max-width: 280px;
+  height: 40px;
+}
+
+.mg-stats__spark-line {
+  fill: none;
+  stroke: var(--gold-500);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.mg-stats__spark-dot {
+  fill: var(--gold-700);
+}

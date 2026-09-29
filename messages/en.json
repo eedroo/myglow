@@ -111,7 +111,15 @@
       "empty": "You haven't added your birth details yet."
     },
     "accountSection": "Account",
-    "email": "Email"
+    "email": "Email",
+    "hemisphere": {
+      "label": "Hemisphere",
+      "hint": "Sets the names of the sabbats.",
+      "options": {
+        "NORTH": "Northern",
+        "SOUTH": "Southern"
+      }
+    }
   },
   "nav": {
     "label": "Main navigation",
@@ -197,6 +205,7 @@
     "weekSample": "Week (sample data)",
     "monthSample": "Month (sample data)",
     "progressDots": "Progress dots",
+    "plannerSample": "Month and year (sample data)",
     "motto": "Motto"
   },
   "day": {
@@ -406,14 +415,158 @@
       "countLabel": "{touched} of 7 days journaled, {complete} complete",
       "noIntention": "No intention yet"
     },
-    "moon": {
-      "title": "The Moon this month",
-      "event": "{phase} in {sign}",
-      "none": "No main phases this month."
+    "intention": {
+      "label": "This month's intention",
+      "placeholder": "This month I want to…"
     },
-    "teaser": {
-      "title": "Monthly planner",
-      "body": "The monthly planner is coming soon."
+    "projects": "Monthly goals",
+    "reflection": {
+      "label": "Monthly reflection",
+      "hint": "What did this month bring me? What do I carry into the next?",
+      "placeholder": "This month…"
+    },
+    "hero": {
+      "sun": "Sun in {sign}",
+      "sunChange": "Sun in {from} → {to} on the {day}",
+      "moonToday": "Today's Moon: {phase} in {sign}"
+    },
+    "rituals": {
+      "title": "Rituals of the month",
+      "body": "Coming soon: suggested rituals for this month's moons."
+    },
+    "yearLink": "See the year"
+  },
+  "sky": {
+    "title": "This month's sky",
+    "yearTitle": "This year's sky",
+    "none": "No events in this period.",
+    "moonPhase": "{phase} in {sign}",
+    "lunarEclipse": "{kind, select, penumbral {Penumbral} partial {Partial} other {Total}} lunar eclipse in {sign}",
+    "solarEclipse": "{kind, select, partial {Partial} annular {Annular} other {Total}} solar eclipse in {sign}",
+    "sunIngress": "The Sun enters {sign}",
+    "station": "{planet} stations {direction, select, RETROGRADE {retrograde} other {direct}} in {sign}",
+    "seasons": {
+      "MARCH_EQUINOX": "March equinox",
+      "JUNE_SOLSTICE": "June solstice",
+      "SEPTEMBER_EQUINOX": "September equinox",
+      "DECEMBER_SOLSTICE": "December solstice"
+    },
+    "retro": {
+      "title": "Retrogrades",
+      "item": "{planet} retrograde",
+      "range": "{start} → {end}",
+      "since": "since {start}",
+      "inSign": "in {sign}",
+      "now": "Now",
+      "none": "No retrogrades in this period."
+    },
+    "sabbats": {
+      "IMBOLC": {
+        "name": "Imbolc",
+        "subtitle": "The first signs of light"
+      },
+      "OSTARA": {
+        "name": "Ostara",
+        "subtitle": "Spring equinox"
+      },
+      "BELTANE": {
+        "name": "Beltane",
+        "subtitle": "Fire and fertility"
+      },
+      "LITHA": {
+        "name": "Litha",
+        "subtitle": "Summer solstice"
+      },
+      "LUGHNASADH": {
+        "name": "Lughnasadh",
+        "subtitle": "The first harvest"
+      },
+      "MABON": {
+        "name": "Mabon",
+        "subtitle": "Autumn equinox"
+      },
+      "SAMHAIN": {
+        "name": "Samhain",
+        "subtitle": "The witches' new year"
+      },
+      "YULE": {
+        "name": "Yule",
+        "subtitle": "Winter solstice"
+      }
+    }
+  },
+  "stats": {
+    "title": "Stats",
+    "daysTouched": "Days journaled",
+    "daysComplete": "Complete days",
+    "currentStreak": "Current streak",
+    "bestStreak": "Best streak",
+    "avgMood": "Average mood",
+    "avgWakeMood": "On waking",
+    "ofDays": "{n} of {total}",
+    "days": "{n, plural, one {# day} other {# days}}",
+    "noMood": "—",
+    "habitsTitle": "Habits",
+    "habitCount": "{done}/{of}",
+    "habits": {
+      "morningRitual": "Morning ritual",
+      "nightRitual": "Night ritual",
+      "morningBanish": "Morning banishing",
+      "nightBanish": "Night banishing",
+      "sleepGoal": "Sleep goal",
+      "stretch": "Stretching",
+      "workout": "Workout",
+      "water": "Water"
+    },
+    "weightTitle": "Weight",
+    "weightRange": "{first} → {last} kg",
+    "noWeight": "No weight entries yet.",
+    "sparkLabel": "Weight trend over {n} weeks"
+  },
+  "year": {
+    "title": "Year",
+    "nav": {
+      "label": "Move between years",
+      "prev": "Previous year",
+      "next": "Next year",
+      "current": "This year"
+    },
+    "word": {
+      "label": "Word of the year",
+      "placeholder": "A word to guide you"
+    },
+    "intention": {
+      "label": "This year's intention",
+      "placeholder": "This year I want to…"
+    },
+    "projects": "Yearly goals",
+    "reflection": {
+      "label": "Yearly reflection",
+      "hint": "What did this year teach me?",
+      "placeholder": "This year…"
+    },
+    "grid": {
+      "title": "The 12 months",
+      "complete": "{complete}/{total} complete",
+      "openMonth": "Open {month}"
+    },
+    "wheel": {
+      "title": "Wheel of the Year",
+      "next": "Next",
+      "eclipses": "Eclipses this year"
+    },
+    "mood": {
+      "title": "Mood through the year",
+      "bar": "{month}: average mood {mood}, {complete} complete days",
+      "empty": "{month}: no entries",
+      "legend": "Bars: average mood (1–5). Numbers: complete days."
+    }
+  },
+  "planner": {
+    "errors": {
+      "invalidPeriod": "Invalid period.",
+      "tooFar": "You can't plan that far ahead.",
+      "invalid": "One of the fields has an invalid value."
     }
   }
 }

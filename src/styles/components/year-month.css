@@ -1,0 +1,91 @@
+/* YearMonthTile: mês com mini-calendário de pontos */
+
+.mg-year-month {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: border-color var(--duration) var(--ease), background var(--duration) var(--ease);
+}
+
+.mg-year-month:hover {
+  border-color: var(--glass-border-strong);
+  background: var(--glass-bg-strong);
+}
+
+.mg-year-month:focus-visible {
+  border-radius: var(--radius-md);
+}
+
+.mg-year-month--current {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-glow);
+}
+
+.mg-year-month--future {
+  background: transparent;
+  border-style: dashed;
+}
+
+.mg-year-month__name {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+}
+
+.mg-year-month__intention {
+  min-height: 1.5em;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mg-year-month__mini {
+  display: grid;
+  grid-template-columns: repeat(7, 10px);
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-year-month__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-500);
+  opacity: 0.15;
+}
+
+.mg-year-month__dot--out {
+  visibility: hidden;
+}
+
+.mg-year-month__dot--partial {
+  opacity: 0.5;
+}
+
+.mg-year-month__dot--complete {
+  opacity: 1;
+}
+
+.mg-year-month__dot--future {
+  opacity: 0.06;
+}
+
+.mg-year-month__count {
+  margin-top: auto;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}

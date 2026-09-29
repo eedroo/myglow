@@ -112,6 +112,15 @@
     },
     "accountSection": "Conta",
     "email": "Email",
+    "pronouns": {
+      "label": "Como te tratamos",
+      "hint": "Usado nos textos pessoais das leituras. Neutro evita marcas de género.",
+      "options": {
+        "FEMININE": "Ela",
+        "MASCULINE": "Ele",
+        "NEUTRAL": "Neutro"
+      }
+    },
     "hemisphere": {
       "label": "Hemisfério",
       "hint": "Define os nomes dos sabbats.",

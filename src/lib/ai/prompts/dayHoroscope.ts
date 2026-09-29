@@ -16,6 +16,7 @@ export function build(facts: DayFacts & { sign: ZodiacSign }, locale: Locale): P
         'crystal: { name [40], why [140] } — a crystal of the day and why it fits',
       ],
       facts,
+      locale,
     ),
   };
 }

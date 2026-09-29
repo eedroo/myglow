@@ -10,6 +10,7 @@ import {
   type DayHoroscope, type DayPersonal, type MonthEnergy, type MonthPersonal, type MonthRituals, type Ritual,
   type WeekEnergy, type WeekPersonal,
 } from './schemas';
+import { PROMPT_VERSION } from './prompts/system';
 
 /**
  * Leitura do conteúdo IA para as páginas. Só lê da DB — nunca gera. Conteúdo em falta num período
@@ -64,10 +65,22 @@ async function context(userId: string): Promise<Ctx | null> {
   return { userId, locale: user.locale, today: todayInTz(user.timezone), sign: chart?.bodies.SUN.sign ?? null, pending: [] };
 }
 
-function toState<T>(ctx: Ctx, kind: AiKind, periodStart: DateISO, payload: unknown, schema: z.ZodType<T>): AiState<T> {
-  const parsed = payload === undefined ? null : schema.safeParse(payload);
-  if (parsed?.success) return { status: 'ready', data: parsed.data };
-  if (!ctx.sign || aiWindow(kind, periodStart, ctx.today) !== 'open') return { status: 'unavailable' };
+/**
+ * Conteúdo válido → ready. Gerado com prompts antigos: no período aberto volta a gerar-se (pending);
+ * no passado continua a mostrar-se.
+ */
+function toState<T>(
+  ctx: Ctx,
+  kind: AiKind,
+  periodStart: DateISO,
+  row: { payload: unknown; promptVersion: number } | null,
+  schema: z.ZodType<T>,
+): AiState<T> {
+  const parsed = row ? schema.safeParse(row.payload) : null;
+  const open = aiWindow(kind, periodStart, ctx.today) === 'open';
+  const stale = !!row && row.promptVersion < PROMPT_VERSION;
+  if (parsed?.success && !(stale && open && ctx.sign)) return { status: 'ready', data: parsed.data };
+  if (!ctx.sign || !open) return { status: 'unavailable' };
   ctx.pending.push({ kind, periodStart });
   return { status: 'pending' };
 }
@@ -76,18 +89,18 @@ async function signState<K extends SignContentKind>(ctx: Ctx, kind: K, periodSta
   const row = ctx.sign
     ? await db.signContent.findUnique({
         where: { kind_periodStart_sign_locale: { kind, periodStart: toDbDate(periodStart), sign: ctx.sign, locale: ctx.locale } },
-        select: { payload: true },
+        select: { payload: true, promptVersion: true },
       })
     : null;
-  return toState(ctx, kind, periodStart, row?.payload, SIGN_SCHEMAS[kind] as z.ZodType<z.infer<(typeof SIGN_SCHEMAS)[K]>>);
+  return toState(ctx, kind, periodStart, row, SIGN_SCHEMAS[kind] as z.ZodType<z.infer<(typeof SIGN_SCHEMAS)[K]>>);
 }
 
 async function userState<K extends UserContentKind>(ctx: Ctx, kind: K, periodStart: DateISO) {
   const row = await db.userAiContent.findUnique({
     where: { userId_kind_periodStart_locale: { userId: ctx.userId, kind, periodStart: toDbDate(periodStart), locale: ctx.locale } },
-    select: { payload: true },
+    select: { payload: true, promptVersion: true },
   });
-  return toState(ctx, kind, periodStart, row?.payload, USER_SCHEMAS[kind] as z.ZodType<z.infer<(typeof USER_SCHEMAS)[K]>>);
+  return toState(ctx, kind, periodStart, row, USER_SCHEMAS[kind] as z.ZodType<z.infer<(typeof USER_SCHEMAS)[K]>>);
 }
 
 const UNAVAILABLE = { status: 'unavailable' } as const;

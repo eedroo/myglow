@@ -112,6 +112,15 @@
     },
     "accountSection": "Account",
     "email": "Email",
+    "pronouns": {
+      "label": "Your pronouns",
+      "hint": "Used in the personal texts of your readings. Neutral avoids gendered language.",
+      "options": {
+        "FEMININE": "She/her",
+        "MASCULINE": "He/him",
+        "NEUTRAL": "Neutral"
+      }
+    },
     "hemisphere": {
       "label": "Hemisphere",
       "hint": "Sets the names of the sabbats.",

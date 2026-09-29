@@ -33,6 +33,13 @@ enum ProjectArea {
   STUDIES
 }
 
+/// Pronomes / género gramatical usado nos textos pessoais gerados (NEUTRAL = linguagem neutra).
+enum Pronouns {
+  FEMININE
+  MASCULINE
+  NEUTRAL
+}
+
 enum PeriodKind {
   WEEK
   MONTH
@@ -117,6 +124,7 @@ model User {
   bestMagicStreak  Int        @default(0)
   lastActiveAt     DateTime?
   aiUseIntentions  Boolean    @default(true)
+  pronouns         Pronouns   @default(NEUTRAL)
   onboardedAt      DateTime?
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt

@@ -6,6 +6,7 @@ import dayPersonalInvented from '../../../tests/fixtures/ai/day-personal.invente
 import dayPersonalTooLong from '../../../tests/fixtures/ai/day-personal.too-long.json';
 import ritualsValid from '../../../tests/fixtures/ai/month-rituals.valid.json';
 import horoscopeValid from '../../../tests/fixtures/ai/day-horoscope.valid.json';
+import { PROMPT_VERSION } from './prompts/system';
 
 vi.mock('server-only', () => ({}));
 
@@ -17,9 +18,10 @@ const chart = computeNatalChart({
 
 const mocks = vi.hoisted(() => ({
   completeJson: vi.fn(),
-  existing: null as null | { payload: unknown },
+  existing: null as null | { payload: unknown; promptVersion: number },
   userAiUpsert: vi.fn(),
   signUpsert: vi.fn(),
+  pronouns: 'NEUTRAL' as string,
 }));
 
 vi.mock('./openai', () => ({
@@ -29,7 +31,7 @@ vi.mock('./openai', () => ({
 vi.mock('@/lib/astro/ensureNatalChart', () => ({ ensureNatalChart: vi.fn(async () => chart) }));
 vi.mock('@/lib/db', () => ({
   db: {
-    user: { findUnique: vi.fn(async () => ({ locale: 'PT_PT', timezone: TZ, hemisphere: 'NORTH', aiUseIntentions: false })) },
+    user: { findUnique: vi.fn(async () => ({ locale: 'PT_PT', timezone: TZ, hemisphere: 'NORTH', aiUseIntentions: false, pronouns: mocks.pronouns })) },
     userAiContent: { findUnique: vi.fn(async () => mocks.existing), upsert: mocks.userAiUpsert },
     signContent: { findUnique: vi.fn(async () => mocks.existing), upsert: mocks.signUpsert },
   },
@@ -53,7 +55,7 @@ describe('generateUserContent', () => {
     expect(retryMessages.at(-1).content).toMatch(/PLUTO_SQUARE_NATAL_SUN/);
     expect(mocks.userAiUpsert).toHaveBeenCalledTimes(1);
     const arg = mocks.userAiUpsert.mock.calls[0]![0];
-    expect(arg.create).toMatchObject({ kind: 'DAY_PERSONAL', locale: 'PT_PT', model: 'daily-model', promptVersion: 1 });
+    expect(arg.create).toMatchObject({ kind: 'DAY_PERSONAL', locale: 'PT_PT', model: 'daily-model', promptVersion: PROMPT_VERSION });
   });
 
   it('duas respostas inválidas (Zod ou semântica) → não grava', async () => {
@@ -63,15 +65,37 @@ describe('generateUserContent', () => {
   });
 
   it('conteúdo já existente → não chama a OpenAI', async () => {
-    mocks.existing = { payload: dayPersonalValid };
+    mocks.existing = { payload: dayPersonalValid, promptVersion: PROMPT_VERSION };
     expect(await generateUserContent('u1', 'DAY_PERSONAL', '2026-05-06')).toBe('exists');
     expect(mocks.completeJson).not.toHaveBeenCalled();
   });
 
   it('conteúdo existente mas inválido (ex.: esquema antigo) → gera de novo', async () => {
-    mocks.existing = { payload: { headline: 'antigo' } };
+    mocks.existing = { payload: { headline: 'antigo' }, promptVersion: PROMPT_VERSION };
     mocks.completeJson.mockResolvedValueOnce(reply(dayPersonalValid));
     expect(await generateUserContent('u1', 'DAY_PERSONAL', '2026-05-06')).toBe('saved');
+  });
+
+  it('conteúdo gerado com prompts antigos → gera de novo', async () => {
+    mocks.existing = { payload: dayPersonalValid, promptVersion: PROMPT_VERSION - 1 };
+    mocks.completeJson.mockResolvedValueOnce(reply(dayPersonalValid));
+    expect(await generateUserContent('u1', 'DAY_PERSONAL', '2026-05-06')).toBe('saved');
+  });
+
+  it('identificador interno no texto → retry com a razão', async () => {
+    mocks.completeJson
+      .mockResolvedValueOnce(reply({ ...dayPersonalValid, reading: 'No dia 29, MERCURY_TRINE_NATAL_SUN traz clareza.' }))
+      .mockResolvedValueOnce(reply(dayPersonalValid));
+    expect(await generateUserContent('u1', 'DAY_PERSONAL', '2026-05-06')).toBe('saved');
+    expect(mocks.completeJson.mock.calls[1]![0].messages.at(-1).content).toMatch(/MERCURY_TRINE_NATAL_SUN/);
+  });
+
+  it('pronomes do utilizador chegam ao prompt de sistema', async () => {
+    mocks.pronouns = 'MASCULINE';
+    mocks.completeJson.mockResolvedValueOnce(reply(dayPersonalValid));
+    await generateUserContent('u1', 'DAY_PERSONAL', '2026-05-06');
+    expect(mocks.completeJson.mock.calls[0]![0].messages[0].content).toMatch(/masculine pronouns/);
+    mocks.pronouns = 'NEUTRAL';
   });
 
   it('rituais: modelo RICH e ids gerados em código', async () => {
@@ -100,7 +124,7 @@ describe('generateSignContent', () => {
   });
 
   it('já existente → não chama a OpenAI', async () => {
-    mocks.existing = { payload: horoscopeValid };
+    mocks.existing = { payload: horoscopeValid, promptVersion: PROMPT_VERSION };
     expect(await generateSignContent('DAY_HOROSCOPE', '2026-05-06', 'CANCER', 'PT_PT')).toBe('exists');
     expect(mocks.completeJson).not.toHaveBeenCalled();
   });

@@ -14,6 +14,7 @@ export function build(facts: PeriodFacts & { sign: ZodiacSign }, locale: Locale)
         `keyDates: up to 6 items { date: YYYY-MM-DD from the moonEvents or skyEvents in the facts; note [180] }`,
       ],
       facts,
+      locale,
     ),
   };
 }

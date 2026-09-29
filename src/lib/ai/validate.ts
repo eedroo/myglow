@@ -172,3 +172,49 @@ export function validateMonthRituals(data: MonthRituals, facts: PersonalPeriodFa
     checkSignMentions(data, withNatal(allowedForPeriod(facts), facts.natal)),
   );
 }
+
+// ─── Fugas de identificadores e de inglês (todas as respostas) ─────────────────────────────────────
+
+/** Campos que contêm identificadores por desenho (não são texto para ler). */
+const IDENTIFIER_FIELDS = new Set(['label', 'id', 'date', 'area']);
+
+function proseStrings(value: unknown, out: string[] = []): string[] {
+  if (typeof value === 'string') out.push(value);
+  else if (Array.isArray(value)) value.forEach((v) => proseStrings(v, out));
+  else if (value && typeof value === 'object') {
+    for (const [k, v] of Object.entries(value)) if (!IDENTIFIER_FIELDS.has(k)) proseStrings(v, out);
+  }
+  return out;
+}
+
+const ENUM_WORDS = [
+  ...ZODIAC_ORDER,
+  'SUN', 'MOON', 'MERCURY', 'VENUS', 'MARS', 'JUPITER', 'SATURN', 'URANUS', 'NEPTUNE', 'PLUTO', 'ASC',
+  'IMBOLC', 'OSTARA', 'BELTANE', 'LITHA', 'LUGHNASADH', 'MABON', 'SAMHAIN', 'YULE',
+];
+const IDENTIFIER_RE = new RegExp(`(?<![\\p{L}])(?:[A-Z]{2,}(?:_[A-Z]+)+|${ENUM_WORDS.join('|')})(?![\\p{L}_])`, 'u');
+
+/** Expressões/nomes em inglês que não podem aparecer num texto em português. */
+const ENGLISH_RE = new RegExp(
+  `(?<![\\p{L}])(?:Full Moon|New Moon|First Quarter|Last Quarter|Waxing|Waning|stations? (?:retrograde|direct)|` +
+    `lunar eclipse|solar eclipse|enters|natal (?:Sun|Moon)|Aries|Taurus|Gemini|Cancer|Virgo|Scorpio|Sagittarius|` +
+    `Capricorn|Aquarius|Pisces|Mercury|Venus|Mars|Jupiter|Saturn)(?![\\p{L}])`,
+  'iu',
+);
+
+/**
+ * Nenhum identificador interno (MERCURY_TRINE_NATAL_SUN, SCORPIO…) no texto; em português, nenhum nome
+ * ou expressão astrológica em inglês. Os rótulos só podem estar nos campos de identificadores.
+ */
+export function checkLeaks(data: unknown, locale: 'PT_PT' | 'PT_BR' | 'EN'): ValidationResult {
+  for (const text of proseStrings(data)) {
+    const id = IDENTIFIER_RE.exec(text);
+    if (id) return `Internal identifier "${id[0]}" in the text. Use the localized "name" from the facts/GLOSSARY instead.`;
+    if (locale !== 'EN') {
+      // "Áries" (PT-BR) e "Libra" são portugueses; "Aries" sem acento não.
+      const en = ENGLISH_RE.exec(text);
+      if (en && !/^(Libra)$/i.test(en[0])) return `English term "${en[0]}" in a Portuguese text. Write every name in the output language (see GLOSSARY).`;
+    }
+  }
+  return null;
+}

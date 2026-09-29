@@ -18,6 +18,8 @@ import type { SettingsInput } from '@/lib/validation/settings';
 
 const THEMES: ThemePref[] = ['LIGHT', 'DARK', 'SYSTEM'];
 const HEMISPHERES = ['NORTH', 'SOUTH'] as const;
+const PRONOUNS = ['FEMININE', 'MASCULINE', 'NEUTRAL'] as const;
+type PronounsValue = (typeof PRONOUNS)[number];
 type HemisphereValue = (typeof HEMISPHERES)[number];
 
 interface SettingsFormProps {
@@ -39,6 +41,7 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
   const [hemisphere, setHemisphere] = useState<HemisphereValue>(initial.hemisphere);
   const [sleepHours, setSleepHours] = useState(String(initial.sleepGoalMinutes / 60));
   const [aiUseIntentions, setAiUseIntentions] = useState(initial.aiUseIntentions);
+  const [pronouns, setPronouns] = useState<PronounsValue>(initial.pronouns);
   const [errors, setErrors] = useState<Partial<Record<keyof SettingsInput, string>>>({});
   const [toast, setToast] = useState<{ variant: 'success' | 'error'; messageKey: string } | null>(null);
 
@@ -56,6 +59,7 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
         sleepGoalMinutes: Number.isFinite(hours) ? Math.round(hours * 60) : NaN,
         hemisphere,
         aiUseIntentions,
+        pronouns,
       });
       if (!result.ok) {
         setErrors(result.fieldErrors ?? {});
@@ -89,6 +93,17 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
           aria-describedby={describedBy('settings-name', { error: errors.name })}
         />
       </Field>
+
+      <div className="mg-field">
+        <SegmentedControl<PronounsValue>
+          name="pronouns"
+          legend={t('settings.pronouns.label')}
+          value={pronouns}
+          onChange={setPronouns}
+          options={PRONOUNS.map((value) => ({ value, label: t(`settings.pronouns.options.${value}`) }))}
+        />
+        <p className="mg-field__hint">{t('settings.pronouns.hint')}</p>
+      </div>
 
       <SegmentedControl<DbLocale>
         name="locale"

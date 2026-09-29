@@ -54,6 +54,8 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Pré-geração (Inngest, 03:xx locais) só para utilizadores activos nos últimos 7 dias (`User.lastActiveAt`, actualizado no máximo 1×/hora); os restantes recebem conteúdo a pedido ao abrir a página. Nunca se gera nem se chama a OpenAI num request de página.
 - Sem conteúdo retroactivo: períodos passados sem conteúdo ficam sem leitura; só se pede o período actual ou o seguinte.
 - Rituais seguros e simples: nada ingerido (ervas, óleos, substâncias), velas sempre vigiadas e longe de inflamáveis, nada com dor, sangue ou risco, materiais comuns e baratos, respeito por tradições sem apropriar práticas fechadas. Adicionar um ritual à semana não dá Glow.
+- Pronomes (`User.pronouns`: FEMININE, MASCULINE, NEUTRAL; por defeito NEUTRAL), escolhidos nas definições: o texto pessoal da IA concorda com eles (NEUTRAL = linguagem neutra, sem marcas de género); o conteúdo partilhado por signo é sempre neutro. Os pronomes são o único dado de perfil, além do mapa natal e do locale, que vai para a IA. Mudar de pronomes regenera as leituras pessoais actuais.
+- Nomes sempre na língua do utilizador: os factos levam nomes localizados (a partir das mensagens) e a resposta é rejeitada se tiver identificadores internos (`MERCURY_TRINE_NATAL_SUN`, `SCORPIO`) ou, em português, nomes/expressões em inglês.
 - Modelos configurados por env: `OPENAI_MODEL_DAILY` (DAY_* e WEEK_*) e `OPENAI_MODEL_RICH` (MONTH_*, rituais); o modelo e `promptVersion` ficam gravados com cada conteúdo.
 - Notificações idempotentes via `NotificationLog` unique `(userId, kind, periodKey)`. iOS só com a app instalada no ecrã inicial (16.4+).
 

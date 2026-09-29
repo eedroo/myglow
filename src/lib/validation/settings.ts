@@ -8,6 +8,7 @@ export const settingsSchema = z.object({
   sleepGoalMinutes: z.number().int().min(240).max(720),
   hemisphere: z.enum(['NORTH', 'SOUTH']),
   aiUseIntentions: z.boolean(),
+  pronouns: z.enum(['FEMININE', 'MASCULINE', 'NEUTRAL']),
 });
 
 export type SettingsInput = z.infer<typeof settingsSchema>;

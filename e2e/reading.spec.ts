@@ -3,6 +3,7 @@ import { registerAndOnboard, withTestDb } from './helpers';
 import horoscope from '../tests/fixtures/ai/day-horoscope.valid.json';
 import personal from '../tests/fixtures/ai/day-personal.valid.json';
 import rituals from '../tests/fixtures/ai/month-rituals.valid.json';
+import { PROMPT_VERSION } from '../src/lib/ai/prompts/system';
 
 /** Conteúdo IA semeado directamente na DB (sem OpenAI): o utilizador de teste nasceu a 1990-07-15 → Sol em Caranguejo. */
 const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Lisbon' }).format(new Date());
@@ -26,24 +27,28 @@ test('hoje mostra horóscopo, leitura pessoal e sugestões; o ritual do mês vai
   await withTestDb(async (db) => {
     const user = await db.user.findUniqueOrThrow({ where: { email }, select: { id: true } });
     const model = 'e2e';
+    const promptVersion = PROMPT_VERSION;
+    // Conteúdo partilhado: pode sobrar de corridas anteriores (com outra versão de prompt).
+    await db.signContent.deleteMany({
+      where: { sign: 'CANCER', locale: 'PT_PT', periodStart: { in: [asDate(today), asDate(monthStart)] } },
+    });
     await db.signContent.createMany({
       data: [
-        { kind: 'DAY_HOROSCOPE', periodStart: asDate(today), sign: 'CANCER', locale: 'PT_PT', payload: horoscope, model },
+        { kind: 'DAY_HOROSCOPE', periodStart: asDate(today), sign: 'CANCER', locale: 'PT_PT', payload: horoscope, model, promptVersion },
         {
-          kind: 'MONTH_ENERGY', periodStart: asDate(monthStart), sign: 'CANCER', locale: 'PT_PT', model,
+          kind: 'MONTH_ENERGY', periodStart: asDate(monthStart), sign: 'CANCER', locale: 'PT_PT', model, promptVersion,
           payload: { headline: 'Um mês de raízes', overview: 'Energia calma para construir.', keyDates: [] },
         },
       ],
-      skipDuplicates: true,
     });
     await db.userAiContent.createMany({
       data: [
-        { userId: user.id, kind: 'DAY_PERSONAL', periodStart: asDate(today), locale: 'PT_PT', payload: personal, model },
+        { userId: user.id, kind: 'DAY_PERSONAL', periodStart: asDate(today), locale: 'PT_PT', payload: personal, model, promptVersion },
         {
-          userId: user.id, kind: 'MONTH_PERSONAL', periodStart: asDate(monthStart), locale: 'PT_PT', model,
+          userId: user.id, kind: 'MONTH_PERSONAL', periodStart: asDate(monthStart), locale: 'PT_PT', model, promptVersion,
           payload: { headline: 'O teu mês', reading: 'Um mês para cuidar das tuas bases.', focusAreas: [] },
         },
-        { userId: user.id, kind: 'MONTH_RITUALS', periodStart: asDate(monthStart), locale: 'PT_PT', payload: monthRituals, model },
+        { userId: user.id, kind: 'MONTH_RITUALS', periodStart: asDate(monthStart), locale: 'PT_PT', payload: monthRituals, model, promptVersion },
       ],
     });
   });

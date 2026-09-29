@@ -30,6 +30,7 @@ export type GenerateOutcome = 'exists' | 'saved' | 'invalid' | 'unavailable';
 
 export interface PreparedPrompt {
   kind: AiKind;
+  locale: Locale;
   schema: z.ZodTypeAny;
   prompt: PromptPair;
   validate: (data: never) => V.ValidationResult;
@@ -51,15 +52,15 @@ export function prepareSignPrompt(kind: SignContentKind, periodStart: DateISO, s
   switch (kind) {
     case 'DAY_HOROSCOPE': {
       const facts = { sign, ...buildDayFacts(from, 'UTC', 'NORTH', { shared: true }) };
-      return { kind, schema: SIGN_SCHEMAS[kind], prompt: dayHoroscope.build(facts, locale), validate: (d) => V.validateDayHoroscope(d, facts) };
+      return { kind, locale, schema: SIGN_SCHEMAS[kind], prompt: dayHoroscope.build(facts, locale), validate: (d) => V.validateDayHoroscope(d, facts) };
     }
     case 'WEEK_ENERGY': {
       const facts = { sign, ...buildPeriodFacts(from, to, 'UTC', 'NORTH', { shared: true }) };
-      return { kind, schema: SIGN_SCHEMAS[kind], prompt: weekEnergy.build(facts, locale), validate: (d) => V.validateWeekEnergy(d, facts) };
+      return { kind, locale, schema: SIGN_SCHEMAS[kind], prompt: weekEnergy.build(facts, locale), validate: (d) => V.validateWeekEnergy(d, facts) };
     }
     case 'MONTH_ENERGY': {
       const facts = { sign, ...buildPeriodFacts(from, to, 'UTC', 'NORTH', { shared: true }) };
-      return { kind, schema: SIGN_SCHEMAS[kind], prompt: monthEnergy.build(facts, locale), validate: (d) => V.validateMonthEnergy(d, facts) };
+      return { kind, locale, schema: SIGN_SCHEMAS[kind], prompt: monthEnergy.build(facts, locale), validate: (d) => V.validateMonthEnergy(d, facts) };
     }
   }
 }
@@ -111,34 +112,34 @@ export async function prepareUserPrompt(
   userId: string,
   kind: UserContentKind,
   periodStart: DateISO,
-): Promise<(PreparedPrompt & { locale: Locale }) | null> {
+): Promise<PreparedPrompt | null> {
   const user = await db.user.findUnique({
     where: { id: userId },
-    select: { locale: true, timezone: true, hemisphere: true, aiUseIntentions: true },
+    select: { locale: true, timezone: true, hemisphere: true, aiUseIntentions: true, pronouns: true },
   });
   if (!user) return null;
   const chart = await ensureNatalChart(userId);
   if (!chart) return null;
 
-  const { locale, timezone: tz, hemisphere } = user;
+  const { locale, timezone: tz, hemisphere, pronouns } = user;
   const { from, to } = periodOf(kind, periodStart);
   const schema = USER_SCHEMAS[kind];
 
   if (kind === 'DAY_PERSONAL') {
     const intentions = user.aiUseIntentions ? await dayIntentions(userId, from) : undefined;
     const facts = buildPersonalDayFacts({ date: from, tz, hemisphere, chart, intentions });
-    return { kind, locale, schema, prompt: dayPersonal.build(facts, locale), validate: (d) => V.validateDayPersonal(d, facts) };
+    return { kind, locale, schema, prompt: dayPersonal.build(facts, locale, pronouns), validate: (d) => V.validateDayPersonal(d, facts) };
   }
 
   const intentions = user.aiUseIntentions ? await periodIntentions(userId, kind, periodStart) : undefined;
   const facts = buildPersonalPeriodFacts({ from, to, tz, hemisphere, chart, intentions });
   switch (kind) {
     case 'WEEK_PERSONAL':
-      return { kind, locale, schema, prompt: weekPersonal.build(facts, locale), validate: (d) => V.validateWeekPersonal(d, facts) };
+      return { kind, locale, schema, prompt: weekPersonal.build(facts, locale, pronouns), validate: (d) => V.validateWeekPersonal(d, facts) };
     case 'MONTH_PERSONAL':
-      return { kind, locale, schema, prompt: monthPersonal.build(facts, locale), validate: (d) => V.validateMonthPersonal(d, facts) };
+      return { kind, locale, schema, prompt: monthPersonal.build(facts, locale, pronouns), validate: (d) => V.validateMonthPersonal(d, facts) };
     case 'MONTH_RITUALS':
-      return { kind, locale, schema, prompt: monthRituals.build(facts, locale), validate: (d) => V.validateMonthRituals(d, facts) };
+      return { kind, locale, schema, prompt: monthRituals.build(facts, locale, pronouns), validate: (d) => V.validateMonthRituals(d, facts) };
   }
 }
 
@@ -156,7 +157,7 @@ async function runPrepared(p: PreparedPrompt): Promise<{ data: unknown; model: s
     const { data, raw } = await completeJson({ model, name: p.kind.toLowerCase(), schema: p.schema, messages });
     const parsed = p.schema.safeParse(data);
     const reason = parsed.success
-      ? p.validate(parsed.data as never)
+      ? (p.validate(parsed.data as never) ?? V.checkLeaks(parsed.data, p.locale))
       : parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ');
     if (reason === null) return { data: parsed.data, model };
 
@@ -170,6 +171,11 @@ async function runPrepared(p: PreparedPrompt): Promise<{ data: unknown; model: s
   return null;
 }
 
+/** Conteúdo válido e gerado com os prompts actuais (senão é gerado de novo). */
+export function isCurrent(row: { payload: unknown; promptVersion: number }, schema: z.ZodTypeAny): boolean {
+  return row.promptVersion >= PROMPT_VERSION && schema.safeParse(row.payload).success;
+}
+
 // ─── API pública ───────────────────────────────────────────────────────────────────────────────────
 
 export async function generateSignContent(
@@ -179,8 +185,8 @@ export async function generateSignContent(
   locale: Locale,
 ): Promise<GenerateOutcome> {
   const key = { kind, periodStart: toDbDate(periodStart), sign, locale };
-  const existing = await db.signContent.findUnique({ where: { kind_periodStart_sign_locale: key }, select: { payload: true } });
-  if (existing && SIGN_SCHEMAS[kind].safeParse(existing.payload).success) return 'exists';
+  const existing = await db.signContent.findUnique({ where: { kind_periodStart_sign_locale: key }, select: { payload: true, promptVersion: true } });
+  if (existing && isCurrent(existing, SIGN_SCHEMAS[kind])) return 'exists';
 
   const result = await runPrepared(prepareSignPrompt(kind, periodStart, sign, locale));
   if (!result) return 'invalid';
@@ -198,8 +204,8 @@ export async function generateUserContent(userId: string, kind: UserContentKind,
   const user = await db.user.findUnique({ where: { id: userId }, select: { locale: true } });
   if (!user) return 'unavailable';
   const key = { userId, kind, periodStart: toDbDate(periodStart), locale: user.locale };
-  const existing = await db.userAiContent.findUnique({ where: { userId_kind_periodStart_locale: key }, select: { payload: true } });
-  if (existing && USER_SCHEMAS[kind].safeParse(existing.payload).success) return 'exists';
+  const existing = await db.userAiContent.findUnique({ where: { userId_kind_periodStart_locale: key }, select: { payload: true, promptVersion: true } });
+  if (existing && isCurrent(existing, USER_SCHEMAS[kind])) return 'exists';
 
   const prepared = await prepareUserPrompt(userId, kind, periodStart);
   if (!prepared) return 'unavailable';

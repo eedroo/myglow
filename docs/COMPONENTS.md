@@ -197,7 +197,7 @@ Compõem primitivos; não têm CSS próprio além de `field.css` (`mg-form-error
 | `LoginForm` | `Field`, `TextInput`, `Button` | `login` (useFormState) |
 | `RegisterForm` | `Field`, `TextInput`, `SegmentedControl`, `Button` | `register` (useFormState) |
 | `OnboardingForm` | `Field`, `TextInput`, `Autocomplete`, `Button` | `saveBirthProfile` → `update({})` → `/today` |
-| `SettingsForm` | `Field`, `TextInput`, `SegmentedControl`, `Toast`, `Button` | `saveSettings` → `setTheme` → `update({})` → `router.refresh()` |
+| `SettingsForm` | `Field`, `TextInput`, `SegmentedControl`, `CheckChip`, `Toast`, `Button` | `saveSettings` → `setTheme` → `update({})` → `router.refresh()`; F6: pronomes (Ela / Ele / Neutro) e toggle das intenções nas leituras |
 | `UiShowcase` (`src/components/dev/`) | todos os primitivos F1 | — |
 
 ---

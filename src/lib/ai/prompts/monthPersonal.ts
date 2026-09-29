@@ -1,11 +1,11 @@
-import type { Locale } from '@prisma/client';
+import type { Locale, Pronouns } from '@prisma/client';
 import type { PersonalPeriodFacts } from '../facts';
 import { systemPrompt, userPrompt, type PromptPair } from './system';
 
 /** Leitura pessoal do mês. */
-export function build(facts: PersonalPeriodFacts, locale: Locale): PromptPair {
+export function build(facts: PersonalPeriodFacts, locale: Locale, pronouns: Pronouns = 'NEUTRAL'): PromptPair {
   return {
-    system: systemPrompt(locale),
+    system: systemPrompt(locale, pronouns),
     user: userPrompt(
       `Write a personal reading for the month ${facts.from} to ${facts.to}, based on the exact transits to this person's natal chart ("keyAspects") and the sky of the month.`,
       [
@@ -14,6 +14,7 @@ export function build(facts: PersonalPeriodFacts, locale: Locale): PromptPair {
         'focusAreas: up to 3 items { area: one of MAGIC, PERSONAL, LEISURE, PROFESSIONAL, STUDIES; note [180] }',
       ],
       facts,
+      locale,
     ),
   };
 }

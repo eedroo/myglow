@@ -3,7 +3,7 @@ import { computeNatalChart } from '@/lib/astro/natal';
 import { toBirthUtc } from '@/lib/birth';
 import { buildDayFacts, buildPersonalDayFacts, buildPersonalPeriodFacts } from './facts';
 import { dayHoroscopeSchema, dayPersonalSchema, monthRitualsSchema } from './schemas';
-import { checkSignMentions, validateDayHoroscope, validateDayPersonal, validateMonthRituals } from './validate';
+import { checkLeaks, checkSignMentions, validateDayHoroscope, validateDayPersonal, validateMonthRituals } from './validate';
 import dayPersonalValid from '../../../tests/fixtures/ai/day-personal.valid.json';
 import dayPersonalInvented from '../../../tests/fixtures/ai/day-personal.invented-transit.json';
 import ritualsValid from '../../../tests/fixtures/ai/month-rituals.valid.json';
@@ -69,5 +69,25 @@ describe('checkSignMentions', () => {
     expect(checkSignMentions('A Lua Nova em Áries chega.', allowed)).toMatch(/ARIES/);
     expect(checkSignMentions('O Sol entra em Gêmeos.', allowed)).toMatch(/GEMINI/);
     expect(checkSignMentions('Sol. Em Gémeos há quem sonhe.', allowed)).toBeNull();
+  });
+});
+
+describe('checkLeaks', () => {
+  it('rejeita identificadores internos no texto (mas não nos campos de identificadores)', () => {
+    expect(checkLeaks({ reading: 'O trânsito MERCURY_SEXTILE_NATAL_VENUS traz harmonia.' }, 'PT_BR')).toMatch(/MERCURY_SEXTILE_NATAL_VENUS/);
+    expect(checkLeaks({ note: 'Vênus fica retrógrado em SCORPIO.' }, 'PT_BR')).toMatch(/SCORPIO/);
+    expect(checkLeaks(dayPersonalValid, 'PT_PT')).toBeNull();
+  });
+
+  it('em português rejeita nomes e expressões em inglês', () => {
+    expect(checkLeaks({ occasion: 'Full Moon in Aries' }, 'PT_BR')).toMatch(/Full Moon/);
+    expect(checkLeaks({ note: 'Vênus stations retrograde em Escorpião' }, 'PT_BR')).toMatch(/stations retrograde/);
+    expect(checkLeaks({ occasion: 'Lua Cheia em Áries' }, 'PT_BR')).toBeNull();
+    expect(checkLeaks({ note: 'O Sol em Libra traz equilíbrio.' }, 'PT_BR')).toBeNull();
+  });
+
+  it('em inglês aceita os nomes em inglês', () => {
+    expect(checkLeaks({ occasion: 'Full Moon in Aries' }, 'EN')).toBeNull();
+    expect(checkLeaks({ note: 'VENUS stations retrograde' }, 'EN')).toMatch(/VENUS/);
   });
 });

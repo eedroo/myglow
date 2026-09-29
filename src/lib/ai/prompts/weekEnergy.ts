@@ -14,6 +14,7 @@ export function build(facts: PeriodFacts & { sign: ZodiacSign }, locale: Locale)
         `highlights: up to 4 items { date: YYYY-MM-DD between ${facts.from} and ${facts.to}, preferably a date from the facts; note [160] }`,
       ],
       facts,
+      locale,
     ),
   };
 }

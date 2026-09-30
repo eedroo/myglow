@@ -59,6 +59,7 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Modelos configurados por env: `OPENAI_MODEL_DAILY` (DAY_* e WEEK_*) e `OPENAI_MODEL_RICH` (MONTH_*, rituais); o modelo e `promptVersion` ficam gravados com cada conteúdo.
 - Notificações idempotentes via `NotificationLog` unique `(userId, kind, periodKey)`. iOS só com a app instalada no ecrã inicial (16.4+).
 - Lembretes (Fase 7) só quando há algo por fazer (mesmos critérios do Glow, com a janela aberta ou não); no máximo manhã, corpo e noite por dia + início/fim de semana e de mês.
+- Convite antes do lembrete: quando a leitura IA do dia/semana/mês já existe, o aviso da manhã, do domingo e do dia 1 usa o título da leitura ("a sua mensagem do dia está pronta"). Depois, só se o convite não foi seguido, uma **última chamada** à noite no último dia da janela do Glow: terça (plano da semana), domingo (reflexão da semana anterior), dia 7 (plano do mês), dia 1 (reflexão do mês anterior). Desligável em "Última chamada".
 - Avaliação em slots de 15 min (horários só em múltiplos de 15 min); semana e mês desfasados +15/+30 min da hora da manhã/noite para nunca chegarem dois avisos no mesmo instante.
 - Caixa de avisos na app (sino) como fallback: todos os avisos ficam lá, com ou sem push (ex.: iPhone sem a app instalada).
 - A permissão de notificações só é pedida depois de um gesto num cartão explicativo ("Activar"), nunca ao carregar a página.

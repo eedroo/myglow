@@ -32,6 +32,13 @@ export interface NotificationContext {
   moon?: { phase: MoonPhase; sign: ZodiacSign }; // MORNING e NIGHT
   sabbatToday?: SabbatKey;
   ritualToday?: string; // título do ritual do mês marcado para hoje
+  // Convites (F7+): títulos das leituras IA já prontas (dia, semana, mês) e n.º de rituais do mês
+  dayHeadline?: string;
+  weekHeadline?: string;
+  monthHeadline?: string;
+  monthRituals?: number;
+  /** Período do aviso (para a última chamada da reflexão, que abre a semana/mês anterior). */
+  periodKey?: string;
 }
 
 const clip = (s: string, max: number) => (s.length <= max ? s : `${s.slice(0, max - 1).trimEnd()}…`);
@@ -45,6 +52,14 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
 
   switch (kind) {
     case 'MORNING':
+      if (ctx.dayHeadline) {
+        // Convite: a mensagem do dia (leitura IA) já está pronta.
+        title = ctx.dayHeadline;
+        body = ctx.ritualToday
+          ? t('notifications.push.morning.readyBodyRitual', { ritual: ctx.ritualToday })
+          : t('notifications.push.morning.readyBody');
+        break;
+      }
       title = ctx.moon
         ? t('notifications.push.morning.title', {
             phase: t(`astro.phases.${ctx.moon.phase}`),
@@ -67,8 +82,10 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       body = t('notifications.push.night.body');
       break;
     case 'WEEK_START':
-      title = t('notifications.push.weekStart.title');
-      body = t('notifications.push.weekStart.body', { points: XP_POINTS.WEEK_PLAN });
+      title = ctx.weekHeadline ?? t('notifications.push.weekStart.title');
+      body = ctx.weekHeadline
+        ? t('notifications.push.weekStart.readyBody')
+        : t('notifications.push.weekStart.body', { points: XP_POINTS.WEEK_PLAN });
       url = '/week';
       break;
     case 'WEEK_END':
@@ -77,14 +94,36 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       url = '/week';
       break;
     case 'MONTH_START':
-      title = t('notifications.push.monthStart.title');
-      body = t('notifications.push.monthStart.body', { points: XP_POINTS.MONTH_PLAN });
+      title = ctx.monthHeadline ?? t('notifications.push.monthStart.title');
+      body = ctx.monthHeadline
+        ? t('notifications.push.monthStart.readyBody', { rituals: ctx.monthRituals ?? 0 })
+        : t('notifications.push.monthStart.body', { points: XP_POINTS.MONTH_PLAN });
       url = '/month';
       break;
     case 'MONTH_END':
       title = t('notifications.push.monthEnd.title');
       body = t('notifications.push.monthEnd.body', { points: XP_POINTS.MONTH_REFLECTION });
       url = '/month';
+      break;
+    case 'WEEK_PLAN_LAST':
+      title = t('notifications.push.weekPlanLast.title');
+      body = t('notifications.push.weekPlanLast.body', { points: XP_POINTS.WEEK_PLAN });
+      url = '/week';
+      break;
+    case 'WEEK_REFLECTION_LAST':
+      title = t('notifications.push.weekReflectionLast.title');
+      body = t('notifications.push.weekReflectionLast.body', { points: XP_POINTS.WEEK_REFLECTION });
+      url = ctx.periodKey?.startsWith('W') ? `/week/${ctx.periodKey.slice(1)}` : '/week';
+      break;
+    case 'MONTH_PLAN_LAST':
+      title = t('notifications.push.monthPlanLast.title');
+      body = t('notifications.push.monthPlanLast.body', { points: XP_POINTS.MONTH_PLAN });
+      url = '/month';
+      break;
+    case 'MONTH_REFLECTION_LAST':
+      title = t('notifications.push.monthReflectionLast.title');
+      body = t('notifications.push.monthReflectionLast.body', { points: XP_POINTS.MONTH_REFLECTION });
+      url = ctx.periodKey?.startsWith('M') ? `/month/${ctx.periodKey.slice(1)}` : '/month';
       break;
   }
   return { title: clip(title, MAX_TITLE), body: clip(body, MAX_BODY), url };

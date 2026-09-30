@@ -4,7 +4,7 @@ import { notificationPrefsSchema } from './notifications';
 const base = {
   enabled: true, morningEnabled: true, bodyEnabled: true, nightEnabled: true,
   morningTime: '08:00', bodyTime: '13:00', nightTime: '21:30',
-  weekStart: true, weekEnd: true, monthStart: true, monthEnd: true,
+  weekStart: true, weekEnd: true, monthStart: true, monthEnd: true, lastCall: true,
 };
 
 describe('notificationPrefsSchema', () => {

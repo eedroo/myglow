@@ -5,13 +5,14 @@ import { dueCandidates, dueNotifications, type NotificationPrefsInput, type Noti
 const PREFS: NotificationPrefsInput = {
   enabled: true, morningTime: '08:00', bodyTime: '13:00', nightTime: '21:30',
   morningEnabled: true, bodyEnabled: true, nightEnabled: true,
-  weekStart: true, weekEnd: true, monthStart: true, monthEnd: true,
+  weekStart: true, weekEnd: true, monthStart: true, monthEnd: true, lastCall: true,
 };
 const day = (p: Partial<DayProgress> = {}): DayProgress => ({
   date: '2026-05-06', hasEntry: false, morning: false, body: false, bodyChecks: 0, night: false, level: 'empty', ...p,
 });
 const TODO: NotificationState = {
   day: day(), weekPlanDone: false, weekReflectionDone: false, monthPlanDone: false, monthReflectionDone: false,
+  lastWeekReflectionDone: false, lastMonthReflectionDone: false,
 };
 const LX = 'Europe/Lisbon';
 const at = (iso: string, tz = LX, prefs = PREFS, state = TODO) => dueNotifications(new Date(iso), tz, prefs, state);
@@ -47,6 +48,26 @@ describe('dueNotifications', () => {
 
   it('dia 1 às 08:30 → MONTH_START', () => {
     expect(at('2026-06-01T07:35:00Z')).toEqual([{ kind: 'MONTH_START', periodKey: 'M2026-06' }]);
+  });
+
+  it('última chamada do plano da semana: terça 21:45', () => {
+    expect(at('2026-05-05T20:50:00Z')).toEqual([{ kind: 'WEEK_PLAN_LAST', periodKey: 'W2026-05-03' }]);
+    expect(at('2026-05-05T20:50:00Z', LX, PREFS, { ...TODO, weekPlanDone: true })).toEqual([]);
+    expect(at('2026-05-05T20:50:00Z', LX, { ...PREFS, lastCall: false })).toEqual([]);
+  });
+
+  it('última chamada da reflexão da semana anterior: domingo 21:45', () => {
+    expect(at('2026-05-10T20:50:00Z')).toEqual([{ kind: 'WEEK_REFLECTION_LAST', periodKey: 'W2026-05-03' }]);
+    expect(at('2026-05-10T20:50:00Z', LX, PREFS, { ...TODO, lastWeekReflectionDone: true })).toEqual([]);
+  });
+
+  it('última chamada do plano do mês: dia 7 às 22:00', () => {
+    expect(at('2026-05-07T21:05:00Z')).toEqual([{ kind: 'MONTH_PLAN_LAST', periodKey: 'M2026-05' }]);
+  });
+
+  it('última chamada da reflexão do mês anterior: dia 1 às 22:00', () => {
+    expect(at('2026-06-01T21:05:00Z')).toEqual([{ kind: 'MONTH_REFLECTION_LAST', periodKey: 'M2026-05' }]);
+    expect(at('2026-01-01T22:05:00Z')).toEqual([{ kind: 'MONTH_REFLECTION_LAST', periodKey: 'M2025-12' }]);
   });
 
   it('São Paulo 08:05 locais → MORNING', () => {

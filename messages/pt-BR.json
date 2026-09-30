@@ -733,6 +733,8 @@
   "notifications": {
     "push": {
       "morning": {
+          "readyBody": "Sua mensagem do dia está pronta. Qual é a sua intenção?",
+          "readyBodyRitual": "Sua mensagem do dia está pronta. Hoje tem ritual: {ritual}",
         "title": "{phase} em {sign} {emoji}",
         "body": "Qual é a sua intenção para hoje?",
         "bodyRitual": "Hoje tem ritual: {ritual}",
@@ -747,6 +749,7 @@
         "body": "Gratidão, humor e reflexão esperam por você."
       },
       "weekStart": {
+          "readyBody": "O tema da sua semana chegou. Que tal planejar a semana?",
         "title": "Uma nova semana começa",
         "body": "Planeje sua semana até terça e ganhe {points} Glow."
       },
@@ -755,6 +758,7 @@
         "body": "Escreva sua reflexão até domingo e ganhe {points} Glow."
       },
       "monthStart": {
+          "readyBody": "Seu mês está pronto{rituals, plural, =0 {} one {, com # ritual} other {, com # rituais}}. Defina sua intenção.",
         "title": "Um novo mês começa",
         "body": "Defina a intenção e as metas do mês e ganhe {points} Glow."
       },
@@ -762,7 +766,11 @@
         "title": "O mês está terminando",
         "body": "Uma reflexão sobre o mês vale {points} Glow."
       },
-      "test": {
+      "weekPlanLast": {"title": "Última chamada para a sua semana", "body": "O plano da semana ainda vale {points} Glow até o fim de hoje."},
+        "weekReflectionLast": {"title": "Ainda dá para refletir sobre a semana", "body": "A reflexão da semana que passou vale {points} Glow até o fim de hoje."},
+        "monthPlanLast": {"title": "Seu mês ainda espera por você", "body": "A intenção e as metas do mês valem {points} Glow até o fim de hoje."},
+        "monthReflectionLast": {"title": "Ainda dá para fechar o mês", "body": "A reflexão do mês que passou vale {points} Glow até o fim de hoje."},
+        "test": {
         "title": "Tudo pronto ✨",
         "body": "Os lembretes do MYGLOW vão chegar assim."
       }
@@ -806,6 +814,8 @@
       "weekEnd": "Fim da semana",
       "monthStart": "Início do mês",
       "monthEnd": "Fim do mês",
+      "lastCall": "Última chamada",
+      "lastCallHint": "Um último aviso perto do fim do prazo, só se ainda faltar.",
       "hint": "Só lembramos você do que ainda falta fazer.",
       "device": "Este dispositivo",
       "deviceOn": "Notificações ativas neste dispositivo.",

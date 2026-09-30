@@ -235,7 +235,7 @@ export default async function DevUiPage() {
               initial={{
                 enabled: true, morningEnabled: true, bodyEnabled: true, nightEnabled: false,
                 morningTime: '08:00', bodyTime: '13:00', nightTime: '21:30',
-                weekStart: true, weekEnd: true, monthStart: true, monthEnd: false,
+                weekStart: true, weekEnd: true, monthStart: true, monthEnd: false, lastCall: true,
               }}
               devices={[{ endpoint: 'https://push.example.com/dev', userAgent: 'Mozilla/5.0 (Linux; Android 14) Chrome/128.0', createdAt: '2026-05-01T10:00:00Z' }]}
               pushConfigured={false}

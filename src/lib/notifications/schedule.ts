@@ -2,6 +2,7 @@ import { DateTime } from 'luxon';
 import type { NotificationKind, NotificationPrefs } from '@prisma/client';
 import type { DateISO } from '@/lib/dates';
 import type { DayProgress } from '@/lib/daily/progress';
+import { addDays } from '@/lib/dates';
 import { weekStartOf } from '@/lib/weeks';
 
 /**
@@ -13,7 +14,7 @@ export const SLOT_MINUTES = 15;
 export type NotificationPrefsInput = Pick<
   NotificationPrefs,
   | 'enabled' | 'morningTime' | 'bodyTime' | 'nightTime' | 'morningEnabled' | 'bodyEnabled' | 'nightEnabled'
-  | 'weekStart' | 'weekEnd' | 'monthStart' | 'monthEnd'
+  | 'weekStart' | 'weekEnd' | 'monthStart' | 'monthEnd' | 'lastCall'
 >;
 
 export interface NotificationState {
@@ -22,6 +23,9 @@ export interface NotificationState {
   weekReflectionDone: boolean;
   monthPlanDone: boolean;
   monthReflectionDone: boolean;
+  /** Reflexões do período anterior (a última chamada de domingo e do dia 1 fecha a semana/mês que acabou). */
+  lastWeekReflectionDone: boolean;
+  lastMonthReflectionDone: boolean;
 }
 
 export interface DueNotification {
@@ -42,6 +46,7 @@ const minutesOf = (hhmm: string) => {
 export const dayKey = (date: DateISO) => date;
 export const weekKey = (sunday: DateISO) => `W${sunday}`;
 export const monthKey = (date: DateISO) => `M${date.slice(0, 7)}`;
+const prevMonthKey = (date: DateISO) => monthKey(DateTime.fromISO(date).minus({ months: 1 }).toISODate()!);
 
 interface Rule {
   kind: NotificationKind;
@@ -60,6 +65,11 @@ const RULES: Rule[] = [
   { kind: 'WEEK_END', time: (p) => p.nightTime, offset: 15, on: (p) => p.weekEnd, day: (d) => d.weekday === 6, key: (d) => weekKey(weekStartOf(d)) },
   { kind: 'MONTH_START', time: (p) => p.morningTime, offset: 30, on: (p) => p.monthStart, day: (d) => d.day === 1, key: monthKey },
   { kind: 'MONTH_END', time: (p) => p.nightTime, offset: 30, on: (p) => p.monthEnd, day: (d) => d.day === d.daysInMonth, key: monthKey },
+  // Última chamada: no último dia da janela do Glow, à noite (+15/+30 min para não coincidir com os outros).
+  { kind: 'WEEK_PLAN_LAST', time: (p) => p.nightTime, offset: 15, on: (p) => p.lastCall && p.weekStart, day: (d) => d.weekday === 2, key: (d) => weekKey(weekStartOf(d)) },
+  { kind: 'WEEK_REFLECTION_LAST', time: (p) => p.nightTime, offset: 15, on: (p) => p.lastCall && p.weekEnd, day: (d) => d.weekday === 7, key: (d) => weekKey(addDays(d, -7)) },
+  { kind: 'MONTH_PLAN_LAST', time: (p) => p.nightTime, offset: 30, on: (p) => p.lastCall && p.monthStart, day: (d) => d.day === 7, key: monthKey },
+  { kind: 'MONTH_REFLECTION_LAST', time: (p) => p.nightTime, offset: 30, on: (p) => p.lastCall && p.monthEnd, day: (d) => d.day === 1, key: prevMonthKey },
 ];
 
 /** Avisos cujo horário cai no slot actual (ainda sem olhar ao que está feito). */
@@ -89,6 +99,10 @@ function pending(kind: NotificationKind, s: NotificationState): boolean {
     case 'WEEK_END': return !s.weekReflectionDone;
     case 'MONTH_START': return !s.monthPlanDone;
     case 'MONTH_END': return !s.monthReflectionDone;
+    case 'WEEK_PLAN_LAST': return !s.weekPlanDone;
+    case 'WEEK_REFLECTION_LAST': return !s.lastWeekReflectionDone;
+    case 'MONTH_PLAN_LAST': return !s.monthPlanDone;
+    case 'MONTH_REFLECTION_LAST': return !s.lastMonthReflectionDone;
   }
 }
 

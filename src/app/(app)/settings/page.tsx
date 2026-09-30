@@ -96,6 +96,7 @@ export default async function SettingsPage() {
             weekEnd: prefs?.weekEnd ?? true,
             monthStart: prefs?.monthStart ?? true,
             monthEnd: prefs?.monthEnd ?? true,
+            lastCall: prefs?.lastCall ?? true,
           }}
           devices={devices}
           pushConfigured={hasPush()}

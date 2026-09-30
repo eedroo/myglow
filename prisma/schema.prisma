@@ -107,6 +107,11 @@ enum NotificationKind {
   WEEK_END
   MONTH_START
   MONTH_END
+  // Última chamada: só se o convite não foi seguido, perto do fim da janela do Glow
+  WEEK_PLAN_LAST
+  WEEK_REFLECTION_LAST
+  MONTH_PLAN_LAST
+  MONTH_REFLECTION_LAST
 }
 
 model User {
@@ -319,6 +324,7 @@ model NotificationPrefs {
   morningEnabled Boolean @default(true)
   bodyEnabled    Boolean @default(true)
   nightEnabled   Boolean @default(true)
+  lastCall       Boolean @default(true) // avisos de última chamada (plano/reflexão da semana e do mês)
 }
 
 model PushSubscription {

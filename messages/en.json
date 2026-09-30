@@ -733,6 +733,8 @@
   "notifications": {
     "push": {
       "morning": {
+          "readyBody": "Your message for today is ready. What's your intention?",
+          "readyBodyRitual": "Your message for today is ready. Ritual today: {ritual}",
         "title": "{phase} in {sign} {emoji}",
         "body": "What's your intention for today?",
         "bodyRitual": "Ritual today: {ritual}",
@@ -747,6 +749,7 @@
         "body": "Gratitude, mood and reflection are waiting for you."
       },
       "weekStart": {
+          "readyBody": "Your theme for the week is here. Ready to plan your week?",
         "title": "A new week begins",
         "body": "Plan your week by Tuesday and earn {points} Glow."
       },
@@ -755,6 +758,7 @@
         "body": "Write your reflection by Sunday and earn {points} Glow."
       },
       "monthStart": {
+          "readyBody": "Your month is ready{rituals, plural, =0 {} one {, with # ritual} other {, with # rituals}}. Set your intention.",
         "title": "A new month begins",
         "body": "Set the month's intention and goals and earn {points} Glow."
       },
@@ -762,7 +766,11 @@
         "title": "The month is closing",
         "body": "A reflection on the month is worth {points} Glow."
       },
-      "test": {
+      "weekPlanLast": {"title": "Last call for your week", "body": "Your week plan is still worth {points} Glow until the end of today."},
+        "weekReflectionLast": {"title": "There's still time to reflect", "body": "Reflecting on last week is worth {points} Glow until the end of today."},
+        "monthPlanLast": {"title": "Your month is still waiting", "body": "The month's intention and goals are worth {points} Glow until the end of today."},
+        "monthReflectionLast": {"title": "There's still time to close the month", "body": "Reflecting on last month is worth {points} Glow until the end of today."},
+        "test": {
         "title": "All set ✨",
         "body": "This is how MYGLOW reminders will arrive."
       }
@@ -806,6 +814,8 @@
       "weekEnd": "End of the week",
       "monthStart": "Start of the month",
       "monthEnd": "End of the month",
+      "lastCall": "Last call",
+      "lastCallHint": "One last reminder near the deadline, only if something is still missing.",
       "hint": "We only remind you of what's still left to do.",
       "device": "This device",
       "deviceOn": "Notifications are on for this device.",

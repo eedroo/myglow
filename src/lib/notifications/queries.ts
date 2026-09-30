@@ -1,13 +1,14 @@
 import 'server-only';
 import type { Hemisphere, Locale } from '@prisma/client';
 import { db } from '@/lib/db';
-import { toDbDate, type DateISO } from '@/lib/dates';
-import { monthOf, weekStartOf } from '@/lib/weeks';
+import { addDays, toDbDate, type DateISO } from '@/lib/dates';
+import { addMonths, monthOf, weekStartOf } from '@/lib/weeks';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
 import { planMet, reflectionMet } from '@/lib/xp/rules';
 import { getDailyMoon } from '@/lib/astro/moon';
 import { getSkyEvents, type SabbatKey } from '@/lib/astro/skyEvents';
 import { getRituals } from '@/lib/ai/queries';
+import { USER_SCHEMAS } from '@/lib/ai/schemas';
 import type { NotificationContext } from './content';
 import type { NotificationState } from './schedule';
 
@@ -18,12 +19,16 @@ export async function notificationState(userId: string, date: DateISO): Promise<
   const weekStart = toDbDate(weekStartOf(date));
   const { year, month } = monthOf(date);
   const monthStart = toDbDate(`${date.slice(0, 7)}-01`);
-  const [entry, week, weekProjects, monthRow, monthProjects] = await Promise.all([
+  const prevWeekStart = toDbDate(addDays(weekStartOf(date), -7));
+  const prev = addMonths(year, month, -1);
+  const [entry, week, weekProjects, monthRow, monthProjects, prevWeek, prevMonth] = await Promise.all([
     db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(date) } }, select: PROGRESS_SELECT }),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: weekStart } }, select: { intention: true, reflection: true } }),
     db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: weekStart } }),
     db.month.findUnique({ where: { userId_year_month: { userId, year, month } }, select: { intention: true, reflection: true } }),
     db.projectIntention.count({ where: { userId, period: 'MONTH', periodStart: monthStart } }),
+    db.week.findUnique({ where: { userId_startDate: { userId, startDate: prevWeekStart } }, select: { reflection: true } }),
+    db.month.findUnique({ where: { userId_year_month: { userId, year: prev.year, month: prev.month } }, select: { reflection: true } }),
   ]);
   return {
     day: computeDayProgress(date, entry),
@@ -31,17 +36,35 @@ export async function notificationState(userId: string, date: DateISO): Promise<
     weekReflectionDone: reflectionMet(week?.reflection ?? ''),
     monthPlanDone: planMet(monthRow?.intention ?? '', monthProjects),
     monthReflectionDone: reflectionMet(monthRow?.reflection ?? ''),
+    lastWeekReflectionDone: reflectionMet(prevWeek?.reflection ?? ''),
+    lastMonthReflectionDone: reflectionMet(prevMonth?.reflection ?? ''),
   };
 }
 
-/** Contexto do texto: lua do dia, sabbat e ritual do mês marcado para hoje. */
+/** Título de uma leitura pessoal já gerada (na língua actual), para os convites. */
+async function headline(userId: string, locale: Locale, kind: 'DAY_PERSONAL' | 'WEEK_PERSONAL' | 'MONTH_PERSONAL', periodStart: DateISO) {
+  const row = await db.userAiContent.findUnique({
+    where: { userId_kind_periodStart_locale: { userId, kind, periodStart: toDbDate(periodStart), locale } },
+    select: { payload: true },
+  });
+  const parsed = row ? USER_SCHEMAS[kind].safeParse(row.payload) : null;
+  return parsed?.success ? parsed.data.headline : undefined;
+}
+
+/** Contexto do texto: lua do dia, sabbat, ritual do mês marcado para hoje e títulos das leituras prontas. */
 export async function notificationContext(
   userId: string,
   i: { locale: Locale; date: DateISO; tz: string; hemisphere: Hemisphere },
 ): Promise<NotificationContext> {
   const moon = getDailyMoon(i.date, i.tz);
   const sabbat = getSkyEvents(i.date, i.date, i.tz, i.hemisphere).find((e) => e.type === 'SABBAT');
-  const rituals = await getRituals(userId, i.locale, `${i.date.slice(0, 7)}-01`).catch(() => null);
+  const monthStart = `${i.date.slice(0, 7)}-01`;
+  const [rituals, dayHeadline, weekHeadline, monthHeadline] = await Promise.all([
+    getRituals(userId, i.locale, monthStart).catch(() => null),
+    headline(userId, i.locale, 'DAY_PERSONAL', i.date),
+    headline(userId, i.locale, 'WEEK_PERSONAL', weekStartOf(i.date)),
+    headline(userId, i.locale, 'MONTH_PERSONAL', monthStart),
+  ]);
   return {
     locale: i.locale,
     date: i.date,
@@ -49,6 +72,10 @@ export async function notificationContext(
     moon: { phase: moon.phase, sign: moon.signAtNoon },
     sabbatToday: sabbat && sabbat.type === 'SABBAT' ? (sabbat.sabbat as SabbatKey) : undefined,
     ritualToday: rituals?.rituals.find((r) => r.date === i.date)?.title,
+    dayHeadline,
+    weekHeadline,
+    monthHeadline,
+    monthRituals: rituals?.rituals.length,
   };
 }
 

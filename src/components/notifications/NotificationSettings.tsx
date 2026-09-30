@@ -144,6 +144,8 @@ export function NotificationSettings({ initial, devices, pushConfigured }: Notif
         {PERIODS.map(({ key, icon }) => (
           <CheckChip key={key} icon={icon} label={label(key)} checked={prefs[key]} onCheckedChange={(v) => update({ [key]: v })} />
         ))}
+        <CheckChip icon="flame" label={label('lastCall')} checked={prefs.lastCall} onCheckedChange={(v) => update({ lastCall: v })} />
+        <p className="mg-notify-settings__status">{label('lastCallHint')}</p>
       </fieldset>
       {prefsMsg && (
         <p className={prefsMsg.error ? 'mg-notify-settings__status mg-notify-settings__status--error' : 'mg-notify-settings__status'} role="status">

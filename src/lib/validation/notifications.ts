@@ -17,6 +17,7 @@ export const notificationPrefsSchema = z
     weekEnd: z.boolean(),
     monthStart: z.boolean(),
     monthEnd: z.boolean(),
+    lastCall: z.boolean(),
   })
   .strict();
 

@@ -61,7 +61,7 @@ export const notificationsDispatch = inngest.createFunction(
         const ctx = await notificationContext(u.id, { locale: u.locale, date: u.date, tz: u.tz, hemisphere: u.hemisphere });
         let count = 0;
         for (const d of todo) {
-          const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, ctx) });
+          const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, { ...ctx, periodKey: d.periodKey }) });
           if (res !== 'duplicate') count++;
         }
         return count;

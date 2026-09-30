@@ -1,0 +1,723 @@
+{
+  "slug": "rituais",
+  "order": 2,
+  "required": true,
+  "locale": "pt-BR",
+  "version": 1,
+  "title": "Rituais do cotidiano",
+  "subtitle": "Pequenos gestos, grandes transformações",
+  "description": "Ritual não precisa ser complicado. Neste curso você aprende a banir o que pesa, abrir e fechar o dia com rituais simples, praticar gratidão e reflexão, e acender uma vela com intenção e segurança.",
+  "icon": "candle",
+  "badge": {
+    "name": "Selo do Ritual",
+    "icon": "badge-rituais",
+    "description": "Você aprendeu a transformar gestos simples em rituais com intenção."
+  },
+  "tags": [
+    "rituais",
+    "banimento",
+    "gratidao",
+    "reflexao",
+    "fogo"
+  ],
+  "lessons": [
+    {
+      "slug": "o-que-e-ritual",
+      "title": "O que é um ritual",
+      "minutes": 4,
+      "tags": [
+        "rituais"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Um gesto com intenção",
+          "body": "Um ritual é uma ação feita com atenção e intenção. Escovar os dentes é hábito. Escovar os dentes pensando “estou cuidando de mim” já começa a virar ritual. A diferença está na presença.",
+          "id": "o-que-e-ritual-1"
+        },
+        {
+          "type": "icon",
+          "icon": "lotus",
+          "title": "As três partes",
+          "body": "Quase todo ritual tem três momentos: **abrir** (parar e se preparar), **agir** (o gesto em si) e **fechar** (agradecer e seguir). Até um ritual de dois minutos pode ter começo, meio e fim.",
+          "id": "o-que-e-ritual-2"
+        },
+        {
+          "type": "concept",
+          "title": "Por que rituais funcionam",
+          "body": "Rituais marcam transições. Eles avisam à sua mente: “agora é diferente”. Por isso ajudam a começar o dia com foco, a encerrar o trabalho e a soltar o que ficou pesado.",
+          "id": "o-que-e-ritual-3"
+        },
+        {
+          "type": "example",
+          "title": "Um ritual de chá",
+          "body": "Prepare um chá devagar. Enquanto a água esquenta, respire. Ao segurar a xícara, defina uma intenção. Ao beber o último gole, agradeça. Um gesto comum, agora com sentido.",
+          "id": "o-que-e-ritual-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Rituais existem em todas as culturas humanas: de refeições partilhadas a celebrações de passagem de estação. Eles ajudam a dar ritmo e significado à vida.",
+          "id": "o-que-e-ritual-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que gesto do seu dia a dia poderia virar um pequeno ritual?",
+          "id": "o-que-e-ritual-6"
+        },
+        {
+          "type": "practice",
+          "title": "Marque seu ritual",
+          "body": "Hoje, escolha um gesto simples, faça com presença e marque o ritual matinal ou noturno no diário.",
+          "action": {
+            "label": "Abrir o diário",
+            "href": "/today"
+          },
+          "id": "o-que-e-ritual-7"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "O que transforma um hábito em ritual?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Fazer o gesto com atenção e intenção"
+            },
+            {
+              "id": "b",
+              "text": "Usar objetos caros"
+            },
+            {
+              "id": "c",
+              "text": "Fazer o gesto muito rápido"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Não são os objetos: é a presença e a intenção que você coloca no gesto."
+        }
+      ]
+    },
+    {
+      "slug": "banimento",
+      "title": "Banimento: soltar o que não é seu",
+      "minutes": 5,
+      "tags": [
+        "banimento"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O que é banir",
+          "body": "Banir é afastar, soltar ou limpar algo que não serve mais: uma preocupação que gira na cabeça, uma energia pesada depois de uma conversa difícil, um cansaço acumulado.",
+          "id": "banimento-1"
+        },
+        {
+          "type": "icon",
+          "icon": "tea-cup",
+          "title": "Por que banir de manhã",
+          "body": "O banimento matinal limpa o terreno antes de plantar a intenção. É como arrumar a mesa antes de começar a trabalhar: você começa o dia mais leve.",
+          "id": "banimento-2"
+        },
+        {
+          "type": "icon",
+          "icon": "feather",
+          "title": "Por que banir à noite",
+          "body": "O banimento noturno solta o que o dia trouxe: tensões, conversas, preocupações. Assim você não leva tudo isso para a cama.",
+          "id": "banimento-3"
+        },
+        {
+          "type": "concept",
+          "title": "Formas simples de banir",
+          "body": "**Respiração**: inspire fundo e solte o ar imaginando o peso saindo. **Água**: lave as mãos ou o rosto com essa intenção. **Som**: bata palmas ou toque um sino. **Escrita**: escreva o que quer soltar, rasgue o papel e descarte.",
+          "id": "banimento-4"
+        },
+        {
+          "type": "example",
+          "title": "Um banimento de 1 minuto",
+          "body": "Fique de pé. Inspire contando até quatro. Ao soltar o ar, diga em pensamento: “eu solto o que não é meu”. Repita três vezes. Sacuda as mãos. Pronto.",
+          "id": "banimento-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "No diário, você pode dar um nome ao seu banimento: “Respiração das 3 vezes”, “Mãos na água”. Com o tempo você cria os seus próprios banimentos favoritos.",
+          "id": "banimento-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que você gostaria de soltar hoje?",
+          "id": "banimento-7"
+        },
+        {
+          "type": "practice",
+          "title": "Seu banimento de hoje",
+          "body": "Faça o banimento de 1 minuto, dê um nome a ele no diário e marque como feito.",
+          "action": {
+            "label": "Registrar banimento",
+            "href": "/today"
+          },
+          "id": "banimento-8"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual destas é uma forma simples de banimento?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Lavar as mãos com a intenção de soltar"
+            },
+            {
+              "id": "b",
+              "text": "Planejar a semana"
+            },
+            {
+              "id": "c",
+              "text": "Ler o horóscopo"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Água, respiração, som e escrita são formas simples e seguras de banir."
+        },
+        {
+          "id": "r2",
+          "prompt": "Por que fazer um banimento à noite?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Para ganhar mais tempo"
+            },
+            {
+              "id": "b",
+              "text": "Para soltar o que o dia trouxe antes de dormir"
+            },
+            {
+              "id": "c",
+              "text": "Para escolher a intenção do dia seguinte"
+            }
+          ],
+          "correct": "b",
+          "explanation": "O banimento noturno limpa o que o dia acumulou, para você descansar mais leve."
+        }
+      ]
+    },
+    {
+      "slug": "ritual-matinal",
+      "title": "O ritual matinal",
+      "minutes": 4,
+      "tags": [
+        "rituais",
+        "manha"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Conectar antes de reagir",
+          "body": "Muita gente começa o dia reagindo: celular, mensagens, pressa. O ritual matinal inverte isso: primeiro você se conecta consigo, depois com o mundo.",
+          "id": "ritual-matinal-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sun",
+          "title": "Uma sequência simples",
+          "body": "1. Beba água. 2. Faça o banimento matinal. 3. Respire ou alongue por alguns minutos. 4. Escreva a intenção do dia. Cinco a dez minutos bastam.",
+          "id": "ritual-matinal-2"
+        },
+        {
+          "type": "concept",
+          "title": "O seu ritual, do seu jeito",
+          "body": "Não existe um ritual certo. Pode ser meditar, acender uma vela, tomar sol na janela, ler uma frase inspiradora. O importante é ser simples o bastante para repetir todos os dias.",
+          "id": "ritual-matinal-3"
+        },
+        {
+          "type": "example",
+          "title": "Um ritual de janela",
+          "body": "Abra a janela. Sinta o ar e a luz no rosto por um minuto. Agradeça pelo novo dia. Volte e escreva a sua intenção. Simples, possível e seu.",
+          "id": "ritual-matinal-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Receber luz natural logo pela manhã ajuda o corpo a entender que o dia começou. Um minuto na janela já é um bom começo.",
+          "id": "ritual-matinal-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Como seria a sua manhã ideal, em cinco minutos?",
+          "id": "ritual-matinal-6"
+        },
+        {
+          "type": "practice",
+          "title": "Desenhe o seu ritual",
+          "body": "Escolha 2 ou 3 gestos para o seu ritual matinal. Amanhã, faça e marque no diário.",
+          "action": {
+            "label": "Ver a Manhã",
+            "href": "/today"
+          },
+          "id": "ritual-matinal-7"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual é a ideia central do ritual matinal?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Responder mensagens logo cedo"
+            },
+            {
+              "id": "b",
+              "text": "Conectar-se consigo antes de reagir ao mundo"
+            },
+            {
+              "id": "c",
+              "text": "Fazer o máximo de tarefas possível"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Primeiro você se conecta consigo; depois, com o mundo."
+        }
+      ]
+    },
+    {
+      "slug": "ritual-noturno",
+      "title": "O ritual noturno",
+      "minutes": 4,
+      "tags": [
+        "rituais",
+        "noite"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Desacelerar com intenção",
+          "body": "O ritual noturno é uma ponte entre o dia e o descanso. Ele ajuda o corpo e a mente a entenderem que é hora de soltar.",
+          "id": "ritual-noturno-1"
+        },
+        {
+          "type": "icon",
+          "icon": "crystal-ball",
+          "title": "Uma sequência simples",
+          "body": "1. Diminua as luzes e afaste as telas. 2. Faça o banimento noturno. 3. Escreva a gratidão e a reflexão. 4. Respire devagar antes de deitar.",
+          "id": "ritual-noturno-2"
+        },
+        {
+          "type": "concept",
+          "title": "Menos tela, mais presença",
+          "body": "A luz forte e o excesso de informação à noite deixam a mente ligada. Tente guardar o celular um pouco antes de dormir e use esse tempo para o seu ritual.",
+          "id": "ritual-noturno-3"
+        },
+        {
+          "type": "example",
+          "title": "Um ritual de vela",
+          "body": "Acenda uma vela num lugar seguro. Olhe a chama por um minuto e repasse o dia. Agradeça, escreva no diário e apague a vela dizendo: “o dia está encerrado”.",
+          "id": "ritual-noturno-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Repetir a mesma sequência toda noite ensina o corpo a reconhecer o sinal de descanso. A repetição é o que dá força ao ritual.",
+          "id": "ritual-noturno-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que costuma tirar a sua paz na hora de dormir?",
+          "id": "ritual-noturno-6"
+        },
+        {
+          "type": "practice",
+          "title": "Encerre o dia de hoje",
+          "body": "Hoje à noite, faça o seu ritual noturno e marque no diário.",
+          "action": {
+            "label": "Ver a Noite",
+            "href": "/today"
+          },
+          "id": "ritual-noturno-7"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual destas atitudes ajuda no ritual noturno?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Afastar as telas antes de dormir"
+            },
+            {
+              "id": "b",
+              "text": "Começar tarefas novas"
+            },
+            {
+              "id": "c",
+              "text": "Tomar café forte"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Menos luz e menos informação ajudam a mente a desacelerar."
+        }
+      ]
+    },
+    {
+      "slug": "gratidao",
+      "title": "Gratidão",
+      "minutes": 4,
+      "tags": [
+        "gratidao"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O olhar que muda tudo",
+          "body": "Gratidão é treinar o olhar para perceber o que está bom, mesmo nos dias difíceis. Não é fingir que tudo está bem: é reconhecer que também há luz.",
+          "id": "gratidao-1"
+        },
+        {
+          "type": "icon",
+          "icon": "heart",
+          "title": "Seja específico",
+          "body": "“Sou grato pela minha família” é bonito. “Sou grato pelo abraço que recebi hoje de manhã” é mais forte. Detalhes fazem você reviver o momento.",
+          "id": "gratidao-2"
+        },
+        {
+          "type": "concept",
+          "title": "Coisas pequenas contam",
+          "body": "O café quente, uma música no caminho, uma mensagem de alguém, o corpo que te levou até aqui. Quanto mais você nota, mais tem para notar.",
+          "id": "gratidao-3"
+        },
+        {
+          "type": "example",
+          "title": "Três gratidões",
+          "body": "1. Pelo sol que entrou pela janela. 2. Pela conversa leve no almoço. 3. Por ter cuidado de mim bebendo água. Três linhas, dois minutos.",
+          "id": "gratidao-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Anotar gratidões com regularidade é uma das práticas mais estudadas para o bem-estar. O segredo está na constância, não na quantidade.",
+          "id": "gratidao-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que pequena coisa de hoje merece o seu obrigado?",
+          "id": "gratidao-6"
+        },
+        {
+          "type": "practice",
+          "title": "Escreva três gratidões",
+          "body": "No campo Gratidão do diário, escreva três coisas específicas de hoje.",
+          "action": {
+            "label": "Escrever gratidão",
+            "href": "/today"
+          },
+          "id": "gratidao-7"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual gratidão está mais forte?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Sou grato pela vida"
+            },
+            {
+              "id": "b",
+              "text": "Sou grato pelo abraço que recebi hoje de manhã"
+            },
+            {
+              "id": "c",
+              "text": "Sou grato por tudo"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Gratidões específicas fazem você reviver o momento, e é isso que as torna poderosas."
+        }
+      ]
+    },
+    {
+      "slug": "reflexao",
+      "title": "Reflexão: aprender com o dia",
+      "minutes": 4,
+      "tags": [
+        "reflexao"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O dia como professor",
+          "body": "Todo dia ensina alguma coisa. A reflexão é o momento de perguntar: o que eu aprendi hoje? O que posso fazer melhor amanhã?",
+          "id": "reflexao-1"
+        },
+        {
+          "type": "icon",
+          "icon": "moon-stars",
+          "title": "Sem julgamento",
+          "body": "Refletir não é se criticar. É observar com curiosidade, como quem lê o próprio diário de viagem. Você é aprendiz, não réu.",
+          "id": "reflexao-2"
+        },
+        {
+          "type": "concept",
+          "title": "Duas perguntas bastam",
+          "body": "**O que aprendi hoje?** Um insight, uma percepção, um erro que ensinou. **O que posso melhorar amanhã?** Uma ação pequena e concreta.",
+          "id": "reflexao-3"
+        },
+        {
+          "type": "example",
+          "title": "Uma reflexão real",
+          "body": "“Aprendi que fico impaciente quando pulo o almoço. Amanhã vou levar um lanche e fazer uma pausa ao meio-dia.” Simples, honesto e útil.",
+          "id": "reflexao-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "A sua leitura pessoal traz, às vezes, uma pergunta de reflexão ligada ao céu do dia. Ela aparece no diário como inspiração.",
+          "id": "reflexao-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que o dia de hoje tentou te ensinar?",
+          "id": "reflexao-6"
+        },
+        {
+          "type": "practice",
+          "title": "Reflita sobre hoje",
+          "body": "No campo Reflexão final, responda às duas perguntas com uma frase cada.",
+          "action": {
+            "label": "Escrever reflexão",
+            "href": "/today"
+          },
+          "id": "reflexao-7"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual é o espírito da reflexão no MYGLOW?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Julgar os erros do dia"
+            },
+            {
+              "id": "b",
+              "text": "Observar com curiosidade e aprender"
+            },
+            {
+              "id": "c",
+              "text": "Listar tarefas pendentes"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Refletir é aprender com o dia, sem se criticar."
+        }
+      ]
+    },
+    {
+      "slug": "acender-uma-vela",
+      "title": "Acender uma vela",
+      "minutes": 5,
+      "tags": [
+        "rituais",
+        "fogo",
+        "seguranca"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Por que uma vela?",
+          "body": "A chama é um dos símbolos mais antigos de presença e transformação. Acender uma vela marca o início de um momento especial e ajuda a concentrar a atenção.",
+          "id": "acender-uma-vela-1"
+        },
+        {
+          "type": "icon",
+          "icon": "candle",
+          "title": "Acender com intenção",
+          "body": "Antes de acender, respire e diga (em voz alta ou em pensamento) a sua intenção. Ao riscar o fósforo, imagine que está dando luz a ela.",
+          "id": "acender-uma-vela-2"
+        },
+        {
+          "type": "concept",
+          "title": "Segurança em primeiro lugar",
+          "body": "Use um suporte firme, longe de cortinas, papéis e plantas secas. Nunca deixe a vela acesa sozinha ou perto de crianças e animais. Mantenha o ambiente ventilado.",
+          "id": "acender-uma-vela-3"
+        },
+        {
+          "type": "concept",
+          "title": "Apagar também é ritual",
+          "body": "Muitas tradições preferem abafar a chama com um apagador ou uma tampa, em vez de soprar. Agradeça ao apagar: é o fechamento do ritual. E, se sair de casa, apague sempre.",
+          "id": "acender-uma-vela-4"
+        },
+        {
+          "type": "example",
+          "title": "Uma vela para a intenção",
+          "body": "Acenda uma vela branca, leia a sua intenção do dia em voz alta e deixe a chama acesa enquanto escreve no diário. Ao terminar, abafe a chama e agradeça.",
+          "id": "acender-uma-vela-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Não precisa de velas especiais: uma vela branca comum serve para qualquer intenção. No curso de Cores e correspondências você descobre o significado de cada cor.",
+          "id": "acender-uma-vela-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que intenção você gostaria de iluminar com uma vela?",
+          "id": "acender-uma-vela-7"
+        },
+        {
+          "type": "practice",
+          "title": "Seu ritual de vela",
+          "body": "Com segurança, acenda uma vela enquanto escreve a sua intenção ou a sua gratidão. Depois, marque o ritual no diário.",
+          "action": {
+            "label": "Abrir o diário",
+            "href": "/today"
+          },
+          "id": "acender-uma-vela-8"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual destas é uma regra de segurança com velas?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Deixar acesa ao sair de casa"
+            },
+            {
+              "id": "b",
+              "text": "Nunca deixar a vela acesa sozinha"
+            },
+            {
+              "id": "c",
+              "text": "Colocar perto das cortinas"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Vela acesa pede sempre presença: nunca a deixe sozinha."
+        },
+        {
+          "id": "r2",
+          "prompt": "Qual vela serve para qualquer intenção?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Apenas velas raras"
+            },
+            {
+              "id": "b",
+              "text": "Uma vela branca comum"
+            },
+            {
+              "id": "c",
+              "text": "Só velas perfumadas"
+            }
+          ],
+          "correct": "b",
+          "explanation": "A vela branca é neutra e serve para qualquer intenção."
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "prompt": "Quais são as três partes de um ritual?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Abrir, agir e fechar"
+        },
+        {
+          "id": "b",
+          "text": "Comprar, montar e guardar"
+        },
+        {
+          "id": "c",
+          "text": "Ler, decorar e repetir"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Até um ritual de dois minutos pode ter começo, meio e fim."
+    },
+    {
+      "id": "q2",
+      "prompt": "O que é banir?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Pedir algo ao universo"
+        },
+        {
+          "id": "b",
+          "text": "Soltar ou afastar o que não serve mais"
+        },
+        {
+          "id": "c",
+          "text": "Planejar o futuro"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Banir é limpar o terreno: soltar preocupações, tensões e energias pesadas."
+    },
+    {
+      "id": "q3",
+      "prompt": "Qual gratidão é mais poderosa?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Sou grato por tudo"
+        },
+        {
+          "id": "b",
+          "text": "Sou grato pela conversa leve que tive no almoço"
+        },
+        {
+          "id": "c",
+          "text": "Sou grato pela vida em geral"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Detalhes fazem você reviver o momento; por isso gratidões específicas têm mais força."
+    },
+    {
+      "id": "q4",
+      "prompt": "Você acendeu uma vela e precisa sair de casa. O que fazer?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Deixar acesa para manter a energia"
+        },
+        {
+          "id": "b",
+          "text": "Apagar a vela antes de sair"
+        },
+        {
+          "id": "c",
+          "text": "Levar a vela com você acesa"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Segurança vem primeiro: vela acesa pede presença, sempre."
+    },
+    {
+      "id": "q5",
+      "prompt": "Quais são as duas perguntas da reflexão?",
+      "options": [
+        {
+          "id": "a",
+          "text": "O que comprei e o que gastei?"
+        },
+        {
+          "id": "b",
+          "text": "O que aprendi hoje e o que posso melhorar amanhã?"
+        },
+        {
+          "id": "c",
+          "text": "Quem me ajudou e quem me atrapalhou?"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Duas perguntas simples transformam o dia em aprendizado."
+    }
+  ]
+}

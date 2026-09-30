@@ -1,6 +1,7 @@
 {
   "version": 1,
   "courses": [
-    { "slug": "vida-magica", "order": 1, "required": true, "locales": ["pt-BR"] }
+    { "slug": "vida-magica", "order": 1, "required": true, "locales": ["pt-BR"] },
+    { "slug": "rituais", "order": 2, "required": true, "locales": ["pt-BR"] }
   ]
 }

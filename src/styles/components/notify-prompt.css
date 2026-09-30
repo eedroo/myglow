@@ -1,0 +1,42 @@
+/* NotificationsPromptCard: convite para activar os lembretes */
+
+.mg-notify-prompt > .mg-card__body {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.mg-notify-prompt__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.mg-notify-prompt__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.mg-notify-prompt__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+.mg-notify-prompt__text {
+  color: var(--text-secondary);
+}
+
+.mg-notify-prompt__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.mg-notify-prompt__status {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}

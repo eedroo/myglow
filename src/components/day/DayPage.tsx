@@ -1,4 +1,5 @@
 import type { MoonPhase, ZodiacSign } from '@prisma/client';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { auth } from '@/auth';
@@ -21,6 +22,8 @@ import { getPeriodAwards } from '@/lib/xp/queries';
 import { getDayReading } from '@/lib/ai/queries';
 import { DailyReadingCard } from '@/components/reading/DailyReadingCard';
 import { RitualTodayCard } from '@/components/reading/RitualTodayCard';
+import { NotificationsPromptCard } from '@/components/notifications/NotificationsPromptCard';
+import { PROMPT_DISMISS_COOKIE, shouldShowPrompt } from '@/lib/notifications/prompt';
 import { DAY_SOURCES } from '@/lib/xp/rules';
 
 /** Página de um dia do diário (hoje ou passado). */
@@ -30,7 +33,7 @@ export async function DayPage({ date }: { date: DateISO }) {
   const userId = session.user.id;
 
   const [user, entry, natal, locale, ta, td, dayAwards, reading] = await Promise.all([
-    db.user.findUnique({ where: { id: userId }, select: { timezone: true, sleepGoalMinutes: true } }),
+    db.user.findUnique({ where: { id: userId }, select: { timezone: true, sleepGoalMinutes: true, createdAt: true } }),
     getDailyEntry(userId, date),
     ensureNatalChart(userId),
     getLocale(),
@@ -88,6 +91,12 @@ export async function DayPage({ date }: { date: DateISO }) {
         signLabel={natal ? ta(`signs.${natal.bodies.SUN.sign}`) : null}
       />
       {reading.ritualToday && <RitualTodayCard ritual={reading.ritualToday} locale={appLocale} />}
+      {shouldShowPrompt({
+        firstDay: todayInTz(user.timezone, user.createdAt),
+        today,
+        isToday,
+        dismissed: cookies().has(PROMPT_DISMISS_COOKIE),
+      }) && <NotificationsPromptCard />}
       <DayView
         key={date}
         date={date}

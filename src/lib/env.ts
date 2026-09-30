@@ -15,7 +15,14 @@ const aiEnvSchema = z.object({
   AI_REQUESTS_PER_MINUTE: z.coerce.number().int().min(1).max(10_000).default(60),
 });
 
-const envSchema = aiEnvSchema.extend({
+/** Web Push (F7). Gerar com `npx web-push generate-vapid-keys`. */
+const pushEnvSchema = z.object({
+  NEXT_PUBLIC_VAPID_PUBLIC_KEY: z.string().min(1),
+  VAPID_PRIVATE_KEY: z.string().min(1),
+  VAPID_SUBJECT: z.string().regex(/^(mailto:|https:\/\/)/),
+});
+
+const envSchema = aiEnvSchema.merge(pushEnvSchema).extend({
   INNGEST_EVENT_KEY: z.string().min(1),
   INNGEST_SIGNING_KEY: z.string().min(1),
   UPSTASH_REDIS_REST_URL: z.string().url(),
@@ -24,9 +31,11 @@ const envSchema = aiEnvSchema.extend({
 
 export type AppEnv = z.infer<typeof envSchema>;
 export type AiEnv = z.infer<typeof aiEnvSchema>;
+export type PushEnv = z.infer<typeof pushEnvSchema>;
 
 let cached: AppEnv | null = null;
 let cachedAi: AiEnv | null = null;
+let cachedPush: PushEnv | null = null;
 
 function parseEnv<S extends z.ZodTypeAny>(schema: S): z.output<S> {
   const parsed = schema.safeParse(process.env);
@@ -47,6 +56,17 @@ export function getEnv(): AppEnv {
 export function getAiEnv(): AiEnv {
   cachedAi ??= parseEnv(aiEnvSchema);
   return cachedAi;
+}
+
+/** Só as chaves VAPID (envio de push). */
+export function getPushEnv(): PushEnv {
+  cachedPush ??= parseEnv(pushEnvSchema);
+  return cachedPush;
+}
+
+/** Há chaves VAPID para enviar push? (sem elas os avisos ficam só na caixa da app) */
+export function hasPush(): boolean {
+  return pushEnvSchema.safeParse(process.env).success;
 }
 
 /** Pedidos por minuto à IA (sem validar o resto da env; usado na definição das funções Inngest). */

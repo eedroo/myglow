@@ -9,10 +9,12 @@ interface TopBarProps {
   homeLabel: string;
   /** Badge do nível (Glow), à esquerda do avatar. */
   badge?: ReactNode;
+  /** Sino dos avisos (F7). */
+  bell?: ReactNode;
 }
 
 /** Logo MYGLOW + avatar com link para definições. */
-export function TopBar({ appName, userName, settingsLabel, homeLabel, badge }: TopBarProps) {
+export function TopBar({ appName, userName, settingsLabel, homeLabel, badge, bell }: TopBarProps) {
   const initial = userName.trim().charAt(0).toUpperCase() || '·';
   return (
     <header className="mg-topbar">
@@ -24,6 +26,7 @@ export function TopBar({ appName, userName, settingsLabel, homeLabel, badge }: T
       </Link>
       <div className="mg-topbar__actions">
         {badge}
+        {bell}
         <Link href="/settings" className="mg-topbar__settings" aria-label={settingsLabel} title={settingsLabel}>
           <span aria-hidden="true">{initial}</span>
         </Link>

@@ -19,6 +19,7 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 | IA | OpenAI (`openai`, saída estruturada com `zodResponseFormat`) — só dentro de funções Inngest |
 | Jobs | Inngest (cron + eventos), endpoint `/api/inngest` |
 | Rate limit | Upstash Redis (`@upstash/ratelimit`) |
+| Push | Web Push (`web-push`, VAPID) + service worker `public/sw.js` |
 | Testes | Vitest |
 | Deploy | Vercel |
 
@@ -100,6 +101,16 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - Env validado com Zod em `lib/env.ts`; em produção o arranque regista um erro com as variáveis em falta (`src/instrumentation.ts`), mas não impede a app de funcionar — sem elas a IA fica desactivada. Em dev sem chaves as páginas mostram "a preparar" e os eventos não são enviados (com o dev server do Inngest: `INNGEST_DEV=1`).
 - **Fornecedor:** qualquer API compatível com a da OpenAI. Com `OPENAI_BASE_URL` apontado para o Gemini (Google AI Studio) usa-se a chave do AI Studio e modelos `gemini-*`. `AI_REQUESTS_PER_MINUTE` ajusta o throttle do Inngest e a concorrência do seed ao limite do plano; o cliente repete sozinho em 429. `npm run ai:check` lista os modelos da chave e gera um horóscopo de teste sem gravar. Nota: no plano gratuito do Gemini, o Google pode usar os pedidos para melhorar os seus produtos (os prompts só levam factos astrológicos e, com o toggle, intenções).
 - **Seed no deploy:** `npm run ai:seed` gera o conteúdo por signo de hoje, desta semana e deste mês (`prisma/scripts/seed-ai.ts`, salta o que existe; `-- --only=DAY_HOROSCOPE`).
+
+### Notificações (Fase 7, `src/lib/notifications/`, `src/lib/push/`)
+
+- **Chaves VAPID:** `npx web-push generate-vapid-keys` → `NEXT_PUBLIC_VAPID_PUBLIC_KEY` (vai para o browser), `VAPID_PRIVATE_KEY` (só servidor) e `VAPID_SUBJECT` (`mailto:…`). Sem elas não há push, mas os avisos continuam na caixa da app.
+- **Regras** (`schedule.ts`, puro): `dueCandidates` só pelos horários (slot de 15 min, sem DB) e `dueNotifications` filtra pelo que está por fazer (`notificationState`: `computeDayProgress` e os critérios `planMet`/`reflectionMet` do Glow). Semana e mês com desfasamento de +15/+30 min. `periodKey`: `2026-05-06`, `W2026-05-03`, `M2026-05`.
+- **Fluxo:** Inngest `notifications-dispatch` a cada 15 min → utilizadores onboarded, com lembretes activos e activos nos últimos 30 dias (lotes de 500) → só quem tem um aviso no slot calcula o estado → `buildNotification` (texto na língua, lua do dia, sabbat, ritual) → `deliver`: `NotificationLog.create` primeiro (a unique `userId, kind, periodKey` impede duplicados com retries) → `web-push` para todos os dispositivos (TTL 4 h; 404/410 apagam a subscrição) → `pushed = true` se ≥ 1 envio.
+- **Caixa de avisos:** o sino da `TopBar` lê `NotificationLog` (últimos 30) — funciona sem push. Tocar marca como lido e navega.
+- **Permissão e subscrição** (`lib/push/client.ts`): só depois de "Activar" (cartão em `/today` a partir do 2.º dia, "Agora não" = cookie 14 dias; ou nas definições). O SW regista-se sozinho em produção; ao subscrever garante-se o registo também em desenvolvimento.
+- **iPhone/iPad:** Web Push só com a app instalada no ecrã principal (iOS 16.4+); fora disso mostra-se o `InstallGuide`. Android/desktop: `InstallButton` com `beforeinstallprompt`.
+- Teste e2e: o PushManager e a permissão são simulados (o Chromium headless nega sempre a permissão e não há FCM).
 
 ### Diário
 

@@ -1,24 +1,12 @@
-import { createTranslator } from 'next-intl';
 import type { Locale } from '@prisma/client';
 import { ZODIAC_ORDER } from '@/lib/astro/zodiac';
-import ptPT from '../../../messages/pt-PT.json';
-import ptBR from '../../../messages/pt-BR.json';
-import en from '../../../messages/en.json';
+import { messagesFor, translatorFor as translator, type Translator as T } from '@/i18n/translator';
 import { parseAspectLabel } from './labels';
 
 /**
  * Nomes na língua de saída para os factos enviados à IA (signos, astros, fases, eventos, aspectos),
  * a partir das mensagens da UI. Evita que a IA copie identificadores internos ou nomes em inglês.
  */
-const MESSAGES = { PT_PT: ptPT, PT_BR: ptBR, EN: en } as const;
-const APP_LOCALE = { PT_PT: 'pt-PT', PT_BR: 'pt-BR', EN: 'en' } as const;
-
-function translator(locale: Locale) {
-  return createTranslator({ locale: APP_LOCALE[locale], messages: MESSAGES[locale] });
-}
-
-type T = ReturnType<typeof translator>;
-
 const signName = (t: T, s: string) => t(`astro.signs.${s}` as 'astro.signs.ARIES');
 const bodyName = (t: T, b: string) => t(`astro.bodies.${b}` as 'astro.bodies.SUN');
 
@@ -81,7 +69,7 @@ export function localizeFacts(facts: Json, locale: Locale): Json {
 /** Glossário identificador → nome na língua de saída (signos, astros, fases). */
 export function glossary(locale: Locale): string {
   const t = translator(locale);
-  const m = MESSAGES[locale].astro;
+  const m = messagesFor(locale).astro;
   const pairs = [
     ...ZODIAC_ORDER.map((s) => `${s}=${signName(t, s)}`),
     ...Object.entries(m.bodies).map(([k, v]) => `${k}=${v}`),

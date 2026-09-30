@@ -315,6 +315,10 @@ model NotificationPrefs {
   weekEnd     Boolean @default(true)
   monthStart  Boolean @default(true)
   monthEnd    Boolean @default(true)
+  // F7: lembretes diários individuais; horários só em múltiplos de 15 min ("HH:00|15|30|45")
+  morningEnabled Boolean @default(true)
+  bodyEnabled    Boolean @default(true)
+  nightEnabled   Boolean @default(true)
 }
 
 model PushSubscription {
@@ -333,8 +337,15 @@ model NotificationLog {
   userId    String
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   kind      NotificationKind
-  periodKey String // ex: "2026-05-06", "2026-W05-03", "2026-05"
+  periodKey String // "2026-05-06" (dia), "W2026-05-03" (semana, domingo), "M2026-05" (mês)
   sentAt    DateTime         @default(now())
+  // F7: conteúdo do aviso (caixa de avisos na app) e estado
+  title     String
+  body      String
+  url       String
+  pushed    Boolean          @default(false) // enviado por push com sucesso a ≥ 1 dispositivo
+  readAt    DateTime?
 
   @@unique([userId, kind, periodKey])
+  @@index([userId, sentAt])
 }

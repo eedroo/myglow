@@ -163,7 +163,7 @@ Referência visual: diário físico em papel — fundo creme com mármore dourad
 ### TopBar — F1
 - **TSX:** `TopBar.tsx` (Server) · **Classes:** `mg-topbar`, `mg-topbar__logo`, `mg-topbar__mark`, `mg-topbar__settings`
 - Logo MYGLOW + link para definições (avatar com inicial)
-- **Props:** `userName: string`, `settingsLabel: string`
+- **Props:** `userName: string`, `settingsLabel: string`, `badge?` (F5), `bell?` (F7: `NotificationBell`)
 
 ### BottomNav — F1
 - **TSX:** `BottomNav.tsx` (`'use client'` — usa `usePathname`) · **Classes:** `mg-bottom-nav`, `mg-bottom-nav__item`, `mg-bottom-nav__item--active`, `mg-bottom-nav__icon`, `mg-bottom-nav__label`
@@ -342,4 +342,17 @@ Dia: `DailySkyCard` → `DailyReadingCard` → `RitualTodayCard` (se houver). Se
 | `PeriodReadingCard` | server | `reading.css` | `mg-reading`, `__section`, `__highlights`, `__focus` | base partilhada de `WeekReadingCard` e `MonthReadingCard` (`{ id; title; signTitle; personalTitle; datesTitle; sign; personal; pending }`) |
 | `RitualsCard` | server | `rituals.css` | `mg-rituals`, `__list`, `__item`, `__date`, `__body`, `__title`, `__meta`, `__icon` | 3–5 rituais: data, ocasião, ícone da área, duração; cada item abre o `RitualSheet` |
 | `RitualSheet` | client | `ritual-sheet.css` | `mg-ritual-sheet`, `__trigger`, `__head`, `__title`, `__meta`, `__intention`, `__label`, `__materials`, `__steps`, `__safety`, `__actions`, `__status` | `<dialog>` modal nativo (foco preso, Esc fecha): intenção, materiais, passos numerados, nota de segurança destacada (`candle`); **"Adicionar à minha semana"** → `addRitualToWeek` |
+
+### Notificações — F7 (`src/components/notifications/`)
+
+Lembretes push (`web-push`) + caixa de avisos na app (funciona sem push). A permissão só é pedida depois de tocar em "Activar".
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `NotificationBell` | server | `bell.css` | `mg-bell`, `__count` | na `TopBar`: carrega `getInbox` + `getUnreadCount` e renderiza `NotificationInbox` |
+| `NotificationInbox` | client | `bell.css`, `inbox.css` | `mg-bell` (botão, sino lucide + contagem "9+"), `mg-inbox`, `__head`, `__list`, `__item`, `__title`, `__body`, `__time`, `__dot`, `--unread`, `__empty`, `__actions` | `<dialog>` com os últimos 30 avisos (título, corpo, "há 2 h" via `Intl.RelativeTimeFormat`); tocar marca como lido e navega; "Marcar tudo como lido"; vazio "Sem avisos por agora" |
+| `NotificationsPromptCard` | client | `notify-prompt.css` | `mg-notify-prompt`, `__icon`, `__body`, `__title`, `__text`, `__actions`, `__status` | em `/today` a partir do 2.º dia de uso: "Queres lembretes suaves…?" → "Activar" (`subscribePush`) / "Agora não" (cookie 14 dias); some se o dispositivo já estiver subscrito; iPhone fora da app instalada → `InstallGuide` |
+| `InstallGuide` | client | `install.css` | `mg-install`, `__intro`, `__steps`, `__step`, `__num` | iPhone/iPad: Partilhar → "Adicionar ao ecrã principal" → abrir pelo ícone (ícones de linha lucide) + "No iPhone, os lembretes só funcionam com a app instalada." |
+| `InstallButton` | client | `install-btn.css` | `mg-install-btn` | Android/desktop: guarda `beforeinstallprompt` e mostra "Instalar MYGLOW"; escondido em standalone ou sem o evento |
+| `NotificationSettings` | client | `notify-settings.css` | `mg-notify-settings`, `__section`, `__row`, `__label`, `__time`, `__device`, `__devices`, `__status` | nas definições: interruptor geral; manhã/corpo/noite (interruptor + hora em passos de 15 min); semana e mês (início, fim); estado da permissão + Activar/Desactivar neste dispositivo; dispositivos com "Remover"; "Enviar notificação de teste"; `InstallButton`/`InstallGuide` |
 

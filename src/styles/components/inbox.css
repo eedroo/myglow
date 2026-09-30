@@ -1,0 +1,115 @@
+/* NotificationInbox: <dialog> com a lista de avisos */
+
+.mg-inbox {
+  width: min(calc(100% - var(--space-5)), 440px);
+  max-height: min(80dvh, 640px);
+  margin: calc(var(--topbar-height) + var(--space-2)) var(--space-3) auto auto;
+  padding: 0;
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-solid);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+}
+
+.mg-inbox::backdrop {
+  background: var(--scrim);
+}
+
+@media (max-width: 599px) {
+  .mg-inbox {
+    margin: calc(var(--topbar-height) + var(--space-2)) auto auto;
+  }
+}
+
+.mg-inbox__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-2);
+}
+
+.mg-inbox__heading {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+}
+
+.mg-inbox__list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-2) var(--space-2);
+  list-style: none;
+}
+
+.mg-inbox__item {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mg-inbox__item:hover {
+  background: var(--glass-bg);
+}
+
+.mg-inbox__item:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-inbox__dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: var(--radius-pill);
+}
+
+.mg-inbox__item--unread .mg-inbox__dot {
+  background: var(--gold-500);
+}
+
+.mg-inbox__title {
+  font-weight: var(--weight-medium);
+}
+
+.mg-inbox__item:not(.mg-inbox__item--unread) .mg-inbox__title {
+  color: var(--text-secondary);
+}
+
+.mg-inbox__body {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-inbox__time {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.mg-inbox__empty {
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  font-style: italic;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.mg-inbox__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4) var(--space-4);
+  border-top: var(--border-width) solid var(--line-rule);
+}

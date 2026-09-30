@@ -217,6 +217,7 @@
     "plannerSample": "Mês e ano (dados de exemplo)",
     "readingSample": "Leituras de IA",
     "readingPending": "Preparando (shimmer)",
+    "notificationsSample": "Avisos e lembretes",
     "glowSample": "Glow (dados de exemplo)",
     "openLevelUp": "Ver diálogo de subida de nível",
     "motto": "Lema"
@@ -727,6 +728,106 @@
       "unavailable": "As leituras estão indisponíveis no momento.",
       "ritualNotFound": "Não encontramos este ritual.",
       "noteFull": "A anotação desse dia já está cheia."
+    }
+  },
+  "notifications": {
+    "push": {
+      "morning": {
+        "title": "{phase} em {sign} {emoji}",
+        "body": "Qual é a sua intenção para hoje?",
+        "bodyRitual": "Hoje tem ritual: {ritual}",
+        "bodySabbat": "Hoje é {sabbat}. Qual é a sua intenção?"
+      },
+      "body": {
+        "title": "Um momento para o seu corpo",
+        "body": "Água, alongamento, movimento."
+      },
+      "night": {
+        "title": "Feche o dia com intenção {emoji}",
+        "body": "Gratidão, humor e reflexão esperam por você."
+      },
+      "weekStart": {
+        "title": "Uma nova semana começa",
+        "body": "Planeje sua semana até terça e ganhe {points} Glow."
+      },
+      "weekEnd": {
+        "title": "Como foi a sua semana?",
+        "body": "Escreva sua reflexão até domingo e ganhe {points} Glow."
+      },
+      "monthStart": {
+        "title": "Um novo mês começa",
+        "body": "Defina a intenção e as metas do mês e ganhe {points} Glow."
+      },
+      "monthEnd": {
+        "title": "O mês está terminando",
+        "body": "Uma reflexão sobre o mês vale {points} Glow."
+      },
+      "test": {
+        "title": "Tudo pronto ✨",
+        "body": "Os lembretes do MYGLOW vão chegar assim."
+      }
+    },
+    "prompt": {
+      "title": "Lembretes suaves",
+      "body": "Quer lembretes suaves para a manhã, o corpo e a noite? Eles só chegam quando ainda há algo a fazer.",
+      "enable": "Ativar",
+      "dismiss": "Agora não",
+      "enabling": "Ativando…",
+      "enabled": "Lembretes ativos neste dispositivo ✨",
+      "denied": "As notificações estão bloqueadas neste navegador. Você pode permiti-las nas configurações do site.",
+      "error": "Não foi possível ativar os lembretes. Tente de novo."
+    },
+    "install": {
+      "title": "Instale o MYGLOW",
+      "iosIntro": "No iPhone, os lembretes só funcionam com o app instalado.",
+      "step1": "Toque em Compartilhar",
+      "step2": "Escolha “Adicionar à Tela de Início”",
+      "step3": "Abra o MYGLOW pelo ícone",
+      "button": "Instalar MYGLOW"
+    },
+    "inbox": {
+      "title": "Avisos",
+      "open": "Abrir avisos",
+      "unread": "{count, plural, one {# aviso não lido} other {# avisos não lidos}}",
+      "markAll": "Marcar tudo como lido",
+      "empty": "Nenhum aviso por enquanto",
+      "close": "Fechar"
+    },
+    "settings": {
+      "title": "Lembretes",
+      "enabled": "Lembretes ativos",
+      "daily": "Todos os dias",
+      "morning": "Manhã",
+      "body": "Corpo",
+      "night": "Noite",
+      "time": "Horário de {label}",
+      "periods": "Semana e mês",
+      "weekStart": "Início da semana",
+      "weekEnd": "Fim da semana",
+      "monthStart": "Início do mês",
+      "monthEnd": "Fim do mês",
+      "hint": "Só lembramos você do que ainda falta fazer.",
+      "device": "Este dispositivo",
+      "deviceOn": "Notificações ativas neste dispositivo.",
+      "deviceOff": "Notificações desligadas neste dispositivo.",
+      "enableDevice": "Ativar neste dispositivo",
+      "disableDevice": "Desativar neste dispositivo",
+      "denied": "As notificações estão bloqueadas neste navegador. Você pode permiti-las nas configurações do site.",
+      "unsupported": "Este navegador não suporta notificações. Os avisos continuam na caixa do app.",
+      "devices": "Dispositivos",
+      "noDevices": "Nenhum dispositivo com notificações.",
+      "remove": "Remover",
+      "test": "Enviar notificação de teste",
+      "testSent": "Enviada! Deve chegar em segundos.",
+      "testFailed": "Não foi possível entregar a notificação. Tente de novo mais tarde.",
+      "testNone": "Ative as notificações em um dispositivo primeiro.",
+      "pushUnavailable": "O envio de notificações ainda não está configurado; os avisos ficam na caixa do app.",
+      "saved": "Salvo"
+    },
+    "errors": {
+      "invalid": "Não foi possível salvar. Confira os valores.",
+      "rateLimited": "Muitos testes seguidos. Tente de novo daqui a pouco.",
+      "unavailable": "As notificações não estão disponíveis no momento."
     }
   }
 }

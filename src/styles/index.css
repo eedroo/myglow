@@ -65,3 +65,9 @@
 @import './components/ritual-today.css';
 @import './components/rituals.css';
 @import './components/ritual-sheet.css';
+@import './components/bell.css';
+@import './components/inbox.css';
+@import './components/notify-prompt.css';
+@import './components/install.css';
+@import './components/install-btn.css';
+@import './components/notify-settings.css';

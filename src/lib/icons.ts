@@ -4,7 +4,7 @@ import type { LucideIcon } from 'lucide-react';
 import {
   Sun, Moon, Sparkles, Coffee, Flower2, BedDouble, PersonStanding, Dumbbell, Droplet, Feather,
   Circle, Heart, Thermometer, MoonStar, NotebookPen, CalendarDays, Gem, Frown, Annoyed, Meh, Smile, Laugh,
-  Orbit, Scale, FlaskRound, Briefcase, BookOpen, Flame, Star, ScrollText, Sparkle, Award,
+  Orbit, Scale, FlaskRound, Briefcase, BookOpen, Flame, Star, ScrollText, Sparkle, Award, Bell,
 } from 'lucide-react';
 import { createMoonPhaseGlyph } from '@/components/ui/glyphs/MoonPhaseGlyph';
 import { createZodiacGlyph } from '@/components/ui/glyphs/ZodiacGlyph';
@@ -25,6 +25,8 @@ export const MAGIC_ICON_NAMES = [
   'glow-orb', 'flame', 'level-1', 'level-2', 'level-3', 'level-4', 'level-5', 'level-6', 'level-7',
   // Vazio
   'constellation',
+  // Notificações (badge monocromático das notificações push, 96×96)
+  'notification-badge',
   // Glifos
   'phase-new', 'phase-waxing-crescent', 'phase-first-quarter', 'phase-waxing-gibbous', 'phase-full',
   'phase-waning-gibbous', 'phase-last-quarter', 'phase-waning-crescent',
@@ -101,6 +103,7 @@ export const MAGIC_ICONS: Record<MagicIconName, MagicIconDef> = {
   'level-7': icon(Award),
   // Vazio
   constellation: icon(Sparkles),
+  'notification-badge': icon(Bell),
   // Glifos — fases da lua
   'phase-new': glyph(createMoonPhaseGlyph('NEW_MOON')),
   'phase-waxing-crescent': glyph(createMoonPhaseGlyph('WAXING_CRESCENT')),
@@ -133,3 +136,8 @@ export const PROJECT_ICONS: Record<ProjectArea, MagicIconName> = {
   PROFESSIONAL: 'briefcase',
   STUDIES: 'book-open',
 };
+
+/** Imagem do badge das notificações push: o PNG mágico quando existir, senão o ícone da app. */
+export function notificationBadgeUrl(): string {
+  return MAGIC_ICONS['notification-badge'].ready ? '/icons/magic/notification-badge.png' : '/icons/icon-192.png';
+}

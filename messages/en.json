@@ -217,6 +217,7 @@
     "plannerSample": "Month and year (sample data)",
     "readingSample": "AI readings",
     "readingPending": "Preparing (shimmer)",
+    "notificationsSample": "Notifications and reminders",
     "glowSample": "Glow (sample data)",
     "openLevelUp": "Show level-up dialog",
     "motto": "Motto"
@@ -727,6 +728,106 @@
       "unavailable": "Readings are unavailable right now.",
       "ritualNotFound": "We couldn't find this ritual.",
       "noteFull": "That day's note is already full."
+    }
+  },
+  "notifications": {
+    "push": {
+      "morning": {
+        "title": "{phase} in {sign} {emoji}",
+        "body": "What's your intention for today?",
+        "bodyRitual": "Ritual today: {ritual}",
+        "bodySabbat": "Today is {sabbat}. What's your intention?"
+      },
+      "body": {
+        "title": "A moment for your body",
+        "body": "Water, stretching, movement."
+      },
+      "night": {
+        "title": "Close the day with intention {emoji}",
+        "body": "Gratitude, mood and reflection are waiting for you."
+      },
+      "weekStart": {
+        "title": "A new week begins",
+        "body": "Plan your week by Tuesday and earn {points} Glow."
+      },
+      "weekEnd": {
+        "title": "How was your week?",
+        "body": "Write your reflection by Sunday and earn {points} Glow."
+      },
+      "monthStart": {
+        "title": "A new month begins",
+        "body": "Set the month's intention and goals and earn {points} Glow."
+      },
+      "monthEnd": {
+        "title": "The month is closing",
+        "body": "A reflection on the month is worth {points} Glow."
+      },
+      "test": {
+        "title": "All set ✨",
+        "body": "This is how MYGLOW reminders will arrive."
+      }
+    },
+    "prompt": {
+      "title": "Gentle reminders",
+      "body": "Would you like gentle reminders for morning, body and night? They only arrive when something is still left to do.",
+      "enable": "Turn on",
+      "dismiss": "Not now",
+      "enabling": "Turning on…",
+      "enabled": "Reminders on for this device ✨",
+      "denied": "Notifications are blocked in this browser. You can allow them in the site settings.",
+      "error": "Couldn't turn on reminders. Please try again."
+    },
+    "install": {
+      "title": "Install MYGLOW",
+      "iosIntro": "On iPhone, reminders only work with the app installed.",
+      "step1": "Tap Share",
+      "step2": "Choose “Add to Home Screen”",
+      "step3": "Open MYGLOW from its icon",
+      "button": "Install MYGLOW"
+    },
+    "inbox": {
+      "title": "Notifications",
+      "open": "Open notifications",
+      "unread": "{count, plural, one {# unread notification} other {# unread notifications}}",
+      "markAll": "Mark all as read",
+      "empty": "Nothing here for now",
+      "close": "Close"
+    },
+    "settings": {
+      "title": "Reminders",
+      "enabled": "Reminders on",
+      "daily": "Every day",
+      "morning": "Morning",
+      "body": "Body",
+      "night": "Night",
+      "time": "{label} time",
+      "periods": "Week and month",
+      "weekStart": "Start of the week",
+      "weekEnd": "End of the week",
+      "monthStart": "Start of the month",
+      "monthEnd": "End of the month",
+      "hint": "We only remind you of what's still left to do.",
+      "device": "This device",
+      "deviceOn": "Notifications are on for this device.",
+      "deviceOff": "Notifications are off for this device.",
+      "enableDevice": "Turn on for this device",
+      "disableDevice": "Turn off for this device",
+      "denied": "Notifications are blocked in this browser. You can allow them in the site settings.",
+      "unsupported": "This browser doesn't support notifications. You'll still find them in the app.",
+      "devices": "Devices",
+      "noDevices": "No devices with notifications.",
+      "remove": "Remove",
+      "test": "Send a test notification",
+      "testSent": "Sent! It should arrive in seconds.",
+      "testFailed": "Couldn't deliver the notification. Please try again later.",
+      "testNone": "Turn on notifications on a device first.",
+      "pushUnavailable": "Push notifications aren't configured yet; you'll find them in the app's inbox.",
+      "saved": "Saved"
+    },
+    "errors": {
+      "invalid": "Couldn't save. Please check the values.",
+      "rateLimited": "Too many tests in a row. Try again shortly.",
+      "unavailable": "Notifications are unavailable right now."
     }
   }
 }

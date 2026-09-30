@@ -12,7 +12,7 @@ Os ícones 3D dourados são PNG feitos à mão. Até existirem, `MagicIcon` most
 2. Mudar `ready: false` para `ready: true` na entrada correspondente de `MAGIC_ICONS`.
 3. Correr `npm run docs:icons`.
 
-**Prontos:** 0 de 65
+**Prontos:** 0 de 66
 
 | Nome | Tipo | Placeholder | Pronto |
 |---|---|---|---|
@@ -61,6 +61,7 @@ Os ícones 3D dourados são PNG feitos à mão. Até existirem, `MagicIcon` most
 | `level-6` | 3d | `Award` | — |
 | `level-7` | 3d | `Award` | — |
 | `constellation` | 3d | `Sparkles` | — |
+| `notification-badge` | 3d | `Bell` | — |
 | `phase-new` | glyph | `MoonPhaseGlyph(NEW_MOON)` | — |
 | `phase-waxing-crescent` | glyph | `MoonPhaseGlyph(WAXING_CRESCENT)` | — |
 | `phase-first-quarter` | glyph | `MoonPhaseGlyph(FIRST_QUARTER)` | — |

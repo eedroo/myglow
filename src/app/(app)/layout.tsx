@@ -9,6 +9,7 @@ import { BottomNav } from '@/components/shell/BottomNav';
 import { ThemeSync } from '@/components/providers/ThemeSync';
 import { GlowProvider } from '@/components/glow/GlowProvider';
 import { LevelBadge } from '@/components/glow/LevelBadge';
+import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { db } from '@/lib/db';
 import { levelFor } from '@/lib/xp/levels';
 
@@ -46,6 +47,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
             settingsLabel={t('shell.settings')}
             homeLabel={t('shell.home')}
             badge={<LevelBadge total={xpTotal} />}
+            bell={<NotificationBell userId={session.user.id} />}
           />
         }
         nav={

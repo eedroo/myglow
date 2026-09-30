@@ -40,6 +40,11 @@ import { DailyReadingCard } from '@/components/reading/DailyReadingCard';
 import { MonthReadingCard } from '@/components/reading/MonthReadingCard';
 import { RitualsCard } from '@/components/reading/RitualsCard';
 import { RitualTodayCard } from '@/components/reading/RitualTodayCard';
+import { InstallGuide } from '@/components/notifications/InstallGuide';
+import { NotificationInbox } from '@/components/notifications/NotificationInbox';
+import { NotificationSettings } from '@/components/notifications/NotificationSettings';
+import { NotificationsPromptCard } from '@/components/notifications/NotificationsPromptCard';
+import { buildNotification } from '@/lib/notifications/content';
 import { dayHoroscopeSchema, dayPersonalSchema, monthRitualsSchema } from '@/lib/ai/schemas';
 import { finalizeRituals } from '@/lib/ai/rituals';
 import sampleHoroscope from '../../../../tests/fixtures/ai/day-horoscope.valid.json';
@@ -139,6 +144,16 @@ export default async function DevUiPage() {
   const rituals = finalizeRituals(monthRitualsSchema.parse(sampleRituals));
   const ready = <T,>(data: T) => ({ status: 'ready' as const, data });
 
+  // Avisos de exemplo (texto real de `buildNotification`, sem DB).
+  const dbLocale = appLocale === 'pt-BR' ? 'PT_BR' : appLocale === 'en' ? 'EN' : 'PT_PT';
+  const sampleCtx = { locale: dbLocale, date: SAMPLE_DATE, tz: SAMPLE_TZ, moon: { phase: sky.moon.phase, sign: sky.moon.signAtNoon } } as const;
+  const sampleInbox = (['MORNING', 'BODY', 'WEEK_START'] as const).map((kind, i) => ({
+    id: `dev-${kind}`,
+    ...buildNotification(kind, sampleCtx),
+    sentAt: new Date(Date.now() - (i + 1) * 3 * 3_600_000).toISOString(),
+    read: i === 2,
+  }));
+
   const phaseLabels = Object.fromEntries(MOON_PHASE_ORDER.map((p) => [p, ta(`phases.${p}`)])) as Record<MoonPhase, string>;
   const signLabels = Object.fromEntries(ZODIAC_ORDER.map((s) => [s, ta(`signs.${s}`)])) as Record<ZodiacSign, string>;
 
@@ -202,6 +217,30 @@ export default async function DevUiPage() {
             locale={appLocale}
           />
           <RitualsCard rituals={ready(rituals)} pending={[]} year={2026} month={5} locale={appLocale} />
+        </section>
+        <section className="mg-stack">
+          <SectionHeader title={t('notificationsSample')} icon="moon-stars" />
+          <GlassCard>
+            <div className="mg-row">
+              <NotificationInbox items={sampleInbox} unread={2} />
+              <NotificationInbox items={[]} unread={0} />
+            </div>
+          </GlassCard>
+          <NotificationsPromptCard />
+          <GlassCard>
+            <InstallGuide />
+          </GlassCard>
+          <GlassCard>
+            <NotificationSettings
+              initial={{
+                enabled: true, morningEnabled: true, bodyEnabled: true, nightEnabled: false,
+                morningTime: '08:00', bodyTime: '13:00', nightTime: '21:30',
+                weekStart: true, weekEnd: true, monthStart: true, monthEnd: false,
+              }}
+              devices={[{ endpoint: 'https://push.example.com/dev', userAgent: 'Mozilla/5.0 (Linux; Android 14) Chrome/128.0', createdAt: '2026-05-01T10:00:00Z' }]}
+              pushConfigured={false}
+            />
+          </GlassCard>
         </section>
         <section className="mg-stack">
           <SectionHeader title={t('glowSample')} icon="glow-orb" />

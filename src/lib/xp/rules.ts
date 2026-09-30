@@ -81,6 +81,11 @@ export function isWindowOpen(w: XpWindow, now: Date): boolean {
 const filled = (s: string) => s.trim().length > 0;
 const reflectionCounts = (s: string) => s.trim().length >= REFLECTION_MIN_CHARS;
 
+/** Critério de "plano feito" (semana/mês/ano) — também usado pelos lembretes. */
+export const planMet = (intention: string, projectsFilled: number) => filled(intention) && projectsFilled >= PLAN_MIN_PROJECTS;
+/** Critério de "reflexão feita" — também usado pelos lembretes. */
+export const reflectionMet = reflectionCounts;
+
 function pick(sources: WindowedSource[], periodStart: DateISO, now: Date, tz: string): XpCandidate[] {
   return sources
     .filter((source) => isWindowOpen(xpWindow(source, periodStart, tz), now))

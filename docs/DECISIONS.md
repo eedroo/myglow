@@ -58,6 +58,12 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Nomes sempre na língua do utilizador: os factos levam nomes localizados (a partir das mensagens) e a resposta é rejeitada se tiver identificadores internos (`MERCURY_TRINE_NATAL_SUN`, `SCORPIO`) ou, em português, nomes/expressões em inglês.
 - Modelos configurados por env: `OPENAI_MODEL_DAILY` (DAY_* e WEEK_*) e `OPENAI_MODEL_RICH` (MONTH_*, rituais); o modelo e `promptVersion` ficam gravados com cada conteúdo.
 - Notificações idempotentes via `NotificationLog` unique `(userId, kind, periodKey)`. iOS só com a app instalada no ecrã inicial (16.4+).
+- Lembretes (Fase 7) só quando há algo por fazer (mesmos critérios do Glow, com a janela aberta ou não); no máximo manhã, corpo e noite por dia + início/fim de semana e de mês.
+- Avaliação em slots de 15 min (horários só em múltiplos de 15 min); semana e mês desfasados +15/+30 min da hora da manhã/noite para nunca chegarem dois avisos no mesmo instante.
+- Caixa de avisos na app (sino) como fallback: todos os avisos ficam lá, com ou sem push (ex.: iPhone sem a app instalada).
+- A permissão de notificações só é pedida depois de um gesto num cartão explicativo ("Activar"), nunca ao carregar a página.
+- iPhone/iPad: push só com a app instalada; mostra-se um guia de instalação em 3 passos.
+- Subscrições que respondem 404/410 são apagadas; outros erros ficam registados.
 
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.

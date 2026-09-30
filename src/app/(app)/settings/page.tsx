@@ -10,6 +10,9 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
 import { SettingsForm } from '@/components/forms/SettingsForm';
 import { intlLocale, isAppLocale } from '@/i18n/locales';
+import { hasPush } from '@/lib/env';
+import { listDevices } from '@/actions/push';
+import { NotificationSettings } from '@/components/notifications/NotificationSettings';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('settings');
@@ -25,10 +28,12 @@ export default async function SettingsPage() {
   const session = await auth();
   if (!session?.user) redirect('/login');
 
-  const [t, tAuth, locale, user] = await Promise.all([
+  const [t, tAuth, tn, locale, devices, user] = await Promise.all([
     getTranslations('settings'),
     getTranslations('auth'),
+    getTranslations('notifications.settings'),
     getLocale(),
+    listDevices(),
     db.user.findUnique({
       where: { id: session.user.id },
       select: {
@@ -40,6 +45,7 @@ export default async function SettingsPage() {
         sleepGoalMinutes: true,
         hemisphere: true,
         pronouns: true,
+        notificationPrefs: true,
         birthProfile: {
           select: { birthDate: true, birthTime: true, birthTimeKnown: true, placeName: true, timezone: true },
         },
@@ -49,6 +55,7 @@ export default async function SettingsPage() {
   if (!user) redirect('/login');
 
   const birth = user.birthProfile;
+  const prefs = user.notificationPrefs;
   const birthDate = birth
     ? new Intl.DateTimeFormat(intlLocale(isAppLocale(locale) ? locale : 'pt-PT'), {
         dateStyle: 'long',
@@ -72,6 +79,26 @@ export default async function SettingsPage() {
             pronouns: user.pronouns,
           }}
           timezones={supportedTimezones(user.timezone)}
+        />
+      </GlassCard>
+
+      <GlassCard title={tn('title')}>
+        <NotificationSettings
+          initial={{
+            enabled: prefs?.enabled ?? true,
+            morningEnabled: prefs?.morningEnabled ?? true,
+            bodyEnabled: prefs?.bodyEnabled ?? true,
+            nightEnabled: prefs?.nightEnabled ?? true,
+            morningTime: prefs?.morningTime ?? '08:00',
+            bodyTime: prefs?.bodyTime ?? '13:00',
+            nightTime: prefs?.nightTime ?? '21:30',
+            weekStart: prefs?.weekStart ?? true,
+            weekEnd: prefs?.weekEnd ?? true,
+            monthStart: prefs?.monthStart ?? true,
+            monthEnd: prefs?.monthEnd ?? true,
+          }}
+          devices={devices}
+          pushConfigured={hasPush()}
         />
       </GlassCard>
 

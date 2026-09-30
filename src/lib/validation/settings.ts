@@ -7,7 +7,6 @@ export const settingsSchema = z.object({
   timezone: z.string().min(3),
   sleepGoalMinutes: z.number().int().min(240).max(720),
   hemisphere: z.enum(['NORTH', 'SOUTH']),
-  aiUseIntentions: z.boolean(),
   pronouns: z.enum(['FEMININE', 'MASCULINE', 'NEUTRAL']),
 });
 

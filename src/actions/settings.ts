@@ -11,7 +11,7 @@ import { toDbDate, todayInTz } from '@/lib/dates';
 import { weekStartOf } from '@/lib/weeks';
 import { sendSafely, userEvents } from '@/inngest/client';
 
-type SettingsField = 'name' | 'locale' | 'theme' | 'timezone' | 'sleepGoalMinutes' | 'hemisphere' | 'aiUseIntentions' | 'pronouns';
+type SettingsField = 'name' | 'locale' | 'theme' | 'timezone' | 'sleepGoalMinutes' | 'hemisphere' | 'pronouns';
 
 export type SaveSettingsResult =
   | { ok: true }
@@ -24,7 +24,6 @@ const FIELD_ERRORS: Record<SettingsField, string> = {
   timezone: 'validation.timezone',
   sleepGoalMinutes: 'validation.sleepGoal',
   hemisphere: 'validation.required',
-  aiUseIntentions: 'validation.required',
   pronouns: 'validation.required',
 };
 

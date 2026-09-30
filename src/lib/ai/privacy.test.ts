@@ -5,8 +5,8 @@ import { toBirthUtc } from '@/lib/birth';
 import { toDbDate } from '@/lib/dates';
 
 /**
- * Regra 4 (privacidade): só factos astrológicos, mapa natal, locale e — com `aiUseIntentions` —
- * as intenções do período. O mock devolve SEMPRE registos completos (ignora os `select`), para que
+ * Privacidade: para a IA vão só factos astrológicos, o resumo do mapa natal, o locale e os pronomes.
+ * Nada do diário (nem as intenções). O mock devolve SEMPRE registos completos (ignora os `select`), para que
  * qualquer fuga por espalhar um registo inteiro no prompt seja apanhada.
  */
 vi.mock('server-only', () => ({}));
@@ -87,16 +87,7 @@ describe('privacidade dos prompts', () => {
     for (const s of [...SECRETS, ...NUMERIC]) expect(text, s).not.toContain(s);
   });
 
-  it.each(CASES)('%s: com aiUseIntentions as intenções do período entram', async (kind, start) => {
-    const text = await promptText(kind, start);
-    expect(text).toContain('META_MAGIA');
-    if (kind === 'DAY_PERSONAL') expect(text).toContain('INTENCAO_DIA');
-    if (kind === 'WEEK_PERSONAL') expect(text).toContain('INTENCAO_SEMANA');
-    if (kind.startsWith('MONTH_')) expect(text).toContain('INTENCAO_MES');
-  });
-
-  it.each(CASES)('%s: sem aiUseIntentions não entra nenhuma intenção', async (kind, start) => {
-    state.aiUseIntentions = false;
+  it.each(CASES)('%s: nenhuma intenção nem meta entra (mesmo com o antigo aiUseIntentions ligado)', async (kind, start) => {
     const text = await promptText(kind, start);
     for (const s of [...INTENTIONS, ...SECRETS]) expect(text, s).not.toContain(s);
     expect(text).not.toContain('"intentions"');

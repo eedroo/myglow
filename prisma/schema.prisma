@@ -123,7 +123,7 @@ model User {
   levelSeen        Int        @default(1) // último nível cujo diálogo de subida o user já viu
   bestMagicStreak  Int        @default(0)
   lastActiveAt     DateTime?
-  aiUseIntentions  Boolean    @default(true)
+  aiUseIntentions  Boolean    @default(true) // sem uso: desde a F6 as intenções não vão para a IA (reservado para uma futura área de insights)
   pronouns         Pronouns   @default(NEUTRAL)
   onboardedAt      DateTime?
   createdAt        DateTime   @default(now())

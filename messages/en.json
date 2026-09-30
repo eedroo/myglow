@@ -719,8 +719,7 @@
     },
     "settings": {
       "title": "Readings",
-      "aiUseIntentions": "Personalise readings with my intentions",
-      "aiPrivacy": "Your reflections, gratitude and notes are never sent."
+      "aiPrivacy": "Readings use only the sky and your natal chart. Your intentions, reflections, gratitude and notes are never sent."
     },
     "errors": {
       "invalid": "This request isn't valid.",

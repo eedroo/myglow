@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/Button';
 import { Field, describedBy } from '@/components/ui/Field';
 import { TextInput } from '@/components/ui/TextInput';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
-import { CheckChip } from '@/components/ui/CheckChip';
 import { Toast } from '@/components/ui/Toast';
 import { DB_LOCALES, type DbLocale } from '@/i18n/locales';
 import { prefToNextTheme, type ThemePref } from '@/lib/theme';
@@ -40,7 +39,6 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
   const [timezone, setTimezone] = useState(initial.timezone);
   const [hemisphere, setHemisphere] = useState<HemisphereValue>(initial.hemisphere);
   const [sleepHours, setSleepHours] = useState(String(initial.sleepGoalMinutes / 60));
-  const [aiUseIntentions, setAiUseIntentions] = useState(initial.aiUseIntentions);
   const [pronouns, setPronouns] = useState<PronounsValue>(initial.pronouns);
   const [errors, setErrors] = useState<Partial<Record<keyof SettingsInput, string>>>({});
   const [toast, setToast] = useState<{ variant: 'success' | 'error'; messageKey: string } | null>(null);
@@ -58,7 +56,6 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
         timezone,
         sleepGoalMinutes: Number.isFinite(hours) ? Math.round(hours * 60) : NaN,
         hemisphere,
-        aiUseIntentions,
         pronouns,
       });
       if (!result.ok) {
@@ -168,12 +165,6 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
 
       <fieldset className="mg-field">
         <legend className="mg-field__label">{t('reading.settings.title')}</legend>
-        <CheckChip
-          icon="crystal-ball"
-          label={t('reading.settings.aiUseIntentions')}
-          checked={aiUseIntentions}
-          onCheckedChange={setAiUseIntentions}
-        />
         <p className="mg-field__hint">{t('reading.settings.aiPrivacy')}</p>
       </fieldset>
 

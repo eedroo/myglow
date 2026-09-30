@@ -719,8 +719,7 @@
     },
     "settings": {
       "title": "Leituras",
-      "aiUseIntentions": "Personalizar leituras com minhas intenções",
-      "aiPrivacy": "Suas reflexões, gratidão e notas nunca são enviadas."
+      "aiPrivacy": "As leituras usam só o céu e o seu mapa natal. Suas intenções, reflexões, gratidão e notas nunca são enviadas."
     },
     "errors": {
       "invalid": "Este pedido não é válido.",

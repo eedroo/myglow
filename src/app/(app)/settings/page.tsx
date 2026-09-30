@@ -39,7 +39,6 @@ export default async function SettingsPage() {
         timezone: true,
         sleepGoalMinutes: true,
         hemisphere: true,
-        aiUseIntentions: true,
         pronouns: true,
         birthProfile: {
           select: { birthDate: true, birthTime: true, birthTimeKnown: true, placeName: true, timezone: true },
@@ -70,7 +69,6 @@ export default async function SettingsPage() {
             timezone: user.timezone,
             sleepGoalMinutes: user.sleepGoalMinutes,
             hemisphere: user.hemisphere,
-            aiUseIntentions: user.aiUseIntentions,
             pronouns: user.pronouns,
           }}
           timezones={supportedTimezones(user.timezone)}

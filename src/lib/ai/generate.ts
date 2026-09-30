@@ -1,14 +1,11 @@
 import 'server-only';
-import type { Locale, Prisma, ProjectArea, SignContentKind, UserContentKind, ZodiacSign } from '@prisma/client';
+import type { Locale, Prisma, SignContentKind, UserContentKind, ZodiacSign } from '@prisma/client';
 import type { z } from 'zod';
 import { db } from '@/lib/db';
 import { addDays, toDbDate, type DateISO } from '@/lib/dates';
-import { monthOf, monthRange, weekStartOf } from '@/lib/weeks';
+import { monthOf, monthRange } from '@/lib/weeks';
 import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
-import {
-  buildDayFacts, buildPeriodFacts, buildPersonalDayFacts, buildPersonalPeriodFacts,
-  type PersonalDayFacts, type PersonalPeriodFacts,
-} from './facts';
+import { buildDayFacts, buildPeriodFacts, buildPersonalDayFacts, buildPersonalPeriodFacts } from './facts';
 import { SIGN_SCHEMAS, USER_SCHEMAS, type MonthRituals } from './schemas';
 import { finalizeRituals } from './rituals';
 import * as V from './validate';
@@ -67,47 +64,10 @@ export function prepareSignPrompt(kind: SignContentKind, periodStart: DateISO, s
 
 // ─── Conteúdo pessoal ──────────────────────────────────────────────────────────────────────────────
 
-type ProjectsMap = Partial<Record<ProjectArea, string>>;
-
-async function projectsOf(userId: string, period: 'WEEK' | 'MONTH', periodStart: DateISO): Promise<ProjectsMap> {
-  const rows = await db.projectIntention.findMany({
-    where: { userId, period, periodStart: toDbDate(periodStart) },
-    select: { area: true, text: true },
-  });
-  return Object.fromEntries(rows.map((r) => [r.area, r.text]));
-}
-
 /**
- * Intenções do período — o ÚNICO dado do diário que pode ir para a IA, e só com `aiUseIntentions`.
- * Selects explícitos: nunca ler reflexões, gratidão, resumos, humor, peso, banimentos ou notas.
+ * `null` se o utilizador não existe ou não tem mapa natal. A leitura pessoal usa só o céu e o mapa natal:
+ * nada do diário (nem as intenções) é lido ou enviado à IA.
  */
-async function dayIntentions(userId: string, date: DateISO): Promise<PersonalDayFacts['intentions']> {
-  const weekStart = weekStartOf(date);
-  const [entry, week, projects] = await Promise.all([
-    db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(date) } }, select: { intention: true } }),
-    db.week.findUnique({ where: { userId_startDate: { userId, startDate: toDbDate(weekStart) } }, select: { intention: true } }),
-    projectsOf(userId, 'WEEK', weekStart),
-  ]);
-  return { day: entry?.intention ?? undefined, week: week?.intention ?? undefined, projects };
-}
-
-async function periodIntentions(userId: string, kind: UserContentKind, periodStart: DateISO): Promise<PersonalPeriodFacts['intentions']> {
-  if (kind === 'WEEK_PERSONAL') {
-    const [week, projects] = await Promise.all([
-      db.week.findUnique({ where: { userId_startDate: { userId, startDate: toDbDate(periodStart) } }, select: { intention: true } }),
-      projectsOf(userId, 'WEEK', periodStart),
-    ]);
-    return { period: week?.intention ?? undefined, projects };
-  }
-  const { year, month } = monthOf(periodStart);
-  const [row, projects] = await Promise.all([
-    db.month.findUnique({ where: { userId_year_month: { userId, year, month } }, select: { intention: true } }),
-    projectsOf(userId, 'MONTH', periodStart),
-  ]);
-  return { period: row?.intention ?? undefined, projects };
-}
-
-/** `null` se o utilizador não existe ou não tem mapa natal. */
 export async function prepareUserPrompt(
   userId: string,
   kind: UserContentKind,
@@ -115,7 +75,7 @@ export async function prepareUserPrompt(
 ): Promise<PreparedPrompt | null> {
   const user = await db.user.findUnique({
     where: { id: userId },
-    select: { locale: true, timezone: true, hemisphere: true, aiUseIntentions: true, pronouns: true },
+    select: { locale: true, timezone: true, hemisphere: true, pronouns: true },
   });
   if (!user) return null;
   const chart = await ensureNatalChart(userId);
@@ -126,13 +86,11 @@ export async function prepareUserPrompt(
   const schema = USER_SCHEMAS[kind];
 
   if (kind === 'DAY_PERSONAL') {
-    const intentions = user.aiUseIntentions ? await dayIntentions(userId, from) : undefined;
-    const facts = buildPersonalDayFacts({ date: from, tz, hemisphere, chart, intentions });
+    const facts = buildPersonalDayFacts({ date: from, tz, hemisphere, chart });
     return { kind, locale, schema, prompt: dayPersonal.build(facts, locale, pronouns), validate: (d) => V.validateDayPersonal(d, facts) };
   }
 
-  const intentions = user.aiUseIntentions ? await periodIntentions(userId, kind, periodStart) : undefined;
-  const facts = buildPersonalPeriodFacts({ from, to, tz, hemisphere, chart, intentions });
+  const facts = buildPersonalPeriodFacts({ from, to, tz, hemisphere, chart });
   switch (kind) {
     case 'WEEK_PERSONAL':
       return { kind, locale, schema, prompt: weekPersonal.build(facts, locale, pronouns), validate: (d) => V.validateWeekPersonal(d, facts) };

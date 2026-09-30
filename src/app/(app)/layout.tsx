@@ -43,10 +43,8 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         topBar={
           <TopBar
             appName={t('common.appName')}
-            userName={session.user.name}
-            settingsLabel={t('shell.settings')}
             homeLabel={t('shell.home')}
-            badge={<LevelBadge total={xpTotal} />}
+            badge={<LevelBadge total={xpTotal} name={session.user.name} />}
             bell={<NotificationBell userId={session.user.id} />}
           />
         }
@@ -58,7 +56,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
               week: t('nav.week'),
               month: t('nav.month'),
               year: t('nav.year'),
-              profile: t('nav.profile'),
+              grimoire: t('nav.grimoire'),
             }}
           />
         }

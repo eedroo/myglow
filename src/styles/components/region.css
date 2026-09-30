@@ -1,0 +1,112 @@
+/* CourseRegion: cabeçalho do curso + caminho em zigue-zague */
+
+.mg-region {
+  --mg-row: 112px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mg-region__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-card);
+}
+
+.mg-region__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.mg-region__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+}
+
+.mg-region__subtitle,
+.mg-region__progress {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-region__progress {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.mg-region__path {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 360px);
+  margin: 0 auto;
+}
+
+.mg-region__line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.mg-region__line path {
+  fill: none;
+  stroke: var(--gold-500);
+  stroke-width: 3;
+  stroke-dasharray: 2 10;
+  stroke-linecap: round;
+  opacity: 0.7;
+}
+
+.mg-region__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--mg-row);
+  padding: 0 var(--space-3);
+}
+
+.mg-region__row--left { justify-content: flex-start; }
+.mg-region__row--center { justify-content: center; }
+.mg-region__row--right { justify-content: flex-end; }
+
+.mg-region__deco {
+  position: absolute;
+  display: inline-flex;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.mg-region__row--left .mg-region__deco { right: 18%; }
+.mg-region__row--right .mg-region__deco { left: 18%; }
+.mg-region__row--center .mg-region__deco { left: 12%; }
+
+.mg-region--locked .mg-region__header,
+.mg-region--locked .mg-region__path {
+  opacity: 0.55;
+}
+
+.mg-region__lock-note {
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.mg-region__nodes {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}

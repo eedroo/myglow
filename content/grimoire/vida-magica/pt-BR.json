@@ -1,0 +1,645 @@
+{
+  "slug": "vida-magica",
+  "order": 1,
+  "required": true,
+  "locale": "pt-BR",
+  "version": 1,
+  "title": "A sua vida mágica",
+  "subtitle": "A metodologia MYGLOW",
+  "description": "Magia é vontade que vira ação. Neste curso você descobre o jeito MYGLOW de viver: intenção, autodomínio, autocuidado e dias abertos e fechados com propósito.",
+  "icon": "sparkles",
+  "badge": {
+    "name": "Selo da Vontade",
+    "icon": "badge-vida-magica",
+    "description": "Você aprendeu que magia é vontade em movimento."
+  },
+  "tags": [
+    "metodologia",
+    "intencao",
+    "autocuidado",
+    "habitos"
+  ],
+  "lessons": [
+    {
+      "slug": "o-que-e-magia",
+      "title": "O que é magia para nós",
+      "minutes": 4,
+      "tags": [
+        "metodologia"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Magia é vontade em movimento",
+          "body": "Para o MYGLOW, magia não é um truque nem um poder distante. Magia é o que acontece quando você decide algo com clareza e move a sua energia até isso existir no mundo.",
+          "id": "o-que-e-magia-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sparkles",
+          "title": "Vontade + ação",
+          "body": "Toda magia tem duas partes. A **vontade**: saber o que você quer. A **ação**: dar o passo que torna isso real. Vontade sem ação vira sonho. Ação sem vontade vira rotina vazia.",
+          "id": "o-que-e-magia-2"
+        },
+        {
+          "type": "example",
+          "title": "Um exemplo simples",
+          "body": "Você decide que quer se sentir mais leve. Bebe água ao acordar, alonga por cinco minutos e escreve como se sente. Pequeno? Sim. Mágico? Também: você transformou uma intenção em realidade.",
+          "id": "o-que-e-magia-3"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Muitas tradições definem magia como a arte de provocar mudanças de acordo com a vontade. É dessa ideia que partimos: a mudança começa em você.",
+          "id": "o-que-e-magia-4"
+        },
+        {
+          "type": "concept",
+          "title": "O ritual é o recipiente",
+          "body": "Rituais dão forma à vontade. Acender uma vela, escrever uma intenção, fazer um banimento: são gestos que avisam a sua mente de que algo importante está acontecendo.",
+          "id": "o-que-e-magia-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Onde, na sua vida, você já fez magia sem chamar de magia?",
+          "id": "o-que-e-magia-6"
+        },
+        {
+          "type": "practice",
+          "title": "Seu primeiro gesto",
+          "body": "Abra o diário de hoje e escreva uma intenção simples. Uma frase basta.",
+          "action": {
+            "label": "Abrir o diário",
+            "href": "/today"
+          },
+          "id": "o-que-e-magia-7"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Para o MYGLOW, magia é…",
+          "options": [
+            {
+              "id": "a",
+              "text": "Um poder que só algumas pessoas têm"
+            },
+            {
+              "id": "b",
+              "text": "Vontade transformada em ação"
+            },
+            {
+              "id": "c",
+              "text": "Adivinhar o futuro"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Para nós, magia acontece quando a vontade vira ação no mundo."
+        }
+      ]
+    },
+    {
+      "slug": "intencao",
+      "title": "Intenção: por que começar o dia com ela",
+      "minutes": 4,
+      "tags": [
+        "intencao"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Intenção é direção",
+          "body": "Uma intenção é a direção que você escolhe dar à sua energia. Não é uma lista de tarefas: é o jeito como você quer viver o dia.",
+          "id": "intencao-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sun",
+          "title": "Por que de manhã?",
+          "body": "Ao acordar, a mente ainda está aberta e pouco ocupada. Escolher uma intenção nesse momento é como afinar um instrumento antes de tocar.",
+          "id": "intencao-2"
+        },
+        {
+          "type": "example",
+          "title": "Tarefa ou intenção?",
+          "body": "Tarefa: “responder e-mails”. Intenção: “estar presente e responder com calma”. A tarefa diz **o quê**. A intenção diz **como**, e é o como que muda o seu dia.",
+          "id": "intencao-3"
+        },
+        {
+          "type": "concept",
+          "title": "Como escrever uma boa intenção",
+          "body": "Escreva no presente e de forma positiva. Em vez de “não vou me estressar”, tente “eu escolho a calma”. Curta, clara e sua.",
+          "id": "intencao-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Dar nome a um objetivo com clareza ajuda a mente a notar, ao longo do dia, oportunidades ligadas a ele. A intenção funciona como um filtro de atenção.",
+          "id": "intencao-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que sensação você quer carregar ao longo do dia de hoje?",
+          "id": "intencao-6"
+        },
+        {
+          "type": "practice",
+          "title": "Escreva sua intenção",
+          "body": "Vá até o campo Intenção do dia e escreva no presente. Se quiser, use a sugestão do seu céu de hoje.",
+          "action": {
+            "label": "Escrever intenção",
+            "href": "/today"
+          },
+          "id": "intencao-7"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual destas é uma intenção, e não uma tarefa?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Lavar a roupa"
+            },
+            {
+              "id": "b",
+              "text": "Eu escolho viver o dia com leveza"
+            },
+            {
+              "id": "c",
+              "text": "Pagar as contas"
+            }
+          ],
+          "correct": "b",
+          "explanation": "A intenção fala de como você quer viver o dia; a tarefa fala do que precisa ser feito."
+        },
+        {
+          "id": "r2",
+          "prompt": "Qual é o melhor jeito de escrever uma intenção?",
+          "options": [
+            {
+              "id": "a",
+              "text": "No presente e de forma positiva"
+            },
+            {
+              "id": "b",
+              "text": "Como uma lista longa de metas"
+            },
+            {
+              "id": "c",
+              "text": "Dizendo o que você não quer"
+            }
+          ],
+          "correct": "a",
+          "explanation": "“Eu escolho a calma” funciona melhor do que “não vou me estressar”."
+        }
+      ]
+    },
+    {
+      "slug": "autodominio",
+      "title": "Autodomínio: dizer e fazer",
+      "minutes": 4,
+      "tags": [
+        "habitos"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Sua palavra é um feitiço",
+          "body": "Cada vez que você diz “vou fazer” e faz, a confiança em si mesmo cresce. Cada promessa quebrada consigo enfraquece essa confiança. Autodomínio é honrar a própria palavra.",
+          "id": "autodominio-1"
+        },
+        {
+          "type": "icon",
+          "icon": "flame",
+          "title": "Autocontrole é mágico",
+          "body": "Escolher o que você quer em vez do que é fácil no momento é um ato de poder. Não é rigidez: é lembrar quem você decidiu ser.",
+          "id": "autodominio-2"
+        },
+        {
+          "type": "example",
+          "title": "Comece pequeno",
+          "body": "Prometa algo que você com certeza cumpre: um copo d'água ao acordar, cinco minutos de alongamento. Promessas pequenas cumpridas valem mais do que grandes promessas esquecidas.",
+          "id": "autodominio-3"
+        },
+        {
+          "type": "concept",
+          "title": "Quando você falhar",
+          "body": "Você vai falhar às vezes; todo mundo falha. O autodomínio não está em nunca errar, e sim em voltar. Sem culpa, sem drama: amanhã é um novo começo.",
+          "id": "autodominio-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Hábitos se formam pela repetição de pequenas ações, não pela força de vontade de um único dia. A constância é mais mágica que a intensidade.",
+          "id": "autodominio-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que pequena promessa você pode fazer a si mesmo hoje, e cumprir?",
+          "id": "autodominio-6"
+        },
+        {
+          "type": "practice",
+          "title": "Uma promessa para hoje",
+          "body": "Escolha um cuidado do Foco no meu corpo (água, alongamento ou treino) e cumpra hoje. Marque quando fizer.",
+          "action": {
+            "label": "Ir para o corpo",
+            "href": "/today"
+          },
+          "id": "autodominio-7"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "O que é autodomínio no MYGLOW?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Nunca errar"
+            },
+            {
+              "id": "b",
+              "text": "Honrar a própria palavra e voltar quando falhar"
+            },
+            {
+              "id": "c",
+              "text": "Fazer tudo com muita intensidade"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Autodomínio é cumprir o que você diz, e recomeçar sem culpa quando não conseguir."
+        }
+      ]
+    },
+    {
+      "slug": "autocuidado",
+      "title": "Autocuidado é magia",
+      "minutes": 4,
+      "tags": [
+        "autocuidado",
+        "corpo"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Você é o seu primeiro altar",
+          "body": "Nenhum ritual funciona bem com uma energia esgotada. Cuidar do corpo, da mente e do descanso é preparar o altar mais importante: você.",
+          "id": "autocuidado-1"
+        },
+        {
+          "type": "icon",
+          "icon": "water-drop",
+          "title": "Os cuidados básicos",
+          "body": "Água, movimento, alongamento e sono não são detalhes: são a base da sua energia. Por isso o diário tem o **Foco no meu corpo**.",
+          "id": "autocuidado-2"
+        },
+        {
+          "type": "concept",
+          "title": "Cuidar da energia",
+          "body": "A energia também se acumula: preocupações, conversas pesadas, excesso de tela. Banimentos, pausas e respiração ajudam a limpar o que não é seu.",
+          "id": "autocuidado-3"
+        },
+        {
+          "type": "example",
+          "title": "Um autocuidado de 5 minutos",
+          "body": "Beba um copo d'água devagar. Respire fundo três vezes. Alongue o pescoço e os ombros. Pronto: um pequeno ritual de volta para si.",
+          "id": "autocuidado-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "O jeito como você acorda diz muito sobre a noite que teve. Por isso o diário pergunta como você se sentiu ao acordar: com o tempo, você enxerga padrões no seu sono.",
+          "id": "autocuidado-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que cuidado com você mesmo anda esquecido?",
+          "id": "autocuidado-6"
+        },
+        {
+          "type": "practice",
+          "title": "Registre como acordou",
+          "body": "No diário de hoje, marque como você se sentiu ao acordar e escreva uma linha sobre o seu sono.",
+          "action": {
+            "label": "Abrir o diário",
+            "href": "/today"
+          },
+          "id": "autocuidado-7"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Por que o autocuidado faz parte da magia?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Porque a sua energia é a base de qualquer ritual"
+            },
+            {
+              "id": "b",
+              "text": "Porque está na moda"
+            },
+            {
+              "id": "c",
+              "text": "Porque substitui a intenção"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Um altar esgotado não sustenta nenhum ritual. Cuidar de si é preparar a base."
+        }
+      ]
+    },
+    {
+      "slug": "abrir-e-fechar",
+      "title": "Abrir e fechar o dia",
+      "minutes": 5,
+      "tags": [
+        "rituais",
+        "metodologia"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O dia como um ritual",
+          "body": "Um ritual tem começo, meio e fim. O MYGLOW propõe viver cada dia assim: abrir com intenção, cuidar do corpo durante o dia e fechar com consciência.",
+          "id": "abrir-e-fechar-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sun",
+          "title": "Abrir: a manhã",
+          "body": "Intenção do dia, banimento matinal para soltar o que pesa, ritual matinal para se conectar e um olhar para como você acordou.",
+          "id": "abrir-e-fechar-2"
+        },
+        {
+          "type": "icon",
+          "icon": "moon-crescent",
+          "title": "Fechar: a noite",
+          "body": "Gratidão, humor, reflexão e banimento noturno. Fechar o dia é recolher o que você aprendeu e soltar o resto antes de dormir.",
+          "id": "abrir-e-fechar-3"
+        },
+        {
+          "type": "concept",
+          "title": "O que é um banimento?",
+          "body": "Banir é afastar o que não serve: um pensamento repetitivo, uma energia pesada, uma preocupação. Pode ser uma respiração, uma frase, lavar as mãos com intenção. No próximo curso vamos mais fundo.",
+          "id": "abrir-e-fechar-4"
+        },
+        {
+          "type": "example",
+          "title": "Um fechamento simples",
+          "body": "Três coisas pelas quais você é grato. Uma nota para o seu humor. Uma frase: o que aprendi hoje e o que posso melhorar amanhã. Dez minutos, no máximo.",
+          "id": "abrir-e-fechar-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Rever o dia antes de dormir ajuda a organizar a mente e costuma deixar o descanso mais tranquilo. A reflexão da noite também é um cuidado.",
+          "id": "abrir-e-fechar-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Como você costuma terminar os seus dias hoje em dia?",
+          "id": "abrir-e-fechar-7"
+        },
+        {
+          "type": "practice",
+          "title": "Feche o dia de hoje",
+          "body": "Hoje à noite, preencha a parte Noite do diário: gratidão, humor e reflexão final.",
+          "action": {
+            "label": "Ver a Noite",
+            "href": "/today"
+          },
+          "id": "abrir-e-fechar-8"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "O que é um banimento?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Um jeito de afastar o que não serve"
+            },
+            {
+              "id": "b",
+              "text": "Um tipo de horóscopo"
+            },
+            {
+              "id": "c",
+              "text": "Uma meta semanal"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Banir é soltar o que pesa: um pensamento, uma energia, uma preocupação."
+        },
+        {
+          "id": "r2",
+          "prompt": "O que faz parte de fechar o dia?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Intenção e alongamento"
+            },
+            {
+              "id": "b",
+              "text": "Gratidão, humor e reflexão"
+            },
+            {
+              "id": "c",
+              "text": "Planejar o mês"
+            }
+          ],
+          "correct": "b",
+          "explanation": "A noite é para recolher o que o dia trouxe: gratidão, humor, reflexão e banimento."
+        }
+      ]
+    },
+    {
+      "slug": "usar-o-myglow",
+      "title": "Como usar o diário, o planner e o Glow",
+      "minutes": 5,
+      "tags": [
+        "app"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O diário: o seu dia",
+          "body": "Na aba **Hoje** você vê o céu do dia, a sua leitura e o diário: manhã, corpo e noite. Tudo salva sozinho, e você pode voltar aos dias anteriores.",
+          "id": "usar-o-myglow-1"
+        },
+        {
+          "type": "icon",
+          "icon": "calendar",
+          "title": "O planner: semana, mês e ano",
+          "body": "Na **Semana** você define intenções para cada dia e para as suas áreas: Magic, Pessoal, Lazer, Profissional e Estudos. No **Mês** e no **Ano** você olha mais longe: metas, céu, rituais e reflexões.",
+          "id": "usar-o-myglow-2"
+        },
+        {
+          "type": "icon",
+          "icon": "zodiac-wheel",
+          "title": "O céu a seu favor",
+          "body": "A MYGLOW calcula a Lua, os signos e os eventos do céu para você. A leitura pessoal une esse céu ao seu mapa natal, como inspiração para refletir, nunca como destino.",
+          "id": "usar-o-myglow-3"
+        },
+        {
+          "type": "icon",
+          "icon": "glow-orb",
+          "title": "O Glow",
+          "body": "Glow é a luz que você acumula ao cuidar de si: completar as partes do dia, planejar e refletir. Com ele você sobe de nível, da Semente à Constelação.",
+          "id": "usar-o-myglow-4"
+        },
+        {
+          "type": "concept",
+          "title": "Sem culpa",
+          "body": "Um dia vazio não apaga nada. Você nunca perde Glow e sempre pode recomeçar. A MYGLOW é companhia, não cobrança.",
+          "id": "usar-o-myglow-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Você tem até o fim do dia seguinte para completar um dia e ganhar o Glow dele. A vida acontece, e a gente entende.",
+          "id": "usar-o-myglow-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Qual parte da MYGLOW você quer transformar em hábito primeiro?",
+          "id": "usar-o-myglow-7"
+        },
+        {
+          "type": "practice",
+          "title": "Planeje a sua semana",
+          "body": "Abra a Semana e escreva a sua intenção para ela. É o primeiro passo do seu planner.",
+          "action": {
+            "label": "Abrir a Semana",
+            "href": "/week"
+          },
+          "id": "usar-o-myglow-8"
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Até quando você pode completar um dia para ganhar o Glow dele?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Só até a meia-noite"
+            },
+            {
+              "id": "b",
+              "text": "Até o fim do dia seguinte"
+            },
+            {
+              "id": "c",
+              "text": "Até o fim da semana"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Você tem até as 23:59 do dia seguinte. Depois disso o dia continua seu, só não conta Glow."
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "prompt": "Qual é a fórmula da magia no MYGLOW?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Sorte + tempo"
+        },
+        {
+          "id": "b",
+          "text": "Vontade + ação"
+        },
+        {
+          "id": "c",
+          "text": "Signo + cristal"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Vontade sem ação vira sonho; ação sem vontade vira rotina vazia. Juntas, viram magia."
+    },
+    {
+      "id": "q2",
+      "prompt": "Qual intenção está melhor escrita?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Não vou me irritar hoje"
+        },
+        {
+          "id": "b",
+          "text": "Eu escolho a calma"
+        },
+        {
+          "id": "c",
+          "text": "Talvez eu tente ficar calmo"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Intenções funcionam melhor no presente, de forma positiva e com firmeza."
+    },
+    {
+      "id": "q3",
+      "prompt": "Você não cumpriu o que prometeu a si mesmo ontem. O que o autodomínio sugere?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Desistir, já que falhou"
+        },
+        {
+          "id": "b",
+          "text": "Se culpar o dia inteiro"
+        },
+        {
+          "id": "c",
+          "text": "Voltar hoje, sem culpa"
+        }
+      ],
+      "correct": "c",
+      "explanation": "Autodomínio não é nunca errar: é voltar. Cada dia é um novo começo."
+    },
+    {
+      "id": "q4",
+      "prompt": "Por que o diário pergunta como você se sentiu ao acordar?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para acompanhar o seu sono e a sua energia"
+        },
+        {
+          "id": "b",
+          "text": "Para dar pontos extras"
+        },
+        {
+          "id": "c",
+          "text": "Para calcular o seu signo"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Com o tempo, essas respostas mostram padrões no seu sono e na sua energia."
+    },
+    {
+      "id": "q5",
+      "prompt": "Qual é o ritmo de um dia MYGLOW?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Abrir com intenção, cuidar do corpo e fechar com reflexão"
+        },
+        {
+          "id": "b",
+          "text": "Fazer tudo apenas à noite"
+        },
+        {
+          "id": "c",
+          "text": "Planejar o ano inteiro todos os dias"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Começo, meio e fim: o dia vivido como um ritual."
+    }
+  ]
+}

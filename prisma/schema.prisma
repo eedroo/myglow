@@ -84,6 +84,7 @@ enum XpSource {
   YEAR_PLAN
   STREAK_BONUS
   YEAR_REFLECTION
+  COURSE_COMPLETE // Grimório (F8): curso concluído, sem janela; refId = slug do curso
 }
 
 enum SignContentKind {
@@ -142,6 +143,9 @@ model User {
   years             Year[]
   projectIntentions ProjectIntention[]
   xpEvents          XpEvent[]
+  lessonProgress    LessonProgress[]
+  courseProgress    CourseProgress[]
+  reviewItems       ReviewItem[]
   userAiContent     UserAiContent[]
   pushSubscriptions PushSubscription[]
   notificationLogs  NotificationLog[]
@@ -272,9 +276,51 @@ model XpEvent {
   source      XpSource
   periodStart DateTime @db.Date
   points      Int
+  refId       String   @default("") // F8: distingue eventos da mesma fonte no mesmo dia (ex.: slug do curso)
   createdAt   DateTime @default(now())
 
-  @@unique([userId, source, periodStart])
+  @@unique([userId, source, periodStart, refId])
+}
+
+// Grimório (F8): progresso na trilha de conhecimento. O conteúdo vive em content/grimoire (ficheiros).
+model LessonProgress {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseSlug    String
+  lessonSlug    String
+  completedAt   DateTime @default(now())
+  completedDate DateTime @db.Date // dia local — usado no limite diário
+
+  @@unique([userId, courseSlug, lessonSlug])
+  @@index([userId, completedDate])
+}
+
+model CourseProgress {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseSlug   String
+  startedAt    DateTime  @default(now())
+  quizAttempts Int       @default(0)
+  bestScore    Int?
+  completedAt  DateTime? // lições todas + quiz ≥ 4/5 → emblema
+
+  @@unique([userId, courseSlug])
+}
+
+model ReviewItem {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseSlug String
+  lessonSlug String
+  questionId String
+  dueDate    DateTime @db.Date
+  box        Int      @default(0) // Leitner: 0→1 dia, 1→3, 2→7, 3→21, 4→60
+
+  @@unique([userId, courseSlug, lessonSlug, questionId])
+  @@index([userId, dueDate])
 }
 
 // Conteúdo partilhado por signo (gerado 1x por signo/período/língua)

@@ -1,0 +1,18 @@
+/* ComingSoonGrimoire: EN sem conteúdo */
+
+.mg-coming-soon > .mg-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.mg-coming-soon__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+}
+
+.mg-coming-soon__text {
+  color: var(--text-secondary);
+}

@@ -45,6 +45,13 @@ import { NotificationInbox } from '@/components/notifications/NotificationInbox'
 import { NotificationSettings } from '@/components/notifications/NotificationSettings';
 import { NotificationsPromptCard } from '@/components/notifications/NotificationsPromptCard';
 import { buildNotification } from '@/lib/notifications/content';
+import { CourseRegion } from '@/components/grimoire/CourseRegion';
+import { ContentCard } from '@/components/grimoire/ContentCard';
+import { ReviewCard } from '@/components/grimoire/ReviewCard';
+import { LessonComplete } from '@/components/grimoire/LessonComplete';
+import { QuizPlayer } from '@/components/grimoire/QuizPlayer';
+import { getCourse } from '@/lib/grimoire/content';
+import type { MapCourse } from '@/lib/grimoire/queries';
 import { dayHoroscopeSchema, dayPersonalSchema, monthRitualsSchema } from '@/lib/ai/schemas';
 import { finalizeRituals } from '@/lib/ai/rituals';
 import sampleHoroscope from '../../../../tests/fixtures/ai/day-horoscope.valid.json';
@@ -144,6 +151,18 @@ export default async function DevUiPage() {
   const rituals = finalizeRituals(monthRitualsSchema.parse(sampleRituals));
   const ready = <T,>(data: T) => ({ status: 'ready' as const, data });
 
+  // Grimório de exemplo: curso 1 real com lições em todos os estados (sem DB).
+  const vm = getCourse('vida-magica', 'pt-BR')!;
+  const lessonState = (i: number) => (i < 2 ? 'completed' : i === 2 ? 'current' : 'locked') as 'completed' | 'current' | 'locked';
+  const sampleRegion: MapCourse = {
+    slug: vm.slug, order: vm.order, required: vm.required, state: 'in_progress', title: vm.title, subtitle: vm.subtitle,
+    icon: vm.icon, badge: vm.badge, lessonsDone: 2, quizUnlocked: false, completed: false,
+    lessons: vm.lessons.map((l, i) => ({ slug: l.slug, title: l.title, minutes: l.minutes, state: lessonState(i) })),
+  };
+  const cardOfEachType = ['concept', 'icon', 'example', 'didYouKnow', 'reflection', 'practice'].map(
+    (type) => vm.lessons.flatMap((l) => l.cards).find((c) => c.type === type)!,
+  );
+
   // Avisos de exemplo (texto real de `buildNotification`, sem DB).
   const dbLocale = appLocale === 'pt-BR' ? 'PT_BR' : appLocale === 'en' ? 'EN' : 'PT_PT';
   const sampleCtx = { locale: dbLocale, date: SAMPLE_DATE, tz: SAMPLE_TZ, moon: { phase: sky.moon.phase, sign: sky.moon.signAtNoon } } as const;
@@ -219,6 +238,16 @@ export default async function DevUiPage() {
           <RitualsCard rituals={ready(rituals)} pending={[]} year={2026} month={5} locale={appLocale} />
         </section>
         <section className="mg-stack">
+          <SectionHeader title={t('grimoireSample')} icon="grimoire" />
+          <CourseRegion course={sampleRegion} lessonsLeft={1} />
+          {cardOfEachType.map((card) => (
+            <ContentCard key={card.id} card={card} />
+          ))}
+          <ReviewCard question={vm.lessons[1]!.review[0]!} />
+          <LessonComplete replay={false} lessonsLeft={1} nextHref="/grimoire/vida-magica/autodominio" quizUnlocked={false} courseSlug="vida-magica" />
+          <QuizPlayer data={{ courseSlug: vm.slug, courseTitle: vm.title, questions: vm.quiz, badge: vm.badge, completed: false }} />
+        </section>
+        <section className="mg-stack">
           <SectionHeader title={t('notificationsSample')} icon="moon-stars" />
           <GlassCard>
             <div className="mg-row">
@@ -247,7 +276,7 @@ export default async function DevUiPage() {
           <GlassCard>
             <div className="mg-row">
               {[0, 450, 1600, 15000].map((total) => (
-                <LevelBadge key={total} total={total} />
+                <LevelBadge key={total} total={total} name="Luna Estrela" />
               ))}
             </div>
             {/* Estados da nota de janela, com "agora" fixo */}

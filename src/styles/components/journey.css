@@ -1,6 +1,7 @@
 /* JourneyPage (/profile) */
 
 .mg-journey {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
@@ -38,6 +39,23 @@
   color: var(--text-secondary);
 }
 
-.mg-journey__settings {
-  align-self: center;
+/* F8: definições dentro do perfil (roda dentada no topo) */
+.mg-journey__gear {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+}
+
+.mg-journey__gear:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }

@@ -112,6 +112,15 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - **iPhone/iPad:** Web Push só com a app instalada no ecrã principal (iOS 16.4+); fora disso mostra-se o `InstallGuide`. Android/desktop: `InstallButton` com `beforeinstallprompt`.
 - Teste e2e: o PushManager e a permissão são simulados (o Chromium headless nega sempre a permissão e não há FCM).
 
+### Grimório — trilha de conhecimento (Fase 8, `content/grimoire/`, `src/lib/grimoire/`)
+
+- **Conteúdo é dados:** `content/grimoire/index.json` (ordem, `required`, línguas publicadas de cada curso) + `content/grimoire/<slug>/<locale>.json` (curso completo: lições com cards e perguntas de revisão, quiz de 5 perguntas, emblema). Validado com Zod (`schema.ts`); texto dos cards só aceita `**negrito**` (`markdown.ts`, sem HTML). Lido do disco no servidor com cache em memória (`content.ts`); `next.config.mjs` inclui `content/grimoire/**` no bundle das funções.
+- **Acrescentar um curso:** criar `content/grimoire/<slug>/pt-BR.json` (mesmo formato do Anexo A da F8), acrescentar a linha ao `index.json` (`slug`, `order`, `required`, `locales`) e correr `npm run content:check` (também corre no `vitest`). Ícones novos entram em `MAGIC_ICON_NAMES`. Nenhum código a tocar.
+- **Língua** (`resolveContentLocale`): pt-BR → pt-BR; pt-PT → pt-PT se existir, senão pt-BR; en → en se existir, senão pt-BR só com o cookie `mg_grimoire_pt=1` ("Read in Portuguese"), senão "coming soon".
+- **Regras** (`rules.ts`, puras): obrigatórios em sequência, livres abertos quando todos os obrigatórios estão concluídos (não depende do nível); lições sequenciais; 3 lições novas por dia no fuso do utilizador (`LessonProgress.completedDate`), rever ilimitado; revisão espaçada Leitner 1/3/7/21/60 dias (`ReviewItem`, até 2 revisões no início de cada lição, as mais atrasadas); quiz aprova com 4/5.
+- **Progresso:** `LessonProgress` (unique por lição), `CourseProgress` (tentativas, melhor nota, `completedAt` = emblema), `ReviewItem`. Actions `completeLesson` / `submitQuiz` validam tudo no servidor; o curso concluído dá 100 Glow com `XpEvent` `COURSE_COMPLETE` e `refId` = slug (a unique passou a `userId, source, periodStart, refId`).
+- **Rotas:** `/grimoire` (mapa, no grupo `(app)`); `/grimoire/[course]/[lesson]` e `/grimoire/[course]/quiz` em ecrã inteiro no grupo `(focus)` (sem `TopBar`/`BottomNav`, com `GlowProvider`). Bloqueio, limite ou curso fechado → `redirect('/grimoire?notice=…')`.
+
 ### Diário
 
 - Hoje e dias passados são editáveis (permite transcrever o diário em papel); dias futuros não existem no diário — a intenção para o futuro vive no planner semanal (F3). Datas anteriores a 2000-01-01 são rejeitadas.

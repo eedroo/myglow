@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "courses": [
+    { "slug": "vida-magica", "order": 1, "required": true, "locales": ["pt-BR"] }
+  ]
+}

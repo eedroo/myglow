@@ -1,0 +1,64 @@
+/* ContentCard: cards das lições */
+
+.mg-lcard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 320px;
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-card);
+}
+
+.mg-lcard__icon {
+  display: inline-flex;
+  align-self: center;
+  margin-bottom: var(--space-2);
+}
+
+.mg-lcard__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-lcard__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+}
+
+.mg-lcard__body {
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+}
+
+.mg-lcard__body strong {
+  font-weight: var(--weight-medium);
+  color: var(--gold-accent);
+}
+
+.mg-lcard--icon {
+  text-align: center;
+}
+
+.mg-lcard--didyouknow {
+  border-color: var(--gold-500);
+}
+
+.mg-lcard--reflection .mg-lcard__title {
+  font-style: italic;
+}
+
+.mg-lcard__action {
+  align-self: flex-start;
+  margin-top: var(--space-2);
+}

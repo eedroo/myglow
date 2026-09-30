@@ -18,7 +18,7 @@ export async function GlowHistoryCard({ items }: { items: XpAward[] }) {
         <ul className="mg-glow-history">
           {items.map((a) => (
             <li key={`${a.source}-${a.periodStart}`} className="mg-glow-history__item">
-              <MagicIcon name={a.source === 'STREAK_BONUS' ? 'flame' : 'glow-orb'} size="sm" decorative />
+              <MagicIcon name={a.source === 'STREAK_BONUS' ? 'flame' : a.source === 'COURSE_COMPLETE' ? 'grimoire' : 'glow-orb'} size="sm" decorative />
               <span>
                 <span className="mg-glow-history__label">{t(`sources.${a.source}`)}</span>
                 <span className="mg-glow-history__date">{formatLongDate(a.periodStart, locale)}</span>

@@ -1,0 +1,106 @@
+/* LessonNode, QuizNode, BadgeNode: nós da trilha */
+
+.mg-node-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mg-node {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg-solid);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease);
+}
+
+.mg-node:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.mg-node:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-node__ring {
+  display: inline-flex;
+}
+
+.mg-node--completed {
+  border-color: var(--gold-500);
+  background: var(--gold-gradient);
+  color: var(--text-on-gold);
+}
+
+.mg-node--current {
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--gold-500);
+  animation: mg-node-halo 2.4s var(--ease) infinite;
+}
+
+.mg-node--locked {
+  color: var(--text-muted);
+}
+
+.mg-node--locked .mg-node__ring {
+  opacity: 0.6;
+}
+
+.mg-node--quiz {
+  border-style: dashed;
+}
+
+.mg-node--badge {
+  cursor: default;
+}
+
+.mg-node--badge > * {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.mg-node--badge.mg-node--earned {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-glow);
+}
+
+.mg-node--badge.mg-node--earned > * {
+  filter: none;
+  opacity: 1;
+}
+
+.mg-node__label {
+  margin-top: var(--space-1);
+  max-width: 140px;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+@keyframes mg-node-halo {
+  0%, 100% { box-shadow: var(--shadow-card), 0 0 0 0 transparent; }
+  50% { box-shadow: var(--shadow-card), var(--shadow-glow); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-node--current {
+    animation: none;
+    box-shadow: var(--shadow-card), var(--shadow-glow);
+  }
+
+  .mg-node:hover:not(:disabled) {
+    transform: none;
+  }
+}

@@ -2,16 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CalendarDays, CalendarRange, Sun, Telescope, UserRound, type LucideIcon } from 'lucide-react';
+import { BookOpen, CalendarDays, CalendarRange, Sun, Telescope, type LucideIcon } from 'lucide-react';
 
-export type NavKey = 'today' | 'week' | 'month' | 'year' | 'profile';
+export type NavKey = 'today' | 'week' | 'month' | 'year' | 'grimoire';
 
 const ITEMS: { key: NavKey; href: string; icon: LucideIcon }[] = [
   { key: 'today', href: '/today', icon: Sun },
   { key: 'week', href: '/week', icon: CalendarRange },
   { key: 'month', href: '/month', icon: CalendarDays },
   { key: 'year', href: '/year', icon: Telescope },
-  { key: 'profile', href: '/profile', icon: UserRound },
+  { key: 'grimoire', href: '/grimoire', icon: BookOpen },
 ];
 
 interface BottomNavProps {
@@ -29,8 +29,7 @@ export function BottomNav({ labels, ariaLabel }: BottomNavProps) {
         const active =
           pathname === href ||
           pathname.startsWith(`${href}/`) ||
-          (key === 'today' && pathname.startsWith('/day/')) ||
-          (key === 'profile' && (pathname === '/settings' || pathname.startsWith('/settings/')));
+          (key === 'today' && pathname.startsWith('/day/'));
         return (
           <Link
             key={key}

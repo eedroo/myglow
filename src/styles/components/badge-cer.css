@@ -1,0 +1,76 @@
+/* BadgeCeremony: <dialog> do emblema conquistado */
+
+.mg-badge-cer {
+  width: min(calc(100% - var(--space-6)), 420px);
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-width) solid var(--gold-500);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-solid);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.mg-badge-cer::backdrop {
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.mg-badge-cer__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mg-badge-cer__icon {
+  display: inline-flex;
+  border-radius: var(--radius-pill);
+  background: var(--gold-halo);
+  padding: var(--space-3);
+  animation: mg-badge-glow 2.4s var(--ease) infinite alternate;
+}
+
+.mg-badge-cer__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-badge-cer__name {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-medium);
+}
+
+.mg-badge-cer__text {
+  color: var(--text-secondary);
+}
+
+.mg-badge-cer__glow {
+  font-weight: var(--weight-medium);
+  color: var(--gold-accent);
+}
+
+.mg-badge-cer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+@keyframes mg-badge-glow {
+  from { box-shadow: 0 0 0 transparent; }
+  to { box-shadow: var(--shadow-glow); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-badge-cer__icon {
+    animation: none;
+    box-shadow: var(--shadow-glow);
+  }
+}

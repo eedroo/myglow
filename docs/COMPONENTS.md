@@ -161,14 +161,14 @@ Referência visual: diário físico em papel — fundo creme com mármore dourad
 - Contentor com safe-area insets (PWA). Reserva espaço para a `BottomNav` (mobile) ou rail (desktop)
 
 ### TopBar — F1
-- **TSX:** `TopBar.tsx` (Server) · **Classes:** `mg-topbar`, `mg-topbar__logo`, `mg-topbar__mark`, `mg-topbar__settings`
-- Logo MYGLOW + link para definições (avatar com inicial)
-- **Props:** `userName: string`, `settingsLabel: string`, `badge?` (F5), `bell?` (F7: `NotificationBell`)
+- **TSX:** `TopBar.tsx` (Server) · **Classes:** `mg-topbar`, `mg-topbar__logo`, `mg-topbar__mark`, `mg-topbar__actions`
+- Logo MYGLOW à esquerda; à direita o sino e o avatar (F8: `LevelBadge` com iniciais no anel de nível, abre `/profile`; o link antigo para definições saiu)
+- **Props:** `appName`, `homeLabel`, `badge?` (avatar), `bell?` (F7: `NotificationBell`)
 
 ### BottomNav — F1
 - **TSX:** `BottomNav.tsx` (`'use client'` — usa `usePathname`) · **Classes:** `mg-bottom-nav`, `mg-bottom-nav__item`, `mg-bottom-nav__item--active`, `mg-bottom-nav__icon`, `mg-bottom-nav__label`
-- Hoje · Semana · Mês · Ano · Perfil; mobile-first, ≥ 960 px vira rail lateral
-- **Props:** `labels: Record<'today' | 'week' | 'month' | 'year' | 'profile', string>`, `ariaLabel`
+- Hoje · Semana · Mês · Ano · Grimório (F8; o Perfil passou para o avatar da TopBar); mobile-first, ≥ 960 px vira rail lateral
+- **Props:** `labels: Record<'today' | 'week' | 'month' | 'year' | 'grimoire', string>`, `ariaLabel`
 
 ### PageHeader — F1
 - **TSX:** `PageHeader.tsx` (Server) · **Classes:** `mg-page-header`, `mg-page-header__eyebrow`, `mg-page-header__title`, `mg-page-header__subtitle`
@@ -315,14 +315,14 @@ Os pontos chamam-se **Glow** na UI (no código: `xp`). Lógica em `src/lib/xp/`.
 | `GlowProvider` | client | — | — | contexto no layout `(app)`: `useGlow().push(xp)` enfileira toasts, abre `LevelUpDialog` (também ao carregar se `level > levelSeen`) e faz `router.refresh()` para actualizar badge e notas |
 | `GlowToast` | client | `glow-toast.css` | `mg-glow-toast`, `__icon`, `__points`, `__label` | "+15 Glow · Noite completa" com `glow-orb`; awards simultâneos num só toast ("+50 Glow · Dia completo ✦"); 3 s; `aria-live="polite"`; por baixo do `SaveStatus` |
 | `LevelUpDialog` | client | `levelup.css` | `mg-levelup`, `__icon`, `__title`, `__text`, `__actions` | `<dialog>` modal nativo (foco preso, Esc fecha) com `level-N` `xl`, "Subiste para Chama" + frase do nível; brilho suave (sem animação com `prefers-reduced-motion`); ao fechar chama `markLevelSeen` |
-| `LevelBadge` | server | `level-badge.css` | `mg-level-badge`, `__ring`, `__track`, `__arc`, `__icon` | na `TopBar`: `level-N` dentro de anel SVG de progresso; liga a `/profile` |
+| `LevelBadge` | server | `level-badge.css` | `mg-level-badge`, `--active`, `__ring`, `__track`, `__arc`, `__initials` | na `TopBar`: F8 avatar — iniciais do nome dentro do anel SVG de progresso do nível; `aria-label` "Perfil · …"; liga a `/profile` (activo em `/profile` e `/settings`) |
 | `GlowWindowNote` | server | `glow-note.css` | `mg-glow-note`, `__item`, `--open`, `--closed`, `--earned`, `--upcoming` | dia: "Glow de hoje 35/50" / "ainda conta até hoje às 23:59" / "já não conta, mas continua teu"; semana/mês/ano: estado do plano e da reflexão (a partir de `windowState`) |
 
 ### Jornada — F5 (`src/components/journey/`, página `/profile`)
 
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
-| `JourneyPage` | server | `journey.css` | `mg-journey`, `__summary`, `__total`, `__settings` | total de Glow, nível, cartões abaixo e link para Definições |
+| `JourneyPage` | server | `journey.css` | `mg-journey`, `__summary`, `__total`, `__gear` | total de Glow, nível, cartões abaixo (F8: `BadgesCard`) e roda dentada para Definições no topo |
 | `LevelPathCard` | server | `level-path.css` | `mg-level-path`, `__step`, `__icon`, `__name`, `__min`, `--done`, `--current`, `--locked` | 7 níveis com ícone, nome e Glow mínimo; o actual com `ProgressBar` |
 | `StreakCard` | server | `streak.css` | `mg-streak`, `__value`, `__best`, `__next` | `flame` + streak mágico actual e melhor; próximo marco; streak 0 → "Cada dia é um recomeço" |
 | `GlowHistoryCard` | server | `glow-history.css` | `mg-glow-history`, `__item`, `__label`, `__date`, `__points` | últimos 30 eventos do ledger com data e rótulo |
@@ -355,4 +355,30 @@ Lembretes push (`web-push`) + caixa de avisos na app (funciona sem push). A perm
 | `InstallGuide` | client | `install.css` | `mg-install`, `__intro`, `__steps`, `__step`, `__num` | iPhone/iPad: Partilhar → "Adicionar ao ecrã principal" → abrir pelo ícone (ícones de linha lucide) + "No iPhone, os lembretes só funcionam com a app instalada." |
 | `InstallButton` | client | `install-btn.css` | `mg-install-btn` | Android/desktop: guarda `beforeinstallprompt` e mostra "Instalar MYGLOW"; escondido em standalone ou sem o evento |
 | `NotificationSettings` | client | `notify-settings.css` | `mg-notify-settings`, `__section`, `__row`, `__label`, `__time`, `__device`, `__devices`, `__status` | nas definições: interruptor geral; manhã/corpo/noite (interruptor + hora em passos de 15 min); semana e mês (início, fim, "Última chamada"); estado da permissão + Activar/Desactivar neste dispositivo; dispositivos com "Remover"; "Enviar notificação de teste"; `InstallButton`/`InstallGuide` |
+
+### Grimório — F8 (`src/components/grimoire/`, rotas `/grimoire`, `/grimoire/[course]/[lesson]`, `/grimoire/[course]/quiz`)
+
+Escola em trilha (estilo Duolingo). Conteúdo só em `content/grimoire/**` (JSON validado); regras em `src/lib/grimoire/`. Leitor e quiz em ecrã inteiro no grupo `(focus)` (sem `TopBar`/`BottomNav`).
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `GrimoireMap` | server | `map.css` | `mg-map`, `__notice`, `__regions` | medidor fixo + aviso (`?notice=`) + regiões; o nó actual faz scroll suave até si ao abrir |
+| `DailyLessonsMeter` | server | `daily-meter.css` | `mg-daily-meter`, `__moons`, `__moon`, `--filled`, `__label`, `__badges` | topo fixo: 3 luas (lições novas de hoje) + contador de emblemas (liga ao perfil) |
+| `CourseRegion` | server | `region.css` | `mg-region`, `__header`, `__icon`, `__title`, `__subtitle`, `__progress`, `__lock-note`, `__path`, `__line`, `__nodes`, `__row`, `__row--left/--center/--right`, `__deco`, `--locked`, `--completed` | cabeçalho em vidro (ícone, título, subtítulo, "3/6"); caminho em zigue-zague com traço SVG curvo pontilhado dourado; estrelas e luas decorativas |
+| `LessonNode` | client | `node.css` | `mg-node`, `--completed`, `--current`, `--locked`, `__ring`, `__label` | 64 px (actual 80 px com halo pulsante, estático com reduced-motion); ✓ ou cadeado; abre `NodePopover` |
+| `NodePopover` | client | `node-pop.css` | `mg-node-pop`, `__title`, `__meta`, `__text`, `__actions` | título, "4 min", **Começar** / **Rever**; limite diário; "conclui a anterior" |
+| `QuizNode` | client | `node.css` | `mg-node`, `--quiz` | cristal (`crystal-cluster`); bloqueado até todas as lições |
+| `BadgeNode` | server | `node.css` | `mg-node`, `--badge`, `--earned` | emblema do curso em silhueta até concluído, depois dourado |
+| `Crossroads` | server | `crossroads.css` | `mg-crossroads`, `__title`, `__chips`, `__chip`, `--locked` | depois dos obrigatórios: "Escolhe o teu caminho" + chips dos cursos livres (saltam para a região); esbatido até concluir os obrigatórios |
+| `ComingSoonGrimoire` | client | `coming-soon.css` | `mg-coming-soon`, `__title`, `__text` | EN sem conteúdo: "The Grimoire is coming soon in English" + "Read in Portuguese" (cookie) |
+| `LessonPlayer` | client | `player.css` | `mg-player`, `__top`, `__close`, `__segments`, `__segment`, `__segment--done`, `__stage`, `__card`, `__nav` | segmentos (1 por card), fechar (confirma a meio), card ao centro; swipe (pointer, 60 px), setas, ← →; transição horizontal (fade com reduced-motion); chama `completeLesson` no fim |
+| `ReviewCard` | client | `card-review.css` | `mg-card-review`, `__eyebrow`, `__prompt`, `__options`, `__option`, `--correct`, `--wrong`, `__explain` | "Lembras-te?" + pergunta; explicação depois de responder; só avança depois de responder |
+| `ContentCard` | client | `lcard.css` | `mg-lcard`, `--concept/--icon/--example/--didyouknow/--reflection/--practice`, `__icon`, `__eyebrow`, `__title`, `__body`, `__input`, `__action` | cada tipo de card; `**negrito**` via `parseInline`; reflexão com campo que não é gravado; prática com botão (conclui e navega) |
+| `LessonComplete` | client | `lesson-done.css` | `mg-lesson-done`, `__glow`, `__title`, `__moons`, `__actions` | "Lição concluída", luas restantes hoje, "Continuar" / "Voltar ao mapa" |
+| `QuizPlayer` | client | `quiz.css` | `mg-quiz`, `__progress`, `__bar`, `__question`, `__options`, `__option`, `--correct`, `--wrong`, `__explain`, `__actions` | 5 perguntas, uma de cada vez, certo/errado + explicação sempre; no fim `submitQuiz` |
+| `QuizResult` | client | `quiz-result.css` | `mg-quiz-result`, `__score`, `__text`, `__actions` | "4/5"; passou → `BadgeCeremony`; não → "Quase lá…" + tentar de novo |
+| `BadgeCeremony` | client | `badge-cer.css` | `mg-badge-cer`, `__icon`, `__eyebrow`, `__name`, `__text`, `__glow`, `__actions` | `<dialog>` com o emblema `xl`, nome, descrição, "+100 Glow" (toast e subida de nível via `GlowProvider`) |
+| `BadgesCard` (`journey/`) | server | `badges.css` | `mg-badges`, `__grid`, `__slot`, `--earned`, `__icon`, `__name`, `__date` | emblemas dos cursos publicados: dourados com data ou em silhueta com o nome do curso |
+
+Navegação F8 (`ProfileAvatarLink`, client, em `glow/`: link do avatar activo em `/profile` e `/settings`): `BottomNav` Hoje · Semana · Mês · Ano · **Grimório** (activo em `/grimoire/*`); o Perfil abre pelo avatar (`LevelBadge` com iniciais dentro do anel de nível) na `TopBar`, activo em `/profile` e `/settings`; `/profile` tem o botão de definições (roda dentada).
 

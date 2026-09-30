@@ -16,9 +16,11 @@ export interface XpCandidate {
   source: XpSource;
   periodStart: DateISO;
   points: number;
+  /** Distingue eventos da mesma fonte no mesmo dia (ex.: slug do curso); por defeito "". */
+  refId?: string;
 }
 
-export type WindowedSource = Exclude<XpSource, 'STREAK_BONUS'>;
+export type WindowedSource = Exclude<XpSource, 'STREAK_BONUS' | 'COURSE_COMPLETE'>;
 
 export const XP_POINTS: Record<XpSource, number> = {
   DAY_MORNING: 10,
@@ -32,6 +34,7 @@ export const XP_POINTS: Record<XpSource, number> = {
   YEAR_PLAN: 100,
   YEAR_REFLECTION: 150,
   STREAK_BONUS: 0, // calculado à parte (streak.ts)
+  COURSE_COMPLETE: 100, // Grimório: curso concluído (sem janela)
 };
 
 export const DAY_SOURCES = ['DAY_MORNING', 'DAY_BODY', 'DAY_NIGHT', 'DAY_COMPLETE'] as const satisfies readonly XpSource[];

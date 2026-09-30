@@ -1,0 +1,52 @@
+/* BadgesCard: emblemas no perfil */
+
+.mg-badges__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.mg-badges__slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: var(--border-width) dashed var(--glass-border-strong);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.mg-badges__icon {
+  display: inline-flex;
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.mg-badges__slot--earned {
+  border-style: solid;
+  border-color: var(--gold-500);
+  background: var(--glass-bg-strong);
+}
+
+.mg-badges__slot--earned .mg-badges__icon {
+  filter: none;
+  opacity: 1;
+}
+
+.mg-badges__name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.mg-badges__date {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.mg-badges__empty {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}

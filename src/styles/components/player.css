@@ -1,0 +1,113 @@
+/* LessonPlayer: leitor de lição em ecrã inteiro */
+
+.mg-player {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: min(100%, 560px);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-5);
+}
+
+.mg-player__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mg-player__close {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.mg-player__close:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-player__segments {
+  display: flex;
+  flex: 1;
+  gap: var(--space-1);
+}
+
+.mg-player__segment {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-border-strong);
+  transition: background var(--duration) var(--ease);
+}
+
+.mg-player__segment--done {
+  background: var(--gold-500);
+}
+
+.mg-player__stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.mg-player__card {
+  width: 100%;
+  animation: mg-player-in var(--duration) var(--ease);
+}
+
+.mg-player__card--back {
+  animation-name: mg-player-in-back;
+}
+
+.mg-player__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.mg-player__hint {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+@keyframes mg-player-in {
+  from { opacity: 0; transform: translateX(32px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes mg-player-in-back {
+  from { opacity: 0; transform: translateX(-32px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-player__card,
+  .mg-player__card--back {
+    animation: mg-player-fade var(--duration) linear;
+  }
+
+  @keyframes mg-player-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* Grupo (focus): ecrã inteiro sem TopBar/BottomNav */
+.mg-focus {
+  position: relative;
+  z-index: var(--z-content);
+  min-height: 100dvh;
+}

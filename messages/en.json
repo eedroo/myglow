@@ -136,7 +136,8 @@
     "week": "Week",
     "month": "Month",
     "year": "Year",
-    "profile": "Profile"
+    "profile": "Profile",
+    "grimoire": "Grimoire"
   },
   "shell": {
     "home": "MYGLOW — go to today",
@@ -218,6 +219,8 @@
     "readingSample": "AI readings",
     "readingPending": "Preparing (shimmer)",
     "notificationsSample": "Notifications and reminders",
+    "badgeCeremony": "Badge ceremony",
+    "grimoireSample": "Grimoire (path)",
     "glowSample": "Glow (sample data)",
     "openLevelUp": "Show level-up dialog",
     "motto": "Motto"
@@ -593,7 +596,8 @@
       "MONTH_REFLECTION": "Monthly reflection",
       "YEAR_PLAN": "Year planned",
       "YEAR_REFLECTION": "Yearly reflection",
-      "STREAK_BONUS": "Magic streak"
+      "STREAK_BONUS": "Magic streak",
+      "COURSE_COMPLETE": "Course completed"
     },
     "levels": {
       "seed": {
@@ -838,6 +842,114 @@
       "invalid": "Couldn't save. Please check the values.",
       "rateLimited": "Too many tests in a row. Try again shortly.",
       "unavailable": "Notifications are unavailable right now."
+    }
+  },
+  "grimoire": {
+    "title": "Grimoire",
+    "meter": {
+      "label": "Today's lessons",
+      "left": "{count, plural, =0 {Come back tomorrow for new lessons} one {# new lesson left today} other {# new lessons left today}}",
+      "badges": "{count, plural, one {# badge} other {# badges}}"
+    },
+    "region": {
+      "progress": "{done}/{total} lessons",
+      "locked": "Finish the previous course to unlock",
+      "completed": "Course completed"
+    },
+    "node": {
+      "lesson": "Lesson {n}: {title}",
+      "quiz": "Final quiz",
+      "badge": "Badge: {name}",
+      "locked": "locked",
+      "completed": "completed",
+      "current": "up next"
+    },
+    "pop": {
+      "minutes": "{n} min",
+      "start": "Start",
+      "review": "Review",
+      "locked": "Finish the previous lesson first.",
+      "limit": "You've done 3 lessons today. Knowledge settles better with rest — come back tomorrow.",
+      "quizLocked": "Finish every lesson to unlock the quiz.",
+      "quizText": "5 questions. Get 4 right to earn the badge.",
+      "quizStart": "Take the quiz",
+      "quizRetry": "Retake the quiz",
+      "close": "Close"
+    },
+    "notice": {
+      "locked": "That lesson is still locked. Finish the previous one first.",
+      "daily_limit": "You've done 3 lessons today. Knowledge settles better with rest — come back tomorrow.",
+      "course_locked": "That course is still locked.",
+      "not_found": "We couldn't find that lesson."
+    },
+    "crossroads": {
+      "title": "Choose your path",
+      "locked": "Finish the first 3 courses to choose your path"
+    },
+    "comingSoon": {
+      "title": "The Grimoire is coming soon in English",
+      "text": "Meanwhile, you can read it in Portuguese.",
+      "readPt": "Read in Portuguese"
+    },
+    "player": {
+      "close": "Close the lesson",
+      "confirmClose": "Leave the lesson? It won't be marked as completed yet.",
+      "prev": "Previous",
+      "next": "Next",
+      "progress": "Card {n} of {total}",
+      "didYouKnow": "Did you know?",
+      "reflection": "Food for thought",
+      "reflectionPlaceholder": "Write here, just for you (not saved)",
+      "reflectionLabel": "Your answer (not saved)",
+      "practice": "Practice",
+      "saving": "Saving…"
+    },
+    "review": {
+      "eyebrow": "Remember?",
+      "correct": "Correct!",
+      "wrong": "Not quite.",
+      "answerFirst": "Answer to continue"
+    },
+    "done": {
+      "title": "Lesson completed",
+      "replayTitle": "Review completed",
+      "text": "One more step on your path.",
+      "continue": "Continue",
+      "backToMap": "Back to the map",
+      "quizUnlocked": "The final quiz is unlocked!"
+    },
+    "quiz": {
+      "title": "Final quiz",
+      "progress": "Question {n} of {total}",
+      "next": "Next",
+      "finish": "See result",
+      "correct": "Correct!",
+      "wrong": "Not quite.",
+      "sending": "Checking…"
+    },
+    "result": {
+      "score": "{score}/{total}",
+      "passed": "You passed the quiz!",
+      "failed": "Almost there. Review the lessons and try again.",
+      "retry": "Try again",
+      "backToMap": "Back to the map"
+    },
+    "ceremony": {
+      "eyebrow": "New badge",
+      "glow": "+{points} Glow",
+      "close": "Back to the map",
+      "profile": "See on your profile"
+    },
+    "badges": {
+      "title": "Badges",
+      "earned": "Earned on {date}",
+      "empty": "Badges appear when you complete courses in the Grimoire."
+    },
+    "profile": {
+      "settings": "Settings"
+    },
+    "errors": {
+      "invalid": "Couldn't save. Please try again."
     }
   }
 }

@@ -56,6 +56,13 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Rituais seguros e simples: nada ingerido (ervas, óleos, substâncias), velas sempre vigiadas e longe de inflamáveis, nada com dor, sangue ou risco, materiais comuns e baratos, respeito por tradições sem apropriar práticas fechadas. Adicionar um ritual à semana não dá Glow.
 - Pronomes (`User.pronouns`: FEMININE, MASCULINE, NEUTRAL; por defeito NEUTRAL), escolhidos nas definições: o texto pessoal da IA concorda com eles (NEUTRAL = linguagem neutra, sem marcas de género); o conteúdo partilhado por signo é sempre neutro. Os pronomes são o único dado de perfil, além do mapa natal e do locale, que vai para a IA. Mudar de pronomes regenera as leituras pessoais actuais.
 - Nomes sempre na língua do utilizador: os factos levam nomes localizados (a partir das mensagens) e a resposta é rejeitada se tiver identificadores internos (`MERCURY_TRINE_NATAL_SUN`, `SCORPIO`) ou, em português, nomes/expressões em inglês.
+- Grimório (Fase 8): conteúdo em `content/grimoire` (JSON por curso e língua, validado com Zod); acrescentar um curso = ficheiros + linha no `index.json`, sem código. Conteúdo partilhado por todos (não gerado por IA).
+- Cursos 1–3 obrigatórios em sequência; depois escolha livre entre os restantes. O desbloqueio não depende do nível de Glow.
+- No máximo 3 lições novas por dia (no fuso do utilizador); rever lições já feitas é ilimitado e não conta.
+- Revisão espaçada Leitner (1/3/7/21/60 dias): certo sobe de caixa, errado volta à primeira; até 2 revisões no início de cada lição.
+- Quiz final de 5 perguntas, aprova com 4/5, pode repetir-se. Curso concluído = emblema no perfil + 100 Glow uma única vez (`COURSE_COMPLETE` com `refId` = curso). As lições em si não dão Glow.
+- Conteúdo em PT-BR primeiro: PT-PT lê o PT-BR; EN vê "coming soon" com a opção de ler em português.
+- Navegação: Hoje · Semana · Mês · Ano · Grimório; o perfil abre pelo avatar (iniciais no anel de nível) e as definições estão dentro do perfil.
 - Modelos configurados por env: `OPENAI_MODEL_DAILY` (DAY_* e WEEK_*) e `OPENAI_MODEL_RICH` (MONTH_*, rituais); o modelo e `promptVersion` ficam gravados com cada conteúdo.
 - Notificações idempotentes via `NotificationLog` unique `(userId, kind, periodKey)`. iOS só com a app instalada no ecrã inicial (16.4+).
 - Lembretes (Fase 7) só quando há algo por fazer (mesmos critérios do Glow, com a janela aberta ou não); no máximo manhã, corpo e noite por dia + início/fim de semana e de mês.

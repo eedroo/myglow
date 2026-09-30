@@ -12,7 +12,7 @@ Os ícones 3D dourados são PNG feitos à mão. Até existirem, `MagicIcon` most
 2. Mudar `ready: false` para `ready: true` na entrada correspondente de `MAGIC_ICONS`.
 3. Correr `npm run docs:icons`.
 
-**Prontos:** 0 de 66
+**Prontos:** 0 de 79
 
 | Nome | Tipo | Placeholder | Pronto |
 |---|---|---|---|
@@ -62,6 +62,19 @@ Os ícones 3D dourados são PNG feitos à mão. Até existirem, `MagicIcon` most
 | `level-7` | 3d | `Award` | — |
 | `constellation` | 3d | `Sparkles` | — |
 | `notification-badge` | 3d | `Bell` | — |
+| `grimoire` | 3d | `BookOpen` | — |
+| `badge-vida-magica` | 3d | `Award` | — |
+| `badge-rituais` | 3d | `Award` | — |
+| `badge-corpo-energia` | 3d | `Award` | — |
+| `badge-elementos` | 3d | `Award` | — |
+| `badge-lua` | 3d | `Award` | — |
+| `badge-dias-planetas` | 3d | `Award` | — |
+| `badge-signos` | 3d | `Award` | — |
+| `badge-astros` | 3d | `Award` | — |
+| `badge-mapa-natal` | 3d | `Award` | — |
+| `badge-cristais` | 3d | `Award` | — |
+| `badge-correspondencias` | 3d | `Award` | — |
+| `badge-roda-do-ano` | 3d | `Award` | — |
 | `phase-new` | glyph | `MoonPhaseGlyph(NEW_MOON)` | — |
 | `phase-waxing-crescent` | glyph | `MoonPhaseGlyph(WAXING_CRESCENT)` | — |
 | `phase-first-quarter` | glyph | `MoonPhaseGlyph(FIRST_QUARTER)` | — |

@@ -1,0 +1,50 @@
+/* DailyLessonsMeter: luas das lições de hoje + emblemas (fixo no topo do mapa) */
+
+.mg-daily-meter {
+  position: sticky;
+  top: calc(var(--topbar-height) + var(--space-2));
+  z-index: var(--z-content);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-card);
+}
+
+.mg-daily-meter__moons {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.mg-daily-meter__moon {
+  display: inline-flex;
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+
+.mg-daily-meter__moon--filled {
+  opacity: 1;
+  filter: none;
+}
+
+.mg-daily-meter__label {
+  flex: 1;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-daily-meter__badges {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  text-decoration: none;
+}

@@ -11,6 +11,7 @@ export interface XpAward {
   source: XpSource;
   periodStart: DateISO;
   points: number;
+  refId?: string;
 }
 
 export interface XpResult {
@@ -24,15 +25,15 @@ const STREAK_LOOKBACK_DAYS = 400;
 const isDaySource = (s: XpSource) => (DAY_SOURCES as readonly XpSource[]).includes(s);
 
 /**
- * Cria o evento se ainda não existir; devolve false se a unique (userId, source, periodStart) já o tem.
+ * Cria o evento se ainda não existir; devolve false se a unique (userId, source, periodStart, refId) já o tem.
  * Usa ON CONFLICT DO NOTHING: em Postgres um erro de unique (P2002) dentro da transacção abortá-la-ia
  * inteira ("current transaction is aborted"), por isso não se pode apanhar o erro e continuar.
  */
-async function tryCreate(tx: Prisma.TransactionClient, userId: string, c: XpCandidate): Promise<boolean> {
+export async function tryCreate(tx: Pick<Prisma.TransactionClient, '$queryRaw'>, userId: string, c: XpCandidate): Promise<boolean> {
   const rows = await tx.$queryRaw<{ id: string }[]>`
-    INSERT INTO "XpEvent" ("id", "userId", "source", "periodStart", "points", "createdAt")
-    VALUES (${randomUUID()}, ${userId}, ${c.source}::"XpSource", ${c.periodStart}::date, ${c.points}, NOW())
-    ON CONFLICT ("userId", "source", "periodStart") DO NOTHING
+    INSERT INTO "XpEvent" ("id", "userId", "source", "periodStart", "refId", "points", "createdAt")
+    VALUES (${randomUUID()}, ${userId}, ${c.source}::"XpSource", ${c.periodStart}::date, ${c.refId ?? ''}, ${c.points}, NOW())
+    ON CONFLICT ("userId", "source", "periodStart", "refId") DO NOTHING
     RETURNING "id"`;
   return rows.length > 0;
 }

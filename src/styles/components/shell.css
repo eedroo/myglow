@@ -145,26 +145,6 @@
   letter-spacing: var(--tracking-logo);
 }
 
-.mg-topbar__settings {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-pill);
-  background: var(--gold-gradient);
-  color: var(--text-on-gold);
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-medium);
-  text-decoration: none;
-  box-shadow: var(--shadow-button);
-}
-
-.mg-topbar__settings:focus-visible {
-  border-radius: var(--radius-pill);
-}
-
 /* ---------- BottomNav ---------- */
 
 .mg-bottom-nav {

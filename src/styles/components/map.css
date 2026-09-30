@@ -1,0 +1,22 @@
+/* GrimoireMap: mapa em trilha */
+
+.mg-map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding-bottom: var(--space-7);
+}
+
+.mg-map__notice {
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--gold-500);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-strong);
+  font-size: var(--text-sm);
+}
+
+.mg-map__regions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}

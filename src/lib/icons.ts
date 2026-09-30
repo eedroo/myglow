@@ -27,6 +27,10 @@ export const MAGIC_ICON_NAMES = [
   'constellation',
   // Notificações (badge monocromático das notificações push, 96×96)
   'notification-badge',
+  // Grimório (F8): livro de feitiços e emblemas dos cursos
+  'grimoire',
+  'badge-vida-magica', 'badge-rituais', 'badge-corpo-energia', 'badge-elementos', 'badge-lua', 'badge-dias-planetas',
+  'badge-signos', 'badge-astros', 'badge-mapa-natal', 'badge-cristais', 'badge-correspondencias', 'badge-roda-do-ano',
   // Glifos
   'phase-new', 'phase-waxing-crescent', 'phase-first-quarter', 'phase-waxing-gibbous', 'phase-full',
   'phase-waning-gibbous', 'phase-last-quarter', 'phase-waning-crescent',
@@ -104,6 +108,19 @@ export const MAGIC_ICONS: Record<MagicIconName, MagicIconDef> = {
   // Vazio
   constellation: icon(Sparkles),
   'notification-badge': icon(Bell),
+  grimoire: icon(BookOpen),
+  'badge-vida-magica': icon(Award),
+  'badge-rituais': icon(Award),
+  'badge-corpo-energia': icon(Award),
+  'badge-elementos': icon(Award),
+  'badge-lua': icon(Award),
+  'badge-dias-planetas': icon(Award),
+  'badge-signos': icon(Award),
+  'badge-astros': icon(Award),
+  'badge-mapa-natal': icon(Award),
+  'badge-cristais': icon(Award),
+  'badge-correspondencias': icon(Award),
+  'badge-roda-do-ano': icon(Award),
   // Glifos — fases da lua
   'phase-new': glyph(createMoonPhaseGlyph('NEW_MOON')),
   'phase-waxing-crescent': glyph(createMoonPhaseGlyph('WAXING_CRESCENT')),

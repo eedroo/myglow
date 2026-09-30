@@ -26,6 +26,7 @@ import { WeekDayRow } from '@/components/week/WeekDayRow';
 import type { WeekDaySummary } from '@/types/week';
 import { GlowToast } from '@/components/glow/GlowToast';
 import { LevelUpDialog } from '@/components/glow/LevelUpDialog';
+import { BadgeCeremony } from '@/components/grimoire/BadgeCeremony';
 import type { MagicIconName } from '@/lib/icons';
 import type { NextTheme, ThemePref } from '@/lib/theme';
 import { nextThemeToPref, prefToNextTheme } from '@/lib/theme';
@@ -50,6 +51,7 @@ export function UiShowcase({ icons, sampleWeek }: UiShowcaseProps) {
   const [mood, setMood] = useState<number | null>(4);
   const [notes, setNotes] = useState('');
   const [levelUpOpen, setLevelUpOpen] = useState(false);
+  const [ceremonyOpen, setCeremonyOpen] = useState(false);
   const [weight, setWeight] = useState<number | null>(76400);
   const [weightInvalid, setWeightInvalid] = useState(false);
   const [dayNotes, setDayNotes] = useState<Record<string, string>>({});
@@ -327,6 +329,16 @@ export function UiShowcase({ icons, sampleWeek }: UiShowcaseProps) {
             {t('dev.openLevelUp')}
           </Button>
           <LevelUpDialog level={3} open={levelUpOpen} onClose={() => setLevelUpOpen(false)} />
+          <Button variant="ghost" onClick={() => setCeremonyOpen(true)}>
+            {t('dev.badgeCeremony')}
+          </Button>
+          {ceremonyOpen && (
+            <BadgeCeremony
+              badge={{ name: 'Selo da Vontade', icon: 'badge-vida-magica', description: 'Você aprendeu que magia é vontade em movimento.' }}
+              points={100}
+              onClose={() => setCeremonyOpen(false)}
+            />
+          )}
         </GlassCard>
       </section>
 

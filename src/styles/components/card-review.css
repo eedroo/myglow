@@ -1,0 +1,77 @@
+/* ReviewCard: pergunta de revisão (revisão espaçada) */
+
+.mg-card-review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.mg-card-review__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-card-review__prompt {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+.mg-card-review__options,
+.mg-quiz__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.mg-card-review__option,
+.mg-quiz__option {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mg-card-review__option:focus-visible,
+.mg-quiz__option:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-card-review__option:disabled,
+.mg-quiz__option:disabled {
+  cursor: default;
+}
+
+.mg-card-review__option--correct,
+.mg-quiz__option--correct {
+  border-color: var(--success);
+  background: var(--success-bg);
+}
+
+.mg-card-review__option--wrong,
+.mg-quiz__option--wrong {
+  border-color: var(--danger);
+  background: var(--danger-bg);
+}
+
+.mg-card-review__explain,
+.mg-quiz__explain {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}

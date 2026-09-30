@@ -1,4 +1,4 @@
-/* LevelBadge: ícone do nível num anel de progresso (TopBar) */
+/* LevelBadge: avatar (iniciais) num anel de progresso do nível (TopBar) — abre o perfil */
 
 .mg-level-badge {
   position: relative;
@@ -36,8 +36,22 @@
   stroke-linecap: round;
 }
 
-.mg-level-badge__icon {
+.mg-level-badge__initials {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-gradient);
+  color: var(--text-on-gold);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+}
+
+.mg-level-badge--active .mg-level-badge__initials {
+  box-shadow: var(--shadow-glow);
 }
 
 .mg-topbar__actions {

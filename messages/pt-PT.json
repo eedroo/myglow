@@ -136,7 +136,8 @@
     "week": "Semana",
     "month": "Mês",
     "year": "Ano",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "grimoire": "Grimório"
   },
   "shell": {
     "home": "MYGLOW — ir para hoje",
@@ -218,6 +219,8 @@
     "readingSample": "Leituras IA",
     "readingPending": "A preparar (shimmer)",
     "notificationsSample": "Avisos e lembretes",
+    "badgeCeremony": "Cerimónia do emblema",
+    "grimoireSample": "Grimório (trilha)",
     "glowSample": "Glow (dados de exemplo)",
     "openLevelUp": "Ver diálogo de subida de nível",
     "motto": "Lema"
@@ -593,7 +596,8 @@
       "MONTH_REFLECTION": "Reflexão do mês",
       "YEAR_PLAN": "Ano planeado",
       "YEAR_REFLECTION": "Reflexão do ano",
-      "STREAK_BONUS": "Streak mágico"
+      "STREAK_BONUS": "Streak mágico",
+      "COURSE_COMPLETE": "Curso concluído"
     },
     "levels": {
       "seed": {
@@ -838,6 +842,114 @@
       "invalid": "Não foi possível guardar. Verifica os valores.",
       "rateLimited": "Demasiados testes seguidos. Tenta daqui a pouco.",
       "unavailable": "As notificações não estão disponíveis de momento."
+    }
+  },
+  "grimoire": {
+    "title": "Grimório",
+    "meter": {
+      "label": "Lições de hoje",
+      "left": "{count, plural, =0 {Volta amanhã para novas lições} one {Ainda # lição nova hoje} other {Ainda # lições novas hoje}}",
+      "badges": "{count, plural, one {# emblema} other {# emblemas}}"
+    },
+    "region": {
+      "progress": "{done}/{total} lições",
+      "locked": "Conclui o curso anterior para desbloquear",
+      "completed": "Curso concluído"
+    },
+    "node": {
+      "lesson": "Lição {n}: {title}",
+      "quiz": "Quiz final",
+      "badge": "Emblema: {name}",
+      "locked": "bloqueada",
+      "completed": "concluída",
+      "current": "a seguir"
+    },
+    "pop": {
+      "minutes": "{n} min",
+      "start": "Começar",
+      "review": "Rever",
+      "locked": "Conclui a lição anterior primeiro.",
+      "limit": "Já fizeste 3 lições hoje. O conhecimento assenta melhor com descanso — volta amanhã.",
+      "quizLocked": "Conclui todas as lições para desbloquear o quiz.",
+      "quizText": "5 perguntas. Acerta 4 para ganhar o emblema.",
+      "quizStart": "Fazer o quiz",
+      "quizRetry": "Refazer o quiz",
+      "close": "Fechar"
+    },
+    "notice": {
+      "locked": "Essa lição ainda está bloqueada. Conclui a anterior primeiro.",
+      "daily_limit": "Já fizeste 3 lições hoje. O conhecimento assenta melhor com descanso — volta amanhã.",
+      "course_locked": "Esse curso ainda está bloqueado.",
+      "not_found": "Não encontrámos essa lição."
+    },
+    "crossroads": {
+      "title": "Escolhe o teu caminho",
+      "locked": "Termina os 3 primeiros cursos para escolher o teu caminho"
+    },
+    "comingSoon": {
+      "title": "O Grimório chega em breve em português de Portugal",
+      "text": "Entretanto, podes lê-lo em português do Brasil.",
+      "readPt": "Ler em português"
+    },
+    "player": {
+      "close": "Fechar a lição",
+      "confirmClose": "Queres sair da lição? Esta lição ainda não fica concluída.",
+      "prev": "Anterior",
+      "next": "Seguinte",
+      "progress": "Card {n} de {total}",
+      "didYouKnow": "Sabias que…?",
+      "reflection": "Para pensar",
+      "reflectionPlaceholder": "Escreve aqui, só para ti (não fica guardado)",
+      "reflectionLabel": "A tua resposta (não é guardada)",
+      "practice": "Prática",
+      "saving": "A guardar…"
+    },
+    "review": {
+      "eyebrow": "Lembras-te?",
+      "correct": "Certo!",
+      "wrong": "Não exactamente.",
+      "answerFirst": "Responde para continuar"
+    },
+    "done": {
+      "title": "Lição concluída",
+      "replayTitle": "Revisão concluída",
+      "text": "Mais um passo na tua trilha.",
+      "continue": "Continuar",
+      "backToMap": "Voltar ao mapa",
+      "quizUnlocked": "O quiz final está desbloqueado!"
+    },
+    "quiz": {
+      "title": "Quiz final",
+      "progress": "Pergunta {n} de {total}",
+      "next": "Seguinte",
+      "finish": "Ver resultado",
+      "correct": "Certo!",
+      "wrong": "Não é bem assim.",
+      "sending": "A corrigir…"
+    },
+    "result": {
+      "score": "{score}/{total}",
+      "passed": "Passaste no quiz!",
+      "failed": "Quase lá. Revê as lições e tenta de novo.",
+      "retry": "Tentar de novo",
+      "backToMap": "Voltar ao mapa"
+    },
+    "ceremony": {
+      "eyebrow": "Novo emblema",
+      "glow": "+{points} Glow",
+      "close": "Voltar ao mapa",
+      "profile": "Ver no perfil"
+    },
+    "badges": {
+      "title": "Emblemas",
+      "earned": "Conquistado a {date}",
+      "empty": "Os emblemas aparecem quando concluíres cursos no Grimório."
+    },
+    "profile": {
+      "settings": "Definições"
+    },
+    "errors": {
+      "invalid": "Não foi possível guardar. Tenta outra vez."
     }
   }
 }

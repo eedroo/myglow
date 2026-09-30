@@ -7,7 +7,11 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   // src/instrumentation.ts valida o env no arranque (Next 14 precisa desta flag).
-  experimental: { instrumentationHook: true },
+  experimental: {
+    instrumentationHook: true,
+    // O Grimório lê content/grimoire do disco no servidor: incluir os ficheiros no bundle das funções.
+    outputFileTracingIncludes: { '/**': ['./content/grimoire/**/*'] },
+  },
   async headers() {
     return [
       {

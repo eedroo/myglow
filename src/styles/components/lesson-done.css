@@ -1,0 +1,43 @@
+/* LessonComplete: card final da lição */
+
+.mg-lesson-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-width) solid var(--gold-500);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-strong);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  text-align: center;
+}
+
+.mg-lesson-done__glow {
+  display: inline-flex;
+  border-radius: var(--radius-pill);
+  background: var(--gold-halo);
+  padding: var(--space-3);
+}
+
+.mg-lesson-done__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+}
+
+.mg-lesson-done__text {
+  color: var(--text-secondary);
+}
+
+.mg-lesson-done__moons {
+  display: inline-flex;
+  gap: var(--space-1);
+}
+
+.mg-lesson-done__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}

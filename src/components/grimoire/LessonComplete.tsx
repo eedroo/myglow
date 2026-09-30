@@ -11,10 +11,12 @@ interface LessonCompleteProps {
   nextHref: string | null;
   quizUnlocked: boolean;
   courseSlug: string;
+  /** Acção da prática da lição (ex.: abrir o diário), só depois de concluída. */
+  practice?: { label: string; href: string };
 }
 
 /** Card final: brilho, lições restantes hoje (luas), "Continuar" (se houver limite) e "Voltar ao mapa". */
-export function LessonComplete({ replay, lessonsLeft, nextHref, quizUnlocked, courseSlug }: LessonCompleteProps) {
+export function LessonComplete({ replay, lessonsLeft, nextHref, quizUnlocked, courseSlug, practice }: LessonCompleteProps) {
   const t = useTranslations('grimoire');
   const used = lessonsLeft === null ? null : DAILY_LESSON_LIMIT - lessonsLeft;
   const continueHref = quizUnlocked ? `/grimoire/${courseSlug}/quiz` : lessonsLeft && lessonsLeft > 0 ? nextHref : null;
@@ -39,6 +41,14 @@ export function LessonComplete({ replay, lessonsLeft, nextHref, quizUnlocked, co
           </span>
           <p className="mg-lesson-done__text">{t('meter.left', { count: lessonsLeft ?? 0 })}</p>
         </>
+      )}
+      {practice && lessonsLeft !== null && (
+        <div className="mg-lesson-done__practice">
+          <p className="mg-lesson-done__label">{t('done.practice')}</p>
+          <Link href={practice.href} className="mg-btn mg-btn--subtle">
+            {practice.label}
+          </Link>
+        </div>
       )}
       <div className="mg-lesson-done__actions">
         <Link href="/grimoire" className="mg-btn mg-btn--ghost">

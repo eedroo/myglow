@@ -25,7 +25,11 @@ export async function LevelPathCard({ total }: { total: number }) {
               <MagicIcon name={`level-${l.level}` as MagicIconName} size="lg" label={name} />
               <span className="mg-level-path__body">
                 <span className="mg-level-path__name">{name}</span>
-                <span className="mg-level-path__min">{t('journey.minXp', { min: l.minXp })}</span>
+                <span className="mg-level-path__min">
+                  {state === 'current' && current.nextMinXp !== null
+                    ? t('journey.progressXp', { total, next: current.nextMinXp })
+                    : t('journey.minXp', { min: l.minXp })}
+                </span>
                 {state === 'current' && current.nextMinXp !== null && (
                   <ProgressBar
                     value={total - current.minXp}

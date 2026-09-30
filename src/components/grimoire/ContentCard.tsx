@@ -1,7 +1,6 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/Button';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 import { parseInline } from '@/lib/grimoire/markdown';
 import type { Card } from '@/lib/grimoire/schema';
@@ -15,15 +14,11 @@ function Rich({ text }: { text: string }) {
   );
 }
 
-interface ContentCardProps {
-  card: Card;
-  /** Prática: concluir a lição e navegar. */
-  onPractice?: (href: string) => void;
-  practicePending?: boolean;
-}
-
-/** Um card da lição (concept, icon, example, didYouKnow, reflection, practice). */
-export function ContentCard({ card, onPractice, practicePending }: ContentCardProps) {
+/**
+ * Um card da lição (concept, icon, example, didYouKnow, reflection, practice). A prática não tem botão aqui:
+ * a acção aparece no card final, depois de a lição estar concluída (não se sai a meio).
+ */
+export function ContentCard({ card }: { card: Card }) {
   const t = useTranslations('grimoire.player');
   const cls = `mg-lcard mg-lcard--${card.type.toLowerCase()}`;
 
@@ -81,9 +76,6 @@ export function ContentCard({ card, onPractice, practicePending }: ContentCardPr
           <p className="mg-lcard__body">
             <Rich text={card.body} />
           </p>
-          <Button className="mg-lcard__action" loading={practicePending} onClick={() => onPractice?.(card.action.href)}>
-            {card.action.label}
-          </Button>
         </article>
       );
   }

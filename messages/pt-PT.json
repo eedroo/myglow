@@ -663,6 +663,7 @@
       "max": "Chegaste ao nível mais alto. Continua a brilhar.",
       "pathTitle": "Caminho dos níveis",
       "minXp": "{min} Glow",
+      "progressXp": "{total} / {next} Glow",
       "historyTitle": "Histórico de Glow",
       "historyEmpty": "O teu primeiro Glow está à tua espera.",
       "settings": "Definições"
@@ -820,7 +821,7 @@
       "monthEnd": "Fim do mês",
       "lastCall": "Última chamada",
       "lastCallHint": "Um último aviso perto do fim do prazo, só se ainda faltar.",
-      "hint": "Só te lembramos do que ainda está por fazer.",
+      "hint": "Os avisos só chegam se ainda houver algo por fazer. De manhã, ao domingo e no dia 1, trazem a tua leitura quando já está pronta.",
       "device": "Este dispositivo",
       "deviceOn": "Notificações activas neste dispositivo.",
       "deviceOff": "Notificações desligadas neste dispositivo.",
@@ -916,7 +917,8 @@
       "text": "Mais um passo na tua trilha.",
       "continue": "Continuar",
       "backToMap": "Voltar ao mapa",
-      "quizUnlocked": "O quiz final está desbloqueado!"
+      "quizUnlocked": "O quiz final está desbloqueado!",
+      "practice": "Para praticar"
     },
     "quiz": {
       "title": "Quiz final",

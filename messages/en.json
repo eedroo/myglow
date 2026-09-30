@@ -663,6 +663,7 @@
       "max": "You've reached the highest level. Keep shining.",
       "pathTitle": "Path of levels",
       "minXp": "{min} Glow",
+      "progressXp": "{total} / {next} Glow",
       "historyTitle": "Glow history",
       "historyEmpty": "Your first Glow is waiting for you.",
       "settings": "Settings"
@@ -820,7 +821,7 @@
       "monthEnd": "End of the month",
       "lastCall": "Last call",
       "lastCallHint": "One last reminder near the deadline, only if something is still missing.",
-      "hint": "We only remind you of what's still left to do.",
+      "hint": "Reminders only arrive if something is still left to do. In the morning, on Sundays and on the 1st, they bring your reading once it's ready.",
       "device": "This device",
       "deviceOn": "Notifications are on for this device.",
       "deviceOff": "Notifications are off for this device.",
@@ -916,7 +917,8 @@
       "text": "One more step on your path.",
       "continue": "Continue",
       "backToMap": "Back to the map",
-      "quizUnlocked": "The final quiz is unlocked!"
+      "quizUnlocked": "The final quiz is unlocked!",
+      "practice": "Put it into practice"
     },
     "quiz": {
       "title": "Final quiz",

@@ -57,8 +57,3 @@
 .mg-lcard--reflection .mg-lcard__title {
   font-style: italic;
 }
-
-.mg-lcard__action {
-  align-self: flex-start;
-  margin-top: var(--space-2);
-}

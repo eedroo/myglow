@@ -17,7 +17,7 @@ type Step = { kind: 'review'; itemId: string; index: number } | { kind: 'card'; 
 
 /**
  * Leitor em ecrã inteiro: revisões devidas primeiro, depois os cards da lição e o card final.
- * Swipe (pointer), setas e ← →. `completeLesson` é chamado ao chegar ao fim (ou na prática, antes de navegar).
+ * Swipe (pointer), setas e ← →. `completeLesson` é chamado ao chegar ao fim; a acção da prática só aparece aí.
  */
 export function LessonPlayer({ data: initial }: { data: LessonPlayerData }) {
   const t = useTranslations('grimoire');
@@ -34,11 +34,12 @@ export function LessonPlayer({ data: initial }: { data: LessonPlayerData }) {
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
   const [result, setResult] = useState<{ lessonsLeft: number; nextLesson: string | null; quizUnlocked: boolean } | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [practicing, setPracticing] = useState(false);
   const completing = useRef<Promise<boolean> | null>(null);
   const startX = useRef<number | null>(null);
 
   const atEnd = pos === steps.length;
+  const practiceCard = data.lesson.cards.find((c) => c.type === 'practice');
+  const practiceAction = practiceCard?.type === 'practice' ? practiceCard.action : undefined;
   const step = steps[pos];
   const blocked = step?.kind === 'review' && answers[step.itemId] === undefined;
 
@@ -88,13 +89,6 @@ export function LessonPlayer({ data: initial }: { data: LessonPlayerData }) {
     router.push('/grimoire');
   };
 
-  const practice = async (href: string) => {
-    setPracticing(true);
-    const ok = await complete();
-    setPracticing(false);
-    if (ok) router.push(href);
-  };
-
   return (
     <div className="mg-player">
       <div className="mg-player__top">
@@ -137,6 +131,7 @@ export function LessonPlayer({ data: initial }: { data: LessonPlayerData }) {
               nextHref={result?.nextLesson ? `/grimoire/${data.courseSlug}/${result.nextLesson}` : null}
               quizUnlocked={result?.quizUnlocked ?? false}
               courseSlug={data.courseSlug}
+              practice={practiceAction}
             />
           ) : step!.kind === 'review' ? (
             <ReviewCard
@@ -144,7 +139,7 @@ export function LessonPlayer({ data: initial }: { data: LessonPlayerData }) {
               onAnswer={(correct) => setAnswers((a) => ({ ...a, [(step as { itemId: string }).itemId]: correct }))}
             />
           ) : (
-            <ContentCard card={data.lesson.cards[step!.index]!} onPractice={practice} practicePending={practicing} />
+            <ContentCard card={data.lesson.cards[step!.index]!} />
           )}
         </div>
       </div>

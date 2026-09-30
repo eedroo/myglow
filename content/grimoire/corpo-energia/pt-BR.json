@@ -1,0 +1,626 @@
+{
+  "slug": "corpo-energia",
+  "order": 3,
+  "required": true,
+  "locale": "pt-BR",
+  "version": 1,
+  "title": "Corpo e energia",
+  "subtitle": "O corpo como base da sua magia",
+  "description": "A sua energia começa no corpo. Neste curso você entende por que beber água, alongar, se movimentar, dormir bem e respirar fazem parte da sua prática mágica, e como registrar isso no diário.",
+  "icon": "stretch",
+  "badge": {
+    "name": "Selo da Vitalidade",
+    "icon": "badge-corpo-energia",
+    "description": "Você aprendeu que cuidar do corpo é cuidar da sua magia."
+  },
+  "tags": [
+    "corpo",
+    "autocuidado",
+    "agua",
+    "terra",
+    "ar",
+    "sono",
+    "respiracao"
+  ],
+  "lessons": [
+    {
+      "slug": "corpo-templo",
+      "title": "O corpo como templo",
+      "minutes": 4,
+      "tags": [
+        "corpo",
+        "metodologia"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Tudo passa pelo corpo",
+          "body": "Cada intenção que você escreve, cada ritual que você faz, acontece através do corpo. Um corpo cansado, com sede ou tenso tem menos energia para colocar a vontade em ação.",
+          "id": "corpo-templo-1"
+        },
+        {
+          "type": "icon",
+          "icon": "lotus",
+          "title": "Um templo, não uma máquina",
+          "body": "Máquina a gente usa até quebrar. Templo a gente cuida, limpa e honra todos os dias. No MYGLOW, o corpo é o primeiro templo da sua magia.",
+          "id": "corpo-templo-2"
+        },
+        {
+          "type": "concept",
+          "title": "Os quatro cuidados do diário",
+          "body": "O **Foco no meu corpo** tem três marcações: água, alongamento e treino. A quarta está na manhã: como você se sentiu ao acordar, que mostra como anda o seu sono.",
+          "id": "corpo-templo-3"
+        },
+        {
+          "type": "example",
+          "title": "Um dia de cuidado real",
+          "body": "Um copo d'água ao acordar, cinco minutos de alongamento depois do banho, uma caminhada de vinte minutos no fim da tarde. Nada heroico, e mesmo assim o corpo agradece.",
+          "id": "corpo-templo-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Os cuidados do corpo não precisam ser perfeitos para contar. Marcar o que você fez, mesmo que pouco, já ajuda a criar consciência e constância.",
+          "id": "corpo-templo-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Como o seu corpo tem se sentido nos últimos dias?",
+          "id": "corpo-templo-6"
+        },
+        {
+          "type": "practice",
+          "title": "Olhe para o seu corpo hoje",
+          "body": "Abra o diário e veja o Foco no meu corpo. Qual dos três cuidados é mais fácil para você começar hoje?",
+          "id": "corpo-templo-7",
+          "action": {
+            "label": "Abrir o diário",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "No MYGLOW, o corpo é visto como…",
+          "options": [
+            {
+              "id": "a",
+              "text": "Uma máquina que a gente usa até cansar"
+            },
+            {
+              "id": "b",
+              "text": "Um templo que a gente cuida todos os dias"
+            },
+            {
+              "id": "c",
+              "text": "Algo separado da magia"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Toda intenção e todo ritual acontecem através do corpo. Por isso ele é o primeiro templo."
+        }
+      ]
+    },
+    {
+      "slug": "agua",
+      "title": "Água e hidratação",
+      "minutes": 4,
+      "tags": [
+        "agua",
+        "corpo"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O elemento que te forma",
+          "body": "Boa parte do seu corpo é água. Ela leva nutrientes, regula a temperatura e ajuda o corpo e a mente a funcionarem bem. Beber água é um dos gestos mais simples de autocuidado.",
+          "id": "agua-1"
+        },
+        {
+          "type": "icon",
+          "icon": "water-drop",
+          "title": "Sinais de sede",
+          "body": "Cansaço, dor de cabeça leve e dificuldade de concentração podem ser sinais de que falta água. Muitas vezes a gente confunde sede com fome ou com falta de energia.",
+          "id": "agua-2"
+        },
+        {
+          "type": "concept",
+          "title": "Aos poucos, ao longo do dia",
+          "body": "Em vez de beber muito de uma vez, espalhe a água pelo dia: um copo ao acordar, um em cada refeição, uma garrafa por perto enquanto trabalha. A quantidade ideal varia de pessoa para pessoa.",
+          "id": "agua-3"
+        },
+        {
+          "type": "example",
+          "title": "Água com intenção",
+          "body": "Ao encher o primeiro copo do dia, segure-o por alguns segundos e pense na sua intenção. Beba devagar, como quem recebe essa intenção no corpo. Um ritual de um minuto.",
+          "id": "agua-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "A água é ligada, em muitas tradições, às emoções e à limpeza. No curso Os elementos você vai conhecer melhor o elemento Água.",
+          "id": "agua-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Em que momento do dia você mais esquece de beber água?",
+          "id": "agua-6"
+        },
+        {
+          "type": "practice",
+          "title": "Primeiro copo com intenção",
+          "body": "Amanhã, faça o ritual do primeiro copo d'água e marque Água no diário quando tiver se hidratado ao longo do dia.",
+          "id": "agua-7",
+          "action": {
+            "label": "Ver o Foco no corpo",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual é a melhor forma de se hidratar?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Beber muita água de uma vez só"
+            },
+            {
+              "id": "b",
+              "text": "Beber aos poucos, ao longo do dia"
+            },
+            {
+              "id": "c",
+              "text": "Só beber quando estiver com muita sede"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Espalhar a água pelo dia ajuda o corpo a aproveitar melhor e evita a sede acumulada."
+        }
+      ]
+    },
+    {
+      "slug": "alongar",
+      "title": "Alongar",
+      "minutes": 4,
+      "tags": [
+        "corpo",
+        "alongamento"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Soltar o que o corpo guarda",
+          "body": "O corpo guarda tensões: ombros que sobem com o estresse, costas que endurecem depois de horas sentado. Alongar é dar espaço e movimento a esses lugares.",
+          "id": "alongar-1"
+        },
+        {
+          "type": "icon",
+          "icon": "stretch",
+          "title": "Devagar e sem dor",
+          "body": "Alongar é suave. Vá até sentir uma leve tensão, nunca dor. Respire fundo e mantenha a posição por alguns segundos. Se algo doer, pare.",
+          "id": "alongar-2"
+        },
+        {
+          "type": "concept",
+          "title": "Um mapa rápido",
+          "body": "**Pescoço**: incline a cabeça para cada lado. **Ombros**: gire para trás algumas vezes. **Costas**: entrelace as mãos à frente e empurre. **Pernas**: tente alcançar os pés com os joelhos levemente dobrados.",
+          "id": "alongar-3"
+        },
+        {
+          "type": "example",
+          "title": "Cinco minutos ao acordar",
+          "body": "Ainda perto da cama, espreguice como um gato, gire os ombros, alongue o pescoço e as costas. Cinco minutos para o corpo acordar junto com você.",
+          "id": "alongar-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Alongar e respirar ao mesmo tempo ajuda a relaxar ainda mais. Solte o ar devagar enquanto se alonga.",
+          "id": "alongar-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Em que parte do corpo você sente mais tensão hoje?",
+          "id": "alongar-6"
+        },
+        {
+          "type": "practice",
+          "title": "Seu alongamento de hoje",
+          "body": "Faça os cinco minutos de alongamento e depois marque Alongamento no diário.",
+          "id": "alongar-7",
+          "action": {
+            "label": "Marcar alongamento",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Como deve ser um alongamento?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Forte, até doer"
+            },
+            {
+              "id": "b",
+              "text": "Suave, até sentir uma leve tensão"
+            },
+            {
+              "id": "c",
+              "text": "Rápido e com impulso"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Alongar é suave: tensão leve, respiração profunda e nunca dor."
+        }
+      ]
+    },
+    {
+      "slug": "movimento",
+      "title": "Movimento e treino",
+      "minutes": 4,
+      "tags": [
+        "corpo",
+        "treino",
+        "fogo"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Movimento gera energia",
+          "body": "Parece contraditório, mas se mexer dá mais energia do que ficar parado. O movimento ativa a circulação, melhora o humor e acende o seu fogo interno.",
+          "id": "movimento-1"
+        },
+        {
+          "type": "icon",
+          "icon": "dumbbell",
+          "title": "Treino é o que você consegue",
+          "body": "Treino não precisa ser academia. Caminhar, dançar na sala, subir escadas, pedalar, nadar, fazer yoga. Vale o que você gosta e consegue repetir.",
+          "id": "movimento-2"
+        },
+        {
+          "type": "concept",
+          "title": "Constância antes de intensidade",
+          "body": "Vinte minutos três vezes por semana fazem mais pelo seu corpo do que duas horas uma vez por mês. É o mesmo princípio do autodomínio: pequeno e repetido.",
+          "id": "movimento-3"
+        },
+        {
+          "type": "example",
+          "title": "Um treino possível",
+          "body": "Coloque três músicas de que você gosta e mova o corpo durante elas: dance, caminhe no lugar, faça agachamentos. Em dez minutos, você cumpriu o treino do dia.",
+          "id": "movimento-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Em dias de descanso, uma caminhada leve já conta como movimento. Descansar também faz parte de treinar bem.",
+          "id": "movimento-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que tipo de movimento te dá alegria?",
+          "id": "movimento-6"
+        },
+        {
+          "type": "practice",
+          "title": "Mova-se hoje",
+          "body": "Escolha um movimento que você goste, faça por pelo menos dez minutos e marque Treino no diário. Se estiver com alguma dor ou condição de saúde, respeite os seus limites.",
+          "id": "movimento-7",
+          "action": {
+            "label": "Marcar treino",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "O que é mais importante no movimento?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Intensidade máxima"
+            },
+            {
+              "id": "b",
+              "text": "Constância, mesmo em pequenas doses"
+            },
+            {
+              "id": "c",
+              "text": "Treinar só na academia"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Pouco e repetido constrói mais do que muito e raro."
+        }
+      ]
+    },
+    {
+      "slug": "sono",
+      "title": "Sono: ouvir como você acorda",
+      "minutes": 5,
+      "tags": [
+        "sono",
+        "corpo",
+        "lua"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "A magia acontece também à noite",
+          "body": "Durante o sono o corpo se recupera e a mente organiza o que viveu. Dormir bem é a base para acordar com energia para a sua intenção.",
+          "id": "sono-1"
+        },
+        {
+          "type": "icon",
+          "icon": "bed",
+          "title": "O seu diário do sono",
+          "body": "Na manhã do diário, você marca se dormiu as horas que queria e escolhe como se sentiu ao acordar, de 1 a 5. A nota ao lado serve para registrar sonhos, despertares ou o que quiser.",
+          "id": "sono-2"
+        },
+        {
+          "type": "concept",
+          "title": "Padrões aparecem com o tempo",
+          "body": "Depois de algumas semanas, você começa a ver ligações: acordo melhor quando largo o celular cedo, durmo mal depois de café à tarde, sonho mais na lua cheia. Os dados são seus.",
+          "id": "sono-3"
+        },
+        {
+          "type": "concept",
+          "title": "Cuidados para uma boa noite",
+          "body": "Horários parecidos todos os dias, quarto escuro e fresco, menos tela antes de deitar, jantar mais leve e o seu ritual noturno. Pequenos ajustes, grande diferença.",
+          "id": "sono-4"
+        },
+        {
+          "type": "example",
+          "title": "Uma nota de sono",
+          "body": "“Acordei 4/5. Dormi às 23h, sem celular na cama. Sonhei com o mar.” Uma linha que, somada a outras, conta a história do seu descanso.",
+          "id": "sono-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Se o cansaço ou a falta de sono forem constantes, vale conversar com um profissional de saúde. O diário também ajuda nessa conversa.",
+          "id": "sono-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que costuma te ajudar a dormir bem?",
+          "id": "sono-7"
+        },
+        {
+          "type": "practice",
+          "title": "Registre o seu sono",
+          "body": "Amanhã de manhã, marque como você se sentiu ao acordar e escreva uma linha sobre a sua noite.",
+          "id": "sono-8",
+          "action": {
+            "label": "Abrir o diário",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Onde fica o diário do sono no MYGLOW?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Na manhã: como me senti ao acordar e a nota"
+            },
+            {
+              "id": "b",
+              "text": "No planner do ano"
+            },
+            {
+              "id": "c",
+              "text": "No Grimório"
+            }
+          ],
+          "correct": "a",
+          "explanation": "A pergunta de como você acordou, com a nota, é o seu diário do sono."
+        },
+        {
+          "id": "r2",
+          "prompt": "Qual destes cuidados ajuda a dormir melhor?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Usar o celular na cama"
+            },
+            {
+              "id": "b",
+              "text": "Manter horários parecidos todos os dias"
+            },
+            {
+              "id": "c",
+              "text": "Tomar café à noite"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Horários regulares ensinam o corpo a reconhecer a hora de descansar."
+        }
+      ]
+    },
+    {
+      "slug": "respiracao",
+      "title": "Respiração",
+      "minutes": 4,
+      "tags": [
+        "respiracao",
+        "ar",
+        "banimento"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O ritual que você sempre carrega",
+          "body": "A respiração está com você o tempo todo. É o ritual mais simples e mais disponível que existe: pode ser feito em qualquer lugar, a qualquer hora.",
+          "id": "respiracao-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sparkles",
+          "title": "Respirar muda o estado",
+          "body": "Quando estamos ansiosos, a respiração fica curta e rápida. Quando respiramos devagar e fundo, o corpo recebe o sinal de que pode relaxar.",
+          "id": "respiracao-2"
+        },
+        {
+          "type": "concept",
+          "title": "Respiração quadrada",
+          "body": "Inspire contando até 4. Segure o ar contando até 4. Solte contando até 4. Fique sem ar contando até 4. Repita quatro vezes. Se sentir tontura, volte a respirar normalmente.",
+          "id": "respiracao-3"
+        },
+        {
+          "type": "example",
+          "title": "Respiração como banimento",
+          "body": "Antes de uma conversa difícil ou depois de um dia pesado: três respirações lentas, imaginando que a cada expiração sai um pouco do que pesa. É um banimento que cabe em trinta segundos.",
+          "id": "respiracao-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "A respiração é ligada ao elemento Ar, que representa a mente e as ideias. Respirar com calma ajuda a pensar com mais clareza.",
+          "id": "respiracao-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Em que momentos do seu dia uma pausa para respirar faria diferença?",
+          "id": "respiracao-6"
+        },
+        {
+          "type": "practice",
+          "title": "Quatro respirações quadradas",
+          "body": "Faça agora quatro ciclos de respiração quadrada. Hoje à noite, use essa respiração como o seu banimento noturno.",
+          "id": "respiracao-7",
+          "action": {
+            "label": "Ver a Noite",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Como é a respiração quadrada?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Inspirar, segurar, soltar e pausar, contando até 4 cada"
+            },
+            {
+              "id": "b",
+              "text": "Respirar o mais rápido possível"
+            },
+            {
+              "id": "c",
+              "text": "Prender o ar o máximo que conseguir"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Quatro tempos iguais: inspirar, segurar, soltar e pausar."
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "prompt": "Quais são os três cuidados do Foco no meu corpo?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Água, alongamento e treino"
+        },
+        {
+          "id": "b",
+          "text": "Dieta, peso e sono"
+        },
+        {
+          "id": "c",
+          "text": "Meditação, leitura e música"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Água, alongamento e treino. O sono aparece na manhã, em como você acordou."
+    },
+    {
+      "id": "q2",
+      "prompt": "Durante um alongamento, você sente dor. O que fazer?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Forçar um pouco mais"
+        },
+        {
+          "id": "b",
+          "text": "Parar e voltar a uma posição confortável"
+        },
+        {
+          "id": "c",
+          "text": "Segurar a respiração"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Alongar é suave: tensão leve, nunca dor."
+    },
+    {
+      "id": "q3",
+      "prompt": "Qual rotina de movimento tende a trazer mais resultado?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Duas horas uma vez por mês"
+        },
+        {
+          "id": "b",
+          "text": "Vinte minutos algumas vezes por semana"
+        },
+        {
+          "id": "c",
+          "text": "Só treinar quando estiver muito motivado"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Constância antes de intensidade: pequeno e repetido."
+    },
+    {
+      "id": "q4",
+      "prompt": "O que a nota de como você acordou ajuda a perceber?",
+      "options": [
+        {
+          "id": "a",
+          "text": "O seu signo ascendente"
+        },
+        {
+          "id": "b",
+          "text": "Padrões no seu sono e na sua energia"
+        },
+        {
+          "id": "c",
+          "text": "Quantos pontos você ganhou"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Com o tempo, as notas revelam ligações entre hábitos e descanso."
+    },
+    {
+      "id": "q5",
+      "prompt": "Por que a respiração pode ser um banimento?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Porque a cada expiração você solta um pouco do que pesa"
+        },
+        {
+          "id": "b",
+          "text": "Porque substitui o sono"
+        },
+        {
+          "id": "c",
+          "text": "Porque aumenta a ansiedade"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Respirar devagar, com intenção de soltar, é um banimento que cabe em segundos."
+    }
+  ]
+}

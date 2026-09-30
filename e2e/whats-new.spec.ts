@@ -10,13 +10,14 @@ test('novidades: quem já usava a app vê o curso novo e os lançamentos uma ún
   const dialog = page.getByRole('dialog', { name: 'Novidades MYGLOW' });
   await expect(dialog).toBeVisible();
   await expect(dialog).toContainText('Curso «Rituais do cotidiano» já disponível no Grimório');
+  await expect(dialog).toContainText('Curso «Corpo e energia» já disponível no Grimório');
   await expect(dialog).toContainText('Grimório: a tua trilha de conhecimento');
   await dialog.getByRole('button', { name: 'Continuar' }).click();
   await expect(dialog).toBeHidden();
 
   await expect
     .poll(() => withTestDb((db) => db.announcementSeen.count({ where: { user: { email } } })))
-    .toBe(2);
+    .toBe(3);
   await page.reload();
   await page.waitForLoadState('networkidle');
   await expect(page.getByRole('dialog', { name: 'Novidades MYGLOW' })).toBeHidden();

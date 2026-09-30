@@ -2,6 +2,7 @@
   "version": 1,
   "courses": [
     { "slug": "vida-magica", "order": 1, "required": true, "locales": ["pt-BR"] },
-    { "slug": "rituais", "order": 2, "required": true, "locales": ["pt-BR"], "publishedAt": "2026-09-30" }
+    { "slug": "rituais", "order": 2, "required": true, "locales": ["pt-BR"], "publishedAt": "2026-09-30" },
+    { "slug": "corpo-energia", "order": 3, "required": true, "locales": ["pt-BR"], "publishedAt": "2026-09-30" }
   ]
 }

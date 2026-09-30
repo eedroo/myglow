@@ -9,8 +9,8 @@ const nextConfig = {
   // src/instrumentation.ts valida o env no arranque (Next 14 precisa desta flag).
   experimental: {
     instrumentationHook: true,
-    // O Grimório lê content/grimoire do disco no servidor: incluir os ficheiros no bundle das funções.
-    outputFileTracingIncludes: { '/**': ['./content/grimoire/**/*'] },
+    // O Grimório e as Novidades lêem content/ do disco no servidor: incluir os ficheiros no bundle das funções.
+    outputFileTracingIncludes: { '/**': ['./content/grimoire/**/*', './content/whats-new.json'] },
   },
   async headers() {
     return [

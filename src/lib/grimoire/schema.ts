@@ -69,6 +69,8 @@ export const catalogSchema = z.object({
       order: z.number().int(),
       required: z.boolean(),
       locales: z.array(grimoireLocaleSchema).min(1),
+      /** Data de lançamento (YYYY-MM-DD): o curso é anunciado em "Novidades" a quem já usava a app. */
+      publishedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     }),
   ),
 });

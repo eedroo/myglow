@@ -10,6 +10,8 @@ import { ThemeSync } from '@/components/providers/ThemeSync';
 import { GlowProvider } from '@/components/glow/GlowProvider';
 import { LevelBadge } from '@/components/glow/LevelBadge';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
+import { WhatsNewDialog } from '@/components/whats-new/WhatsNewDialog';
+import { getPendingAnnouncements } from '@/lib/whats-new/queries';
 import { db } from '@/lib/db';
 import { levelFor } from '@/lib/xp/levels';
 
@@ -22,8 +24,11 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
 
   const [t, glow] = await Promise.all([
     getTranslations(),
-    db.user.findUnique({ where: { id: session.user.id }, select: { xpTotal: true, levelSeen: true, lastActiveAt: true } }),
+    db.user.findUnique({ where: { id: session.user.id }, select: { xpTotal: true, levelSeen: true, lastActiveAt: true, locale: true, timezone: true, createdAt: true } }),
   ]);
+  const announcements = glow
+    ? await getPendingAnnouncements({ id: session.user.id, locale: glow.locale, timezone: glow.timezone, createdAt: glow.createdAt }).catch(() => [])
+    : [];
   const xpTotal = glow?.xpTotal ?? 0;
 
   // Actividade recente (pré-geração IA só para activos nos últimos 7 dias): no máximo 1 escrita por hora.
@@ -63,6 +68,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       >
         <GlowProvider level={levelFor(xpTotal).level} levelSeen={glow?.levelSeen ?? 1}>
           {children}
+          <WhatsNewDialog items={announcements} />
         </GlowProvider>
       </AppShell>
     </>

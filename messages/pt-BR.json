@@ -953,5 +953,11 @@
     "errors": {
       "invalid": "Não foi possível salvar. Tente de novo."
     }
+  },
+  "whatsNew": {
+    "title": "Novidades MYGLOW",
+    "subtitle": "O que há de novo desde a sua última visita",
+    "course": "Curso “{title}” já disponível no Grimório",
+    "close": "Continuar"
   }
 }

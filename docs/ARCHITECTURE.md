@@ -121,6 +121,12 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - **Progresso:** `LessonProgress` (unique por lição), `CourseProgress` (tentativas, melhor nota, `completedAt` = emblema), `ReviewItem`. Actions `completeLesson` / `submitQuiz` validam tudo no servidor; o curso concluído dá 100 Glow com `XpEvent` `COURSE_COMPLETE` e `refId` = slug (a unique passou a `userId, source, periodStart, refId`).
 - **Rotas:** `/grimoire` (mapa, no grupo `(app)`); `/grimoire/[course]/[lesson]` e `/grimoire/[course]/quiz` em ecrã inteiro no grupo `(focus)` (sem `TopBar`/`BottomNav`, com `GlowProvider`). Bloqueio, limite ou curso fechado → `redirect('/grimoire?notice=…')`.
 
+### Novidades (pop-up "Novidades MYGLOW", `src/lib/whats-new/`)
+
+- **Curso novo:** acrescentar `"publishedAt": "AAAA-MM-DD"` à linha do curso em `content/grimoire/index.json`. É anunciado automaticamente ("Curso «…» já disponível no Grimório"), só a quem lê o curso na sua língua.
+- **Funcionalidade nova:** acrescentar um lançamento a `content/whats-new.json` (`id`, `date`, até 6 `items` com `icon`, `href` opcional e `text` em pt-BR, pt-PT e en). Validado por `npm run content:check`.
+- Regra (`rules.ts`, pura): só novidades com data **posterior** ao registo do utilizador (para quem chega depois já não é novidade) e ainda não vistas (`AnnouncementSeen`, unique `userId, key` com `release:<id>` / `course:<slug>`). O `WhatsNewDialog` abre no layout `(app)`; fechar ou tocar num item marca tudo como visto.
+
 ### Diário
 
 - Hoje e dias passados são editáveis (permite transcrever o diário em papel); dias futuros não existem no diário — a intenção para o futuro vive no planner semanal (F3). Datas anteriores a 2000-01-01 são rejeitadas.

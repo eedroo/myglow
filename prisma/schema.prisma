@@ -146,6 +146,7 @@ model User {
   lessonProgress    LessonProgress[]
   courseProgress    CourseProgress[]
   reviewItems       ReviewItem[]
+  announcementsSeen AnnouncementSeen[]
   userAiContent     UserAiContent[]
   pushSubscriptions PushSubscription[]
   notificationLogs  NotificationLog[]
@@ -280,6 +281,17 @@ model XpEvent {
   createdAt   DateTime @default(now())
 
   @@unique([userId, source, periodStart, refId])
+}
+
+// Novidades: o que cada utilizador já viu no pop-up "Novidades MYGLOW" ("release:<id>" ou "course:<slug>").
+model AnnouncementSeen {
+  id     String   @id @default(cuid())
+  userId String
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  key    String
+  seenAt DateTime @default(now())
+
+  @@unique([userId, key])
 }
 
 // Grimório (F8): progresso na trilha de conhecimento. O conteúdo vive em content/grimoire (ficheiros).

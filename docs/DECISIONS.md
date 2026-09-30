@@ -63,6 +63,7 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Quiz final de 5 perguntas, aprova com 4/5, pode repetir-se. Curso concluído = emblema no perfil + 100 Glow uma única vez (`COURSE_COMPLETE` com `refId` = curso). As lições em si não dão Glow.
 - Conteúdo em PT-BR primeiro: PT-PT lê o PT-BR; EN vê "coming soon" com a opção de ler em português.
 - Navegação: Hoje · Semana · Mês · Ano · Grimório; o perfil abre pelo avatar (iniciais no anel de nível) e as definições estão dentro do perfil.
+- Novidades: cursos novos e lançamentos aparecem uma vez num pop-up "Novidades MYGLOW" (lista simples), só para quem já usava a app antes da data de lançamento.
 - Modelos configurados por env: `OPENAI_MODEL_DAILY` (DAY_* e WEEK_*) e `OPENAI_MODEL_RICH` (MONTH_*, rituais); o modelo e `promptVersion` ficam gravados com cada conteúdo.
 - Notificações idempotentes via `NotificationLog` unique `(userId, kind, periodKey)`. iOS só com a app instalada no ecrã inicial (16.4+).
 - Lembretes (Fase 7) só quando há algo por fazer (mesmos critérios do Glow, com a janela aberta ou não); no máximo manhã, corpo e noite por dia + início/fim de semana e de mês.

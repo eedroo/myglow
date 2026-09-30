@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "releases": [
+    {
+      "id": "2026-09-30-grimorio-e-lembretes",
+      "date": "2026-09-30",
+      "items": [
+        {
+          "icon": "grimoire",
+          "href": "/grimoire",
+          "text": {
+            "pt-BR": "Grimório: sua trilha de conhecimento, com lições em cards, quiz e emblemas",
+            "pt-PT": "Grimório: a tua trilha de conhecimento, com lições em cards, quiz e emblemas",
+            "en": "Grimoire: your learning path, with card lessons, quizzes and badges"
+          }
+        },
+        {
+          "icon": "moon-stars",
+          "href": "/settings",
+          "text": {
+            "pt-BR": "Lembretes suaves e a caixa de avisos no sino",
+            "pt-PT": "Lembretes suaves e a caixa de avisos no sino",
+            "en": "Gentle reminders and the notifications inbox under the bell"
+          }
+        },
+        {
+          "icon": "sparkles",
+          "href": "/today",
+          "text": {
+            "pt-BR": "O aviso da manhã traz o título da sua leitura do dia",
+            "pt-PT": "O aviso da manhã traz o título da tua leitura do dia",
+            "en": "The morning reminder now brings the title of your daily reading"
+          }
+        }
+      ]
+    }
+  ]
+}

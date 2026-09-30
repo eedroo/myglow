@@ -19,6 +19,8 @@ async function finishLesson(page: Page) {
 
 test('mapa, lição 1 até ao fim, limite de 3 por dia e rever continua possível', async ({ page }) => {
   await registerAndOnboard(page);
+  // Os nós procuram-se dentro da região do curso 1 (há mais cursos no mapa).
+  const course1 = page.locator('#region-vida-magica');
 
   // Barra: Grimório no lugar do Perfil; o avatar abre o perfil.
   await expect(page.getByRole('link', { name: 'Grimório' })).toBeVisible();
@@ -27,12 +29,12 @@ test('mapa, lição 1 até ao fim, limite de 3 por dia e rever continua possíve
 
   await page.goto('/grimoire');
   await expect(page.getByRole('heading', { name: 'A sua vida mágica' })).toBeVisible();
-  await expect(page.getByRole('button', { name: /Lição 1: O que é magia para nós · a seguir/ })).toBeVisible();
-  await expect(page.getByRole('button', { name: /Lição 2: .* · bloqueada/ })).toBeVisible();
+  await expect(course1.getByRole('button', { name: /Lição 1: O que é magia para nós · a seguir/ })).toBeVisible();
+  await expect(course1.getByRole('button', { name: /Lição 2: .* · bloqueada/ })).toBeVisible();
 
   for (const [i, slug] of LESSONS.slice(0, 3).entries()) {
     await page.goto('/grimoire');
-    await page.getByRole('button', { name: new RegExp(`Lição ${i + 1}: .* · a seguir`) }).click();
+    await course1.getByRole('button', { name: new RegExp(`Lição ${i + 1}: .* · a seguir`) }).click();
     await page.getByRole('link', { name: 'Começar' }).click();
     await page.waitForURL(`**/grimoire/vida-magica/${slug}`);
     await finishLesson(page);
@@ -40,20 +42,20 @@ test('mapa, lição 1 até ao fim, limite de 3 por dia e rever continua possíve
     await expect(page.getByText(/Ainda \d (lição nova|lições novas) hoje|Volta amanhã para novas lições/).first()).toBeVisible();
     if (i === 0) {
       await page.getByRole('link', { name: 'Voltar ao mapa' }).click();
-      await expect(page.getByRole('button', { name: /Lição 1: .* · concluída/ })).toBeVisible();
-      await expect(page.getByRole('button', { name: /Lição 2: .* · a seguir/ })).toBeVisible();
+      await expect(course1.getByRole('button', { name: /Lição 1: .* · concluída/ })).toBeVisible();
+      await expect(course1.getByRole('button', { name: /Lição 2: .* · a seguir/ })).toBeVisible();
     }
   }
 
   // 4.ª lição no mesmo dia: mensagem do limite.
   await page.goto('/grimoire');
-  await page.getByRole('button', { name: /Lição 4: .* · a seguir/ }).click();
+  await course1.getByRole('button', { name: /Lição 4: .* · a seguir/ }).click();
   await expect(page.getByText('Já fizeste 3 lições hoje. O conhecimento assenta melhor com descanso — volta amanhã.')).toBeVisible();
   await page.goto('/grimoire/vida-magica/autocuidado');
   await page.waitForURL('**/grimoire?notice=daily_limit');
 
   // Rever a lição 1 continua possível.
-  await page.getByRole('button', { name: /Lição 1: .* · concluída/ }).click();
+  await course1.getByRole('button', { name: /Lição 1: .* · concluída/ }).click();
   await page.getByRole('link', { name: 'Rever' }).click();
   await page.waitForURL('**/grimoire/vida-magica/o-que-e-magia');
   await finishLesson(page);

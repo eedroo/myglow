@@ -382,3 +382,9 @@ Escola em trilha (estilo Duolingo). Conteúdo só em `content/grimoire/**` (JSON
 
 Navegação F8 (`ProfileAvatarLink`, client, em `glow/`: link do avatar activo em `/profile` e `/settings`): `BottomNav` Hoje · Semana · Mês · Ano · **Grimório** (activo em `/grimoire/*`); o Perfil abre pelo avatar (`LevelBadge` com iniciais dentro do anel de nível) na `TopBar`, activo em `/profile` e `/settings`; `/profile` tem o botão de definições (roda dentada).
 
+### Novidades (`src/components/whats-new/`)
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `WhatsNewDialog` | client | `whats-new.css` | `mg-whats-new`, `__icon`, `__title`, `__subtitle`, `__list`, `__item`, `__link`, `__actions` | `<dialog>` "Novidades MYGLOW" no layout `(app)`, uma vez por novidade: lista simples (ícone + frase) de cursos novos do Grimório ("Curso «Rituais do cotidiano» já disponível no Grimório") e lançamentos de `content/whats-new.json`; fechar ou tocar num item marca tudo como visto |
+

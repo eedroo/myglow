@@ -55,13 +55,13 @@ export const notificationsDispatch = inngest.createFunction(
       sent += await step.run(`user-${u.id}`, async () => {
         const prefs = await db.notificationPrefs.findUnique({ where: { userId: u.id } });
         if (!prefs) return 0;
-        const state = await notificationState(u.id, u.date);
+        const state = await notificationState(u.id, u.date, u.locale);
         const todo = dueNotifications(now, u.tz, prefs, state);
         if (!todo.length) return 0;
         const ctx = await notificationContext(u.id, { locale: u.locale, date: u.date, tz: u.tz, hemisphere: u.hemisphere });
         let count = 0;
         for (const d of todo) {
-          const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, { ...ctx, periodKey: d.periodKey }) });
+          const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, { ...ctx, periodKey: d.periodKey, grimoire: state.grimoire }) });
           if (res !== 'duplicate') count++;
         }
         return count;

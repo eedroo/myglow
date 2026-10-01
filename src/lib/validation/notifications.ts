@@ -18,6 +18,8 @@ export const notificationPrefsSchema = z
     monthStart: z.boolean(),
     monthEnd: z.boolean(),
     lastCall: z.boolean(),
+    grimoireEnabled: z.boolean(),
+    grimoireTime: quarterTime,
   })
   .strict();
 

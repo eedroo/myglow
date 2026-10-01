@@ -113,6 +113,9 @@ enum NotificationKind {
   WEEK_REFLECTION_LAST
   MONTH_PLAN_LAST
   MONTH_REFLECTION_LAST
+  // Grimório: convite de manhã (lições do dia liberadas) e última chamada à noite (lições por fazer)
+  GRIMOIRE
+  GRIMOIRE_LAST
 }
 
 model User {
@@ -383,6 +386,8 @@ model NotificationPrefs {
   bodyEnabled    Boolean @default(true)
   nightEnabled   Boolean @default(true)
   lastCall       Boolean @default(true) // avisos de última chamada (plano/reflexão da semana e do mês)
+  grimoireEnabled Boolean @default(true) // convite do Grimório (a última chamada depende também de lastCall)
+  grimoireTime    String  @default("10:00")
 }
 
 model PushSubscription {

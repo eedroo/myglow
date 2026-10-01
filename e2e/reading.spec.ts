@@ -17,8 +17,10 @@ function weekStartOf(date: string): string {
 }
 
 const RITUAL_TITLE = 'Semear na Lua Nova';
+// Os outros rituais noutro dia do mês (no dia 1, monthStart é hoje).
+const otherDay = today === monthStart ? `${today.slice(0, 7)}-02` : monthStart;
 const monthRituals = {
-  rituals: rituals.rituals.map((r, i) => ({ ...r, id: `e2e-ritual-${i}`, date: i === 1 ? today : monthStart })),
+  rituals: rituals.rituals.map((r, i) => ({ ...r, id: `e2e-ritual-${i}`, date: i === 1 ? today : otherDay })),
 };
 
 test('hoje mostra horóscopo, leitura pessoal e sugestões; o ritual do mês vai para a semana', async ({ page }) => {

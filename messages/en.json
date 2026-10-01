@@ -775,6 +775,8 @@
         "weekReflectionLast": {"title": "There's still time to reflect", "body": "Reflecting on last week is worth {points} Glow until the end of today."},
         "monthPlanLast": {"title": "Your month is still waiting", "body": "The month's intention and goals are worth {points} Glow until the end of today."},
         "monthReflectionLast": {"title": "There's still time to close the month", "body": "Reflecting on last month is worth {points} Glow until the end of today."},
+        "grimoire": {"title": "Today's lessons are unlocked 📖", "body": "{count, plural, one {Your lesson for today is} other {Your # lessons for today are}} waiting in the Grimoire. Just a few minutes.", "quizTitle": "Your Grimoire quiz is waiting", "quizBody": "You finished the course lessons. Pass the quiz to earn the badge and {points} Glow."},
+        "grimoireLast": {"title": "There's still time to study today", "body": "{count, plural, one {# lesson} other {# lessons}} left for today in the Grimoire. End the day learning something new?"},
         "test": {
         "title": "All set ✨",
         "body": "This is how MYGLOW reminders will arrive."
@@ -813,6 +815,7 @@
       "morning": "Morning",
       "body": "Body",
       "night": "Night",
+      "grimoire": "Grimoire",
       "time": "{label} time",
       "periods": "Week and month",
       "weekStart": "Start of the week",
@@ -820,7 +823,7 @@
       "monthStart": "Start of the month",
       "monthEnd": "End of the month",
       "lastCall": "Last call",
-      "lastCallHint": "One last reminder near the deadline, only if something is still missing.",
+      "lastCallHint": "One last reminder near the deadline (week, month and Grimoire lessons), only if something is still missing.",
       "hint": "Reminders only arrive if something is still left to do. In the morning, on Sundays and on the 1st, they bring your reading once it's ready.",
       "device": "This device",
       "deviceOn": "Notifications are on for this device.",

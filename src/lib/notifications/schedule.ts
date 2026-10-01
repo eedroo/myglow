@@ -14,7 +14,7 @@ export const SLOT_MINUTES = 15;
 export type NotificationPrefsInput = Pick<
   NotificationPrefs,
   | 'enabled' | 'morningTime' | 'bodyTime' | 'nightTime' | 'morningEnabled' | 'bodyEnabled' | 'nightEnabled'
-  | 'weekStart' | 'weekEnd' | 'monthStart' | 'monthEnd' | 'lastCall'
+  | 'weekStart' | 'weekEnd' | 'monthStart' | 'monthEnd' | 'lastCall' | 'grimoireEnabled' | 'grimoireTime'
 >;
 
 export interface NotificationState {
@@ -26,6 +26,8 @@ export interface NotificationState {
   /** Reflexões do período anterior (a última chamada de domingo e do dia 1 fecha a semana/mês que acabou). */
   lastWeekReflectionDone: boolean;
   lastMonthReflectionDone: boolean;
+  /** Grimório no dia: lições novas que ainda dá para fazer hoje e quiz por fazer num curso aberto. */
+  grimoire: { lessonsLeft: number; quizPending: boolean };
 }
 
 export interface DueNotification {
@@ -70,6 +72,9 @@ const RULES: Rule[] = [
   { kind: 'WEEK_REFLECTION_LAST', time: (p) => p.nightTime, offset: 15, on: (p) => p.lastCall && p.weekEnd, day: (d) => d.weekday === 7, key: (d) => weekKey(addDays(d, -7)) },
   { kind: 'MONTH_PLAN_LAST', time: (p) => p.nightTime, offset: 30, on: (p) => p.lastCall && p.monthStart, day: (d) => d.day === 7, key: monthKey },
   { kind: 'MONTH_REFLECTION_LAST', time: (p) => p.nightTime, offset: 30, on: (p) => p.lastCall && p.monthEnd, day: (d) => d.day === 1, key: prevMonthKey },
+  // Grimório: convite à hora escolhida; última chamada 45 min depois da noite (a seguir às outras).
+  { kind: 'GRIMOIRE', time: (p) => p.grimoireTime, offset: 0, on: (p) => p.grimoireEnabled, key: dayKey },
+  { kind: 'GRIMOIRE_LAST', time: (p) => p.nightTime, offset: 45, on: (p) => p.lastCall && p.grimoireEnabled, key: dayKey },
 ];
 
 /** Avisos cujo horário cai no slot actual (ainda sem olhar ao que está feito). */
@@ -103,6 +108,8 @@ function pending(kind: NotificationKind, s: NotificationState): boolean {
     case 'WEEK_REFLECTION_LAST': return !s.lastWeekReflectionDone;
     case 'MONTH_PLAN_LAST': return !s.monthPlanDone;
     case 'MONTH_REFLECTION_LAST': return !s.lastMonthReflectionDone;
+    case 'GRIMOIRE': return s.grimoire.lessonsLeft > 0 || s.grimoire.quizPending;
+    case 'GRIMOIRE_LAST': return s.grimoire.lessonsLeft > 0;
   }
 }
 

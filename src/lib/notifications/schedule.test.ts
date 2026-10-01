@@ -6,13 +6,14 @@ const PREFS: NotificationPrefsInput = {
   enabled: true, morningTime: '08:00', bodyTime: '13:00', nightTime: '21:30',
   morningEnabled: true, bodyEnabled: true, nightEnabled: true,
   weekStart: true, weekEnd: true, monthStart: true, monthEnd: true, lastCall: true,
+  grimoireEnabled: true, grimoireTime: '10:00',
 };
 const day = (p: Partial<DayProgress> = {}): DayProgress => ({
   date: '2026-05-06', hasEntry: false, morning: false, body: false, bodyChecks: 0, night: false, level: 'empty', ...p,
 });
 const TODO: NotificationState = {
   day: day(), weekPlanDone: false, weekReflectionDone: false, monthPlanDone: false, monthReflectionDone: false,
-  lastWeekReflectionDone: false, lastMonthReflectionDone: false,
+  lastWeekReflectionDone: false, lastMonthReflectionDone: false, grimoire: { lessonsLeft: 0, quizPending: false },
 };
 const LX = 'Europe/Lisbon';
 const at = (iso: string, tz = LX, prefs = PREFS, state = TODO) => dueNotifications(new Date(iso), tz, prefs, state);
@@ -76,6 +77,32 @@ describe('dueNotifications', () => {
 
   it('mudança de hora: 2026-03-29 08:05 WEST → MORNING', () => {
     expect(at('2026-03-29T07:05:00Z')).toEqual([{ kind: 'MORNING', periodKey: '2026-03-29' }]);
+  });
+
+  describe('Grimório', () => {
+    const LESSONS = { ...TODO, grimoire: { lessonsLeft: 3, quizPending: false } };
+
+    it('convite às 10:00 se há lições; sem lições nem quiz → nada', () => {
+      expect(at('2026-05-06T09:05:00Z', LX, PREFS, LESSONS)).toEqual([{ kind: 'GRIMOIRE', periodKey: '2026-05-06' }]);
+      expect(at('2026-05-06T09:05:00Z')).toEqual([]);
+    });
+
+    it('convite também quando só falta o quiz; hora configurável; desligado → nada', () => {
+      const quiz = { ...TODO, grimoire: { lessonsLeft: 0, quizPending: true } };
+      expect(at('2026-05-06T09:05:00Z', LX, PREFS, quiz)).toEqual([{ kind: 'GRIMOIRE', periodKey: '2026-05-06' }]);
+      expect(at('2026-05-06T10:35:00Z', LX, { ...PREFS, grimoireTime: '11:30' }, LESSONS)).toEqual([{ kind: 'GRIMOIRE', periodKey: '2026-05-06' }]);
+      expect(at('2026-05-06T09:05:00Z', LX, { ...PREFS, grimoireEnabled: false }, LESSONS)).toEqual([]);
+    });
+
+    it('última chamada 45 min depois da noite (22:15) só com lições por fazer', () => {
+      expect(at('2026-05-06T21:20:00Z', LX, PREFS, LESSONS)).toEqual([{ kind: 'GRIMOIRE_LAST', periodKey: '2026-05-06' }]);
+      expect(at('2026-05-06T21:20:00Z', LX, PREFS, { ...TODO, grimoire: { lessonsLeft: 0, quizPending: true } })).toEqual([]);
+      expect(at('2026-05-06T21:20:00Z', LX, { ...PREFS, lastCall: false }, LESSONS)).toEqual([]);
+    });
+
+    it('noite às 23:30 → a última chamada (00:15) ainda é do dia anterior', () => {
+      expect(at('2026-05-06T23:20:00Z', LX, { ...PREFS, nightTime: '23:30' }, LESSONS)).toEqual([{ kind: 'GRIMOIRE_LAST', periodKey: '2026-05-06' }]);
+    });
   });
 
   it('corpo e noite nos seus horários', () => {

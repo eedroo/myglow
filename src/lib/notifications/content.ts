@@ -39,6 +39,8 @@ export interface NotificationContext {
   monthRituals?: number;
   /** Período do aviso (para a última chamada da reflexão, que abre a semana/mês anterior). */
   periodKey?: string;
+  /** Grimório do dia (GRIMOIRE e GRIMOIRE_LAST). */
+  grimoire?: { lessonsLeft: number; quizPending: boolean };
 }
 
 const clip = (s: string, max: number) => (s.length <= max ? s : `${s.slice(0, max - 1).trimEnd()}…`);
@@ -124,6 +126,24 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       title = t('notifications.push.monthReflectionLast.title');
       body = t('notifications.push.monthReflectionLast.body', { points: XP_POINTS.MONTH_REFLECTION });
       url = ctx.periodKey?.startsWith('M') ? `/month/${ctx.periodKey.slice(1)}` : '/month';
+      break;
+    case 'GRIMOIRE': {
+      const left = ctx.grimoire?.lessonsLeft ?? 0;
+      // Sem lições novas mas com o quiz por fazer: convite para o quiz.
+      if (left === 0 && ctx.grimoire?.quizPending) {
+        title = t('notifications.push.grimoire.quizTitle');
+        body = t('notifications.push.grimoire.quizBody', { points: XP_POINTS.COURSE_COMPLETE });
+      } else {
+        title = t('notifications.push.grimoire.title');
+        body = t('notifications.push.grimoire.body', { count: left });
+      }
+      url = '/grimoire';
+      break;
+    }
+    case 'GRIMOIRE_LAST':
+      title = t('notifications.push.grimoireLast.title');
+      body = t('notifications.push.grimoireLast.body', { count: ctx.grimoire?.lessonsLeft ?? 0 });
+      url = '/grimoire';
       break;
   }
   return { title: clip(title, MAX_TITLE), body: clip(body, MAX_BODY), url };

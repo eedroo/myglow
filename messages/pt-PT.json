@@ -775,6 +775,8 @@
         "weekReflectionLast": {"title": "Ainda dá para refletir sobre a semana", "body": "A reflexão da semana que passou vale {points} Glow até ao fim de hoje."},
         "monthPlanLast": {"title": "O teu mês ainda espera por ti", "body": "A intenção e as metas do mês valem {points} Glow até ao fim de hoje."},
         "monthReflectionLast": {"title": "Ainda dá para fechar o mês", "body": "A reflexão do mês que passou vale {points} Glow até ao fim de hoje."},
+        "grimoire": {"title": "As lições de hoje estão à tua espera 📖", "body": "{count, plural, one {A tua lição de hoje já está disponível} other {As tuas # lições de hoje já estão disponíveis}} no Grimório. São só uns minutos.", "quizTitle": "O quiz do Grimório está à tua espera", "quizBody": "Terminaste as lições do curso. Passa no quiz e ganha o emblema e {points} Glow."},
+        "grimoireLast": {"title": "Ainda vais a tempo de estudar hoje", "body": "{count, plural, one {Falta # lição} other {Faltam # lições}} de hoje no Grimório. Que tal fechar o dia a aprender?"},
         "test": {
         "title": "Tudo pronto ✨",
         "body": "Os lembretes do MYGLOW vão chegar assim."
@@ -813,6 +815,7 @@
       "morning": "Manhã",
       "body": "Corpo",
       "night": "Noite",
+      "grimoire": "Grimório",
       "time": "Hora de {label}",
       "periods": "Semana e mês",
       "weekStart": "Início da semana",
@@ -820,7 +823,7 @@
       "monthStart": "Início do mês",
       "monthEnd": "Fim do mês",
       "lastCall": "Última chamada",
-      "lastCallHint": "Um último aviso perto do fim do prazo, só se ainda faltar.",
+      "lastCallHint": "Um último aviso perto do fim do prazo (semana, mês e lições do Grimório), só se ainda faltar.",
       "hint": "Os avisos só chegam se ainda houver algo por fazer. De manhã, ao domingo e no dia 1, trazem a tua leitura quando já está pronta.",
       "device": "Este dispositivo",
       "deviceOn": "Notificações activas neste dispositivo.",

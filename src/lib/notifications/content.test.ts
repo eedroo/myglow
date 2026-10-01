@@ -6,7 +6,7 @@ import { MAX_BODY, MAX_TITLE, MOON_EMOJI, buildNotification, testNotification } 
 const LOCALES: Locale[] = ['PT_PT', 'PT_BR', 'EN'];
 const KINDS: NotificationKind[] = [
   'MORNING', 'BODY', 'NIGHT', 'WEEK_START', 'WEEK_END', 'MONTH_START', 'MONTH_END',
-  'WEEK_PLAN_LAST', 'WEEK_REFLECTION_LAST', 'MONTH_PLAN_LAST', 'MONTH_REFLECTION_LAST',
+  'WEEK_PLAN_LAST', 'WEEK_REFLECTION_LAST', 'MONTH_PLAN_LAST', 'MONTH_REFLECTION_LAST', 'GRIMOIRE', 'GRIMOIRE_LAST',
 ];
 const PHASES = Object.keys(MOON_EMOJI) as MoonPhase[];
 const base = { date: '2026-05-06', tz: 'Europe/Lisbon' };
@@ -17,12 +17,16 @@ describe('buildNotification', () => {
       for (const kind of KINDS) {
         for (const phase of PHASES) {
           for (const sign of ZODIAC_ORDER) {
-            for (const extra of [{}, { ritualToday: 'Libertar com a Lua Cheia de Escorpião' }, { sabbatToday: 'LUGHNASADH' as const }]) {
+            for (const extra of [
+              {}, { ritualToday: 'Libertar com a Lua Cheia de Escorpião' }, { sabbatToday: 'LUGHNASADH' as const },
+              { grimoire: { lessonsLeft: 3, quizPending: false } }, { grimoire: { lessonsLeft: 1, quizPending: false } },
+              { grimoire: { lessonsLeft: 0, quizPending: true } },
+            ]) {
               const n = buildNotification(kind, { ...base, locale, moon: { phase, sign }, ...extra });
               expect(n.title.length, `${locale} ${kind} ${phase} ${sign}: ${n.title}`).toBeLessThanOrEqual(MAX_TITLE);
               expect(n.body.length).toBeLessThanOrEqual(MAX_BODY);
               expect(n.title.endsWith('…'), n.title).toBe(false);
-              expect(n.url).toMatch(/^\/(today|week|month)(\/[\d-]+)?$/);
+              expect(n.url).toMatch(/^\/(today|week|month|grimoire)(\/[\d-]+)?$/);
             }
           }
         }
@@ -80,6 +84,23 @@ describe('convites e última chamada', () => {
     expect(buildNotification('WEEK_REFLECTION_LAST', { ...base, locale: 'PT_PT', periodKey: 'W2026-05-03' }).url).toBe('/week/2026-05-03');
     expect(buildNotification('MONTH_REFLECTION_LAST', { ...base, locale: 'PT_PT', periodKey: 'M2026-05' }).url).toBe('/month/2026-05');
     expect(buildNotification('WEEK_PLAN_LAST', { ...base, locale: 'PT_BR' }).body).toContain('20 Glow');
+  });
+
+  it('Grimório: lições do dia, quiz por fazer e última chamada', () => {
+    const g = (lessonsLeft: number, quizPending = false) => ({ grimoire: { lessonsLeft, quizPending } });
+    expect(buildNotification('GRIMOIRE', { ...base, locale: 'PT_BR', ...g(3) })).toEqual({
+      title: 'Suas lições de hoje estão liberadas 📖',
+      body: 'Suas 3 lições de hoje já estão esperando no Grimório. São só alguns minutos.',
+      url: '/grimoire',
+    });
+    expect(buildNotification('GRIMOIRE', { ...base, locale: 'PT_PT', ...g(1) }).body).toBe(
+      'A tua lição de hoje já está disponível no Grimório. São só uns minutos.',
+    );
+    expect(buildNotification('GRIMOIRE', { ...base, locale: 'EN', ...g(0, true) }).body).toContain('100 Glow');
+    expect(buildNotification('GRIMOIRE_LAST', { ...base, locale: 'PT_BR', ...g(2) }).body).toBe(
+      'Faltam 2 lições de hoje no Grimório. Que tal fechar o dia aprendendo?',
+    );
+    expect(buildNotification('GRIMOIRE_LAST', { ...base, locale: 'PT_PT', ...g(1) }).body).toMatch(/^Falta 1 lição/);
   });
 });
 

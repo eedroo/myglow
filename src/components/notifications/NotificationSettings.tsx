@@ -15,11 +15,12 @@ import { InstallGuide } from './InstallGuide';
 
 const TIMES = Array.from({ length: 96 }, (_, i) => `${String(Math.floor(i / 4)).padStart(2, '0')}:${String((i % 4) * 15).padStart(2, '0')}`);
 
-type DailyKey = 'morning' | 'body' | 'night';
+type DailyKey = 'morning' | 'body' | 'night' | 'grimoire';
 const DAILY: { key: DailyKey; icon: MagicIconName }[] = [
   { key: 'morning', icon: 'sun' },
   { key: 'body', icon: 'stretch' },
   { key: 'night', icon: 'moon-crescent' },
+  { key: 'grimoire', icon: 'grimoire' },
 ];
 type PeriodKey = 'weekStart' | 'weekEnd' | 'monthStart' | 'monthEnd';
 const PERIODS: { key: PeriodKey; icon: MagicIconName }[] = [

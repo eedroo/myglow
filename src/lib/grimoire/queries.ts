@@ -149,6 +149,37 @@ export async function getGrimoireState(userId: string, tz: string, prefs: Conten
   };
 }
 
+/** Para os lembretes (sem pedido HTTP, logo sem o cookie "ler em português"): o que há por fazer no dia `date`. */
+export interface GrimoireDayStatus {
+  lessonsToday: number;
+  /** Lições novas que ainda se podem fazer hoje (limite diário e lições por fazer nos cursos abertos). */
+  lessonsLeft: number;
+  /** Um curso aberto tem todas as lições feitas e falta o quiz. */
+  quizPending: boolean;
+}
+
+export async function getGrimoireDayStatus(userId: string, locale: Locale, date: DateISO): Promise<GrimoireDayStatus> {
+  const published = publishedCourses({ userLocale: dbToAppLocale(locale), readInPortuguese: false });
+  if (!published.length) return { lessonsToday: 0, lessonsLeft: 0, quizPending: false };
+  const progress = await loadProgress(userId, date);
+  const states = statesFor(published, progress);
+  let open = 0;
+  let quizPending = false;
+  for (const { entry, course } of published) {
+    const state = states[entry.slug];
+    if (state === 'locked' || state === 'completed') continue;
+    const done = progress.lessonsDone.get(entry.slug) ?? new Set<string>();
+    const todo = course.lessons.filter((l) => !done.has(l.slug)).length;
+    open += todo;
+    if (todo === 0) quizPending = true;
+  }
+  return {
+    lessonsToday: progress.completedToday,
+    lessonsLeft: Math.min(open, lessonsLeftToday(progress.completedToday)),
+    quizPending,
+  };
+}
+
 export type GrimoireNotice = 'locked' | 'daily_limit' | 'course_locked' | 'not_found';
 
 export interface LessonPlayerData {

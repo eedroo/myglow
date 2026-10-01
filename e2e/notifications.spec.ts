@@ -52,6 +52,14 @@ test('definições: activar neste dispositivo, enviar teste e mudar a hora da ma
   await expect(page.locator('#notify-morning-time')).toHaveValue('07:45');
   const prefs = await withTestDb((db) => db.notificationPrefs.findFirstOrThrow({ where: { user: { email } } }));
   expect(prefs.morningTime).toBe('07:45');
+
+  // Convite do Grimório: activo por defeito às 10:00; muda a hora.
+  await expect(page.locator('#notify-grimoire-time')).toHaveValue('10:00');
+  await page.locator('#notify-grimoire-time').selectOption('09:30');
+  await expect(page.getByText('Guardado')).toBeVisible();
+  await expect
+    .poll(() => withTestDb((db) => db.notificationPrefs.findFirstOrThrow({ where: { user: { email } } }).then((p) => p.grimoireTime)))
+    .toBe('09:30');
 });
 
 test('caixa de avisos: o sino mostra 1, abrir o aviso navega e marca como lido', async ({ page }) => {

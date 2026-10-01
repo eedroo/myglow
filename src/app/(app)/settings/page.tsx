@@ -97,6 +97,8 @@ export default async function SettingsPage() {
             monthStart: prefs?.monthStart ?? true,
             monthEnd: prefs?.monthEnd ?? true,
             lastCall: prefs?.lastCall ?? true,
+            grimoireEnabled: prefs?.grimoireEnabled ?? true,
+            grimoireTime: prefs?.grimoireTime ?? '10:00',
           }}
           devices={devices}
           pushConfigured={hasPush()}

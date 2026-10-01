@@ -8,20 +8,21 @@ import { planMet, reflectionMet } from '@/lib/xp/rules';
 import { getDailyMoon } from '@/lib/astro/moon';
 import { getSkyEvents, type SabbatKey } from '@/lib/astro/skyEvents';
 import { getRituals } from '@/lib/ai/queries';
+import { getGrimoireDayStatus } from '@/lib/grimoire/queries';
 import { USER_SCHEMAS } from '@/lib/ai/schemas';
 import type { NotificationContext } from './content';
 import type { NotificationState } from './schedule';
 
 /** Leituras leves para os lembretes e para a caixa de avisos. */
 
-/** O que está feito no dia `date` e na semana/mês que o contêm (mesmos critérios do Glow). */
-export async function notificationState(userId: string, date: DateISO): Promise<NotificationState> {
+/** O que está feito no dia `date` e na semana/mês que o contêm (mesmos critérios do Glow) e o Grimório do dia. */
+export async function notificationState(userId: string, date: DateISO, locale: Locale): Promise<NotificationState> {
   const weekStart = toDbDate(weekStartOf(date));
   const { year, month } = monthOf(date);
   const monthStart = toDbDate(`${date.slice(0, 7)}-01`);
   const prevWeekStart = toDbDate(addDays(weekStartOf(date), -7));
   const prev = addMonths(year, month, -1);
-  const [entry, week, weekProjects, monthRow, monthProjects, prevWeek, prevMonth] = await Promise.all([
+  const [entry, week, weekProjects, monthRow, monthProjects, prevWeek, prevMonth, grimoire] = await Promise.all([
     db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(date) } }, select: PROGRESS_SELECT }),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: weekStart } }, select: { intention: true, reflection: true } }),
     db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: weekStart } }),
@@ -29,6 +30,7 @@ export async function notificationState(userId: string, date: DateISO): Promise<
     db.projectIntention.count({ where: { userId, period: 'MONTH', periodStart: monthStart } }),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: prevWeekStart } }, select: { reflection: true } }),
     db.month.findUnique({ where: { userId_year_month: { userId, year: prev.year, month: prev.month } }, select: { reflection: true } }),
+    getGrimoireDayStatus(userId, locale, date),
   ]);
   return {
     day: computeDayProgress(date, entry),
@@ -38,6 +40,7 @@ export async function notificationState(userId: string, date: DateISO): Promise<
     monthReflectionDone: reflectionMet(monthRow?.reflection ?? ''),
     lastWeekReflectionDone: reflectionMet(prevWeek?.reflection ?? ''),
     lastMonthReflectionDone: reflectionMet(prevMonth?.reflection ?? ''),
+    grimoire: { lessonsLeft: grimoire.lessonsLeft, quizPending: grimoire.quizPending },
   };
 }
 

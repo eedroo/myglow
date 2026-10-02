@@ -21,6 +21,7 @@ import { ResendVerificationButton } from '@/components/account/ResendVerificatio
 import { WellbeingConsentCard } from '@/components/account/WellbeingConsentCard';
 import { DeleteAccountDialog } from '@/components/account/DeleteAccountDialog';
 import { DELETE_CONFIRM_WORD } from '@/lib/validation/account';
+import { FeedbackDialog } from '@/components/beta/FeedbackDialog';
 
 const SECTIONS = ['profile', 'account', 'preferences', 'birth', 'notifications', 'privacy', 'sessions', 'danger'] as const;
 
@@ -201,6 +202,10 @@ export default async function SettingsPage() {
             <Link href="/privacy">{ta('links.privacy')}</Link>
             <Link href="/terms">{ta('links.terms')}</Link>
           </p>
+          <hr className="mg-form__divider" />
+          <div className="mg-form__row">
+            <FeedbackDialog />
+          </div>
         </div>
       </GlassCard>
 

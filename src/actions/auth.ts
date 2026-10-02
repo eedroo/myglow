@@ -1,12 +1,14 @@
 'use server';
 
 import bcrypt from 'bcryptjs';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AuthError } from 'next-auth';
 import { signIn, signOut } from '@/auth';
 import { db } from '@/lib/db';
-import { loginSchema, registerSchema } from '@/lib/validation/auth';
+import { loginSchema, registerSchemaFor } from '@/lib/validation/auth';
+import { inviteRequired, isValidInvite, normalizeInvite } from '@/lib/beta';
+import { allowInviteAttempt, clientIp } from '@/lib/ratelimit';
 import { legalVersions } from '@/lib/env';
 import { sendVerificationEmail } from '@/lib/account/mail';
 import { LOCALE_COOKIE, LOCALE_COOKIE_OPTIONS, dbToAppLocale, type DbLocale } from '@/i18n/locales';
@@ -14,7 +16,7 @@ import { LOCALE_COOKIE, LOCALE_COOKIE_OPTIONS, dbToAppLocale, type DbLocale } fr
 /** Estado devolvido aos formulários. Erros são chaves i18n (namespace completo, ex.: `validation.email`). */
 export interface AuthFormState {
   formError?: string;
-  fieldErrors?: Partial<Record<'name' | 'email' | 'password' | 'locale' | 'acceptTerms' | 'wellbeingConsent', string>>;
+  fieldErrors?: Partial<Record<'name' | 'email' | 'password' | 'locale' | 'acceptTerms' | 'wellbeingConsent' | 'inviteCode', string>>;
 }
 
 const REGISTER_FIELD_ERRORS = {
@@ -24,6 +26,7 @@ const REGISTER_FIELD_ERRORS = {
   locale: 'validation.required',
   acceptTerms: 'account.errors.acceptTerms',
   wellbeingConsent: 'account.errors.wellbeingConsent',
+  inviteCode: 'beta.invite.invalid',
 } as const;
 
 function setLocaleCookie(locale: DbLocale) {
@@ -31,13 +34,15 @@ function setLocaleCookie(locale: DbLocale) {
 }
 
 export async function register(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
-  const parsed = registerSchema.safeParse({
+  const needsInvite = inviteRequired();
+  const parsed = registerSchemaFor({ inviteRequired: needsInvite }).safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
     password: formData.get('password'),
     locale: formData.get('locale'),
     acceptTerms: formData.get('acceptTerms') === 'on',
     wellbeingConsent: formData.get('wellbeingConsent') === 'on',
+    inviteCode: needsInvite ? (formData.get('inviteCode') ?? '') : undefined,
   });
 
   if (!parsed.success) {
@@ -50,6 +55,16 @@ export async function register(_prev: AuthFormState, formData: FormData): Promis
   }
 
   const { name, email, password, locale } = parsed.data;
+
+  // F10: registo fechado por código de convite (10 tentativas/h por IP; erro genérico).
+  let inviteCode: string | null = null;
+  if (needsInvite) {
+    const code = parsed.data.inviteCode ?? '';
+    if (!(await allowInviteAttempt(clientIp(headers()))) || !isValidInvite(code)) {
+      return { fieldErrors: { inviteCode: 'beta.invite.invalid' } };
+    }
+    inviteCode = normalizeInvite(code);
+  }
 
   const existing = await db.user.findUnique({ where: { email }, select: { id: true } });
   if (existing) return { fieldErrors: { email: 'auth.errors.emailTaken' } };
@@ -69,6 +84,7 @@ export async function register(_prev: AuthFormState, formData: FormData): Promis
         termsVersion: terms,
         privacyVersion: privacy,
         wellbeingConsentAt: now,
+        inviteCode,
         notificationPrefs: { create: {} },
       },
       select: { id: true },

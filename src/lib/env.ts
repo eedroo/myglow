@@ -103,6 +103,26 @@ export function legalVersions(): { terms: string; privacy: string } {
   };
 }
 
+// ─── Beta (F10) ──────────────────────────────────────────────────────────────────────────────────
+// BETA=true mostra o selo e os avisos de beta; BETA_INVITE_CODES (separados por vírgulas) fecha o registo por
+// código; FEEDBACK_EMAIL recebe o feedback. Lidos em cada chamada (sem cache), opcionais.
+
+export function isBeta(): boolean {
+  return process.env.BETA === 'true' || process.env.BETA === '1';
+}
+
+/** Códigos de convite válidos (trim + maiúsculas); vazio = registo aberto. */
+export function betaInviteCodes(): string[] {
+  return (process.env.BETA_INVITE_CODES ?? '')
+    .split(',')
+    .map((c) => c.trim().toUpperCase())
+    .filter(Boolean);
+}
+
+export function feedbackEmail(): string | null {
+  return process.env.FEEDBACK_EMAIL?.trim() || null;
+}
+
 /** Há chaves VAPID para enviar push? (sem elas os avisos ficam só na caixa da app) */
 export function hasPush(): boolean {
   return pushEnvSchema.safeParse(process.env).success;

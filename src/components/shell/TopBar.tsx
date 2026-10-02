@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { MagicIcon } from '@/components/ui/MagicIcon';
+import { BetaBadge } from '@/components/beta/BetaBadge';
 
 interface TopBarProps {
   appName: string;
@@ -21,6 +22,7 @@ export function TopBar({ appName, homeLabel, badge, bell }: TopBarProps) {
           {appName}
         </span>
       </Link>
+      <BetaBadge />
       <div className="mg-topbar__actions">
         {bell}
         {badge}

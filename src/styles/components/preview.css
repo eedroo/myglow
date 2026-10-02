@@ -1,0 +1,75 @@
+/* AppPreview (F10): moldura de telemóvel em CSS com markup estático da app */
+
+.mg-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.mg-preview__frame {
+  width: min(100%, 340px);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: calc(var(--radius-lg) * 1.75);
+  background: var(--glass-bg-strong);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+.mg-preview__screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 520px;
+  padding: var(--space-4) var(--space-3);
+  overflow: hidden;
+  border-radius: calc(var(--radius-lg) * 1.25);
+  background: var(--bg-gradient);
+  pointer-events: none;
+  user-select: none;
+}
+
+.mg-preview__label {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.mg-preview__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+}
+
+.mg-preview__text {
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}
+
+.mg-preview__region {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mg-preview__nodes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+.mg-preview__node {
+  display: flex;
+}
+
+.mg-preview__node--left {
+  justify-content: flex-start;
+  padding-left: 22%;
+}
+
+.mg-preview__node--right {
+  justify-content: flex-end;
+  padding-right: 22%;
+}

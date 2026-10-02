@@ -25,6 +25,7 @@ import { RitualTodayCard } from '@/components/reading/RitualTodayCard';
 import { NotificationsPromptCard } from '@/components/notifications/NotificationsPromptCard';
 import { PROMPT_DISMISS_COOKIE, shouldShowPrompt } from '@/lib/notifications/prompt';
 import { DAY_SOURCES } from '@/lib/xp/rules';
+import { FirstStepsCard } from '@/components/welcome/FirstStepsCard';
 
 /** Página de um dia do diário (hoje ou passado). */
 export async function DayPage({ date }: { date: DateISO }) {
@@ -71,6 +72,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         nextHref={isToday ? null : compareDates(addDays(date, 1), today) === 0 ? '/today' : `/day/${addDays(date, 1)}`}
         isToday={isToday}
       />
+      {isToday && <FirstStepsCard userId={userId} today={today} />}
       <DailyHeader
         date={date}
         dateLabel={longDate}

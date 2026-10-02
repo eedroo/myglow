@@ -1,0 +1,73 @@
+/* FeedbackDialog (F10) */
+
+.mg-feedback {
+  display: inline-flex;
+}
+
+.mg-feedback--link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.mg-feedback--link:hover {
+  color: var(--gold-accent);
+}
+
+.mg-feedback__footer {
+  display: flex;
+  justify-content: center;
+}
+
+.mg-feedback__dialog {
+  width: min(calc(100% - var(--space-6)), 480px);
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--gold-500);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-solid);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+}
+
+.mg-feedback__dialog::backdrop {
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.mg-feedback__title {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+}
+
+.mg-feedback__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mg-feedback__message {
+  min-height: 120px;
+  padding: var(--space-3);
+  resize: vertical;
+}
+
+.mg-feedback__thanks {
+  margin: 0 0 var(--space-4);
+  color: var(--text-secondary);
+}
+
+.mg-feedback__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}

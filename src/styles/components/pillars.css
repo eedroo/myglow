@@ -1,0 +1,44 @@
+/* Pillars (F10): Diário · Planner · Grimório */
+
+.mg-pillars {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-pillars__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-card);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.mg-pillars__icon {
+  display: inline-flex;
+}
+
+.mg-pillars__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+}
+
+.mg-pillars__text {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+@media (min-width: 768px) {
+  .mg-pillars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

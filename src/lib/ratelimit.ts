@@ -17,8 +17,10 @@ const LIMITS: Record<string, { tokens: number; window: Window }> = {
   'reset-email': { tokens: 3, window: '1 h' },
   'verify-resend': { tokens: 3, window: '1 h' },
   export: { tokens: 3, window: '1 d' },
+  invite: { tokens: 10, window: '1 h' },
+  feedback: { tokens: 5, window: '1 h' },
 };
-type LimitName = 'ai-request' | 'push-test' | 'login' | 'reset-ip' | 'reset-email' | 'verify-resend' | 'export';
+type LimitName = 'ai-request' | 'push-test' | 'login' | 'reset-ip' | 'reset-email' | 'verify-resend' | 'export' | 'invite' | 'feedback';
 
 const limiters = new Map<LimitName, Ratelimit>();
 let warned = false;
@@ -75,6 +77,15 @@ export function allowVerificationResend(userId: string): Promise<boolean> {
 
 export function allowExport(userId: string): Promise<boolean> {
   return allow('export', userId);
+}
+
+/** F10: tentativas de código de convite (10/h por IP) e feedback (5/h por utilizador). */
+export function allowInviteAttempt(ip: string): Promise<boolean> {
+  return allow('invite', ip);
+}
+
+export function allowFeedback(userId: string): Promise<boolean> {
+  return allow('feedback', userId);
 }
 
 /** IP do pedido (primeiro de `x-forwarded-for`, como na Vercel). */

@@ -159,6 +159,16 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - **Bem-estar sem consentimento** (`lib/account/consent.ts`): humor, "como acordei", sono e peso ficam desactivados no diário e na semana (nota + link para voltar a consentir) e as actions ignoram-nos ao gravar. `computeDayProgress(date, entry, { wellbeing: false })`: a manhã passa a ser intenção + banimento + ritual e a noite deixa de pedir o humor (o Glow continua a funcionar); `computePeriodStats` sem humor, sono nem peso. Retirar o consentimento pode apagar esses dados.
 - **Idade mínima 16** (`isOldEnough` em `lib/account/age.ts`): verificada no passo 1 do onboarding e na action; a conta fica no onboarding com a opção de a apagar.
 - **Documentos legais:** `content/legal/{privacy,terms}/{pt-PT,pt-BR,en}.md` (cabeçalho `version:`/`date:` + markdown mínimo: títulos, listas, links, citações), páginas públicas `/privacy` e `/terms` no grupo `(public)`; marcados como rascunho.
+### Beta, boas-vindas e página pública (Fase 10, `src/lib/beta.ts`, `src/lib/onboarding/`, `src/components/{beta,welcome,landing}/`)
+
+- **Env:** `BETA=true` mostra o selo (`BetaBadge` na `TopBar` e na landing), o aviso no registo e o link de feedback no `/today`; `BETA_INVITE_CODES` (vírgulas; trim + maiúsculas) fecha o registo por código — validado no servidor em `register` (10 tentativas/h por IP, erro genérico) e gravado em `User.inviteCode`; `FEEDBACK_EMAIL` recebe o feedback.
+- **Feedback:** `sendFeedback` (sessão, Zod, 5/h) grava `Feedback` (com página, user agent e língua; `onDelete: SetNull`) e envia `FeedbackEmail` com `replyTo` = email do utilizador. Falha de email não falha a acção.
+- **Fluxo de entrada** (`nextOnboardingStep`, puro): registo → `/onboarding` → `/welcome` (enquanto `welcomeSeenAt` é null) → `/today`. `saveBirthProfile` devolve o próximo passo. Contas antigas não são forçadas: o cartão de primeiros passos convida a ver a apresentação. `/welcome` pode ser revista (perfil, primeiros passos).
+- **Primeiros passos** (`computeFirstSteps`, puro): intenção de hoje, ≥ 1 lição, plano da semana (intenção ou metas), lembretes activos num dispositivo ou cartão de lembretes dispensado. `FirstStepsCard` no topo do `/today` some quando tudo está feito ou com "Dispensar" (`firstStepsDismissedAt`).
+- **Landing** (`/`): com sessão redirecciona para `/today`; sem sessão `LandingPage` (rota pública no middleware). Língua: cookie `NEXT_LOCALE` → `Accept-Language` → pt-PT (`LocaleSwitcher` grava o cookie). Sem sessão o tema segue o sistema. `AppPreview` usa as classes reais dos componentes com dados de exemplo (markup estático, sem DB nem hooks).
+- **SEO:** `metadataBase` = `APP_URL`; metadata e Open Graph por língua em `/`; `opengraph-image.tsx` (`next/og`; cores em constantes, como nos emails); `sitemap.ts` (`/`, `/privacy`, `/terms`); `robots.ts` bloqueia a app e `/api`. `robots.txt`, `sitemap.xml` e `opengraph-image` estão fora do middleware.
+- **Testes:** a partir desta fase só Vitest (+ verificação manual); os e2e Playwright existentes ficam no repositório mas fora da verificação.
+
 - Rotas abertas com ou sem sessão (middleware): `/forgot-password`, `/reset-password`, `/verify-email`, `/confirm-email-change`, `/privacy`, `/terms`, `/goodbye`.
 
 ## i18n
@@ -207,6 +217,7 @@ src/styles/                 tokens, base, components/*
    - `DATABASE_URL`, `DIRECT_URL` (do Neon)
    - `AUTH_SECRET` (`openssl rand -base64 32`)
    - `AUTH_URL` não é necessário na Vercel (`trustHost: true`).
+   - F10: `BETA`, `BETA_INVITE_CODES`, `FEEDBACK_EMAIL`.
    - F9: `RESEND_API_KEY`, `EMAIL_FROM` (domínio verificado no Resend), `EMAIL_REPLY_TO`, `APP_URL` (links dos emails), `LEGAL_TERMS_VERSION`, `LEGAL_PRIVACY_VERSION`.
 3. O script `vercel-build` corre `prisma generate && prisma migrate deploy && next build`: as migrações são aplicadas ao Neon em cada deploy.
 4. Verificar: registo → onboarding (pesquisa de local via Open-Meteo) → `/today`; Lighthouse → PWA instalável.

@@ -1,0 +1,27 @@
+/* LocaleSwitcher (F10): PT · BR · EN */
+
+.mg-locale-switcher {
+  display: inline-flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+}
+
+.mg-locale-switcher__option {
+  min-width: 36px;
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  cursor: pointer;
+}
+
+.mg-locale-switcher__option--active {
+  background: var(--gold-gradient-soft);
+  color: var(--text-on-gold);
+}

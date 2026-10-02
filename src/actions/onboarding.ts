@@ -8,6 +8,7 @@ import { toBirthUtc } from '@/lib/birth';
 import { computeNatalChart } from '@/lib/astro/natal';
 import { toDbDate, todayInTz } from '@/lib/dates';
 import { isOldEnough, MIN_AGE } from '@/lib/account/age';
+import { nextOnboardingStep } from '@/lib/onboarding/flow';
 import { guessHemisphere } from '@/lib/hemisphere';
 import { birthProfileSchema, type BirthProfileInput } from '@/lib/validation/onboarding';
 import { currentUserJobs } from '@/lib/ai/schedule';
@@ -16,7 +17,7 @@ import { sendSafely, userEvents } from '@/inngest/client';
 export type BirthField = 'birthDate' | 'birthTime' | 'placeName' | 'timezone';
 
 export type SaveBirthProfileResult =
-  | { ok: true }
+  | { ok: true; next: '/welcome' | '/today' | '/settings' }
   | { ok: false; formError?: string; fieldErrors?: Partial<Record<BirthField, string>>; underage?: boolean };
 
 const FIELD_ERRORS: Record<string, [BirthField, string]> = {
@@ -85,7 +86,7 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
   };
 
   const userId = session.user.id;
-  const existing = await db.user.findUnique({ where: { id: userId }, select: { onboardedAt: true, locale: true } });
+  const existing = await db.user.findUnique({ where: { id: userId }, select: { onboardedAt: true, locale: true, welcomeSeenAt: true } });
 
   await db.$transaction([
     db.birthProfile.upsert({
@@ -107,5 +108,8 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
     await sendSafely(userEvents(userId, existing.locale, currentUserJobs(new Date(), userTimezone)));
   }
 
-  return { ok: true };
+  // F10: registo → nascimento → apresentação → hoje (a edição posterior volta às definições).
+  if (existing?.onboardedAt) return { ok: true, next: '/settings' };
+  const step = nextOnboardingStep({ onboardedAt: new Date(), welcomeSeenAt: existing?.welcomeSeenAt ?? null });
+  return { ok: true, next: step === 'welcome' ? '/welcome' : '/today' };
 }

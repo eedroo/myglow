@@ -107,7 +107,7 @@ export function OnboardingForm({ initial, isEdit, geocodeLang, maxDate, confirmW
       }
       // Com argumento → POST → jwt({ trigger: "update" }) relê a DB (sem argumento é só um GET).
       await update({});
-      router.replace(isEdit ? '/settings' : '/today');
+      router.replace(isEdit ? '/settings' : result.next);
       router.refresh();
     });
   }

@@ -16,13 +16,15 @@ export interface EmailMessage {
   to: string;
   subject: string;
   react: ReactElement;
-  tag: EmailKind;
+  tag: EmailKind | 'feedback';
+  /** Por defeito `EMAIL_REPLY_TO`; o feedback responde directamente ao utilizador. */
+  replyTo?: string;
 }
 
 export interface CapturedEmail {
   to: string;
   subject: string;
-  tag: EmailKind;
+  tag: EmailMessage['tag'];
   html: string;
   text: string;
   sentAt: string;
@@ -60,7 +62,7 @@ export async function sendEmail(msg: EmailMessage): Promise<{ ok: boolean }> {
     const { error } = await resend.emails.send({
       from: env.EMAIL_FROM,
       to: msg.to,
-      replyTo: env.EMAIL_REPLY_TO,
+      replyTo: msg.replyTo ?? env.EMAIL_REPLY_TO,
       subject: msg.subject,
       html,
       text,

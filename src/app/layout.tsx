@@ -8,6 +8,7 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { AuthSessionProvider } from '@/components/providers/AuthSessionProvider';
 import { ServiceWorkerRegister } from '@/components/providers/ServiceWorkerRegister';
 import { SYSTEM_COLORS, prefToNextTheme } from '@/lib/theme';
+import { appUrl } from '@/lib/env';
 import '@/styles/index.css';
 
 const cormorant = Cormorant_Garamond({
@@ -29,6 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('common');
   const appName = t('appName');
   return {
+    metadataBase: new URL(appUrl()),
     title: { default: appName, template: `%s · ${appName}` },
     description: t('description'),
     applicationName: appName,
@@ -56,7 +58,8 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const [locale, messages, session] = await Promise.all([getLocale(), getMessages(), auth()]);
-  const defaultTheme = session?.user ? prefToNextTheme(session.user.theme) : 'light';
+  // F10: sem sessão (página pública, login, registo) segue o tema do sistema.
+  const defaultTheme = session?.user ? prefToNextTheme(session.user.theme) : 'system';
 
   return (
     <html lang={locale} className={`${cormorant.variable} ${jost.variable}`} suppressHydrationWarning>

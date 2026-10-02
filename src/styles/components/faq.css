@@ -1,0 +1,33 @@
+/* Faq (F10): acordeão com <details> */
+
+.mg-faq {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mg-faq__item {
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+}
+
+.mg-faq__question {
+  padding: var(--space-4);
+  cursor: pointer;
+  font-weight: var(--weight-medium);
+}
+
+.mg-faq__item[open] .mg-faq__question {
+  color: var(--gold-accent);
+}
+
+.mg-faq__answer {
+  margin: 0;
+  padding: 0 var(--space-4) var(--space-4);
+  color: var(--text-secondary);
+}
+
+.mg-faq__answer a {
+  color: var(--gold-accent);
+}

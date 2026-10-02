@@ -1,0 +1,128 @@
+/* LandingPage (F10): página pública — uma ideia por secção, máximo 1120 px */
+
+.mg-landing {
+  position: relative;
+  z-index: var(--z-content);
+  min-height: 100dvh;
+  overflow-x: clip;
+  color: var(--text-primary);
+}
+
+.mg-landing__section {
+  padding: var(--space-7) var(--space-4);
+}
+
+.mg-landing__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.mg-landing__inner--center {
+  align-items: center;
+  text-align: center;
+}
+
+.mg-landing__eyebrow {
+  margin: 0;
+  color: var(--gold-accent);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.mg-landing__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+}
+
+.mg-landing__lead {
+  margin: 0;
+  max-width: 60ch;
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+}
+
+.mg-landing__note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.mg-landing__steps,
+.mg-landing__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-landing__step,
+.mg-landing__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  color: var(--text-secondary);
+}
+
+.mg-landing__step strong,
+.mg-landing__list strong {
+  color: var(--text-primary);
+  font-weight: var(--weight-medium);
+}
+
+.mg-landing__levels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-landing__level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.mg-landing__cta {
+  align-items: center;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .mg-landing__title {
+    font-size: var(--text-3xl);
+  }
+}
+
+/* Texto e pré-visualização lado a lado a partir de 1024 px */
+@media (min-width: 1024px) {
+  .mg-landing__section {
+    padding: calc(var(--space-7) * 1.5) var(--space-6);
+  }
+
+  .mg-landing__section--split .mg-landing__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-7);
+  }
+
+  .mg-landing__section--reverse .mg-landing__inner > :first-child {
+    order: 2;
+  }
+}

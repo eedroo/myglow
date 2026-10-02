@@ -1,0 +1,51 @@
+/* FirstStepsCard (F10): "Os teus primeiros passos" no /today */
+
+.mg-first-steps__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-first-steps__step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-primary);
+}
+
+.mg-first-steps__step--done {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--gold-500);
+}
+
+.mg-first-steps__check {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: var(--border-width) solid var(--gold-500);
+  border-radius: var(--radius-pill);
+  color: var(--text-on-gold);
+}
+
+.mg-first-steps__step--done .mg-first-steps__check {
+  background: var(--gold-gradient);
+}
+
+.mg-first-steps__link {
+  color: var(--gold-accent);
+}
+
+.mg-first-steps__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}

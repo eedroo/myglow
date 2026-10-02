@@ -634,7 +634,7 @@
       },
       "sun": {
         "name": "Sun",
-        "phrase": "Your presence warms every day."
+        "phrase": "Your glow warms every day."
       },
       "constellation": {
         "name": "Constellation",
@@ -963,7 +963,8 @@
       "empty": "Badges appear when you complete courses in the Grimoire."
     },
     "profile": {
-      "settings": "Settings"
+      "settings": "Settings",
+      "welcomeAgain": "Replay the tour"
     },
     "errors": {
       "invalid": "Couldn't save. Please try again."
@@ -1027,6 +1028,16 @@
       "title": "Account deleted",
       "body": "Your account and all your data have been deleted, as you asked.",
       "thanks": "Thank you for being part of MYGLOW. If you ever want to come back, the door is open."
+    },
+    "feedback": {
+      "preview": "[MYGLOW beta] {kind}",
+      "title": "Feedback · {kind}",
+      "reply": "Replying to this email goes straight to {name} ({email}).",
+      "footer": "MYGLOW · beta feedback",
+      "from": "From: {name} <{email}>",
+      "page": "Page: {path}",
+      "locale": "Language: {locale}",
+      "browser": "Browser: {ua}"
     }
   },
   "account": {
@@ -1174,5 +1185,230 @@
     "termsTitle": "Terms of Use",
     "meta": "Version {version} · {date}",
     "back": "Back to MYGLOW"
+  },
+  "beta": {
+    "badge": "beta",
+    "badgeTitle": "Beta version",
+    "notice": "MYGLOW is in beta. You may run into bugs and changes while we fine-tune everything — your feedback helps us improve.",
+    "invite": {
+      "label": "Invite code",
+      "hint": "During the beta, sign-up is by invitation.",
+      "invalid": "Invalid code."
+    }
+  },
+  "feedback": {
+    "open": "Send feedback",
+    "title": "Send feedback",
+    "kind": "Type",
+    "kinds": {
+      "BUG": "Problem",
+      "IDEA": "Idea",
+      "PRAISE": "Praise",
+      "OTHER": "Other"
+    },
+    "message": "Message",
+    "placeholder": "Tell us what happened, what you'd love to see, or what made you smile.",
+    "send": "Send",
+    "thanks": "Thank you! We read everything.",
+    "errors": {
+      "invalid": "Write at least 5 characters (2000 max).",
+      "rateLimited": "You've sent several messages in the last hour. Please try again later."
+    }
+  },
+  "welcome": {
+    "label": "Welcome to MYGLOW",
+    "roledescription": "tour",
+    "slide": "screen",
+    "position": "{n} of {total}",
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Next",
+    "start": "Start my first day",
+    "slides": {
+      "0": {
+        "title": "Your day, with intention",
+        "text": "In the morning you choose your intention. At night you close the day with gratitude and reflection. In between, you look after your body."
+      },
+      "1": {
+        "title": "Plan with the sky",
+        "text": "Week, month and year in one place, with the Moon, the signs and the magical dates alongside your plans."
+      },
+      "2": {
+        "title": "Learn at your own pace",
+        "text": "The Grimoire teaches you, in short lessons, everything the app uses: rituals, elements, the Moon, signs and much more."
+      },
+      "3": {
+        "title": "Earn Glow",
+        "text": "Every act of self-care lights you up. Level up from Seed to Constellation — no guilt, no rush."
+      }
+    }
+  },
+  "firstSteps": {
+    "title": "Your first steps",
+    "done": "done",
+    "steps": {
+      "intention": "Write today's intention",
+      "lesson": "Take your first Grimoire lesson",
+      "week": "Plan your week",
+      "install": "Turn on reminders or install the app"
+    },
+    "seeTour": "See the tour",
+    "reviewTour": "Replay the tour",
+    "dismiss": "Dismiss"
+  },
+  "landing": {
+    "meta": {
+      "title": "MYGLOW — magical journal, planner and grimoire",
+      "description": "Open and close each day with intention, follow the Moon and learn magic at your own pace. A journal, planner and astrological grimoire in one place."
+    },
+    "nav": {
+      "login": "Sign in",
+      "register": "Create account"
+    },
+    "locale": {
+      "label": "Language",
+      "pt-PT": "Português (Portugal)",
+      "pt-BR": "Português (Brasil)",
+      "en": "English"
+    },
+    "hero": {
+      "title": "Your magical journal, planner and grimoire — all in one place.",
+      "lead": "Open and close each day with intention, follow the Moon and learn magic at your own pace.",
+      "cta": "Create a free account",
+      "login": "I already have an account"
+    },
+    "pillars": {
+      "title": "Three books in one",
+      "journal": {
+        "title": "Journal",
+        "text": "Morning, body and night: small rituals that give shape to your day."
+      },
+      "planner": {
+        "title": "Planner",
+        "text": "Week, month and year with the Moon, the signs and the magical dates."
+      },
+      "grimoire": {
+        "title": "Grimoire",
+        "text": "Short lessons on rituals, elements, planets and crystals."
+      }
+    },
+    "day": {
+      "eyebrow": "Rhythm",
+      "title": "A MYGLOW day",
+      "morning": {
+        "title": "Morning.",
+        "text": "Choose your intention, do a small banishing and a ritual."
+      },
+      "body": {
+        "title": "Body.",
+        "text": "Water, stretching and movement, kept simple."
+      },
+      "night": {
+        "title": "Night.",
+        "text": "Gratitude, mood and a reflection to close the day."
+      }
+    },
+    "sky": {
+      "eyebrow": "Astrology",
+      "title": "The sky, calculated for you",
+      "moon": {
+        "title": "Today's Moon.",
+        "text": "Phase and sign, with the exact time of every change."
+      },
+      "chart": {
+        "title": "Your natal chart.",
+        "text": "Calculated from your birth date, time and place."
+      },
+      "readings": {
+        "title": "Personal readings.",
+        "text": "Your day, week and month in the light of transits to your chart."
+      },
+      "rituals": {
+        "title": "Monthly rituals.",
+        "text": "Simple, safe suggestions for the dates that matter."
+      },
+      "note": "For inspiration and reflection."
+    },
+    "grimoire": {
+      "eyebrow": "Grimoire",
+      "title": "Learn by doing",
+      "map": "A map of short lessons, from the basics to advanced.",
+      "daily": "Three new lessons a day, with reviews so you don't forget.",
+      "badges": "A badge for every course you complete."
+    },
+    "glow": {
+      "eyebrow": "Glow",
+      "title": "Every act of care lights you up",
+      "text": "Earn Glow by looking after yourself and level up at your own pace.",
+      "note": "No guilt: you never lose Glow."
+    },
+    "install": {
+      "title": "Install it on your phone",
+      "text": "MYGLOW works like an app, with gentle reminders so you never lose the thread of your day.",
+      "iphone": "On iPhone: open it in Safari, tap Share and choose “Add to Home Screen”."
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "privacyLink": "Read the Privacy Policy.",
+      "free": {
+        "q": "Is it free?",
+        "a": "Yes, during the beta."
+      },
+      "astrology": {
+        "q": "Do I need to know astrology?",
+        "a": "No — the Grimoire teaches you everything the app uses, in short lessons."
+      },
+      "privacy": {
+        "q": "Are my entries private?",
+        "a": "Yes. Your reflections, gratitude and notes are never sent to AI services; readings only use the sky and your natal chart."
+      },
+      "devices": {
+        "q": "Does it work on iPhone and Android?",
+        "a": "Yes. Open MYGLOW in your browser and add it to your home screen; it also works on desktop."
+      },
+      "beta": {
+        "q": "What does “beta” mean?",
+        "a": "MYGLOW is ready to use, but we're still fine-tuning it. There may be bugs and changes — and your feedback really matters."
+      }
+    },
+    "cta": {
+      "title": "Start today, with an intention."
+    },
+    "footer": {
+      "made": "MYGLOW · an Onda project",
+      "label": "Links",
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "contact": "privacidade@onda.work"
+    },
+    "preview": {
+      "today": {
+        "caption": "Your day",
+        "moon": "Moon phases",
+        "intentionLabel": "Today's intention",
+        "intention": "Do everything calmly and with care.",
+        "banish": "Morning banishing",
+        "ritual": "Morning ritual",
+        "sleep": "Slept 7 h",
+        "mood": "How I woke up"
+      },
+      "week": {
+        "caption": "Your week",
+        "title": "Week 1 · October",
+        "d0": "Sun",
+        "d1": "Mon",
+        "d2": "Tue",
+        "d3": "Wed",
+        "t0": "New Moon ritual",
+        "t1": "Start the crystals course",
+        "t2": "Workout and a walk",
+        "t3": "Plan the month"
+      },
+      "grimoire": {
+        "caption": "The Grimoire",
+        "course": "Your magical life",
+        "progress": "2 / 6 lessons"
+      }
+    }
   }
 }

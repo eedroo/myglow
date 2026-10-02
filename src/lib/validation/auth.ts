@@ -10,6 +10,13 @@ export const registerSchema = z.object({
   wellbeingConsent: z.literal(true),
 });
 
+/** F10: com `BETA_INVITE_CODES` o código de convite é obrigatório (a validade é verificada em `register`). */
+export function registerSchemaFor(opts: { inviteRequired: boolean }) {
+  return registerSchema.extend({
+    inviteCode: opts.inviteRequired ? z.string().trim().min(1).max(40) : z.string().trim().max(40).optional(),
+  });
+}
+
 export const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email(),
   password: z.string().min(1),

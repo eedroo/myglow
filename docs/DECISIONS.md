@@ -84,6 +84,16 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Consentimento explícito para dados de bem-estar (humor, sono, peso), retirável; sem ele esses campos ficam desactivados e o progresso e as estatísticas ignoram-nos.
 - Idade mínima 16 anos.
 - Versões dos Termos e da Política de Privacidade com re-aceitação quando mudam.
+- Textos legais são rascunho até revisão jurídica. Responsável pelos dados: Onda (não "Onda Digital").
+- Domínio: `myglow.onda.work` (app e remetente `ola@myglow.onda.work`); respostas para uma caixa em `onda.work`. Mudar de domínio mais tarde obriga a reinstalar a app e a reactivar notificações.
+
+## Beta (Fase 10)
+- Beta controlado por `BETA`: selo "beta" junto ao logo e aviso discreto no registo, junto aos termos.
+- Registo opcional por código de convite (`BETA_INVITE_CODES`, vazio = aberto; `/register?convite=` pré-preenche).
+- Feedback na app: gravado (`Feedback`) e enviado por email para `FEEDBACK_EMAIL`, com resposta directa ao utilizador.
+- Fluxo: registo → nascimento → apresentação (4 ecrãs) → hoje, com cartão de primeiros passos calculado a partir dos dados reais.
+- Landing pública em `/` (sem sessão), com pré-visualizações da app em markup estático.
+- Testes: a partir da Fase 10 só Vitest + lista de verificação manual; sem novos testes Playwright (os existentes ficam no repositório, fora da verificação das fases).
 
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.

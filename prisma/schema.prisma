@@ -142,6 +142,10 @@ model User {
   termsVersion       String? // ex.: "2026-10"
   privacyVersion     String?
   wellbeingConsentAt DateTime? // consentimento explícito para dados de bem-estar (humor, sono, peso)
+  // F10: boas-vindas e beta
+  welcomeSeenAt         DateTime?
+  firstStepsDismissedAt DateTime?
+  inviteCode            String? // código de convite usado no registo
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
 
@@ -161,6 +165,27 @@ model User {
   pushSubscriptions PushSubscription[]
   notificationLogs  NotificationLog[]
   authTokens        AuthToken[]
+  feedback          Feedback[]
+}
+
+enum FeedbackKind {
+  BUG
+  IDEA
+  PRAISE
+  OTHER
+}
+
+// Feedback do beta (F10): gravado e enviado por email; fica mesmo que a conta seja apagada (sem utilizador).
+model Feedback {
+  id        String       @id @default(cuid())
+  userId    String?
+  user      User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  kind      FeedbackKind
+  message   String
+  path      String? // página de onde foi enviado
+  userAgent String?
+  locale    String?
+  createdAt DateTime     @default(now())
 }
 
 enum AuthTokenType {

@@ -18,7 +18,7 @@ export function IntentionCard({ value, onChange, onBlur, suggestion }: Intention
   const t = useTranslations('day.intention');
   const tr = useTranslations('reading');
   return (
-    <GlassCard className="mg-intention">
+    <GlassCard id="intencao" className="mg-intention">
       <label htmlFor="day-intention" className="mg-intention__head">
         <MagicIcon name="sparkles" size="sm" decorative />
         <span className="mg-intention__label">{t('label')}</span>

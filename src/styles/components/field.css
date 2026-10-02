@@ -63,7 +63,7 @@
 
 .mg-checkbox--top input {
   flex: none;
-  margin-top: 2px;
+  margin-top: calc(var(--space-1) / 2);
 }
 
 .mg-checkbox a {

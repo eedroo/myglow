@@ -59,3 +59,11 @@
   outline: none;
   box-shadow: var(--focus-ring);
 }
+
+/* F10: feedback e rever a apresentação */
+.mg-journey__extras {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}

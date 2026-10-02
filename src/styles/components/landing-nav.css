@@ -1,0 +1,36 @@
+/* LandingNav (F10) */
+
+.mg-landing-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.mg-landing-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-logo);
+  text-decoration: none;
+}
+
+.mg-landing-nav__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+@media (max-width: 479px) {
+  .mg-landing-nav__actions .mg-locale-switcher {
+    display: none;
+  }
+}

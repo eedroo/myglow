@@ -13,5 +13,6 @@ Lê `docs/DECISIONS.md` e `docs/COMPONENTS.md` antes de implementar qualquer coi
 - Texto visível só em `messages/pt-PT.json`, `pt-BR.json`, `en.json`, escrito de forma nativa em cada língua.
 - Ícones mágicos via `MagicIcon` (`src/lib/icons.ts`); lucide directo só para ícones de UI de linha.
 - Alterações cirúrgicas: nunca reescrever ficheiros inteiros existentes.
-- Commits: um commit único por fase, no fim, com `vitest`, `tsc --noEmit`, build e Playwright a passar (ex.: `feat(fase-4): planner mensal, anual e céu do grimório`).
+- Commits: um commit único por fase, no fim, com `vitest`, `tsc --noEmit` e build a passar (ex.: `feat(fase-4): planner mensal, anual e céu do grimório`).
+- Testes: a partir da Fase 10 só Vitest + lista de verificação manual. Não escrever nem correr Playwright (os e2e existentes ficam no repositório, fora da verificação).
 - `docs/DECISIONS.md` é uma cópia: não mudar regras por iniciativa própria; só acrescentar o que o prompt da fase indicar.

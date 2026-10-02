@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { useLocale, useTranslations } from 'next-intl';
 import { register, type AuthFormState } from '@/actions/auth';
@@ -20,7 +21,14 @@ function SubmitButton() {
   );
 }
 
-export function RegisterForm() {
+interface RegisterFormProps {
+  /** F10: aviso de beta (por cima dos consentimentos). */
+  betaNotice?: ReactNode;
+  /** F10: código de convite obrigatório (`BETA_INVITE_CODES`); `initial` vem de `?convite=`. */
+  invite?: { initial: string } | null;
+}
+
+export function RegisterForm({ betaNotice, invite }: RegisterFormProps) {
   const t = useTranslations();
   const locale = useLocale();
   const [state, action] = useFormState<AuthFormState, FormData>(register, {});
@@ -84,6 +92,22 @@ export function RegisterForm() {
         defaultValue={defaultLocale}
         options={DB_LOCALES.map((value) => ({ value, label: t(`settings.languageOptions.${value}`) }))}
       />
+      {invite && (
+        <Field id="register-invite" label={t('beta.invite.label')} hint={t('beta.invite.hint')} error={err(errors.inviteCode)}>
+          <TextInput
+            id="register-invite"
+            name="inviteCode"
+            defaultValue={invite.initial}
+            autoComplete="off"
+            autoCapitalize="characters"
+            maxLength={40}
+            invalid={!!errors.inviteCode}
+            aria-describedby={describedBy('register-invite', { hint: t('beta.invite.hint'), error: errors.inviteCode })}
+            required
+          />
+        </Field>
+      )}
+      {betaNotice}
       <div className="mg-field">
         <label className="mg-checkbox mg-checkbox--top">
           <input type="checkbox" name="acceptTerms" required aria-invalid={!!errors.acceptTerms || undefined} aria-describedby={errors.acceptTerms ? 'register-terms-error' : undefined} />

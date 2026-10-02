@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { loginSchema, registerSchema } from './auth';
+import { loginSchema, registerSchema, registerSchemaFor } from './auth';
 
 const valid = { name: 'Ana Luz', email: 'ana@example.com', password: 'segredo123', locale: 'PT_PT', acceptTerms: true, wellbeingConsent: true };
 
@@ -54,5 +54,17 @@ describe('loginSchema', () => {
 
   it('rejeita password vazia', () => {
     expect(loginSchema.safeParse({ email: 'ana@example.com', password: '' }).success).toBe(false);
+  });
+});
+
+describe('registerSchemaFor (convite, F10)', () => {
+  it('com convite obrigatório, registo sem código falha', () => {
+    expect(registerSchemaFor({ inviteRequired: true }).safeParse(valid).success).toBe(false);
+    expect(registerSchemaFor({ inviteRequired: true }).safeParse({ ...valid, inviteCode: '  ' }).success).toBe(false);
+    expect(registerSchemaFor({ inviteRequired: true }).safeParse({ ...valid, inviteCode: 'GLOW2026' }).success).toBe(true);
+  });
+
+  it('sem convite obrigatório o código é opcional', () => {
+    expect(registerSchemaFor({ inviteRequired: false }).safeParse(valid).success).toBe(true);
   });
 });

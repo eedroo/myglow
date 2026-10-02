@@ -96,3 +96,16 @@
 @import './components/policy-dialog.css';
 @import './components/goodbye.css';
 @import './components/legal.css';
+@import './components/landing.css';
+@import './components/landing-nav.css';
+@import './components/landing-hero.css';
+@import './components/pillars.css';
+@import './components/preview.css';
+@import './components/faq.css';
+@import './components/landing-footer.css';
+@import './components/locale-switcher.css';
+@import './components/welcome.css';
+@import './components/first-steps.css';
+@import './components/beta-badge.css';
+@import './components/beta-notice.css';
+@import './components/feedback.css';

@@ -415,3 +415,31 @@ Rotas novas: `(auth)/forgot-password`, `reset-password`, `verify-email`, `confir
 | Layouts | server | `legal.css`, `settings-nav.css` | `mg-public`, `__header`, `__brand` · `mg-settings`, `__sections`, `__section` | grupo `(public)` (marca + "Voltar", sem login) · grelha das definições (índice + secções; 2 colunas a partir de 1024 px) |
 | `GoodbyePage` (página) | server | `goodbye.css` | `mg-goodbye`, `__icon`, `__title`, `__text` | `/goodbye`: "A tua conta foi apagada. Obrigada por teres feito parte." + link para a página inicial |
 
+
+### Beta, boas-vindas e página pública — F10 (`src/components/beta/`, `welcome/`, `landing/`)
+
+Textos em `beta`, `feedback`, `welcome`, `firstSteps` e `landing`. O beta só aparece com `BETA=true`.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `BetaBadge` | server | `beta-badge.css` | `mg-beta-badge` | pílula pequena "beta" ao lado do logo (`TopBar`, `LandingNav`) |
+| `BetaNotice` | server | `beta-notice.css` | `mg-beta-notice`, `__icon`, `__text` | registo, por cima das caixas de consentimento: `sparkles` pequeno + texto secundário, sem caixa |
+| `FeedbackDialog` | client | `feedback.css` | `mg-feedback`, `__dialog`, `__title`, `__form`, `__thanks`, `__actions`, `--link` | botão (ou link discreto `--link`) que abre um `<dialog>`: tipo (Problema · Ideia · Elogio · Outro, `SegmentedControl`), mensagem, enviar → `sendFeedback`; depois "Obrigada! Lemos tudo." |
+| `WelcomeTour` | client | `welcome.css` | `mg-welcome`, `__skip`, `__slide`, `--active`, `__art`, `__title`, `__text`, `__dots`, `__dot`, `--current`, `__actions` | `/welcome`, ecrã inteiro: 4 slides (swipe, setas, teclado), pontos de progresso, "Saltar"; o último botão e "Saltar" → `markWelcomeSeen` → `/today` |
+| `FirstStepsCard` | server | `first-steps.css` | `mg-first-steps`, `__list`, `__step`, `--done`, `__check`, `__link`, `__footer` | topo do `/today`: 4 passos com ✓ (intenção de hoje, primeira lição, plano da semana, lembretes/instalação); "Dispensar" (`dismissFirstSteps`) e "Rever a apresentação"; some quando tudo está feito |
+| `LandingPage` | server | `landing.css` | `mg-landing`, `__section`, `__inner`, `--split`, `--reverse`, `__eyebrow`, `__title`, `__lead`, `__text`, `__note` | `/` sem sessão: compõe as secções abaixo (coluna única no telemóvel; texto/pré-visualização lado a lado a partir de 1024 px; máximo 1120 px) |
+| `LandingNav` | server | `landing-nav.css` | `mg-landing-nav`, `__brand`, `__actions` | logo + `BetaBadge`, `LocaleSwitcher`, "Entrar" (ghost) e "Criar conta" (primary) |
+| `Hero` | server | `landing-hero.css` | `mg-landing-hero`, `__copy`, `__title`, `__lead`, `__actions` | título, subtítulo, "Criar conta grátis" / "Já tenho conta" + `AppPreview today` |
+| `Pillars` | server | `pillars.css` | `mg-pillars`, `__card`, `__icon`, `__title`, `__text` | Diário · Planner · Grimório |
+| `DayRhythm` | server | `landing.css` | `mg-landing__steps`, `__step` | Manhã · Corpo · Noite + `AppPreview week` |
+| `SkySection` | server | `landing.css` | `mg-landing__list` | Lua do dia, mapa natal, leituras pessoais, rituais do mês + nota "Para inspiração e reflexão." |
+| `GrimoireSection` | server | `landing.css` | `mg-landing__list` | lições, 3 por dia, emblemas + `AppPreview grimoire` |
+| `GlowSection` | server | `landing.css` | `mg-landing__levels`, `__level` | os 7 níveis (ícones `level-1…7`) + "Sem culpa: nunca perdes Glow." |
+| `InstallSection` | server | `landing.css` | — | instalar no telemóvel + `InstallButton` + nota para iPhone |
+| `Faq` | server | `faq.css` | `mg-faq`, `__item`, `__question`, `__answer` | acordeão `<details>` |
+| `FinalCta` | server | `landing.css` | `mg-landing__cta` | "Começa hoje, com uma intenção." + botão + `Motto` |
+| `LandingFooter` | server | `landing-footer.css` | `mg-landing-footer`, `__links` | "MYGLOW · um projecto Onda", Termos, Privacidade, contacto, `LocaleSwitcher` |
+| `LocaleSwitcher` | client | `locale-switcher.css` | `mg-locale-switcher`, `__option`, `--active` | PT · BR · EN: grava o cookie `NEXT_LOCALE` e faz `router.refresh()` |
+| `AppPreview` | server | `preview.css` | `mg-preview`, `__frame`, `__screen`, `__label` | moldura de telemóvel em CSS com markup estático (primitivos reais com dados de exemplo, `aria-hidden`, sem DB nem hooks): `today` (lua, intenção, 3 `CheckTile`, humor 4), `week` (dias com progresso), `grimoire` (região + 4 `LessonNode`) |
+
+Integração F10: `TopBar` mostra `BetaBadge` junto ao logo; `/profile` ganhou `FeedbackDialog` e "Rever a apresentação" (`mg-journey__extras`); as definições têm `FeedbackDialog` na secção Privacidade; `/today` tem o link discreto de feedback por baixo do `Motto` (`mg-feedback__footer`); `IntentionCard` tem `id="intencao"` (âncora dos primeiros passos); `RegisterForm` aceita `betaNotice` e `invite`.

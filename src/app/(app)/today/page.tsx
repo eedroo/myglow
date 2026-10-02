@@ -6,6 +6,8 @@ import { db } from '@/lib/db';
 import { todayInTz } from '@/lib/dates';
 import { DayPage } from '@/components/day/DayPage';
 import { Motto } from '@/components/ui/Motto';
+import { FeedbackDialog } from '@/components/beta/FeedbackDialog';
+import { isBeta } from '@/lib/env';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('shell.pages.today');
@@ -25,6 +27,11 @@ export default async function TodayPage() {
     <>
       <DayPage date={today} />
       <Motto text={tc('motto')} />
+      {isBeta() && (
+        <div className="mg-feedback__footer">
+          <FeedbackDialog variant="link" />
+        </div>
+      )}
     </>
   );
 }

@@ -634,7 +634,7 @@
       },
       "sun": {
         "name": "Sol",
-        "phrase": "Sua presença aquece cada dia."
+        "phrase": "Seu brilho aquece cada dia."
       },
       "constellation": {
         "name": "Constelação",
@@ -963,7 +963,8 @@
       "empty": "Os emblemas aparecem quando você concluir cursos no Grimório."
     },
     "profile": {
-      "settings": "Configurações"
+      "settings": "Configurações",
+      "welcomeAgain": "Rever a apresentação"
     },
     "errors": {
       "invalid": "Não foi possível salvar. Tente de novo."
@@ -1027,6 +1028,16 @@
       "title": "Conta apagada",
       "body": "Sua conta e todos os seus dados foram apagados, como você pediu.",
       "thanks": "Obrigada por ter feito parte do MYGLOW. Se um dia quiser voltar, a porta está aberta."
+    },
+    "feedback": {
+      "preview": "[MYGLOW beta] {kind}",
+      "title": "Feedback · {kind}",
+      "reply": "Responder a este e-mail responde diretamente para {name} ({email}).",
+      "footer": "MYGLOW · feedback do beta",
+      "from": "De: {name} <{email}>",
+      "page": "Página: {path}",
+      "locale": "Idioma: {locale}",
+      "browser": "Navegador: {ua}"
     }
   },
   "account": {
@@ -1174,5 +1185,230 @@
     "termsTitle": "Termos de Uso",
     "meta": "Versão {version} · {date}",
     "back": "Voltar para o MYGLOW"
+  },
+  "beta": {
+    "badge": "beta",
+    "badgeTitle": "Versão beta",
+    "notice": "O MYGLOW está em versão beta. Pode haver falhas e mudanças enquanto ajustamos tudo — seu feedback ajuda a gente a melhorar.",
+    "invite": {
+      "label": "Código de convite",
+      "hint": "Durante o beta, a entrada é por convite.",
+      "invalid": "Código inválido."
+    }
+  },
+  "feedback": {
+    "open": "Enviar feedback",
+    "title": "Enviar feedback",
+    "kind": "Tipo",
+    "kinds": {
+      "BUG": "Problema",
+      "IDEA": "Ideia",
+      "PRAISE": "Elogio",
+      "OTHER": "Outro"
+    },
+    "message": "Mensagem",
+    "placeholder": "Conte o que aconteceu, o que você gostaria de ver ou o que te fez sorrir.",
+    "send": "Enviar",
+    "thanks": "Obrigada! A gente lê tudo.",
+    "errors": {
+      "invalid": "Escreva pelo menos 5 caracteres (máximo 2000).",
+      "rateLimited": "Você já enviou vários feedbacks na última hora. Tente mais tarde."
+    }
+  },
+  "welcome": {
+    "label": "Apresentação do MYGLOW",
+    "roledescription": "apresentação",
+    "slide": "tela",
+    "position": "{n} de {total}",
+    "skip": "Pular",
+    "back": "Voltar",
+    "next": "Próximo",
+    "start": "Começar meu primeiro dia",
+    "slides": {
+      "0": {
+        "title": "Seu dia, com intenção",
+        "text": "De manhã você escolhe sua intenção. À noite fecha o dia com gratidão e reflexão. No meio do caminho, cuida do corpo."
+      },
+      "1": {
+        "title": "Planeje com o céu",
+        "text": "Semana, mês e ano em um só lugar, com a Lua, os signos e as datas mágicas acompanhando seus planos."
+      },
+      "2": {
+        "title": "Aprenda no seu ritmo",
+        "text": "O Grimório ensina, em lições curtas, tudo o que o app usa: rituais, elementos, Lua, signos e muito mais."
+      },
+      "3": {
+        "title": "Ganhe Glow",
+        "text": "Cada cuidado com você acende a sua luz. Suba de nível, da Semente à Constelação — sem culpa e sem pressa."
+      }
+    }
+  },
+  "firstSteps": {
+    "title": "Seus primeiros passos",
+    "done": "feito",
+    "steps": {
+      "intention": "Escreva a intenção de hoje",
+      "lesson": "Faça sua primeira lição no Grimório",
+      "week": "Planeje sua semana",
+      "install": "Ative os lembretes ou instale o app"
+    },
+    "seeTour": "Ver a apresentação",
+    "reviewTour": "Rever a apresentação",
+    "dismiss": "Dispensar"
+  },
+  "landing": {
+    "meta": {
+      "title": "MYGLOW — diário mágico, planner e grimório",
+      "description": "Abra e feche cada dia com intenção, acompanhe a Lua e aprenda magia no seu ritmo. Diário, planner e grimório astrológico em um só lugar."
+    },
+    "nav": {
+      "login": "Entrar",
+      "register": "Criar conta"
+    },
+    "locale": {
+      "label": "Idioma",
+      "pt-PT": "Português (Portugal)",
+      "pt-BR": "Português (Brasil)",
+      "en": "English"
+    },
+    "hero": {
+      "title": "Seu diário mágico, seu planner e seu grimório — em um só lugar.",
+      "lead": "Abra e feche cada dia com intenção, acompanhe a Lua e aprenda magia no seu ritmo.",
+      "cta": "Criar conta grátis",
+      "login": "Já tenho conta"
+    },
+    "pillars": {
+      "title": "Três livros em um",
+      "journal": {
+        "title": "Diário",
+        "text": "Manhã, corpo e noite: pequenos rituais que dão forma ao seu dia."
+      },
+      "planner": {
+        "title": "Planner",
+        "text": "Semana, mês e ano com a Lua, os signos e as datas mágicas."
+      },
+      "grimoire": {
+        "title": "Grimório",
+        "text": "Lições curtas sobre rituais, elementos, astros e cristais."
+      }
+    },
+    "day": {
+      "eyebrow": "Ritmo",
+      "title": "Um dia MYGLOW",
+      "morning": {
+        "title": "Manhã.",
+        "text": "Você escolhe a intenção, faz um pequeno banimento e um ritual."
+      },
+      "body": {
+        "title": "Corpo.",
+        "text": "Água, alongamento e movimento, sem complicação."
+      },
+      "night": {
+        "title": "Noite.",
+        "text": "Gratidão, humor e uma reflexão para fechar o dia."
+      }
+    },
+    "sky": {
+      "eyebrow": "Astrologia",
+      "title": "O céu, calculado para você",
+      "moon": {
+        "title": "A Lua do dia.",
+        "text": "Fase e signo, com a hora certa de cada mudança."
+      },
+      "chart": {
+        "title": "Seu mapa natal.",
+        "text": "Calculado a partir da sua data, hora e local de nascimento."
+      },
+      "readings": {
+        "title": "Leituras pessoais.",
+        "text": "O dia, a semana e o mês à luz dos trânsitos no seu mapa."
+      },
+      "rituals": {
+        "title": "Rituais do mês.",
+        "text": "Sugestões simples e seguras para as datas que importam."
+      },
+      "note": "Para inspiração e reflexão."
+    },
+    "grimoire": {
+      "eyebrow": "Grimório",
+      "title": "Aprenda fazendo",
+      "map": "Um mapa de lições curtas, do básico ao avançado.",
+      "daily": "Três lições novas por dia, com revisões para você não esquecer.",
+      "badges": "Emblemas a cada curso concluído."
+    },
+    "glow": {
+      "eyebrow": "Glow",
+      "title": "Cada cuidado acende a sua luz",
+      "text": "Ganhe Glow ao cuidar de você e suba de nível no seu ritmo.",
+      "note": "Sem culpa: você nunca perde Glow."
+    },
+    "install": {
+      "title": "Instale no celular",
+      "text": "O MYGLOW funciona como um app, com lembretes suaves para você não perder o fio do dia.",
+      "iphone": "No iPhone: abra no Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”."
+    },
+    "faq": {
+      "title": "Perguntas frequentes",
+      "privacyLink": "Leia a Política de Privacidade.",
+      "free": {
+        "q": "É grátis?",
+        "a": "Sim, durante o beta."
+      },
+      "astrology": {
+        "q": "Preciso saber astrologia?",
+        "a": "Não — o Grimório ensina tudo o que o app usa, em lições curtas."
+      },
+      "privacy": {
+        "q": "Meus textos são privados?",
+        "a": "Sim. Suas reflexões, gratidão e notas nunca são enviadas a serviços de IA; as leituras usam só o céu e o seu mapa natal."
+      },
+      "devices": {
+        "q": "Funciona no iPhone e no Android?",
+        "a": "Sim. Abra o MYGLOW no navegador e instale na tela de início; também funciona no computador."
+      },
+      "beta": {
+        "q": "O que significa “beta”?",
+        "a": "Que o MYGLOW já está pronto para usar, mas ainda estamos ajustando. Pode haver falhas e mudanças — e o seu feedback conta muito."
+      }
+    },
+    "cta": {
+      "title": "Comece hoje, com uma intenção."
+    },
+    "footer": {
+      "made": "MYGLOW · um projeto Onda",
+      "label": "Links",
+      "terms": "Termos",
+      "privacy": "Privacidade",
+      "contact": "privacidade@onda.work"
+    },
+    "preview": {
+      "today": {
+        "caption": "Seu dia",
+        "moon": "Fases da lua",
+        "intentionLabel": "Intenção do dia",
+        "intention": "Fazer tudo com calma e atenção.",
+        "banish": "Banimento matinal",
+        "ritual": "Ritual da manhã",
+        "sleep": "Dormi 7 h",
+        "mood": "Como acordei"
+      },
+      "week": {
+        "caption": "Sua semana",
+        "title": "Semana 1 · Outubro",
+        "d0": "dom",
+        "d1": "seg",
+        "d2": "ter",
+        "d3": "qua",
+        "t0": "Ritual de Lua Nova",
+        "t1": "Começar o curso de cristais",
+        "t2": "Treino e caminhada",
+        "t3": "Planejar o mês"
+      },
+      "grimoire": {
+        "caption": "O Grimório",
+        "course": "A sua vida mágica",
+        "progress": "2 / 6 lições"
+      }
+    }
   }
 }

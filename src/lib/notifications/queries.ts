@@ -30,7 +30,11 @@ export async function notificationState(userId: string, date: DateISO, locale: L
     db.projectIntention.count({ where: { userId, period: 'MONTH', periodStart: monthStart } }),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: prevWeekStart } }, select: { reflection: true } }),
     db.month.findUnique({ where: { userId_year_month: { userId, year: prev.year, month: prev.month } }, select: { reflection: true } }),
-    getGrimoireDayStatus(userId, locale, date),
+    // O Grimório não pode impedir os outros lembretes.
+    getGrimoireDayStatus(userId, locale, date).catch((err) => {
+      console.warn('[notifications] Estado do Grimório indisponível:', err instanceof Error ? err.message : err);
+      return { lessonsToday: 0, lessonsLeft: 0, quizPending: false };
+    }),
   ]);
   return {
     day: computeDayProgress(date, entry),

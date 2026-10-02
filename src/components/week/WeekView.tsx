@@ -13,11 +13,14 @@ import { PeriodReflectionCard } from '@/components/period/PeriodReflectionCard';
 import { WeekDayRow } from './WeekDayRow';
 import { WeekTitleCard } from './WeekTitleCard';
 import { WeightCard } from './WeightCard';
+import { WellbeingNotice } from '@/components/account/WellbeingNotice';
 
 interface WeekViewProps {
   initial: WeekData;
   days: WeekDaySummary[];
   previousWeightGrams: number | null;
+  /** F9: sem consentimento de bem-estar o peso fica desactivado (nota + link). */
+  wellbeing: boolean;
   defaultTitle: string;
   /** Cartão do céu (server component) inserido na grelha. */
   sky: ReactNode;
@@ -30,7 +33,7 @@ interface WeekViewProps {
 }
 
 /** Cartões interactivos da semana com gravação automática. */
-export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky, glowNote, reading, focusNotes }: WeekViewProps) {
+export function WeekView({ initial, days, previousWeightGrams, wellbeing, defaultTitle, sky, glowNote, reading, focusNotes }: WeekViewProps) {
   const t = useTranslations();
   const { data, setText, setWeight, setDayNote, setProject, status, errorKey, flush } = useWeekAutosave(initial);
   const onBlur = () => void flush();
@@ -73,7 +76,11 @@ export function WeekView({ initial, days, previousWeightGrams, defaultTitle, sky
           ))}
         </section>
         <div className="mg-week__cell mg-week__cell--weight">
-          <WeightCard grams={data.weightGrams} previousGrams={previousWeightGrams} onCommit={setWeight} />
+          {wellbeing ? (
+            <WeightCard grams={data.weightGrams} previousGrams={previousWeightGrams} onCommit={setWeight} />
+          ) : (
+            <WellbeingNotice />
+          )}
         </div>
         <div className="mg-week__cell mg-week__cell--projects">
           <PeriodProjectsCard

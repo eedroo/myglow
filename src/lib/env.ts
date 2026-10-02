@@ -22,7 +22,21 @@ const pushEnvSchema = z.object({
   VAPID_SUBJECT: z.string().regex(/^(mailto:|https:\/\/)/),
 });
 
-const envSchema = aiEnvSchema.merge(pushEnvSchema).extend({
+/** Email transaccional (F9): Resend. Sem chave em desenvolvimento/teste os emails ficam em memória. */
+const emailEnvSchema = z.object({
+  RESEND_API_KEY: z.string().min(1),
+  EMAIL_FROM: z.string().min(3),
+  EMAIL_REPLY_TO: z.string().email(),
+});
+
+/** URL pública e versões dos documentos legais (F9). */
+const appEnvSchema = z.object({
+  APP_URL: z.string().url(),
+  LEGAL_TERMS_VERSION: z.string().min(1),
+  LEGAL_PRIVACY_VERSION: z.string().min(1),
+});
+
+const envSchema = aiEnvSchema.merge(pushEnvSchema).merge(emailEnvSchema).merge(appEnvSchema).extend({
   INNGEST_EVENT_KEY: z.string().min(1),
   INNGEST_SIGNING_KEY: z.string().min(1),
   UPSTASH_REDIS_REST_URL: z.string().url(),
@@ -32,6 +46,7 @@ const envSchema = aiEnvSchema.merge(pushEnvSchema).extend({
 export type AppEnv = z.infer<typeof envSchema>;
 export type AiEnv = z.infer<typeof aiEnvSchema>;
 export type PushEnv = z.infer<typeof pushEnvSchema>;
+export type EmailEnv = z.infer<typeof emailEnvSchema>;
 
 let cached: AppEnv | null = null;
 let cachedAi: AiEnv | null = null;
@@ -62,6 +77,30 @@ export function getAiEnv(): AiEnv {
 export function getPushEnv(): PushEnv {
   cachedPush ??= parseEnv(pushEnvSchema);
   return cachedPush;
+}
+
+/** Configuração do Resend. */
+export function getEmailEnv(): EmailEnv {
+  return parseEnv(emailEnvSchema);
+}
+
+/** Há Resend configurado? (sem ele, fora de produção, os emails ficam em memória e na consola) */
+export function hasEmail(): boolean {
+  return emailEnvSchema.safeParse(process.env).success;
+}
+
+/** URL pública da app (links nos emails), sem barra final. */
+export function appUrl(): string {
+  return (process.env.APP_URL || process.env.AUTH_URL || 'http://localhost:3000').replace(/\/+$/, '');
+}
+
+/** Versões actuais dos Termos e da Política de Privacidade (re-aceitação quando mudam). */
+export const DEFAULT_LEGAL_VERSION = '2026-10';
+export function legalVersions(): { terms: string; privacy: string } {
+  return {
+    terms: process.env.LEGAL_TERMS_VERSION || DEFAULT_LEGAL_VERSION,
+    privacy: process.env.LEGAL_PRIVACY_VERSION || DEFAULT_LEGAL_VERSION,
+  };
 }
 
 /** Há chaves VAPID para enviar push? (sem elas os avisos ficam só na caixa da app) */

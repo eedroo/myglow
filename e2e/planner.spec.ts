@@ -41,7 +41,7 @@ test('hemisfério Sul: Samhain no início de maio', async ({ page }) => {
   await page.goto('/settings');
   await page.waitForLoadState('networkidle');
   await page.locator('label:has(input[name=hemisphere][value=SOUTH])').click();
-  await page.getByRole('button', { name: 'Guardar' }).click();
+  await page.locator('#preferences').getByRole('button', { name: 'Guardar' }).click();
   await expect(page.locator('.mg-toast--success')).toBeVisible();
 
   await page.goto('/month/2026-05');

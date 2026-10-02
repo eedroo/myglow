@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { addDays, compareDates, fromDbDate, toDbDate, todayInTz, type DateISO } from '@/lib/dates';
 import { monthGrid, monthRange, weekDays, weekKey, weeksOfMonth } from '@/lib/weeks';
 import { computeDayProgress, PROGRESS_SELECT, type DayProgress } from '@/lib/daily/progress';
+import { hasWellbeingConsent } from '@/lib/account/consent';
 import { getMoonCalendar, getMoonEvents, type MoonDay, type MoonEvent } from '@/lib/astro/moonCalendar';
 import type { DailyEntryLike } from '@/lib/stats/period';
 import type { SkyEvent } from '@/lib/astro/skyEvents';
@@ -48,7 +49,8 @@ export async function getMonthOverview(userId: string, year: number, month: numb
     }),
   ]);
 
-  const progressByDate = new Map(entries.map((e) => [fromDbDate(e.date), computeDayProgress(fromDbDate(e.date), e)]));
+  const wellbeing = await hasWellbeingConsent(userId);
+  const progressByDate = new Map(entries.map((e) => [fromDbDate(e.date), computeDayProgress(fromDbDate(e.date), e, { wellbeing })]));
   const progressOf = (date: DateISO) => progressByDate.get(date) ?? computeDayProgress(date, null);
   const weekByStart = new Map(weeks.map((w) => [fromDbDate(w.startDate), w]));
   const moon = getMoonCalendar(from, to, tz);

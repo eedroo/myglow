@@ -9,6 +9,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 import { OnboardingForm, type OnboardingInitial } from '@/components/forms/OnboardingForm';
 import { geocodeLanguage, isAppLocale } from '@/i18n/locales';
+import { DELETE_CONFIRM_WORD } from '@/lib/validation/account';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('onboarding');
@@ -21,7 +22,8 @@ interface OnboardingPageProps {
 
 export default async function OnboardingPage({ searchParams }: OnboardingPageProps) {
   const session = await auth();
-  if (!session?.user) redirect('/login');
+  // Token invalidado (ver o layout da app): limpar o cookie em vez de voltar ao /login (o middleware devolvia para aqui).
+  if (!session?.user) redirect('/api/session/end');
 
   const [t, locale, profile] = await Promise.all([
     getTranslations('onboarding'),
@@ -60,6 +62,7 @@ export default async function OnboardingPage({ searchParams }: OnboardingPagePro
             isEdit={isEdit}
             geocodeLang={geocodeLanguage(isAppLocale(locale) ? locale : 'pt-PT')}
             maxDate={maxDate}
+            confirmWord={DELETE_CONFIRM_WORD[session.user.locale]}
           />
         </GlassCard>
       </main>

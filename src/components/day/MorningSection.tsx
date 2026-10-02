@@ -13,9 +13,11 @@ interface MorningSectionProps {
   current: boolean;
   /** Banimento sugerido pela leitura do dia (placeholder). */
   banishSuggestion?: string;
+  /** F9: sono só com consentimento de bem-estar. */
+  showSleep?: boolean;
 }
 
-export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, current, banishSuggestion }: MorningSectionProps) {
+export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, current, banishSuggestion, showSleep = true }: MorningSectionProps) {
   const t = useTranslations('day');
   return (
     <section className={current ? 'mg-period mg-period--morning mg-period--current' : 'mg-period mg-period--morning'}>
@@ -41,13 +43,15 @@ export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, c
         checkLabel={t('done')}
         onCheckedChange={(v) => setField('morningRitualDone', v)}
       />
-      <CheckTile
-        icon="bed"
-        label={t('morning.sleep', { hours: sleepGoalMinutes / 60 })}
-        checked={data.sleepGoalMet}
-        checkLabel={t('done')}
-        onCheckedChange={(v) => setField('sleepGoalMet', v)}
-      />
+      {showSleep && (
+        <CheckTile
+          icon="bed"
+          label={t('morning.sleep', { hours: sleepGoalMinutes / 60 })}
+          checked={data.sleepGoalMet}
+          checkLabel={t('done')}
+          onCheckedChange={(v) => setField('sleepGoalMet', v)}
+        />
+      )}
     </section>
   );
 }

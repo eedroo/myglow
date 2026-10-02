@@ -38,5 +38,6 @@ export interface WeekPageData {
   days: WeekDaySummary[];
   moonEvents: MoonEvent[];
   previousWeightGrams: number | null; // peso da semana anterior mais recente com peso
+  wellbeing: boolean; // F9: consentimento de bem-estar (sem ele o peso fica desactivado)
   today: DateISO;
 }

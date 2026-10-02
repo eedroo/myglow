@@ -135,6 +135,13 @@ model User {
   aiUseIntentions  Boolean    @default(true) // sem uso: desde a F6 as intenções não vão para a IA (reservado para uma futura área de insights)
   pronouns         Pronouns   @default(NEUTRAL)
   onboardedAt      DateTime?
+  // F9: conta, sessões e consentimentos
+  emailVerifiedAt    DateTime?
+  sessionVersion     Int        @default(0) // incrementar invalida todos os JWT
+  termsAcceptedAt    DateTime?
+  termsVersion       String? // ex.: "2026-10"
+  privacyVersion     String?
+  wellbeingConsentAt DateTime? // consentimento explícito para dados de bem-estar (humor, sono, peso)
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
 
@@ -153,6 +160,28 @@ model User {
   userAiContent     UserAiContent[]
   pushSubscriptions PushSubscription[]
   notificationLogs  NotificationLog[]
+  authTokens        AuthToken[]
+}
+
+enum AuthTokenType {
+  EMAIL_VERIFY
+  PASSWORD_RESET
+  EMAIL_CHANGE
+}
+
+// Tokens de email (confirmação, recuperação, alteração): só o hash SHA-256; uso único; com expiração.
+model AuthToken {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      AuthTokenType
+  tokenHash String        @unique
+  newEmail  String? // só EMAIL_CHANGE
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime      @default(now())
+
+  @@index([userId, type])
 }
 
 model BirthProfile {

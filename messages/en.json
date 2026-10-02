@@ -128,6 +128,17 @@
         "NORTH": "Northern",
         "SOUTH": "Southern"
       }
+    },
+    "sections": {
+      "label": "Settings sections",
+      "profile": "Profile",
+      "account": "Account",
+      "preferences": "Preferences",
+      "birth": "Natal chart",
+      "notifications": "Notifications",
+      "privacy": "Privacy",
+      "sessions": "Sessions",
+      "danger": "Danger zone"
     }
   },
   "nav": {
@@ -158,7 +169,8 @@
     "birthTime": "Enter the time (HH:MM) or tick that you don't know it.",
     "place": "Pick a place from the list.",
     "timezone": "Choose a valid time zone.",
-    "sleepGoal": "Sleep goal must be between 4 and 12 hours."
+    "sleepGoal": "Sleep goal must be between 4 and 12 hours.",
+    "minAge": "MYGLOW is for people aged 16 and over."
   },
   "dev": {
     "title": "UI showcase",
@@ -962,5 +974,205 @@
     "subtitle": "What's new since your last visit",
     "course": "The “{title}” course is now in the Grimoire",
     "close": "Continue"
+  },
+  "emails": {
+    "common": {
+      "greeting": "Hi {name},",
+      "ignore": "If this wasn't you, you can ignore this email.",
+      "linkFallback": "If the button doesn't work, copy this address into your browser:",
+      "footer": "MYGLOW · your magical journal, planner and grimoire",
+      "openApp": "Open MYGLOW"
+    },
+    "verify": {
+      "subject": "Confirm your email for MYGLOW",
+      "preview": "One more step to confirm your email.",
+      "title": "Confirm your email",
+      "body": "Tap the button to confirm this email is yours. That way you can always recover your account.",
+      "button": "Confirm email",
+      "expires": "This link is valid for 24 hours."
+    },
+    "reset": {
+      "subject": "Reset your MYGLOW password",
+      "preview": "We received a request to reset your password.",
+      "title": "Reset your password",
+      "body": "We received a request to reset the password for your account. Tap the button to choose a new one.",
+      "button": "Choose a new password",
+      "expires": "This link is valid for 1 hour and can only be used once."
+    },
+    "emailChangeConfirm": {
+      "subject": "Confirm your new email for MYGLOW",
+      "preview": "Confirm the email change for your account.",
+      "title": "Confirm your new email",
+      "body": "You asked to change your MYGLOW account email to {email}. Tap the button to confirm.",
+      "button": "Confirm new email",
+      "expires": "This link is valid for 1 hour."
+    },
+    "emailChangedNotice": {
+      "subject": "Your MYGLOW account email was changed",
+      "preview": "Your account email has changed.",
+      "title": "Your email was changed",
+      "body": "Your account email is now {email}. From now on, use it to sign in and recover your account.",
+      "notYou": "Wasn't you? Reply to this email and we'll help you recover your account."
+    },
+    "passwordChanged": {
+      "subject": "Your MYGLOW password was changed",
+      "preview": "Your account password has changed.",
+      "title": "Password changed",
+      "body": "Your account password was just changed, and sessions on your other devices were signed out.",
+      "notYou": "Wasn't you? Reply to this email and we'll help you recover your account."
+    },
+    "accountDeleted": {
+      "subject": "Your MYGLOW account was deleted",
+      "preview": "Your account and your data have been deleted.",
+      "title": "Account deleted",
+      "body": "Your account and all your data have been deleted, as you asked.",
+      "thanks": "Thank you for being part of MYGLOW. If you ever want to come back, the door is open."
+    }
+  },
+  "account": {
+    "currentPassword": "Current password",
+    "banner": {
+      "label": "Email confirmation",
+      "text": "Confirm your email so you can always recover your account.",
+      "resend": "Resend email",
+      "sent": "We sent you a new confirmation email.",
+      "dismiss": "Close"
+    },
+    "register": {
+      "acceptTerms": "I have read and accept the <terms>Terms</terms> and the <privacy>Privacy Policy</privacy>.",
+      "wellbeingConsent": "I consent to the processing of the wellbeing data I record (mood, sleep, weight), used only in my own statistics and journal."
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "subtitle": "Enter your account email and we'll send you a link to choose a new password.",
+      "submit": "Send link",
+      "sent": "If an account exists for this email, we've sent a link.",
+      "backToLogin": "Back to sign in",
+      "link": "Forgot your password?"
+    },
+    "reset": {
+      "title": "New password",
+      "subtitle": "Choose a new password for your account.",
+      "password": "New password",
+      "submit": "Save password",
+      "done": "Password changed. You can now sign in with the new one.",
+      "login": "Sign in",
+      "invalid": "This link is invalid or has expired.",
+      "requestNew": "Request a new link"
+    },
+    "verify": {
+      "pageTitle": "Confirm email",
+      "okTitle": "Email confirmed",
+      "okText": "Thank you! Your email is confirmed, so you can always recover your account.",
+      "errorTitle": "Invalid link",
+      "errorText": "This link is invalid, already used or expired. You can request another one in the app.",
+      "goToApp": "Go to MYGLOW",
+      "login": "Sign in"
+    },
+    "emailChange": {
+      "pageTitle": "Confirm your new email",
+      "okTitle": "Email changed",
+      "okText": "Your email has been changed. Sign in again with your new email.",
+      "errorTitle": "Invalid link",
+      "errorText": "This link is invalid, already used or expired.",
+      "takenText": "This email is now in use by another account. Please request the change again with a different email.",
+      "login": "Sign in"
+    },
+    "email": {
+      "verified": "confirmed",
+      "unverified": "not confirmed"
+    },
+    "changeEmail": {
+      "title": "Change email",
+      "newEmail": "New email",
+      "submit": "Send confirmation",
+      "sent": "We sent a link to {email}. Your email only changes once you confirm it."
+    },
+    "changePassword": {
+      "title": "Change password",
+      "next": "New password",
+      "submit": "Change password",
+      "done": "Password changed. Your other devices have been signed out."
+    },
+    "wellbeing": {
+      "title": "Wellbeing data",
+      "text": "Mood, how you woke up, sleep and weight are only recorded with your consent and only appear in your own statistics and journal.",
+      "givenOn": "Consent given on {date}.",
+      "none": "No consent: mood, sleep and weight are turned off.",
+      "withdraw": "Withdraw consent",
+      "withdrawTitle": "Withdraw consent",
+      "withdrawText": "Mood, sleep and weight will be turned off in your journal and week, and your statistics will stop using them.",
+      "deleteData": "Also delete the mood, sleep and weight data I've already recorded",
+      "confirmWithdraw": "Withdraw",
+      "cancel": "Cancel",
+      "grant": "Give consent"
+    },
+    "wellbeingOff": {
+      "text": "Mood, sleep and weight are turned off because you haven't consented to wellbeing data.",
+      "link": "Turn on in settings"
+    },
+    "export": {
+      "title": "Export my data",
+      "text": "Download everything we store about you as a JSON file (no passwords or keys).",
+      "button": "Export my data"
+    },
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Use"
+    },
+    "sessions": {
+      "text": "If you used MYGLOW on a device that isn't yours, sign out everywhere. Other devices are signed out within a few minutes.",
+      "button": "Sign out of all devices"
+    },
+    "danger": {
+      "text": "Deleting your account immediately and permanently removes:",
+      "list": [
+        "your journal, planners and reflections",
+        "your natal chart and readings",
+        "your Grimoire progress, Glow and badges",
+        "your preferences and reminders"
+      ],
+      "exportFirst": "This can't be undone. If you want to keep a copy, export your data first.",
+      "open": "Delete account",
+      "dialogTitle": "Delete your account?",
+      "dialogText": "This action cannot be undone.",
+      "confirmLabel": "Type {word} to confirm",
+      "submit": "Delete forever"
+    },
+    "policy": {
+      "title": "We've updated our terms",
+      "text": "To keep using MYGLOW, please read and accept the current Terms of Use and Privacy Policy.",
+      "terms": "Terms of Use",
+      "privacy": "Privacy Policy",
+      "wellbeing": "I consent to the processing of the wellbeing data I record (mood, sleep, weight), used only in my own statistics and journal. (Optional)",
+      "accept": "Accept",
+      "error": "We couldn't save that. Please try again."
+    },
+    "underage": {
+      "title": "MYGLOW is for people aged 16 and over",
+      "text": "You can't continue with this account. If you like, you can delete it now."
+    },
+    "goodbye": {
+      "title": "Account deleted",
+      "text": "Your account has been deleted. Thank you for being part of MYGLOW.",
+      "home": "Home"
+    },
+    "errors": {
+      "invalidToken": "This link is invalid or has expired.",
+      "wrongPassword": "That password isn't correct.",
+      "sameEmail": "That's already your email.",
+      "emailNoLongerFree": "This email is already in use by another account.",
+      "rateLimited": "Too many requests. Please try again later.",
+      "emailFailed": "We couldn't send the email. Please try again later.",
+      "confirmText": "Type the word exactly as shown.",
+      "acceptTerms": "You need to accept the Terms and the Privacy Policy.",
+      "wellbeingConsent": "This consent is required to create an account."
+    }
+  },
+  "legal": {
+    "privacyTitle": "Privacy Policy",
+    "termsTitle": "Terms of Use",
+    "meta": "Version {version} · {date}",
+    "back": "Back to MYGLOW"
   }
 }

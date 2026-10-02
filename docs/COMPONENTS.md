@@ -52,7 +52,8 @@ Referência visual: diário físico em papel — fundo creme com mármore dourad
 ### Button — F1
 - **TSX:** `Button.tsx` (Server-compatible; sem estado) · **CSS:** `button.css`
 - **Classes:** `mg-btn`, `mg-btn--primary` (gradiente dourado), `mg-btn--ghost`, `mg-btn--subtle`, `mg-btn--block`, `mg-btn--loading`, `mg-btn__spinner`, `mg-btn__label`
-- **Props:** `variant?: 'primary' | 'ghost' | 'subtle'`, `block?: boolean`, `loading?: boolean`, `loadingLabel?: string` + atributos nativos de `<button>`
+- **Props:** `variant?: 'primary' | 'ghost' | 'subtle' | 'danger'`, `block?: boolean`, `loading?: boolean`, `loadingLabel?: string` + atributos nativos de `<button>`
+- **F9:** `mg-btn--danger` (vermelho, para acções destrutivas: apagar conta)
 
 ### Field — F1
 - **TSX:** `Field.tsx` (Server) · **CSS:** `field.css`
@@ -194,10 +195,10 @@ Compõem primitivos; não têm CSS próprio além de `field.css` (`mg-form-error
 
 | Componente | Usa | Acção |
 |---|---|---|
-| `LoginForm` | `Field`, `TextInput`, `Button` | `login` (useFormState) |
-| `RegisterForm` | `Field`, `TextInput`, `SegmentedControl`, `Button` | `register` (useFormState) |
-| `OnboardingForm` | `Field`, `TextInput`, `Autocomplete`, `Button` | `saveBirthProfile` → `update({})` → `/today` |
-| `SettingsForm` | `Field`, `TextInput`, `SegmentedControl`, `Toast`, `Button` | `saveSettings` → `setTheme` → `update({})` → `router.refresh()`; F6: pronomes (Ela / Ele / Neutro) e nota de privacidade das leituras |
+| `LoginForm` | `Field`, `TextInput`, `Button` | `login` (useFormState); F9: link "Esqueceste-te da palavra-passe?" |
+| `RegisterForm` | `Field`, `TextInput`, `SegmentedControl`, `Button` | `register` (useFormState); F9: caixas obrigatórias Termos + Política (links) e consentimento de bem-estar (`mg-checkbox--top`) |
+| `OnboardingForm` | `Field`, `TextInput`, `Autocomplete`, `Button` | `saveBirthProfile` → `update({})` → `/today`; F9: menos de 16 anos → `UnderageNotice` (não continua) |
+| `SettingsForm` | `Field`, `TextInput`, `SegmentedControl`, `Toast`, `Button` | `saveSettings` → `setTheme` → `update({})` → `router.refresh()`; F6: pronomes (Ela / Ele / Neutro); F9: `part` — `profile` (nome, pronomes) ou `preferences` (língua, tema, fuso, sono, hemisfério), cada um grava só os seus campos; a nota de privacidade das leituras passou para a secção Privacidade |
 | `UiShowcase` (`src/components/dev/`) | todos os primitivos F1 | — |
 
 ---
@@ -387,4 +388,30 @@ Navegação F8 (`ProfileAvatarLink`, client, em `glow/`: link do avatar activo e
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
 | `WhatsNewDialog` | client | `whats-new.css` | `mg-whats-new`, `__icon`, `__title`, `__subtitle`, `__list`, `__item`, `__link`, `__actions` | `<dialog>` "Novidades MYGLOW" no layout `(app)`, uma vez por novidade: lista simples (ícone + frase) de cursos novos do Grimório ("Curso «Rituais do cotidiano» já disponível no Grimório") e lançamentos de `content/whats-new.json`; fechar ou tocar num item marca tudo como visto |
+
+### Conta, email e privacidade — F9 (`src/components/account/`, `settings/`, `legal/`)
+
+Rotas novas: `(auth)/forgot-password`, `reset-password`, `verify-email`, `confirm-email-change` (abertas com ou sem sessão); `(public)/privacy`, `terms`, `goodbye` (sem login). Textos em `account`, `legal`, `settings` e `emails`.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `VerifyEmailBanner` | server | `banner.css` | `mg-banner`, `--info`, `__icon`, `__text`, `__actions`, `__close` | no topo da app enquanto o email não está confirmado (escondido 3 dias ao fechar, cookie `mg_verify_banner`): "Confirma o teu email para poderes recuperar a conta." + `ResendVerificationButton` + fechar (`BannerDismiss`) |
+| `BannerDismiss` | client | `banner.css` | `mg-banner__close` | grava o cookie e esconde o banner |
+| `ResendVerificationButton` | client | `banner.css` | `mg-banner__status` | "Reenviar email" → `resendVerification`; mostra "Enviámos um novo email." ou o erro |
+| `ForgotPasswordForm` | client | `auth-form.css` | `mg-auth-form`, `__intro`, `__sent`, `__links` | `/forgot-password`; depois de enviar mostra sempre "Se existir uma conta com este email, enviámos um link." |
+| `ResetPasswordForm` | client | `auth-form.css` | `mg-auth-form`, `__links` | `/reset-password?token=`: nova palavra-passe; token inválido/expirado → mensagem + link para pedir novo; sucesso → link para entrar |
+| `VerifyEmailResult` | server | `auth-result.css` | `mg-auth-result`, `--ok`, `--error`, `__icon`, `__title`, `__text`, `__actions` | `/verify-email?token=` → consome o token e mostra sucesso ou erro |
+| `ConfirmEmailChangeResult` | server | `auth-result.css` | `mg-auth-result`, … | `/confirm-email-change?token=` → aplica o email novo; pede para entrar de novo |
+| `SettingsNav` | client | `settings-nav.css` | `mg-settings-nav`, `__list`, `__item`, `--active` | índice das secções das definições (âncoras); no desktop fica fixo ao lado; secção visível marcada (IntersectionObserver) |
+| `ChangeEmailForm` | client | `form.css` | `mg-form`, `__row`, `__status`, `--error` | email novo + palavra-passe actual → `requestEmailChange` ("Enviámos um link para o email novo.") |
+| `ChangePasswordForm` | client | `form.css` | `mg-form`, … | palavra-passe actual + nova → `changePassword` (outros dispositivos saem; este continua) |
+| `WellbeingConsentCard` | client | `form.css` | `mg-form`, `__status` | privacidade: data do consentimento; "Retirar" (aviso + opção de apagar humor, sono e peso já registados) ou "Dar consentimento" |
+| `DeleteAccountDialog` | client | `danger.css` | `mg-danger`, `__text`, `__list`, `__confirm`, `__actions` | zona de perigo: explica o que é apagado (tudo, sem recuperação), sugere exportar antes; `<dialog>` com palavra-passe + escrever "APAGAR"/"DELETE"; botão `mg-btn--danger` |
+| `PolicyUpdateDialog` | client | `policy-dialog.css` | `mg-policy-dialog`, `__title`, `__text`, `__links`, `__consent`, `__actions` | bloqueante no layout `(app)` quando a versão dos Termos/Política mudou (ou nunca foi aceite): resumo + links + "Aceitar"; sem consentimento de bem-estar mostra também a caixa (opcional) |
+| `WellbeingNotice` | partilhado (sem estado) | `form.css` | `mg-wellbeing-off`, `__text`, `__link` | no diário e na semana, no lugar de humor/sono/peso sem consentimento: nota + link para voltar a consentir |
+| `UnderageNotice` | client | `danger.css` | `mg-danger`, … | onboarding com menos de 16 anos: "A MYGLOW é para maiores de 16 anos." + `DeleteAccountDialog` |
+| `LegalPage` | server | `legal.css` | `mg-legal`, `__meta`, `__draft`, `__body` | `/privacy` e `/terms`: `content/legal/<doc>/<locale>.md` com o parser mínimo (títulos `##`, listas, links, citações); Cormorant nos títulos, Jost no corpo, largura máxima 68ch; versão e data no topo |
+| `AuthResult` | server | `auth-result.css` | `mg-auth-result`, … | bloco comum (ícone, título, texto, acções) de `VerifyEmailResult` e `ConfirmEmailChangeResult` |
+| Layouts | server | `legal.css`, `settings-nav.css` | `mg-public`, `__header`, `__brand` · `mg-settings`, `__sections`, `__section` | grupo `(public)` (marca + "Voltar", sem login) · grelha das definições (índice + secções; 2 colunas a partir de 1024 px) |
+| `GoodbyePage` (página) | server | `goodbye.css` | `mg-goodbye`, `__icon`, `__title`, `__text` | `/goodbye`: "A tua conta foi apagada. Obrigada por teres feito parte." + link para a página inicial |
 

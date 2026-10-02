@@ -1,0 +1,109 @@
+/* LegalPage (F9): Política de Privacidade e Termos — tipografia de leitura */
+
+.mg-public {
+  position: relative;
+  z-index: var(--z-content);
+  min-height: 100dvh;
+  padding: var(--space-5) var(--space-4) var(--space-7);
+}
+
+.mg-public__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-logo);
+  text-decoration: none;
+}
+
+.mg-public__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 68ch;
+  margin: 0 auto var(--space-5);
+}
+
+.mg-legal {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-strong);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+}
+
+.mg-legal__meta {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-legal__draft {
+  margin: 0 0 var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--danger);
+  border-radius: var(--radius-sm);
+  background: var(--danger-bg);
+}
+
+.mg-legal__body h1,
+.mg-legal__body h2,
+.mg-legal__body h3 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+}
+
+.mg-legal__body h1 {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-3xl);
+}
+
+.mg-legal__body h2 {
+  margin: var(--space-6) 0 var(--space-3);
+  font-size: var(--text-xl);
+}
+
+.mg-legal__body h3 {
+  margin: var(--space-5) 0 var(--space-2);
+  font-size: var(--text-lg);
+}
+
+.mg-legal__body p,
+.mg-legal__body ul,
+.mg-legal__body ol {
+  margin: 0 0 var(--space-3);
+}
+
+.mg-legal__body ul,
+.mg-legal__body ol {
+  padding-left: var(--space-5);
+}
+
+.mg-legal__body li + li {
+  margin-top: var(--space-1);
+}
+
+.mg-legal__body a {
+  color: var(--gold-accent);
+}
+
+.mg-legal__body hr {
+  margin: var(--space-5) 0;
+  border: 0;
+  border-top: var(--border-width) solid var(--glass-border);
+}
+
+.mg-legal__body blockquote {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-left: 3px solid var(--gold-500);
+  color: var(--text-secondary);
+}

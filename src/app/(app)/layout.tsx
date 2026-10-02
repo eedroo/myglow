@@ -12,6 +12,9 @@ import { LevelBadge } from '@/components/glow/LevelBadge';
 import { NotificationBell } from '@/components/notifications/NotificationBell';
 import { WhatsNewDialog } from '@/components/whats-new/WhatsNewDialog';
 import { getPendingAnnouncements } from '@/lib/whats-new/queries';
+import { VerifyEmailBanner } from '@/components/account/VerifyEmailBanner';
+import { PolicyUpdateDialog } from '@/components/account/PolicyUpdateDialog';
+import { legalVersions } from '@/lib/env';
 import { db } from '@/lib/db';
 import { levelFor } from '@/lib/xp/levels';
 
@@ -19,14 +22,25 @@ const ACTIVE_THROTTLE_MS = 60 * 60 * 1000;
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const session = await auth();
-  if (!session?.user) redirect('/login');
+  // Sem sessão aqui = token invalidado (sessionVersion mudou ou conta apagada): o cookie ainda existe e o
+  // middleware aceitá-lo-ia; /api/session/end limpa-o e segue para /login.
+  if (!session?.user) redirect('/api/session/end');
   if (!session.user.onboarded) redirect('/onboarding');
 
   const [t, glow] = await Promise.all([
     getTranslations(),
-    db.user.findUnique({ where: { id: session.user.id }, select: { xpTotal: true, levelSeen: true, lastActiveAt: true, locale: true, timezone: true, createdAt: true } }),
+    db.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        xpTotal: true, levelSeen: true, lastActiveAt: true, locale: true, timezone: true, createdAt: true,
+        emailVerifiedAt: true, termsVersion: true, privacyVersion: true, wellbeingConsentAt: true,
+      },
+    }),
   ]);
-  const announcements = glow
+  // Termos/Política: versão nova (ou nunca aceite) → diálogo bloqueante; as Novidades esperam pela aceitação.
+  const legal = legalVersions();
+  const policyPending = !!glow && (glow.termsVersion !== legal.terms || glow.privacyVersion !== legal.privacy);
+  const announcements = glow && !policyPending
     ? await getPendingAnnouncements({ id: session.user.id, locale: glow.locale, timezone: glow.timezone, createdAt: glow.createdAt }).catch(() => [])
     : [];
   const xpTotal = glow?.xpTotal ?? 0;
@@ -67,7 +81,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         }
       >
         <GlowProvider level={levelFor(xpTotal).level} levelSeen={glow?.levelSeen ?? 1}>
+          <VerifyEmailBanner verified={!glow || glow.emailVerifiedAt !== null} />
           {children}
+          {policyPending && <PolicyUpdateDialog askWellbeing={!glow?.wellbeingConsentAt} />}
           <WhatsNewDialog items={announcements} />
         </GlowProvider>
       </AppShell>

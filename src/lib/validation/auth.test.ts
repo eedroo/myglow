@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { loginSchema, registerSchema } from './auth';
 
-const valid = { name: 'Ana Luz', email: 'ana@example.com', password: 'segredo123', locale: 'PT_PT' };
+const valid = { name: 'Ana Luz', email: 'ana@example.com', password: 'segredo123', locale: 'PT_PT', acceptTerms: true, wellbeingConsent: true };
 
 describe('registerSchema', () => {
   it('aceita um registo válido', () => {

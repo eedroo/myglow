@@ -84,6 +84,33 @@ export function RegisterForm() {
         defaultValue={defaultLocale}
         options={DB_LOCALES.map((value) => ({ value, label: t(`settings.languageOptions.${value}`) }))}
       />
+      <div className="mg-field">
+        <label className="mg-checkbox mg-checkbox--top">
+          <input type="checkbox" name="acceptTerms" required aria-invalid={!!errors.acceptTerms || undefined} aria-describedby={errors.acceptTerms ? 'register-terms-error' : undefined} />
+          <span>
+            {t.rich('account.register.acceptTerms', {
+              terms: (chunks) => <Link href="/terms" target="_blank">{chunks}</Link>,
+              privacy: (chunks) => <Link href="/privacy" target="_blank">{chunks}</Link>,
+            })}
+          </span>
+        </label>
+        {errors.acceptTerms && (
+          <p id="register-terms-error" className="mg-field__error" role="alert">
+            {t(errors.acceptTerms)}
+          </p>
+        )}
+      </div>
+      <div className="mg-field">
+        <label className="mg-checkbox mg-checkbox--top">
+          <input type="checkbox" name="wellbeingConsent" required aria-invalid={!!errors.wellbeingConsent || undefined} aria-describedby={errors.wellbeingConsent ? 'register-wellbeing-error' : undefined} />
+          <span>{t('account.register.wellbeingConsent')}</span>
+        </label>
+        {errors.wellbeingConsent && (
+          <p id="register-wellbeing-error" className="mg-field__error" role="alert">
+            {t(errors.wellbeingConsent)}
+          </p>
+        )}
+      </div>
       <SubmitButton />
       <p className="mg-auth__footer">
         {t('auth.register.hasAccount')} <Link href="/login">{t('auth.register.loginLink')}</Link>

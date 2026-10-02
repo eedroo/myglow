@@ -34,6 +34,15 @@ describe('computeDayProgress', () => {
     expect(p).toMatchObject({ morning: true, body: true, night: true, bodyChecks: 3, level: 'complete' });
   });
 
+  it('sem consentimento de bem-estar: manhã = intenção + banimento + ritual; noite sem humor', () => {
+    const noWellbeing = { ...full, wakeMood: null, mood: null };
+    expect(computeDayProgress('2026-05-06', noWellbeing).level).toBe('partial');
+    expect(computeDayProgress('2026-05-06', noWellbeing, { wellbeing: false })).toMatchObject({
+      morning: true, night: true, level: 'complete',
+    });
+    expect(computeDayProgress('2026-05-06', { ...noWellbeing, intention: null }, { wellbeing: false }).morning).toBe(false);
+  });
+
   it('texto só com espaços não conta', () => {
     const p = computeDayProgress('2026-05-06', { ...full, intention: '   ' });
     expect(p.morning).toBe(false);

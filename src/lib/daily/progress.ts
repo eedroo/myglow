@@ -10,10 +10,10 @@ export type DayLevel = 'empty' | 'partial' | 'complete';
 export interface DayProgress {
   date: DateISO;
   hasEntry: boolean;
-  morning: boolean; // intenção + banimento matinal feito + ritual matinal + como acordei
+  morning: boolean; // intenção + banimento matinal feito + ritual matinal + como acordei (sem consentimento de bem-estar: sem "como acordei")
   body: boolean; // alongamento + treino + água
   bodyChecks: number; // 0–3
-  night: boolean; // banimento nocturno feito + ritual nocturno + gratidão + humor + reflexão
+  night: boolean; // banimento nocturno feito + ritual nocturno + gratidão + humor + reflexão (sem consentimento: sem humor)
   level: DayLevel;
 }
 
@@ -34,16 +34,26 @@ export const PROGRESS_SELECT = {
 
 const filled = (v: string | null | undefined) => typeof v === 'string' && v.trim() !== '';
 
-export function computeDayProgress(date: DateISO, entry: ProgressEntry | null): DayProgress {
+export interface ProgressOptions {
+  /**
+   * F9: consentimento para dados de bem-estar. Sem ele, humor, "como acordei" e sono são ignorados
+   * (a manhã passa a ser intenção + banimento + ritual; a noite deixa de pedir o humor).
+   */
+  wellbeing?: boolean;
+}
+
+export function computeDayProgress(date: DateISO, entry: ProgressEntry | null, opts: ProgressOptions = {}): DayProgress {
   if (!entry) {
     return { date, hasEntry: false, morning: false, body: false, bodyChecks: 0, night: false, level: 'empty' };
   }
 
-  const morning = filled(entry.intention) && entry.morningBanishDone && entry.morningRitualDone && entry.wakeMood !== null;
+  const wellbeing = opts.wellbeing ?? true;
+  const morning =
+    filled(entry.intention) && entry.morningBanishDone && entry.morningRitualDone && (!wellbeing || entry.wakeMood !== null);
   const bodyChecks = [entry.stretchDone, entry.workoutDone, entry.waterDone].filter(Boolean).length;
   const body = bodyChecks === 3;
   const night =
-    entry.nightBanishDone && entry.nightRitualDone && filled(entry.gratitude) && entry.mood !== null && filled(entry.reflection);
+    entry.nightBanishDone && entry.nightRitualDone && filled(entry.gratitude) && (!wellbeing || entry.mood !== null) && filled(entry.reflection);
 
   const touched =
     [entry.intention, entry.morningBanishName, entry.wakeNote, entry.nightBanishName, entry.gratitude, entry.reflection, entry.summary].some(filled) ||

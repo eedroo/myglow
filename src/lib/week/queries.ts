@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { compareDates, fromDbDate, toDbDate, todayInTz, type DateISO } from '@/lib/dates';
 import { weekDays, weekKey } from '@/lib/weeks';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
+import { hasWellbeingConsent } from '@/lib/account/consent';
 import { getMoonCalendar, getMoonEvents } from '@/lib/astro/moonCalendar';
 import { PROJECT_AREAS, type WeekData, type WeekPageData } from '@/types/week';
 import type { ProjectArea } from '@prisma/client';
@@ -13,7 +14,7 @@ export async function getWeekPageData(userId: string, start: DateISO, tz: string
   const end = days[6]!;
   const today = todayInTz(tz);
 
-  const [week, projects, entries, previous] = await Promise.all([
+  const [week, projects, entries, previous, wellbeing] = await Promise.all([
     db.week.findUnique({
       where: { userId_startDate: { userId, startDate: toDbDate(start) } },
       include: { dayNotes: true },
@@ -28,6 +29,7 @@ export async function getWeekPageData(userId: string, start: DateISO, tz: string
       orderBy: { startDate: 'desc' },
       select: { weightGrams: true },
     }),
+    hasWellbeingConsent(userId),
   ]);
 
   const notes = new Map(week?.dayNotes.map((n) => [fromDbDate(n.date), n.text]) ?? []);
@@ -50,13 +52,14 @@ export async function getWeekPageData(userId: string, start: DateISO, tz: string
     week: data,
     days: days.map((date) => ({
       date,
-      progress: computeDayProgress(date, entryByDate.get(date) ?? null),
+      progress: computeDayProgress(date, entryByDate.get(date) ?? null, { wellbeing }),
       moon: moon[date]!,
       isToday: date === today,
       isFuture: compareDates(date, today) > 0,
     })),
     moonEvents: getMoonEvents(start, end, tz),
     previousWeightGrams: previous?.weightGrams ?? null,
+    wellbeing,
     today,
   };
 }

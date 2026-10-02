@@ -4,6 +4,8 @@ import { useCallback, useState, useTransition, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
+import { isOldEnough, MIN_AGE } from '@/lib/account/age';
+import { UnderageNotice } from '@/components/account/UnderageNotice';
 import { saveBirthProfile, type BirthField } from '@/actions/onboarding';
 import { Autocomplete } from '@/components/ui/Autocomplete';
 import { Button } from '@/components/ui/Button';
@@ -27,11 +29,13 @@ interface OnboardingFormProps {
   geocodeLang: 'pt' | 'en';
   /** Data máxima (hoje) em YYYY-MM-DD. */
   maxDate: string;
+  /** Palavra para apagar a conta ("APAGAR"/"DELETE"), se for menor de 16 anos. */
+  confirmWord: string;
 }
 
 type Place = Pick<PlaceResult, 'latitude' | 'longitude' | 'timezone'> & { label: string };
 
-export function OnboardingForm({ initial, isEdit, geocodeLang, maxDate }: OnboardingFormProps) {
+export function OnboardingForm({ initial, isEdit, geocodeLang, maxDate, confirmWord }: OnboardingFormProps) {
   const t = useTranslations();
   const router = useRouter();
   const { update } = useSession();
@@ -48,6 +52,7 @@ export function OnboardingForm({ initial, isEdit, geocodeLang, maxDate }: Onboar
   );
   const [errors, setErrors] = useState<Partial<Record<BirthField, string>>>({});
   const [formError, setFormError] = useState<string>();
+  const [underage, setUnderage] = useState(false);
 
   const fetchPlaces = useCallback(
     async (q: string, signal: AbortSignal) => {
@@ -63,6 +68,10 @@ export function OnboardingForm({ initial, isEdit, geocodeLang, maxDate }: Onboar
     if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate) || birthDate > maxDate) next.birthDate = 'validation.birthDate';
     if (!timeUnknown && !/^([01]\d|2[0-3]):[0-5]\d$/.test(birthTime)) next.birthTime = 'validation.birthTime';
     setErrors(next);
+    if (!next.birthDate && !isOldEnough(birthDate, new Date().toLocaleDateString('en-CA'), MIN_AGE)) {
+      setUnderage(true);
+      return false;
+    }
     return Object.keys(next).length === 0;
   }
 
@@ -90,6 +99,7 @@ export function OnboardingForm({ initial, isEdit, geocodeLang, maxDate }: Onboar
         userTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       });
       if (!result.ok) {
+        if (result.underage) return setUnderage(true);
         setErrors(result.fieldErrors ?? {});
         setFormError(result.formError);
         if (result.fieldErrors?.birthDate || result.fieldErrors?.birthTime) setStep(1);
@@ -104,6 +114,8 @@ export function OnboardingForm({ initial, isEdit, geocodeLang, maxDate }: Onboar
 
   const err = (key?: string) => (key ? t(key) : undefined);
   const timeHint = t('onboarding.step1.unknownTimeHelp');
+
+  if (underage) return <UnderageNotice confirmWord={confirmWord} />;
 
   return (
     <form className="mg-stack mg-stack--lg" onSubmit={onSubmit} noValidate>

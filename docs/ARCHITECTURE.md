@@ -147,6 +147,20 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - Tema sem piscar: o root layout passa `User.theme` como `defaultTheme` ao next-themes (novo dispositivo) e `ThemeSync` corrige o `localStorage` se divergir da DB.
 - `/onboarding?edit=1` não altera `User.timezone` nem `onboardedAt` (o fuso passa a ser gerido nas definições) e limpa `natalChart` para recálculo.
 
+### Conta, email e privacidade (Fase 9, `src/lib/auth/`, `src/lib/email/`, `src/emails/`, `src/lib/account/`, `src/actions/account.ts`)
+
+- **Tokens de email** (`lib/auth/tokens.ts`): 32 bytes aleatórios (`crypto.randomBytes`) em base64url, só no URL do email; na DB (`AuthToken`) fica **apenas o hash SHA-256**. Uso único (`usedAt` marcado com `updateMany … where usedAt: null` numa transacção) e expiração: confirmação 24 h, recuperação e alteração de email 1 h. Criar um token apaga os anteriores do mesmo tipo.
+- **Sessões** (`lib/auth/session.ts`, puro): o JWT leva `sv` (= `User.sessionVersion` à entrada) e `svCheckedAt`. No callback `jwt` de `auth.ts` (Node), passados 5 min — ou em `trigger: 'update'` — relê a `sessionVersion` (uma vez por pedido, `React.cache`); se mudou ou o utilizador não existe, devolve `null`. `sessionVersion++` em: reset e alteração de palavra-passe, "terminar sessão em todos os dispositivos" e alteração de email. A alteração de palavra-passe volta a fazer `signIn` no dispositivo actual. Como os Server Components não podem apagar o cookie e o middleware (edge, sem DB) ainda o aceita, os layouts `(app)` e `/onboarding` redireccionam sessões inválidas para `GET /api/session/end` (faz `signOut` → `/login`).
+- **Login:** rate limit 5 tentativas / 15 min por email + IP (dentro do `authorize`; mesma mensagem de credenciais erradas). Recuperação: 3/h por IP e por email — a resposta é sempre a mesma (não revela se o email existe nem se foi limitado). Reenvio da confirmação 3/h; exportação 3/dia.
+- **Email** (`lib/email/send.ts`): Resend em produção, sempre com `replyTo: EMAIL_REPLY_TO`; em `NODE_ENV=test`, ou fora de produção sem `RESEND_API_KEY`, fica em memória (no `globalThis`, partilhado entre bundles do dev) e na consola. `GET /api/test/last-email?to=` devolve o último (404 em produção; activo com `NODE_ENV=test` ou `EMAIL_TEST_ENDPOINT=1`, que o Playwright passa ao `next dev`). Nunca lança: uma falha de envio só é registada. Templates React Email em `src/emails/` (6: confirmação, recuperação, confirmar email novo, aviso ao email antigo, palavra-passe alterada, conta apagada), textos em `messages/*.json › emails` via `translatorFor` (na língua do utilizador). **Excepção à regra dos tokens:** os clientes de email não suportam CSS variables, por isso as cores dos emails são constantes em `src/emails/EmailLayout.tsx` (`EMAIL_COLORS`, alinhadas com o tema claro).
+- **Exportação** (`GET /api/account/export`, `lib/account/export.ts` puro): JSON `myglow-export-v1` como anexo `myglow-export-YYYY-MM-DD.json`; lista explícita de campos — nunca `passwordHash`, tokens, chaves de push nem `sessionVersion`. Datas de calendário `YYYY-MM-DD`; peso em gramas e `weightKg`.
+- **Apagar conta:** palavra-passe + palavra da língua ("APAGAR"/"DELETE"); `db.user.delete` (tudo em `onDelete: Cascade`); email `AccountDeleted`; `signOut` → `/goodbye`. As funções Inngest ignoram utilizadores entretanto apagados (`isUserGoneError`: P2003/P2025).
+- **Consentimentos:** o registo exige Termos + Política (`termsVersion`, `privacyVersion`, `termsAcceptedAt`) e o consentimento de bem-estar (`wellbeingConsentAt`). Se as versões em `LEGAL_TERMS_VERSION`/`LEGAL_PRIVACY_VERSION` mudarem (ou nunca foram aceites, contas anteriores à F9), o layout `(app)` mostra `PolicyUpdateDialog` (bloqueante; as Novidades esperam).
+- **Bem-estar sem consentimento** (`lib/account/consent.ts`): humor, "como acordei", sono e peso ficam desactivados no diário e na semana (nota + link para voltar a consentir) e as actions ignoram-nos ao gravar. `computeDayProgress(date, entry, { wellbeing: false })`: a manhã passa a ser intenção + banimento + ritual e a noite deixa de pedir o humor (o Glow continua a funcionar); `computePeriodStats` sem humor, sono nem peso. Retirar o consentimento pode apagar esses dados.
+- **Idade mínima 16** (`isOldEnough` em `lib/account/age.ts`): verificada no passo 1 do onboarding e na action; a conta fica no onboarding com a opção de a apagar.
+- **Documentos legais:** `content/legal/{privacy,terms}/{pt-PT,pt-BR,en}.md` (cabeçalho `version:`/`date:` + markdown mínimo: títulos, listas, links, citações), páginas públicas `/privacy` e `/terms` no grupo `(public)`; marcados como rascunho.
+- Rotas abertas com ou sem sessão (middleware): `/forgot-password`, `/reset-password`, `/verify-email`, `/confirm-email-change`, `/privacy`, `/terms`, `/goodbye`.
+
 ## i18n
 
 - `src/i18n/locales.ts`: `PT_PT ↔ pt-PT`, `PT_BR ↔ pt-BR`, `EN ↔ en`; datas em `pt-PT` / `pt-BR` / `en-GB`.
@@ -193,6 +207,7 @@ src/styles/                 tokens, base, components/*
    - `DATABASE_URL`, `DIRECT_URL` (do Neon)
    - `AUTH_SECRET` (`openssl rand -base64 32`)
    - `AUTH_URL` não é necessário na Vercel (`trustHost: true`).
+   - F9: `RESEND_API_KEY`, `EMAIL_FROM` (domínio verificado no Resend), `EMAIL_REPLY_TO`, `APP_URL` (links dos emails), `LEGAL_TERMS_VERSION`, `LEGAL_PRIVACY_VERSION`.
 3. O script `vercel-build` corre `prisma generate && prisma migrate deploy && next build`: as migrações são aplicadas ao Neon em cada deploy.
 4. Verificar: registo → onboarding (pesquisa de local via Open-Meteo) → `/today`; Lighthouse → PWA instalável.
 

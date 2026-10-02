@@ -14,6 +14,8 @@ interface GratitudeMoodCardProps {
   onGratitudeChange: (value: string) => void;
   onGratitudeBlur: () => void;
   onMoodChange: (value: number) => void;
+  /** F9: humor só com consentimento de bem-estar. */
+  showMood?: boolean;
 }
 
 export function GratitudeMoodCard(props: GratitudeMoodCardProps) {
@@ -36,12 +38,14 @@ export function GratitudeMoodCard(props: GratitudeMoodCardProps) {
           onBlur={props.onGratitudeBlur}
         />
       </div>
-      <div className="mg-gratitude__block mg-gratitude__block--mood">
-        <span className="mg-gratitude__head" aria-hidden="true">
-          <MagicIcon name="thermometer" size="sm" decorative />
-        </span>
-        <MoodScale name="day-mood" legend={t('gratitude.mood')} labels={labels} value={props.mood} onChange={props.onMoodChange} />
-      </div>
+      {props.showMood !== false && (
+        <div className="mg-gratitude__block mg-gratitude__block--mood">
+          <span className="mg-gratitude__head" aria-hidden="true">
+            <MagicIcon name="thermometer" size="sm" decorative />
+          </span>
+          <MoodScale name="day-mood" legend={t('gratitude.mood')} labels={labels} value={props.mood} onChange={props.onMoodChange} />
+        </div>
+      )}
     </GlassCard>
   );
 }

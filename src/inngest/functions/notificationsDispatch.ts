@@ -1,5 +1,5 @@
 import { inngest } from '../client';
-import { db } from '@/lib/db';
+import { db, isUserGoneError } from '@/lib/db';
 import { dueCandidates, dueNotifications } from '@/lib/notifications/schedule';
 import { buildNotification } from '@/lib/notifications/content';
 import { notificationContext, notificationState } from '@/lib/notifications/queries';
@@ -68,6 +68,7 @@ export const notificationsDispatch = inngest.createFunction(
           }
           return count;
         } catch (err) {
+          if (isUserGoneError(err)) return 0; // conta apagada entretanto
           console.error(`[notifications] Falha no utilizador ${u.id}:`, err instanceof Error ? err.message : err);
           return 0;
         }

@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import { IANAZone } from 'luxon';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
-import { settingsSchema, type SettingsInput } from '@/lib/validation/settings';
+import { settingsPatchSchema, type SettingsPatch } from '@/lib/validation/settings';
 import { LOCALE_COOKIE, LOCALE_COOKIE_OPTIONS, dbToAppLocale } from '@/i18n/locales';
 import { currentUserJobs } from '@/lib/ai/schedule';
 import { toDbDate, todayInTz } from '@/lib/dates';
@@ -32,11 +32,11 @@ const FIELD_ERRORS: Record<SettingsField, string> = {
  * ao mudar de pronomes apaga as leituras pessoais actuais e futuras e pede-as de novo.
  * O cliente chama depois `update()` da sessão, `setTheme()` e `router.refresh()`.
  */
-export async function saveSettings(input: SettingsInput): Promise<SaveSettingsResult> {
+export async function saveSettings(input: SettingsPatch): Promise<SaveSettingsResult> {
   const session = await auth();
   if (!session?.user?.id) return { ok: false, formError: 'common.errors.unauthorized' };
 
-  const parsed = settingsSchema.safeParse(input);
+  const parsed = settingsPatchSchema.safeParse(input);
   if (!parsed.success) {
     const fieldErrors: Partial<Record<SettingsField, string>> = {};
     for (const issue of parsed.error.issues) {
@@ -45,24 +45,26 @@ export async function saveSettings(input: SettingsInput): Promise<SaveSettingsRe
     }
     return { ok: false, fieldErrors };
   }
-  if (!IANAZone.isValidZone(parsed.data.timezone)) {
+  if (parsed.data.timezone !== undefined && !IANAZone.isValidZone(parsed.data.timezone)) {
     return { ok: false, fieldErrors: { timezone: 'validation.timezone' } };
   }
 
-  const before = await db.user.findUnique({ where: { id: session.user.id }, select: { locale: true, pronouns: true } });
+  const before = await db.user.findUnique({ where: { id: session.user.id }, select: { locale: true, pronouns: true, timezone: true } });
+  if (!before) return { ok: false, formError: 'common.errors.unauthorized' };
   await db.user.update({ where: { id: session.user.id }, data: parsed.data });
-  cookies().set(LOCALE_COOKIE, dbToAppLocale(parsed.data.locale), LOCALE_COOKIE_OPTIONS);
+  const after = { ...before, ...parsed.data };
+  cookies().set(LOCALE_COOKIE, dbToAppLocale(after.locale), LOCALE_COOKIE_OPTIONS);
 
-  const pronounsChanged = !!before && before.pronouns !== parsed.data.pronouns;
+  const pronounsChanged = before.pronouns !== after.pronouns;
   if (pronounsChanged) {
-    const monthStart = `${todayInTz(parsed.data.timezone).slice(0, 7)}-01`;
+    const monthStart = `${todayInTz(after.timezone).slice(0, 7)}-01`;
     // Desde o 1.º dia do mês: inclui o dia, a semana e o mês actuais (a semana pode começar no mês anterior).
-    const weekStart = weekStartOf(todayInTz(parsed.data.timezone));
+    const weekStart = weekStartOf(todayInTz(after.timezone));
     const from = weekStart < monthStart ? weekStart : monthStart;
     await db.userAiContent.deleteMany({ where: { userId: session.user.id, periodStart: { gte: toDbDate(from) } } });
   }
-  if (before && (before.locale !== parsed.data.locale || pronounsChanged)) {
-    await sendSafely(userEvents(session.user.id, parsed.data.locale, currentUserJobs(new Date(), parsed.data.timezone)));
+  if (before.locale !== after.locale || pronounsChanged) {
+    await sendSafely(userEvents(session.user.id, after.locale, currentUserJobs(new Date(), after.timezone)));
   }
 
   return { ok: true };

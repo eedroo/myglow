@@ -1,6 +1,7 @@
 import { inngest } from '../client';
 import { aiRequestsPerMinute } from '@/lib/env';
 import { generateUserContent } from '@/lib/ai/generate';
+import { isUserGoneError } from '@/lib/db';
 
 /** Gera um conteúdo pessoal (a língua é a actual do utilizador; `locale` no evento só entra na chave). */
 export const generateUser = inngest.createFunction(
@@ -15,6 +16,12 @@ export const generateUser = inngest.createFunction(
   { event: 'ai/user.generate' },
   async ({ event, step }) => {
     const { userId, kind, periodStart } = event.data;
-    return step.run('generate', () => generateUserContent(userId, kind, periodStart));
+    // Conta apagada entretanto: ignora em silêncio (sem retries).
+    return step.run('generate', () =>
+      generateUserContent(userId, kind, periodStart).catch((err) => {
+        if (isUserGoneError(err)) return 'unavailable' as const;
+        throw err;
+      }),
+    );
   },
 );

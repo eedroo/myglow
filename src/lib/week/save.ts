@@ -3,6 +3,7 @@ import type { Week } from '@prisma/client';
 import { db } from '@/lib/db';
 import { toDbDate, type DateISO } from '@/lib/dates';
 import { weekKey } from '@/lib/weeks';
+import { hasWellbeingConsent } from '@/lib/account/consent';
 import type { WeekPatchInput } from '@/lib/validation/week';
 
 const emptyToNull = (v: string | undefined) => (v === undefined ? undefined : v.trim() === '' ? null : v);
@@ -14,11 +15,13 @@ const emptyToNull = (v: string | undefined) => (v === undefined ? undefined : v.
 export async function saveWeekPatch(userId: string, start: DateISO, p: WeekPatchInput): Promise<Week> {
   const key = weekKey(start);
   const startDate = toDbDate(start);
+  // F9: o peso só é gravado com consentimento de bem-estar.
+  const weightAllowed = p.weightGrams === undefined || (await hasWellbeingConsent(userId));
   const fields = {
     title: emptyToNull(p.title),
     intention: emptyToNull(p.intention),
     reflection: emptyToNull(p.reflection),
-    weightGrams: p.weightGrams,
+    weightGrams: weightAllowed ? p.weightGrams : undefined,
   };
 
   return db.$transaction(async (tx) => {

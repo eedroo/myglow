@@ -24,9 +24,11 @@ type HemisphereValue = (typeof HEMISPHERES)[number];
 interface SettingsFormProps {
   initial: SettingsInput;
   timezones: string[];
+  /** F9: secção das definições — Perfil (nome, pronomes) ou Preferências (o resto). Cada uma grava só os seus campos. */
+  part: 'profile' | 'preferences';
 }
 
-export function SettingsForm({ initial, timezones }: SettingsFormProps) {
+export function SettingsForm({ initial, timezones, part }: SettingsFormProps) {
   const t = useTranslations();
   const router = useRouter();
   const { update } = useSession();
@@ -49,22 +51,24 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
     const hours = Number(sleepHours.replace(',', '.'));
 
     startTransition(async () => {
-      const result = await saveSettings({
-        name,
-        locale,
-        theme,
-        timezone,
-        sleepGoalMinutes: Number.isFinite(hours) ? Math.round(hours * 60) : NaN,
-        hemisphere,
-        pronouns,
-      });
+      const result = await saveSettings(
+        part === 'profile'
+          ? { name, pronouns }
+          : {
+              locale,
+              theme,
+              timezone,
+              sleepGoalMinutes: Number.isFinite(hours) ? Math.round(hours * 60) : NaN,
+              hemisphere,
+            },
+      );
       if (!result.ok) {
         setErrors(result.fieldErrors ?? {});
         setToast({ variant: 'error', messageKey: result.formError ?? 'common.errors.generic' });
         return;
       }
       setErrors({});
-      setTheme(prefToNextTheme(theme));
+      if (part === 'preferences') setTheme(prefToNextTheme(theme));
       // Com argumento → POST → jwt({ trigger: "update" }) relê a DB (sem argumento é só um GET).
       await update({});
       // Re-renderiza os Server Components com o novo cookie NEXT_LOCALE (textos mudam sem recarregar).
@@ -80,6 +84,8 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
 
   return (
     <form className="mg-stack mg-stack--lg" onSubmit={onSubmit} noValidate>
+      {part === 'profile' && (
+        <>
       <Field id="settings-name" label={t('settings.name')} error={err(errors.name)}>
         <TextInput
           id="settings-name"
@@ -101,7 +107,11 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
         />
         <p className="mg-field__hint">{t('settings.pronouns.hint')}</p>
       </div>
+        </>
+      )}
 
+      {part === 'preferences' && (
+        <>
       <SegmentedControl<DbLocale>
         name="locale"
         legend={t('settings.language')}
@@ -162,11 +172,8 @@ export function SettingsForm({ initial, timezones }: SettingsFormProps) {
         />
         <p className="mg-field__hint">{t('settings.hemisphere.hint')}</p>
       </div>
-
-      <fieldset className="mg-field">
-        <legend className="mg-field__label">{t('reading.settings.title')}</legend>
-        <p className="mg-field__hint">{t('reading.settings.aiPrivacy')}</p>
-      </fieldset>
+        </>
+      )}
 
       <Button type="submit" loading={pending} loadingLabel={t('common.saving')}>
         {t('common.save')}

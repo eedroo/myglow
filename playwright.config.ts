@@ -21,6 +21,8 @@ export default defineConfig({
     command: `npx next dev -p ${PORT}`,
     url: `http://localhost:${PORT}/login`,
     reuseExistingServer: true,
+    // F9: emails ficam em memória (sem RESEND_API_KEY) e são lidos em GET /api/test/last-email.
+    env: { EMAIL_TEST_ENDPOINT: '1' },
     timeout: 120_000,
   },
 });

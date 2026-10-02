@@ -1,0 +1,59 @@
+/* VerifyEmailBanner (F9): aviso no topo da app */
+
+.mg-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-strong);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}
+
+.mg-banner--info {
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.mg-banner__icon {
+  display: inline-flex;
+  color: var(--gold-accent);
+}
+
+.mg-banner__text {
+  flex: 1 1 200px;
+  margin: 0;
+}
+
+.mg-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mg-banner__status {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.mg-banner__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.mg-banner__close:hover {
+  background: var(--scrim);
+  color: var(--text-primary);
+}

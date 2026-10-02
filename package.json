@@ -23,6 +23,7 @@
     "@neon/config": "^1.8.2",
     "@neon/env": "^1.4.7",
     "@prisma/client": "^6.19.3",
+    "@react-email/components": "^1.0.12",
     "@upstash/ratelimit": "^2.2.0",
     "@upstash/redis": "^1.39.0",
     "astronomy-engine": "^2.1.19",
@@ -37,6 +38,7 @@
     "openai": "^7.23.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "resend": "^6.32.0",
     "server-only": "^0.0.1",
     "web-push": "^3.6.7",
     "zod": "^3.25.76"

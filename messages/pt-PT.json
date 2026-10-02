@@ -128,6 +128,17 @@
         "NORTH": "Norte",
         "SOUTH": "Sul"
       }
+    },
+    "sections": {
+      "label": "Secções das definições",
+      "profile": "Perfil",
+      "account": "Conta",
+      "preferences": "Preferências",
+      "birth": "Mapa natal",
+      "notifications": "Notificações",
+      "privacy": "Privacidade",
+      "sessions": "Sessões",
+      "danger": "Zona de perigo"
     }
   },
   "nav": {
@@ -158,7 +169,8 @@
     "birthTime": "Indica a hora (HH:MM) ou assinala que não a sabes.",
     "place": "Escolhe um local da lista.",
     "timezone": "Escolhe um fuso horário válido.",
-    "sleepGoal": "A meta de sono deve estar entre 4 e 12 horas."
+    "sleepGoal": "A meta de sono deve estar entre 4 e 12 horas.",
+    "minAge": "A MYGLOW é para maiores de 16 anos."
   },
   "dev": {
     "title": "Showcase de UI",
@@ -962,5 +974,205 @@
     "subtitle": "O que há de novo desde a tua última visita",
     "course": "Curso «{title}» já disponível no Grimório",
     "close": "Continuar"
+  },
+  "emails": {
+    "common": {
+      "greeting": "Olá, {name}",
+      "ignore": "Se não foste tu, ignora este email.",
+      "linkFallback": "Se o botão não funcionar, copia este endereço para o browser:",
+      "footer": "MYGLOW · o teu diário mágico, planner e grimório",
+      "openApp": "Abrir a MYGLOW"
+    },
+    "verify": {
+      "subject": "Confirma o teu email na MYGLOW",
+      "preview": "Falta um passo para confirmares o teu email.",
+      "title": "Confirma o teu email",
+      "body": "Toca no botão para confirmares que este email é teu. Assim podes sempre recuperar a tua conta.",
+      "button": "Confirmar email",
+      "expires": "O link é válido durante 24 horas."
+    },
+    "reset": {
+      "subject": "Redefinir a palavra-passe da MYGLOW",
+      "preview": "Recebemos um pedido para redefinir a tua palavra-passe.",
+      "title": "Redefinir a palavra-passe",
+      "body": "Recebemos um pedido para redefinir a palavra-passe da tua conta. Toca no botão para escolheres uma nova.",
+      "button": "Escolher nova palavra-passe",
+      "expires": "O link é válido durante 1 hora e só pode ser usado uma vez."
+    },
+    "emailChangeConfirm": {
+      "subject": "Confirma o teu novo email na MYGLOW",
+      "preview": "Confirma a mudança do email da tua conta.",
+      "title": "Confirma o novo email",
+      "body": "Pediste para mudar o email da tua conta MYGLOW para {email}. Toca no botão para confirmar.",
+      "button": "Confirmar novo email",
+      "expires": "O link é válido durante 1 hora."
+    },
+    "emailChangedNotice": {
+      "subject": "O email da tua conta MYGLOW foi alterado",
+      "preview": "O email da tua conta mudou.",
+      "title": "O teu email foi alterado",
+      "body": "O email da tua conta passou a ser {email}. A partir de agora, é com ele que entras e recuperas a conta.",
+      "notYou": "Não foste tu? Responde a este email e ajudamos-te a recuperar a conta."
+    },
+    "passwordChanged": {
+      "subject": "A tua palavra-passe da MYGLOW foi alterada",
+      "preview": "A palavra-passe da tua conta mudou.",
+      "title": "Palavra-passe alterada",
+      "body": "A palavra-passe da tua conta acabou de ser alterada e as sessões nos outros dispositivos foram terminadas.",
+      "notYou": "Não foste tu? Responde a este email e ajudamos-te a recuperar a conta."
+    },
+    "accountDeleted": {
+      "subject": "A tua conta MYGLOW foi apagada",
+      "preview": "A tua conta e os teus dados foram apagados.",
+      "title": "Conta apagada",
+      "body": "A tua conta e todos os teus dados foram apagados, como pediste.",
+      "thanks": "Obrigada por teres feito parte da MYGLOW. Se um dia quiseres voltar, a porta está aberta."
+    }
+  },
+  "account": {
+    "currentPassword": "Palavra-passe actual",
+    "banner": {
+      "label": "Confirmação de email",
+      "text": "Confirma o teu email para poderes recuperar a conta.",
+      "resend": "Reenviar email",
+      "sent": "Enviámos um novo email de confirmação.",
+      "dismiss": "Fechar"
+    },
+    "register": {
+      "acceptTerms": "Li e aceito os <terms>Termos</terms> e a <privacy>Política de Privacidade</privacy>.",
+      "wellbeingConsent": "Consinto o tratamento dos dados de bem-estar que eu registar (humor, sono, peso), para uso exclusivo nas minhas estatísticas e no meu diário."
+    },
+    "forgot": {
+      "title": "Recuperar a palavra-passe",
+      "subtitle": "Escreve o email da tua conta e enviamos-te um link para escolheres uma palavra-passe nova.",
+      "submit": "Enviar link",
+      "sent": "Se existir uma conta com este email, enviámos um link.",
+      "backToLogin": "Voltar a entrar",
+      "link": "Esqueceste-te da palavra-passe?"
+    },
+    "reset": {
+      "title": "Nova palavra-passe",
+      "subtitle": "Escolhe uma palavra-passe nova para a tua conta.",
+      "password": "Nova palavra-passe",
+      "submit": "Guardar palavra-passe",
+      "done": "Palavra-passe alterada. Já podes entrar com a nova.",
+      "login": "Entrar",
+      "invalid": "Este link é inválido ou já expirou.",
+      "requestNew": "Pedir um link novo"
+    },
+    "verify": {
+      "pageTitle": "Confirmar email",
+      "okTitle": "Email confirmado",
+      "okText": "Obrigada! O teu email está confirmado e podes sempre recuperar a conta.",
+      "errorTitle": "Link inválido",
+      "errorText": "Este link é inválido, já foi usado ou expirou. Podes pedir outro na app.",
+      "goToApp": "Ir para a MYGLOW",
+      "login": "Entrar"
+    },
+    "emailChange": {
+      "pageTitle": "Confirmar o novo email",
+      "okTitle": "Email alterado",
+      "okText": "O teu email foi alterado. Entra de novo com o email novo.",
+      "errorTitle": "Link inválido",
+      "errorText": "Este link é inválido, já foi usado ou expirou.",
+      "takenText": "Este email passou a estar em uso noutra conta. Pede a alteração de novo com outro email.",
+      "login": "Entrar"
+    },
+    "email": {
+      "verified": "confirmado",
+      "unverified": "por confirmar"
+    },
+    "changeEmail": {
+      "title": "Alterar email",
+      "newEmail": "Email novo",
+      "submit": "Enviar confirmação",
+      "sent": "Enviámos um link para {email}. O email só muda quando o confirmares."
+    },
+    "changePassword": {
+      "title": "Alterar palavra-passe",
+      "next": "Nova palavra-passe",
+      "submit": "Alterar palavra-passe",
+      "done": "Palavra-passe alterada. A sessão nos outros dispositivos foi terminada."
+    },
+    "wellbeing": {
+      "title": "Dados de bem-estar",
+      "text": "Humor, como acordaste, sono e peso só são registados com o teu consentimento e só aparecem nas tuas estatísticas e no teu diário.",
+      "givenOn": "Consentimento dado a {date}.",
+      "none": "Sem consentimento: humor, sono e peso estão desactivados.",
+      "withdraw": "Retirar consentimento",
+      "withdrawTitle": "Retirar consentimento",
+      "withdrawText": "Os campos de humor, sono e peso ficam desactivados no diário e na semana, e as estatísticas deixam de os usar.",
+      "deleteData": "Apagar também os dados de humor, sono e peso que já registei",
+      "confirmWithdraw": "Retirar",
+      "cancel": "Cancelar",
+      "grant": "Dar consentimento"
+    },
+    "wellbeingOff": {
+      "text": "Humor, sono e peso estão desactivados porque não deste consentimento para dados de bem-estar.",
+      "link": "Activar nas definições"
+    },
+    "export": {
+      "title": "Exportar os meus dados",
+      "text": "Descarrega tudo o que guardámos sobre ti num ficheiro JSON (sem palavras-passe nem chaves).",
+      "button": "Exportar os meus dados"
+    },
+    "links": {
+      "privacy": "Política de Privacidade",
+      "terms": "Termos de Utilização"
+    },
+    "sessions": {
+      "text": "Se usaste a MYGLOW num dispositivo que não é teu, termina a sessão em todos. Os outros dispositivos saem em poucos minutos.",
+      "button": "Terminar sessão em todos os dispositivos"
+    },
+    "danger": {
+      "text": "Apagar a conta remove de imediato e para sempre:",
+      "list": [
+        "o teu diário, planners e reflexões",
+        "o mapa natal e as leituras",
+        "o progresso no Grimório, o Glow e os emblemas",
+        "as preferências e os lembretes"
+      ],
+      "exportFirst": "Não há recuperação possível. Se quiseres guardar uma cópia, exporta os teus dados primeiro.",
+      "open": "Apagar conta",
+      "dialogTitle": "Apagar a conta?",
+      "dialogText": "Esta acção não pode ser desfeita.",
+      "confirmLabel": "Escreve {word} para confirmar",
+      "submit": "Apagar para sempre"
+    },
+    "policy": {
+      "title": "Actualizámos os nossos termos",
+      "text": "Para continuares a usar a MYGLOW, lê e aceita a versão actual dos Termos de Utilização e da Política de Privacidade.",
+      "terms": "Termos de Utilização",
+      "privacy": "Política de Privacidade",
+      "wellbeing": "Consinto o tratamento dos dados de bem-estar que eu registar (humor, sono, peso), para uso exclusivo nas minhas estatísticas e no meu diário. (Opcional)",
+      "accept": "Aceitar",
+      "error": "Não foi possível guardar. Tenta de novo."
+    },
+    "underage": {
+      "title": "A MYGLOW é para maiores de 16 anos",
+      "text": "Não podes continuar com esta conta. Se quiseres, podes apagá-la agora."
+    },
+    "goodbye": {
+      "title": "Conta apagada",
+      "text": "A tua conta foi apagada. Obrigada por teres feito parte.",
+      "home": "Página inicial"
+    },
+    "errors": {
+      "invalidToken": "Este link é inválido ou já expirou.",
+      "wrongPassword": "A palavra-passe não está correcta.",
+      "sameEmail": "Este já é o teu email.",
+      "emailNoLongerFree": "Este email já está em uso noutra conta.",
+      "rateLimited": "Demasiados pedidos. Tenta de novo mais tarde.",
+      "emailFailed": "Não foi possível enviar o email. Tenta de novo mais tarde.",
+      "confirmText": "Escreve a palavra exactamente como pedido.",
+      "acceptTerms": "Tens de aceitar os Termos e a Política de Privacidade.",
+      "wellbeingConsent": "Este consentimento é necessário para criar a conta."
+    }
+  },
+  "legal": {
+    "privacyTitle": "Política de Privacidade",
+    "termsTitle": "Termos de Utilização",
+    "meta": "Versão {version} · {date}",
+    "back": "Voltar à MYGLOW"
   }
 }

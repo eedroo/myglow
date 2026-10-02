@@ -87,3 +87,12 @@
 @import './components/badge-cer.css';
 @import './components/badges.css';
 @import './components/whats-new.css';
+@import './components/banner.css';
+@import './components/auth-form.css';
+@import './components/auth-result.css';
+@import './components/settings-nav.css';
+@import './components/form.css';
+@import './components/danger.css';
+@import './components/policy-dialog.css';
+@import './components/goodbye.css';
+@import './components/legal.css';

@@ -8,6 +8,7 @@ import { getCachedRetrogradePeriods, getCachedSkyEvents } from '@/lib/astro/skyC
 import type { SkyEvent } from '@/lib/astro/skyEvents';
 import { getDailySky } from '@/lib/astro/sky';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
+import { hasWellbeingConsent } from '@/lib/account/consent';
 import { computePeriodStats, computeYearMonthly, type DailyEntryLike } from '@/lib/stats/period';
 import { PROJECT_AREAS } from '@/types/week';
 import type { MonthPageData, Projects, YearPageData } from '@/types/planner';
@@ -30,7 +31,7 @@ export async function getMonthPageData(
   const { from, to } = monthRange(year, month);
   const monthStart = toDbDate(from);
 
-  const [overview, plan, projects, weeks, sky, retrogrades] = await Promise.all([
+  const [overview, plan, projects, weeks, sky, retrogrades, wellbeing] = await Promise.all([
     getMonthOverview(userId, year, month, tz),
     db.month.findUnique({ where: { userId_year_month: { userId, year, month } } }),
     db.projectIntention.findMany({ where: { userId, period: 'MONTH', periodStart: monthStart } }),
@@ -40,6 +41,7 @@ export async function getMonthPageData(
     }),
     getCachedSkyEvents(from, to, tz, hemisphere),
     getCachedRetrogradePeriods(from, to, tz),
+    hasWellbeingConsent(userId),
   ]);
 
   const eventDays: MonthPageData['overview']['eventDays'] = {};
@@ -73,6 +75,7 @@ export async function getMonthPageData(
       today: overview.today,
       entries: overview.entries.filter((e) => e.date >= from && e.date <= to),
       weeks: weeks.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })),
+      wellbeing,
     }),
     isFuture: compareDates(from, overview.today) > 0,
   };
@@ -100,7 +103,8 @@ export async function getYearPageData(userId: string, year: number, tz: string, 
   ]);
 
   const list: DailyEntryLike[] = entries.map((e) => ({ ...e, date: fromDbDate(e.date) }));
-  const monthly = computeYearMonthly(year, today, list);
+  const wellbeing = await hasWellbeingConsent(userId);
+  const monthly = computeYearMonthly(year, today, list, wellbeing);
   const intentionByMonth = new Map(months.map((m) => [m.month, m.intention ?? '']));
   const current = monthOf(today);
 
@@ -108,7 +112,7 @@ export async function getYearPageData(userId: string, year: number, tz: string, 
   for (const e of list) {
     const m = Number(e.date.slice(5, 7));
     const levels = levelsByMonth.get(m) ?? {};
-    levels[e.date] = computeDayProgress(e.date, e).level;
+    levels[e.date] = computeDayProgress(e.date, e, { wellbeing }).level;
     levelsByMonth.set(m, levels);
   }
 
@@ -137,6 +141,7 @@ export async function getYearPageData(userId: string, year: number, tz: string, 
       today,
       entries: list,
       weeks: weeks.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })),
+      wellbeing,
     }),
     today,
   };

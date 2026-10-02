@@ -13,6 +13,7 @@ import { safeAwardXp, type XpResult } from '@/lib/xp/award';
 export type PatchDailyResult = { ok: true; updatedAt: string; xp?: XpResult } | { ok: false; error: string };
 
 const MIN_DATE: DateISO = '2000-01-01';
+const WELLBEING_FIELDS = ['wakeMood', 'wakeNote', 'mood', 'sleepGoalMet'] as const;
 
 /**
  * Grava um patch parcial da entrada do diário. Hoje e dias passados são editáveis; futuros não.
@@ -26,7 +27,7 @@ export async function patchDailyEntry(date: DateISO, patch: DailyPatch): Promise
     return { ok: false, error: 'day.errors.invalidDate' };
   }
 
-  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { timezone: true } });
+  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { timezone: true, wellbeingConsentAt: true } });
   if (!user) return { ok: false, error: 'common.errors.unauthorized' };
   const today = todayInTz(user.timezone);
   if (compareDates(date, today) > 0) return { ok: false, error: 'day.errors.futureDate' };
@@ -35,6 +36,9 @@ export async function patchDailyEntry(date: DateISO, patch: DailyPatch): Promise
   if (!parsed.success) return { ok: false, error: 'day.errors.invalid' };
 
   const data: Record<string, unknown> = { ...parsed.data };
+  // F9: sem consentimento de bem-estar, humor, "como acordei" e sono não são gravados.
+  const wellbeing = !!user.wellbeingConsentAt;
+  if (!wellbeing) for (const key of WELLBEING_FIELDS) delete data[key];
   for (const key of DAILY_TEXT_FIELDS) {
     if (typeof data[key] === 'string' && (data[key] as string).trim() === '') data[key] = null;
   }
@@ -60,7 +64,7 @@ export async function patchDailyEntry(date: DateISO, patch: DailyPatch): Promise
   // Glow: avaliado depois de gravar; nunca faz falhar a gravação.
   const xp = await safeAwardXp(
     userId,
-    () => dayCandidates({ date, progress: computeDayProgress(date, row), now: new Date(), tz: user.timezone }),
+    () => dayCandidates({ date, progress: computeDayProgress(date, row, { wellbeing }), now: new Date(), tz: user.timezone }),
     { tz: user.timezone, today },
   );
   return { ok: true, updatedAt: row.updatedAt.toISOString(), ...(xp && { xp }) };

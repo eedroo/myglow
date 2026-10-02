@@ -55,3 +55,17 @@
   accent-color: var(--gold-500);
   cursor: pointer;
 }
+
+/* F9: checkbox com texto longo (consentimentos) — caixa alinhada à primeira linha */
+.mg-checkbox--top {
+  align-items: flex-start;
+}
+
+.mg-checkbox--top input {
+  flex: none;
+  margin-top: 2px;
+}
+
+.mg-checkbox a {
+  color: var(--gold-accent);
+}

@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
 
-const PASSWORD = 'segredo123';
+export const PASSWORD = 'segredo123';
 
 /** Regista um utilizador novo e conclui o onboarding (geocoding simulado). */
 export async function registerAndOnboard(page: Page): Promise<string> {
@@ -20,6 +20,9 @@ export async function registerAndOnboard(page: Page): Promise<string> {
   await page.locator('#register-email').fill(email);
   await page.locator('#register-password').fill(PASSWORD);
   await page.locator('label:has(input[name=locale][value=PT_PT])').click();
+  // F9: Termos + Política e consentimento de bem-estar.
+  await page.locator('input[name=acceptTerms]').check();
+  await page.locator('input[name=wellbeingConsent]').check();
   await page.getByRole('button', { name: 'Criar conta' }).click();
   await page.waitForURL('**/onboarding');
   // Espera pela hidratação: antes disso o React repõe os inputs controlados.
@@ -35,6 +38,28 @@ export async function registerAndOnboard(page: Page): Promise<string> {
   return email;
 }
 
+
+/** Último email capturado em memória (servidor de dev com EMAIL_TEST_ENDPOINT=1); devolve os links como caminhos. */
+export async function lastEmail(page: Page, to: string): Promise<{ subject: string; tag: string; links: string[] }> {
+  const res = await page.request.get(`/api/test/last-email?to=${encodeURIComponent(to)}`);
+  if (!res.ok()) throw new Error(`Sem email para ${to} (${res.status()})`);
+  const body = (await res.json()) as { subject: string; tag: string; links: string[] };
+  return { ...body, links: body.links.map((l) => (l.startsWith('http') ? new URL(l).pathname + new URL(l).search : l)) };
+}
+
+/** Sai sem passar pela app: sair da página primeiro (um pedido ainda em curso podia repor o cookie da sessão). */
+export async function dropSession(page: Page): Promise<void> {
+  await page.goto('about:blank');
+  await page.context().clearCookies();
+}
+
+export async function login(page: Page, email: string, password: string): Promise<void> {
+  await page.goto('/login');
+  await page.waitForLoadState('networkidle');
+  await page.locator('#login-email').fill(email);
+  await page.locator('#login-password').fill(password);
+  await page.getByRole('button', { name: 'Iniciar sessão' }).click();
+}
 
 /** Acesso directo à DB de teste (lê DATABASE_URL do ambiente ou do .env). */
 export async function withTestDb<T>(fn: (db: import('@prisma/client').PrismaClient) => Promise<T>): Promise<T> {

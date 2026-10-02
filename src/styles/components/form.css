@@ -1,0 +1,62 @@
+/* Formulários das definições (F9): email, palavra-passe, consentimento */
+
+.mg-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mg-form__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mg-form__status {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-form__status--error {
+  color: var(--danger);
+}
+
+.mg-form__status--ok::before {
+  content: '✓ ';
+  color: var(--gold-accent);
+}
+
+.mg-form__divider {
+  height: var(--border-width);
+  margin: var(--space-2) 0;
+  border: 0;
+  background: var(--glass-border);
+}
+
+.mg-form__title {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+}
+
+/* WellbeingNotice: campos de bem-estar desactivados sem consentimento */
+.mg-wellbeing-off {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: var(--border-width) dashed var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+.mg-wellbeing-off__text {
+  margin: 0;
+}
+
+.mg-wellbeing-off__link {
+  color: var(--gold-accent);
+}

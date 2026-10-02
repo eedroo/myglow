@@ -83,6 +83,21 @@ describe('computePeriodStats', () => {
   });
 });
 
+describe('sem consentimento de bem-estar (F9)', () => {
+  it('humor, sono e peso ficam de fora', () => {
+    const s = computePeriodStats({
+      ...base,
+      entries: [entry('2026-05-02', { mood: 4, wakeMood: 3, sleepGoalMet: true, waterDone: true })],
+      weeks: [{ startDate: '2026-05-03', weightGrams: 60000 }],
+      wellbeing: false,
+    });
+    expect(s).toMatchObject({ avgMood: null, avgWakeMood: null, wellbeing: false, daysTouched: 1 });
+    expect(s.habits.sleepGoal).toEqual({ done: 0, of: 0 });
+    expect(s.weight.points).toEqual([]);
+    expect(computeYearMonthly(2026, '2026-05-10', [entry('2026-05-02', { mood: 4 })], false)[4]!.avgMood).toBeNull();
+  });
+});
+
 describe('computeYearMonthly', () => {
   it('12 meses; futuros a zero', () => {
     const months = computeYearMonthly(2026, '2026-05-10', [entry('2026-05-02', { mood: 5 }), entry('2026-01-10', { mood: 3 })]);

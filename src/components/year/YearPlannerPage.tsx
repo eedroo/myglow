@@ -47,7 +47,8 @@ export async function YearPlannerPage({ year }: { year: number }) {
         grid: <YearGrid year={year} months={data.months} today={data.today} />,
         wheel: <WheelOfYearCard events={data.sky} today={data.today} timezone={user.timezone} />,
         retrogrades: <RetrogradesCard periods={data.retrogrades} today={data.today} />,
-        mood: <YearMoodCard year={year} months={data.months.map((m) => m.stats)} />,
+        // F9: o humor do ano só com consentimento de bem-estar.
+        mood: data.stats.wellbeing ? <YearMoodCard year={year} months={data.months.map((m) => m.stats)} /> : null,
         glowNote: (
           <GlowWindowNote period="year" periodStart={yearStart} timezone={user.timezone} today={data.today} earned={yearAwards} />
         ),

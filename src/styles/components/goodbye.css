@@ -1,0 +1,31 @@
+/* Página /goodbye (F9) */
+
+.mg-goodbye {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-4);
+  text-align: center;
+}
+
+.mg-goodbye__icon {
+  display: inline-flex;
+  padding: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--gold-halo);
+}
+
+.mg-goodbye__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-medium);
+}
+
+.mg-goodbye__text {
+  margin: 0;
+  color: var(--text-secondary);
+}

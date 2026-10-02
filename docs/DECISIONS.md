@@ -74,6 +74,17 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - iPhone/iPad: push só com a app instalada; mostra-se um guia de instalação em 3 passos.
 - Subscrições que respondem 404/410 são apagadas; outros erros ficam registados.
 
+## Conta e privacidade (Fase 9)
+- Emails transaccionais via Resend: 6 templates (confirmação, recuperação, confirmar email novo, aviso ao email antigo, palavra-passe alterada, conta apagada) nas 3 línguas.
+- Tokens de email guardados só como hash SHA-256, de uso único: confirmação 24 h, recuperação e alteração de email 1 h.
+- `sessionVersion` invalida os JWT (verificada a cada 5 min): reset/alteração de palavra-passe, alteração de email e "terminar sessão em todos os dispositivos".
+- A confirmação de email não bloqueia o uso (só um aviso no topo, escondível 3 dias).
+- Exportação de dados em JSON `myglow-export-v1`.
+- Apagar a conta = remoção imediata em cascata.
+- Consentimento explícito para dados de bem-estar (humor, sono, peso), retirável; sem ele esses campos ficam desactivados e o progresso e as estatísticas ignoram-nos.
+- Idade mínima 16 anos.
+- Versões dos Termos e da Política de Privacidade com re-aceitação quando mudam.
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

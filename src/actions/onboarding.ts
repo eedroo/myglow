@@ -6,7 +6,8 @@ import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { toBirthUtc } from '@/lib/birth';
 import { computeNatalChart } from '@/lib/astro/natal';
-import { toDbDate } from '@/lib/dates';
+import { toDbDate, todayInTz } from '@/lib/dates';
+import { isOldEnough, MIN_AGE } from '@/lib/account/age';
 import { guessHemisphere } from '@/lib/hemisphere';
 import { birthProfileSchema, type BirthProfileInput } from '@/lib/validation/onboarding';
 import { currentUserJobs } from '@/lib/ai/schedule';
@@ -16,7 +17,7 @@ export type BirthField = 'birthDate' | 'birthTime' | 'placeName' | 'timezone';
 
 export type SaveBirthProfileResult =
   | { ok: true }
-  | { ok: false; formError?: string; fieldErrors?: Partial<Record<BirthField, string>> };
+  | { ok: false; formError?: string; fieldErrors?: Partial<Record<BirthField, string>>; underage?: boolean };
 
 const FIELD_ERRORS: Record<string, [BirthField, string]> = {
   birthDate: ['birthDate', 'validation.birthDate'],
@@ -50,6 +51,10 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
   const data = parsed.data;
   if (!IANAZone.isValidZone(data.timezone)) return { ok: false, fieldErrors: { placeName: 'validation.place' } };
   const userTimezone = IANAZone.isValidZone(data.userTimezone) ? data.userTimezone : 'Europe/Lisbon';
+  // F9: idade mínima de 16 anos — não continua (a conta fica no onboarding, com a opção de a apagar).
+  if (!isOldEnough(data.birthDate, todayInTz(userTimezone), MIN_AGE)) {
+    return { ok: false, underage: true, fieldErrors: { birthDate: 'validation.minAge' } };
+  }
   const birthTime = data.birthTimeKnown ? data.birthTime : null;
 
   let birthUtc: Date;

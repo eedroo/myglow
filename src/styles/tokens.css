@@ -47,6 +47,7 @@
   /* Estado */
   --danger: #B5523B;
   --danger-bg: rgba(181, 82, 59, 0.1);
+  --text-on-danger: #FFF8F0;
   --success: #5E7A40;
   --success-bg: rgba(110, 139, 78, 0.12);
   --ready-on: #5E9A4A;
@@ -152,6 +153,7 @@
 
   --danger: #E08A72;
   --danger-bg: rgba(224, 138, 114, 0.14);
+  --text-on-danger: #1E140C;
   --success: #A9C98A;
   --success-bg: rgba(169, 201, 138, 0.14);
   --ready-on: #8FC77A;

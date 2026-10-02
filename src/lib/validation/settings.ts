@@ -11,3 +11,7 @@ export const settingsSchema = z.object({
 });
 
 export type SettingsInput = z.infer<typeof settingsSchema>;
+
+/** F9: as definições estão em secções (Perfil, Preferências); cada formulário grava só os seus campos. */
+export const settingsPatchSchema = settingsSchema.partial();
+export type SettingsPatch = z.infer<typeof settingsPatchSchema>;

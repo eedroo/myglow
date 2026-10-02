@@ -33,7 +33,7 @@ export async function DayPage({ date }: { date: DateISO }) {
   const userId = session.user.id;
 
   const [user, entry, natal, locale, ta, td, dayAwards, reading] = await Promise.all([
-    db.user.findUnique({ where: { id: userId }, select: { timezone: true, sleepGoalMinutes: true, createdAt: true } }),
+    db.user.findUnique({ where: { id: userId }, select: { timezone: true, sleepGoalMinutes: true, createdAt: true, wellbeingConsentAt: true } }),
     getDailyEntry(userId, date),
     ensureNatalChart(userId),
     getLocale(),
@@ -102,6 +102,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         date={date}
         initial={entry}
         sleepGoalMinutes={user.sleepGoalMinutes}
+        wellbeing={!!user.wellbeingConsentAt}
         currentPeriod={isToday ? getDayPeriod(new Date(), user.timezone) : null}
         suggestions={
           personal

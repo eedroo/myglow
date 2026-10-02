@@ -39,6 +39,8 @@ export interface PeriodStats {
   avgWakeMood: number | null;
   habits: Record<HabitKey, HabitCount>;
   weight: { first: number | null; last: number | null; points: { weekStart: DateISO; grams: number }[] };
+  /** F9: com consentimento de bem-estar? Sem ele, humor, sono e peso ficam de fora. */
+  wellbeing: boolean;
 }
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
@@ -50,14 +52,16 @@ export function computePeriodStats(i: {
   today: DateISO;
   entries: DailyEntryLike[];
   weeks: { startDate: DateISO; weightGrams: number | null }[];
+  wellbeing?: boolean;
 }): PeriodStats {
+  const wellbeing = i.wellbeing ?? true;
   const to = compareDates(i.to, i.today) > 0 ? i.today : i.to;
   const byDate = new Map(i.entries.map((e) => [e.date, e]));
 
   const days: DateISO[] = [];
   for (let d = i.from; compareDates(d, to) <= 0; d = addDays(d, 1)) days.push(d);
 
-  const levels = days.map((d) => computeDayProgress(d, byDate.get(d) ?? null).level);
+  const levels = days.map((d) => computeDayProgress(d, byDate.get(d) ?? null, { wellbeing }).level);
   const active = levels.map((l) => l !== 'empty');
 
   let bestStreak = 0;
@@ -78,8 +82,9 @@ export function computePeriodStats(i: {
   const habits = Object.fromEntries(
     HABIT_KEYS.map((h) => [h, { done: inPeriod.filter((e) => e[HABIT_FIELD[h]] === true).length, of: days.length }]),
   ) as Record<HabitKey, HabitCount>;
+  if (!wellbeing) habits.sleepGoal = { done: 0, of: 0 };
 
-  const points = i.weeks
+  const points = (wellbeing ? i.weeks : [])
     .filter((w) => w.weightGrams !== null && compareDates(w.startDate, i.from) >= 0 && compareDates(w.startDate, to) <= 0)
     .sort((a, b) => compareDates(a.startDate, b.startDate))
     .map((w) => ({ weekStart: w.startDate, grams: w.weightGrams! }));
@@ -92,10 +97,11 @@ export function computePeriodStats(i: {
     daysComplete: levels.filter((l) => l === 'complete').length,
     currentStreak,
     bestStreak,
-    avgMood: mean(inPeriod.map((e) => e.mood).filter((m): m is number => m !== null)),
-    avgWakeMood: mean(inPeriod.map((e) => e.wakeMood).filter((m): m is number => m !== null)),
+    avgMood: wellbeing ? mean(inPeriod.map((e) => e.mood).filter((m): m is number => m !== null)) : null,
+    avgWakeMood: wellbeing ? mean(inPeriod.map((e) => e.wakeMood).filter((m): m is number => m !== null)) : null,
     habits,
     weight: { first: points[0]?.grams ?? null, last: points[points.length - 1]?.grams ?? null, points },
+    wellbeing,
   };
 }
 
@@ -108,7 +114,7 @@ export interface MonthlyMood {
 }
 
 /** Resumo por mês de um ano (humor médio e dias registados), para a vista anual. */
-export function computeYearMonthly(year: number, today: DateISO, entries: DailyEntryLike[]): MonthlyMood[] {
+export function computeYearMonthly(year: number, today: DateISO, entries: DailyEntryLike[], wellbeing = true): MonthlyMood[] {
   return Array.from({ length: 12 }, (_, idx) => {
     const month = idx + 1;
     const { from, to } = monthRange(year, month);
@@ -121,6 +127,7 @@ export function computeYearMonthly(year: number, today: DateISO, entries: DailyE
       today,
       entries: entries.filter((e) => e.date >= from && e.date <= to),
       weeks: [],
+      wellbeing,
     });
     return { month, avgMood: s.avgMood, daysTouched: s.daysTouched, daysComplete: s.daysComplete, daysElapsed: s.daysElapsed };
   });

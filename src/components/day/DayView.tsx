@@ -13,6 +13,7 @@ import { NightSection } from './NightSection';
 import { ReflectionCard } from './ReflectionCard';
 import { SaveStatus } from './SaveStatus';
 import { WakeMoodCard } from './WakeMoodCard';
+import { WellbeingNotice } from '@/components/account/WellbeingNotice';
 
 interface DayViewProps {
   date: string;
@@ -22,10 +23,12 @@ interface DayViewProps {
   currentPeriod: DayPeriod | null;
   /** Sugestões da leitura IA do dia (F6). */
   suggestions?: { intention?: string; banish?: string; reflection?: string };
+  /** F9: consentimento de bem-estar; sem ele humor, "como acordei" e sono ficam desactivados. */
+  wellbeing: boolean;
 }
 
 /** Cartões interactivos do diário com gravação automática. */
-export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions }: DayViewProps) {
+export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions, wellbeing }: DayViewProps) {
   const t = useTranslations();
   const { data, setField, status, errorKey, flush } = useDailyAutosave(date, initial);
   const onBlur = () => void flush();
@@ -50,16 +53,21 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, sugges
             sleepGoalMinutes={sleepGoalMinutes}
             current={currentPeriod === 'morning'}
             banishSuggestion={suggestions?.banish}
+            showSleep={wellbeing}
           />
         </div>
         <div className="mg-day__cell mg-day__cell--wake">
-          <WakeMoodCard
-            mood={data.wakeMood}
-            note={data.wakeNote}
-            onMoodChange={(v) => setField('wakeMood', v)}
-            onNoteChange={(v) => setField('wakeNote', v)}
-            onNoteBlur={onBlur}
-          />
+          {wellbeing ? (
+            <WakeMoodCard
+              mood={data.wakeMood}
+              note={data.wakeNote}
+              onMoodChange={(v) => setField('wakeMood', v)}
+              onNoteChange={(v) => setField('wakeNote', v)}
+              onNoteBlur={onBlur}
+            />
+          ) : (
+            <WellbeingNotice />
+          )}
         </div>
         <div className="mg-day__cell mg-day__cell--body">
           <BodyFocusBar data={data} setField={setField} current={currentPeriod === 'body'} />
@@ -74,6 +82,7 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, sugges
             onGratitudeChange={(v) => setField('gratitude', v)}
             onGratitudeBlur={onBlur}
             onMoodChange={(v) => setField('mood', v)}
+            showMood={wellbeing}
           />
         </div>
         <div className="mg-day__cell mg-day__cell--reflection">

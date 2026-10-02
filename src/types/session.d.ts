@@ -23,6 +23,7 @@ declare module 'next-auth' {
     locale?: SessionLocale;
     theme?: SessionTheme;
     onboarded?: boolean;
+    sessionVersion?: number;
   }
 }
 
@@ -34,6 +35,9 @@ declare module '@auth/core/jwt' {
     locale: SessionLocale;
     theme: SessionTheme;
     onboarded: boolean;
+    /** F9: sessionVersion do utilizador quando entrou e última verificação (ms). */
+    sv?: number;
+    svCheckedAt?: number;
   }
 }
 

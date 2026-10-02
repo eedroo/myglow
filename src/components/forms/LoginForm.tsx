@@ -43,6 +43,9 @@ export function LoginForm() {
       <Field id="login-password" label={t('auth.fields.password')}>
         <TextInput id="login-password" name="password" type="password" autoComplete="current-password" required />
       </Field>
+      <p className="mg-auth__footer">
+        <Link href="/forgot-password">{t('account.forgot.link')}</Link>
+      </p>
       <SubmitButton />
       <p className="mg-auth__footer">
         {t('auth.login.noAccount')} <Link href="/register">{t('auth.login.registerLink')}</Link>

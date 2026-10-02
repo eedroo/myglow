@@ -1,0 +1,32 @@
+/* Formulários de recuperação (F9): esqueci-me / nova palavra-passe */
+
+.mg-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mg-auth-form__intro {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.mg-auth-form__sent {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+}
+
+.mg-auth-form__links {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.mg-auth-form__links a {
+  color: var(--gold-accent);
+}

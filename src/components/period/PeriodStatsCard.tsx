@@ -4,6 +4,7 @@ import { MagicIcon } from '@/components/ui/MagicIcon';
 import type { MagicIconName } from '@/lib/icons';
 import { HABIT_KEYS, type PeriodStats } from '@/lib/stats/period';
 import { formatGramsAsKg } from '@/lib/weight';
+import { WellbeingNotice } from '@/components/account/WellbeingNotice';
 
 const SPARK_W = 200;
 const SPARK_H = 40;
@@ -32,8 +33,13 @@ export async function PeriodStatsCard({ stats }: { stats: PeriodStats }) {
     { key: 'complete', label: t('daysComplete'), value: t('ofDays', { n: stats.daysComplete, total: stats.daysElapsed }) },
     { key: 'current', label: t('currentStreak'), value: t('days', { n: stats.currentStreak }) },
     { key: 'best', label: t('bestStreak'), value: t('days', { n: stats.bestStreak }) },
-    { key: 'mood', label: t('avgMood'), value: fmt(stats.avgMood), icon: moodIcon(stats.avgMood) },
-    { key: 'wake', label: t('avgWakeMood'), value: fmt(stats.avgWakeMood), icon: moodIcon(stats.avgWakeMood) },
+    // F9: humor só com consentimento de bem-estar.
+    ...(stats.wellbeing
+      ? [
+          { key: 'mood', label: t('avgMood'), value: fmt(stats.avgMood), icon: moodIcon(stats.avgMood) },
+          { key: 'wake', label: t('avgWakeMood'), value: fmt(stats.avgWakeMood), icon: moodIcon(stats.avgWakeMood) },
+        ]
+      : []),
   ];
 
   return (
@@ -54,7 +60,7 @@ export async function PeriodStatsCard({ stats }: { stats: PeriodStats }) {
         <section>
           <h3 className="mg-stats__section-title">{t('habitsTitle')}</h3>
           <ul className="mg-stats__habits">
-            {HABIT_KEYS.map((h) => {
+            {HABIT_KEYS.filter((h) => stats.wellbeing || h !== 'sleepGoal').map((h) => {
               const { done, of } = stats.habits[h];
               const pct = of === 0 ? 0 : (done / of) * 100;
               return (
@@ -73,7 +79,9 @@ export async function PeriodStatsCard({ stats }: { stats: PeriodStats }) {
 
         <section>
           <h3 className="mg-stats__section-title">{t('weightTitle')}</h3>
-          {stats.weight.first === null || stats.weight.last === null ? (
+          {!stats.wellbeing ? (
+            <WellbeingNotice />
+          ) : stats.weight.first === null || stats.weight.last === null ? (
             <p>{t('noWeight')}</p>
           ) : (
             <div className="mg-stats__weight">

@@ -7,7 +7,9 @@ import { NextResponse } from 'next/server';
  */
 
 const AUTH_PAGES = ['/login', '/register'];
-const PUBLIC_PREFIXES = ['/dev'];
+const PUBLIC_PREFIXES = ['/dev', '/api/test/'];
+/** F9: páginas abertas com ou sem sessão (links dos emails e documentos legais). */
+const PUBLIC_PAGES = ['/forgot-password', '/reset-password', '/verify-email', '/confirm-email-change', '/privacy', '/terms', '/goodbye'];
 
 export const authConfig = {
   trustHost: true,
@@ -22,7 +24,7 @@ export const authConfig = {
       const isOnboarding = pathname === '/onboarding';
       const isApi = pathname.startsWith('/api/');
 
-      if (PUBLIC_PREFIXES.some((p) => pathname.startsWith(p))) return true;
+      if (PUBLIC_PREFIXES.some((p) => pathname.startsWith(p)) || PUBLIC_PAGES.includes(pathname)) return true;
 
       if (!user) {
         if (isAuthPage) return true;

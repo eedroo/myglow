@@ -21,7 +21,7 @@ interface DueUser {
  * Primeiro só os horários (sem DB); depois, só para quem tem algo no slot, o estado e o envio.
  */
 export const notificationsDispatch = inngest.createFunction(
-  { id: 'notifications-dispatch', concurrency: { limit: 10 } },
+  { id: 'notifications-dispatch', concurrency: { limit: 1 } },
   { cron: '*/15 * * * *' },
   async ({ step }) => {
     const nowIso = await step.run('now', () => new Date().toISOString());

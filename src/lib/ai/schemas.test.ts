@@ -34,3 +34,10 @@ describe('leitura pessoal do dia (v3)', () => {
     expect(currentSignJobs(new Date('2026-10-03T12:00:00Z'))).toEqual([{ kind: 'MONTH_ENERGY', periodStart: '2026-10-01' }]);
   });
 });
+
+describe('tolerância de tamanho', () => {
+  it('aceita até +25% do pedido no prompt', () => {
+    expect(dayPersonalSchema.safeParse({ ...valid, reading: 'a'.repeat(800) }).success).toBe(true);
+    expect(dayPersonalSchema.safeParse({ ...valid, reading: 'a'.repeat(900) }).success).toBe(false);
+  });
+});

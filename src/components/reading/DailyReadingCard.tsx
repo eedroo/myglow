@@ -99,7 +99,7 @@ export async function DailyReadingCard({ personal, pending }: DailyReadingCardPr
         </section>
       )}
 
-      {waiting && <ReadingPending requests={pending} />}
+      {(waiting || pending.length > 0) && <ReadingPending requests={pending} silent={!waiting} />}
       {p && <p className="mg-reading__disclaimer">{t('disclaimer')}</p>}
     </GlassCard>
   );

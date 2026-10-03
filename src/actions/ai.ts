@@ -11,6 +11,7 @@ import { aiWindow, getRituals } from '@/lib/ai/queries';
 import { allowAiRequest } from '@/lib/ratelimit';
 import { saveWeekPatch } from '@/lib/week/save';
 import { sendSafely, userEvents } from '@/inngest/client';
+import { PROMPT_VERSION } from '@/lib/ai/prompts/system';
 
 export type AiActionResult = { ok: true } | { ok: false; error: string };
 export type AddRitualResult = { ok: true; weekStart: DateISO; alreadyAdded: boolean } | { ok: false; error: string };
@@ -46,7 +47,7 @@ export async function requestAiContent(kind: string, periodStart: string): Promi
     const sent = await sendSafely([
       {
         name: 'ai/sign.generate',
-        data: { kind: req.kind as SignContentKind, periodStart: req.periodStart, sign: chart.bodies.SUN.sign, locale: user.locale },
+        data: { kind: req.kind as SignContentKind, periodStart: req.periodStart, sign: chart.bodies.SUN.sign, locale: user.locale, version: PROMPT_VERSION },
       },
     ]);
     return sent ? { ok: true } : { ok: false, error: 'reading.errors.unavailable' };

@@ -729,7 +729,11 @@
       "added": "Added to your week ✦",
       "alreadyAdded": "Already in your week",
       "seeWeek": "See the week",
-      "close": "Close"
+      "close": "Close",
+      "calendarTitle": "Add to calendar",
+      "google": "Google Calendar",
+      "ics": "Apple / Outlook",
+      "openApp": "Open in MYGLOW"
     },
     "rituals": {
       "title": "Rituals of the month",

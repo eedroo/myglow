@@ -2,7 +2,10 @@ import { z } from 'zod';
 import { ProjectArea } from '@prisma/client';
 
 /** Esquemas de saída da IA (Zod). Validação estrutural; a semântica vive em `validate.ts`. */
-const text = (max: number) => z.string().min(1).max(max);
+// O prompt pede `max` caracteres; aceita-se até +25% para não deitar fora uma boa leitura por poucas letras
+// (com descrições mais ricas, as duas tentativas chegavam a falhar só pelo tamanho).
+export const LENGTH_TOLERANCE = 1.25;
+const text = (max: number) => z.string().min(1).max(Math.ceil(max * LENGTH_TOLERANCE));
 
 export const dayHoroscopeSchema = z.object({
   headline: text(80),

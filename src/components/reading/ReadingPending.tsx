@@ -14,7 +14,7 @@ const MAX_MS = 60_000;
  * Conteúdo IA em preparação: pede a geração (assíncrona, via Inngest) e refresca a página a cada 10 s
  * durante no máximo 1 min. O conteúdo aparece sozinho quando fica pronto.
  */
-export function ReadingPending({ requests }: { requests: AiRequest[] }) {
+export function ReadingPending({ requests, silent = false }: { requests: AiRequest[]; silent?: boolean }) {
   const t = useTranslations('reading');
   const router = useRouter();
   const [expired, setExpired] = useState(false);
@@ -39,6 +39,9 @@ export function ReadingPending({ requests }: { requests: AiRequest[] }) {
     return () => window.clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- só ao montar / quando os pedidos mudam
   }, [key]);
+
+  // `silent`: já há uma versão anterior no ecrã; pede a nova e refresca sem mostrar nada.
+  if (silent) return null;
 
   return (
     <div className="mg-reading__pending" role="status" aria-live="polite">

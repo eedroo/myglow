@@ -342,7 +342,7 @@ Dia: `DailySkyCard` → `DailyReadingCard` → `RitualTodayCard` (se houver). Se
 | `MonthReadingCard` | server | `reading.css` | `mg-reading`, `__section`, `__highlights`, `__date`, `__focus` | energia do mês + leitura pessoal + datas-chave + áreas de foco |
 | `PeriodReadingCard` | server | `reading.css` | `mg-reading`, `__section`, `__highlights`, `__focus` | base partilhada de `WeekReadingCard` e `MonthReadingCard` (`{ id; title; signTitle; personalTitle; datesTitle; sign; personal; pending }`) |
 | `RitualsCard` | server | `rituals.css` | `mg-rituals`, `__list`, `__item`, `__date`, `__body`, `__title`, `__meta`, `__icon` | 3–5 rituais: data, ocasião, ícone da área, duração; cada item abre o `RitualSheet` |
-| `RitualSheet` | client | `ritual-sheet.css` | `mg-ritual-sheet`, `__trigger`, `__head`, `__title`, `__meta`, `__intention`, `__label`, `__materials`, `__steps`, `__safety`, `__actions`, `__status` | `<dialog>` modal nativo (foco preso, Esc fecha): intenção, materiais, passos numerados, nota de segurança destacada (`candle`); **"Adicionar à minha semana"** → `addRitualToWeek` |
+| `RitualSheet` | client | `ritual-sheet.css` | `mg-ritual-sheet`, `__trigger`, `__head`, `__title`, `__meta`, `__intention`, `__label`, `__materials`, `__steps`, `__safety`, `__actions`, `__calendar`, `__status` | `<dialog>` modal nativo (foco preso, Esc fecha): intenção, materiais, passos numerados, nota de segurança destacada (`candle`); **"Adicionar à minha semana"** → `addRitualToWeek`; **"Adicionar ao calendário"**: Google Calendar (link de evento de dia inteiro, `lib/rituals/calendar.ts`) e Apple / Outlook (`GET /api/rituals/ics`) |
 
 ### Notificações — F7 (`src/components/notifications/`)
 

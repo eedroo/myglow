@@ -6,7 +6,7 @@ import { generateSignContent } from '@/lib/ai/generate';
 export const generateSign = inngest.createFunction(
   {
     id: 'generate-sign',
-    idempotency: 'event.data.kind + ":" + event.data.periodStart + ":" + event.data.sign + ":" + event.data.locale',
+    idempotency: 'event.data.kind + ":" + event.data.periodStart + ":" + event.data.sign + ":" + event.data.locale + ":v" + string(event.data.version)',
     concurrency: { limit: 5 },
     throttle: { limit: aiRequestsPerMinute(), period: '1m' }, // partilhado com o limite do fornecedor de IA
     // (as duas funções têm throttle próprio: o limite efectivo pode chegar ao dobro; usar metade do plano)

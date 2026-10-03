@@ -729,7 +729,11 @@
       "added": "Adicionado à sua semana ✦",
       "alreadyAdded": "Já está na sua semana",
       "seeWeek": "Ver a semana",
-      "close": "Fechar"
+      "close": "Fechar",
+      "calendarTitle": "Adicionar à agenda",
+      "google": "Google Agenda",
+      "ics": "Apple / Outlook",
+      "openApp": "Abrir no MYGLOW"
     },
     "rituals": {
       "title": "Rituais do mês",

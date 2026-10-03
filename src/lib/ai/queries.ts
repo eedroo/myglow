@@ -78,7 +78,12 @@ function toState<T>(
   const parsed = row ? schema.safeParse(row.payload) : null;
   const open = aiWindow(kind, periodStart, ctx.today) === 'open';
   const stale = !!row && row.promptVersion < PROMPT_VERSION;
-  if (parsed?.success && !(stale && open && ctx.sign)) return { status: 'ready', data: parsed.data };
+  if (parsed?.success) {
+    // Gerado com prompts antigos no período aberto: continua a mostrar-se enquanto a versão nova é pedida em
+    // segundo plano (antes ficava "a preparar" e, se a geração falhasse, sem nada).
+    if (stale && open && ctx.sign) ctx.pending.push({ kind, periodStart });
+    return { status: 'ready', data: parsed.data };
+  }
   if (!ctx.sign || !open) return { status: 'unavailable' };
   ctx.pending.push({ kind, periodStart });
   return { status: 'pending' };

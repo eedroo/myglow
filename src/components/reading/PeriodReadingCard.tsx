@@ -96,7 +96,7 @@ export async function PeriodReadingCard({
         </section>
       )}
 
-      {waiting && <ReadingPending requests={pending} />}
+      {(waiting || pending.length > 0) && <ReadingPending requests={pending} silent={!waiting} />}
       {(sign || personal) && <p className="mg-reading__disclaimer">{t('disclaimer')}</p>}
     </GlassCard>
   );

@@ -115,3 +115,12 @@
 .mg-ritual-sheet__status--error {
   color: var(--danger);
 }
+
+/* Adicionar ao calendário externo (Google / .ics) */
+.mg-ritual-sheet__calendar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  flex-basis: 100%;
+}

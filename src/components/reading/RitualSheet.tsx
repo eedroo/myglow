@@ -8,6 +8,7 @@ import { MagicIcon } from '@/components/ui/MagicIcon';
 import { PROJECT_ICONS } from '@/lib/icons';
 import { addRitualToWeek } from '@/actions/ai';
 import type { Ritual } from '@/lib/ai/schemas';
+import { googleCalendarUrl, ritualDescription } from '@/lib/rituals/calendar';
 
 interface RitualSheetProps {
   ritual: Ritual;
@@ -31,10 +32,29 @@ export function RitualSheet({ ritual, year, month, dateLabel, children, triggerV
   const t = useTranslations();
   const ref = useRef<HTMLDialogElement>(null);
   const [add, setAdd] = useState<AddState>({ status: 'idle' });
+  const [googleHref, setGoogleHref] = useState('https://calendar.google.com/calendar/render');
   const titleId = `ritual-${ritual.id}-title`;
+
+  // Calendário externo: Google (link de evento, sem login) e .ics (Apple Calendar, Outlook).
+  const ym = `${year}-${String(month).padStart(2, '0')}`;
+  const googleUrl = () =>
+    googleCalendarUrl(
+      ritual,
+      ritualDescription(
+        ritual,
+        {
+          intention: t('reading.ritual.intention'),
+          materials: t('reading.ritual.materials'),
+          steps: t('reading.ritual.steps'),
+          openApp: t('reading.ritual.openApp'),
+        },
+        `${window.location.origin}/month/${ym}`,
+      ),
+    );
 
   const open = () => {
     setAdd({ status: 'idle' });
+    setGoogleHref(googleUrl());
     ref.current?.showModal();
   };
   const close = () => ref.current?.close();
@@ -116,6 +136,15 @@ export function RitualSheet({ ritual, year, month, dateLabel, children, triggerV
               <MagicIcon name="calendar" size="sm" decorative />
               {t('reading.ritual.add')}
             </Button>
+            <div className="mg-ritual-sheet__calendar" role="group" aria-label={t('reading.ritual.calendarTitle')}>
+              <span className="mg-ritual-sheet__label">{t('reading.ritual.calendarTitle')}</span>
+              <a className="mg-btn mg-btn--subtle" href={googleHref} target="_blank" rel="noopener noreferrer">
+                {t('reading.ritual.google')}
+              </a>
+              <a className="mg-btn mg-btn--subtle" href={`/api/rituals/ics?month=${ym}&id=${encodeURIComponent(ritual.id)}`}>
+                {t('reading.ritual.ics')}
+              </a>
+            </div>
             <p
               className={add.status === 'error' ? 'mg-ritual-sheet__status mg-ritual-sheet__status--error' : 'mg-ritual-sheet__status'}
               role="status"

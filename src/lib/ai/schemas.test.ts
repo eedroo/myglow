@@ -18,8 +18,12 @@ describe('leitura pessoal do dia (v3)', () => {
   it('prompts pedem linguagem simples (sem termos técnicos soltos) e título poético', () => {
     const sys = systemPrompt('PT_BR', 'NEUTRAL');
     expect(sys).toMatch(/Plain language first/);
-    expect(sys).toMatch(/square = tension/);
-    expect(sys).toMatch(/Ascendant = how you show yourself/);
+    // Vocabulário já na língua de saída (em inglês a IA copiava as expressões para o texto).
+    expect(sys).toContain('quadratura → "uma tensão que pede ajuste"');
+    expect(sys).toContain('o jeito como você se mostra ao mundo');
+    expect(sys).not.toMatch(/friendly support|easy flow/);
+    expect(sys).toMatch(/Never use em dashes/);
+    expect(systemPrompt('PT_PT')).toContain('a forma como te mostras ao mundo');
     const p = buildDayPersonal({} as never, 'PT_BR');
     expect(p.user).toMatch(/poetic, image-based title/);
     expect(p.user).toMatch(/keywords: exactly 3/);

@@ -198,7 +198,10 @@ const IDENTIFIER_RE = new RegExp(`(?<![\\p{L}])(?:[A-Z]{2,}(?:_[A-Z]+)+|${ENUM_W
 const ENGLISH_RE = new RegExp(
   `(?<![\\p{L}])(?:Full Moon|New Moon|First Quarter|Last Quarter|Waxing|Waning|stations? (?:retrograde|direct)|` +
     `lunar eclipse|solar eclipse|enters|natal (?:Sun|Moon)|Aries|Taurus|Gemini|Cancer|Virgo|Scorpio|Sagittarius|` +
-    `Capricorn|Aquarius|Pisces|Mercury|Venus|Mars|Jupiter|Saturn)(?![\\p{L}])`,
+    `Capricorn|Aquarius|Pisces|Mercury|Venus|Mars|Jupiter|Saturn|` +
+    // v4: expressões do vocabulário simples que a IA deixava em inglês, e a ordem inglesa "natal Vênus".
+    `friendly support|easy flow|side by side|small opportunity|facing each other|review|` +
+    `natal (?:Sol|Lua|Merc[uú]rio|V[êé]nus|Marte|Ascendente))(?![\\p{L}])`,
   'iu',
 );
 

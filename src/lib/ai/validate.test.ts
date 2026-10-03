@@ -79,6 +79,15 @@ describe('checkLeaks', () => {
     expect(checkLeaks(dayPersonalValid, 'PT_PT')).toBeNull();
   });
 
+  it('v4: expressões inglesas do vocabulário simples e "natal Vênus" falham em português', () => {
+    expect(checkLeaks({ reading: 'O Sol em friendly support com o seu Ascendente.' }, 'PT_BR')).toMatch(/friendly support/);
+    expect(checkLeaks({ reading: 'Mercúrio flui em um easy flow.' }, 'PT_BR')).toMatch(/easy flow/);
+    expect(checkLeaks({ reading: 'Um momento para review.' }, 'PT_BR')).toMatch(/review/);
+    expect(checkLeaks({ reading: 'O Sol toca o seu natal Vênus.' }, 'PT_BR')).toMatch(/natal Vênus/);
+    expect(checkLeaks({ reading: 'O Sol aquece a sua Vênus natal.' }, 'PT_BR')).toBeNull();
+    expect(checkLeaks({ reading: 'A time to review and look back.' }, 'EN')).toBeNull();
+  });
+
   it('em português rejeita nomes e expressões em inglês', () => {
     expect(checkLeaks({ occasion: 'Full Moon in Aries' }, 'PT_BR')).toMatch(/Full Moon/);
     expect(checkLeaks({ note: 'Vênus stations retrograde em Escorpião' }, 'PT_BR')).toMatch(/stations retrograde/);

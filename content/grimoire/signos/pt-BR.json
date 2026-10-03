@@ -1,0 +1,749 @@
+{
+  "slug": "signos",
+  "order": 7,
+  "required": false,
+  "locale": "pt-BR",
+  "version": 1,
+  "title": "Os signos",
+  "subtitle": "As doze energias do zodíaco",
+  "description": "Os doze signos são doze jeitos de viver a energia dos elementos. Neste curso você conhece o zodíaco, os elementos e as modalidades, cada signo com seus dons e desafios, e aprende a olhar para o seu signo solar sem rótulos.",
+  "icon": "zodiac-wheel",
+  "badge": {
+    "name": "Selo do Zodíaco",
+    "icon": "badge-signos",
+    "description": "Você conheceu as doze energias do zodíaco e o lugar do seu signo entre elas."
+  },
+  "tags": [
+    "signos",
+    "zodiaco",
+    "elementos",
+    "modalidades",
+    "astrologia"
+  ],
+  "lessons": [
+    {
+      "slug": "o-zodiaco",
+      "title": "O zodíaco",
+      "minutes": 4,
+      "tags": [
+        "zodiaco"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Uma faixa no céu",
+          "body": "Visto da Terra, o Sol parece percorrer um caminho pelo céu ao longo do ano. Os antigos dividiram esse caminho em doze partes iguais: os signos do zodíaco.",
+          "id": "o-zodiaco-1"
+        },
+        {
+          "type": "icon",
+          "icon": "zodiac-wheel",
+          "title": "Doze signos, doze energias",
+          "body": "Áries, Touro, Gêmeos, Câncer, Leão, Virgem, Libra, Escorpião, Sagitário, Capricórnio, Aquário e Peixes. Cada um representa um jeito de agir, sentir e ver o mundo.",
+          "id": "o-zodiaco-2"
+        },
+        {
+          "type": "concept",
+          "title": "O que é o seu signo",
+          "body": "Quando alguém diz “sou de Leão”, está falando do signo em que o Sol estava no dia em que nasceu. É o seu **signo solar**: a sua essência, aquilo que te faz brilhar.",
+          "id": "o-zodiaco-3"
+        },
+        {
+          "type": "concept",
+          "title": "Você não é só o seu signo",
+          "body": "No momento em que você nasceu, a Lua e cada planeta também estavam em algum signo. Por isso duas pessoas do mesmo signo podem ser bem diferentes. O signo solar é o começo da história.",
+          "id": "o-zodiaco-4"
+        },
+        {
+          "type": "concept",
+          "title": "As datas mudam um pouco",
+          "body": "O Sol entra em cada signo por volta do dia 20 ou 21, mas o dia exato varia de ano para ano. Quem nasceu na virada pode ser de um signo ou de outro, dependendo do ano e da hora.",
+          "id": "o-zodiaco-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "O zodíaco começa em Áries, no equinócio de março. Os signos seguem a posição do Sol, e não a estação do lugar onde você mora: valem igual nos dois hemisférios.",
+          "id": "o-zodiaco-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que você já ouviu sobre o seu signo que faz sentido? E o que não faz?",
+          "id": "o-zodiaco-7"
+        },
+        {
+          "type": "practice",
+          "title": "Veja o seu Sol",
+          "body": "Na aba Hoje, o cartão do céu mostra o signo do seu Sol, calculado pela sua data de nascimento. Confira se é o que você esperava.",
+          "id": "o-zodiaco-8",
+          "action": {
+            "label": "Ver o meu céu",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "O que é o signo solar?",
+          "options": [
+            {
+              "id": "a",
+              "text": "O signo em que o Sol estava quando você nasceu"
+            },
+            {
+              "id": "b",
+              "text": "O signo em que a Lua está hoje"
+            },
+            {
+              "id": "c",
+              "text": "O signo do mês atual"
+            }
+          ],
+          "correct": "a",
+          "explanation": "O signo solar é a posição do Sol no momento do seu nascimento."
+        }
+      ]
+    },
+    {
+      "slug": "elementos-e-modalidades",
+      "title": "Elementos e modalidades",
+      "minutes": 5,
+      "tags": [
+        "elementos",
+        "modalidades"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Duas chaves para entender os doze",
+          "body": "Você não precisa decorar doze descrições. Cada signo é a combinação de duas coisas: um **elemento** (o tipo de energia) e uma **modalidade** (o jeito como essa energia se move).",
+          "id": "elementos-e-modalidades-1"
+        },
+        {
+          "type": "icon",
+          "icon": "flame",
+          "title": "Os quatro elementos",
+          "body": "**Fogo**: Áries, Leão, Sagitário. **Terra**: Touro, Virgem, Capricórnio. **Ar**: Gêmeos, Libra, Aquário. **Água**: Câncer, Escorpião, Peixes. Três signos para cada elemento.",
+          "id": "elementos-e-modalidades-2"
+        },
+        {
+          "type": "concept",
+          "title": "Cardinal: quem começa",
+          "body": "Áries, Câncer, Libra e Capricórnio. São os signos que abrem as estações. Energia de iniciativa: têm a ideia, dão o primeiro passo, lideram.",
+          "id": "elementos-e-modalidades-3"
+        },
+        {
+          "type": "concept",
+          "title": "Fixo: quem sustenta",
+          "body": "Touro, Leão, Escorpião e Aquário. Ficam no meio das estações. Energia de constância: seguram o projeto, são leais, não desistem fácil.",
+          "id": "elementos-e-modalidades-4"
+        },
+        {
+          "type": "concept",
+          "title": "Mutável: quem adapta",
+          "body": "Gêmeos, Virgem, Sagitário e Peixes. Fecham as estações. Energia de mudança: ajustam, aprendem, fazem a ponte para o que vem depois.",
+          "id": "elementos-e-modalidades-5"
+        },
+        {
+          "type": "example",
+          "title": "Montando um signo",
+          "body": "Leão é Fogo fixo: uma chama que não se apaga, calor constante. Gêmeos é Ar mutável: um vento que muda de direção, curiosidade sem fim. Capricórnio é Terra cardinal: quem começa a construir.",
+          "id": "elementos-e-modalidades-6"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Cada combinação de elemento e modalidade aparece uma única vez. Quatro elementos vezes três modalidades dão exatamente doze signos.",
+          "id": "elementos-e-modalidades-7"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Você é mais de começar, de sustentar ou de adaptar?",
+          "id": "elementos-e-modalidades-8"
+        },
+        {
+          "type": "practice",
+          "title": "Decifre o seu signo",
+          "body": "Descubra o elemento e a modalidade do seu signo solar e escreva, na intenção de hoje, uma frase que use essa energia a seu favor.",
+          "id": "elementos-e-modalidades-9",
+          "action": {
+            "label": "Escrever intenção",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Quais são os signos fixos?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Áries, Câncer, Libra e Capricórnio"
+            },
+            {
+              "id": "b",
+              "text": "Touro, Leão, Escorpião e Aquário"
+            },
+            {
+              "id": "c",
+              "text": "Gêmeos, Virgem, Sagitário e Peixes"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Os fixos sustentam: Touro, Leão, Escorpião e Aquário."
+        },
+        {
+          "id": "r2",
+          "prompt": "Que tipo de energia têm os signos cardinais?",
+          "options": [
+            {
+              "id": "a",
+              "text": "De iniciar"
+            },
+            {
+              "id": "b",
+              "text": "De manter"
+            },
+            {
+              "id": "c",
+              "text": "De adaptar"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Os cardinais abrem as estações: são os que começam."
+        }
+      ]
+    },
+    {
+      "slug": "signos-de-fogo",
+      "title": "Signos de Fogo",
+      "minutes": 4,
+      "tags": [
+        "fogo",
+        "signos"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "A chama em três formas",
+          "body": "Fogo é vontade, entusiasmo e ação. Nos signos, ele aparece como a faísca que começa (Áries), a fogueira que aquece (Leão) e a tocha que ilumina o caminho (Sagitário).",
+          "id": "signos-de-fogo-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-aries",
+          "title": "Áries",
+          "body": "**Datas**: 21 de março a 19 de abril. **Regente**: Marte. **Modalidade**: cardinal. **Dons**: coragem, iniciativa, sinceridade. **Desafio**: impaciência e pressa.",
+          "id": "signos-de-fogo-2"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-leo",
+          "title": "Leão",
+          "body": "**Datas**: 23 de julho a 22 de agosto. **Regente**: Sol. **Modalidade**: fixo. **Dons**: generosidade, criatividade, liderança. **Desafio**: orgulho e necessidade de aplauso.",
+          "id": "signos-de-fogo-3"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-sagittarius",
+          "title": "Sagitário",
+          "body": "**Datas**: 22 de novembro a 21 de dezembro. **Regente**: Júpiter. **Modalidade**: mutável. **Dons**: otimismo, fé, vontade de explorar. **Desafio**: exagero e dificuldade com rotina.",
+          "id": "signos-de-fogo-4"
+        },
+        {
+          "type": "example",
+          "title": "O Fogo em ação",
+          "body": "Áries diz “eu faço”. Leão diz “eu brilho”. Sagitário diz “eu busco”. Em um grupo, costumam ser os que animam, puxam e contagiam.",
+          "id": "signos-de-fogo-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Quando a Lua passa por um signo de Fogo, o dia pede movimento. São bons dias para treinar, começar algo e dizer o que você pensa.",
+          "id": "signos-de-fogo-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Em que área da sua vida você age com o entusiasmo do Fogo?",
+          "id": "signos-de-fogo-7"
+        },
+        {
+          "type": "practice",
+          "title": "Encontre o Fogo no seu céu",
+          "body": "Veja no cartão do céu se o seu Sol, a sua Lua ou o seu ascendente estão em Fogo. Se não estiverem, repare nos dias de Lua em Fogo.",
+          "id": "signos-de-fogo-8",
+          "action": {
+            "label": "Ver o meu céu",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual signo de Fogo é regido pelo Sol?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Áries"
+            },
+            {
+              "id": "b",
+              "text": "Leão"
+            },
+            {
+              "id": "c",
+              "text": "Sagitário"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Leão é regido pelo Sol; Áries, por Marte; Sagitário, por Júpiter."
+        }
+      ]
+    },
+    {
+      "slug": "signos-de-terra",
+      "title": "Signos de Terra",
+      "minutes": 4,
+      "tags": [
+        "terra",
+        "signos"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O chão em três formas",
+          "body": "Terra é corpo, matéria e construção. Nos signos, ela aparece como o jardim que floresce (Touro), a colheita bem cuidada (Virgem) e a montanha que se escala (Capricórnio).",
+          "id": "signos-de-terra-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-taurus",
+          "title": "Touro",
+          "body": "**Datas**: 20 de abril a 20 de maio. **Regente**: Vênus. **Modalidade**: fixo. **Dons**: calma, lealdade, gosto pelo prazer e pela beleza. **Desafio**: teimosia e apego.",
+          "id": "signos-de-terra-2"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-virgo",
+          "title": "Virgem",
+          "body": "**Datas**: 23 de agosto a 22 de setembro. **Regente**: Mercúrio. **Modalidade**: mutável. **Dons**: cuidado, atenção aos detalhes, vontade de ajudar. **Desafio**: autocrítica e preocupação.",
+          "id": "signos-de-terra-3"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-capricorn",
+          "title": "Capricórnio",
+          "body": "**Datas**: 22 de dezembro a 19 de janeiro. **Regente**: Saturno. **Modalidade**: cardinal. **Dons**: disciplina, responsabilidade, ambição. **Desafio**: rigidez e excesso de trabalho.",
+          "id": "signos-de-terra-4"
+        },
+        {
+          "type": "example",
+          "title": "A Terra em ação",
+          "body": "Touro diz “eu tenho”. Virgem diz “eu cuido”. Capricórnio diz “eu construo”. Em um grupo, costumam ser os que organizam, cumprem e fazem acontecer.",
+          "id": "signos-de-terra-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Quando a Lua passa por um signo de Terra, o dia favorece o que é concreto: arrumar, cuidar do corpo, resolver contas e avançar em tarefas práticas.",
+          "id": "signos-de-terra-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que você vem construindo com paciência?",
+          "id": "signos-de-terra-7"
+        },
+        {
+          "type": "practice",
+          "title": "Um gesto de Terra",
+          "body": "Escolha uma tarefa prática que está parada e escreva na Semana o dia em que você vai resolver.",
+          "id": "signos-de-terra-8",
+          "action": {
+            "label": "Abrir a Semana",
+            "href": "/week"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual signo de Terra é cardinal e regido por Saturno?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Touro"
+            },
+            {
+              "id": "b",
+              "text": "Virgem"
+            },
+            {
+              "id": "c",
+              "text": "Capricórnio"
+            }
+          ],
+          "correct": "c",
+          "explanation": "Capricórnio é Terra cardinal, regido por Saturno."
+        }
+      ]
+    },
+    {
+      "slug": "signos-de-ar",
+      "title": "Signos de Ar",
+      "minutes": 4,
+      "tags": [
+        "ar",
+        "signos"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O vento em três formas",
+          "body": "Ar é pensamento, palavra e troca. Nos signos, ele aparece como a brisa curiosa (Gêmeos), o ar que equilibra (Libra) e o vento que traz o novo (Aquário).",
+          "id": "signos-de-ar-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-gemini",
+          "title": "Gêmeos",
+          "body": "**Datas**: 21 de maio a 20 de junho. **Regente**: Mercúrio. **Modalidade**: mutável. **Dons**: curiosidade, comunicação, versatilidade. **Desafio**: dispersão e inconstância.",
+          "id": "signos-de-ar-2"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-libra",
+          "title": "Libra",
+          "body": "**Datas**: 23 de setembro a 22 de outubro. **Regente**: Vênus. **Modalidade**: cardinal. **Dons**: diplomacia, senso de justiça, gosto pela harmonia. **Desafio**: indecisão e medo de desagradar.",
+          "id": "signos-de-ar-3"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-aquarius",
+          "title": "Aquário",
+          "body": "**Datas**: 20 de janeiro a 18 de fevereiro. **Regente**: Saturno e Urano. **Modalidade**: fixo. **Dons**: originalidade, visão de futuro, amizade. **Desafio**: distância emocional e teimosia nas ideias.",
+          "id": "signos-de-ar-4"
+        },
+        {
+          "type": "example",
+          "title": "O Ar em ação",
+          "body": "Gêmeos diz “eu penso”. Libra diz “eu equilibro”. Aquário diz “eu sei”. Em um grupo, costumam ser os que conversam, conectam as pessoas e trazem ideias novas.",
+          "id": "signos-de-ar-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Alguns signos têm dois regentes: um tradicional e um moderno. Aquário é regido por Saturno na tradição e por Urano, descoberto séculos depois, na astrologia moderna.",
+          "id": "signos-de-ar-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Com quem você tem as conversas que mais abrem a sua mente?",
+          "id": "signos-de-ar-7"
+        },
+        {
+          "type": "practice",
+          "title": "Um gesto de Ar",
+          "body": "Escreva na reflexão de hoje uma ideia nova que passou pela sua cabeça, sem julgar se é boa ou não.",
+          "id": "signos-de-ar-8",
+          "action": {
+            "label": "Ver a Noite",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Quais são os signos de Ar?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Gêmeos, Libra e Aquário"
+            },
+            {
+              "id": "b",
+              "text": "Câncer, Escorpião e Peixes"
+            },
+            {
+              "id": "c",
+              "text": "Touro, Virgem e Capricórnio"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Gêmeos, Libra e Aquário são os três signos de Ar."
+        }
+      ]
+    },
+    {
+      "slug": "signos-de-agua",
+      "title": "Signos de Água",
+      "minutes": 4,
+      "tags": [
+        "agua",
+        "signos"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "A água em três formas",
+          "body": "Água é emoção, intuição e vínculo. Nos signos, ela aparece como o rio que nutre (Câncer), o lago profundo (Escorpião) e o oceano sem margens (Peixes).",
+          "id": "signos-de-agua-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-cancer",
+          "title": "Câncer",
+          "body": "**Datas**: 21 de junho a 22 de julho. **Regente**: Lua. **Modalidade**: cardinal. **Dons**: cuidado, memória afetiva, proteção. **Desafio**: apego ao passado e mágoa guardada.",
+          "id": "signos-de-agua-2"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-scorpio",
+          "title": "Escorpião",
+          "body": "**Datas**: 23 de outubro a 21 de novembro. **Regente**: Marte e Plutão. **Modalidade**: fixo. **Dons**: intensidade, lealdade, poder de transformação. **Desafio**: desconfiança e dificuldade de soltar.",
+          "id": "signos-de-agua-3"
+        },
+        {
+          "type": "icon",
+          "icon": "sign-pisces",
+          "title": "Peixes",
+          "body": "**Datas**: 19 de fevereiro a 20 de março. **Regente**: Júpiter e Netuno. **Modalidade**: mutável. **Dons**: compaixão, imaginação, sensibilidade. **Desafio**: fuga da realidade e falta de limites.",
+          "id": "signos-de-agua-4"
+        },
+        {
+          "type": "example",
+          "title": "A Água em ação",
+          "body": "Câncer diz “eu sinto”. Escorpião diz “eu transformo”. Peixes diz “eu acredito”. Em um grupo, costumam ser os que acolhem, percebem o clima e cuidam dos vínculos.",
+          "id": "signos-de-agua-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Quando a Lua passa por um signo de Água, as emoções ficam mais à flor da pele. São bons dias para banhos, gratidão, arte e descanso.",
+          "id": "signos-de-agua-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que você sente com mais intensidade do que demonstra?",
+          "id": "signos-de-agua-7"
+        },
+        {
+          "type": "practice",
+          "title": "Um gesto de Água",
+          "body": "Hoje à noite, escreva na gratidão o nome de alguém que cuidou de você e por quê.",
+          "id": "signos-de-agua-8",
+          "action": {
+            "label": "Ver a Noite",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual signo de Água é regido pela Lua?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Câncer"
+            },
+            {
+              "id": "b",
+              "text": "Escorpião"
+            },
+            {
+              "id": "c",
+              "text": "Peixes"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Câncer é regido pela Lua, o astro das emoções e do lar."
+        }
+      ]
+    },
+    {
+      "slug": "seu-signo-solar",
+      "title": "O seu signo solar",
+      "minutes": 4,
+      "tags": [
+        "sol",
+        "signos",
+        "autoconhecimento"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "sun",
+          "title": "O Sol é o seu centro",
+          "body": "O signo solar mostra a sua vitalidade e o tipo de experiência que faz você se sentir vivo. Não diz tudo sobre você, mas aponta para onde a sua luz quer ir.",
+          "id": "seu-signo-solar-1"
+        },
+        {
+          "type": "concept",
+          "title": "Dons e desafios",
+          "body": "Todo signo tem um lado de luz e um lado de sombra. O desafio não é defeito: costuma ser o próprio dom em excesso. A coragem de Áries vira pressa; o cuidado de Virgem vira autocrítica.",
+          "id": "seu-signo-solar-2"
+        },
+        {
+          "type": "concept",
+          "title": "Signo não é desculpa",
+          "body": "“Sou assim porque sou de Escorpião” prende você em um rótulo. A astrologia serve para o contrário: conhecer a sua energia e escolher como usá-la. Autodomínio também vale aqui.",
+          "id": "seu-signo-solar-3"
+        },
+        {
+          "type": "concept",
+          "title": "O signo oposto ensina",
+          "body": "Cada signo tem um oposto na roda: Áries e Libra, Touro e Escorpião, Gêmeos e Sagitário, Câncer e Capricórnio, Leão e Aquário, Virgem e Peixes. O oposto mostra o que falta para equilibrar.",
+          "id": "seu-signo-solar-4"
+        },
+        {
+          "type": "example",
+          "title": "Aprendendo com o oposto",
+          "body": "Um Leão, que brilha sozinho, aprende com Aquário a pensar no grupo. Uma Virgem, atenta a cada detalhe, aprende com Peixes a confiar e soltar.",
+          "id": "seu-signo-solar-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "O horóscopo que você lê na aba Hoje é escrito para o seu signo solar. A leitura pessoal vai além: usa também a sua Lua, o seu ascendente e os planetas do seu mapa.",
+          "id": "seu-signo-solar-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Qual dom do seu signo você quer usar mais? Qual desafio quer domar?",
+          "id": "seu-signo-solar-7"
+        },
+        {
+          "type": "practice",
+          "title": "Leia o seu horóscopo com outros olhos",
+          "body": "Abra a aba Hoje e leia o horóscopo do seu signo pensando no elemento, na modalidade e no regente dele.",
+          "id": "seu-signo-solar-8",
+          "action": {
+            "label": "Ler o meu horóscopo",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual é o signo oposto a Áries?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Libra"
+            },
+            {
+              "id": "b",
+              "text": "Touro"
+            },
+            {
+              "id": "c",
+              "text": "Peixes"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Áries e Libra ficam em lados opostos da roda: o eu e o outro."
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "prompt": "Um signo é a combinação de quê?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Um elemento e uma modalidade"
+        },
+        {
+          "id": "b",
+          "text": "Um dia da semana e uma cor"
+        },
+        {
+          "id": "c",
+          "text": "Uma fase da Lua e um planeta"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Quatro elementos vezes três modalidades dão os doze signos."
+    },
+    {
+      "id": "q2",
+      "prompt": "Leão é…",
+      "options": [
+        {
+          "id": "a",
+          "text": "Fogo fixo, regido pelo Sol"
+        },
+        {
+          "id": "b",
+          "text": "Terra cardinal, regido por Saturno"
+        },
+        {
+          "id": "c",
+          "text": "Ar mutável, regido por Mercúrio"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Leão é Fogo fixo: uma chama constante, regida pelo Sol."
+    },
+    {
+      "id": "q3",
+      "prompt": "Quais signos são mutáveis?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Gêmeos, Virgem, Sagitário e Peixes"
+        },
+        {
+          "id": "b",
+          "text": "Áries, Câncer, Libra e Capricórnio"
+        },
+        {
+          "id": "c",
+          "text": "Touro, Leão, Escorpião e Aquário"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Os mutáveis fecham as estações e trazem a energia de adaptar."
+    },
+    {
+      "id": "q4",
+      "prompt": "Por que duas pessoas do mesmo signo podem ser tão diferentes?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Porque a astrologia não funciona"
+        },
+        {
+          "id": "b",
+          "text": "Porque a Lua, o ascendente e os planetas de cada uma estão em signos diferentes"
+        },
+        {
+          "id": "c",
+          "text": "Porque nasceram em países diferentes"
+        }
+      ],
+      "correct": "b",
+      "explanation": "O signo solar é só uma parte do mapa: há muito mais além do Sol."
+    },
+    {
+      "id": "q5",
+      "prompt": "Como o MYGLOW propõe usar o seu signo?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Como desculpa para o que você não quer mudar"
+        },
+        {
+          "id": "b",
+          "text": "Como rótulo definitivo"
+        },
+        {
+          "id": "c",
+          "text": "Para conhecer a sua energia e escolher como usá-la"
+        }
+      ],
+      "correct": "c",
+      "explanation": "Conhecer o signo é ganhar autodomínio, não um rótulo."
+    }
+  ]
+}

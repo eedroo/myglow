@@ -6,6 +6,7 @@
     { "slug": "corpo-energia", "order": 3, "required": true, "locales": ["pt-BR"], "publishedAt": "2026-09-30" },
     { "slug": "elementos", "order": 4, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" },
     { "slug": "lua", "order": 5, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" },
-    { "slug": "dias-planetas", "order": 6, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" }
+    { "slug": "dias-planetas", "order": 6, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" },
+    { "slug": "signos", "order": 7, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" }
   ]
 }

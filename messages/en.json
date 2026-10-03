@@ -745,7 +745,23 @@
       "unavailable": "Readings are unavailable right now.",
       "ritualNotFound": "We couldn't find this ritual.",
       "noteFull": "That day's note is already full."
-    }
+    },
+    "natalOf": {
+      "SUN": "your Sun",
+      "MOON": "your Moon",
+      "MERCURY": "your Mercury",
+      "VENUS": "your Venus",
+      "MARS": "your Mars",
+      "ASC": "your Ascendant"
+    },
+    "aspectPhrase": {
+      "CONJUNCTION": "{transit} side by side with {natal}",
+      "SEXTILE": "{transit} supporting {natal}",
+      "SQUARE": "{transit} in tension with {natal}",
+      "TRINE": "{transit} in harmony with {natal}",
+      "OPPOSITION": "{transit} facing {natal}"
+    },
+    "aspectTechnical": "In astrology: {aspect}."
   },
   "notifications": {
     "push": {

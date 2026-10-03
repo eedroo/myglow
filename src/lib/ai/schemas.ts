@@ -16,9 +16,18 @@ export const dayPersonalSchema = z.object({
   headline: text(80),
   reading: text(650),
   transits: z.array(z.object({ label: z.string(), meaning: text(180) })).max(3),
+  // Desde a v3 a leitura pessoal traz as palavras-chave e o cristal (o horóscopo do signo deixou de existir no dia).
+  keywords: z.array(text(24)).length(3),
+  crystal: z.object({ name: text(40), why: text(140) }),
   intentionSuggestion: text(120),
   banishSuggestion: text(120),
   reflectionQuestion: text(140),
+});
+
+/** Leitura (UI e avisos): aceita também leituras anteriores à v3, sem palavras-chave nem cristal. */
+export const dayPersonalReadSchema = dayPersonalSchema.extend({
+  keywords: dayPersonalSchema.shape.keywords.optional(),
+  crystal: dayPersonalSchema.shape.crystal.optional(),
 });
 
 export const weekEnergySchema = z.object({
@@ -62,6 +71,7 @@ export const monthRitualsSchema = z.object({ rituals: z.array(ritualSchema).min(
 
 export type DayHoroscope = z.infer<typeof dayHoroscopeSchema>;
 export type DayPersonal = z.infer<typeof dayPersonalSchema>;
+export type DayPersonalView = z.infer<typeof dayPersonalReadSchema>;
 export type WeekEnergy = z.infer<typeof weekEnergySchema>;
 export type WeekPersonal = z.infer<typeof weekPersonalSchema>;
 export type MonthEnergy = z.infer<typeof monthEnergySchema>;
@@ -81,6 +91,9 @@ export const USER_SCHEMAS = {
   MONTH_PERSONAL: monthPersonalSchema,
   MONTH_RITUALS: monthRitualsSchema,
 } as const;
+
+/** Esquemas para ler o que está gravado (mais tolerantes que os de geração). */
+export const USER_READ_SCHEMAS = { ...USER_SCHEMAS, DAY_PERSONAL: dayPersonalReadSchema } as const;
 
 /**
  * Versão "de fio" enviada à OpenAI (structured outputs em modo estrito): sem limites de comprimento

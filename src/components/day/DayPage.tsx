@@ -86,12 +86,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         glowNote={<GlowWindowNote period="day" periodStart={date} timezone={user.timezone} today={today} earned={dayAwards} />}
       />
       <DailySkyCard sky={sky} natal={natal} isToday={isToday} />
-      <DailyReadingCard
-        horoscope={reading.horoscope}
-        personal={reading.personal}
-        pending={reading.pending}
-        signLabel={natal ? ta(`signs.${natal.bodies.SUN.sign}`) : null}
-      />
+      <DailyReadingCard personal={reading.personal} pending={reading.pending} />
       {reading.ritualToday && <RitualTodayCard ritual={reading.ritualToday} locale={appLocale} />}
       {shouldShowPrompt({
         firstDay: todayInTz(user.timezone, user.createdAt),

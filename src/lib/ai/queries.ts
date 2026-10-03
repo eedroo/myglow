@@ -6,9 +6,8 @@ import { addDays, compareDates, toDbDate, todayInTz, type DateISO } from '@/lib/
 import { addMonths, monthKey, monthOf, weekStartOf } from '@/lib/weeks';
 import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
 import {
-  SIGN_SCHEMAS, USER_SCHEMAS,
-  type DayHoroscope, type DayPersonal, type MonthEnergy, type MonthPersonal, type MonthRituals, type Ritual,
-  type WeekEnergy, type WeekPersonal,
+  SIGN_SCHEMAS, USER_READ_SCHEMAS,
+  type DayPersonalView, type MonthEnergy, type MonthPersonal, type MonthRituals, type Ritual, type WeekPersonal,
 } from './schemas';
 import { PROMPT_VERSION } from './prompts/system';
 
@@ -100,36 +99,34 @@ async function userState<K extends UserContentKind>(ctx: Ctx, kind: K, periodSta
     where: { userId_kind_periodStart_locale: { userId: ctx.userId, kind, periodStart: toDbDate(periodStart), locale: ctx.locale } },
     select: { payload: true, promptVersion: true },
   });
-  return toState(ctx, kind, periodStart, row, USER_SCHEMAS[kind] as z.ZodType<z.infer<(typeof USER_SCHEMAS)[K]>>);
+  return toState(ctx, kind, periodStart, row, USER_READ_SCHEMAS[kind] as z.ZodType<z.infer<(typeof USER_READ_SCHEMAS)[K]>>);
 }
 
 const UNAVAILABLE = { status: 'unavailable' } as const;
 
+/** Dia e semana: só a leitura pessoal (o horóscopo e a energia por signo ficaram só no mês). */
 export async function getDayReading(userId: string, date: DateISO): Promise<{
-  horoscope: AiState<DayHoroscope>;
-  personal: AiState<DayPersonal>;
+  personal: AiState<DayPersonalView>;
   ritualToday: Ritual | null;
   pending: AiRequest[];
 }> {
   const ctx = await context(userId);
-  if (!ctx) return { horoscope: UNAVAILABLE, personal: UNAVAILABLE, ritualToday: null, pending: [] };
-  const [horoscope, personal, rituals] = await Promise.all([
-    signState(ctx, 'DAY_HOROSCOPE', date),
+  if (!ctx) return { personal: UNAVAILABLE, ritualToday: null, pending: [] };
+  const [personal, rituals] = await Promise.all([
     userState(ctx, 'DAY_PERSONAL', date),
     getRituals(ctx.userId, ctx.locale, firstOfMonth(date)),
   ]);
-  return { horoscope, personal, ritualToday: rituals?.rituals.find((r) => r.date === date) ?? null, pending: ctx.pending };
+  return { personal, ritualToday: rituals?.rituals.find((r) => r.date === date) ?? null, pending: ctx.pending };
 }
 
 export async function getWeekReading(userId: string, start: DateISO): Promise<{
-  energy: AiState<WeekEnergy>;
   personal: AiState<WeekPersonal>;
   pending: AiRequest[];
 }> {
   const ctx = await context(userId);
-  if (!ctx) return { energy: UNAVAILABLE, personal: UNAVAILABLE, pending: [] };
-  const [energy, personal] = await Promise.all([signState(ctx, 'WEEK_ENERGY', start), userState(ctx, 'WEEK_PERSONAL', start)]);
-  return { energy, personal, pending: ctx.pending };
+  if (!ctx) return { personal: UNAVAILABLE, pending: [] };
+  const personal = await userState(ctx, 'WEEK_PERSONAL', start);
+  return { personal, pending: ctx.pending };
 }
 
 export async function getMonthReading(userId: string, year: number, month: number): Promise<{
@@ -155,6 +152,6 @@ export async function getRituals(userId: string, locale: Locale, monthStart: Dat
     where: { userId_kind_periodStart_locale: { userId, kind: 'MONTH_RITUALS', periodStart: toDbDate(monthStart), locale } },
     select: { payload: true },
   });
-  const parsed = row ? USER_SCHEMAS.MONTH_RITUALS.safeParse(row.payload) : null;
+  const parsed = row ? USER_READ_SCHEMAS.MONTH_RITUALS.safeParse(row.payload) : null;
   return parsed?.success ? parsed.data : null;
 }

@@ -1,0 +1,32 @@
+import { describe, expect, it } from 'vitest';
+import valid from '../../../tests/fixtures/ai/day-personal.valid.json';
+import { dayPersonalReadSchema, dayPersonalSchema } from './schemas';
+import { systemPrompt } from './prompts/system';
+import { build as buildDayPersonal } from './prompts/dayPersonal';
+import { currentSignJobs } from './schedule';
+
+describe('leitura pessoal do dia (v3)', () => {
+  const { keywords: _k, crystal: _c, ...old } = valid;
+
+  it('gera com palavras-chave e cristal; lê também leituras antigas sem eles', () => {
+    expect(dayPersonalSchema.safeParse(valid).success).toBe(true);
+    expect(dayPersonalSchema.safeParse(old).success).toBe(false);
+    expect(dayPersonalReadSchema.safeParse(old).success).toBe(true);
+    expect(dayPersonalSchema.safeParse({ ...valid, keywords: ['a', 'b'] }).success).toBe(false);
+  });
+
+  it('prompts pedem linguagem simples (sem termos técnicos soltos) e título poético', () => {
+    const sys = systemPrompt('PT_BR', 'NEUTRAL');
+    expect(sys).toMatch(/Plain language first/);
+    expect(sys).toMatch(/square = tension/);
+    expect(sys).toMatch(/Ascendant = how you show yourself/);
+    const p = buildDayPersonal({} as never, 'PT_BR');
+    expect(p.user).toMatch(/poetic, image-based title/);
+    expect(p.user).toMatch(/keywords: exactly 3/);
+    expect(p.user).toMatch(/crystal:/);
+  });
+
+  it('só o mês continua a ter conteúdo por signo', () => {
+    expect(currentSignJobs(new Date('2026-10-03T12:00:00Z'))).toEqual([{ kind: 'MONTH_ENERGY', periodStart: '2026-10-01' }]);
+  });
+});

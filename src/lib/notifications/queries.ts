@@ -10,7 +10,7 @@ import { getDailyMoon } from '@/lib/astro/moon';
 import { getSkyEvents, type SabbatKey } from '@/lib/astro/skyEvents';
 import { getRituals } from '@/lib/ai/queries';
 import { getGrimoireDayStatus } from '@/lib/grimoire/queries';
-import { USER_SCHEMAS } from '@/lib/ai/schemas';
+import { USER_READ_SCHEMAS } from '@/lib/ai/schemas';
 import type { NotificationContext } from './content';
 import type { NotificationState } from './schedule';
 
@@ -56,7 +56,7 @@ async function headline(userId: string, locale: Locale, kind: 'DAY_PERSONAL' | '
     where: { userId_kind_periodStart_locale: { userId, kind, periodStart: toDbDate(periodStart), locale } },
     select: { payload: true },
   });
-  const parsed = row ? USER_SCHEMAS[kind].safeParse(row.payload) : null;
+  const parsed = row ? USER_READ_SCHEMAS[kind].safeParse(row.payload) : null;
   return parsed?.success ? parsed.data.headline : undefined;
 }
 

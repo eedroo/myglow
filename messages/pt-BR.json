@@ -745,7 +745,23 @@
       "unavailable": "As leituras estão indisponíveis no momento.",
       "ritualNotFound": "Não encontramos este ritual.",
       "noteFull": "A anotação desse dia já está cheia."
-    }
+    },
+    "natalOf": {
+      "SUN": "o seu Sol",
+      "MOON": "a sua Lua",
+      "MERCURY": "o seu Mercúrio",
+      "VENUS": "a sua Vênus",
+      "MARS": "o seu Marte",
+      "ASC": "o seu Ascendente"
+    },
+    "aspectPhrase": {
+      "CONJUNCTION": "{transit} lado a lado com {natal}",
+      "SEXTILE": "{transit} em boa parceria com {natal}",
+      "SQUARE": "{transit} em tensão com {natal}",
+      "TRINE": "{transit} em harmonia com {natal}",
+      "OPPOSITION": "{transit} frente a frente com {natal}"
+    },
+    "aspectTechnical": "Na astrologia: {aspect}."
   },
   "notifications": {
     "push": {

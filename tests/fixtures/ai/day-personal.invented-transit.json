@@ -13,5 +13,7 @@
   ],
   "intentionSuggestion": "Hoje dou um passo firme naquilo que é importante para mim.",
   "banishSuggestion": "A pressa de ter tudo resolvido de uma vez.",
-  "reflectionQuestion": "Que pequeno gesto de hoje te aproximou de quem queres ser?"
+  "reflectionQuestion": "Que pequeno gesto de hoje te aproximou de quem queres ser?",
+  "keywords": ["coragem", "foco", "paciência"],
+  "crystal": { "name": "Cornalina", "why": "Dá ânimo para começar e ajuda a manter o passo firme." }
 }

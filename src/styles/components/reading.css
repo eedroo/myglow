@@ -160,6 +160,14 @@
   color: var(--text-secondary);
 }
 
+/* Nome técnico do aspecto (quadratura, trígono…), discreto, só no detalhe do trânsito */
+.mg-reading__aspect-name {
+  margin-top: calc(var(--space-2) * -1);
+  padding: 0 var(--space-3) var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
 .mg-reading__highlights {
   display: flex;
   flex-direction: column;

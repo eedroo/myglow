@@ -48,15 +48,13 @@ export function currentUserJobs(now: Date, tz: string): UserJob[] {
   ];
 }
 
-/** Conteúdo partilhado actual (UTC): hoje, esta semana, este mês — usado pelo seed. */
+/**
+ * Conteúdo partilhado actual (UTC) — usado pelo seed. Só o mês: o horóscopo do dia e a energia da semana por
+ * signo deixaram de ser gerados (o dia e a semana mostram só a leitura pessoal).
+ */
 export function currentSignJobs(now: Date): SignJob[] {
-  const today = todayInTz('UTC', now);
-  const { year, month } = monthOf(today);
-  return [
-    { kind: 'DAY_HOROSCOPE', periodStart: today },
-    { kind: 'WEEK_ENERGY', periodStart: weekStartOf(today) },
-    { kind: 'MONTH_ENERGY', periodStart: firstOfMonth(year, month) },
-  ];
+  const { year, month } = monthOf(todayInTz('UTC', now));
+  return [{ kind: 'MONTH_ENERGY', periodStart: firstOfMonth(year, month) }];
 }
 
 /** Próximo período partilhado para os crons (UTC): amanhã, a semana seguinte, o mês seguinte. */

@@ -2,7 +2,7 @@ import type { Locale, Pronouns } from '@prisma/client';
 import { glossary, localizeFacts } from '../localize';
 
 /** Incrementar sempre que os prompts mudem de forma relevante (fica gravado com o conteúdo). */
-export const PROMPT_VERSION = 2;
+export const PROMPT_VERSION = 3;
 
 export interface PromptPair {
   system: string;
@@ -42,6 +42,9 @@ export function systemPrompt(locale: Locale, pronouns: Pronouns | null = null): 
     '- Write every name (signs, planets, Moon phases, sky events, transits) in the output language, as given in the "name" fields and in the GLOSSARY. Never write internal identifiers (UPPER_CASE words such as MERCURY_TRINE_NATAL_SUN, SCORPIO or FULL_MOON) nor English names in the text. Transit identifiers go ONLY in the "label" field of "transits"; in the prose describe the transit with its "name".',
     genderRule(pronouns),
     '- Speak in terms of possibility and invitation, never fatalistic or fear-based. Astrology is a tool for reflection, not prediction.',
+    '- Plain language first. Never use technical astrological terms on their own (conjunction, square, trine, opposition, sextile, orb, house numbers such as "first house"). Describe each transit by what it feels like and what it invites in daily life, and spend more words on the effect than on the mechanics.',
+    '- Aspect vocabulary (use these images instead of the technical names): conjunction = side by side, energies merging; sextile = friendly support, a small opportunity; square = tension that asks for an adjustment; trine = easy flow, harmony; opposition = facing each other, finding balance between two sides.',
+    '- When you mention a chart point or concept, explain it in a few plain words the first time: the Ascendant = how you show yourself to the world; natal Sun = your essence; natal Moon = your emotions and needs; natal Mercury = how you think and communicate; natal Venus = how you love and care for yourself; natal Mars = your drive; a house = an area of life (name the area, not the number); retrograde = a time to review and look back.',
     '- No medical, psychological, financial or legal advice. Never mention health, pregnancy, death or illness.',
     '- Rituals must be safe and simple: nothing ingested (no herbs, oils or substances to eat or drink), candles always supervised and away from flammable materials, nothing involving pain, blood or risk, only common and inexpensive materials. Respect different traditions and do not appropriate closed practices.',
     '- If the facts include the user\'s intentions, weave them in subtly; never quote them literally.',

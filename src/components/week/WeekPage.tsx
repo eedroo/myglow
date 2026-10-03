@@ -61,13 +61,7 @@ export async function WeekPage({ start }: { start: DateISO }) {
         glowNote={<GlowWindowNote period="week" periodStart={start} timezone={user.timezone} today={data.today} earned={weekAwards} />}
         sky={<WeekSkyCard events={data.moonEvents} moonDays={data.days.map((d) => d.moon)} timezone={user.timezone} />}
         reading={
-          <WeekReadingCard
-            energy={reading.energy}
-            personal={reading.personal}
-            pending={reading.pending}
-            signLabel={natal ? ta(`signs.${natal.bodies.SUN.sign}`) : null}
-            locale={locale}
-          />
+          <WeekReadingCard personal={reading.personal} pending={reading.pending} />
         }
         focusNotes={focusNotes}
       />

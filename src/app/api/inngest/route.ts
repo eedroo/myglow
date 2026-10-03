@@ -1,7 +1,5 @@
 import { serve } from 'inngest/next';
 import { inngest } from '@/inngest/client';
-import { signDaily } from '@/inngest/functions/signDaily';
-import { signWeekly } from '@/inngest/functions/signWeekly';
 import { signMonthly } from '@/inngest/functions/signMonthly';
 import { userDispatch } from '@/inngest/functions/userDispatch';
 import { generateSign } from '@/inngest/functions/generateSign';
@@ -13,5 +11,6 @@ export const maxDuration = 60;
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
-  functions: [signDaily, signWeekly, signMonthly, userDispatch, generateSign, generateUser, notificationsDispatch],
+  // O horóscopo diário e a energia semanal por signo deixaram de ser gerados (só o mês tem leitura por signo).
+  functions: [signMonthly, userDispatch, generateSign, generateUser, notificationsDispatch],
 });

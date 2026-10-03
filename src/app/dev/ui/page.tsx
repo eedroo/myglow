@@ -52,9 +52,8 @@ import { LessonComplete } from '@/components/grimoire/LessonComplete';
 import { QuizPlayer } from '@/components/grimoire/QuizPlayer';
 import { getCourse } from '@/lib/grimoire/content';
 import type { MapCourse } from '@/lib/grimoire/queries';
-import { dayHoroscopeSchema, dayPersonalSchema, monthRitualsSchema } from '@/lib/ai/schemas';
+import { dayPersonalSchema, monthRitualsSchema } from '@/lib/ai/schemas';
 import { finalizeRituals } from '@/lib/ai/rituals';
-import sampleHoroscope from '../../../../tests/fixtures/ai/day-horoscope.valid.json';
 import samplePersonal from '../../../../tests/fixtures/ai/day-personal.valid.json';
 import sampleRituals from '../../../../tests/fixtures/ai/month-rituals.valid.json';
 
@@ -220,12 +219,7 @@ export default async function DevUiPage() {
         </section>
         <section className="mg-stack">
           <SectionHeader title={t('readingSample')} icon="crystal-ball" />
-          <DailyReadingCard
-            horoscope={ready(dayHoroscopeSchema.parse(sampleHoroscope))}
-            personal={ready(dayPersonalSchema.parse(samplePersonal))}
-            pending={[]}
-            signLabel={ta('signs.CANCER')}
-          />
+          <DailyReadingCard personal={ready(dayPersonalSchema.parse(samplePersonal))} pending={[]} />
           <RitualTodayCard ritual={rituals.rituals[0]!} locale={appLocale} />
           <p className="mg-dev__caption">{t('readingPending')}</p>
           <MonthReadingCard

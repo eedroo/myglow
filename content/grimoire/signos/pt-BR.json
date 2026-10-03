@@ -601,7 +601,7 @@
         },
         {
           "type": "didYouKnow",
-          "body": "O horóscopo que você lê na aba Hoje é escrito para o seu signo solar. A leitura pessoal vai além: usa também a sua Lua, o seu ascendente e os planetas do seu mapa.",
+          "body": "O horóscopo do mês, na aba Mês, é escrito para o seu signo solar. A leitura pessoal de Hoje vai além: usa também a sua Lua, o seu ascendente e os planetas do seu mapa.",
           "id": "seu-signo-solar-6"
         },
         {
@@ -612,11 +612,11 @@
         {
           "type": "practice",
           "title": "Leia o seu horóscopo com outros olhos",
-          "body": "Abra a aba Hoje e leia o horóscopo do seu signo pensando no elemento, na modalidade e no regente dele.",
+          "body": "Abra a aba Mês e leia o horóscopo do seu signo pensando no elemento, na modalidade e no regente dele.",
           "id": "seu-signo-solar-8",
           "action": {
-            "label": "Ler o meu horóscopo",
-            "href": "/today"
+            "label": "Ler o horóscopo do mês",
+            "href": "/month"
           }
         }
       ],

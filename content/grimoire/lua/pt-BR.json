@@ -1,0 +1,681 @@
+{
+  "slug": "lua",
+  "order": 5,
+  "required": false,
+  "locale": "pt-BR",
+  "version": 1,
+  "title": "A Lua",
+  "subtitle": "O ritmo que guia a sua prática",
+  "description": "A Lua marca o ritmo da magia. Neste curso você entende o ciclo lunar, o que cada fase favorece, como a Lua muda de signo, o que são os eclipses e como usar tudo isso no seu diário e no seu planner.",
+  "icon": "moon-crescent",
+  "badge": {
+    "name": "Selo da Lua",
+    "icon": "badge-lua",
+    "description": "Você aprendeu a ler o ciclo da Lua e a caminhar no ritmo dela."
+  },
+  "tags": [
+    "lua",
+    "fases",
+    "signos",
+    "eclipses",
+    "agua"
+  ],
+  "lessons": [
+    {
+      "slug": "ciclo-lunar",
+      "title": "O ciclo lunar",
+      "minutes": 4,
+      "tags": [
+        "lua",
+        "fases"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Um relógio no céu",
+          "body": "Muito antes dos calendários, as pessoas contavam o tempo pela Lua. Ela cresce, enche, mingua e some, sempre na mesma ordem. Acompanhar a Lua é acompanhar um ritmo.",
+          "id": "ciclo-lunar-1"
+        },
+        {
+          "type": "icon",
+          "icon": "moon-crescent",
+          "title": "Vinte e nove dias e meio",
+          "body": "Esse é o tempo que a Lua leva de uma Lua Nova até a próxima. Nesse período ela passa por oito fases, que você vê todos os dias no topo do seu diário.",
+          "id": "ciclo-lunar-2"
+        },
+        {
+          "type": "concept",
+          "title": "Crescer e minguar",
+          "body": "O ciclo tem duas metades. Da Lua Nova à Cheia, a luz **cresce**: tempo de começar, construir e atrair. Da Cheia à Nova, a luz **mingua**: tempo de agradecer, soltar e descansar.",
+          "id": "ciclo-lunar-3"
+        },
+        {
+          "type": "concept",
+          "title": "Por que seguir a Lua",
+          "body": "Porque ela lembra que nada cresce o tempo todo. Há dias de plantar e dias de colher, dias de agir e dias de recolher. Seguir a Lua é dar a si mesmo permissão para ter ritmo.",
+          "id": "ciclo-lunar-4"
+        },
+        {
+          "type": "example",
+          "title": "Um mês em quatro tempos",
+          "body": "Lua Nova: defino o que quero. Crescente: dou os primeiros passos. Cheia: celebro e vejo o que deu fruto. Minguante: limpo, encerro e descanso.",
+          "id": "ciclo-lunar-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "No hemisfério Sul, a Lua crescente tem a forma de um C, de Crescente. No hemisfério Norte é o contrário: ali o C aparece quando a Lua está minguando.",
+          "id": "ciclo-lunar-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Em que momento do seu mês você costuma ter mais energia? E menos?",
+          "id": "ciclo-lunar-7"
+        },
+        {
+          "type": "practice",
+          "title": "Olhe a Lua de hoje",
+          "body": "Abra a aba Hoje e veja em que fase e em que signo a Lua está. Se puder, olhe também para o céu esta noite.",
+          "id": "ciclo-lunar-8",
+          "action": {
+            "label": "Ver a Lua de hoje",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Quanto tempo dura um ciclo lunar completo?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Cerca de 7 dias"
+            },
+            {
+              "id": "b",
+              "text": "Cerca de 29 dias e meio"
+            },
+            {
+              "id": "c",
+              "text": "Cerca de 365 dias"
+            }
+          ],
+          "correct": "b",
+          "explanation": "De uma Lua Nova à seguinte passam cerca de 29 dias e meio."
+        }
+      ]
+    },
+    {
+      "slug": "nova-a-cheia",
+      "title": "Da Lua Nova à Cheia: plantar e crescer",
+      "minutes": 5,
+      "tags": [
+        "lua",
+        "fases"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "phase-new",
+          "title": "Lua Nova: a semente",
+          "body": "O céu fica escuro e o ciclo recomeça. É o momento de silêncio, de olhar para dentro e de escolher intenções. Tudo o que você planta agora cresce com a Lua.",
+          "id": "nova-a-cheia-1"
+        },
+        {
+          "type": "icon",
+          "icon": "phase-waxing-crescent",
+          "title": "Lua Crescente: o broto",
+          "body": "O primeiro fio de luz aparece. É hora de dar os primeiros passos, mesmo pequenos: pesquisar, organizar, contar para alguém, começar.",
+          "id": "nova-a-cheia-2"
+        },
+        {
+          "type": "icon",
+          "icon": "phase-first-quarter",
+          "title": "Quarto Crescente: a ação",
+          "body": "Metade da Lua está iluminada. Surgem obstáculos e decisões. É tempo de agir com firmeza, ajustar o plano e não desistir no primeiro tropeço.",
+          "id": "nova-a-cheia-3"
+        },
+        {
+          "type": "icon",
+          "icon": "phase-waxing-gibbous",
+          "title": "Crescente Gibosa: o ajuste",
+          "body": "A Lua está quase cheia. Refine, corrija, tenha paciência. É a fase de cuidar dos detalhes e confiar no que você vem construindo.",
+          "id": "nova-a-cheia-4"
+        },
+        {
+          "type": "example",
+          "title": "Um ritual de Lua Nova",
+          "body": "Em um lugar calmo, respire fundo e escreva até três intenções para o ciclo, no presente e de forma positiva. Guarde o papel ou anote na intenção do mês. Simples assim.",
+          "id": "nova-a-cheia-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Na MYGLOW, a Lua Nova, os Quartos e a Lua Cheia aparecem só no dia exato em que acontecem. Nos outros dias você vê a fase intermediária.",
+          "id": "nova-a-cheia-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que você quer plantar no próximo ciclo?",
+          "id": "nova-a-cheia-7"
+        },
+        {
+          "type": "practice",
+          "title": "Encontre a próxima Lua Nova",
+          "body": "Abra o Mês, veja no calendário quando é a próxima Lua Nova e anote nesse dia: escrever minhas intenções.",
+          "id": "nova-a-cheia-8",
+          "action": {
+            "label": "Abrir o Mês",
+            "href": "/month"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual fase é a melhor para escolher intenções e começar um ciclo?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Lua Nova"
+            },
+            {
+              "id": "b",
+              "text": "Lua Cheia"
+            },
+            {
+              "id": "c",
+              "text": "Quarto Minguante"
+            }
+          ],
+          "correct": "a",
+          "explanation": "A Lua Nova é a semente: o momento de escolher o que você quer plantar."
+        },
+        {
+          "id": "r2",
+          "prompt": "O que pede o Quarto Crescente?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Descanso total"
+            },
+            {
+              "id": "b",
+              "text": "Ação, decisões e ajustes no plano"
+            },
+            {
+              "id": "c",
+              "text": "Encerrar projetos"
+            }
+          ],
+          "correct": "b",
+          "explanation": "No Quarto Crescente surgem obstáculos: é hora de agir e ajustar."
+        }
+      ]
+    },
+    {
+      "slug": "cheia-a-nova",
+      "title": "Da Lua Cheia à Nova: colher e soltar",
+      "minutes": 5,
+      "tags": [
+        "lua",
+        "fases"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "phase-full",
+          "title": "Lua Cheia: o fruto",
+          "body": "A Lua está toda iluminada. É o ponto alto do ciclo: tempo de celebrar, agradecer e ver com clareza o que deu resultado. As emoções costumam ficar mais intensas.",
+          "id": "cheia-a-nova-1"
+        },
+        {
+          "type": "icon",
+          "icon": "phase-waning-gibbous",
+          "title": "Minguante Gibosa: a partilha",
+          "body": "A luz começa a diminuir. É tempo de agradecer, ensinar o que aprendeu e dividir com os outros o que você colheu.",
+          "id": "cheia-a-nova-2"
+        },
+        {
+          "type": "icon",
+          "icon": "phase-last-quarter",
+          "title": "Quarto Minguante: a limpeza",
+          "body": "Metade da Lua está iluminada, agora diminuindo. Hora de soltar: hábitos, objetos, compromissos e pensamentos que não fazem mais sentido.",
+          "id": "cheia-a-nova-3"
+        },
+        {
+          "type": "icon",
+          "icon": "phase-waning-crescent",
+          "title": "Lua Minguante: o descanso",
+          "body": "O último fio de luz antes da Lua Nova. É a fase de recolhimento: dormir mais, fazer menos, refletir. Descansar também faz parte do ciclo.",
+          "id": "cheia-a-nova-4"
+        },
+        {
+          "type": "example",
+          "title": "Um ritual de Lua Cheia",
+          "body": "Escreva três coisas pelas quais você é grato neste ciclo. Depois, em outro papel, escreva o que quer soltar, rasgue e descarte. Termine com um copo d'água e uma respiração funda.",
+          "id": "cheia-a-nova-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Muita gente percebe o sono mais leve perto da Lua Cheia. Use a nota de como você acordou para descobrir se isso acontece com você.",
+          "id": "cheia-a-nova-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que já cumpriu o seu papel e pode ser solto agora?",
+          "id": "cheia-a-nova-7"
+        },
+        {
+          "type": "practice",
+          "title": "Feche o ciclo com gratidão",
+          "body": "Hoje à noite, na gratidão do diário, escreva algo que este ciclo lunar te trouxe.",
+          "id": "cheia-a-nova-8",
+          "action": {
+            "label": "Ver a Noite",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual fase favorece celebrar e agradecer pelo que deu fruto?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Lua Nova"
+            },
+            {
+              "id": "b",
+              "text": "Lua Cheia"
+            },
+            {
+              "id": "c",
+              "text": "Lua Crescente"
+            }
+          ],
+          "correct": "b",
+          "explanation": "A Lua Cheia é o ponto alto: tempo de celebrar e ver os resultados."
+        },
+        {
+          "id": "r2",
+          "prompt": "O que a Lua Minguante pede?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Começar projetos grandes"
+            },
+            {
+              "id": "b",
+              "text": "Recolhimento e descanso"
+            },
+            {
+              "id": "c",
+              "text": "Agir com pressa"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Antes de um novo começo vem a pausa: a Minguante é tempo de descansar."
+        }
+      ]
+    },
+    {
+      "slug": "lua-nos-signos",
+      "title": "A Lua nos signos",
+      "minutes": 5,
+      "tags": [
+        "lua",
+        "signos",
+        "elementos"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "A Lua viaja pelo zodíaco",
+          "body": "Além de mudar de fase, a Lua muda de signo a cada dois dias e meio, mais ou menos. A fase diz **o que fazer** no ciclo; o signo diz **o clima** do dia.",
+          "id": "lua-nos-signos-1"
+        },
+        {
+          "type": "icon",
+          "icon": "zodiac-wheel",
+          "title": "O elemento dá o tom",
+          "body": "**Fogo** (Áries, Leão, Sagitário): ação e coragem. **Terra** (Touro, Virgem, Capricórnio): organizar e cuidar do corpo. **Ar** (Gêmeos, Libra, Aquário): conversar e aprender. **Água** (Câncer, Escorpião, Peixes): sentir e descansar.",
+          "id": "lua-nos-signos-2"
+        },
+        {
+          "type": "concept",
+          "title": "Fogo e Terra, signo a signo",
+          "body": "**Áries**: começar. **Leão**: brilhar e criar. **Sagitário**: explorar. **Touro**: prazer e calma. **Virgem**: arrumar e cuidar. **Capricórnio**: planejar e trabalhar.",
+          "id": "lua-nos-signos-3"
+        },
+        {
+          "type": "concept",
+          "title": "Ar e Água, signo a signo",
+          "body": "**Gêmeos**: conversar e estudar. **Libra**: harmonizar relações. **Aquário**: inovar e estar com amigos. **Câncer**: casa e afeto. **Escorpião**: mergulhar fundo. **Peixes**: sonhar e meditar.",
+          "id": "lua-nos-signos-4"
+        },
+        {
+          "type": "example",
+          "title": "Juntando fase e signo",
+          "body": "Lua Crescente em Virgem: ótimo dia para organizar os passos do seu projeto. Lua Minguante em Peixes: dia para descansar, meditar e soltar com suavidade.",
+          "id": "lua-nos-signos-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Quando a Lua muda de signo no meio do dia, a MYGLOW mostra o horário exato da mudança no cartão do céu.",
+          "id": "lua-nos-signos-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Você nota dias em que tudo flui e outros em que tudo pesa? Em que signo a Lua estava?",
+          "id": "lua-nos-signos-7"
+        },
+        {
+          "type": "practice",
+          "title": "Leia o clima de hoje",
+          "body": "Veja o signo da Lua de hoje e escolha uma intenção que combine com o elemento dele.",
+          "id": "lua-nos-signos-8",
+          "action": {
+            "label": "Escrever intenção",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "De quanto em quanto tempo a Lua muda de signo?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A cada dois dias e meio, mais ou menos"
+            },
+            {
+              "id": "b",
+              "text": "Uma vez por mês"
+            },
+            {
+              "id": "c",
+              "text": "Uma vez por ano"
+            }
+          ],
+          "correct": "a",
+          "explanation": "A Lua percorre os doze signos em um mês, ficando cerca de dois dias e meio em cada um."
+        }
+      ]
+    },
+    {
+      "slug": "eclipses",
+      "title": "Eclipses",
+      "minutes": 4,
+      "tags": [
+        "lua",
+        "eclipses"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Quando Sol, Terra e Lua se alinham",
+          "body": "Um eclipse acontece quando os três ficam em linha. Na tradição, são momentos de virada: algo se encerra ou começa de forma mais marcante que o normal.",
+          "id": "eclipses-1"
+        },
+        {
+          "type": "icon",
+          "icon": "phase-new",
+          "title": "Eclipse solar",
+          "body": "Acontece em uma Lua Nova: a Lua passa na frente do Sol. É visto como um novo começo com força extra, uma porta que se abre.",
+          "id": "eclipses-2"
+        },
+        {
+          "type": "icon",
+          "icon": "phase-full",
+          "title": "Eclipse lunar",
+          "body": "Acontece em uma Lua Cheia: a sombra da Terra cobre a Lua. É visto como um fechamento, uma revelação, algo que vem à tona para ser solto.",
+          "id": "eclipses-3"
+        },
+        {
+          "type": "concept",
+          "title": "Como viver um eclipse",
+          "body": "Muitas tradições preferem não fazer pedidos em eclipses. Em vez disso: desacelere, observe o que vem à tona, escreva no diário e evite decisões por impulso.",
+          "id": "eclipses-4"
+        },
+        {
+          "type": "concept",
+          "title": "Cuidado com os olhos",
+          "body": "Nunca olhe diretamente para um eclipse solar sem proteção certificada: óculos de sol comuns não protegem. Já o eclipse lunar pode ser visto a olho nu, sem risco.",
+          "id": "eclipses-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Os eclipses vêm em temporadas, mais ou menos a cada seis meses. A MYGLOW marca cada um no calendário do Mês e na página do Ano.",
+          "id": "eclipses-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que mudou na sua vida perto do último eclipse de que você se lembra?",
+          "id": "eclipses-7"
+        },
+        {
+          "type": "practice",
+          "title": "Encontre o próximo eclipse",
+          "body": "Abra o Ano e veja quando será o próximo eclipse. Anote nesse dia: desacelerar e observar.",
+          "id": "eclipses-8",
+          "action": {
+            "label": "Abrir o Ano",
+            "href": "/year"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Em que fase acontece um eclipse lunar?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Lua Nova"
+            },
+            {
+              "id": "b",
+              "text": "Lua Cheia"
+            },
+            {
+              "id": "c",
+              "text": "Quarto Crescente"
+            }
+          ],
+          "correct": "b",
+          "explanation": "O eclipse lunar acontece na Lua Cheia; o solar, na Lua Nova."
+        }
+      ]
+    },
+    {
+      "slug": "lua-no-diario",
+      "title": "A Lua no seu diário",
+      "minutes": 4,
+      "tags": [
+        "lua",
+        "app",
+        "habitos"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O seu próprio mapa lunar",
+          "body": "Cada pessoa sente a Lua de um jeito. Ao registrar o seu humor e como acorda todos os dias, você descobre o seu padrão, e não o que os livros dizem que deveria ser.",
+          "id": "lua-no-diario-1"
+        },
+        {
+          "type": "icon",
+          "icon": "calendar",
+          "title": "A Lua no planner",
+          "body": "No Mês, cada dia mostra a fase da Lua. Use isso para planejar: começos na Crescente, entregas e celebrações perto da Cheia, limpezas e pausas na Minguante.",
+          "id": "lua-no-diario-2"
+        },
+        {
+          "type": "concept",
+          "title": "Intenções com o ritmo",
+          "body": "Na Lua Nova, escreva a intenção do ciclo. Na semana de Quarto Crescente, uma intenção de ação. Na Cheia, de gratidão. Na Minguante, de soltar.",
+          "id": "lua-no-diario-3"
+        },
+        {
+          "type": "icon",
+          "icon": "candle",
+          "title": "Os rituais do mês",
+          "body": "Os rituais sugeridos pela MYGLOW estão ligados às Luas Nova e Cheia e ao signo em que acontecem. Agora você entende o porquê de cada data.",
+          "id": "lua-no-diario-4"
+        },
+        {
+          "type": "example",
+          "title": "Um registro simples",
+          "body": "“Lua Cheia em Touro. Acordei 3/5, sono leve. Humor 4/5. Muita vontade de ficar em casa.” Depois de alguns meses, você enxerga o seu ritmo.",
+          "id": "lua-no-diario-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Você também tem uma Lua no seu mapa natal: o signo em que ela estava quando você nasceu. Ela fala das suas emoções, e aparece no curso O seu mapa natal.",
+          "id": "lua-no-diario-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que hábito seu poderia acompanhar o ritmo da Lua?",
+          "id": "lua-no-diario-7"
+        },
+        {
+          "type": "practice",
+          "title": "Planeje a semana com a Lua",
+          "body": "Abra a Semana, veja a fase de cada dia e escreva a intenção da semana de acordo com ela.",
+          "id": "lua-no-diario-8",
+          "action": {
+            "label": "Abrir a Semana",
+            "href": "/week"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Para que serve registrar o humor junto com a fase da Lua?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Para descobrir o seu próprio padrão ao longo dos ciclos"
+            },
+            {
+              "id": "b",
+              "text": "Para mudar a fase da Lua"
+            },
+            {
+              "id": "c",
+              "text": "Para ganhar pontos extras"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Com o tempo, os registros mostram como você, em particular, sente cada fase."
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "prompt": "O que caracteriza a metade crescente do ciclo (da Nova à Cheia)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Soltar e descansar"
+        },
+        {
+          "id": "b",
+          "text": "Começar, construir e atrair"
+        },
+        {
+          "id": "c",
+          "text": "Evitar qualquer ação"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Enquanto a luz cresce, o tempo é de plantar e fazer crescer."
+    },
+    {
+      "id": "q2",
+      "prompt": "Você quer encerrar um hábito que não serve mais. Qual fase ajuda mais?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lua Crescente"
+        },
+        {
+          "id": "b",
+          "text": "Quarto Minguante"
+        },
+        {
+          "id": "c",
+          "text": "Lua Nova"
+        }
+      ],
+      "correct": "b",
+      "explanation": "A metade minguante, em especial o Quarto Minguante, favorece soltar e limpar."
+    },
+    {
+      "id": "q3",
+      "prompt": "A Lua está em um signo de Ar. Qual atividade combina mais com o dia?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Conversar, estudar e trocar ideias"
+        },
+        {
+          "id": "b",
+          "text": "Ficar em silêncio absoluto"
+        },
+        {
+          "id": "c",
+          "text": "Fazer faxina pesada"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Lua em Ar favorece a mente e a comunicação."
+    },
+    {
+      "id": "q4",
+      "prompt": "O que é verdade sobre eclipses?",
+      "options": [
+        {
+          "id": "a",
+          "text": "O solar acontece na Lua Nova e o lunar na Lua Cheia"
+        },
+        {
+          "id": "b",
+          "text": "Os dois acontecem na Lua Crescente"
+        },
+        {
+          "id": "c",
+          "text": "Pode-se olhar o eclipse solar sem proteção"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Solar na Nova, lunar na Cheia. E o eclipse solar nunca deve ser visto sem proteção certificada."
+    },
+    {
+      "id": "q5",
+      "prompt": "Na MYGLOW, quando a fase aparece como Lua Cheia?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Durante a semana inteira"
+        },
+        {
+          "id": "b",
+          "text": "Só no dia exato em que ela acontece"
+        },
+        {
+          "id": "c",
+          "text": "Sempre que a Lua está visível"
+        }
+      ],
+      "correct": "b",
+      "explanation": "As fases principais aparecem só no dia exato; nos outros dias você vê a fase intermediária."
+    }
+  ]
+}

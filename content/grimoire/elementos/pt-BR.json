@@ -1,0 +1,754 @@
+{
+  "slug": "elementos",
+  "order": 4,
+  "required": false,
+  "locale": "pt-BR",
+  "version": 1,
+  "title": "Os elementos",
+  "subtitle": "Fogo, Água, Ar, Terra e Espírito",
+  "description": "Os elementos são a linguagem mais antiga da magia. Neste curso você conhece Fogo, Água, Ar, Terra e Espírito, aprende a reconhecer cada um no seu dia e descobre como equilibrá-los na prática.",
+  "icon": "flame",
+  "badge": {
+    "name": "Selo dos Elementos",
+    "icon": "badge-elementos",
+    "description": "Você aprendeu a reconhecer e equilibrar os elementos na sua vida."
+  },
+  "tags": [
+    "elementos",
+    "fogo",
+    "agua",
+    "ar",
+    "terra",
+    "espirito"
+  ],
+  "lessons": [
+    {
+      "slug": "os-quatro-elementos",
+      "title": "A linguagem dos elementos",
+      "minutes": 4,
+      "tags": [
+        "elementos"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Uma forma de ler o mundo",
+          "body": "Há milhares de anos, pessoas de muitas culturas descrevem a natureza e a si mesmas através de elementos. Fogo, Água, Ar e Terra não são só coisas físicas: são quatro tipos de energia.",
+          "id": "os-quatro-elementos-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sparkles",
+          "title": "Quatro energias",
+          "body": "**Fogo**: vontade e ação. **Água**: emoção e intuição. **Ar**: pensamento e comunicação. **Terra**: corpo e matéria. Tudo o que você vive tem um pouco de cada uma.",
+          "id": "os-quatro-elementos-2"
+        },
+        {
+          "type": "concept",
+          "title": "E o quinto elemento",
+          "body": "Muitas tradições falam de um quinto elemento: o **Espírito** (ou Éter). Ele é o que une os outros quatro e dá sentido a eles. Vamos chegar lá no fim do curso.",
+          "id": "os-quatro-elementos-3"
+        },
+        {
+          "type": "concept",
+          "title": "Equilíbrio, não perfeição",
+          "body": "Ninguém tem os quatro elementos em partes iguais. O objetivo não é ser perfeito, e sim perceber qual elemento está sobrando ou faltando e fazer pequenos ajustes.",
+          "id": "os-quatro-elementos-4"
+        },
+        {
+          "type": "example",
+          "title": "Um dia em quatro elementos",
+          "body": "Você acorda com uma ideia (Ar), sente entusiasmo (Água), decide agir (Fogo) e coloca a mão na massa (Terra). Quando um deles falha, o plano trava em algum ponto.",
+          "id": "os-quatro-elementos-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Na astrologia, cada signo pertence a um elemento. Por isso os elementos aparecem em toda a MYGLOW: na Lua do dia, no seu mapa e nos rituais sugeridos.",
+          "id": "os-quatro-elementos-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Qual dos quatro elementos você sente mais forte em você hoje?",
+          "id": "os-quatro-elementos-7"
+        },
+        {
+          "type": "practice",
+          "title": "Observe o seu dia",
+          "body": "Hoje, ao escrever a sua intenção, repare: ela fala mais de agir, sentir, pensar ou construir?",
+          "id": "os-quatro-elementos-8",
+          "action": {
+            "label": "Abrir o diário",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual elemento está ligado à vontade e à ação?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Água"
+            },
+            {
+              "id": "b",
+              "text": "Fogo"
+            },
+            {
+              "id": "c",
+              "text": "Ar"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Fogo é a energia da vontade, da coragem e da ação."
+        }
+      ]
+    },
+    {
+      "slug": "fogo",
+      "title": "Fogo",
+      "minutes": 4,
+      "tags": [
+        "fogo"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "flame",
+          "title": "O elemento da vontade",
+          "body": "Fogo é impulso, coragem, entusiasmo e transformação. É ele que faz você levantar e começar. Sem Fogo, as ideias ficam no papel.",
+          "id": "fogo-1"
+        },
+        {
+          "type": "concept",
+          "title": "Correspondências do Fogo",
+          "body": "**Signos**: Áries, Leão e Sagitário. **Cores**: vermelho, laranja e dourado. **Momento do dia**: meio-dia. **Estação**: verão. **Símbolos**: a chama, o sol, a vela.",
+          "id": "fogo-2"
+        },
+        {
+          "type": "concept",
+          "title": "Fogo em equilíbrio",
+          "body": "Com o Fogo na medida certa, você tem motivação, iniciativa e brilho no olhar. Começa projetos, defende o que quer e se sente vivo.",
+          "id": "fogo-3"
+        },
+        {
+          "type": "concept",
+          "title": "Fogo demais, Fogo de menos",
+          "body": "**Demais**: impaciência, irritação, pressa, esgotamento. **De menos**: desânimo, falta de iniciativa, dificuldade de começar. Os dois pedem ajuste, não culpa.",
+          "id": "fogo-4"
+        },
+        {
+          "type": "example",
+          "title": "Para acender o Fogo",
+          "body": "Mova o corpo: dance, caminhe rápido, treine. Tome um pouco de sol. Acenda uma vela com segurança e diga em voz alta o que você quer começar.",
+          "id": "fogo-5"
+        },
+        {
+          "type": "example",
+          "title": "Para acalmar o Fogo",
+          "body": "Beba água, respire devagar, faça uma pausa antes de responder. Água e Terra ajudam a baixar a chama sem apagá-la.",
+          "id": "fogo-6"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "No diário, o Fogo aparece no treino e na sua intenção: é a energia de dizer que vai fazer e fazer.",
+          "id": "fogo-7"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Onde está faltando coragem para dar o primeiro passo?",
+          "id": "fogo-8"
+        },
+        {
+          "type": "practice",
+          "title": "Um gesto de Fogo",
+          "body": "Escolha uma coisa que você vem adiando e dê hoje o primeiro passo, por menor que seja. Depois, mova o corpo e marque o treino.",
+          "id": "fogo-9",
+          "action": {
+            "label": "Marcar treino",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Quais são os signos de Fogo?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Áries, Leão e Sagitário"
+            },
+            {
+              "id": "b",
+              "text": "Touro, Virgem e Capricórnio"
+            },
+            {
+              "id": "c",
+              "text": "Câncer, Escorpião e Peixes"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Áries, Leão e Sagitário são os três signos de Fogo."
+        },
+        {
+          "id": "r2",
+          "prompt": "Qual é um sinal de Fogo em excesso?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Desânimo"
+            },
+            {
+              "id": "b",
+              "text": "Impaciência e irritação"
+            },
+            {
+              "id": "c",
+              "text": "Excesso de sono"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Fogo demais aparece como pressa, irritação e esgotamento."
+        }
+      ]
+    },
+    {
+      "slug": "agua",
+      "title": "Água",
+      "minutes": 4,
+      "tags": [
+        "agua"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "water-drop",
+          "title": "O elemento da emoção",
+          "body": "Água é sentimento, intuição, sonho e cura. É ela que faz você sentir, se ligar às pessoas e perceber o que não é dito.",
+          "id": "agua-1"
+        },
+        {
+          "type": "concept",
+          "title": "Correspondências da Água",
+          "body": "**Signos**: Câncer, Escorpião e Peixes. **Cores**: azul, prata e verde-água. **Momento do dia**: entardecer. **Estação**: outono. **Símbolos**: o cálice, a concha, a Lua.",
+          "id": "agua-2"
+        },
+        {
+          "type": "concept",
+          "title": "Água em equilíbrio",
+          "body": "Com a Água na medida certa, você sente sem se afogar. Consegue chorar, rir, pedir colo, perdoar e ouvir a própria intuição.",
+          "id": "agua-3"
+        },
+        {
+          "type": "concept",
+          "title": "Água demais, Água de menos",
+          "body": "**Demais**: emoções que transbordam, mágoa guardada, dificuldade de pôr limites. **De menos**: frieza, distância, dificuldade de sentir e de descansar.",
+          "id": "agua-4"
+        },
+        {
+          "type": "example",
+          "title": "Para chamar a Água",
+          "body": "Tome um banho com intenção de limpar o dia. Escreva o que sente sem se censurar. Ouça uma música que te emociona. Beba água devagar.",
+          "id": "agua-5"
+        },
+        {
+          "type": "example",
+          "title": "Para conter a Água",
+          "body": "Ponha os pés no chão, organize um cantinho da casa, faça uma lista do que é fato e do que é medo. Terra dá margem ao rio.",
+          "id": "agua-6"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "A Lua governa as marés e, na tradição, também as emoções. Por isso a Água e a Lua andam juntas, e a MYGLOW mostra a Lua todos os dias.",
+          "id": "agua-7"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que emoção está pedindo para ser ouvida hoje?",
+          "id": "agua-8"
+        },
+        {
+          "type": "practice",
+          "title": "Um gesto de Água",
+          "body": "Hoje, beba o seu primeiro copo d'água com intenção e, à noite, escreva na gratidão algo que tocou o seu coração.",
+          "id": "agua-9",
+          "action": {
+            "label": "Abrir o diário",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "A Água está ligada a…",
+          "options": [
+            {
+              "id": "a",
+              "text": "Emoção e intuição"
+            },
+            {
+              "id": "b",
+              "text": "Lógica e planejamento"
+            },
+            {
+              "id": "c",
+              "text": "Força e competição"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Água é a energia do sentir, da intuição e da cura."
+        }
+      ]
+    },
+    {
+      "slug": "ar",
+      "title": "Ar",
+      "minutes": 4,
+      "tags": [
+        "ar"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "feather",
+          "title": "O elemento da mente",
+          "body": "Ar é pensamento, palavra, ideia e aprendizado. É ele que faz você entender, nomear e comunicar. Toda intenção começa como um sopro de Ar.",
+          "id": "ar-1"
+        },
+        {
+          "type": "concept",
+          "title": "Correspondências do Ar",
+          "body": "**Signos**: Gêmeos, Libra e Aquário. **Cores**: amarelo e branco. **Momento do dia**: amanhecer. **Estação**: primavera. **Símbolos**: a pena, o incenso, o vento.",
+          "id": "ar-2"
+        },
+        {
+          "type": "concept",
+          "title": "Ar em equilíbrio",
+          "body": "Com o Ar na medida certa, a mente fica clara. Você se expressa bem, aprende com facilidade e consegue olhar para uma situação de vários ângulos.",
+          "id": "ar-3"
+        },
+        {
+          "type": "concept",
+          "title": "Ar demais, Ar de menos",
+          "body": "**Demais**: pensamentos acelerados, ansiedade, dificuldade de decidir. **De menos**: confusão, falta de ideias, dificuldade de se explicar.",
+          "id": "ar-4"
+        },
+        {
+          "type": "example",
+          "title": "Para chamar o Ar",
+          "body": "Abra a janela e respire fundo. Escreva as suas ideias no papel. Leia algo novo. Converse com alguém que pensa diferente de você.",
+          "id": "ar-5"
+        },
+        {
+          "type": "example",
+          "title": "Para acalmar o Ar",
+          "body": "Faça a respiração quadrada. Tire as ideias da cabeça e ponha numa lista. Mexa o corpo. Terra e Fogo ajudam a transformar pensamento em ação.",
+          "id": "ar-6"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Escrever é um ato de Ar. Cada vez que você registra a sua intenção ou a sua reflexão no diário, está dando forma ao pensamento.",
+          "id": "ar-7"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que pensamento anda girando sem parar na sua cabeça?",
+          "id": "ar-8"
+        },
+        {
+          "type": "practice",
+          "title": "Um gesto de Ar",
+          "body": "Faça quatro respirações lentas com a janela aberta e depois escreva a sua intenção de hoje em uma única frase clara.",
+          "id": "ar-9",
+          "action": {
+            "label": "Escrever intenção",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual destas práticas é do elemento Ar?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Tomar um banho demorado"
+            },
+            {
+              "id": "b",
+              "text": "Escrever as ideias no papel"
+            },
+            {
+              "id": "c",
+              "text": "Plantar uma muda"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Ar é a energia do pensamento e da palavra: escrever, ler, conversar, respirar."
+        }
+      ]
+    },
+    {
+      "slug": "terra",
+      "title": "Terra",
+      "minutes": 4,
+      "tags": [
+        "terra"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "lotus",
+          "title": "O elemento do corpo",
+          "body": "Terra é matéria, corpo, rotina, segurança e paciência. É ela que transforma sonho em realidade, um dia depois do outro.",
+          "id": "terra-1"
+        },
+        {
+          "type": "concept",
+          "title": "Correspondências da Terra",
+          "body": "**Signos**: Touro, Virgem e Capricórnio. **Cores**: verde, marrom e preto. **Momento do dia**: meia-noite. **Estação**: inverno. **Símbolos**: a pedra, o cristal, a semente.",
+          "id": "terra-2"
+        },
+        {
+          "type": "concept",
+          "title": "Terra em equilíbrio",
+          "body": "Com a Terra na medida certa, você se sente seguro e com os pés no chão. Cuida do corpo, cumpre o que promete e constrói com calma.",
+          "id": "terra-3"
+        },
+        {
+          "type": "concept",
+          "title": "Terra demais, Terra de menos",
+          "body": "**Demais**: teimosia, rigidez, apego, medo de mudar. **De menos**: desorganização, falta de rotina, sensação de estar sem chão.",
+          "id": "terra-4"
+        },
+        {
+          "type": "example",
+          "title": "Para chamar a Terra",
+          "body": "Alongue o corpo. Ande descalço na grama ou na areia. Cuide de uma planta. Arrume uma gaveta. Coma com calma, sentindo o sabor.",
+          "id": "terra-5"
+        },
+        {
+          "type": "example",
+          "title": "Para soltar a Terra",
+          "body": "Mude um pequeno hábito, faça um caminho diferente, dance. Ar e Fogo ajudam a trazer leveza e movimento ao que ficou pesado.",
+          "id": "terra-6"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "O Foco no meu corpo do diário é pura Terra: água, alongamento e treino são gestos que ancoram a sua energia no corpo.",
+          "id": "terra-7"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que te faz sentir seguro e com os pés no chão?",
+          "id": "terra-8"
+        },
+        {
+          "type": "practice",
+          "title": "Um gesto de Terra",
+          "body": "Faça cinco minutos de alongamento sentindo os pés no chão e marque no diário.",
+          "id": "terra-9",
+          "action": {
+            "label": "Marcar alongamento",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Sentir-se sem chão e sem rotina é sinal de…",
+          "options": [
+            {
+              "id": "a",
+              "text": "Terra de menos"
+            },
+            {
+              "id": "b",
+              "text": "Fogo demais"
+            },
+            {
+              "id": "c",
+              "text": "Água demais"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Quando falta Terra, falta estrutura, rotina e sensação de segurança."
+        }
+      ]
+    },
+    {
+      "slug": "espirito",
+      "title": "Espírito: o quinto elemento",
+      "minutes": 4,
+      "tags": [
+        "espirito"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "glow-orb",
+          "title": "O que une tudo",
+          "body": "Espírito, também chamado de Éter ou Quintessência, é o elemento que liga os outros quatro. É o sentido, o propósito, aquilo que faz a sua vida ser sua.",
+          "id": "espirito-1"
+        },
+        {
+          "type": "concept",
+          "title": "Nem acima, nem separado",
+          "body": "O Espírito não está longe nem só no céu. Ele aparece quando vontade, emoção, pensamento e corpo trabalham juntos em direção ao que importa para você.",
+          "id": "espirito-2"
+        },
+        {
+          "type": "concept",
+          "title": "Correspondências do Espírito",
+          "body": "**Cores**: branco e violeta. **Símbolo**: o centro do círculo, a ponta de cima da estrela de cinco pontas. **Momento**: qualquer instante em que você faz algo com intenção.",
+          "id": "espirito-3"
+        },
+        {
+          "type": "example",
+          "title": "A estrela de cinco pontas",
+          "body": "No pentagrama, quatro pontas representam Fogo, Água, Ar e Terra, e a quinta, o Espírito. O círculo em volta lembra que tudo está ligado.",
+          "id": "espirito-4"
+        },
+        {
+          "type": "concept",
+          "title": "Como se nutre o Espírito",
+          "body": "Com silêncio, gratidão, contato com a natureza, arte, oração ou meditação, do jeito que fizer sentido para você. Não existe um único caminho.",
+          "id": "espirito-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Abrir e fechar o dia com intenção é uma forma de cuidar do Espírito: você dá sentido ao que faz, em vez de só fazer.",
+          "id": "espirito-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que dá sentido aos seus dias?",
+          "id": "espirito-7"
+        },
+        {
+          "type": "practice",
+          "title": "Um gesto de Espírito",
+          "body": "Hoje à noite, antes de escrever a reflexão, fique um minuto em silêncio. Depois responda: o que no dia de hoje teve mais sentido para mim?",
+          "id": "espirito-8",
+          "action": {
+            "label": "Ver a Noite",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "O que representa o quinto elemento?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A força física"
+            },
+            {
+              "id": "b",
+              "text": "Aquilo que une e dá sentido aos outros quatro"
+            },
+            {
+              "id": "c",
+              "text": "O elemento mais fraco"
+            }
+          ],
+          "correct": "b",
+          "explanation": "O Espírito liga Fogo, Água, Ar e Terra e dá propósito a eles."
+        }
+      ]
+    },
+    {
+      "slug": "elementos-em-voce",
+      "title": "Os elementos em você",
+      "minutes": 5,
+      "tags": [
+        "elementos",
+        "mapa-natal"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O seu ponto de partida",
+          "body": "O elemento do seu signo solar mostra uma energia que costuma ser natural para você. Mas você não é só o seu Sol: a Lua, o ascendente e os planetas trazem outros elementos.",
+          "id": "elementos-em-voce-1"
+        },
+        {
+          "type": "icon",
+          "icon": "zodiac-wheel",
+          "title": "Onde ver na MYGLOW",
+          "body": "Na aba Hoje, o cartão do céu mostra o seu Sol, a sua Lua e o seu ascendente. Veja a que elemento cada um pertence: é o seu trio de base.",
+          "id": "elementos-em-voce-2"
+        },
+        {
+          "type": "concept",
+          "title": "O elemento que falta",
+          "body": "Muita gente tem pouco de um elemento no mapa. Isso não é defeito: é um convite. Quem tem pouca Terra pode cultivar rotina; quem tem pouco Fogo, pequenas ações de coragem.",
+          "id": "elementos-em-voce-3"
+        },
+        {
+          "type": "example",
+          "title": "Ajustes do dia a dia",
+          "body": "Agitado demais? Terra: alongue, coma com calma. Parado demais? Fogo: mova o corpo. Triste e pesado? Ar: abra a janela, escreva. Seco e duro? Água: banho, música, gratidão.",
+          "id": "elementos-em-voce-4"
+        },
+        {
+          "type": "concept",
+          "title": "A Lua muda o clima",
+          "body": "A cada dois dias e meio, a Lua entra em um signo de outro elemento. Dias de Lua em Fogo pedem ação; em Água, sentir; em Ar, conversar; em Terra, organizar.",
+          "id": "elementos-em-voce-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Os rituais sugeridos para o seu mês levam em conta o signo e o elemento da Lua em cada data. Agora você sabe ler o porquê.",
+          "id": "elementos-em-voce-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Qual elemento você quer cultivar mais nesta semana?",
+          "id": "elementos-em-voce-7"
+        },
+        {
+          "type": "practice",
+          "title": "Planeje com os elementos",
+          "body": "Abra a Semana e escreva uma intenção que traga para a sua rotina o elemento que anda faltando.",
+          "id": "elementos-em-voce-8",
+          "action": {
+            "label": "Abrir a Semana",
+            "href": "/week"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Ter pouco de um elemento no mapa significa…",
+          "options": [
+            {
+              "id": "a",
+              "text": "Um defeito que não muda"
+            },
+            {
+              "id": "b",
+              "text": "Um convite para cultivar esse elemento"
+            },
+            {
+              "id": "c",
+              "text": "Que o mapa está errado"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Pouco de um elemento é um convite: você pode cultivá-lo com pequenas práticas."
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "prompt": "Qual par está correto?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Fogo: emoção · Água: ação"
+        },
+        {
+          "id": "b",
+          "text": "Ar: pensamento · Terra: corpo"
+        },
+        {
+          "id": "c",
+          "text": "Terra: comunicação · Ar: matéria"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Fogo é vontade, Água é emoção, Ar é pensamento e Terra é corpo e matéria."
+    },
+    {
+      "id": "q2",
+      "prompt": "Você está com a mente acelerada e ansiosa. Que elementos ajudam a equilibrar?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Mais Ar"
+        },
+        {
+          "id": "b",
+          "text": "Terra e Fogo: mexer o corpo e pôr as ideias em prática"
+        },
+        {
+          "id": "c",
+          "text": "Nenhum, é só esperar"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Ar demais se equilibra tirando as ideias da cabeça e levando-as para o corpo e para a ação."
+    },
+    {
+      "id": "q3",
+      "prompt": "Quais são os signos de Água?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Câncer, Escorpião e Peixes"
+        },
+        {
+          "id": "b",
+          "text": "Gêmeos, Libra e Aquário"
+        },
+        {
+          "id": "c",
+          "text": "Áries, Leão e Sagitário"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Câncer, Escorpião e Peixes são os signos de Água."
+    },
+    {
+      "id": "q4",
+      "prompt": "O que o quinto elemento, o Espírito, faz?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Substitui os outros quatro"
+        },
+        {
+          "id": "b",
+          "text": "Une os outros quatro e dá sentido a eles"
+        },
+        {
+          "id": "c",
+          "text": "Só existe em rituais complexos"
+        }
+      ],
+      "correct": "b",
+      "explanation": "O Espírito liga os quatro elementos e traz propósito."
+    },
+    {
+      "id": "q5",
+      "prompt": "A Lua está em um signo de Terra. Para que o dia é mais favorável?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Organizar, cuidar do corpo e construir"
+        },
+        {
+          "id": "b",
+          "text": "Tomar decisões por impulso"
+        },
+        {
+          "id": "c",
+          "text": "Evitar qualquer tarefa prática"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Lua em Terra favorece o que é concreto: organizar, cuidar, construir."
+    }
+  ]
+}

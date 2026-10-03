@@ -1,0 +1,654 @@
+{
+  "slug": "dias-planetas",
+  "order": 6,
+  "required": false,
+  "locale": "pt-BR",
+  "version": 1,
+  "title": "Os dias e os planetas",
+  "subtitle": "A energia de cada dia da semana",
+  "description": "Cada dia da semana tem um astro que o rege. Neste curso você conhece os sete regentes, as cores e os temas de cada dia e aprende a planejar a sua semana aproveitando a energia certa na hora certa.",
+  "icon": "planet-jupiter",
+  "badge": {
+    "name": "Selo dos Sete Dias",
+    "icon": "badge-dias-planetas",
+    "description": "Você aprendeu a energia de cada dia e a planejar a semana com os astros."
+  },
+  "tags": [
+    "dias",
+    "planetas",
+    "cores",
+    "semana",
+    "planner"
+  ],
+  "lessons": [
+    {
+      "slug": "sete-dias-sete-astros",
+      "title": "Sete dias, sete astros",
+      "minutes": 4,
+      "tags": [
+        "dias",
+        "planetas"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Por que a semana tem sete dias",
+          "body": "Os povos antigos viam sete astros se moverem no céu a olho nu: o Sol, a Lua, Marte, Mercúrio, Júpiter, Vênus e Saturno. Cada um ganhou um dia para chamar de seu.",
+          "id": "sete-dias-sete-astros-1"
+        },
+        {
+          "type": "icon",
+          "icon": "planet-saturn",
+          "title": "Os sete regentes",
+          "body": "**Domingo**: Sol. **Segunda**: Lua. **Terça**: Marte. **Quarta**: Mercúrio. **Quinta**: Júpiter. **Sexta**: Vênus. **Sábado**: Saturno.",
+          "id": "sete-dias-sete-astros-2"
+        },
+        {
+          "type": "concept",
+          "title": "O que significa reger",
+          "body": "Dizer que um astro rege um dia é dizer que os temas dele ficam mais fortes ali. Não é uma regra: é uma corrente a favor. Você pode remar com ela ou contra ela.",
+          "id": "sete-dias-sete-astros-3"
+        },
+        {
+          "type": "example",
+          "title": "As pistas nas outras línguas",
+          "body": "Em espanhol, a semana guarda os nomes: lunes (Lua), martes (Marte), miércoles (Mercúrio), jueves (Júpiter), viernes (Vênus). Em inglês, Sunday é o dia do Sol e Monday, o da Lua.",
+          "id": "sete-dias-sete-astros-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "O português é uma das poucas línguas que trocou os nomes dos astros por segunda-feira, terça-feira e assim por diante. Conta-se que a mudança começou no século VI, na região de Braga.",
+          "id": "sete-dias-sete-astros-5"
+        },
+        {
+          "type": "concept",
+          "title": "Onde isso aparece na MYGLOW",
+          "body": "Na Semana, cada dia tem o ícone do seu astro regente. É um lembrete visual da energia disponível para as suas intenções e compromissos.",
+          "id": "sete-dias-sete-astros-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Qual dia da semana costuma ser o seu melhor dia? E o mais difícil?",
+          "id": "sete-dias-sete-astros-7"
+        },
+        {
+          "type": "practice",
+          "title": "Veja os regentes da sua semana",
+          "body": "Abra a Semana e repare no ícone ao lado de cada dia. Qual astro rege o dia de hoje?",
+          "id": "sete-dias-sete-astros-8",
+          "action": {
+            "label": "Abrir a Semana",
+            "href": "/week"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual astro rege a sexta-feira?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Marte"
+            },
+            {
+              "id": "b",
+              "text": "Vênus"
+            },
+            {
+              "id": "c",
+              "text": "Saturno"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Sexta é o dia de Vênus: em espanhol, viernes."
+        },
+        {
+          "id": "r2",
+          "prompt": "O que significa um astro reger um dia?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Que os temas dele ficam mais fortes naquele dia"
+            },
+            {
+              "id": "b",
+              "text": "Que só se pode fazer uma coisa nesse dia"
+            },
+            {
+              "id": "c",
+              "text": "Que o dia traz azar"
+            }
+          ],
+          "correct": "a",
+          "explanation": "É uma corrente a favor, não uma obrigação."
+        }
+      ]
+    },
+    {
+      "slug": "domingo-segunda",
+      "title": "Domingo e segunda: Sol e Lua",
+      "minutes": 4,
+      "tags": [
+        "sol",
+        "lua"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "sun",
+          "title": "Domingo: o dia do Sol",
+          "body": "O Sol fala de vitalidade, alegria, confiança e propósito. Domingo é bom para recarregar, celebrar, cuidar da saúde e lembrar o que te faz brilhar.",
+          "id": "domingo-segunda-1"
+        },
+        {
+          "type": "concept",
+          "title": "Cores e gestos do Sol",
+          "body": "**Cores**: dourado e amarelo. **Boas ações**: tomar sol, descansar de verdade, fazer algo só por prazer, definir a intenção da semana que começa.",
+          "id": "domingo-segunda-2"
+        },
+        {
+          "type": "icon",
+          "icon": "moon-crescent",
+          "title": "Segunda: o dia da Lua",
+          "body": "A Lua fala de emoções, intuição, casa, família e sonhos. Segunda é boa para se ouvir, cuidar do lar e começar a semana com suavidade.",
+          "id": "domingo-segunda-3"
+        },
+        {
+          "type": "concept",
+          "title": "Cores e gestos da Lua",
+          "body": "**Cores**: prata e branco. **Boas ações**: beber bastante água, arrumar um cantinho da casa, anotar sonhos, ligar para alguém querido.",
+          "id": "domingo-segunda-4"
+        },
+        {
+          "type": "example",
+          "title": "Um começo de semana",
+          "body": "Domingo à noite: escrevo a intenção da semana e planejo os dias. Segunda de manhã: bebo um copo d'água com calma e pergunto como estou me sentindo antes de olhar a agenda.",
+          "id": "domingo-segunda-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Na MYGLOW, a semana começa no domingo, como no diário em papel que deu origem ao app. O dia do Sol abre o ciclo, e o planejamento da semana rende Glow se feito até terça.",
+          "id": "domingo-segunda-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que faz você se sentir recarregado?",
+          "id": "domingo-segunda-7"
+        },
+        {
+          "type": "practice",
+          "title": "A intenção da semana",
+          "body": "Escreva a intenção da sua semana pensando na energia do Sol: o que você quer fazer brilhar nos próximos dias?",
+          "id": "domingo-segunda-8",
+          "action": {
+            "label": "Abrir a Semana",
+            "href": "/week"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Segunda-feira, dia da Lua, favorece…",
+          "options": [
+            {
+              "id": "a",
+              "text": "Competir e disputar"
+            },
+            {
+              "id": "b",
+              "text": "Cuidar das emoções e da casa"
+            },
+            {
+              "id": "c",
+              "text": "Assinar contratos importantes"
+            }
+          ],
+          "correct": "b",
+          "explanation": "A Lua fala de emoções, intuição, casa e família."
+        }
+      ]
+    },
+    {
+      "slug": "terca-quarta",
+      "title": "Terça e quarta: Marte e Mercúrio",
+      "minutes": 4,
+      "tags": [
+        "marte",
+        "mercurio"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "planet-mars",
+          "title": "Terça: o dia de Marte",
+          "body": "Marte fala de coragem, força, iniciativa e defesa. Terça é boa para começar o que exige energia, enfrentar o que você vem adiando e treinar.",
+          "id": "terca-quarta-1"
+        },
+        {
+          "type": "concept",
+          "title": "Cores e gestos de Marte",
+          "body": "**Cor**: vermelho. **Boas ações**: fazer o treino mais puxado da semana, ter aquela conversa difícil, colocar limites, dar o primeiro passo em um projeto.",
+          "id": "terca-quarta-2"
+        },
+        {
+          "type": "icon",
+          "icon": "planet-mercury",
+          "title": "Quarta: o dia de Mercúrio",
+          "body": "Mercúrio fala de comunicação, estudo, negócios e deslocamentos. Quarta é boa para escrever, aprender, negociar e resolver pendências.",
+          "id": "terca-quarta-3"
+        },
+        {
+          "type": "concept",
+          "title": "Cores e gestos de Mercúrio",
+          "body": "**Cores**: laranja e amarelo. **Boas ações**: responder mensagens, estudar, fazer reuniões, organizar documentos, fazer uma lição do Grimório.",
+          "id": "terca-quarta-4"
+        },
+        {
+          "type": "example",
+          "title": "Usando os dois dias",
+          "body": "Terça: enfrento a tarefa mais pesada logo cedo e treino à tarde. Quarta: marco as reuniões, respondo e-mails e reservo meia hora para estudar.",
+          "id": "terca-quarta-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Marte é o regente do elemento Fogo em ação, e Mercúrio, do Ar em movimento. Se você fez o curso Os elementos, já conhece essas duas energias.",
+          "id": "terca-quarta-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que tarefa você vem adiando e poderia enfrentar na próxima terça?",
+          "id": "terca-quarta-7"
+        },
+        {
+          "type": "practice",
+          "title": "Planeje terça e quarta",
+          "body": "Na Semana, escreva na terça algo que pede coragem e na quarta algo que pede comunicação ou estudo.",
+          "id": "terca-quarta-8",
+          "action": {
+            "label": "Abrir a Semana",
+            "href": "/week"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual dia é o mais indicado para estudar e resolver pendências?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Quarta, dia de Mercúrio"
+            },
+            {
+              "id": "b",
+              "text": "Sábado, dia de Saturno"
+            },
+            {
+              "id": "c",
+              "text": "Domingo, dia do Sol"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Mercúrio rege a comunicação, o estudo e os negócios."
+        }
+      ]
+    },
+    {
+      "slug": "quinta-sexta",
+      "title": "Quinta e sexta: Júpiter e Vênus",
+      "minutes": 4,
+      "tags": [
+        "jupiter",
+        "venus"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "planet-jupiter",
+          "title": "Quinta: o dia de Júpiter",
+          "body": "Júpiter fala de expansão, prosperidade, sorte, viagens e sabedoria. Quinta é boa para pensar grande, pedir, investir em você e agradecer.",
+          "id": "quinta-sexta-1"
+        },
+        {
+          "type": "concept",
+          "title": "Cores e gestos de Júpiter",
+          "body": "**Cores**: azul e roxo. **Boas ações**: fazer planos de longo prazo, cuidar das finanças, pedir um aumento ou uma oportunidade, ser generoso.",
+          "id": "quinta-sexta-2"
+        },
+        {
+          "type": "icon",
+          "icon": "planet-venus",
+          "title": "Sexta: o dia de Vênus",
+          "body": "Vênus fala de amor, beleza, prazer, arte e relações. Sexta é boa para estar com quem você gosta, se arrumar, criar e aproveitar.",
+          "id": "quinta-sexta-3"
+        },
+        {
+          "type": "concept",
+          "title": "Cores e gestos de Vênus",
+          "body": "**Cores**: verde e rosa. **Boas ações**: um encontro, um jantar caprichado, cuidar da pele, arrumar a casa com flores, fazer algo artístico.",
+          "id": "quinta-sexta-4"
+        },
+        {
+          "type": "example",
+          "title": "Usando os dois dias",
+          "body": "Quinta: reviso as minhas metas do mês e dou um passo em direção a algo maior. Sexta: fecho o trabalho mais cedo e reservo a noite para um prazer de verdade.",
+          "id": "quinta-sexta-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "A sexta sempre foi vista como dia de celebração em muitas culturas. A energia de Vênus lembra que prazer e beleza também são parte de uma vida mágica.",
+          "id": "quinta-sexta-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que você gostaria de fazer crescer na sua vida?",
+          "id": "quinta-sexta-7"
+        },
+        {
+          "type": "practice",
+          "title": "Um pedido e um prazer",
+          "body": "Na Semana, escreva na quinta um passo em direção a algo grande e na sexta um prazer simples que você vai se dar.",
+          "id": "quinta-sexta-8",
+          "action": {
+            "label": "Abrir a Semana",
+            "href": "/week"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Quinta-feira, dia de Júpiter, favorece…",
+          "options": [
+            {
+              "id": "a",
+              "text": "Expansão, prosperidade e planos grandes"
+            },
+            {
+              "id": "b",
+              "text": "Encerramentos e limpezas"
+            },
+            {
+              "id": "c",
+              "text": "Recolhimento e silêncio"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Júpiter amplia: é o dia de pensar grande, pedir e agradecer."
+        }
+      ]
+    },
+    {
+      "slug": "sabado",
+      "title": "Sábado: Saturno",
+      "minutes": 4,
+      "tags": [
+        "saturno"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "planet-saturn",
+          "title": "Sábado: o dia de Saturno",
+          "body": "Saturno fala de tempo, estrutura, disciplina, limites e encerramentos. Sábado é bom para arrumar, concluir, limpar e fechar a semana.",
+          "id": "sabado-1"
+        },
+        {
+          "type": "concept",
+          "title": "Cores e gestos de Saturno",
+          "body": "**Cores**: preto, marrom e azul-escuro. **Boas ações**: faxina, organizar as contas, terminar o que ficou pela metade, fazer um banimento mais caprichado.",
+          "id": "sabado-2"
+        },
+        {
+          "type": "concept",
+          "title": "Saturno não é castigo",
+          "body": "Saturno tem fama de severo, mas é ele que dá forma às coisas. Sem limites e sem rotina, nenhum sonho se sustenta. É o astro do autodomínio.",
+          "id": "sabado-3"
+        },
+        {
+          "type": "example",
+          "title": "Um sábado de Saturno",
+          "body": "De manhã, arrumo a casa e jogo fora o que não serve. À tarde, olho a semana que passou. À noite, escrevo a reflexão da semana e solto o que pesou.",
+          "id": "sabado-4"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "A reflexão da semana pode ser escrita de sexta a domingo para render Glow. O sábado, dia de encerramentos, é o momento mais natural para isso.",
+          "id": "sabado-5"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que você precisa concluir para se sentir mais leve?",
+          "id": "sabado-6"
+        },
+        {
+          "type": "practice",
+          "title": "Feche a semana",
+          "body": "No próximo sábado, faça um banimento, arrume um espaço da casa e escreva a reflexão da semana.",
+          "id": "sabado-7",
+          "action": {
+            "label": "Abrir a Semana",
+            "href": "/week"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual é o tema principal de Saturno?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Prazer e beleza"
+            },
+            {
+              "id": "b",
+              "text": "Estrutura, limites e encerramentos"
+            },
+            {
+              "id": "c",
+              "text": "Sorte e expansão"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Saturno dá forma: disciplina, limites e conclusão."
+        }
+      ]
+    },
+    {
+      "slug": "planejar-com-os-planetas",
+      "title": "Planejar a semana com os astros",
+      "minutes": 5,
+      "tags": [
+        "planner",
+        "semana",
+        "cores"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "A semana como um ciclo",
+          "body": "Vista inteira, a semana conta uma história: recarregar (Sol), sentir (Lua), agir (Marte), comunicar (Mercúrio), expandir (Júpiter), aproveitar (Vênus) e concluir (Saturno).",
+          "id": "planejar-com-os-planetas-1"
+        },
+        {
+          "type": "icon",
+          "icon": "calendar",
+          "title": "Encaixe o que já existe",
+          "body": "Você não precisa mudar a sua vida. Basta, quando puder escolher, colocar cada tarefa no dia que combina com ela: a reunião na quarta, a faxina no sábado, o encontro na sexta.",
+          "id": "planejar-com-os-planetas-2"
+        },
+        {
+          "type": "concept",
+          "title": "As cores como aliadas",
+          "body": "Usar a cor do dia é um jeito simples de se sintonizar: uma roupa, uma vela, uma caneta. Vermelho na terça para coragem, verde na sexta para o amor, dourado no domingo para a alegria.",
+          "id": "planejar-com-os-planetas-3"
+        },
+        {
+          "type": "concept",
+          "title": "Dia e Lua juntos",
+          "body": "O astro do dia dá o tema; a fase da Lua dá o ritmo. Uma quinta-feira de Lua Crescente é ótima para pedir e expandir. Um sábado de Lua Minguante é perfeito para limpar e soltar.",
+          "id": "planejar-com-os-planetas-4"
+        },
+        {
+          "type": "example",
+          "title": "As áreas do seu planner",
+          "body": "**Magic**: segunda e sábado. **Pessoal** e **Lazer**: domingo e sexta. **Profissional**: terça e quinta. **Estudos**: quarta. É uma sugestão: adapte à sua rotina.",
+          "id": "planejar-com-os-planetas-5"
+        },
+        {
+          "type": "concept",
+          "title": "Quando não dá para escolher",
+          "body": "Tem semana em que a faxina cai na quarta e a reunião no sábado. Tudo bem. A energia do dia é uma ajuda, nunca um impedimento. A sua intenção vale mais.",
+          "id": "planejar-com-os-planetas-6"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Existe um sistema ainda mais detalhado, o das horas planetárias, que divide cada dia entre os sete astros. Ele fica para um curso avançado.",
+          "id": "planejar-com-os-planetas-7"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que tarefa da sua semana poderia mudar de dia para fluir melhor?",
+          "id": "planejar-com-os-planetas-8"
+        },
+        {
+          "type": "practice",
+          "title": "Monte a sua semana",
+          "body": "Abra a Semana e distribua pelo menos três intenções nos dias que combinam com elas. Preencha também as suas áreas de projeto.",
+          "id": "planejar-com-os-planetas-9",
+          "action": {
+            "label": "Planejar a semana",
+            "href": "/week"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "O astro do dia e a fase da Lua trabalham juntos como?",
+          "options": [
+            {
+              "id": "a",
+              "text": "O astro dá o tema e a Lua dá o ritmo"
+            },
+            {
+              "id": "b",
+              "text": "Um anula o outro"
+            },
+            {
+              "id": "c",
+              "text": "Só a Lua importa"
+            }
+          ],
+          "correct": "a",
+          "explanation": "O regente do dia aponta o tema; a fase da Lua, se é hora de crescer ou de soltar."
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "prompt": "Qual sequência de regentes está correta, de domingo a sábado?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Sol, Lua, Marte, Mercúrio, Júpiter, Vênus, Saturno"
+        },
+        {
+          "id": "b",
+          "text": "Lua, Sol, Vênus, Marte, Saturno, Júpiter, Mercúrio"
+        },
+        {
+          "id": "c",
+          "text": "Sol, Marte, Lua, Júpiter, Mercúrio, Saturno, Vênus"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Sol, Lua, Marte, Mercúrio, Júpiter, Vênus e Saturno."
+    },
+    {
+      "id": "q2",
+      "prompt": "Você precisa ter uma conversa difícil e colocar um limite. Qual dia ajuda mais?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Terça, dia de Marte"
+        },
+        {
+          "id": "b",
+          "text": "Sexta, dia de Vênus"
+        },
+        {
+          "id": "c",
+          "text": "Segunda, dia da Lua"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Marte traz coragem, iniciativa e firmeza."
+    },
+    {
+      "id": "q3",
+      "prompt": "Qual cor combina com a sexta-feira, dia de Vênus?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Preto"
+        },
+        {
+          "id": "b",
+          "text": "Verde ou rosa"
+        },
+        {
+          "id": "c",
+          "text": "Vermelho"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Verde e rosa são as cores de Vênus: amor, beleza e prazer."
+    },
+    {
+      "id": "q4",
+      "prompt": "Qual é o melhor dia para fazer faxina, concluir pendências e escrever a reflexão da semana?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Quinta"
+        },
+        {
+          "id": "b",
+          "text": "Sábado"
+        },
+        {
+          "id": "c",
+          "text": "Quarta"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Sábado é o dia de Saturno: estrutura e encerramentos."
+    },
+    {
+      "id": "q5",
+      "prompt": "A sua faxina só pode ser feita na quarta. O que fazer?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Cancelar, porque não é o dia certo"
+        },
+        {
+          "id": "b",
+          "text": "Fazer mesmo assim: a energia do dia é ajuda, não impedimento"
+        },
+        {
+          "id": "c",
+          "text": "Esperar até o próximo sábado, custe o que custar"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Os regentes são uma corrente a favor, nunca uma proibição. A sua intenção vale mais."
+    }
+  ]
+}

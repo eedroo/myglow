@@ -93,6 +93,16 @@ export function NotificationInbox({ items, unread }: { items: InboxItem[]; unrea
           <p className="mg-inbox__empty">{t('empty')}</p>
         ) : (
           <>
+            <div className="mg-inbox__actions">
+              <Button variant="subtle" onClick={clearAll}>
+                {t('clear')}
+              </Button>
+              {count > 0 && (
+                <Button variant="ghost" onClick={markAll}>
+                  {t('markAll')}
+                </Button>
+              )}
+            </div>
             <ul className="mg-inbox__list">
               {visible.map((item) => (
                 <li key={item.id}>
@@ -113,16 +123,6 @@ export function NotificationInbox({ items, unread }: { items: InboxItem[]; unrea
                 </li>
               ))}
             </ul>
-            <div className="mg-inbox__actions">
-              <Button variant="subtle" onClick={clearAll}>
-                {t('clear')}
-              </Button>
-              {count > 0 && (
-                <Button variant="ghost" onClick={markAll}>
-                  {t('markAll')}
-                </Button>
-              )}
-            </div>
           </>
         )}
       </dialog>

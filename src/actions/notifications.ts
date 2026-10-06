@@ -36,3 +36,13 @@ export async function markAllNotificationsRead(): Promise<NotificationsActionRes
   await db.notificationLog.updateMany({ where: { userId, readAt: null }, data: { readAt: new Date() } });
   return { ok: true };
 }
+
+/** "Limpar": esconde todos os avisos da caixa (e conta-os como lidos). Não apaga: o registo evita reenviar o mesmo aviso. */
+export async function clearNotifications(): Promise<NotificationsActionResult> {
+  const userId = await currentUser();
+  if (!userId) return { ok: false, error: 'common.errors.unauthorized' };
+  const now = new Date();
+  await db.notificationLog.updateMany({ where: { userId, readAt: null }, data: { readAt: now } });
+  await db.notificationLog.updateMany({ where: { userId, clearedAt: null }, data: { clearedAt: now } });
+  return { ok: true };
+}

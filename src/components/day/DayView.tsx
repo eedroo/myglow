@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Toast } from '@/components/ui/Toast';
 import { useDailyAutosave } from '@/hooks/useDailyAutosave';
@@ -25,10 +26,12 @@ interface DayViewProps {
   suggestions?: { intention?: string; banish?: string; reflection?: string };
   /** F9: consentimento de bem-estar; sem ele humor, "como acordei" e sono ficam desactivados. */
   wellbeing: boolean;
+  /** O texto do planner da Semana para este dia (`DayPlanNote`), acima da intenção. */
+  planNote?: ReactNode;
 }
 
 /** Cartões interactivos do diário com gravação automática. */
-export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions, wellbeing }: DayViewProps) {
+export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions, wellbeing, planNote }: DayViewProps) {
   const t = useTranslations();
   const { data, setField, status, errorKey, flush } = useDailyAutosave(date, initial);
   const onBlur = () => void flush();
@@ -38,6 +41,7 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, sugges
       <SaveStatus status={status} />
       <div className="mg-day__grid">
         <div className="mg-day__cell mg-day__cell--intention">
+          {planNote}
           <IntentionCard
             value={data.intention}
             onChange={(v) => setField('intention', v)}

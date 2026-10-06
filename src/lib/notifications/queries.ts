@@ -99,7 +99,7 @@ export interface InboxItem {
 
 export async function getInbox(userId: string, take = 30): Promise<InboxItem[]> {
   const rows = await db.notificationLog.findMany({
-    where: { userId },
+    where: { userId, clearedAt: null },
     orderBy: { sentAt: 'desc' },
     take,
     select: { id: true, title: true, body: true, url: true, sentAt: true, readAt: true },
@@ -110,5 +110,5 @@ export async function getInbox(userId: string, take = 30): Promise<InboxItem[]> 
 }
 
 export async function getUnreadCount(userId: string): Promise<number> {
-  return db.notificationLog.count({ where: { userId, readAt: null, title: { not: '' } } });
+  return db.notificationLog.count({ where: { userId, readAt: null, clearedAt: null, title: { not: '' } } });
 }

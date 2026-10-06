@@ -468,6 +468,7 @@ model NotificationLog {
   url       String
   pushed    Boolean          @default(false) // enviado por push com sucesso a ≥ 1 dispositivo
   readAt    DateTime?
+  clearedAt DateTime? // "Limpar" na caixa de avisos: some da caixa, mas o registo fica (evita reenvios)
 
   @@unique([userId, kind, periodKey])
   @@index([userId, sentAt])

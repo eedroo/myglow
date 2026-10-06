@@ -1,0 +1,44 @@
+/* DayPlanNote: o que ficou escrito para o dia no planner da Semana (acima da intenção) */
+
+.mg-day-plan {
+  margin-bottom: var(--space-3);
+}
+
+.mg-day-plan > .mg-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mg-day-plan__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mg-day-plan__label {
+  font-family: var(--font-ui);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-day-plan__text {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  color: var(--text-primary);
+}
+
+.mg-day-plan__edit {
+  align-self: flex-start;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mg-day-plan__edit:hover {
+  color: var(--text-primary);
+}

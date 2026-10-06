@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { markAllNotificationsRead, markNotificationRead } from '@/actions/notifications';
+import { clearNotifications, markAllNotificationsRead, markNotificationRead } from '@/actions/notifications';
 import type { InboxItem } from '@/lib/notifications/queries';
 
 const UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
@@ -31,8 +31,10 @@ export function NotificationInbox({ items, unread }: { items: InboxItem[]; unrea
   const ref = useRef<HTMLDialogElement>(null);
   const [readIds, setReadIds] = useState<Set<string>>(new Set());
   const [allRead, setAllRead] = useState(false);
+  const [cleared, setCleared] = useState(false);
   const [, startTransition] = useTransition();
 
+  const visible = cleared ? [] : items;
   const isRead = (i: InboxItem) => allRead || i.read || readIds.has(i.id);
   const count = Math.max(0, unread - (allRead ? unread : items.filter((i) => !i.read && readIds.has(i.id)).length));
   const label = count > 0 ? `${t('open')} · ${t('unread', { count })}` : t('open');
@@ -49,6 +51,14 @@ export function NotificationInbox({ items, unread }: { items: InboxItem[]; unrea
   const markAll = async () => {
     setAllRead(true);
     await markAllNotificationsRead();
+    router.refresh();
+  };
+
+  const clearAll = async () => {
+    if (!window.confirm(t('clearConfirm'))) return;
+    setCleared(true);
+    setAllRead(true);
+    await clearNotifications();
     router.refresh();
   };
 
@@ -79,12 +89,12 @@ export function NotificationInbox({ items, unread }: { items: InboxItem[]; unrea
             {t('close')}
           </Button>
         </div>
-        {items.length === 0 ? (
+        {visible.length === 0 ? (
           <p className="mg-inbox__empty">{t('empty')}</p>
         ) : (
           <>
             <ul className="mg-inbox__list">
-              {items.map((item) => (
+              {visible.map((item) => (
                 <li key={item.id}>
                   <button
                     type="button"
@@ -103,13 +113,16 @@ export function NotificationInbox({ items, unread }: { items: InboxItem[]; unrea
                 </li>
               ))}
             </ul>
-            {count > 0 && (
-              <div className="mg-inbox__actions">
+            <div className="mg-inbox__actions">
+              <Button variant="subtle" onClick={clearAll}>
+                {t('clear')}
+              </Button>
+              {count > 0 && (
                 <Button variant="ghost" onClick={markAll}>
                   {t('markAll')}
                 </Button>
-              </div>
-            )}
+              )}
+            </div>
           </>
         )}
       </dialog>

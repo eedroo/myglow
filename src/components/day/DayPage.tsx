@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
-import { addDays, compareDates, formatLongDate, formatMonthName, todayInTz, type DateISO } from '@/lib/dates';
+import { addDays, compareDates, formatLongDate, formatMonthName, toDbDate, todayInTz, type DateISO } from '@/lib/dates';
 import { weekKey, weekStartOf } from '@/lib/weeks';
 import { getDailySky } from '@/lib/astro/sky';
 import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
@@ -16,6 +16,7 @@ import { MOON_PHASE_ORDER } from '@/components/ui/MoonPhaseStrip';
 import { DailyHeader } from './DailyHeader';
 import { DailySkyCard } from './DailySkyCard';
 import { DayNav } from './DayNav';
+import { DayPlanNote } from './DayPlanNote';
 import { DayView } from './DayView';
 import { GlowWindowNote } from '@/components/glow/GlowWindowNote';
 import { getPeriodAwards } from '@/lib/xp/queries';
@@ -33,7 +34,7 @@ export async function DayPage({ date }: { date: DateISO }) {
   if (!session?.user) redirect('/login');
   const userId = session.user.id;
 
-  const [user, entry, natal, locale, ta, td, dayAwards, reading] = await Promise.all([
+  const [user, entry, natal, locale, ta, td, dayAwards, reading, planNote] = await Promise.all([
     db.user.findUnique({ where: { id: userId }, select: { timezone: true, sleepGoalMinutes: true, createdAt: true, wellbeingConsentAt: true } }),
     getDailyEntry(userId, date),
     ensureNatalChart(userId),
@@ -42,6 +43,8 @@ export async function DayPage({ date }: { date: DateISO }) {
     getTranslations('day'),
     getPeriodAwards(userId, [...DAY_SOURCES], date),
     getDayReading(userId, date),
+    // O que ficou escrito para este dia no planner da Semana.
+    db.weekDayNote.findFirst({ where: { date: toDbDate(date), week: { userId } }, select: { text: true } }),
   ]);
   if (!user) redirect('/login');
 
@@ -100,6 +103,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         initial={entry}
         sleepGoalMinutes={user.sleepGoalMinutes}
         wellbeing={!!user.wellbeingConsentAt}
+        planNote={planNote?.text.trim() ? <DayPlanNote text={planNote.text.trim()} weekHref={weekChip.href} /> : undefined}
         currentPeriod={isToday ? getDayPeriod(new Date(), user.timezone) : null}
         suggestions={
           personal

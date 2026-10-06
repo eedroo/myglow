@@ -264,6 +264,10 @@
       "addBirthTime": "Acrescenta a hora de nascimento",
       "noBirthData": "Acrescenta os teus dados de nascimento para veres o teu mapa."
     },
+    "plan": {
+      "label": "No planner da semana",
+      "edit": "Editar na Semana"
+    },
     "intention": {
       "label": "Intenção do dia",
       "placeholder": "Hoje escolho…"
@@ -837,6 +841,8 @@
       "open": "Abrir avisos",
       "unread": "{count, plural, one {# aviso por ler} other {# avisos por ler}}",
       "markAll": "Marcar tudo como lido",
+      "clear": "Limpar",
+      "clearConfirm": "Limpar todos os avisos?",
       "empty": "Sem avisos por agora",
       "close": "Fechar"
     },

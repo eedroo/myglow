@@ -7,6 +7,7 @@
     { "slug": "elementos", "order": 4, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" },
     { "slug": "lua", "order": 5, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" },
     { "slug": "dias-planetas", "order": 6, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" },
-    { "slug": "signos", "order": 7, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" }
+    { "slug": "signos", "order": 7, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-03" },
+    { "slug": "astros", "order": 8, "required": false, "locales": ["pt-BR"], "publishedAt": "2026-10-06" }
   ]
 }

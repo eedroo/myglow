@@ -1,0 +1,798 @@
+{
+  "slug": "astros",
+  "order": 8,
+  "required": false,
+  "locale": "pt-BR",
+  "version": 1,
+  "title": "Os astros",
+  "subtitle": "Os planetas, os aspectos e os retrógrados",
+  "description": "Se os signos são o cenário, os astros são os personagens. Neste curso você conhece o Sol, a Lua e os planetas, entende o que são os aspectos que aparecem nas suas leituras e aprende a viver os retrógrados sem medo.",
+  "icon": "planet-saturn",
+  "badge": {
+    "name": "Selo dos Astros",
+    "icon": "badge-astros",
+    "description": "Você conheceu os astros, os aspectos e os retrógrados."
+  },
+  "tags": [
+    "planetas",
+    "astrologia",
+    "aspectos",
+    "retrogrados",
+    "transitos"
+  ],
+  "lessons": [
+    {
+      "slug": "personagens-do-ceu",
+      "title": "Os personagens do céu",
+      "minutes": 4,
+      "tags": [
+        "planetas",
+        "astrologia"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Planeta, signo e casa",
+          "body": "A astrologia se lê com três perguntas. **O quê?** O astro: uma função da vida, como amar, pensar ou agir. **Como?** O signo: o estilo. **Onde?** A casa: a área da vida.",
+          "id": "personagens-do-ceu-1"
+        },
+        {
+          "type": "icon",
+          "icon": "zodiac-wheel",
+          "title": "Dez astros",
+          "body": "Sol, Lua, Mercúrio, Vênus, Marte, Júpiter, Saturno, Urano, Netuno e Plutão. Na astrologia, o Sol e a Lua também são chamados de planetas, por serem astros que se movem no céu.",
+          "id": "personagens-do-ceu-2"
+        },
+        {
+          "type": "concept",
+          "title": "Três grupos",
+          "body": "**Pessoais** (Sol, Lua, Mercúrio, Vênus, Marte): o seu jeito de ser no dia a dia. **Sociais** (Júpiter, Saturno): como você cresce e amadurece. **Geracionais** (Urano, Netuno, Plutão): marcas de toda uma geração.",
+          "id": "personagens-do-ceu-3"
+        },
+        {
+          "type": "concept",
+          "title": "Rápidos e lentos",
+          "body": "A Lua cruza o zodíaco em um mês. Plutão leva mais de duzentos anos. Quanto mais rápido o astro, mais pessoal e cotidiano é o tema. Quanto mais lento, mais profundo e coletivo.",
+          "id": "personagens-do-ceu-4"
+        },
+        {
+          "type": "example",
+          "title": "Lendo uma frase do céu",
+          "body": "“Vênus em Leão”: a função de amar (Vênus) no estilo de Leão, com generosidade, brilho e demonstração. “Marte em Virgem”: agir com método, cuidado e atenção ao detalhe.",
+          "id": "personagens-do-ceu-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Planeta vem de uma palavra grega que significa errante: para os antigos, eram as luzes que andavam pelo céu, enquanto as estrelas ficavam fixas.",
+          "id": "personagens-do-ceu-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Qual área da sua vida você mais gostaria de entender melhor: amar, pensar, agir, crescer?",
+          "id": "personagens-do-ceu-7"
+        },
+        {
+          "type": "practice",
+          "title": "Veja os astros de hoje",
+          "body": "Na aba Hoje, leia o cartão do céu: em que signo estão o Sol e a Lua agora?",
+          "id": "personagens-do-ceu-8",
+          "action": {
+            "label": "Ver o céu de hoje",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Na astrologia, o que o planeta representa?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Uma função da vida: o quê"
+            },
+            {
+              "id": "b",
+              "text": "O estilo: como"
+            },
+            {
+              "id": "c",
+              "text": "A área da vida: onde"
+            }
+          ],
+          "correct": "a",
+          "explanation": "O planeta é o quê, o signo é o como e a casa é o onde."
+        }
+      ]
+    },
+    {
+      "slug": "sol-e-lua",
+      "title": "Sol e Lua: os luminares",
+      "minutes": 4,
+      "tags": [
+        "sol",
+        "lua"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "sun",
+          "title": "O Sol: quem você é",
+          "body": "O Sol é a sua essência, a sua vitalidade e o seu propósito. Mostra o que faz você se sentir vivo e o que você veio desenvolver. Fica cerca de um mês em cada signo.",
+          "id": "sol-e-lua-1"
+        },
+        {
+          "type": "icon",
+          "icon": "moon-crescent",
+          "title": "A Lua: o que você sente",
+          "body": "A Lua é o seu mundo emocional: o que te acolhe, do que você precisa para se sentir seguro, como reage por instinto. Fica cerca de dois dias e meio em cada signo.",
+          "id": "sol-e-lua-2"
+        },
+        {
+          "type": "concept",
+          "title": "Dia e noite dentro de você",
+          "body": "O Sol é o lado que age e se mostra. A Lua é o lado que sente e se recolhe. Um não é mais importante que o outro: os dois juntos formam a base do seu mapa.",
+          "id": "sol-e-lua-3"
+        },
+        {
+          "type": "example",
+          "title": "Sol e Lua em signos diferentes",
+          "body": "Sol em Áries com Lua em Câncer: por fora, coragem e iniciativa; por dentro, sensibilidade e necessidade de colo. Entender os dois ajuda você a se tratar com mais gentileza.",
+          "id": "sol-e-lua-4"
+        },
+        {
+          "type": "concept",
+          "title": "O Sol e a Lua de cada dia",
+          "body": "Além dos seus, há o Sol e a Lua do momento. O Sol de hoje dá o tema do mês para todo mundo; a Lua de hoje dá o clima do dia. É isso que o cartão do céu mostra.",
+          "id": "sol-e-lua-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Para saber o signo da sua Lua, a hora do nascimento ajuda muito: como ela muda de signo rápido, em alguns dias a resposta depende da hora.",
+          "id": "sol-e-lua-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que você precisa para se sentir emocionalmente seguro?",
+          "id": "sol-e-lua-7"
+        },
+        {
+          "type": "practice",
+          "title": "Encontre a sua Lua",
+          "body": "No cartão do céu, veja o signo da sua Lua natal. Ele combina com o jeito como você sente as coisas?",
+          "id": "sol-e-lua-8",
+          "action": {
+            "label": "Ver o meu céu",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "O que a Lua representa no mapa?",
+          "options": [
+            {
+              "id": "a",
+              "text": "O mundo emocional e as necessidades de segurança"
+            },
+            {
+              "id": "b",
+              "text": "A carreira e a ambição"
+            },
+            {
+              "id": "c",
+              "text": "A forma de comunicar"
+            }
+          ],
+          "correct": "a",
+          "explanation": "A Lua fala de emoções, instintos e do que acolhe você."
+        }
+      ]
+    },
+    {
+      "slug": "planetas-pessoais",
+      "title": "Mercúrio, Vênus e Marte",
+      "minutes": 5,
+      "tags": [
+        "mercurio",
+        "venus",
+        "marte"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "planet-mercury",
+          "title": "Mercúrio: como você pensa",
+          "body": "Mercúrio rege a mente, a fala, a escrita e o aprendizado. Mostra como você raciocina, se comunica e negocia. Anda sempre perto do Sol e leva cerca de um ano para dar a volta no zodíaco.",
+          "id": "planetas-pessoais-1"
+        },
+        {
+          "type": "icon",
+          "icon": "planet-venus",
+          "title": "Vênus: como você ama",
+          "body": "Vênus rege o amor, o prazer, a beleza e os valores. Mostra o que te atrai, como você demonstra afeto e o que você considera precioso. Também leva cerca de um ano no zodíaco.",
+          "id": "planetas-pessoais-2"
+        },
+        {
+          "type": "icon",
+          "icon": "planet-mars",
+          "title": "Marte: como você age",
+          "body": "Marte rege a ação, o desejo, a coragem e a raiva. Mostra como você vai atrás do que quer e como se defende. Leva cerca de dois anos para percorrer os doze signos.",
+          "id": "planetas-pessoais-3"
+        },
+        {
+          "type": "example",
+          "title": "Três perguntas, três astros",
+          "body": "Vou mandar uma mensagem importante: olho Mercúrio. Vou marcar um encontro ou comprar algo bonito: olho Vênus. Vou começar um treino ou enfrentar um conflito: olho Marte.",
+          "id": "planetas-pessoais-4"
+        },
+        {
+          "type": "concept",
+          "title": "Os dias deles",
+          "body": "Você já conhece estes três pelo curso dos dias: quarta é de Mercúrio, sexta é de Vênus e terça é de Marte. O dia da semana e o planeta falam a mesma língua.",
+          "id": "planetas-pessoais-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Mercúrio e Vênus nunca ficam longe do Sol no céu. Por isso o seu Mercúrio está sempre no seu signo solar ou em um dos vizinhos.",
+          "id": "planetas-pessoais-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Como você costuma demonstrar afeto: com palavras, gestos, tempo ou cuidado?",
+          "id": "planetas-pessoais-7"
+        },
+        {
+          "type": "practice",
+          "title": "Um gesto para cada um",
+          "body": "Hoje, escreva algo com clareza (Mercúrio), faça algo que te dê prazer (Vênus) e mova o corpo (Marte).",
+          "id": "planetas-pessoais-8",
+          "action": {
+            "label": "Abrir o diário",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual planeta rege a comunicação e o aprendizado?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Mercúrio"
+            },
+            {
+              "id": "b",
+              "text": "Vênus"
+            },
+            {
+              "id": "c",
+              "text": "Marte"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Mercúrio rege a mente, a fala e a escrita."
+        },
+        {
+          "id": "r2",
+          "prompt": "Marte está ligado a…",
+          "options": [
+            {
+              "id": "a",
+              "text": "Amor e beleza"
+            },
+            {
+              "id": "b",
+              "text": "Ação, desejo e coragem"
+            },
+            {
+              "id": "c",
+              "text": "Sonhos e intuição"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Marte é como você age e vai atrás do que quer."
+        }
+      ]
+    },
+    {
+      "slug": "jupiter-e-saturno",
+      "title": "Júpiter e Saturno",
+      "minutes": 4,
+      "tags": [
+        "jupiter",
+        "saturno"
+      ],
+      "cards": [
+        {
+          "type": "icon",
+          "icon": "planet-jupiter",
+          "title": "Júpiter: onde você cresce",
+          "body": "Júpiter rege a expansão, a sorte, a fé e a sabedoria. Mostra onde a vida tende a se abrir para você. Fica cerca de um ano em cada signo e leva doze para dar a volta.",
+          "id": "jupiter-e-saturno-1"
+        },
+        {
+          "type": "icon",
+          "icon": "planet-saturn",
+          "title": "Saturno: onde você amadurece",
+          "body": "Saturno rege a estrutura, a responsabilidade, o tempo e os limites. Mostra onde a vida pede esforço e entrega resultados duradouros. Fica cerca de dois anos e meio em cada signo.",
+          "id": "jupiter-e-saturno-2"
+        },
+        {
+          "type": "concept",
+          "title": "O acelerador e o freio",
+          "body": "Júpiter amplia: oportunidades, confiança, exageros. Saturno concentra: foco, disciplina, cobranças. Uma vida equilibrada precisa dos dois: sonhar grande e construir com paciência.",
+          "id": "jupiter-e-saturno-3"
+        },
+        {
+          "type": "concept",
+          "title": "O retorno de Saturno",
+          "body": "Por volta dos 29 anos, Saturno volta ao ponto em que estava quando você nasceu. É uma fase conhecida por trazer decisões de gente grande: carreira, relações, rumo de vida.",
+          "id": "jupiter-e-saturno-4"
+        },
+        {
+          "type": "example",
+          "title": "Um ano de Júpiter",
+          "body": "Quando Júpiter passa pelo seu signo solar, o que acontece mais ou menos a cada doze anos, costuma ser um período de portas abertas, viagens, estudos e novos começos.",
+          "id": "jupiter-e-saturno-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Quinta é o dia de Júpiter e sábado, o de Saturno. Pedir e expandir na quinta, organizar e concluir no sábado: os dias repetem em pequeno o que os planetas fazem em grande.",
+          "id": "jupiter-e-saturno-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Em que área da sua vida você precisa de mais disciplina? E em qual precisa de mais confiança?",
+          "id": "jupiter-e-saturno-7"
+        },
+        {
+          "type": "practice",
+          "title": "Metas com os dois",
+          "body": "Abra o Mês e escreva uma meta que peça coragem para crescer (Júpiter) e um passo concreto e pequeno para chegar lá (Saturno).",
+          "id": "jupiter-e-saturno-8",
+          "action": {
+            "label": "Abrir o Mês",
+            "href": "/month"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual a diferença entre Júpiter e Saturno?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Júpiter amplia e Saturno estrutura"
+            },
+            {
+              "id": "b",
+              "text": "Júpiter limita e Saturno expande"
+            },
+            {
+              "id": "c",
+              "text": "Os dois significam a mesma coisa"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Júpiter é expansão; Saturno é estrutura e limite."
+        }
+      ]
+    },
+    {
+      "slug": "planetas-geracionais",
+      "title": "Urano, Netuno e Plutão",
+      "minutes": 4,
+      "tags": [
+        "urano",
+        "netuno",
+        "plutao"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "Os astros lentos",
+          "body": "Urano, Netuno e Plutão ficam muitos anos em cada signo. Por isso, todas as pessoas nascidas em um mesmo período têm esses planetas no mesmo signo. Eles falam de gerações.",
+          "id": "planetas-geracionais-1"
+        },
+        {
+          "type": "concept",
+          "title": "Urano: a mudança",
+          "body": "Urano rege a liberdade, a inovação e as viradas repentinas. Fica cerca de sete anos em cada signo. Onde ele toca, a vida pede que você quebre padrões e experimente o novo.",
+          "id": "planetas-geracionais-2"
+        },
+        {
+          "type": "concept",
+          "title": "Netuno: o sonho",
+          "body": "Netuno rege a imaginação, a espiritualidade e a compaixão. Fica cerca de catorze anos em cada signo. Onde ele toca, há inspiração, mas também o risco de ilusão.",
+          "id": "planetas-geracionais-3"
+        },
+        {
+          "type": "concept",
+          "title": "Plutão: a transformação",
+          "body": "Plutão rege o poder, as crises que renovam e os recomeços profundos. Fica de doze a trinta anos em cada signo. Onde ele toca, algo morre para que outra coisa possa nascer.",
+          "id": "planetas-geracionais-4"
+        },
+        {
+          "type": "example",
+          "title": "Quando eles ficam pessoais",
+          "body": "Esses planetas se tornam pessoais quando tocam um ponto do seu mapa. Urano passando pelo seu Sol, por exemplo, costuma marcar anos de grandes mudanças de rumo.",
+          "id": "planetas-geracionais-5"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Os antigos só conheciam os astros visíveis a olho nu, até Saturno. Urano, Netuno e Plutão foram descobertos com telescópios, entre os séculos XVIII e XX.",
+          "id": "planetas-geracionais-6"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Que grande mudança marcou a sua vida e te transformou?",
+          "id": "planetas-geracionais-7"
+        },
+        {
+          "type": "practice",
+          "title": "Olhe para o ano",
+          "body": "Abra o Ano e escreva, na intenção do ano, uma transformação que você quer viver com coragem.",
+          "id": "planetas-geracionais-8",
+          "action": {
+            "label": "Abrir o Ano",
+            "href": "/year"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Por que Urano, Netuno e Plutão são chamados de geracionais?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Porque ficam muitos anos em cada signo e marcam gerações inteiras"
+            },
+            {
+              "id": "b",
+              "text": "Porque só afetam pessoas mais velhas"
+            },
+            {
+              "id": "c",
+              "text": "Porque mudam de signo todo mês"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Por serem lentos, quem nasce na mesma época tem esses planetas no mesmo signo."
+        }
+      ]
+    },
+    {
+      "slug": "aspectos",
+      "title": "Aspectos: as conversas entre os astros",
+      "minutes": 5,
+      "tags": [
+        "aspectos",
+        "transitos"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O que é um aspecto",
+          "body": "Um aspecto é o ângulo entre dois astros. Dependendo da distância entre eles na roda do zodíaco, a conversa é fácil, tensa ou intensa. Os aspectos mostram como as energias se combinam.",
+          "id": "aspectos-1"
+        },
+        {
+          "type": "icon",
+          "icon": "sparkles",
+          "title": "Os fáceis: trígono e sextil",
+          "body": "**Trígono** (120°): as energias fluem com naturalidade, é um talento. **Sextil** (60°): uma oportunidade, que pede um pequeno esforço para ser aproveitada.",
+          "id": "aspectos-2"
+        },
+        {
+          "type": "icon",
+          "icon": "flame",
+          "title": "Os tensos: quadratura e oposição",
+          "body": "**Quadratura** (90°): atrito que obriga a agir e crescer. **Oposição** (180°): dois lados puxando em direções contrárias, pedindo equilíbrio. Tensão não é azar: é motor.",
+          "id": "aspectos-3"
+        },
+        {
+          "type": "icon",
+          "icon": "glow-orb",
+          "title": "A conjunção",
+          "body": "**Conjunção** (0°): dois astros juntos, no mesmo ponto. As energias se fundem e ficam mais fortes. Se é fácil ou difícil, depende de quais astros se encontram.",
+          "id": "aspectos-4"
+        },
+        {
+          "type": "concept",
+          "title": "Trânsitos: o céu de hoje e o seu mapa",
+          "body": "Um trânsito é um aspecto entre um astro de hoje e um ponto do seu mapa natal. “A Lua faz trígono ao seu Sol” quer dizer que o clima do dia favorece a sua essência.",
+          "id": "aspectos-5"
+        },
+        {
+          "type": "example",
+          "title": "Lendo a sua leitura pessoal",
+          "body": "Na aba Hoje, a leitura pessoal mostra até três trânsitos em pequenas etiquetas. Toque em cada uma para ver o que significa. Eles são calculados pelo app, não inventados.",
+          "id": "aspectos-6"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "Os aspectos não precisam ser exatos para valer. Existe uma margem, chamada orbe, de alguns graus para mais ou para menos.",
+          "id": "aspectos-7"
+        },
+        {
+          "type": "reflection",
+          "prompt": "Você costuma crescer mais nos momentos fáceis ou nos desafiadores?",
+          "id": "aspectos-8"
+        },
+        {
+          "type": "practice",
+          "title": "Decifre um trânsito",
+          "body": "Abra a sua leitura de hoje, escolha um trânsito e identifique: qual astro, qual aspecto e qual ponto do seu mapa.",
+          "id": "aspectos-9",
+          "action": {
+            "label": "Ler a minha leitura",
+            "href": "/today"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "Qual aspecto indica energias que fluem com facilidade?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Trígono"
+            },
+            {
+              "id": "b",
+              "text": "Quadratura"
+            },
+            {
+              "id": "c",
+              "text": "Oposição"
+            }
+          ],
+          "correct": "a",
+          "explanation": "O trígono (120°) é o aspecto de fluidez e talento."
+        },
+        {
+          "id": "r2",
+          "prompt": "O que é um trânsito?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Um aspecto entre um astro de hoje e um ponto do seu mapa natal"
+            },
+            {
+              "id": "b",
+              "text": "A mudança de casa de uma pessoa"
+            },
+            {
+              "id": "c",
+              "text": "O dia em que a Lua está cheia"
+            }
+          ],
+          "correct": "a",
+          "explanation": "Trânsito é o céu do momento conversando com o seu mapa."
+        }
+      ]
+    },
+    {
+      "slug": "retrogrados",
+      "title": "Retrógrados",
+      "minutes": 5,
+      "tags": [
+        "retrogrados",
+        "mercurio",
+        "venus",
+        "marte"
+      ],
+      "cards": [
+        {
+          "type": "concept",
+          "title": "O que é um retrógrado",
+          "body": "Visto da Terra, às vezes um planeta parece andar para trás no céu. Ele não muda de direção de verdade: é uma ilusão de movimento, como quando você ultrapassa um carro e ele parece recuar.",
+          "id": "retrogrados-1"
+        },
+        {
+          "type": "concept",
+          "title": "O que significa",
+          "body": "Na astrologia, o retrógrado é um tempo de **re**: rever, repensar, refazer, reencontrar. Os temas do planeta pedem atenção para dentro, em vez de avançar para fora.",
+          "id": "retrogrados-2"
+        },
+        {
+          "type": "icon",
+          "icon": "planet-mercury",
+          "title": "Mercúrio retrógrado",
+          "body": "Acontece três ou quatro vezes por ano e dura cerca de três semanas. Pede cuidado com mensagens, contratos, viagens e aparelhos. Ótimo para revisar, organizar e retomar conversas.",
+          "id": "retrogrados-3"
+        },
+        {
+          "type": "icon",
+          "icon": "planet-venus",
+          "title": "Vênus retrógrado",
+          "body": "Acontece a cada ano e meio, mais ou menos, e dura cerca de quarenta dias. Pede que você reveja relações, valores e gastos. É comum o reaparecimento de pessoas do passado.",
+          "id": "retrogrados-4"
+        },
+        {
+          "type": "icon",
+          "icon": "planet-mars",
+          "title": "Marte retrógrado",
+          "body": "Acontece a cada dois anos e dura mais de dois meses. Pede que você reveja como usa a sua energia e a sua raiva. Melhor ajustar estratégias do que forçar começos.",
+          "id": "retrogrados-5"
+        },
+        {
+          "type": "concept",
+          "title": "Sem medo",
+          "body": "Retrógrado não é azar nem proibição. A vida continua: você pode assinar, viajar e começar coisas. Só vale revisar duas vezes, ter paciência com atrasos e usar o período para arrumar pendências.",
+          "id": "retrogrados-6"
+        },
+        {
+          "type": "didYouKnow",
+          "body": "O app marca no calendário do Mês e na página do Ano quando Mercúrio, Vênus e Marte entram e saem do movimento retrógrado, e destaca o que está ativo hoje.",
+          "id": "retrogrados-7"
+        },
+        {
+          "type": "reflection",
+          "prompt": "O que na sua vida está pedindo uma revisão?",
+          "id": "retrogrados-8"
+        },
+        {
+          "type": "practice",
+          "title": "Encontre o próximo retrógrado",
+          "body": "Abra o Mês e veja o cartão dos retrógrados. Se houver um ativo, escreva nas metas do mês algo que você vai rever, e não começar do zero.",
+          "id": "retrogrados-9",
+          "action": {
+            "label": "Abrir o Mês",
+            "href": "/month"
+          }
+        }
+      ],
+      "review": [
+        {
+          "id": "r1",
+          "prompt": "O que acontece de verdade quando um planeta está retrógrado?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Ele parece andar para trás visto da Terra"
+            },
+            {
+              "id": "b",
+              "text": "Ele muda de órbita"
+            },
+            {
+              "id": "c",
+              "text": "Ele para de existir no mapa"
+            }
+          ],
+          "correct": "a",
+          "explanation": "É uma ilusão de movimento vista da Terra."
+        },
+        {
+          "id": "r2",
+          "prompt": "Como é melhor viver um Mercúrio retrógrado?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Trancado em casa, sem fazer nada"
+            },
+            {
+              "id": "b",
+              "text": "Revisando, organizando e conferindo duas vezes"
+            },
+            {
+              "id": "c",
+              "text": "Fazendo tudo com pressa"
+            }
+          ],
+          "correct": "b",
+          "explanation": "Retrógrado é tempo de rever, não de se paralisar."
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "prompt": "Qual é a leitura correta de “Vênus em Leão”?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A função de amar, no estilo de Leão"
+        },
+        {
+          "id": "b",
+          "text": "Leão é quem ama Vênus"
+        },
+        {
+          "id": "c",
+          "text": "A casa de Leão fica em Vênus"
+        }
+      ],
+      "correct": "a",
+      "explanation": "O planeta é o quê (amar) e o signo é o como (generoso e demonstrativo)."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quais são os planetas pessoais?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Sol, Lua, Mercúrio, Vênus e Marte"
+        },
+        {
+          "id": "b",
+          "text": "Júpiter e Saturno"
+        },
+        {
+          "id": "c",
+          "text": "Urano, Netuno e Plutão"
+        }
+      ],
+      "correct": "a",
+      "explanation": "São os astros rápidos, ligados ao dia a dia."
+    },
+    {
+      "id": "q3",
+      "prompt": "O que acontece por volta dos 29 anos?",
+      "options": [
+        {
+          "id": "a",
+          "text": "O retorno de Saturno"
+        },
+        {
+          "id": "b",
+          "text": "O retorno de Plutão"
+        },
+        {
+          "id": "c",
+          "text": "Um eclipse pessoal"
+        }
+      ],
+      "correct": "a",
+      "explanation": "Saturno volta ao ponto do nascimento: tempo de amadurecer e decidir."
+    },
+    {
+      "id": "q4",
+      "prompt": "Uma quadratura é…",
+      "options": [
+        {
+          "id": "a",
+          "text": "Um aspecto de 90°, que traz atrito e pede ação"
+        },
+        {
+          "id": "b",
+          "text": "Um aspecto de 120°, de fluidez"
+        },
+        {
+          "id": "c",
+          "text": "Dois astros no mesmo ponto"
+        }
+      ],
+      "correct": "a",
+      "explanation": "A quadratura é tensa, e por isso mesmo move."
+    },
+    {
+      "id": "q5",
+      "prompt": "Mercúrio está retrógrado e você precisa assinar um contrato. O que fazer?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Desistir do contrato"
+        },
+        {
+          "id": "b",
+          "text": "Ler com calma, revisar duas vezes e assinar"
+        },
+        {
+          "id": "c",
+          "text": "Assinar sem ler para acabar logo"
+        }
+      ],
+      "correct": "b",
+      "explanation": "Retrógrado pede revisão, não paralisia."
+    }
+  ]
+}

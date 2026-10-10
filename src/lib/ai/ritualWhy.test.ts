@@ -13,11 +13,9 @@ describe('porquê dos rituais (v5)', () => {
     expect(monthRitualsSchema.safeParse(withoutWhy).success).toBe(false);
   });
 
-  it('a geração exige o porquê dos materiais quando há materiais', () => {
+  it('sem o porquê dos materiais o mês não é rejeitado', () => {
     const noMaterialsWhy = { rituals: ritualsValid.rituals.map(({ materialsWhy: _m, ...r }) => r) };
-    expect(monthRitualsSchema.safeParse(noMaterialsWhy).success).toBe(false);
-    const noMaterials = { rituals: noMaterialsWhy.rituals.map((r) => ({ ...r, materials: [] })) };
-    expect(monthRitualsSchema.safeParse(noMaterials).success).toBe(true);
+    expect(monthRitualsSchema.safeParse(noMaterialsWhy).success).toBe(true);
   });
 
   it('rituais antigos (sem porquê) continuam a ler-se', () => {

@@ -117,11 +117,11 @@ export async function getDayReading(userId: string, date: DateISO): Promise<{
 }> {
   const ctx = await context(userId);
   if (!ctx) return { personal: UNAVAILABLE, ritualToday: null, pending: [] };
-  const [personal, rituals] = await Promise.all([
-    userState(ctx, 'DAY_PERSONAL', date),
-    getRituals(ctx.userId, ctx.locale, firstOfMonth(date)),
-  ]);
-  return { personal, ritualToday: rituals?.rituals.find((r) => r.date === date) ?? null, pending: ctx.pending };
+  const [personal, rituals] = await Promise.all([userState(ctx, 'DAY_PERSONAL', date), userState(ctx, 'MONTH_RITUALS', firstOfMonth(date))]);
+  // Rituais em falta pedem-se no Mês; aqui só se renovam os que já existem com prompts antigos.
+  const pending = rituals.status === 'ready' ? ctx.pending : ctx.pending.filter((r) => r.kind !== 'MONTH_RITUALS');
+  const ritualToday = rituals.status === 'ready' ? (rituals.data.rituals.find((r) => r.date === date) ?? null) : null;
+  return { personal, ritualToday, pending };
 }
 
 export async function getWeekReading(userId: string, start: DateISO): Promise<{

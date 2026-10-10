@@ -38,6 +38,8 @@ export async function RitualsCard({ rituals, pending, year, month, locale }: Rit
         <ReadingPending requests={pending} />
       ) : (
         <>
+          {/* Rituais gerados com prompts antigos: mostram-se enquanto a versão nova é pedida. */}
+          {pending.length > 0 && <ReadingPending requests={pending} silent />}
           <p className="mg-rituals__subtitle">{t('rituals.subtitle')}</p>
           <ul className="mg-rituals__list">
             {rituals.data.rituals.map((r) => {

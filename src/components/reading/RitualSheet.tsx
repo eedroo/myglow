@@ -103,6 +103,13 @@ export function RitualSheet({ ritual, year, month, dateLabel, children, triggerV
             <p className="mg-ritual-sheet__intention">{ritual.intention}</p>
           </section>
 
+          {ritual.why && (
+            <section>
+              <h3 className="mg-ritual-sheet__label">{t('reading.ritual.why')}</h3>
+              <p className="mg-ritual-sheet__why">{ritual.why}</p>
+            </section>
+          )}
+
           {ritual.materials.length > 0 && (
             <section>
               <h3 className="mg-ritual-sheet__label">{t('reading.ritual.materials')}</h3>
@@ -111,6 +118,7 @@ export function RitualSheet({ ritual, year, month, dateLabel, children, triggerV
                   <li key={m}>{m}</li>
                 ))}
               </ul>
+              {ritual.materialsWhy && <p className="mg-ritual-sheet__note">{ritual.materialsWhy}</p>}
             </section>
           )}
 

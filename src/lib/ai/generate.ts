@@ -9,7 +9,7 @@ import { buildDayFacts, buildPeriodFacts, buildPersonalDayFacts, buildPersonalPe
 import { SIGN_SCHEMAS, USER_SCHEMAS, type MonthRituals } from './schemas';
 import { finalizeRituals } from './rituals';
 import * as V from './validate';
-import { PROMPT_VERSION, type PromptPair } from './prompts/system';
+import { minPromptVersion, PROMPT_VERSION, type PromptPair } from './prompts/system';
 import * as dayHoroscope from './prompts/dayHoroscope';
 import * as dayPersonal from './prompts/dayPersonal';
 import * as weekEnergy from './prompts/weekEnergy';
@@ -130,8 +130,8 @@ async function runPrepared(p: PreparedPrompt): Promise<{ data: unknown; model: s
 }
 
 /** Conteúdo válido e gerado com os prompts actuais (senão é gerado de novo). */
-export function isCurrent(row: { payload: unknown; promptVersion: number }, schema: z.ZodTypeAny): boolean {
-  return row.promptVersion >= PROMPT_VERSION && schema.safeParse(row.payload).success;
+export function isCurrent(row: { payload: unknown; promptVersion: number }, schema: z.ZodTypeAny, kind: string): boolean {
+  return row.promptVersion >= minPromptVersion(kind) && schema.safeParse(row.payload).success;
 }
 
 // ─── API pública ───────────────────────────────────────────────────────────────────────────────────
@@ -144,7 +144,7 @@ export async function generateSignContent(
 ): Promise<GenerateOutcome> {
   const key = { kind, periodStart: toDbDate(periodStart), sign, locale };
   const existing = await db.signContent.findUnique({ where: { kind_periodStart_sign_locale: key }, select: { payload: true, promptVersion: true } });
-  if (existing && isCurrent(existing, SIGN_SCHEMAS[kind])) return 'exists';
+  if (existing && isCurrent(existing, SIGN_SCHEMAS[kind], kind)) return 'exists';
 
   const result = await runPrepared(prepareSignPrompt(kind, periodStart, sign, locale));
   if (!result) return 'invalid';
@@ -163,7 +163,7 @@ export async function generateUserContent(userId: string, kind: UserContentKind,
   if (!user) return 'unavailable';
   const key = { userId, kind, periodStart: toDbDate(periodStart), locale: user.locale };
   const existing = await db.userAiContent.findUnique({ where: { userId_kind_periodStart_locale: key }, select: { payload: true, promptVersion: true } });
-  if (existing && isCurrent(existing, USER_SCHEMAS[kind])) return 'exists';
+  if (existing && isCurrent(existing, USER_SCHEMAS[kind], kind)) return 'exists';
 
   const prepared = await prepareUserPrompt(userId, kind, periodStart);
   if (!prepared) return 'unavailable';

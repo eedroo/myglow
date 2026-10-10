@@ -6,7 +6,7 @@ import dayPersonalInvented from '../../../tests/fixtures/ai/day-personal.invente
 import dayPersonalTooLong from '../../../tests/fixtures/ai/day-personal.too-long.json';
 import ritualsValid from '../../../tests/fixtures/ai/month-rituals.valid.json';
 import horoscopeValid from '../../../tests/fixtures/ai/day-horoscope.valid.json';
-import { PROMPT_VERSION } from './prompts/system';
+import { minPromptVersion, PROMPT_VERSION } from './prompts/system';
 
 vi.mock('server-only', () => ({}));
 
@@ -77,7 +77,7 @@ describe('generateUserContent', () => {
   });
 
   it('conteúdo gerado com prompts antigos → gera de novo', async () => {
-    mocks.existing = { payload: dayPersonalValid, promptVersion: PROMPT_VERSION - 1 };
+    mocks.existing = { payload: dayPersonalValid, promptVersion: minPromptVersion('DAY_PERSONAL') - 1 };
     mocks.completeJson.mockResolvedValueOnce(reply(dayPersonalValid));
     expect(await generateUserContent('u1', 'DAY_PERSONAL', '2026-05-06')).toBe('saved');
   });

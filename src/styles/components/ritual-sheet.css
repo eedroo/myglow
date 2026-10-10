@@ -59,6 +59,18 @@
   color: var(--text-secondary);
 }
 
+.mg-ritual-sheet__why {
+  color: var(--text-primary);
+  line-height: var(--leading-normal);
+}
+
+/* Porquê dos materiais: uma linha discreta por baixo da lista */
+.mg-ritual-sheet__note {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
 .mg-ritual-sheet__materials {
   display: flex;
   flex-wrap: wrap;

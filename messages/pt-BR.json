@@ -725,6 +725,7 @@
       "open": "Ver ritual",
       "duration": "{n} min",
       "intention": "Intenção",
+      "why": "Por que agora",
       "materials": "Materiais",
       "steps": "Passo a passo",
       "safety": "Segurança",

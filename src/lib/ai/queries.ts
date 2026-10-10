@@ -9,7 +9,7 @@ import {
   SIGN_SCHEMAS, USER_READ_SCHEMAS,
   type DayPersonalView, type MonthEnergy, type MonthPersonal, type MonthRituals, type Ritual, type WeekPersonal,
 } from './schemas';
-import { PROMPT_VERSION } from './prompts/system';
+import { minPromptVersion } from './prompts/system';
 
 /**
  * Leitura do conteúdo IA para as páginas. Só lê da DB — nunca gera. Conteúdo em falta num período
@@ -77,7 +77,7 @@ function toState<T>(
 ): AiState<T> {
   const parsed = row ? schema.safeParse(row.payload) : null;
   const open = aiWindow(kind, periodStart, ctx.today) === 'open';
-  const stale = !!row && row.promptVersion < PROMPT_VERSION;
+  const stale = !!row && row.promptVersion < minPromptVersion(kind);
   if (parsed?.success) {
     // Gerado com prompts antigos no período aberto: continua a mostrar-se enquanto a versão nova é pedida em
     // segundo plano (antes ficava "a preparar" e, se a geração falhasse, sem nada).

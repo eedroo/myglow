@@ -6,6 +6,8 @@
       "date": "2026-05-01",
       "occasion": "Lua Cheia em Escorpião",
       "intention": "Deixar ir o que já não te serve.",
+      "why": "A Lua Cheia é o ponto alto do ciclo, bom para soltar; em Escorpião, signo das transformações profundas, pede que largues o que já pesa.",
+      "materialsWhy": "A água acompanha a Lua e Escorpião, signo de Água; rasgar o papel torna o gesto de deixar ir visível.",
       "area": "MAGIC",
       "durationMinutes": 20,
       "materials": [
@@ -26,6 +28,8 @@
       "date": "2026-05-12",
       "occasion": "Lua Nova em Touro",
       "intention": "Plantar uma intenção de estabilidade para o mês.",
+      "why": "A Lua Nova abre um ciclo, como uma semente; Touro, signo de Terra regido por Vénus, fala de calma, corpo e coisas que crescem devagar.",
+      "materialsWhy": "Terra e sementes são o símbolo mais directo de Touro: o que plantas com paciência cresce.",
       "area": "PERSONAL",
       "durationMinutes": 15,
       "materials": [
@@ -46,6 +50,8 @@
       "date": "2026-05-23",
       "occasion": "Quarto Crescente em Virgem",
       "intention": "Ajustar o plano com clareza.",
+      "why": "O Quarto Crescente é o momento de ajustar o que começou na Lua Nova; Virgem, regido por Mercúrio, ajuda a pôr ordem nos detalhes.",
+      "materialsWhy": "Um caderno chega: Virgem gosta de listas simples e claras.",
       "area": "STUDIES",
       "durationMinutes": 10,
       "materials": [

@@ -63,6 +63,10 @@ export const ritualSchema = z.object({
   date: z.string(), // DateISO — tem de ser uma das datas-chave fornecidas
   occasion: text(60),
   intention: text(160),
+  /** v5: porque este ritual nesta data (o evento e o signo), em linguagem simples. Opcional só na leitura (rituais antigos). */
+  why: text(260).optional(),
+  /** v5: porque estes materiais (correspondências tradicionais de cor, elemento, planeta). */
+  materialsWhy: text(200).optional(),
   area: z.nativeEnum(ProjectArea),
   durationMinutes: z.number().int().min(5).max(90),
   materials: z.array(text(60)).max(6),
@@ -70,7 +74,13 @@ export const ritualSchema = z.object({
   safety: text(200),
 });
 
-export const monthRitualsSchema = z.object({ rituals: z.array(ritualSchema).min(3).max(5) });
+/** Geração: o "porquê" do ritual é obrigatório (o dos materiais só quando há materiais). */
+const ritualGenSchema = ritualSchema.extend({ why: text(260) }).refine((r) => r.materials.length === 0 || !!r.materialsWhy, {
+  message: 'materialsWhy is required when there are materials',
+});
+
+export const monthRitualsSchema = z.object({ rituals: z.array(ritualGenSchema).min(3).max(5) });
+const monthRitualsReadSchema = z.object({ rituals: z.array(ritualSchema).min(3).max(5) });
 
 export type DayHoroscope = z.infer<typeof dayHoroscopeSchema>;
 export type DayPersonal = z.infer<typeof dayPersonalSchema>;
@@ -80,7 +90,7 @@ export type WeekPersonal = z.infer<typeof weekPersonalSchema>;
 export type MonthEnergy = z.infer<typeof monthEnergySchema>;
 export type MonthPersonal = z.infer<typeof monthPersonalSchema>;
 export type Ritual = z.infer<typeof ritualSchema>;
-export type MonthRituals = z.infer<typeof monthRitualsSchema>;
+export type MonthRituals = z.infer<typeof monthRitualsReadSchema>;
 
 export const SIGN_SCHEMAS = {
   DAY_HOROSCOPE: dayHoroscopeSchema,
@@ -96,7 +106,7 @@ export const USER_SCHEMAS = {
 } as const;
 
 /** Esquemas para ler o que está gravado (mais tolerantes que os de geração). */
-export const USER_READ_SCHEMAS = { ...USER_SCHEMAS, DAY_PERSONAL: dayPersonalReadSchema } as const;
+export const USER_READ_SCHEMAS = { ...USER_SCHEMAS, DAY_PERSONAL: dayPersonalReadSchema, MONTH_RITUALS: monthRitualsReadSchema } as const;
 
 /**
  * Versão "de fio" enviada à OpenAI (structured outputs em modo estrito): sem limites de comprimento

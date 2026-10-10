@@ -16,6 +16,8 @@ export function build(facts: PersonalPeriodFacts, locale: Locale, pronouns: Pron
         `  date: one of ${dates.join(', ')}`,
         '  occasion [60]: the "name" of the event of that date, in the output language',
         '  intention [160]',
+        '  why [260]: in plain, warm language, why this ritual suits this date: what the event brings (e.g. a New Moon opens a cycle, a Full Moon is a peak for releasing) and what the sign of that event is about (its themes, element or ruling planet), and how the intention follows from it. One or two short sentences, no unexplained jargon.',
+        '  materialsWhy [200]: one short sentence on why these materials (and any colour) were chosen, using traditional correspondences (colour, element, planet, sign), presented as tradition and never as an obligation. Required when materials is not empty; omit when it is empty.',
         '  area: one of MAGIC, PERSONAL, LEISURE, PROFESSIONAL, STUDIES',
         '  durationMinutes: integer 5–90',
         '  materials: up to 6 items [60 each], common and inexpensive',

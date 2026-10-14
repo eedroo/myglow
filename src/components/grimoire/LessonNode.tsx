@@ -6,7 +6,7 @@ import { Check, Lock } from 'lucide-react';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 import type { MagicIconName } from '@/lib/icons';
 import type { LessonState } from '@/lib/grimoire/rules';
-import { NodePopover } from './NodePopover';
+import { NodePopover, scrollToNode } from './NodePopover';
 
 interface LessonNodeProps {
   courseSlug: string;
@@ -17,10 +17,12 @@ interface LessonNodeProps {
   state: LessonState;
   lessonsLeft: number;
   icon: MagicIconName;
+  /** Só o próximo passo do curso em foco faz scroll até si ao abrir o mapa. */
+  autoScroll?: boolean;
 }
 
-/** Nó de uma lição. O nó actual faz scroll suave até si ao abrir o mapa. */
-export function LessonNode({ courseSlug, slug, index, title, minutes, state, lessonsLeft, icon }: LessonNodeProps) {
+/** Nó de uma lição. Com `autoScroll`, faz scroll suave até si ao abrir o mapa. */
+export function LessonNode({ courseSlug, slug, index, title, minutes, state, lessonsLeft, icon, autoScroll = false }: LessonNodeProps) {
   const t = useTranslations('grimoire');
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLButtonElement>(null);
@@ -28,10 +30,8 @@ export function LessonNode({ courseSlug, slug, index, title, minutes, state, les
   const popId = `pop-${courseSlug}-${slug}`;
 
   useEffect(() => {
-    if (state !== 'current') return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    ref.current?.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
-  }, [state]);
+    if (autoScroll) scrollToNode(ref.current);
+  }, [autoScroll]);
 
   const href = `/grimoire/${courseSlug}/${slug}`;
   let text: string | undefined;

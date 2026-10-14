@@ -20,11 +20,11 @@ export async function GrimoireMap({ state, notice }: { state: GrimoireState; not
       )}
       <div className="mg-map__regions">
         {required.map((c) => (
-          <CourseRegion key={c.slug} course={c} lessonsLeft={state.lessonsLeft} />
+          <CourseRegion key={c.slug} course={c} lessonsLeft={state.lessonsLeft} focus={c.slug === state.focusCourse} />
         ))}
         {free.length > 0 && <Crossroads courses={free} unlocked={state.requiredDone} />}
         {free.map((c) => (
-          <CourseRegion key={c.slug} course={c} lessonsLeft={state.lessonsLeft} />
+          <CourseRegion key={c.slug} course={c} lessonsLeft={state.lessonsLeft} focus={c.slug === state.focusCourse} />
         ))}
       </div>
     </div>

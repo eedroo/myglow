@@ -52,3 +52,9 @@ export function NodePopover({ id, title, meta, text, action, onClose }: NodePopo
     </div>
   );
 }
+
+/** Scroll suave até um nó do mapa (instantâneo com reduced-motion). */
+export function scrollToNode(el: HTMLElement | null) {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  el?.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+}

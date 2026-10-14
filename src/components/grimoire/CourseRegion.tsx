@@ -25,11 +25,12 @@ function pathFor(count: number): string {
     .join(' ');
 }
 
-/** Região de um curso: cabeçalho em vidro + caminho de lições, quiz e emblema. */
-export async function CourseRegion({ course, lessonsLeft }: { course: MapCourse; lessonsLeft: number }) {
+/** Região de um curso: cabeçalho em vidro + caminho de lições, quiz e emblema. `focus`: o mapa abre neste curso. */
+export async function CourseRegion({ course, lessonsLeft, focus = false }: { course: MapCourse; lessonsLeft: number; focus?: boolean }) {
   const t = await getTranslations('grimoire.region');
   const locked = course.state === 'locked';
   const nodes = course.lessons.length + 2; // + quiz + emblema
+  const quizNext = course.quizUnlocked && !course.completed && !course.lessons.some((l) => l.state === 'current');
   const classes = ['mg-region', locked && 'mg-region--locked', course.completed && 'mg-region--completed'].filter(Boolean).join(' ');
 
   return (
@@ -66,6 +67,7 @@ export async function CourseRegion({ course, lessonsLeft }: { course: MapCourse;
                 state={l.state}
                 lessonsLeft={lessonsLeft}
                 icon={course.icon}
+                autoScroll={focus && l.state === 'current'}
               />
               {i % 2 === 1 && (
                 <span className="mg-region__deco">
@@ -75,7 +77,7 @@ export async function CourseRegion({ course, lessonsLeft }: { course: MapCourse;
             </li>
           ))}
           <li className={`mg-region__row mg-region__row--${POSITIONS[course.lessons.length % POSITIONS.length]}`}>
-            <QuizNode courseSlug={course.slug} unlocked={course.quizUnlocked} completed={course.completed} />
+            <QuizNode courseSlug={course.slug} unlocked={course.quizUnlocked} completed={course.completed} autoScroll={focus && quizNext} />
           </li>
           <li className={`mg-region__row mg-region__row--${POSITIONS[(course.lessons.length + 1) % POSITIONS.length]}`}>
             <BadgeNode name={course.badge.name} icon={course.badge.icon} earned={course.completed} />

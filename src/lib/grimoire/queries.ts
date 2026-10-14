@@ -7,7 +7,7 @@ import type { MagicIconName } from '@/lib/icons';
 import { dbToAppLocale, type AppLocale } from '@/i18n/locales';
 import { getCatalog, getCourse, resolveContentLocale } from './content';
 import {
-  canStartLesson, courseStates, lessonStates, lessonsLeftToday, pickReviews,
+  canStartLesson, courseStates, focusCourse, lessonStates, lessonsLeftToday, pickReviews,
   type CourseState, type LessonState, type ReviewItemLite,
 } from './rules';
 import type { Course, GrimoireLocale, Lesson, QuizQuestion } from './schema';
@@ -45,20 +45,23 @@ interface UserProgress {
   lessonsDone: Map<string, Set<string>>; // curso → lições concluídas
   courses: Map<string, { completedAt: Date | null; bestScore: number | null; quizAttempts: number }>;
   completedToday: number;
+  lastLessonCourse: string | null; // curso da última lição concluída
 }
 
 async function loadProgress(userId: string, today: DateISO): Promise<UserProgress> {
   const [lessons, courses, completedToday] = await Promise.all([
-    db.lessonProgress.findMany({ where: { userId }, select: { courseSlug: true, lessonSlug: true } }),
+    db.lessonProgress.findMany({ where: { userId }, select: { courseSlug: true, lessonSlug: true, completedAt: true } }),
     db.courseProgress.findMany({ where: { userId }, select: { courseSlug: true, completedAt: true, bestScore: true, quizAttempts: true } }),
     db.lessonProgress.count({ where: { userId, completedDate: toDbDate(today) } }),
   ]);
   const lessonsDone = new Map<string, Set<string>>();
+  let last: (typeof lessons)[number] | null = null;
   for (const l of lessons) {
+    if (!last || l.completedAt > last.completedAt) last = l;
     if (!lessonsDone.has(l.courseSlug)) lessonsDone.set(l.courseSlug, new Set());
     lessonsDone.get(l.courseSlug)!.add(l.lessonSlug);
   }
-  return { lessonsDone, courses: new Map(courses.map((c) => [c.courseSlug, c])), completedToday };
+  return { lessonsDone, courses: new Map(courses.map((c) => [c.courseSlug, c])), completedToday, lastLessonCourse: last?.courseSlug ?? null };
 }
 
 function statesFor(published: PublishedCourse[], progress: UserProgress) {
@@ -104,6 +107,8 @@ export interface GrimoireState {
   courses: MapCourse[];
   requiredDone: boolean;
   badgesEarned: number;
+  /** Curso para onde o mapa faz scroll ao abrir (onde a pessoa ficou). */
+  focusCourse: string | null;
 }
 
 export async function getGrimoireState(userId: string, tz: string, prefs: ContentPrefs): Promise<GrimoireState> {
@@ -146,6 +151,7 @@ export async function getGrimoireState(userId: string, tz: string, prefs: Conten
     courses,
     requiredDone: getCatalog().filter((c) => c.required).every((c) => !!progress.courses.get(c.slug)?.completedAt),
     badgesEarned: courses.filter((c) => c.completed).length,
+    focusCourse: focusCourse(courses, progress.lastLessonCourse),
   };
 }
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
-  canStartLesson, courseStates, lessonStates, lessonsLeftToday, nextReview, pickReviews, quizPassed, type ReviewItemLite,
+  canStartLesson, courseStates, focusCourse, lessonStates, lessonsLeftToday, nextReview, pickReviews, quizPassed, type ReviewItemLite,
 } from './rules';
 
 const CATALOG = [
@@ -69,5 +69,27 @@ describe('quizPassed', () => {
     expect(quizPassed(4)).toBe(true);
     expect(quizPassed(5)).toBe(true);
     expect(quizPassed(3)).toBe(false);
+  });
+});
+
+describe('focusCourse', () => {
+  const map = (states: Record<string, 'locked' | 'available' | 'in_progress' | 'completed'>) =>
+    Object.entries(states).map(([slug, state]) => ({ slug, state }));
+
+  it('abre no curso da última lição feita, mesmo que haja outros em curso antes', () => {
+    expect(focusCourse(map({ a: 'completed', b: 'in_progress', c: 'in_progress', d: 'available' }), 'c')).toBe('c');
+  });
+
+  it('última lição num curso já concluído: o primeiro em curso', () => {
+    expect(focusCourse(map({ a: 'completed', b: 'available', c: 'in_progress' }), 'a')).toBe('c');
+  });
+
+  it('nada em curso: o primeiro disponível (não o último)', () => {
+    expect(focusCourse(map({ a: 'completed', b: 'available', c: 'available' }), 'a')).toBe('b');
+  });
+
+  it('sem progresso: o primeiro curso disponível; tudo concluído ou bloqueado: nenhum', () => {
+    expect(focusCourse(map({ a: 'available', b: 'locked' }), null)).toBe('a');
+    expect(focusCourse(map({ a: 'completed', b: 'locked' }), 'a')).toBeNull();
   });
 });

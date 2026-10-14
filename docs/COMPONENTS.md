@@ -364,12 +364,12 @@ Escola em trilha (estilo Duolingo). Conteúdo só em `content/grimoire/**` (JSON
 
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
-| `GrimoireMap` | server | `map.css` | `mg-map`, `__notice`, `__regions` | medidor fixo + aviso (`?notice=`) + regiões; o nó actual faz scroll suave até si ao abrir |
+| `GrimoireMap` | server | `map.css` | `mg-map`, `__notice`, `__regions` | medidor fixo + aviso (`?notice=`) + regiões; ao abrir, scroll suave só até ao próximo passo do curso em foco (`state.focusCourse`: o da última lição feita se não estiver concluído, senão o primeiro em curso, senão o primeiro disponível) |
 | `DailyLessonsMeter` | server | `daily-meter.css` | `mg-daily-meter`, `__moons`, `__moon`, `--filled`, `__label`, `__badges` | topo fixo: 3 luas (lições novas de hoje) + contador de emblemas (liga ao perfil) |
 | `CourseRegion` | server | `region.css` | `mg-region`, `__header`, `__icon`, `__title`, `__subtitle`, `__progress`, `__lock-note`, `__path`, `__line`, `__nodes`, `__row`, `__row--left/--center/--right`, `__deco`, `--locked`, `--completed` | cabeçalho em vidro (ícone, título, subtítulo, "3/6"); caminho em zigue-zague com traço SVG curvo pontilhado dourado; estrelas e luas decorativas |
-| `LessonNode` | client | `node.css` | `mg-node`, `--completed`, `--current`, `--locked`, `__ring`, `__label` | 64 px (actual 80 px com halo pulsante, estático com reduced-motion); ✓ ou cadeado; abre `NodePopover` |
+| `LessonNode` | client | `node.css` | `mg-node`, `--completed`, `--current`, `--locked`, `__ring`, `__label` | 64 px (actual 80 px com halo pulsante, estático com reduced-motion); ✓ ou cadeado; abre `NodePopover`; `autoScroll` (só no curso em foco) faz scroll até si ao abrir |
 | `NodePopover` | client | `node-pop.css` | `mg-node-pop`, `__title`, `__meta`, `__text`, `__actions` | título, "4 min", **Começar** / **Rever**; limite diário; "conclui a anterior" |
-| `QuizNode` | client | `node.css` | `mg-node`, `--quiz` | cristal (`crystal-cluster`); bloqueado até todas as lições |
+| `QuizNode` | client | `node.css` | `mg-node`, `--quiz` | cristal (`crystal-cluster`); bloqueado até todas as lições; `autoScroll` quando só falta o quiz no curso em foco |
 | `BadgeNode` | server | `node.css` | `mg-node`, `--badge`, `--earned` | emblema do curso em silhueta até concluído, depois dourado |
 | `Crossroads` | server | `crossroads.css` | `mg-crossroads`, `__title`, `__chips`, `__chip`, `--locked` | depois dos obrigatórios: "Escolhe o teu caminho" + chips dos cursos livres (saltam para a região); esbatido até concluir os obrigatórios |
 | `ComingSoonGrimoire` | client | `coming-soon.css` | `mg-coming-soon`, `__title`, `__text` | EN sem conteúdo: "The Grimoire is coming soon in English" + "Read in Portuguese" (cookie) |

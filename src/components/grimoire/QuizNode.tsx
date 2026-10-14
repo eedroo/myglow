@@ -1,15 +1,27 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Lock } from 'lucide-react';
 import { MagicIcon } from '@/components/ui/MagicIcon';
-import { NodePopover } from './NodePopover';
+import { NodePopover, scrollToNode } from './NodePopover';
+
+interface QuizNodeProps {
+  courseSlug: string;
+  unlocked: boolean;
+  completed: boolean;
+  /** Só falta o quiz no curso em foco: faz scroll até si ao abrir o mapa. */
+  autoScroll?: boolean;
+}
 
 /** Nó do quiz final (cristal): bloqueado até todas as lições estarem concluídas. */
-export function QuizNode({ courseSlug, unlocked, completed }: { courseSlug: string; unlocked: boolean; completed: boolean }) {
+export function QuizNode({ courseSlug, unlocked, completed, autoScroll = false }: QuizNodeProps) {
   const t = useTranslations('grimoire');
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (autoScroll) scrollToNode(ref.current);
+  }, [autoScroll]);
   const close = useCallback(() => setOpen(false), []);
   const popId = `pop-${courseSlug}-quiz`;
   const state = completed ? 'completed' : unlocked ? 'current' : 'locked';
@@ -17,6 +29,7 @@ export function QuizNode({ courseSlug, unlocked, completed }: { courseSlug: stri
   return (
     <span className="mg-node-wrap">
       <button
+        ref={ref}
         type="button"
         className={`mg-node mg-node--quiz mg-node--${state}`}
         aria-label={`${t('node.quiz')} · ${t(`node.${state}`)}`}

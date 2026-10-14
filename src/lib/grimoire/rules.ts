@@ -55,6 +55,16 @@ export function lessonStates(lessons: { slug: string }[], done: Set<string>): Re
   return out;
 }
 
+/**
+ * Curso para onde o mapa abre: o da última lição feita (se ainda não estiver concluído), senão o primeiro
+ * em curso, senão o primeiro disponível. `courses` vem pela ordem do mapa.
+ */
+export function focusCourse(courses: { slug: string; state: CourseState }[], lastLessonCourse: string | null): string | null {
+  const last = courses.find((c) => c.slug === lastLessonCourse);
+  if (last && last.state === 'in_progress') return last.slug;
+  return (courses.find((c) => c.state === 'in_progress') ?? courses.find((c) => c.state === 'available'))?.slug ?? null;
+}
+
 export function lessonsLeftToday(completedToday: number): number {
   return Math.max(0, DAILY_LESSON_LIMIT - completedToday);
 }

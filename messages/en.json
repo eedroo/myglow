@@ -1447,5 +1447,48 @@
         "progress": "2 / 6 lessons"
       }
     }
+  },
+  "admin": {
+    "title": "Backoffice",
+    "subtitle": "Totals only, never what anyone wrote. Days in UTC.",
+    "users": {
+      "title": "Users",
+      "total": "Accounts",
+      "onboarded": "Onboarded",
+      "active1d": "Active 24 h",
+      "active7d": "Active 7 days",
+      "active30d": "Active 30 days",
+      "new7d": "New in 7 days",
+      "withPush": "With push"
+    },
+    "days": {
+      "title": "Last 14 days",
+      "day": "Day",
+      "signups": "New",
+      "diary": "Journal",
+      "lessons": "Lessons",
+      "grimoire": "In Grimoire",
+      "note": "Journal and Grimoire: distinct people that day."
+    },
+    "courses": {
+      "title": "Courses",
+      "course": "Course",
+      "started": "Started",
+      "completed": "Completed"
+    },
+    "notifications": {
+      "title": "Notifications (7 days)",
+      "kind": "Type",
+      "sent": "Sent",
+      "opened": "Opened",
+      "rate": "% opened",
+      "note": "Opened = tapped in the notification or the inbox (notification taps count since Oct 16)."
+    },
+    "locales": {
+      "title": "Languages",
+      "locale": "Language",
+      "users": "People"
+    },
+    "empty": "No data yet."
   }
 }

@@ -123,6 +123,18 @@ export function feedbackEmail(): string | null {
   return process.env.FEEDBACK_EMAIL?.trim() || null;
 }
 
+/** Backoffice (`/admin`): emails com acesso, separados por vírgulas (minúsculas). Vazio = ninguém. */
+export function adminEmails(): string[] {
+  return (process.env.ADMIN_EMAILS ?? '')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+export function isAdminEmail(email: string | null | undefined): boolean {
+  return !!email && adminEmails().includes(email.trim().toLowerCase());
+}
+
 /** Há chaves VAPID para enviar push? (sem elas os avisos ficam só na caixa da app) */
 export function hasPush(): boolean {
   return pushEnvSchema.safeParse(process.env).success;

@@ -1447,5 +1447,48 @@
         "progress": "2 / 6 lições"
       }
     }
+  },
+  "admin": {
+    "title": "Backoffice",
+    "subtitle": "Só totais, nunca o que alguém escreveu. Dias em UTC.",
+    "users": {
+      "title": "Utilizadores",
+      "total": "Contas",
+      "onboarded": "Com onboarding",
+      "active1d": "Activos 24 h",
+      "active7d": "Activos 7 dias",
+      "active30d": "Activos 30 dias",
+      "new7d": "Novos em 7 dias",
+      "withPush": "Com notificações"
+    },
+    "days": {
+      "title": "Últimos 14 dias",
+      "day": "Dia",
+      "signups": "Novos",
+      "diary": "Diário",
+      "lessons": "Lições",
+      "grimoire": "No Grimório",
+      "note": "Diário e Grimório: pessoas diferentes nesse dia."
+    },
+    "courses": {
+      "title": "Cursos",
+      "course": "Curso",
+      "started": "Começaram",
+      "completed": "Concluíram"
+    },
+    "notifications": {
+      "title": "Avisos (7 dias)",
+      "kind": "Tipo",
+      "sent": "Enviados",
+      "opened": "Abertos",
+      "rate": "% abertos",
+      "note": "Aberto = tocado na notificação ou na caixa de avisos (a notificação conta desde 16/10)."
+    },
+    "locales": {
+      "title": "Línguas",
+      "locale": "Língua",
+      "users": "Pessoas"
+    },
+    "empty": "Ainda sem dados."
   }
 }

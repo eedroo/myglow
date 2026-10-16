@@ -444,3 +444,12 @@ Textos em `beta`, `feedback`, `welcome`, `firstSteps` e `landing`. O beta só ap
 | `AppPreview` | server | `preview.css` | `mg-preview`, `__frame`, `__screen`, `__label` | moldura de telemóvel em CSS com markup estático (primitivos reais com dados de exemplo, `aria-hidden`, sem DB nem hooks): `today` (lua, intenção, 3 `CheckTile`, humor 4), `week` (dias com progresso), `grimoire` (região + 4 `LessonNode`) |
 
 Integração F10: `TopBar` mostra `BetaBadge` junto ao logo; `/profile` ganhou `FeedbackDialog` e "Rever a apresentação" (`mg-journey__extras`); as definições têm `FeedbackDialog` na secção Privacidade; `/today` tem o link discreto de feedback por baixo do `Motto` (`mg-feedback__footer`); `IntentionCard` tem `id="intencao"` (âncora dos primeiros passos); `RegisterForm` aceita `betaNotice` e `invite`.
+
+### Backoffice (`src/components/admin/`, rota `/admin`)
+
+Só para os emails em `ADMIN_EMAILS` (separados por vírgulas); para os outros a rota dá 404. Mostra apenas totais agregados (nunca o que alguém escreveu). Dados em `lib/admin/stats.ts`.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `StatTile` | server | `admin.css` | `mg-stat`, `__value`, `__label`, `__hint` | número em destaque + rótulo (+ nota opcional); em grelha `mg-admin__tiles` |
+| `AdminTable` | server | `admin.css` | `mg-admin-table`, `__num` | tabela simples com cabeçalho; colunas numéricas alinhadas à direita (`tabular-nums`) |

@@ -11,6 +11,9 @@ type Events = {
   // regenerar no mesmo dia (sem ela o Inngest descartava o pedido como repetido durante 24 h).
   'ai/sign.generate': { data: { kind: SignContentKind; periodStart: DateISO; sign: ZodiacSign; locale: Locale; version: number } };
   'ai/user.generate': { data: { userId: string; kind: UserContentKind; periodStart: DateISO; locale: Locale; version: number } };
+  // Reenvio manual da mensagem do dia (painel do Inngest). `dryRun` só conta quem receberia.
+  'admin/morning.resend': { data: { dryRun?: boolean } };
+  'admin/morning.resend.user': { data: { userId: string; batch: string } };
 };
 
 export const inngest = new Inngest({ id: 'myglow', schemas: new EventSchemas().fromRecord<Events>() });

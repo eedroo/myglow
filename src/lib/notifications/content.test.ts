@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { Locale, MoonPhase, NotificationKind } from '@prisma/client';
 import { ZODIAC_ORDER } from '@/lib/astro/zodiac';
-import { MAX_BODY, MAX_TITLE, MOON_EMOJI, buildNotification, testNotification } from './content';
+import { getCatalog, getCourse } from '@/lib/grimoire/content';
+import { MAX_BODY, MAX_TITLE, MOON_EMOJI, buildNotification, dailyVariant, testNotification } from './content';
 
 const LOCALES: Locale[] = ['PT_PT', 'PT_BR', 'EN'];
 const KINDS: NotificationKind[] = [
@@ -39,7 +40,8 @@ describe('buildNotification', () => {
   it('emoji certo por fase e texto na língua', () => {
     const n = buildNotification('MORNING', { ...base, locale: 'PT_PT', moon: { phase: 'WAXING_CRESCENT', sign: 'TAURUS' } });
     expect(n.title).toBe('Crescente em Touro 🌒');
-    expect(n.body).toBe('Qual é a tua intenção para hoje?');
+    // Sem leitura pronta: uma das variantes (muda de dia para dia).
+    expect(['Qual é a tua intenção para hoje?', 'O dia ainda está em branco. Escreve a primeira linha.', 'Uma intenção chega. Escolhe-a antes do café.']).toContain(n.body);
     expect(buildNotification('NIGHT', { ...base, locale: 'EN', moon: { phase: 'FULL_MOON', sign: 'LIBRA' } }).title).toContain('🌕');
   });
 
@@ -65,7 +67,7 @@ describe('convites e última chamada', () => {
     expect(n.title).toBe('Coragem com os pés na terra');
     expect(n.body).toBe('Sua mensagem do dia está pronta. Qual é a sua intenção?');
     const withRitual = buildNotification('MORNING', { ...base, locale: 'PT_PT', moon, dayHeadline: 'X', ritualToday: 'Semear' });
-    expect(withRitual.body).toBe('A tua mensagem do dia está pronta. Hoje há ritual: Semear');
+    expect(withRitual.body).toBe('Hoje há ritual: Semear');
   });
 
   it('semana e mês com a leitura pronta', () => {
@@ -104,3 +106,61 @@ describe('convites e última chamada', () => {
   });
 });
 
+describe('avisos com conteúdo (v6)', () => {
+  const dates = ['2026-05-06', '2026-05-07', '2026-05-08', '2026-05-09'];
+  const lessons = getCatalog().flatMap((e) => getCourse(e.slug, 'pt-BR')?.lessons ?? []);
+  const nextOf = (i: number) => {
+    const l = lessons[i % lessons.length]!;
+    const hooks = [l.hook, ...l.cards.map((c) => (c.type === 'reflection' ? c.prompt : c.type === 'didYouKnow' ? c.body : 'title' in c ? c.title : ''))];
+    return { lesson: l.title, minutes: l.minutes, hooks: hooks.filter((h): h is string => !!h) };
+  };
+
+  it('rodízio: dois dias seguidos nunca repetem a variante', () => {
+    for (let d = 0; d < 30; d++) {
+      const a = new Date(Date.UTC(2026, 0, 1 + d)).toISOString().slice(0, 10);
+      const b = new Date(Date.UTC(2026, 0, 2 + d)).toISOString().slice(0, 10);
+      expect(dailyVariant(a, 3)).not.toBe(dailyVariant(b, 3));
+    }
+  });
+
+  it('todas as variantes cabem sem cortar, em todas as línguas e dias', () => {
+    for (const locale of LOCALES) {
+      for (const date of dates) {
+        for (const kind of ['MORNING', 'BODY', 'NIGHT'] as const) {
+          const x = buildNotification(kind, { ...base, date, locale, moon: { phase: 'WANING_GIBBOUS', sign: 'SAGITTARIUS' } });
+          expect(x.title.endsWith('…') || x.body.endsWith('…'), `${locale} ${kind} ${date}: ${x.title} / ${x.body}`).toBe(false);
+        }
+      }
+    }
+  });
+
+  it('manhã: corpo = intenção sugerida; noite: corpo = pergunta de reflexão', () => {
+    const intention = 'Hoje eu digo não sem pedir desculpas.';
+    expect(buildNotification('MORNING', { ...base, locale: 'PT_BR', dayHeadline: 'Nem toda mensagem merece resposta hoje.', dayIntention: intention }))
+      .toMatchObject({ title: 'Nem toda mensagem merece resposta hoje.', body: intention });
+    const q = 'O que você evitou dizer hoje?';
+    expect(buildNotification('NIGHT', { ...base, locale: 'PT_BR', dayQuestion: q }).body).toBe(q);
+  });
+
+  it('Grimório: a próxima lição pelo nome e um gancho dela, sem cortar; à noite outro gancho', () => {
+    for (const locale of LOCALES) {
+      for (const date of dates) {
+        for (let i = 0; i < lessons.length; i++) {
+          const next = nextOf(i);
+          const g = { grimoire: { lessonsLeft: 2, quizPending: false, next } };
+          const m = buildNotification('GRIMOIRE', { ...base, date, locale, ...g });
+          const n = buildNotification('GRIMOIRE_LAST', { ...base, date, locale, ...g });
+          for (const x of [m, n]) {
+            expect(x.title.length, x.title).toBeLessThanOrEqual(MAX_TITLE);
+            expect(x.body.length).toBeLessThanOrEqual(MAX_BODY);
+            expect(x.url).toBe('/grimoire');
+          }
+          expect(next.hooks).toContain(m.body.endsWith('…') ? next.hooks.find((h) => m.body.startsWith(h.slice(0, 20))) : m.body);
+          const fit = next.hooks.filter((h) => h.length <= MAX_BODY);
+          if (fit.length > 1) expect(n.body).not.toBe(m.body);
+          if (fit.length) expect(m.body.endsWith('…')).toBe(false);
+        }
+      }
+    }
+  });
+});

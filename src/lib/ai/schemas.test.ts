@@ -15,7 +15,7 @@ describe('leitura pessoal do dia (v3)', () => {
     expect(dayPersonalSchema.safeParse({ ...valid, keywords: ['a', 'b'] }).success).toBe(false);
   });
 
-  it('prompts pedem linguagem simples (sem termos técnicos soltos) e título poético', () => {
+  it('prompts pedem linguagem simples (sem termos técnicos soltos) e título directo (v6)', () => {
     const sys = systemPrompt('PT_BR', 'NEUTRAL');
     expect(sys).toMatch(/Plain language first/);
     // Vocabulário já na língua de saída (em inglês a IA copiava as expressões para o texto).
@@ -25,7 +25,11 @@ describe('leitura pessoal do dia (v3)', () => {
     expect(sys).toMatch(/Never use em dashes/);
     expect(systemPrompt('PT_PT')).toContain('a forma como te mostras ao mundo');
     const p = buildDayPersonal({} as never, 'PT_BR');
-    expect(p.user).toMatch(/poetic, image-based title/);
+    expect(p.user).toMatch(/verdict or a direct instruction/);
+    // Exemplos de tom já na língua de saída (nunca em inglês para PT).
+    expect(p.user).toContain('Nem toda mensagem merece resposta hoje.');
+    expect(p.user).not.toContain('Not every message');
+    expect(p.user).toMatch(/Avoid generic formulas/);
     expect(p.user).toMatch(/keywords: exactly 3/);
     expect(p.user).toMatch(/crystal:/);
   });

@@ -1,6 +1,6 @@
 import { inngest } from '../client';
 import { db, isUserGoneError } from '@/lib/db';
-import { dueCandidates, dueNotifications } from '@/lib/notifications/schedule';
+import { applyBackoff, BACKOFF_KINDS, dueCandidates, dueNotifications } from '@/lib/notifications/schedule';
 import { buildNotification } from '@/lib/notifications/content';
 import { notificationContext, notificationState } from '@/lib/notifications/queries';
 import { deliver } from '@/lib/notifications/send';
@@ -58,7 +58,16 @@ export const notificationsDispatch = inngest.createFunction(
           const prefs = await db.notificationPrefs.findUnique({ where: { userId: u.id } });
           if (!prefs) return 0;
           const state = await notificationState(u.id, u.date, u.locale);
-          const todo = dueNotifications(now, u.tz, prefs, state);
+          const pendingNow = dueNotifications(now, u.tz, prefs, state);
+          // Recuo automático: só para os diários; olha para as duas últimas semanas desses tipos.
+          const daily = pendingNow.filter((d) => BACKOFF_KINDS.includes(d.kind)).map((d) => d.kind);
+          const history = daily.length
+            ? await db.notificationLog.findMany({
+                where: { userId: u.id, kind: { in: daily }, sentAt: { gte: new Date(now.getTime() - 14 * 86_400_000) } },
+                select: { kind: true, periodKey: true, readAt: true },
+              })
+            : [];
+          const todo = applyBackoff(pendingNow, history.map((h) => ({ kind: h.kind, periodKey: h.periodKey, read: h.readAt !== null })), u.date);
           if (!todo.length) return 0;
           const ctx = await notificationContext(u.id, { locale: u.locale, date: u.date, tz: u.tz, hemisphere: u.hemisphere });
           let count = 0;

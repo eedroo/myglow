@@ -775,6 +775,8 @@
   "notifications": {
     "push": {
       "morning": {
+        "body2": "The day is still blank. Write the first line.",
+        "body3": "One intention is enough. Pick it before coffee.",
           "readyBody": "Your message for today is ready. What's your intention?",
           "readyBodyRitual": "Your message for today is ready. Ritual today: {ritual}",
         "title": "{phase} in {sign} {emoji}",
@@ -783,10 +785,18 @@
         "bodySabbat": "Today is {sabbat}. What's your intention?"
       },
       "body": {
+        "title2": "Your body has a schedule too",
+        "body2": "Water, a stretch, two minutes of pause.",
+        "title3": "Drink water.",
+        "body3": "Seriously. Then stretch your back.",
         "title": "A moment for your body",
         "body": "Water, stretching, movement."
       },
       "night": {
+        "title2": "Before you sleep {emoji}",
+        "title3": "The day ends here {emoji}",
+        "body2": "One line about today is enough.",
+        "body3": "What did today teach you?",
         "title": "Close the day with intention {emoji}",
         "body": "Gratitude, mood and reflection are waiting for you."
       },
@@ -812,8 +822,8 @@
         "weekReflectionLast": {"title": "There's still time to reflect", "body": "Reflecting on last week is worth {points} Glow until the end of today."},
         "monthPlanLast": {"title": "Your month is still waiting", "body": "The month's intention and goals are worth {points} Glow until the end of today."},
         "monthReflectionLast": {"title": "There's still time to close the month", "body": "Reflecting on last month is worth {points} Glow until the end of today."},
-        "grimoire": {"title": "Today's lessons are unlocked 📖", "body": "{count, plural, one {Your lesson for today is} other {Your # lessons for today are}} waiting in the Grimoire. Just a few minutes.", "quizTitle": "Your Grimoire quiz is waiting", "quizBody": "You finished the course lessons. Pass the quiz to earn the badge and {points} Glow."},
-        "grimoireLast": {"title": "There's still time to study today", "body": "{count, plural, one {# lesson} other {# lessons}} left for today in the Grimoire. End the day learning something new?"},
+        "grimoire": {"lessonTitle": "📖 {lesson}", "lessonTitle2": "Today in the Grimoire: {lesson}", "lessonTitle3": "Next lesson: {lesson}", "title": "Today's lessons are unlocked 📖", "body": "{count, plural, one {Your lesson for today is} other {Your # lessons for today are}} waiting in the Grimoire. Just a few minutes.", "quizTitle": "Your Grimoire quiz is waiting", "quizBody": "You finished the course lessons. Pass the quiz to earn the badge and {points} Glow."},
+        "grimoireLast": {"lessonTitle": "There's still time: {lesson}", "lessonTitle2": "{minutes} min before bed 📖", "lessonTitle3": "Today's lesson is waiting: {lesson}", "title": "There's still time to study today", "body": "{count, plural, one {# lesson} other {# lessons}} left for today in the Grimoire. End the day learning something new?"},
         "test": {
         "title": "All set ✨",
         "body": "This is how MYGLOW reminders will arrive."

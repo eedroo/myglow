@@ -11,7 +11,7 @@ self.addEventListener('activate', (event) => {
 // Passthrough: existir um handler de fetch torna a app instalável; a rede trata do resto.
 self.addEventListener('fetch', () => {});
 
-// Push (F7): payload JSON { title, body, url, tag, icon, badge } enviado pelo servidor (web-push).
+// Push (F7): payload JSON { title, body, url, tag, icon, badge, id } enviado pelo servidor (web-push).
 self.addEventListener('push', (event) => {
   let data = {};
   try {
@@ -26,7 +26,7 @@ self.addEventListener('push', (event) => {
       icon: data.icon || '/icons/icon-192.png',
       badge: data.badge || '/icons/icon-192.png',
       tag: data.tag,
-      data: { url: data.url || '/today' },
+      data: { url: data.url || '/today', id: data.id },
       renotify: false,
     }),
   );
@@ -36,8 +36,18 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const url = new URL((event.notification.data && event.notification.data.url) || '/today', self.location.origin).href;
+  const id = event.notification.data && event.notification.data.id;
   event.waitUntil(
     (async () => {
+      // Regista a abertura (recuo automático dos avisos ignorados); uma falha aqui não impede a navegação.
+      if (id) {
+        fetch('/api/notifications/opened', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id }),
+        }).catch(() => {});
+      }
       const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
       const client = windows.find((c) => new URL(c.url).origin === self.location.origin);
       if (client) {

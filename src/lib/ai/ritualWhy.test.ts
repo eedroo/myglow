@@ -23,7 +23,8 @@ describe('porquê dos rituais (v5)', () => {
   });
 
   it('só os rituais exigem a versão nova; as leituras v4 continuam válidas', () => {
-    expect(minPromptVersion('MONTH_RITUALS')).toBe(PROMPT_VERSION);
-    for (const kind of ['DAY_PERSONAL', 'WEEK_PERSONAL', 'MONTH_PERSONAL', 'MONTH_ENERGY']) expect(minPromptVersion(kind)).toBe(4);
+    expect(minPromptVersion('MONTH_RITUALS')).toBe(5);
+    expect(minPromptVersion('DAY_PERSONAL')).toBe(PROMPT_VERSION);
+    for (const kind of ['WEEK_PERSONAL', 'MONTH_PERSONAL', 'MONTH_ENERGY']) expect(minPromptVersion(kind)).toBe(4);
   });
 });

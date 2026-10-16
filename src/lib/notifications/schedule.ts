@@ -27,7 +27,7 @@ export interface NotificationState {
   lastWeekReflectionDone: boolean;
   lastMonthReflectionDone: boolean;
   /** Grimório no dia: lições novas que ainda dá para fazer hoje e quiz por fazer num curso aberto. */
-  grimoire: { lessonsLeft: number; quizPending: boolean };
+  grimoire: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
 }
 
 export interface DueNotification {
@@ -118,4 +118,33 @@ export function dueNotifications(now: Date, tz: string, prefs: NotificationPrefs
   return dueCandidates(now, tz, prefs)
     .filter((c) => pending(c.kind, state))
     .map(({ kind, periodKey }) => ({ kind, periodKey }));
+}
+
+/** Recuo automático (só nos avisos diários): ignorados 3 vezes seguidas passam a dia sim, dia não. */
+export const BACKOFF_KINDS: NotificationKind[] = ['MORNING', 'BODY', 'NIGHT', 'GRIMOIRE', 'GRIMOIRE_LAST'];
+export const BACKOFF_AFTER = 3;
+
+export interface SentNotification {
+  kind: NotificationKind;
+  periodKey: string; // nos diários é o dia (YYYY-MM-DD)
+  read: boolean; // aberto (push ou caixa de avisos), marcado como lido ou limpo
+}
+
+/**
+ * Tira os avisos diários que a pessoa tem ignorado: se os últimos `BACKOFF_AFTER` desse tipo ficaram por abrir e o
+ * último saiu ontem, hoje não sai. Basta abrir um para voltar ao ritmo normal.
+ */
+export function applyBackoff(todo: DueNotification[], history: SentNotification[], today: DateISO): DueNotification[] {
+  return todo.filter((d) => {
+    if (!BACKOFF_KINDS.includes(d.kind)) return true;
+    const past = history
+      .filter((h) => h.kind === d.kind && h.periodKey < today)
+      .sort((a, b) => b.periodKey.localeCompare(a.periodKey));
+    let ignored = 0;
+    for (const h of past) {
+      if (h.read) break;
+      ignored++;
+    }
+    return ignored < BACKOFF_AFTER || past[0]!.periodKey !== addDays(today, -1);
+  });
 }

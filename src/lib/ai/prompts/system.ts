@@ -2,13 +2,13 @@ import type { Locale, Pronouns } from '@prisma/client';
 import { glossary, localizeFacts } from '../localize';
 
 /** Incrementar sempre que os prompts mudem de forma relevante (fica gravado com o conteúdo). */
-export const PROMPT_VERSION = 5;
+export const PROMPT_VERSION = 6;
 
 /**
  * Versão mínima aceite por tipo: o que foi gerado abaixo dela volta a gerar-se. Só sobe para os tipos cujo prompt
- * mudou, para não regenerar tudo (v5: só os rituais, com o porquê do ritual e dos materiais).
+ * mudou, para não regenerar tudo (v5: rituais com o porquê; v6: leitura do dia no tom directo, com intenção concreta).
  */
-const MIN_PROMPT_VERSION: Partial<Record<string, number>> = { MONTH_RITUALS: 5 };
+const MIN_PROMPT_VERSION: Partial<Record<string, number>> = { MONTH_RITUALS: 5, DAY_PERSONAL: 6 };
 export const minPromptVersion = (kind: string): number => MIN_PROMPT_VERSION[kind] ?? 4;
 
 export interface PromptPair {

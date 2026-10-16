@@ -40,6 +40,8 @@ export const lessonSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
   title: text(70),
   minutes: z.number().int().min(1).max(10),
+  /** Gancho opcional para os avisos ("o que vais descobrir"), até 90 caracteres. */
+  hook: text(90).optional(),
   tags: z.array(z.string()),
   cards: z.array(cardSchema).min(3).max(10),
   review: z.array(quizQuestionSchema).min(1).max(2),

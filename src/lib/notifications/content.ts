@@ -34,16 +34,35 @@ export interface NotificationContext {
   ritualToday?: string; // título do ritual do mês marcado para hoje
   // Convites (F7+): títulos das leituras IA já prontas (dia, semana, mês) e n.º de rituais do mês
   dayHeadline?: string;
+  /** Da leitura do dia: a intenção sugerida (manhã) e a pergunta de reflexão (noite). */
+  dayIntention?: string;
+  dayQuestion?: string;
   weekHeadline?: string;
   monthHeadline?: string;
   monthRituals?: number;
   /** Período do aviso (para a última chamada da reflexão, que abre a semana/mês anterior). */
   periodKey?: string;
-  /** Grimório do dia (GRIMOIRE e GRIMOIRE_LAST). */
-  grimoire?: { lessonsLeft: number; quizPending: boolean };
+  /** Grimório do dia (GRIMOIRE e GRIMOIRE_LAST), com a próxima lição e os seus ganchos. */
+  grimoire?: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
 }
 
 const clip = (s: string, max: number) => (s.length <= max ? s : `${s.slice(0, max - 1).trimEnd()}…`);
+
+/** Rodízio: índice 0..n-1 que muda todos os dias (dois dias seguidos nunca repetem) e é igual num reenvio. */
+export function dailyVariant(date: DateISO, n: number, salt = 0): number {
+  const day = Math.floor(Date.parse(`${date}T00:00:00Z`) / 86_400_000);
+  return (((day + salt) % n) + n) % n;
+}
+
+/** Chave da variante: a 1.ª é a chave base (`title`), as seguintes `title2`, `title3`… */
+const variantKey = (base: string, i: number) => (i === 0 ? base : `${base}${i + 1}`);
+
+/** Ganchos da lição que cabem inteiros no corpo (para não cortar a frase a meio); senão, todos. */
+function hookFor(hooks: string[], date: DateISO, salt: number): string {
+  const fit = hooks.filter((h) => h.length <= MAX_BODY);
+  const pool = fit.length ? fit : hooks;
+  return pool[dailyVariant(date, pool.length, salt)]!;
+}
 
 export function buildNotification(kind: NotificationKind, ctx: NotificationContext): NotificationContent {
   const t = translatorFor(ctx.locale);
@@ -56,10 +75,11 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
     case 'MORNING':
       if (ctx.dayHeadline) {
         // Convite: a mensagem do dia (leitura IA) já está pronta.
+        // Convite: o título da leitura do dia e, no corpo, a intenção sugerida (o ritual do dia tem prioridade).
         title = ctx.dayHeadline;
         body = ctx.ritualToday
-          ? t('notifications.push.morning.readyBodyRitual', { ritual: ctx.ritualToday })
-          : t('notifications.push.morning.readyBody');
+          ? t('notifications.push.morning.bodyRitual', { ritual: ctx.ritualToday })
+          : (ctx.dayIntention ?? t('notifications.push.morning.readyBody'));
         break;
       }
       title = ctx.moon
@@ -73,15 +93,18 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
         ? t('notifications.push.morning.bodyRitual', { ritual: ctx.ritualToday })
         : ctx.sabbatToday
           ? t('notifications.push.morning.bodySabbat', { sabbat: t(`sky.sabbats.${ctx.sabbatToday}.name`) })
-          : t('notifications.push.morning.body');
+          : t(variantKey('notifications.push.morning.body', dailyVariant(ctx.date, 3)));
       break;
-    case 'BODY':
-      title = t('notifications.push.body.title');
-      body = t('notifications.push.body.body');
+    case 'BODY': {
+      const i = dailyVariant(ctx.date, 3, 1);
+      title = t(variantKey('notifications.push.body.title', i));
+      body = t(variantKey('notifications.push.body.body', i));
       break;
+    }
     case 'NIGHT':
-      title = t('notifications.push.night.title', { emoji });
-      body = t('notifications.push.night.body');
+      // A pergunta de reflexão da leitura do dia; sem leitura, uma das variantes.
+      title = t(variantKey('notifications.push.night.title', dailyVariant(ctx.date, 3, 2)), { emoji });
+      body = ctx.dayQuestion ?? t(variantKey('notifications.push.night.body', dailyVariant(ctx.date, 3)));
       break;
     case 'WEEK_START':
       title = ctx.weekHeadline ?? t('notifications.push.weekStart.title');
@@ -129,10 +152,17 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       break;
     case 'GRIMOIRE': {
       const left = ctx.grimoire?.lessonsLeft ?? 0;
+      const next = ctx.grimoire?.next;
       // Sem lições novas mas com o quiz por fazer: convite para o quiz.
       if (left === 0 && ctx.grimoire?.quizPending) {
         title = t('notifications.push.grimoire.quizTitle');
         body = t('notifications.push.grimoire.quizBody', { points: XP_POINTS.COURSE_COMPLETE });
+      } else if (next?.hooks.length) {
+        // A próxima lição pelo nome e um gancho tirado dela (muda de dia para dia).
+        title = t(variantKey('notifications.push.grimoire.lessonTitle', dailyVariant(ctx.date, 3)), { lesson: next.lesson });
+        // Título longo demais com o nome da lição: a forma curta ("📖 {lição}").
+        if (title.length > MAX_TITLE) title = t('notifications.push.grimoire.lessonTitle', { lesson: next.lesson });
+        body = hookFor(next.hooks, ctx.date, 0);
       } else {
         title = t('notifications.push.grimoire.title');
         body = t('notifications.push.grimoire.body', { count: left });
@@ -140,11 +170,22 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       url = '/grimoire';
       break;
     }
-    case 'GRIMOIRE_LAST':
-      title = t('notifications.push.grimoireLast.title');
-      body = t('notifications.push.grimoireLast.body', { count: ctx.grimoire?.lessonsLeft ?? 0 });
+    case 'GRIMOIRE_LAST': {
+      const next = ctx.grimoire?.next;
+      if (next?.hooks.length) {
+        // A mesma lição, com outro gancho do que o da manhã.
+        const params = { lesson: next.lesson, minutes: next.minutes };
+        title = t(variantKey('notifications.push.grimoireLast.lessonTitle', dailyVariant(ctx.date, 3, 1)), params);
+        // Título longo demais com o nome da lição: a variante sem o nome ("{minutes} min antes de dormir").
+        if (title.length > MAX_TITLE) title = t('notifications.push.grimoireLast.lessonTitle2', params);
+        body = hookFor(next.hooks, ctx.date, 1);
+      } else {
+        title = t('notifications.push.grimoireLast.title');
+        body = t('notifications.push.grimoireLast.body', { count: ctx.grimoire?.lessonsLeft ?? 0 });
+      }
       url = '/grimoire';
       break;
+    }
   }
   return { title: clip(title, MAX_TITLE), body: clip(body, MAX_BODY), url };
 }

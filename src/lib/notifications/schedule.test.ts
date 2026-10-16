@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { DayProgress } from '@/lib/daily/progress';
-import { dueCandidates, dueNotifications, type NotificationPrefsInput, type NotificationState } from './schedule';
+import { applyBackoff, dueCandidates, dueNotifications, type NotificationPrefsInput, type NotificationState } from './schedule';
 
 const PREFS: NotificationPrefsInput = {
   enabled: true, morningTime: '08:00', bodyTime: '13:00', nightTime: '21:30',
@@ -108,5 +108,37 @@ describe('dueNotifications', () => {
   it('corpo e noite nos seus horários', () => {
     expect(at('2026-05-06T12:10:00Z')).toEqual([{ kind: 'BODY', periodKey: '2026-05-06' }]);
     expect(at('2026-05-06T20:40:00Z')).toEqual([{ kind: 'NIGHT', periodKey: '2026-05-06' }]);
+  });
+});
+
+describe('applyBackoff', () => {
+  const today = '2026-05-10';
+  const sent = (kind: 'MORNING' | 'NIGHT' | 'WEEK_START', day: string, read = false) => ({ kind, periodKey: day, read });
+  const todo = [{ kind: 'MORNING' as const, periodKey: today }];
+
+  it('menos de 3 ignorados seguidos: envia', () => {
+    expect(applyBackoff(todo, [sent('MORNING', '2026-05-09'), sent('MORNING', '2026-05-08')], today)).toEqual(todo);
+  });
+
+  it('3 ignorados seguidos e o último ontem: hoje não envia (dia sim, dia não)', () => {
+    const h = [sent('MORNING', '2026-05-09'), sent('MORNING', '2026-05-08'), sent('MORNING', '2026-05-07')];
+    expect(applyBackoff(todo, h, today)).toEqual([]);
+  });
+
+  it('em recuo, o último foi anteontem: hoje envia', () => {
+    const h = [sent('MORNING', '2026-05-08'), sent('MORNING', '2026-05-06'), sent('MORNING', '2026-05-04')];
+    expect(applyBackoff(todo, h, today)).toEqual(todo);
+  });
+
+  it('abrir um quebra o recuo', () => {
+    const h = [sent('MORNING', '2026-05-09', true), sent('MORNING', '2026-05-08'), sent('MORNING', '2026-05-07'), sent('MORNING', '2026-05-06')];
+    expect(applyBackoff(todo, h, today)).toEqual(todo);
+  });
+
+  it('cada tipo conta à parte e os semanais/mensais nunca recuam', () => {
+    const h = [sent('NIGHT', '2026-05-09'), sent('NIGHT', '2026-05-08'), sent('NIGHT', '2026-05-07')];
+    expect(applyBackoff(todo, h, today)).toEqual(todo);
+    const week = [{ kind: 'WEEK_START' as const, periodKey: 'W2026-05-10' }];
+    expect(applyBackoff(week, [], today)).toEqual(week);
   });
 });

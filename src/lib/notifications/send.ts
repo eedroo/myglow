@@ -25,6 +25,8 @@ function configure(): void {
 
 export interface PushPayload extends NotificationContent {
   tag: string;
+  /** Id do registo: o service worker devolve-o ao tocar (`/api/notifications/opened`). */
+  id?: string;
 }
 
 /** Envia a todos os dispositivos do utilizador; apaga subscrições expiradas (404/410). Devolve quantos receberam. */
@@ -72,7 +74,7 @@ export async function deliver(
     throw err;
   }
 
-  const ok = await pushToUser(userId, { title: n.title, body: n.body, url: n.url, tag: n.kind });
+  const ok = await pushToUser(userId, { title: n.title, body: n.body, url: n.url, tag: n.kind, id: logId });
   if (ok === 0) return 'inbox-only';
   await db.notificationLog.update({ where: { id: logId }, data: { pushed: true } });
   return 'sent';

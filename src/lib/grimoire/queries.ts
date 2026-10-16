@@ -162,6 +162,23 @@ export interface GrimoireDayStatus {
   lessonsLeft: number;
   /** Um curso aberto tem todas as lições feitas e falta o quiz. */
   quizPending: boolean;
+  /** A próxima lição do curso em foco (o mesmo do mapa), com ganchos tirados da própria lição para os avisos. */
+  next?: { course: string; lesson: string; minutes: number; hooks: string[] };
+}
+
+/** Primeira frase de um texto (até ao primeiro ponto final seguido de espaço). */
+const firstSentence = (text: string) => text.split(/(?<=[.!?])\s/)[0]!.trim();
+
+/**
+ * Frases da lição que servem de gancho num aviso: o `hook` escrito para isso, a pergunta de reflexão e a primeira
+ * frase do "sabias que". Os títulos dos cards ("Sem medo") só entram se não houver mais nada: soltos dizem pouco.
+ */
+function lessonHooks(lesson: Lesson): string[] {
+  const hooks = lesson.hook ? [lesson.hook] : [];
+  for (const c of lesson.cards) if (c.type === 'reflection') hooks.push(c.prompt);
+  for (const c of lesson.cards) if (c.type === 'didYouKnow') hooks.push(firstSentence(c.body));
+  if (hooks.length) return hooks;
+  return lesson.cards.flatMap((c) => (c.type === 'concept' || c.type === 'example' ? [c.title] : []));
 }
 
 export async function getGrimoireDayStatus(userId: string, locale: Locale, date: DateISO): Promise<GrimoireDayStatus> {
@@ -171,6 +188,11 @@ export async function getGrimoireDayStatus(userId: string, locale: Locale, date:
   const states = statesFor(published, progress);
   let open = 0;
   let quizPending = false;
+  const focus = focusCourse(
+    published.map(({ entry }) => ({ slug: entry.slug, state: states[entry.slug] ?? 'locked' })),
+    progress.lastLessonCourse,
+  );
+  let next: GrimoireDayStatus['next'];
   for (const { entry, course } of published) {
     const state = states[entry.slug];
     if (state === 'locked' || state === 'completed') continue;
@@ -178,11 +200,14 @@ export async function getGrimoireDayStatus(userId: string, locale: Locale, date:
     const todo = course.lessons.filter((l) => !done.has(l.slug)).length;
     open += todo;
     if (todo === 0) quizPending = true;
+    const lesson = entry.slug === focus ? course.lessons.find((l) => !done.has(l.slug)) : undefined;
+    if (lesson) next = { course: course.title, lesson: lesson.title, minutes: lesson.minutes, hooks: lessonHooks(lesson) };
   }
   return {
     lessonsToday: progress.completedToday,
     lessonsLeft: Math.min(open, lessonsLeftToday(progress.completedToday)),
     quizPending,
+    ...(next && { next }),
   };
 }
 

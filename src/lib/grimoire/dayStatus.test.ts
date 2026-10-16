@@ -30,8 +30,18 @@ describe('getGrimoireDayStatus', () => {
     data.today = 0;
   });
 
-  it('conta nova: 3 lições liberadas hoje', async () => {
-    expect(await getGrimoireDayStatus('u1', 'PT_BR', '2026-10-01')).toEqual({ lessonsToday: 0, lessonsLeft: 3, quizPending: false });
+  it('conta nova: 3 lições liberadas hoje e a próxima é a 1.ª lição do curso 1, com ganchos', async () => {
+    const s = await getGrimoireDayStatus('u1', 'PT_BR', '2026-10-01');
+    expect(s).toMatchObject({ lessonsToday: 0, lessonsLeft: 3, quizPending: false });
+    const course = getCourse(first, 'pt-BR')!;
+    expect(s.next).toMatchObject({ course: course.title, lesson: course.lessons[0]!.title });
+    expect(s.next!.hooks.length).toBeGreaterThan(0);
+  });
+
+  it('a próxima lição segue a última feita: 2 feitas → a 3.ª', async () => {
+    data.lessons = firstLessons.slice(0, 2);
+    const s = await getGrimoireDayStatus('u1', 'PT_BR', '2026-10-01');
+    expect(s.next?.lesson).toBe(getCourse(first, 'pt-BR')!.lessons[2]!.title);
   });
 
   it('2 lições feitas hoje → falta 1', async () => {
@@ -42,6 +52,7 @@ describe('getGrimoireDayStatus', () => {
 
   it('todas as lições do curso 1 feitas e quiz por fazer: sem lições novas (curso 2 fechado), quiz pendente', async () => {
     data.lessons = firstLessons;
+    // Só falta o quiz: não há "próxima lição".
     expect(await getGrimoireDayStatus('u1', 'PT_BR', '2026-10-01')).toEqual({ lessonsToday: 0, lessonsLeft: 0, quizPending: true });
   });
 

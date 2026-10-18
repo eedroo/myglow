@@ -13,9 +13,9 @@ describe('porquê dos rituais (v5)', () => {
     expect(monthRitualsSchema.safeParse(withoutWhy).success).toBe(false);
   });
 
-  it('sem o porquê dos materiais o mês não é rejeitado', () => {
-    const noMaterialsWhy = { rituals: ritualsValid.rituals.map(({ materialsWhy: _m, ...r }) => r) };
-    expect(monthRitualsSchema.safeParse(noMaterialsWhy).success).toBe(true);
+  it('porquê dos materiais a null (modo estrito: o campo vem sempre) não rejeita o mês', () => {
+    const nullMaterialsWhy = { rituals: ritualsValid.rituals.map((r) => ({ ...r, materialsWhy: null })) };
+    expect(monthRitualsSchema.safeParse(nullMaterialsWhy).success).toBe(true);
   });
 
   it('rituais antigos (sem porquê) continuam a ler-se', () => {

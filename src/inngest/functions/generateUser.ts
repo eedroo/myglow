@@ -7,7 +7,9 @@ import { isUserGoneError } from '@/lib/db';
 export const generateUser = inngest.createFunction(
   {
     id: 'generate-user',
-    idempotency: 'event.data.kind + ":" + event.data.periodStart + ":" + event.data.userId + ":" + event.data.locale + ":v" + string(event.data.version)',
+    // Uma geração por conteúdo a cada 10 min (antes: idempotência de 24 h, que deixava o ecrã "a preparar" um dia
+    // inteiro quando a geração falhava). Pedidos repetidos são baratos: o que já existe não volta à IA.
+    rateLimit: { key: 'event.data.kind + ":" + event.data.periodStart + ":" + event.data.userId + ":" + event.data.locale + ":v" + string(event.data.version)', limit: 1, period: '10m' },
     concurrency: { limit: 5 },
     throttle: { limit: aiRequestsPerMinute(), period: '1m' }, // partilhado com o limite do fornecedor de IA
     // (as duas funções têm throttle próprio: o limite efectivo pode chegar ao dobro; usar metade do plano)

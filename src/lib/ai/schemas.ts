@@ -78,7 +78,7 @@ export const ritualSchema = z.object({
  * Geração: o "porquê" do ritual é obrigatório. O dos materiais é pedido no prompt mas não bloqueia: sem ele,
  * um só ritual incompleto deitaria fora o mês inteiro.
  */
-const ritualGenSchema = ritualSchema.extend({ why: text(260) });
+export const ritualGenSchema = ritualSchema.extend({ why: text(260) });
 
 export const monthRitualsSchema = z.object({ rituals: z.array(ritualGenSchema).min(3).max(5) });
 const monthRitualsReadSchema = z.object({ rituals: z.array(ritualSchema).min(3).max(5) });

@@ -31,6 +31,8 @@ export interface PreparedPrompt {
   schema: z.ZodTypeAny;
   prompt: PromptPair;
   validate: (data: never) => V.ValidationResult;
+  /** Depois das duas tentativas falhadas: a parte aproveitável da última resposta (só os rituais), ou `null`. */
+  salvage?: (data: unknown) => unknown;
 }
 
 /** Período de um conteúdo: dia, semana (domingo→sábado) ou mês. */
@@ -97,7 +99,11 @@ export async function prepareUserPrompt(
     case 'MONTH_PERSONAL':
       return { kind, locale, schema, prompt: monthPersonal.build(facts, locale, pronouns), validate: (d) => V.validateMonthPersonal(d, facts) };
     case 'MONTH_RITUALS':
-      return { kind, locale, schema, prompt: monthRituals.build(facts, locale, pronouns), validate: (d) => V.validateMonthRituals(d, facts) };
+      return {
+        kind, locale, schema, prompt: monthRituals.build(facts, locale, pronouns),
+        validate: (d) => V.validateMonthRituals(d, facts),
+        salvage: (d) => V.salvageMonthRituals(d, facts, locale),
+      };
   }
 }
 
@@ -111,8 +117,10 @@ async function runPrepared(p: PreparedPrompt): Promise<{ data: unknown; model: s
     { role: 'user', content: p.prompt.user },
   ];
 
+  let last: unknown = null;
   for (let attempt = 0; attempt < 2; attempt++) {
     const { data, raw } = await completeJson({ model, name: p.kind.toLowerCase(), schema: p.schema, messages });
+    last = data;
     const parsed = p.schema.safeParse(data);
     const reason = parsed.success
       ? (p.validate(parsed.data as never) ?? V.checkLeaks(parsed.data, p.locale))
@@ -124,6 +132,12 @@ async function runPrepared(p: PreparedPrompt): Promise<{ data: unknown; model: s
       { role: 'assistant', content: raw },
       { role: 'user', content: `Your answer was rejected: ${reason}\nFix it and reply again with the full JSON, using only the facts provided.` },
     );
+  }
+  // Rituais: um só ritual com uma data errada deitava fora o mês inteiro (e o ecrã ficava "a preparar").
+  const salvaged = p.salvage?.(last) ?? null;
+  if (salvaged) {
+    console.warn(`[ai] ${p.kind}: duas respostas inválidas; gravada a parte válida da última.`);
+    return { data: salvaged, model };
   }
   console.error(`[ai] ${p.kind}: duas respostas inválidas; nada gravado.`);
   return null;

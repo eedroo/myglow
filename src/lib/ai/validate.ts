@@ -8,6 +8,7 @@ import { eventDates, type DayFacts, type PeriodFacts, type PersonalDayFacts, typ
 import type {
   DayHoroscope, DayPersonal, MonthEnergy, MonthPersonal, MonthRituals, WeekEnergy, WeekPersonal,
 } from './schemas';
+import { ritualGenSchema } from './schemas';
 
 /**
  * Validação semântica das respostas da IA contra os factos calculados.
@@ -157,6 +158,21 @@ export function validateMonthPersonal(data: MonthPersonal, facts: PersonalPeriod
     checkLabels(data, new Set(facts.keyAspects.map((a) => a.label))),
     checkSignMentions(data, withNatal(allowedForPeriod(facts), facts.natal)),
   );
+}
+
+/**
+ * Rituais aproveitáveis de uma resposta rejeitada: os que passam sozinhos (esquema, data de um evento real, signos,
+ * sem fugas). Com pelo menos 3, o mês fica com eles em vez de ficar sem nenhum (`null` se não chegar).
+ */
+export function salvageMonthRituals(data: unknown, facts: PersonalPeriodFacts, locale: 'PT_PT' | 'PT_BR' | 'EN'): MonthRituals | null {
+  const items = data && typeof data === 'object' && Array.isArray((data as { rituals?: unknown }).rituals) ? (data as { rituals: unknown[] }).rituals : [];
+  const kept = items.flatMap((item) => {
+    const parsed = ritualGenSchema.safeParse(item);
+    if (!parsed.success) return [];
+    const one = { rituals: [parsed.data] };
+    return validateMonthRituals(one, facts) === null && checkLeaks(one, locale) === null ? [parsed.data] : [];
+  });
+  return kept.length >= 3 ? { rituals: kept.slice(0, 5) } : null;
 }
 
 export function validateMonthRituals(data: MonthRituals, facts: PersonalPeriodFacts): ValidationResult {

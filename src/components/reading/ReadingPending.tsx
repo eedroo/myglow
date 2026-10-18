@@ -45,11 +45,14 @@ export function ReadingPending({ requests, silent = false }: { requests: AiReque
 
   return (
     <div className="mg-reading__pending" role="status" aria-live="polite">
-      <div className="mg-reading__shimmer" aria-hidden="true">
-        <span className="mg-reading__line" />
-        <span className="mg-reading__line" />
-        <span className="mg-reading__line" />
-      </div>
+      {/* Passado o minuto de espera, pára a animação: um brilho sem fim parecia a app presa. */}
+      {!expired && (
+        <div className="mg-reading__shimmer" aria-hidden="true">
+          <span className="mg-reading__line" />
+          <span className="mg-reading__line" />
+          <span className="mg-reading__line" />
+        </div>
+      )}
       <p className="mg-reading__pending-text">
         <MagicIcon name="crystal-ball" size="sm" decorative />
         {expired ? t('pendingLong') : t('pending')}

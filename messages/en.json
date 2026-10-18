@@ -706,7 +706,7 @@
       "keyDates": "Key dates"
     },
     "pending": "Your reading is being prepared…",
-    "pendingLong": "Still preparing — check back in a little while.",
+    "pendingLong": "Not ready yet. Open this page again in a few minutes.",
     "unavailable": "There's no reading for this period.",
     "disclaimer": "For inspiration and reflection.",
     "natalPoint": "natal {point}",

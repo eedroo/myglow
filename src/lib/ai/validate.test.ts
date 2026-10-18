@@ -3,7 +3,7 @@ import { computeNatalChart } from '@/lib/astro/natal';
 import { toBirthUtc } from '@/lib/birth';
 import { buildDayFacts, buildPersonalDayFacts, buildPersonalPeriodFacts } from './facts';
 import { dayHoroscopeSchema, dayPersonalSchema, monthRitualsSchema } from './schemas';
-import { checkLeaks, checkSignMentions, validateDayHoroscope, validateDayPersonal, validateMonthRituals } from './validate';
+import { checkLeaks, checkSignMentions, salvageMonthRituals, validateDayHoroscope, validateDayPersonal, validateMonthRituals } from './validate';
 import dayPersonalValid from '../../../tests/fixtures/ai/day-personal.valid.json';
 import dayPersonalInvented from '../../../tests/fixtures/ai/day-personal.invented-transit.json';
 import ritualsValid from '../../../tests/fixtures/ai/month-rituals.valid.json';
@@ -52,6 +52,18 @@ describe('validateMonthRituals', () => {
     const data = monthRitualsSchema.parse(ritualsValid);
     data.rituals[0]!.date = '2026-06-14';
     expect(validateMonthRituals(data, month)).toMatch(/2026-06-14/);
+  });
+
+  it('aproveitamento: guarda os rituais válidos se forem pelo menos 3', () => {
+    const bad = { ...ritualsValid.rituals[0]!, date: '2026-05-12' };
+    const saved = salvageMonthRituals({ rituals: [...ritualsValid.rituals, bad] }, month, 'PT_PT');
+    expect(saved?.rituals.map((r) => r.date)).toEqual(ritualsValid.rituals.map((r) => r.date));
+    // Com só 2 válidos (o 3.º com data inventada), não há mês para gravar.
+    expect(salvageMonthRituals(ritualsInvented, month, 'PT_PT')).toBeNull();
+    // Sem o "porquê" (obrigatório na geração) um ritual não conta.
+    const noWhy = ritualsValid.rituals.map(({ why: _w, ...r }) => r);
+    expect(salvageMonthRituals({ rituals: noWhy }, month, 'PT_PT')).toBeNull();
+    expect(salvageMonthRituals('lixo', month, 'PT_PT')).toBeNull();
   });
 });
 

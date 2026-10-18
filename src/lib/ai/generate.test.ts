@@ -109,6 +109,16 @@ describe('generateUserContent', () => {
       '2026-05-23-balanco-do-quarto-crescente',
     ]);
   });
+
+  it('rituais: duas respostas rejeitadas por um ritual com data errada → grava os válidos (não fica "a preparar")', async () => {
+    const bad = { ...ritualsValid.rituals[0]!, date: '2026-05-12' };
+    const withBad = { rituals: [...ritualsValid.rituals, bad] };
+    mocks.completeJson.mockResolvedValueOnce(reply(withBad)).mockResolvedValueOnce(reply(withBad));
+    expect(await generateUserContent('u1', 'MONTH_RITUALS', '2026-05-01')).toBe('saved');
+    expect(mocks.completeJson).toHaveBeenCalledTimes(2);
+    const payload = mocks.userAiUpsert.mock.calls[0]![0].create.payload;
+    expect(payload.rituals.map((r: { date: string }) => r.date)).toEqual(['2026-05-01', '2026-05-16', '2026-05-23']);
+  });
 });
 
 describe('generateSignContent', () => {

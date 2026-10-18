@@ -706,7 +706,7 @@
       "keyDates": "Datas-chave"
     },
     "pending": "Sua leitura está sendo preparada…",
-    "pendingLong": "Ainda preparando — volte daqui a pouco.",
+    "pendingLong": "Ainda não ficou pronto. Abra esta página de novo daqui a alguns minutos.",
     "unavailable": "Não há leitura para este período.",
     "disclaimer": "Para inspiração e reflexão.",
     "natalPoint": "{point} natal",

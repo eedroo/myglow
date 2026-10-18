@@ -65,8 +65,8 @@ export const ritualSchema = z.object({
   intention: text(160),
   /** v5: porque este ritual nesta data (o evento e o signo), em linguagem simples. Opcional só na leitura (rituais antigos). */
   why: text(260).optional(),
-  /** v5: porque estes materiais (correspondências tradicionais de cor, elemento, planeta). */
-  materialsWhy: text(200).optional(),
+  /** v5: porque estes materiais (correspondências tradicionais de cor, elemento, planeta); `null` sem materiais. */
+  materialsWhy: text(200).nullish(),
   area: z.nativeEnum(ProjectArea),
   durationMinutes: z.number().int().min(5).max(90),
   materials: z.array(text(60)).max(6),
@@ -78,7 +78,8 @@ export const ritualSchema = z.object({
  * Geração: o "porquê" do ritual é obrigatório. O dos materiais é pedido no prompt mas não bloqueia: sem ele,
  * um só ritual incompleto deitaria fora o mês inteiro.
  */
-export const ritualGenSchema = ritualSchema.extend({ why: text(260) });
+// Na geração todos os campos são obrigatórios (o modo estrito da API não aceita opcionais): o dos materiais pode vir `null`.
+export const ritualGenSchema = ritualSchema.extend({ why: text(260), materialsWhy: text(200).nullable() });
 
 export const monthRitualsSchema = z.object({ rituals: z.array(ritualGenSchema).min(3).max(5) });
 const monthRitualsReadSchema = z.object({ rituals: z.array(ritualSchema).min(3).max(5) });
@@ -116,6 +117,9 @@ export const USER_READ_SCHEMAS = { ...USER_SCHEMAS, DAY_PERSONAL: dayPersonalRea
  */
 export function wireSchema(schema: z.ZodTypeAny): z.ZodTypeAny {
   if (schema instanceof z.ZodString) return z.string();
+  if (schema instanceof z.ZodNullable) return wireSchema(schema.unwrap()).nullable();
+  // O modo estrito exige todos os campos: um opcional fazia a API recusar o pedido antes de gerar (rituais v5).
+  if (schema instanceof z.ZodOptional) throw new Error('wireSchema: campos opcionais não são aceites na geração; usar .nullable()');
   if (schema instanceof z.ZodObject) {
     const shape = schema.shape as Record<string, z.ZodTypeAny>;
     return z.object(Object.fromEntries(Object.entries(shape).map(([k, v]) => [k, wireSchema(v)])));

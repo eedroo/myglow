@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
+import { zodResponseFormat } from 'openai/helpers/zod';
 import valid from '../../../tests/fixtures/ai/day-personal.valid.json';
-import { dayPersonalReadSchema, dayPersonalSchema } from './schemas';
+import ritualsValid from '../../../tests/fixtures/ai/month-rituals.valid.json';
+import {
+  dayPersonalReadSchema, dayPersonalSchema, ritualGenSchema, SIGN_SCHEMAS, USER_READ_SCHEMAS, USER_SCHEMAS, wireSchema,
+} from './schemas';
 import { systemPrompt } from './prompts/system';
 import { build as buildDayPersonal } from './prompts/dayPersonal';
 import { currentSignJobs } from './schedule';
@@ -43,5 +47,20 @@ describe('tolerância de tamanho', () => {
   it('aceita até +25% do pedido no prompt', () => {
     expect(dayPersonalSchema.safeParse({ ...valid, reading: 'a'.repeat(800) }).success).toBe(true);
     expect(dayPersonalSchema.safeParse({ ...valid, reading: 'a'.repeat(900) }).success).toBe(false);
+  });
+});
+
+describe('esquemas de geração aceites pela API (modo estrito)', () => {
+  it('todos convertem com zodResponseFormat (sem campos opcionais)', () => {
+    for (const [kind, schema] of Object.entries({ ...SIGN_SCHEMAS, ...USER_SCHEMAS })) {
+      expect(() => zodResponseFormat(wireSchema(schema), kind.toLowerCase()), kind).not.toThrow();
+    }
+  });
+
+  it('rituais: materialsWhy pode vir null na geração; antigos sem ele continuam a ler-se', () => {
+    const r = { ...ritualsValid.rituals[0]!, id: 'x', materialsWhy: null };
+    expect(ritualGenSchema.safeParse(r).success).toBe(true);
+    const { materialsWhy: _m, why: _w, ...old } = ritualsValid.rituals[0]!;
+    expect(USER_READ_SCHEMAS.MONTH_RITUALS.safeParse({ rituals: [old, old, old] }).success).toBe(true);
   });
 });

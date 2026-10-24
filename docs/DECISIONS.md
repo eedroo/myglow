@@ -99,6 +99,15 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - O guia interactivo substitui a apresentação de slides: 13 passos, máquina de estados pura (`src/lib/tour/`), alvos marcados por `data-tour`, avança com as acções reais da pessoa, pausável e retomável entre dispositivos (estado gravado no utilizador).
 - Termina ao abrir a primeira lição do Grimório (sem balões dentro da lição). É para todos os utilizadores.
 
+## Premium e operação (Fase 12)
+- Plano `FREE`/`PREMIUM` lido do servidor por pedido (nunca no JWT), com origem (`MANUAL`, `GIFT`, `PAID` mais tarde) e data de fim opcional. Sem pagamentos por agora.
+- Funcionalidades premium com interruptor global (`HIDDEN`/`PREMIUM`/`ALL`, sem novo deploy) e excepções por pessoa; a verificação que conta é sempre no servidor (`requireFeature`).
+- Administração em `/admin` só para `ADMIN_EMAILS` (os outros recebem 404), sem acesso ao conteúdo do diário.
+- Actividade diária em `UserActiveDay` (um registo por dia no fuso da pessoa) para DAU/WAU/MAU e retenção; métricas calculadas a pedido a partir da base de dados.
+- Sentry na região UE, sem dados pessoais (só o id interno) nem Session Replay.
+- Vercel Analytics (sem cookies) só nas páginas públicas.
+- Cópia diária encriptada no GitHub (30 dias) e teste de reposição mensal; procedimentos em `docs/RUNBOOK.md`.
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

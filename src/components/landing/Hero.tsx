@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { AppPreview } from './AppPreview';
+import { RegisterCta } from './RegisterCta';
 
 export function Hero() {
   const t = useTranslations('landing.hero');
@@ -12,9 +13,9 @@ export function Hero() {
         </h1>
         <p className="mg-landing-hero__lead">{t('lead')}</p>
         <div className="mg-landing-hero__actions">
-          <Link href="/register" className="mg-btn mg-btn--primary">
+          <RegisterCta className="mg-btn mg-btn--primary">
             {t('cta')}
-          </Link>
+          </RegisterCta>
           <Link href="/login" className="mg-btn mg-btn--ghost">
             {t('login')}
           </Link>

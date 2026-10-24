@@ -12,6 +12,7 @@ import { allowInviteAttempt, clientIp } from '@/lib/ratelimit';
 import { legalVersions } from '@/lib/env';
 import { sendVerificationEmail } from '@/lib/account/mail';
 import { LOCALE_COOKIE, LOCALE_COOKIE_OPTIONS, dbToAppLocale, type DbLocale } from '@/i18n/locales';
+import { track } from '@vercel/analytics/server';
 
 /** Estado devolvido aos formulários. Erros são chaves i18n (namespace completo, ex.: `validation.email`). */
 export interface AuthFormState {
@@ -99,6 +100,8 @@ export async function register(_prev: AuthFormState, formData: FormData): Promis
   await sendVerificationEmail({ id: userId, email, name, locale });
 
   setLocaleCookie(locale);
+  // F12: registo concluído (Vercel Analytics, sem propriedades); nunca impede o registo.
+  await track('register_done').catch(() => undefined);
   // Lança NEXT_REDIRECT → /onboarding (o middleware obriga ao onboarding de qualquer forma).
   await signIn('credentials', { email, password, redirectTo: '/onboarding' });
   return {};

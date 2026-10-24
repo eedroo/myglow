@@ -1,0 +1,88 @@
+# Teste de reposição (F12): repõe a cópia mais recente num ramo de teste do Neon e conta linhas.
+# Segredos: RESTORE_TEST_DATABASE_URL (ramo de teste, nunca produção), BACKUP_PASSPHRASE e BACKUP_DATABASE_URL
+# (só para garantir que não são a mesma base). Ver docs/RUNBOOK.md.
+name: restore-test
+
+on:
+  schedule:
+    - cron: '0 5 1 * *' # dia 1 de cada mês
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read # descarregar o artefacto do workflow backup
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PG_IMAGE: postgres:17-alpine
+    steps:
+      - name: Nunca repor em produção
+        env:
+          RESTORE_TEST_DATABASE_URL: ${{ secrets.RESTORE_TEST_DATABASE_URL }}
+          BACKUP_DATABASE_URL: ${{ secrets.BACKUP_DATABASE_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${RESTORE_TEST_DATABASE_URL}" ]; then echo "::error::Falta o segredo RESTORE_TEST_DATABASE_URL."; exit 1; fi
+          if [ "${RESTORE_TEST_DATABASE_URL}" = "${BACKUP_DATABASE_URL}" ]; then
+            echo "::error::RESTORE_TEST_DATABASE_URL é igual à base de produção. Abortado."
+            exit 1
+          fi
+
+      - name: Descarregar a cópia mais recente
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          RUN_ID=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow backup.yml --status success --limit 1 --json databaseId -q '.[0].databaseId')
+          if [ -z "$RUN_ID" ]; then echo "::error::Nenhuma execução do backup com sucesso."; exit 1; fi
+          gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --dir dl
+          FILE=$(find dl -name '*.dump.gpg' | sort | tail -n 1)
+          test -n "$FILE"
+          echo "FILE=$FILE" >> "$GITHUB_ENV"
+
+      - name: Desencriptar e repor no ramo de teste
+        env:
+          RESTORE_TEST_DATABASE_URL: ${{ secrets.RESTORE_TEST_DATABASE_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          docker run --rm -i -e RESTORE_TEST_DATABASE_URL -e BACKUP_PASSPHRASE "$PG_IMAGE" sh -c '
+            apk add --no-cache --quiet bash gnupg >/dev/null && exec bash -c "
+              set -uo pipefail
+              umask 077
+              printf %s \"\$BACKUP_PASSPHRASE\" > /tmp/pass
+              gpg --batch --pinentry-mode loopback --passphrase-file /tmp/pass --decrypt \
+                | pg_restore --clean --if-exists --no-owner --no-privileges --dbname \"\$RESTORE_TEST_DATABASE_URL\"
+              status=\$?
+              rm -f /tmp/pass
+              # pg_restore devolve 1 com avisos ignorados (ex.: extensões do Neon); quem decide são as contagens.
+              echo \"pg_restore terminou com código \$status\"
+            "' < "$FILE"
+
+      - name: Contar linhas e resumir
+        env:
+          RESTORE_TEST_DATABASE_URL: ${{ secrets.RESTORE_TEST_DATABASE_URL }}
+        run: |
+          set -euo pipefail
+          count() {
+            docker run --rm -e RESTORE_TEST_DATABASE_URL "$PG_IMAGE" \
+              psql "$RESTORE_TEST_DATABASE_URL" -At -c "SELECT count(*) FROM \"$1\""
+          }
+          {
+            echo "### Teste de reposição"
+            echo ""
+            echo "Cópia: \`$(basename "$FILE")\`"
+            echo ""
+            echo "| Tabela | Linhas |"
+            echo "|---|---:|"
+          } >> "$GITHUB_STEP_SUMMARY"
+          USERS=0
+          for t in User DailyEntry XpEvent Feedback; do
+            n=$(count "$t")
+            echo "| $t | $n |" >> "$GITHUB_STEP_SUMMARY"
+            [ "$t" = "User" ] && USERS=$n
+          done
+          if [ "$USERS" -eq 0 ]; then echo "::error::A tabela User ficou vazia: a reposição falhou."; exit 1; fi

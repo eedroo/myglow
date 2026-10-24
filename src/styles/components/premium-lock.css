@@ -1,0 +1,58 @@
+/* PremiumLock (F12): cartão em vidro com cadeado dourado */
+
+.mg-premium-lock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-strong);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.mg-premium-lock__icon {
+  display: inline-flex;
+  padding: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--gold-halo);
+  box-shadow: var(--premium-glow);
+  color: var(--premium-gold);
+  animation: mg-premium-glow 3.2s var(--ease) infinite;
+}
+
+.mg-premium-lock__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+}
+
+.mg-premium-lock__text {
+  max-width: 34ch;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-premium-lock__done {
+  font-size: var(--text-sm);
+  color: var(--premium-gold);
+}
+
+@keyframes mg-premium-glow {
+  0%,
+  100% {
+    box-shadow: var(--premium-glow);
+  }
+  50% {
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-premium-lock__icon {
+    animation: none;
+  }
+}

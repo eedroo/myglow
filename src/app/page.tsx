@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { auth } from '@/auth';
 import { LandingPage } from '@/components/landing/LandingPage';
+import { PublicAnalytics } from '@/components/providers/PublicAnalytics';
 
 const OG_LOCALE: Record<string, string> = { 'pt-PT': 'pt_PT', 'pt-BR': 'pt_BR', en: 'en_GB' };
 
@@ -23,5 +24,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   const session = await auth();
   if (session?.user) redirect('/today');
-  return <LandingPage />;
+  return (
+    <>
+      <LandingPage />
+      <PublicAnalytics />
+    </>
+  );
 }

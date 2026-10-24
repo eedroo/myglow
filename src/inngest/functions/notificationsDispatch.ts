@@ -4,6 +4,7 @@ import { applyBackoff, BACKOFF_KINDS, dueCandidates, dueNotifications } from '@/
 import { buildNotification } from '@/lib/notifications/content';
 import { notificationContext, notificationState } from '@/lib/notifications/queries';
 import { deliver } from '@/lib/notifications/send';
+import { reportJobFailure } from '../sentry';
 
 const BATCH = 500;
 const ACTIVE_DAYS = 30;
@@ -21,7 +22,7 @@ interface DueUser {
  * Primeiro só os horários (sem DB); depois, só para quem tem algo no slot, o estado e o envio.
  */
 export const notificationsDispatch = inngest.createFunction(
-  { id: 'notifications-dispatch', concurrency: { limit: 1 } },
+  { id: 'notifications-dispatch', concurrency: { limit: 1 }, onFailure: reportJobFailure('notifications-dispatch') },
   { cron: '*/15 * * * *' },
   async ({ step }) => {
     const nowIso = await step.run('now', () => new Date().toISOString());

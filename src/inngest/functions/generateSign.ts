@@ -1,11 +1,13 @@
 import { inngest } from '../client';
 import { aiRequestsPerMinute } from '@/lib/env';
 import { generateSignContent } from '@/lib/ai/generate';
+import { reportJobFailure } from '../sentry';
 
 /** Gera um conteúdo partilhado (signo × período × língua). */
 export const generateSign = inngest.createFunction(
   {
     id: 'generate-sign',
+    onFailure: reportJobFailure('generate-sign'),
     // Uma geração por conteúdo a cada 10 min (antes: idempotência de 24 h, que deixava o ecrã "a preparar" um dia
     // inteiro quando a geração falhava). Pedidos repetidos são baratos: o que já existe não volta à IA.
     rateLimit: { key: 'event.data.kind + ":" + event.data.periodStart + ":" + event.data.sign + ":" + event.data.locale + ":v" + string(event.data.version)', limit: 1, period: '10m' },

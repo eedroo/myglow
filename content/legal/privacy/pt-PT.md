@@ -1,5 +1,5 @@
 version: 2026-10
-date: 2026-10-02
+date: 2026-10-24
 
 > **Rascunho — rever com jurista antes do lançamento.**
 
@@ -53,7 +53,10 @@ Usamos estes prestadores, que tratam dados apenas por nossa conta e segundo as n
 - **Google (API Gemini)** — geração das leituras com IA;
 - **Inngest** — tarefas agendadas (leituras e lembretes);
 - **Upstash** — limites de utilização (segurança);
-- **Resend** — envio de emails.
+- **Resend** — envio de emails;
+- **Sentry**: registo de erros técnicos, em servidores na UE, sem conteúdo do diário;
+- **Vercel Web Analytics**: estatísticas agregadas das páginas públicas, sem cookies;
+- **GitHub**: guarda as cópias de segurança diárias, encriptadas, durante 30 dias.
 
 Alguns destes prestadores podem tratar dados fora do Espaço Económico Europeu. Nesses casos, as transferências são feitas com garantias adequadas, nomeadamente as cláusulas contratuais-tipo aprovadas pela Comissão Europeia.
 

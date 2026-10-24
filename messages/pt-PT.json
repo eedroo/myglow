@@ -17,6 +17,7 @@
     "comingSoonBody": "Esta página está a ser preparada com todo o cuidado. Volta em breve.",
     "motto": "Pequenas escolhas, grandes transformações.",
     "skipToContent": "Saltar para o conteúdo",
+    "retry": "Tentar de novo",
     "errors": {
       "generic": "Algo correu mal. Tenta novamente.",
       "unauthorized": "A tua sessão expirou. Inicia sessão novamente."
@@ -1001,7 +1002,8 @@
     },
     "profile": {
       "settings": "Definições",
-      "startTour": "Fazer o guia"
+      "startTour": "Fazer o guia",
+      "admin": "Administração"
     },
     "errors": {
       "invalid": "Não foi possível guardar. Tenta outra vez."
@@ -1523,5 +1525,11 @@
         "text": "Toca na lição que está a brilhar para começar. A partir daqui, o caminho é teu."
       }
     }
+  },
+  "premium": {
+    "badge": "Premium",
+    "lockLabel": "Conteúdo premium",
+    "interest": "Quero saber quando abrir",
+    "interestDone": "Combinado, avisamos-te."
   }
 }

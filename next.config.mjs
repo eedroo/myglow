@@ -1,4 +1,5 @@
 import createNextIntlPlugin from 'next-intl/plugin';
+import { withSentryConfig } from '@sentry/nextjs/config';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
@@ -25,4 +26,14 @@ const nextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+// F12: Sentry (erros). Pedidos do browser passam por /monitoring (não são bloqueados por ad-blockers);
+// source maps só são enviados quando existe SENTRY_AUTH_TOKEN (build no Vercel).
+export default withSentryConfig(withNextIntl(nextConfig), {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  tunnelRoute: '/monitoring',
+  sourcemaps: { disable: !process.env.SENTRY_AUTH_TOKEN },
+  telemetry: false,
+});

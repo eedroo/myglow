@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Motto } from '@/components/ui/Motto';
+import { RegisterCta } from './RegisterCta';
 
 export function FinalCta() {
   const t = useTranslations();
@@ -10,9 +10,9 @@ export function FinalCta() {
         <h2 id="landing-cta-title" className="mg-landing__title">
           {t('landing.cta.title')}
         </h2>
-        <Link href="/register" className="mg-btn mg-btn--primary">
+        <RegisterCta className="mg-btn mg-btn--primary">
           {t('landing.hero.cta')}
-        </Link>
+        </RegisterCta>
         <Motto text={t('common.motto')} />
       </div>
     </section>

@@ -17,6 +17,7 @@
     "comingSoonBody": "This page is being crafted with care. Check back soon.",
     "motto": "Small choices, great transformations.",
     "skipToContent": "Skip to content",
+    "retry": "Try again",
     "errors": {
       "generic": "Something went wrong. Please try again.",
       "unauthorized": "Your session has expired. Please sign in again."
@@ -1001,7 +1002,8 @@
     },
     "profile": {
       "settings": "Settings",
-      "startTour": "Take the guide"
+      "startTour": "Take the guide",
+      "admin": "Admin"
     },
     "errors": {
       "invalid": "Couldn't save. Please try again."
@@ -1523,5 +1525,11 @@
         "text": "Tap the glowing lesson to begin. From here on, the path is yours."
       }
     }
+  },
+  "premium": {
+    "badge": "Premium",
+    "lockLabel": "Premium content",
+    "interest": "Tell me when it opens",
+    "interestDone": "Deal, we'll let you know."
   }
 }

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { AmbientBackground } from '@/components/shell/AmbientBackground';
 import { MagicIcon } from '@/components/ui/MagicIcon';
+import { PublicAnalytics } from '@/components/providers/PublicAnalytics';
 
 /** Páginas públicas (sem login): documentos legais e despedida. */
 export default async function PublicLayout({ children }: { children: ReactNode }) {
@@ -22,6 +23,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
         </header>
         {children}
       </main>
+      <PublicAnalytics />
     </>
   );
 }

@@ -1,5 +1,5 @@
 version: 2026-10
-date: 2026-10-02
+date: 2026-10-24
 
 > **Draft — to be reviewed by a lawyer before launch.**
 
@@ -53,7 +53,10 @@ We use these providers, which process data only on our behalf and following our 
 - **Google (Gemini API)** — AI-generated readings;
 - **Inngest** — scheduled tasks (readings and reminders);
 - **Upstash** — usage limits (security);
-- **Resend** — sending emails.
+- **Resend** — sending emails;
+- **Sentry**: technical error logging, on servers in the EU, with no journal content;
+- **Vercel Web Analytics**: aggregated statistics for the public pages, without cookies;
+- **GitHub**: stores the daily encrypted backups for 30 days.
 
 Some of these providers may process data outside the European Economic Area. In those cases, transfers rely on appropriate safeguards, namely the standard contractual clauses approved by the European Commission.
 

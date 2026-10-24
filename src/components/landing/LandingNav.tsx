@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 import { BetaBadge } from '@/components/beta/BetaBadge';
 import { LocaleSwitcher } from './LocaleSwitcher';
+import { RegisterCta } from './RegisterCta';
 
 export function LandingNav() {
   const t = useTranslations();
@@ -18,9 +19,9 @@ export function LandingNav() {
         <Link href="/login" className="mg-btn mg-btn--ghost">
           {t('landing.nav.login')}
         </Link>
-        <Link href="/register" className="mg-btn mg-btn--primary">
+        <RegisterCta className="mg-btn mg-btn--primary">
           {t('landing.nav.register')}
-        </Link>
+        </RegisterCta>
       </div>
     </header>
   );

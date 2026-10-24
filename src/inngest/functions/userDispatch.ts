@@ -1,6 +1,7 @@
 import { inngest, userEvents, type UserGenerateEvent } from '../client';
 import { db } from '@/lib/db';
 import { dueUserJobs } from '@/lib/ai/schedule';
+import { reportJobFailure } from '../sentry';
 
 const BATCH = 500;
 const ACTIVE_DAYS = 7;
@@ -10,7 +11,7 @@ const ACTIVE_DAYS = 7;
  * na sua hora local (03:xx). Os restantes só recebem conteúdo a pedido.
  */
 export const userDispatch = inngest.createFunction(
-  { id: 'user-dispatch' },
+  { id: 'user-dispatch', onFailure: reportJobFailure('user-dispatch') },
   { cron: '0 * * * *' },
   async ({ step }) => {
     const nowIso = await step.run('now', () => new Date().toISOString());

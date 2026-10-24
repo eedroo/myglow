@@ -109,6 +109,8 @@
 @import './components/tour.css';
 @import './components/tour-bubble.css';
 @import './components/tour-pill.css';
+@import './components/premium-badge.css';
+@import './components/premium-lock.css';
 @import './components/first-steps.css';
 @import './components/beta-badge.css';
 @import './components/beta-notice.css';

@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { getTranslations } from 'next-intl/server';
 import { AmbientBackground } from '@/components/shell/AmbientBackground';
 import { MagicIcon } from '@/components/ui/MagicIcon';
+import { PublicAnalytics } from '@/components/providers/PublicAnalytics';
 
 export default async function AuthLayout({ children }: { children: ReactNode }) {
   const t = await getTranslations('common');
@@ -16,6 +17,7 @@ export default async function AuthLayout({ children }: { children: ReactNode }) 
         </div>
         {children}
       </main>
+      <PublicAnalytics />
     </>
   );
 }

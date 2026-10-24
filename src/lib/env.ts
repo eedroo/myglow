@@ -36,7 +36,15 @@ const appEnvSchema = z.object({
   LEGAL_PRIVACY_VERSION: z.string().min(1),
 });
 
-const envSchema = aiEnvSchema.merge(pushEnvSchema).merge(emailEnvSchema).merge(appEnvSchema).extend({
+// F12: operação. Tudo opcional: sem DSN o Sentry fica desligado; sem ADMIN_EMAILS ninguém é admin.
+const optionalUrl = z.union([z.literal(''), z.string().url()]).optional();
+const opsEnvSchema = z.object({
+  SENTRY_DSN: optionalUrl,
+  NEXT_PUBLIC_SENTRY_DSN: optionalUrl,
+  ADMIN_EMAILS: z.string().optional(),
+});
+
+const envSchema = aiEnvSchema.merge(pushEnvSchema).merge(emailEnvSchema).merge(appEnvSchema).merge(opsEnvSchema).extend({
   INNGEST_EVENT_KEY: z.string().min(1),
   INNGEST_SIGNING_KEY: z.string().min(1),
   UPSTASH_REDIS_REST_URL: z.string().url(),
@@ -121,18 +129,6 @@ export function betaInviteCodes(): string[] {
 
 export function feedbackEmail(): string | null {
   return process.env.FEEDBACK_EMAIL?.trim() || null;
-}
-
-/** Backoffice (`/admin`): emails com acesso, separados por vírgulas (minúsculas). Vazio = ninguém. */
-export function adminEmails(): string[] {
-  return (process.env.ADMIN_EMAILS ?? '')
-    .split(',')
-    .map((e) => e.trim().toLowerCase())
-    .filter(Boolean);
-}
-
-export function isAdminEmail(email: string | null | undefined): boolean {
-  return !!email && adminEmails().includes(email.trim().toLowerCase());
 }
 
 /** Há chaves VAPID para enviar push? (sem elas os avisos ficam só na caixa da app) */

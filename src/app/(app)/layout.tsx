@@ -19,8 +19,10 @@ import { db } from '@/lib/db';
 import { levelFor } from '@/lib/xp/levels';
 import { TourProvider } from '@/components/tour/TourProvider';
 import { IDLE_TOUR, tourStateFromDb } from '@/lib/tour/machine';
-
-const ACTIVE_THROTTLE_MS = 60 * 60 * 1000;
+import { getEntitlements } from '@/lib/entitlements/server';
+import { EntitlementsProvider } from '@/components/premium/EntitlementsProvider';
+import { SentryUser } from '@/components/providers/SentryUser';
+import { touchActivity } from '@/lib/activity';
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const session = await auth();
@@ -29,7 +31,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   if (!session?.user) redirect('/api/session/end');
   if (!session.user.onboarded) redirect('/onboarding');
 
-  const [t, glow] = await Promise.all([
+  const [t, glow, entitlements] = await Promise.all([
     getTranslations(),
     db.user.findUnique({
       where: { id: session.user.id },
@@ -39,6 +41,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         tourStep: true, tourPausedAt: true, tourCompletedAt: true,
       },
     }),
+    getEntitlements(session.user.id),
   ]);
   // Termos/Política: versão nova (ou nunca aceite) → diálogo bloqueante; as Novidades esperam pela aceitação.
   const legal = legalVersions();
@@ -48,11 +51,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     : [];
   const xpTotal = glow?.xpTotal ?? 0;
 
-  // Actividade recente (pré-geração IA só para activos nos últimos 7 dias): no máximo 1 escrita por hora.
-  const now = new Date();
-  if (glow && (!glow.lastActiveAt || now.getTime() - glow.lastActiveAt.getTime() > ACTIVE_THROTTLE_MS)) {
-    await db.user.update({ where: { id: session.user.id }, data: { lastActiveAt: now } }).catch(() => undefined);
-  }
+  // F12: um registo por dia em que a pessoa abre a app (+ lastActiveAt, usado na pré-geração IA e nos avisos).
+  // Sem esperar: nunca atrasa nem parte a página.
+  if (glow) touchActivity(session.user.id, glow.timezone, glow.lastActiveAt);
 
   return (
     <>
@@ -84,12 +85,15 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         }
       >
         <GlowProvider level={levelFor(xpTotal).level} levelSeen={glow?.levelSeen ?? 1}>
-          <TourProvider initial={glow ? tourStateFromDb(glow) : IDLE_TOUR}>
-            <VerifyEmailBanner verified={!glow || glow.emailVerifiedAt !== null} />
-            {children}
-            {policyPending && <PolicyUpdateDialog askWellbeing={!glow?.wellbeingConsentAt} />}
-            <WhatsNewDialog items={announcements} />
-          </TourProvider>
+          <SentryUser id={session.user.id} />
+          <EntitlementsProvider value={entitlements}>
+            <TourProvider initial={glow ? tourStateFromDb(glow) : IDLE_TOUR}>
+              <VerifyEmailBanner verified={!glow || glow.emailVerifiedAt !== null} />
+              {children}
+              {policyPending && <PolicyUpdateDialog askWellbeing={!glow?.wellbeingConsentAt} />}
+              <WhatsNewDialog items={announcements} />
+            </TourProvider>
+          </EntitlementsProvider>
         </GlowProvider>
       </AppShell>
     </>

@@ -100,6 +100,24 @@ enum UserContentKind {
   MONTH_RITUALS
 }
 
+// F12: plano e interruptores (sem pagamentos ainda)
+enum Plan {
+  FREE
+  PREMIUM
+}
+
+enum PlanSource {
+  MANUAL
+  GIFT
+  PAID // para quando houver pagamentos
+}
+
+enum FeatureRollout {
+  HIDDEN
+  PREMIUM
+  ALL
+}
+
 enum NotificationKind {
   MORNING
   BODY
@@ -171,6 +189,14 @@ model User {
   notificationLogs  NotificationLog[]
   authTokens        AuthToken[]
   feedback          Feedback[]
+  // F12: plano (lido do servidor por pedido, nunca no JWT), actividade diária e excepções por funcionalidade
+  plan              Plan        @default(FREE)
+  planSource        PlanSource?
+  planSince         DateTime?
+  planExpiresAt     DateTime? // null = sem fim
+  premiumInterestAt DateTime? // tocou em "Quero saber quando abrir"
+  activeDays        UserActiveDay[]
+  featureOverrides  FeatureOverride[]
 }
 
 enum FeedbackKind {
@@ -477,4 +503,32 @@ model NotificationLog {
 
   @@unique([userId, kind, periodKey])
   @@index([userId, sentAt])
+}
+
+// F12: um registo por dia em que a pessoa abriu a app (DAU/WAU/MAU e retenção)
+model UserActiveDay {
+  userId String
+  day    DateTime @db.Date // data no fuso do utilizador
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, day])
+  @@index([day])
+}
+
+// F12: estado global de cada funcionalidade (sem linha = valor por defeito do código)
+model FeatureFlag {
+  key       String         @id
+  rollout   FeatureRollout
+  updatedAt DateTime       @updatedAt
+}
+
+// F12: excepção por pessoa
+model FeatureOverride {
+  userId    String
+  key       String
+  enabled   Boolean
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, key])
 }

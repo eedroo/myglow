@@ -29,6 +29,7 @@ export async function GET() {
       notificationPrefs: true,
       notificationLogs: { orderBy: { sentAt: 'asc' } },
       userAiContent: { orderBy: { periodStart: 'asc' } },
+      activeDays: { orderBy: { day: 'asc' } },
     },
   });
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -47,6 +48,7 @@ export async function GET() {
     notificationPrefs: user.notificationPrefs,
     notificationLog: user.notificationLogs,
     aiContent: user.userAiContent,
+    activeDays: user.activeDays,
   });
 
   return new NextResponse(JSON.stringify(data, null, 2), {

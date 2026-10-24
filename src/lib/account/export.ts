@@ -1,6 +1,6 @@
 import type {
   BirthProfile, CourseProgress, DailyEntry, LessonProgress, Month, NotificationLog, NotificationPrefs,
-  ProjectIntention, User, UserAiContent, Week, WeekDayNote, XpEvent, Year,
+  ProjectIntention, User, UserActiveDay, UserAiContent, Week, WeekDayNote, XpEvent, Year,
 } from '@prisma/client';
 import { fromDbDate } from '@/lib/dates';
 
@@ -16,7 +16,7 @@ export interface ExportSource {
     User,
     | 'name' | 'email' | 'locale' | 'theme' | 'timezone' | 'hemisphere' | 'sleepGoalMinutes' | 'pronouns' | 'xpTotal'
     | 'bestMagicStreak' | 'emailVerifiedAt' | 'termsAcceptedAt' | 'termsVersion' | 'privacyVersion' | 'wellbeingConsentAt'
-    | 'createdAt' | 'onboardedAt'
+    | 'createdAt' | 'onboardedAt' | 'plan' | 'planSince' | 'planExpiresAt' | 'premiumInterestAt'
   >;
   birthProfile: BirthProfile | null;
   dailyEntries: DailyEntry[];
@@ -30,6 +30,8 @@ export interface ExportSource {
   notificationPrefs: NotificationPrefs | null;
   notificationLog: NotificationLog[];
   aiContent: UserAiContent[];
+  /** F12: dias em que a pessoa abriu a app. */
+  activeDays: UserActiveDay[];
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -58,7 +60,12 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       wellbeingConsentAt: iso(u.wellbeingConsentAt),
       onboardedAt: iso(u.onboardedAt),
       createdAt: iso(u.createdAt),
+      plan: u.plan,
+      planSince: iso(u.planSince),
+      planExpiresAt: iso(u.planExpiresAt),
+      premiumInterestAt: iso(u.premiumInterestAt),
     },
+    activeDays: data.activeDays.map((a) => day(a.day)),
     birthProfile: b && {
       birthDate: day(b.birthDate),
       birthTime: b.birthTime,

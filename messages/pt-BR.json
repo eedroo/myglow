@@ -17,6 +17,7 @@
     "comingSoonBody": "Esta página está sendo preparada com todo o carinho. Volte em breve.",
     "motto": "Pequenas escolhas, grandes transformações.",
     "skipToContent": "Pular para o conteúdo",
+    "retry": "Tentar de novo",
     "errors": {
       "generic": "Algo deu errado. Tente de novo.",
       "unauthorized": "Sua sessão expirou. Entre novamente."
@@ -1001,7 +1002,8 @@
     },
     "profile": {
       "settings": "Configurações",
-      "startTour": "Fazer o guia"
+      "startTour": "Fazer o guia",
+      "admin": "Administração"
     },
     "errors": {
       "invalid": "Não foi possível salvar. Tente de novo."
@@ -1523,5 +1525,11 @@
         "text": "Toque na lição que está brilhando para começar. A partir daqui, o caminho é seu."
       }
     }
+  },
+  "premium": {
+    "badge": "Premium",
+    "lockLabel": "Conteúdo premium",
+    "interest": "Quero saber quando abrir",
+    "interestDone": "Combinado, avisamos você."
   }
 }

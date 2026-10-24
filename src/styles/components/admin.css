@@ -1,4 +1,4 @@
-/* Backoffice (/admin): números em destaque e tabelas simples */
+/* Administração (/admin, F12): navegação, números em destaque, tabelas, formulários e barras */
 
 .mg-admin {
   display: flex;
@@ -78,4 +78,186 @@
 
 .mg-admin-table th.mg-admin-table__num {
   text-align: right;
+}
+
+.mg-admin-shell {
+  position: relative;
+  z-index: var(--z-content);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.mg-admin__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+}
+
+.mg-admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.mg-admin-nav--sub {
+  margin-bottom: 0;
+}
+
+.mg-admin-nav__link {
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.mg-admin-nav__link:hover,
+.mg-admin-nav__link--active {
+  border-color: var(--glass-border-strong);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+}
+
+.mg-admin-search {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.mg-admin-search input,
+.mg-admin-form__field input {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.mg-admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-admin-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-width: 220px;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-admin-form__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mg-admin-form__status {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-admin-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) 0;
+  border-bottom: var(--border-width) solid var(--line-rule);
+}
+
+.mg-admin-row:last-child {
+  border-bottom: 0;
+}
+
+.mg-admin-row__key {
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.mg-admin-row__hint {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  color: var(--text-muted);
+}
+
+/* Activos por dia: barras em CSS (altura dada pelo componente) */
+.mg-admin-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-1);
+  height: 120px;
+  margin-top: var(--space-4);
+}
+
+.mg-admin-bars__bar {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.mg-admin-bars__fill {
+  width: 100%;
+  min-height: 2px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: var(--gold-500);
+}
+
+.mg-admin-bars__axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.mg-admin-feedback {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-admin-feedback__item {
+  padding: var(--space-3) 0;
+  border-bottom: var(--border-width) solid var(--line-rule);
+}
+
+.mg-admin-feedback__meta {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.mg-admin-feedback__message {
+  margin-top: var(--space-1);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  color: var(--text-primary);
+}
+
+/* Pré-visualização: o mesmo componente nos dois temas */
+.mg-admin-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.mg-admin-preview__pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--bg-gradient);
+  color: var(--text-primary);
 }

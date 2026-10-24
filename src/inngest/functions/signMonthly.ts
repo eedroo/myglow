@@ -1,9 +1,10 @@
 import { inngest, signFanOut } from '../client';
 import { nextSignPeriod } from '@/lib/ai/schedule';
+import { reportJobFailure } from '../sentry';
 
 /** Energia do mês seguinte (dia 20): 12 signos × 3 línguas. */
 export const signMonthly = inngest.createFunction(
-  { id: 'sign-monthly' },
+  { id: 'sign-monthly', onFailure: reportJobFailure('sign-monthly') },
   { cron: '0 6 20 * *' },
   async ({ step }) => {
     const periodStart = await step.run('period', () => nextSignPeriod('MONTH_ENERGY', new Date()));

@@ -444,14 +444,36 @@ Textos em `beta`, `feedback`, `welcome`, `firstSteps` e `landing`. O beta só ap
 
 Integração F10: `TopBar` mostra `BetaBadge` junto ao logo; `/profile` ganhou `FeedbackDialog` e "Rever a apresentação" (`mg-journey__extras`; F11: passou a "Fazer o guia"); as definições têm `FeedbackDialog` na secção Privacidade; `/today` tem o link discreto de feedback por baixo do `Motto` (`mg-feedback__footer`); `IntentionCard` tem `id="intencao"` (âncora dos primeiros passos); `RegisterForm` aceita `betaNotice` e `invite`.
 
-### Backoffice (`src/components/admin/`, rota `/admin`)
+### Administração — F12 (`src/components/admin/`, grupo `(admin)`, rotas `/admin/*`)
 
-Só para os emails em `ADMIN_EMAILS` (separados por vírgulas); para os outros a rota dá 404. Mostra apenas totais agregados (nunca o que alguém escreveu). Dados em `lib/admin/stats.ts`.
+Só para os emails em `ADMIN_EMAILS` (`requireAdmin()` em `lib/admin.ts`; os outros recebem 404, sem indexação). Texto em PT-PT directamente nos componentes (área interna). Nunca mostra conteúdo do diário (intenções, reflexões, gratidão, notas, humor, peso). Dados em `lib/metrics/server.ts`; acções em `actions/admin.ts` (todas com `requireAdmin()` e Zod).
 
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
-| `StatTile` | server | `admin.css` | `mg-stat`, `__value`, `__label`, `__hint` | número em destaque + rótulo (+ nota opcional); em grelha `mg-admin__tiles` |
-| `AdminTable` | server | `admin.css` | `mg-admin-table`, `__num` | tabela simples com cabeçalho; colunas numéricas alinhadas à direita (`tabular-nums`) |
+| `AdminNav` | client | `admin.css` | `mg-admin-nav`, `__link`, `--active` | Métricas · Utilizadores · Funcionalidades · Feedback · Pré-visualização · voltar à app |
+| `MetricCard` | server | `admin.css` | `mg-stat`, `__value`, `__label`, `__hint` | número em destaque + rótulo (+ nota opcional); em grelha `mg-admin__tiles` |
+| `AdminTable` | server | `admin.css` | `mg-admin-table`, `__num` | tabela simples com cabeçalho; colunas numéricas à direita (`tabular-nums`) |
+| `ActivityBars` | server | `admin.css` | `mg-admin-bars`, `__bar`, `__fill`, `__label` | activos por dia nos últimos 30 dias, barras em CSS (altura relativa ao máximo; valor no `title` e numa tabela escondida) |
+| `RetentionTable` | server | `admin.css` | `mg-admin-table` | D1/D7/D30 das últimas 8 coortes semanais ("–" quando ainda não há dados) |
+| `FunnelTable` | server | `admin.css` | `mg-admin-table` | registo → nascimento → guia → primeira lição → primeiro dia completo, com % do passo anterior |
+| `UserTable` | server | `admin.css` | `mg-admin-table` | email, nome, criado, última actividade, plano (origem, fim), guia, cursos concluídos; link para a ficha |
+| `UserPlanForm` | client | `admin.css` | `mg-admin-form` | plano FREE/PREMIUM, origem MANUAL/GIFT, data de fim opcional → `setUserPlan` |
+| `FeatureOverrideRow` | client | `admin.css` | `mg-admin-row` | por funcionalidade: seguir regra · forçar ligado · forçar desligado → `setFeatureOverride` |
+| `FeatureRolloutRow` | client | `admin.css` | `mg-admin-row` | por funcionalidade: fase, HIDDEN · PREMIUM · ALL, nº de excepções → `setFeatureRollout` |
+| `FeedbackList` | server | `admin.css` | `mg-admin-feedback`, `__item`, `__meta`, `__message` | feedback mais recente primeiro, tipo, página, data e email com `mailto:` |
+
+### Premium — F12 (`src/components/premium/`)
+
+Plano lido do servidor por pedido (`getEntitlements`, `cache()` do React; nunca no JWT). A verificação que conta é sempre no servidor (`requireFeature`); o hook só decide o que mostrar. Sem pagamentos nem preços.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `EntitlementsProvider` | client | — | — | no layout `(app)`; `useEntitlements()` → `{ plan, can(key) }` |
+| `PremiumBadge` | server | `premium-badge.css` | `mg-premium-badge` | pílula pequena dourada "Premium"; no perfil, ao lado do nível, só para quem é premium |
+| `PremiumLock` | client | `premium-lock.css` | `mg-premium-lock`, `__icon`, `__title`, `__text`, `__cta`, `__done` | cartão em vidro com cadeado dourado e brilho suave; `title` + `teaser` (não revela o conteúdo); "Quero saber quando abrir" → `registerPremiumInterest()` → "Combinado, avisamos você."; nesta fase só aparece em `/admin/preview` |
+| `SentryUser` | client | — | — | (`components/providers/`) `Sentry.setUser({ id })` no layout `(app)`, só o id interno |
+| `PublicAnalytics` | client | — | — | (`components/providers/`) `@vercel/analytics` (sem cookies) só em `/`, `/login`, `/register`, `/privacy`, `/terms`: montado na landing e nos layouts `(public)` e `(auth)`; `beforeSend` descarta qualquer outra rota (ex.: depois de entrar na app) |
+| `RegisterCta` | client | — | — | (`components/landing/`) link "Criar conta" da landing que envia o evento `register_click` (sem propriedades) |
 
 ### Guia interactivo — F11 (`src/components/tour/`, lógica em `src/lib/tour/`)
 

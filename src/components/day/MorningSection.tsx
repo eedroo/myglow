@@ -24,6 +24,7 @@ export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, c
       <SectionHeader title={t('morning.title')} icon="sun" />
       <CheckTile
         icon="tea-cup"
+        tour="morning-banish"
         label={t('morning.banish')}
         withText
         text={data.morningBanishName}

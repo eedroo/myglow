@@ -106,7 +106,10 @@
 @import './components/faq.css';
 @import './components/landing-footer.css';
 @import './components/locale-switcher.css';
-@import './components/welcome.css';
+@import './components/tour.css';
+@import './components/tour-bubble.css';
+@import './components/tour-pill.css';
+@import './components/tour-done.css';
 @import './components/first-steps.css';
 @import './components/beta-badge.css';
 @import './components/beta-notice.css';

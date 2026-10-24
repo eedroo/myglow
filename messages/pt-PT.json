@@ -1001,7 +1001,7 @@
     },
     "profile": {
       "settings": "Definições",
-      "welcomeAgain": "Rever a apresentação"
+      "startTour": "Fazer o guia"
     },
     "errors": {
       "invalid": "Não foi possível guardar. Tenta outra vez."
@@ -1252,34 +1252,6 @@
       "rateLimited": "Já enviaste vários feedbacks na última hora. Tenta mais tarde."
     }
   },
-  "welcome": {
-    "label": "Apresentação da MYGLOW",
-    "roledescription": "apresentação",
-    "slide": "ecrã",
-    "position": "{n} de {total}",
-    "skip": "Saltar",
-    "back": "Voltar",
-    "next": "Seguinte",
-    "start": "Começar o meu primeiro dia",
-    "slides": {
-      "0": {
-        "title": "O teu dia, com intenção",
-        "text": "De manhã escolhes a tua intenção. À noite fechas o dia com gratidão e reflexão. Pelo meio, cuidas do corpo."
-      },
-      "1": {
-        "title": "Planeia com o céu",
-        "text": "Semana, mês e ano num só lugar, com a Lua, os signos e as datas mágicas a acompanhar os teus planos."
-      },
-      "2": {
-        "title": "Aprende ao teu ritmo",
-        "text": "O Grimório ensina-te, em lições curtas, tudo o que a app usa: rituais, elementos, Lua, signos e muito mais."
-      },
-      "3": {
-        "title": "Ganha Glow",
-        "text": "Cada cuidado contigo acende a tua luz. Sobe de nível, da Semente à Constelação — sem culpa e sem pressa."
-      }
-    }
-  },
   "firstSteps": {
     "title": "Os teus primeiros passos",
     "done": "feito",
@@ -1289,8 +1261,7 @@
       "week": "Planeia a tua semana",
       "install": "Activa os lembretes ou instala a app"
     },
-    "seeTour": "Ver a apresentação",
-    "reviewTour": "Rever a apresentação",
+    "startTour": "Fazer o guia",
     "dismiss": "Dispensar"
   },
   "landing": {
@@ -1490,5 +1461,75 @@
       "users": "Pessoas"
     },
     "empty": "Ainda sem dados."
+  },
+  "tour": {
+    "continue": "Continuar",
+    "later": "Fazer depois",
+    "pause": "Pausar",
+    "resume": "Continuar o guia",
+    "start": "Começar",
+    "counter": "{index} de {total}",
+    "steps": {
+      "welcome": {
+        "title": "Vamos viver o teu primeiro dia juntos",
+        "text": "Em dois minutos ficas a conhecer o essencial do MYGLOW. Podes pausar quando quiseres."
+      },
+      "sky": {
+        "title": "O céu de hoje",
+        "text": "Aqui ficam a Lua e o Sol de hoje e o teu trio do mapa natal: Sol, Lua e ascendente."
+      },
+      "reading": {
+        "title": "A tua leitura",
+        "text": "Todos os dias o céu conversa com o teu mapa. Toca nas etiquetas para perceber cada trânsito."
+      },
+      "intention": {
+        "title": "Começa com uma intenção",
+        "text": "Escreve como queres viver o dia de hoje. Uma frase chega."
+      },
+      "banish": {
+        "title": "Solta o que pesa",
+        "text": "Dá um nome ao teu banimento e marca quando o fizeres. Pode ser só uma respiração funda."
+      },
+      "wake": {
+        "title": "Como acordaste?",
+        "text": "Toca na carinha que combina com a tua manhã. Com o tempo, isto torna-se o teu diário do sono."
+      },
+      "body": {
+        "title": "Cuida do corpo",
+        "text": "Água, alongamentos e treino. Marca ao longo do dia, à medida que fores fazendo."
+      },
+      "night": {
+        "title": "À noite, fecha o dia",
+        "text": "Gratidão, humor e reflexão. Volta aqui antes de dormir."
+      },
+      "glow": {
+        "title": "O teu Glow",
+        "text": "Cada cuidado contigo acende a tua luz e sobes de nível. Toca no teu avatar para veres a tua jornada."
+      },
+      "week-tab": {
+        "title": "Planeia a semana",
+        "text": "Agora vamos ver a tua semana."
+      },
+      "week": {
+        "title": "A intenção da semana",
+        "text": "Cada dia tem o seu astro regente. Escreve uma intenção para os próximos sete dias."
+      },
+      "grimoire-tab": {
+        "title": "O Grimório",
+        "text": "Aqui aprendes tudo o que o MYGLOW usa, em lições curtas."
+      },
+      "first-lesson": {
+        "title": "A tua primeira lição",
+        "text": "Toca na lição que está a brilhar para começar."
+      },
+      "in-lesson": {
+        "title": "Passa os cards",
+        "text": "Desliza para avançar. No fim, a lição fica concluída."
+      },
+      "done": {
+        "title": "Tudo pronto",
+        "text": "Este é o teu ritmo: intenção de manhã, cuidado durante o dia, reflexão à noite e um pouco de estudo. Bom caminho."
+      }
+    }
   }
 }

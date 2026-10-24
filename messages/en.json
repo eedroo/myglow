@@ -1001,7 +1001,7 @@
     },
     "profile": {
       "settings": "Settings",
-      "welcomeAgain": "Replay the tour"
+      "startTour": "Take the guide"
     },
     "errors": {
       "invalid": "Couldn't save. Please try again."
@@ -1252,34 +1252,6 @@
       "rateLimited": "You've sent several messages in the last hour. Please try again later."
     }
   },
-  "welcome": {
-    "label": "Welcome to MYGLOW",
-    "roledescription": "tour",
-    "slide": "screen",
-    "position": "{n} of {total}",
-    "skip": "Skip",
-    "back": "Back",
-    "next": "Next",
-    "start": "Start my first day",
-    "slides": {
-      "0": {
-        "title": "Your day, with intention",
-        "text": "In the morning you choose your intention. At night you close the day with gratitude and reflection. In between, you look after your body."
-      },
-      "1": {
-        "title": "Plan with the sky",
-        "text": "Week, month and year in one place, with the Moon, the signs and the magical dates alongside your plans."
-      },
-      "2": {
-        "title": "Learn at your own pace",
-        "text": "The Grimoire teaches you, in short lessons, everything the app uses: rituals, elements, the Moon, signs and much more."
-      },
-      "3": {
-        "title": "Earn Glow",
-        "text": "Every act of self-care lights you up. Level up from Seed to Constellation — no guilt, no rush."
-      }
-    }
-  },
   "firstSteps": {
     "title": "Your first steps",
     "done": "done",
@@ -1289,8 +1261,7 @@
       "week": "Plan your week",
       "install": "Turn on reminders or install the app"
     },
-    "seeTour": "See the tour",
-    "reviewTour": "Replay the tour",
+    "startTour": "Take the guide",
     "dismiss": "Dismiss"
   },
   "landing": {
@@ -1490,5 +1461,75 @@
       "users": "People"
     },
     "empty": "No data yet."
+  },
+  "tour": {
+    "continue": "Continue",
+    "later": "Do it later",
+    "pause": "Pause",
+    "resume": "Resume the guide",
+    "start": "Start",
+    "counter": "{index} of {total}",
+    "steps": {
+      "welcome": {
+        "title": "Let's live your first day together",
+        "text": "In two minutes you'll know the essentials of MYGLOW. You can pause whenever you like."
+      },
+      "sky": {
+        "title": "Today's sky",
+        "text": "Here you'll find today's Moon and Sun, plus your natal trio: Sun, Moon and rising sign."
+      },
+      "reading": {
+        "title": "Your reading",
+        "text": "Every day the sky talks to your chart. Tap the tags to understand each transit."
+      },
+      "intention": {
+        "title": "Start with an intention",
+        "text": "Write how you want to live today. One sentence is enough."
+      },
+      "banish": {
+        "title": "Let go of what weighs on you",
+        "text": "Name your banishing and mark it when it's done. A deep breath counts."
+      },
+      "wake": {
+        "title": "How did you wake up?",
+        "text": "Tap the face that matches your morning. Over time, this becomes your sleep journal."
+      },
+      "body": {
+        "title": "Look after your body",
+        "text": "Water, stretching and exercise. Mark them through the day as you go."
+      },
+      "night": {
+        "title": "At night, close the day",
+        "text": "Gratitude, mood and reflection. Come back here before bed."
+      },
+      "glow": {
+        "title": "Your Glow",
+        "text": "Every bit of self care lights you up and you level up. Tap your avatar to see your journey."
+      },
+      "week-tab": {
+        "title": "Plan your week",
+        "text": "Now let's look at your week."
+      },
+      "week": {
+        "title": "Your intention for the week",
+        "text": "Each day has its ruling planet. Write an intention for the next seven days."
+      },
+      "grimoire-tab": {
+        "title": "The Grimoire",
+        "text": "This is where you learn everything MYGLOW uses, in short lessons."
+      },
+      "first-lesson": {
+        "title": "Your first lesson",
+        "text": "Tap the glowing lesson to begin."
+      },
+      "in-lesson": {
+        "title": "Swipe through the cards",
+        "text": "Swipe to move on. At the end, the lesson is complete."
+      },
+      "done": {
+        "title": "You're all set",
+        "text": "This is your rhythm: an intention in the morning, care through the day, reflection at night and a little study. Enjoy the path."
+      }
+    }
   }
 }

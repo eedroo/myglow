@@ -54,6 +54,7 @@ export function WeekView({ initial, days, previousWeightGrams, wellbeing, defaul
         <div className="mg-week__cell mg-week__cell--intention">
           <PeriodIntentionCard
             id="week-intention"
+            tour="week-intention"
             label={t('week.intention.label')}
             placeholder={t('week.intention.placeholder')}
             value={data.intention}

@@ -22,7 +22,7 @@ export async function DailySkyCard({ sky, natal, isToday }: DailySkyCardProps) {
   const { moon } = sky;
 
   return (
-    <GlassCard variant="accent" className="mg-sky-card">
+    <GlassCard variant="accent" className="mg-sky-card" data-tour="sky-card">
       <section className="mg-sky-card__section" aria-labelledby="sky-title">
         <h2 id="sky-title" className="mg-sky-card__heading">
           <MagicIcon name="moon-stars" size="sm" decorative />

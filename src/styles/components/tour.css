@@ -1,0 +1,45 @@
+/* TourOverlay (F11): ecrã escurecido com um recorte à volta do alvo */
+
+.mg-tour {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-tour);
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* só a máscara apanha cliques; o recorte deixa passar para o alvo */
+}
+
+.mg-tour__mask {
+  fill: var(--tour-overlay);
+  fill-rule: evenodd;
+  pointer-events: visiblePainted;
+  transition: d var(--duration) var(--ease);
+}
+
+.mg-tour__ring {
+  fill: none;
+  stroke: var(--gold-500);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 8px var(--gold-300));
+  animation: mg-tour-ring 2.4s var(--ease) infinite;
+}
+
+@keyframes mg-tour-ring {
+  0%,
+  100% {
+    stroke-opacity: 1;
+  }
+  50% {
+    stroke-opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-tour__mask {
+    transition: none;
+  }
+
+  .mg-tour__ring {
+    animation: none;
+  }
+}

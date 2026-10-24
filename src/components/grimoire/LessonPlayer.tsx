@@ -10,6 +10,7 @@ import type { LessonPlayerData } from '@/lib/grimoire/queries';
 import { ContentCard } from './ContentCard';
 import { LessonComplete } from './LessonComplete';
 import { ReviewCard } from './ReviewCard';
+import { emitTourEvent } from '@/lib/tour/bus';
 
 const SWIPE_PX = 60;
 
@@ -56,6 +57,7 @@ export function LessonPlayer({ data: initial }: { data: LessonPlayerData }) {
         return false;
       }
       setResult({ lessonsLeft: res.lessonsLeftToday, nextLesson: res.nextLesson, quizUnlocked: res.quizUnlocked });
+      emitTourEvent('lesson-completed');
       return true;
     });
     return completing.current;
@@ -74,6 +76,11 @@ export function LessonPlayer({ data: initial }: { data: LessonPlayerData }) {
   useEffect(() => {
     if (atEnd) void complete();
   }, [atEnd, complete]);
+
+  // Guia (F11): a primeira lição foi aberta.
+  useEffect(() => {
+    emitTourEvent('lesson-opened');
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

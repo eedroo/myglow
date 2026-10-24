@@ -11,6 +11,7 @@ export function ProfileAvatarLink({ label, children }: { label: string; children
   return (
     <Link
       href="/profile"
+      data-tour="avatar"
       className={active ? 'mg-level-badge mg-level-badge--active' : 'mg-level-badge'}
       aria-label={label}
       title={label}

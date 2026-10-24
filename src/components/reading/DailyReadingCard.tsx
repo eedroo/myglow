@@ -28,7 +28,7 @@ export async function DailyReadingCard({ personal, pending }: DailyReadingCardPr
   const classes = ['mg-reading', !p && 'mg-reading--pending'].filter(Boolean).join(' ');
 
   return (
-    <GlassCard className={classes} aria-labelledby={p ? 'reading-personal' : undefined}>
+    <GlassCard className={classes} aria-labelledby={p ? 'reading-personal' : undefined} data-tour="reading-card">
       {p && (
         <section className="mg-reading__section mg-reading__personal" aria-labelledby="reading-personal">
           <h2 id="reading-personal" className="mg-reading__heading">

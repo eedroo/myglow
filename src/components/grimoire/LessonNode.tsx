@@ -47,6 +47,7 @@ export function LessonNode({ courseSlug, slug, index, title, minutes, state, les
       <button
         ref={ref}
         type="button"
+        data-tour={autoScroll ? 'lesson-current' : undefined}
         className={`mg-node mg-node--${state}`}
         aria-label={label}
         aria-expanded={open}

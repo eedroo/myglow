@@ -15,6 +15,7 @@ export function BodyFocusBar({ data, setField, current }: BodyFocusBarProps) {
   const t = useTranslations('day.body');
   return (
     <section
+      data-tour="body-focus"
       className={current ? 'mg-body-bar mg-body-bar--current' : 'mg-body-bar'}
       aria-labelledby="body-bar-title"
     >

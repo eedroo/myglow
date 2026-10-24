@@ -20,6 +20,8 @@ interface CheckTileProps {
   textMaxLength?: number;
   textLabel?: string;
   textPlaceholder?: string;
+  /** Alvo do guia (F11): valor de `data-tour`. */
+  tour?: string;
 }
 
 export function CheckTile({
@@ -35,10 +37,11 @@ export function CheckTile({
   textMaxLength,
   textLabel,
   textPlaceholder,
+  tour,
 }: CheckTileProps) {
   const id = useId();
   return (
-    <div className={checked ? 'mg-check-tile mg-check-tile--checked' : 'mg-check-tile'}>
+    <div className={checked ? 'mg-check-tile mg-check-tile--checked' : 'mg-check-tile'} data-tour={tour}>
       <span className="mg-check-tile__icon">
         <MagicIcon name={icon} size="md" decorative />
       </span>

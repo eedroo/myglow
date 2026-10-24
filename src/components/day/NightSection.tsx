@@ -15,7 +15,7 @@ interface NightSectionProps {
 export function NightSection({ data, setField, onTextBlur, current }: NightSectionProps) {
   const t = useTranslations('day');
   return (
-    <section className={current ? 'mg-period mg-period--night mg-period--current' : 'mg-period mg-period--night'}>
+    <section className={current ? 'mg-period mg-period--night mg-period--current' : 'mg-period mg-period--night'} data-tour="night-section">
       <SectionHeader title={t('night.title')} icon="moon-crescent" />
       <CheckTile
         icon="feather"

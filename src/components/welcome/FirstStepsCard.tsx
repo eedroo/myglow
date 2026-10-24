@@ -10,12 +10,13 @@ import { PROMPT_DISMISS_COOKIE } from '@/lib/notifications/prompt';
 import { dismissFirstSteps } from '@/actions/welcome';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
+import { StartTourButton } from '@/components/tour/StartTourButton';
 
 /** Topo do /today: "Os teus primeiros passos", calculados a partir dos dados reais. Some quando tudo está feito ou dispensado. */
 export async function FirstStepsCard({ userId, today }: { userId: string; today: DateISO }) {
   const weekStart = toDbDate(weekStartOf(today));
   const [user, entry, lessons, week, weekProjects, devices] = await Promise.all([
-    db.user.findUnique({ where: { id: userId }, select: { firstStepsDismissedAt: true, welcomeSeenAt: true } }),
+    db.user.findUnique({ where: { id: userId }, select: { firstStepsDismissedAt: true, tourStep: true, tourPausedAt: true } }),
     db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(today) } }, select: { intention: true } }),
     db.lessonProgress.count({ where: { userId } }),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: weekStart } }, select: { intention: true } }),
@@ -23,6 +24,8 @@ export async function FirstStepsCard({ userId, today }: { userId: string; today:
     db.pushSubscription.count({ where: { userId } }),
   ]);
   if (!user || user.firstStepsDismissedAt) return null;
+  // F11: escondido enquanto o guia está activo (volta se for pausado ou concluído com passos por fazer).
+  if (user.tourStep && !user.tourPausedAt) return null;
 
   const { steps, allDone } = computeFirstSteps({
     hasIntentionToday: !!entry?.intention?.trim(),
@@ -55,9 +58,7 @@ export async function FirstStepsCard({ userId, today }: { userId: string; today:
         ))}
       </ol>
       <div className="mg-first-steps__footer">
-        <Link href="/welcome" className="mg-btn mg-btn--subtle">
-          {user.welcomeSeenAt ? t('reviewTour') : t('seeTour')}
-        </Link>
+        <StartTourButton label={t('startTour')} />
         <form action={dismissFirstSteps}>
           <Button type="submit" variant="subtle">
             {t('dismiss')}

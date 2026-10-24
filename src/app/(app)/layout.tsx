@@ -17,6 +17,8 @@ import { PolicyUpdateDialog } from '@/components/account/PolicyUpdateDialog';
 import { legalVersions } from '@/lib/env';
 import { db } from '@/lib/db';
 import { levelFor } from '@/lib/xp/levels';
+import { TourProvider } from '@/components/tour/TourProvider';
+import { IDLE_TOUR, tourStateFromDb } from '@/lib/tour/machine';
 
 const ACTIVE_THROTTLE_MS = 60 * 60 * 1000;
 
@@ -34,6 +36,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       select: {
         xpTotal: true, levelSeen: true, lastActiveAt: true, locale: true, timezone: true, createdAt: true,
         emailVerifiedAt: true, termsVersion: true, privacyVersion: true, wellbeingConsentAt: true,
+        tourStep: true, tourPausedAt: true, tourCompletedAt: true,
       },
     }),
   ]);
@@ -81,10 +84,12 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         }
       >
         <GlowProvider level={levelFor(xpTotal).level} levelSeen={glow?.levelSeen ?? 1}>
-          <VerifyEmailBanner verified={!glow || glow.emailVerifiedAt !== null} />
-          {children}
-          {policyPending && <PolicyUpdateDialog askWellbeing={!glow?.wellbeingConsentAt} />}
-          <WhatsNewDialog items={announcements} />
+          <TourProvider initial={glow ? tourStateFromDb(glow) : IDLE_TOUR}>
+            <VerifyEmailBanner verified={!glow || glow.emailVerifiedAt !== null} />
+            {children}
+            {policyPending && <PolicyUpdateDialog askWellbeing={!glow?.wellbeingConsentAt} />}
+            <WhatsNewDialog items={announcements} />
+          </TourProvider>
         </GlowProvider>
       </AppShell>
     </>

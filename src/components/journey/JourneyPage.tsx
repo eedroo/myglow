@@ -15,6 +15,7 @@ import { StreakCard } from './StreakCard';
 import { BadgesCard } from './BadgesCard';
 import { contentPrefsFor, getBadges } from '@/lib/grimoire/queries';
 import { FeedbackDialog } from '@/components/beta/FeedbackDialog';
+import { StartTourButton } from '@/components/tour/StartTourButton';
 
 /** /profile: nível, caminho dos níveis, emblemas do Grimório, streak mágico e histórico de Glow; definições no topo. */
 export async function JourneyPage() {
@@ -57,9 +58,7 @@ export async function JourneyPage() {
       <GlowHistoryCard items={history} />
       <div className="mg-journey__extras">
         <FeedbackDialog />
-        <Link href="/welcome" className="mg-btn mg-btn--subtle">
-          {tg('welcomeAgain')}
-        </Link>
+        <StartTourButton label={tg('startTour')} />
       </div>
     </div>
   );

@@ -59,6 +59,7 @@
   --shadow-glow: 0 0 24px rgba(233, 196, 120, 0.45);
   --shadow-button: 0 4px 14px rgba(156, 118, 50, 0.28);
   --focus-ring: 0 0 0 3px rgba(201, 162, 92, 0.45);
+  --tour-overlay: rgba(30, 22, 10, 0.62); /* F11: fundo escurecido do guia */
 
   /* Raios */
   --radius-sm: 10px;
@@ -116,6 +117,7 @@
   --z-content: 1;
   --z-nav: 20;
   --z-popover: 30;
+  --z-tour: 35; /* F11: guia por cima da app, por baixo dos toasts (os diálogos modais ficam na top layer) */
   --z-toast: 40;
 }
 
@@ -164,4 +166,5 @@
   --shadow-glow: 0 0 28px rgba(226, 190, 120, 0.3);
   --shadow-button: 0 4px 18px rgba(0, 0, 0, 0.4);
   --focus-ring: 0 0 0 3px rgba(226, 190, 120, 0.5);
+  --tour-overlay: rgba(0, 0, 0, 0.72);
 }

@@ -6,6 +6,8 @@ import { MagicIcon } from '@/components/ui/MagicIcon';
 
 interface PeriodIntentionCardProps {
   id: string;
+  /** Alvo do guia (F11): valor de `data-tour`. */
+  tour?: string;
   label: string;
   placeholder?: string;
   value: string;
@@ -16,9 +18,9 @@ interface PeriodIntentionCardProps {
 }
 
 /** Intenção de um período (semana, mês, ano): sparkles + label + caderno pautado. */
-export function PeriodIntentionCard({ id, label, placeholder, value, onChange, onBlur, rows = 3, maxLength = 1000 }: PeriodIntentionCardProps) {
+export function PeriodIntentionCard({ id, tour, label, placeholder, value, onChange, onBlur, rows = 3, maxLength = 1000 }: PeriodIntentionCardProps) {
   return (
-    <GlassCard className="mg-intention">
+    <GlassCard className="mg-intention" data-tour={tour}>
       <label htmlFor={id} className="mg-intention__head">
         <MagicIcon name="sparkles" size="sm" decorative />
         <span className="mg-intention__label">{label}</span>

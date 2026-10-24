@@ -1,0 +1,76 @@
+/* TourCelebration (F11): celebração final do guia */
+
+.mg-tour-done {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-tour);
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+  background: var(--tour-overlay);
+  animation: mg-tour-done-fade var(--duration) var(--ease);
+}
+
+.mg-tour-done__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 380px;
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-solid);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.mg-tour-done__card:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-card), var(--focus-ring);
+}
+
+.mg-tour-done__glow {
+  display: inline-flex;
+  padding: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--gold-halo);
+  box-shadow: var(--shadow-glow);
+  animation: mg-tour-done-glow 2.4s var(--ease) infinite;
+}
+
+.mg-tour-done__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+}
+
+.mg-tour-done__text {
+  color: var(--text-secondary);
+}
+
+@keyframes mg-tour-done-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mg-tour-done-glow {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-tour-done__glow {
+    animation: none;
+  }
+}

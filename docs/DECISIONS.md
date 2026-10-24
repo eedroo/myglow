@@ -95,6 +95,10 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Landing pública em `/` (sem sessão), com pré-visualizações da app em markup estático.
 - Testes: a partir da Fase 10 só Vitest + lista de verificação manual; sem novos testes Playwright (os existentes ficam no repositório, fora da verificação das fases).
 
+## Onboarding guiado (Fase 11)
+- O guia interactivo substitui a apresentação de slides: 15 passos, máquina de estados pura (`src/lib/tour/`), alvos marcados por `data-tour`, avança com as acções reais da pessoa, pausável e retomável entre dispositivos (estado gravado no utilizador).
+- Termina dentro da primeira lição do Grimório. É para todos os utilizadores.
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

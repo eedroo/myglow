@@ -19,7 +19,7 @@ export function WakeMoodCard({ mood, note, onMoodChange, onNoteChange, onNoteBlu
   const t = useTranslations('day');
   const labels = t.raw('moodLabels') as MoodLabels;
   return (
-    <GlassCard className="mg-wake">
+    <GlassCard className="mg-wake" data-tour="wake-mood">
       <MoodScale name="wake-mood" legend={t('wake.title')} labels={labels} value={mood} onChange={onMoodChange} />
       <Field id="wake-note" label={t('wake.note')}>
         <TextInput

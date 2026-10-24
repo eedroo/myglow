@@ -13,6 +13,8 @@ interface GlassCardProps {
   children?: ReactNode;
   'aria-labelledby'?: string;
   id?: string;
+  /** Alvo do guia (F11). */
+  'data-tour'?: string;
 }
 
 export function GlassCard({ as: Tag = 'section', variant, title, header, className, children, ...rest }: GlassCardProps) {

@@ -1,8 +1,6 @@
-/** Fluxo de entrada (F10): registo → nascimento → apresentação → hoje. Puro. */
-export type OnboardingStep = 'birth' | 'welcome' | 'done';
+/** Fluxo de entrada: registo → nascimento → hoje (F11: o guia interactivo começa em /today). Puro. */
+export type OnboardingStep = 'birth' | 'done';
 
-export function nextOnboardingStep(u: { onboardedAt: Date | null; welcomeSeenAt: Date | null }): OnboardingStep {
-  if (!u.onboardedAt) return 'birth';
-  if (!u.welcomeSeenAt) return 'welcome';
-  return 'done';
+export function nextOnboardingStep(u: { onboardedAt: Date | null }): OnboardingStep {
+  return u.onboardedAt ? 'done' : 'birth';
 }

@@ -1,0 +1,81 @@
+/* TourBubble (F11): balão em vidro junto ao alvo (posição dada pelo @floating-ui/dom) */
+
+.mg-tour-bubble {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-tour);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(340px, calc(100vw - 2 * var(--space-4)));
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-solid);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+  animation: mg-tour-bubble-in var(--duration) var(--ease);
+}
+
+.mg-tour-bubble:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-card), var(--focus-ring);
+}
+
+/* Sem alvo: ao centro do ecrã */
+.mg-tour-bubble--center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* No leitor de lições: discreto, no topo, sem escurecer */
+.mg-tour-bubble--top {
+  top: calc(var(--space-7) + var(--space-5));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-3) var(--space-4);
+}
+
+.mg-tour-bubble__step {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--gold-accent);
+}
+
+.mg-tour-bubble__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+.mg-tour-bubble__text {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-tour-bubble__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+@keyframes mg-tour-bubble-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-tour-bubble {
+    animation: none;
+  }
+}

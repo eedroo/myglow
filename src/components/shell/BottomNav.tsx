@@ -34,6 +34,7 @@ export function BottomNav({ labels, ariaLabel }: BottomNavProps) {
           <Link
             key={key}
             href={href}
+            data-tour={key === 'week' ? 'nav-week' : key === 'grimoire' ? 'nav-grimoire' : undefined}
             className={active ? 'mg-bottom-nav__item mg-bottom-nav__item--active' : 'mg-bottom-nav__item'}
             aria-current={active ? 'page' : undefined}
           >

@@ -426,8 +426,7 @@ Textos em `beta`, `feedback`, `welcome`, `firstSteps` e `landing`. O beta só ap
 | `BetaBadge` | server | `beta-badge.css` | `mg-beta-badge` | pílula pequena "beta" ao lado do logo (`TopBar`, `LandingNav`) |
 | `BetaNotice` | server | `beta-notice.css` | `mg-beta-notice`, `__icon`, `__text` | registo, por cima das caixas de consentimento: `sparkles` pequeno + texto secundário, sem caixa |
 | `FeedbackDialog` | client | `feedback.css` | `mg-feedback`, `__dialog`, `__title`, `__form`, `__thanks`, `__actions`, `--link` | botão (ou link discreto `--link`) que abre um `<dialog>`: tipo (Problema · Ideia · Elogio · Outro, `SegmentedControl`), mensagem, enviar → `sendFeedback`; depois "Obrigada! Lemos tudo." |
-| `WelcomeTour` | client | `welcome.css` | `mg-welcome`, `__skip`, `__slide`, `--active`, `__art`, `__title`, `__text`, `__dots`, `__dot`, `--current`, `__actions` | `/welcome`, ecrã inteiro: 4 slides (swipe, setas, teclado), pontos de progresso, "Saltar"; o último botão e "Saltar" → `markWelcomeSeen` → `/today` |
-| `FirstStepsCard` | server | `first-steps.css` | `mg-first-steps`, `__list`, `__step`, `--done`, `__check`, `__link`, `__footer` | topo do `/today`: 4 passos com ✓ (intenção de hoje, primeira lição, plano da semana, lembretes/instalação); "Dispensar" (`dismissFirstSteps`) e "Rever a apresentação"; some quando tudo está feito |
+| `FirstStepsCard` | server | `first-steps.css` | `mg-first-steps`, `__list`, `__step`, `--done`, `__check`, `__link`, `__footer` | topo do `/today`: 4 passos com ✓ (intenção de hoje, primeira lição, plano da semana, lembretes/instalação); "Dispensar" (`dismissFirstSteps`) e "Fazer o guia" (`StartTourButton`); some quando tudo está feito e enquanto o guia está activo (F11) |
 | `LandingPage` | server | `landing.css` | `mg-landing`, `__section`, `__inner`, `--split`, `--reverse`, `__eyebrow`, `__title`, `__lead`, `__text`, `__note` | `/` sem sessão: compõe as secções abaixo (coluna única no telemóvel; texto/pré-visualização lado a lado a partir de 1024 px; máximo 1120 px) |
 | `LandingNav` | server | `landing-nav.css` | `mg-landing-nav`, `__brand`, `__actions` | logo + `BetaBadge`, `LocaleSwitcher`, "Entrar" (ghost) e "Criar conta" (primary) |
 | `Hero` | server | `landing-hero.css` | `mg-landing-hero`, `__copy`, `__title`, `__lead`, `__actions` | título, subtítulo, "Criar conta grátis" / "Já tenho conta" + `AppPreview today` |
@@ -443,7 +442,7 @@ Textos em `beta`, `feedback`, `welcome`, `firstSteps` e `landing`. O beta só ap
 | `LocaleSwitcher` | client | `locale-switcher.css` | `mg-locale-switcher`, `__option`, `--active` | PT · BR · EN: grava o cookie `NEXT_LOCALE` e faz `router.refresh()` |
 | `AppPreview` | server | `preview.css` | `mg-preview`, `__frame`, `__screen`, `__label` | moldura de telemóvel em CSS com markup estático (primitivos reais com dados de exemplo, `aria-hidden`, sem DB nem hooks): `today` (lua, intenção, 3 `CheckTile`, humor 4), `week` (dias com progresso), `grimoire` (região + 4 `LessonNode`) |
 
-Integração F10: `TopBar` mostra `BetaBadge` junto ao logo; `/profile` ganhou `FeedbackDialog` e "Rever a apresentação" (`mg-journey__extras`); as definições têm `FeedbackDialog` na secção Privacidade; `/today` tem o link discreto de feedback por baixo do `Motto` (`mg-feedback__footer`); `IntentionCard` tem `id="intencao"` (âncora dos primeiros passos); `RegisterForm` aceita `betaNotice` e `invite`.
+Integração F10: `TopBar` mostra `BetaBadge` junto ao logo; `/profile` ganhou `FeedbackDialog` e "Rever a apresentação" (`mg-journey__extras`; F11: passou a "Fazer o guia"); as definições têm `FeedbackDialog` na secção Privacidade; `/today` tem o link discreto de feedback por baixo do `Motto` (`mg-feedback__footer`); `IntentionCard` tem `id="intencao"` (âncora dos primeiros passos); `RegisterForm` aceita `betaNotice` e `invite`.
 
 ### Backoffice (`src/components/admin/`, rota `/admin`)
 
@@ -453,3 +452,18 @@ Só para os emails em `ADMIN_EMAILS` (separados por vírgulas); para os outros a
 |---|---|---|---|---|
 | `StatTile` | server | `admin.css` | `mg-stat`, `__value`, `__label`, `__hint` | número em destaque + rótulo (+ nota opcional); em grelha `mg-admin__tiles` |
 | `AdminTable` | server | `admin.css` | `mg-admin-table`, `__num` | tabela simples com cabeçalho; colunas numéricas alinhadas à direita (`tabular-nums`) |
+
+### Guia interactivo — F11 (`src/components/tour/`, lógica em `src/lib/tour/`)
+
+Substitui a apresentação de slides (`/welcome` redirecciona para `/today`). Máquina de estados pura (`machine.ts`: `startTour`, `reduceTour`, `currentStep`, `isOnStepRoute`, `progress`, `tourStateFromDb`), 15 passos em `steps.ts`, alvos por `data-tour`, acções reais via `bus.ts` (`emitTourEvent`/`onTourEvent`; guarda os eventos dos últimos 3 s até alguém ouvir). Persistência: `saveTourState`/`restartTour` (`actions/tour.ts`; campos `tourStep`, `tourStartedAt`, `tourPausedAt`, `tourCompletedAt`). Espera que fechem os diálogos abertos (`dialog[open]`: termos, nível, novidades, avisos).
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `TourProvider` | client | — | — | nos layouts `(app)` e `(focus)`, com o estado inicial do servidor (e o local da sessão, se for mais recente); escuta o bus, grava cada mudança, navega quando "Continuar" leva a outra rota; Esc pausa (se não houver diálogo aberto); salta passos opcionais sem alvo no ecrã; tocar na aba em destaque também avança; sai da frente enquanto o alvo tem o seu popover aberto (`aria-expanded`); expõe `useTour()` |
+| `TourOverlay` | client | `tour.css` | `mg-tour`, `__mask`, `__ring` | SVG em ecrã inteiro com recorte arredondado à volta do alvo (`getBoundingClientRect` + `ResizeObserver` + scroll), fundo `--tour-overlay`, anel dourado; fora do recorte os cliques não fazem nada, o alvo continua clicável |
+| `TourBubble` | client | `tour-bubble.css` | `mg-tour-bubble`, `__step`, `__title`, `__text`, `__actions`, `--center`, `--top` | balão em vidro posicionado com `@floating-ui/dom` (flip/shift); "2 de 15"; "Continuar" (passos `next`), "Fazer depois" (opcionais), "Pausar"; recebe o foco; `aria-live`; no leitor de lições fica discreto no topo |
+| `TourResumePill` | client | `tour-pill.css` | `mg-tour-pill` | pausado ou noutra rota: "Continuar o guia" acima da `BottomNav` (retoma e leva à rota do passo) |
+| `TourCelebration` | client | `tour-done.css` | `mg-tour-done`, `__glow`, `__title`, `__text` | passo final: brilho dourado, título, texto e "Começar" (grava e volta a `/today`); com `prefers-reduced-motion` só fade |
+| `StartTourButton` | client | — | — | "Fazer o guia": `restartTour` e abre `/today` no primeiro passo (perfil e primeiros passos) |
+
+Alvos `data-tour`: `sky-card` (`DailySkyCard`), `reading-card` (`DailyReadingCard`), `intention` (`IntentionCard`), `morning-banish` (`CheckTile` do banimento), `wake-mood` (`WakeMoodCard`), `body-focus` (`BodyFocusBar`), `night-section` (`NightSection`), `avatar` (`LevelBadge`), `nav-week` e `nav-grimoire` (`BottomNav`), `week-intention` (`PeriodIntentionCard` da semana), `lesson-current` (`LessonNode` actual).

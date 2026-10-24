@@ -144,6 +144,11 @@ model User {
   wellbeingConsentAt DateTime? // consentimento explícito para dados de bem-estar (humor, sono, peso)
   // F10: boas-vindas e beta
   welcomeSeenAt         DateTime?
+  // F11: guia interactivo (welcomeSeenAt fica por compatibilidade, já não entra no fluxo)
+  tourStep        String? // id do passo actual; null = não começou
+  tourStartedAt   DateTime?
+  tourCompletedAt DateTime?
+  tourPausedAt    DateTime?
   firstStepsDismissedAt DateTime?
   inviteCode            String? // código de convite usado no registo
   createdAt        DateTime   @default(now())

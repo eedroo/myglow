@@ -8,6 +8,7 @@ import { mergeWeekPatches } from '@/lib/week/patch';
 import type { WeekData, WeekPatch } from '@/types/week';
 import { useAutosaveQueue, type SaveOk } from './useAutosaveQueue';
 import { useGlow } from '@/components/glow/GlowProvider';
+import { emitTourEvent, weekTourEvents } from '@/lib/tour/bus';
 
 type WeekTextField = 'title' | 'intention' | 'reflection';
 
@@ -16,7 +17,15 @@ export function useWeekAutosave(initial: WeekData) {
   const [data, setData] = useState<WeekData>(initial);
   const start = initial.start;
 
-  const save = useCallback((patch: WeekPatch) => patchWeek(start, patch), [start]);
+  // Gravado com sucesso: avisa o guia (F11) da intenção da semana.
+  const save = useCallback(
+    (patch: WeekPatch) =>
+      patchWeek(start, patch).then((r) => {
+        if (r.ok) weekTourEvents(patch).forEach(emitTourEvent);
+        return r;
+      }),
+    [start],
+  );
   const onSaved = useCallback((updatedAt: string) => setData((d) => ({ ...d, updatedAt })), []);
   const glow = useGlow();
   const onResult = useCallback((r: SaveOk) => r.xp && glow.push(r.xp), [glow]);

@@ -9,7 +9,6 @@ import { TOUR_STEPS, type TourEvent, type TourStep } from '@/lib/tour/steps';
 import { TourOverlay } from './TourOverlay';
 import { TourBubble } from './TourBubble';
 import { TourResumePill } from './TourResumePill';
-import { TourCelebration } from './TourCelebration';
 
 /**
  * Estado mais recente desta sessão no browser. Os layouts (app) e (focus) montam cada um o seu provider e o
@@ -169,7 +168,7 @@ export function TourProvider({ initial, children }: { initial: TourState; childr
 
   let ui: ReactNode = null;
   if (active && step) {
-    const bubble = (variant: 'anchored' | 'center' | 'top') => (
+    const bubble = (variant: 'anchored' | 'center') => (
       <TourBubble
         step={step}
         index={index}
@@ -181,19 +180,7 @@ export function TourProvider({ initial, children }: { initial: TourState; childr
         onPause={() => dispatch('pause')}
       />
     );
-    if (step.id === 'done') {
-      ui = (
-        <TourCelebration
-          onFinish={async () => {
-            dispatch('next');
-            await saving.current;
-            router.push('/today');
-          }}
-        />
-      );
-    } else if (step.route === 'lesson') {
-      ui = bubble('top'); // dentro da lição: discreto, sem escurecer
-    } else if (!step.target || targetMissing) {
+    if (!step.target || targetMissing) {
       ui = (
         <>
           <TourOverlay target={null} />

@@ -1464,7 +1464,7 @@
   },
   "tour": {
     "continue": "Continue",
-    "later": "Do it later",
+    "later": "Skip",
     "pause": "Pause",
     "resume": "Resume the guide",
     "start": "Start",
@@ -1520,15 +1520,7 @@
       },
       "first-lesson": {
         "title": "Your first lesson",
-        "text": "Tap the glowing lesson to begin."
-      },
-      "in-lesson": {
-        "title": "Swipe through the cards",
-        "text": "Swipe to move on. At the end, the lesson is complete."
-      },
-      "done": {
-        "title": "You're all set",
-        "text": "This is your rhythm: an intention in the morning, care through the day, reflection at night and a little study. Enjoy the path."
+        "text": "Tap the glowing lesson to begin. From here on, the path is yours."
       }
     }
   }

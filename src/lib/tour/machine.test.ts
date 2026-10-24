@@ -34,8 +34,8 @@ describe('máquina do guia', () => {
     expect(reduceTour(at('welcome'), 'back')).toEqual(at('welcome'));
   });
 
-  it('done + next → status done; depois disso nada muda', () => {
-    const done = reduceTour(at('done'), 'next');
+  it('abrir a primeira lição termina o guia; depois disso nada muda', () => {
+    const done = reduceTour(at('first-lesson'), 'lesson-opened');
     expect(done.status).toBe('done');
     expect(reduceTour(done, 'resume')).toEqual(done);
     expect(currentStep(done)).toBeNull();
@@ -48,12 +48,12 @@ describe('máquina do guia', () => {
     expect(s.status).toBe('done');
   });
 
-  it('progress em banish → 5 de 15', () => {
-    expect(progress(at('banish'))).toEqual({ index: 5, total: 15 });
+  it('progress em banish → 5 de 13', () => {
+    expect(progress(at('banish'))).toEqual({ index: 5, total: 13 });
   });
 
   it('isOnStepRoute: lições do Grimório (não o quiz) e rotas exactas', () => {
-    const lesson = TOUR_STEPS.find((s) => s.route === 'lesson')!;
+    const lesson = { id: 'x', route: 'lesson', target: null, advanceOn: 'next' } as const;
     expect(isOnStepRoute(lesson, '/grimoire/vida-magica/o-que-e-magia')).toBe(true);
     expect(isOnStepRoute(lesson, '/grimoire/vida-magica/quiz')).toBe(false);
     expect(isOnStepRoute(lesson, '/grimoire')).toBe(false);
@@ -95,5 +95,7 @@ describe('máquina do guia', () => {
     expect(tourStateFromDb({ tourStep: null, tourPausedAt: null, tourCompletedAt: d })).toEqual({ stepId: null, status: 'done' });
     expect(tourStateFromDb({ tourStep: null, tourPausedAt: null, tourCompletedAt: null })).toEqual(IDLE_TOUR);
     expect(tourStateFromDb({ tourStep: 'antigo', tourPausedAt: null, tourCompletedAt: null })).toEqual(IDLE_TOUR);
+    // Passos retirados (dentro da lição): quem lá estava já tinha aberto a primeira lição.
+    expect(tourStateFromDb({ tourStep: 'in-lesson', tourPausedAt: null, tourCompletedAt: null })).toEqual({ stepId: null, status: 'done' });
   });
 });

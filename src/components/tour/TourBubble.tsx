@@ -10,9 +10,9 @@ interface TourBubbleProps {
   step: TourStep;
   index: number;
   total: number;
-  /** Elemento em destaque; sem ele o balão fica ao centro (ou no topo, no leitor de lições). */
+  /** Elemento em destaque; sem ele o balão fica ao centro. */
   target: HTMLElement | null;
-  variant?: 'anchored' | 'center' | 'top';
+  variant?: 'anchored' | 'center';
   onNext: () => void;
   onLater: () => void;
   onPause: () => void;
@@ -44,9 +44,7 @@ export function TourBubble({ step, index, total, target, variant = 'anchored', o
     ref.current?.focus({ preventScroll: true });
   }, [step.id]);
 
-  const classes = ['mg-tour-bubble', variant === 'center' && 'mg-tour-bubble--center', variant === 'top' && 'mg-tour-bubble--top']
-    .filter(Boolean)
-    .join(' ');
+  const classes = variant === 'center' ? 'mg-tour-bubble mg-tour-bubble--center' : 'mg-tour-bubble';
   const titleId = `tour-${step.id}-title`;
   return (
     <div ref={ref} className={classes} role="dialog" aria-modal="false" aria-labelledby={titleId} tabIndex={-1}>

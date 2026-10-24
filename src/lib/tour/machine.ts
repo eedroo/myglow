@@ -1,4 +1,4 @@
-import { TOUR_STEPS, type TourEvent, type TourStep } from './steps';
+import { RETIRED_FINAL_STEPS, TOUR_STEPS, type TourEvent, type TourStep } from './steps';
 
 /** Máquina de estados do guia. Pura: os componentes só reagem ao estado. */
 export interface TourState {
@@ -67,5 +67,6 @@ export function tourStateFromDb(u: { tourStep: string | null; tourPausedAt: Date
   if (u.tourStep && TOUR_STEPS.some((s) => s.id === u.tourStep)) {
     return { stepId: u.tourStep, status: u.tourPausedAt ? 'paused' : 'active' };
   }
-  return u.tourCompletedAt ? { stepId: null, status: 'done' } : IDLE_TOUR;
+  const finished = !!u.tourCompletedAt || (!!u.tourStep && RETIRED_FINAL_STEPS.includes(u.tourStep));
+  return finished ? { stepId: null, status: 'done' } : IDLE_TOUR;
 }

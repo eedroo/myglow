@@ -1464,7 +1464,7 @@
   },
   "tour": {
     "continue": "Continuar",
-    "later": "Fazer depois",
+    "later": "Saltar",
     "pause": "Pausar",
     "resume": "Continuar o guia",
     "start": "Começar",
@@ -1520,15 +1520,7 @@
       },
       "first-lesson": {
         "title": "A tua primeira lição",
-        "text": "Toca na lição que está a brilhar para começar."
-      },
-      "in-lesson": {
-        "title": "Passa os cards",
-        "text": "Desliza para avançar. No fim, a lição fica concluída."
-      },
-      "done": {
-        "title": "Tudo pronto",
-        "text": "Este é o teu ritmo: intenção de manhã, cuidado durante o dia, reflexão à noite e um pouco de estudo. Bom caminho."
+        "text": "Toca na lição que está a brilhar para começar. A partir daqui, o caminho é teu."
       }
     }
   }

@@ -26,10 +26,12 @@ export const TOUR_STEPS: TourStep[] = [
   { id: 'week-tab', route: '/today', target: 'nav-week', advanceOn: 'next', placement: 'top' }, // "Continuar" navega para /week
   { id: 'week', route: '/week', target: 'week-intention', advanceOn: 'week-intention-saved', optional: true },
   { id: 'grimoire-tab', route: '/week', target: 'nav-grimoire', advanceOn: 'next', placement: 'top' }, // navega para /grimoire
+  // Último passo: abrir a lição termina o guia (dentro da lição o balão tapava as perguntas).
   { id: 'first-lesson', route: '/grimoire', target: 'lesson-current', advanceOn: 'lesson-opened' },
-  { id: 'in-lesson', route: 'lesson', target: null, advanceOn: 'lesson-completed' }, // balão discreto no topo do leitor
-  { id: 'done', route: 'lesson', target: null, advanceOn: 'next' }, // celebração final
 ];
+
+/** Passos que existiram até à v1 do guia (dentro da lição): quem lá estava conta como concluído. */
+export const RETIRED_FINAL_STEPS = ['in-lesson', 'done'];
 
 export type TourStepId = (typeof TOUR_STEPS)[number]['id'];
 export const isTourStepId = (id: string | null | undefined): id is string => !!id && TOUR_STEPS.some((s) => s.id === id);

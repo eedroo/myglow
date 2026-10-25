@@ -7,6 +7,8 @@
 }
 
 html {
+  /* iPhone: sem o "elástico" ao puxar no topo (a barra descia e deixava um vazio por cima) */
+  overscroll-behavior-y: none;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -54,6 +56,7 @@ body {
 
 body {
   min-height: 100dvh;
+  overscroll-behavior-y: none;
   background: var(--bg-base);
   background-image: var(--bg-gradient);
   background-attachment: fixed;

@@ -23,6 +23,11 @@ import { getEntitlements } from '@/lib/entitlements/server';
 import { EntitlementsProvider } from '@/components/premium/EntitlementsProvider';
 import { SentryUser } from '@/components/providers/SentryUser';
 import { touchActivity } from '@/lib/activity';
+import { todayInTz } from '@/lib/dates';
+import { dueRecap, isWorthShowing } from '@/lib/recap/period';
+import { recapDaysTouched, recentRecapViews } from '@/lib/recap/server';
+import { hasWellbeingConsent } from '@/lib/account/consent';
+import { RecapAutoOpen } from '@/components/recap/RecapAutoOpen';
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const session = await auth();
@@ -50,6 +55,24 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     ? await getPendingAnnouncements({ id: session.user.id, locale: glow.locale, timezone: glow.timezone, createdAt: glow.createdAt }).catch(() => [])
     : [];
   const xpTotal = glow?.xpTotal ?? 0;
+
+  // F13: retrospectiva devida (semana ou mês que acabou) abre sozinha, mas nunca por cima do guia,
+  // dos termos, da subida de nível ou das novidades.
+  let recapHref: string | null = null;
+  if (glow) {
+    const tour = tourStateFromDb(glow);
+    const blocked = policyPending || tour.status === 'active' || levelFor(xpTotal).level > glow.levelSeen || announcements.length > 0;
+    const due = dueRecap({
+      today: todayInTz(glow.timezone),
+      accountCreatedDay: todayInTz(glow.timezone, glow.createdAt),
+      seen: blocked ? [] : await recentRecapViews(session.user.id),
+      blocked,
+    });
+    if (due) {
+      const touched = await recapDaysTouched(session.user.id, due, await hasWellbeingConsent(session.user.id));
+      if (isWorthShowing(touched)) recapHref = `/recap/${due.kind === 'WEEK' ? 'week' : 'month'}/${due.key}`;
+    }
+  }
 
   // F12: um registo por dia em que a pessoa abre a app (+ lastActiveAt, usado na pré-geração IA e nos avisos).
   // Sem esperar: nunca atrasa nem parte a página.
@@ -92,6 +115,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
               {children}
               {policyPending && <PolicyUpdateDialog askWellbeing={!glow?.wellbeingConsentAt} />}
               <WhatsNewDialog items={announcements} />
+              {recapHref && <RecapAutoOpen href={recapHref} />}
             </TourProvider>
           </EntitlementsProvider>
         </GlowProvider>

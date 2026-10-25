@@ -1,0 +1,132 @@
+/* RecapPlayer (F13): retrospectiva em ecrã inteiro, ao estilo de stories */
+
+.mg-recap {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-recap);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-base);
+  color: var(--text-primary);
+}
+
+.mg-recap:focus {
+  outline: none;
+}
+
+.mg-recap__top {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + var(--space-3)) var(--space-4) 0;
+}
+
+.mg-recap__bars {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.mg-recap__bar {
+  flex: 1;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--recap-bar);
+  transition: background var(--duration) var(--ease);
+}
+
+.mg-recap__bar--done {
+  background: var(--recap-bar-fill);
+}
+
+.mg-recap__close {
+  display: inline-flex;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.mg-recap__close:focus-visible,
+.mg-recap__nav button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-recap__stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.mg-recap__slide {
+  display: flex;
+  width: 100%;
+  animation: mg-recap-in var(--duration) var(--ease);
+}
+
+.mg-recap__slide--back {
+  animation-name: mg-recap-in-back;
+}
+
+.mg-recap__preload {
+  display: none;
+}
+
+/* Anterior/Seguinte: para leitores de ecrã e teclado; aparecem quando recebem o foco */
+.mg-recap__nav {
+  position: absolute;
+  inset: auto 0 calc(env(safe-area-inset-bottom) + var(--space-4));
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  pointer-events: none;
+}
+
+.mg-recap__nav button {
+  pointer-events: auto;
+}
+
+.mg-recap__nav button:not(:focus-visible) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@keyframes mg-recap-in {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes mg-recap-in-back {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-recap__slide,
+  .mg-recap__slide--back {
+    animation: none;
+  }
+
+  .mg-recap__bar {
+    transition: none;
+  }
+}

@@ -82,6 +82,20 @@ describe('convites e última chamada', () => {
     );
   });
 
+  it('F13: retrospectiva por ver no início da semana e do mês', () => {
+    const recapUrl = { week: '/recap/week/2026-05-03?auto=1', month: '/recap/month/2026-04?auto=1' };
+    expect(buildNotification('WEEK_START', { ...base, locale: 'PT_BR', weekHeadline: 'Tema', recapUrl })).toMatchObject({
+      title: 'Tema', body: 'A sua retrospectiva está pronta. Veja e planeje a semana.', url: recapUrl.week,
+    });
+    expect(buildNotification('MONTH_START', { ...base, locale: 'PT_PT', recapUrl })).toMatchObject({ url: recapUrl.month });
+    expect(buildNotification('WEEK_START', { ...base, locale: 'EN', recapUrl: { month: recapUrl.month } }).url).toBe('/week');
+    for (const locale of LOCALES) {
+      for (const kind of ['WEEK_START', 'MONTH_START'] as const) {
+        expect(buildNotification(kind, { ...base, locale, recapUrl }).body.length).toBeLessThanOrEqual(MAX_BODY);
+      }
+    }
+  });
+
   it('última chamada da reflexão abre o período anterior', () => {
     expect(buildNotification('WEEK_REFLECTION_LAST', { ...base, locale: 'PT_PT', periodKey: 'W2026-05-03' }).url).toBe('/week/2026-05-03');
     expect(buildNotification('MONTH_REFLECTION_LAST', { ...base, locale: 'PT_PT', periodKey: 'M2026-05' }).url).toBe('/month/2026-05');

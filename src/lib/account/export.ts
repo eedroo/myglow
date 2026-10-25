@@ -1,6 +1,6 @@
 import type {
   BirthProfile, CourseProgress, DailyEntry, LessonProgress, Month, NotificationLog, NotificationPrefs,
-  ProjectIntention, User, UserActiveDay, UserAiContent, Week, WeekDayNote, XpEvent, Year,
+  ProjectIntention, RecapView, User, UserActiveDay, UserAiContent, Week, WeekDayNote, XpEvent, Year,
 } from '@prisma/client';
 import { fromDbDate } from '@/lib/dates';
 
@@ -32,6 +32,8 @@ export interface ExportSource {
   aiContent: UserAiContent[];
   /** F12: dias em que a pessoa abriu a app. */
   activeDays: UserActiveDay[];
+  /** F13: retrospectivas vistas (e concluídas). */
+  recapViews: RecapView[];
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -66,6 +68,12 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       premiumInterestAt: iso(u.premiumInterestAt),
     },
     activeDays: data.activeDays.map((a) => day(a.day)),
+    recapViews: data.recapViews.map((r) => ({
+      kind: r.kind,
+      periodKey: r.periodKey,
+      firstSeenAt: iso(r.firstSeenAt),
+      completedAt: iso(r.completedAt),
+    })),
     birthProfile: b && {
       birthDate: day(b.birthDate),
       birthTime: b.birthTime,

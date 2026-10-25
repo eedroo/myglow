@@ -78,6 +78,31 @@ export default async function AdminMetricsPage() {
         <p className="mg-admin__note">Aberto = tocado na notificação ou na caixa de avisos.</p>
       </GlassCard>
 
+      <GlassCard title="Retrospectivas (4 semanas)">
+        {m.recaps.length === 0 ? (
+          <p>Sem retrospectivas vistas.</p>
+        ) : (
+          <div className="mg-admin__scroll">
+            <AdminTable
+              caption="Retrospectivas abertas nas últimas 4 semanas"
+              columns={[
+                { key: 'kind', label: 'Tipo' },
+                { key: 'viewed', label: 'Vistas', numeric: true },
+                { key: 'completed', label: 'Concluídas', numeric: true },
+                { key: 'rate', label: '% conclusão', numeric: true },
+              ]}
+              rows={m.recaps.map((r) => ({
+                kind: r.kind === 'WEEK' ? 'Semanal' : 'Mensal',
+                viewed: n(r.viewed),
+                completed: n(r.completed),
+                rate: r.viewed ? `${Math.round((100 * r.completed) / r.viewed)}%` : '–',
+              }))}
+            />
+          </div>
+        )}
+        <p className="mg-admin__note">Concluída = chegou ao último slide.</p>
+      </GlassCard>
+
       <GlassCard title="Feedback">
         <div className="mg-admin__tiles">
           <MetricCard value={n(m.feedback.total)} label="Total" />

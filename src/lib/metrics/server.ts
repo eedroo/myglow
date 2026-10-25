@@ -1,5 +1,5 @@
 import 'server-only';
-import type { NotificationKind } from '@prisma/client';
+import type { NotificationKind, RecapKind } from '@prisma/client';
 import { db } from '@/lib/db';
 import { addDays, fromDbDate, todayInTz, toDbDate, type DateISO } from '@/lib/dates';
 import { activeByDay, activeUsers, type ActiveRow, type SignupRow } from './active';
@@ -16,6 +16,8 @@ export interface AdminMetrics {
   grimoire: { lessons7: number; coursesCompleted: number };
   feedback: { total: number; last7: number };
   notifications: { kind: NotificationKind; sent: number; opened: number }[];
+  /** F13: retrospectivas abertas nas últimas 4 semanas, por tipo. */
+  recaps: { kind: RecapKind; viewed: number; completed: number }[];
 }
 
 const RETENTION_WEEKS = 8;
@@ -27,7 +29,7 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
   const since = addDays(today, -(RETENTION_WEEKS * 7 + 37));
   const ago = (d: number) => new Date(now.getTime() - d * DAY_MS);
 
-  const [total, new7, new30, premium, interested, activeRows, signups, funnel, lessons7, coursesCompleted, fbTotal, fb7, notif] =
+  const [total, new7, new30, premium, interested, activeRows, signups, funnel, lessons7, coursesCompleted, fbTotal, fb7, notif, recaps] =
     await Promise.all([
       db.user.count(),
       db.user.count({ where: { createdAt: { gte: ago(7) } } }),
@@ -44,6 +46,9 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
       db.$queryRaw<{ kind: NotificationKind; sent: bigint; opened: bigint }[]>`
         SELECT kind, count(*) AS sent, count("readAt") AS opened
         FROM "NotificationLog" WHERE "sentAt" >= ${ago(7)} GROUP BY 1 ORDER BY 2 DESC`,
+      db.$queryRaw<{ kind: RecapKind; viewed: bigint; completed: bigint }[]>`
+        SELECT kind, count(*) AS viewed, count("completedAt") AS completed
+        FROM "RecapView" WHERE "firstSeenAt" >= ${ago(28)} GROUP BY 1 ORDER BY 1`,
     ]);
 
   const rows: ActiveRow[] = activeRows.map((r) => ({ userId: r.userId, day: fromDbDate(r.day) }));
@@ -57,6 +62,7 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
     grimoire: { lessons7, coursesCompleted },
     feedback: { total: fbTotal, last7: fb7 },
     notifications: notif.map((n) => ({ kind: n.kind, sent: Number(n.sent), opened: Number(n.opened) })),
+    recaps: recaps.map((r) => ({ kind: r.kind, viewed: Number(r.viewed), completed: Number(r.completed) })),
   };
 }
 

@@ -197,6 +197,7 @@ model User {
   premiumInterestAt DateTime? // tocou em "Quero saber quando abrir"
   activeDays        UserActiveDay[]
   featureOverrides  FeatureOverride[]
+  recapViews        RecapView[]
 }
 
 enum FeedbackKind {
@@ -531,4 +532,22 @@ model FeatureOverride {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, key])
+}
+
+// F13: retrospectiva vista (e concluída) por período
+enum RecapKind {
+  WEEK
+  MONTH
+}
+
+model RecapView {
+  userId      String
+  kind        RecapKind
+  periodKey   String // WEEK: 'YYYY-MM-DD' (domingo) · MONTH: 'YYYY-MM'
+  firstSeenAt DateTime  @default(now())
+  completedAt DateTime? // chegou ao último slide
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, kind, periodKey])
+  @@index([firstSeenAt])
 }

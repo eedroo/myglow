@@ -14,12 +14,15 @@ import { getPeriodAwards } from '@/lib/xp/queries';
 import { getWeekReading } from '@/lib/ai/queries';
 import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
 import { WeekReadingCard } from '@/components/reading/WeekReadingCard';
+import { RecapEntryCard } from '@/components/recap/RecapEntryCard';
+import { weekRecapPeriod } from '@/lib/recap/period';
+import { hasSeenRecap, isRecapShowable } from '@/lib/recap/server';
 
 /** Planner de uma semana (domingo → sábado). */
 export async function WeekPage({ start }: { start: DateISO }) {
   const session = await auth();
   if (!session?.user) redirect('/login');
-  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { timezone: true } });
+  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { timezone: true, createdAt: true } });
   if (!user) redirect('/login');
 
   const [data, t, rawLocale, weekAwards, reading, natal, ta] = await Promise.all([
@@ -40,6 +43,11 @@ export async function WeekPage({ start }: { start: DateISO }) {
     reading.personal.status === 'ready'
       ? Object.fromEntries(reading.personal.data.focusAreas.map((f) => [f.area, f.note]))
       : undefined;
+  // F13: semana actual → retrospectiva da anterior; semana passada → a dela.
+  const recapPeriod = start === currentStart ? weekRecapPeriod(addDays(start, -7)) : start < currentStart ? weekRecapPeriod(start) : null;
+  const [recapShow, recapSeen] = recapPeriod
+    ? await Promise.all([isRecapShowable({ id: session.user.id, ...user }, recapPeriod), hasSeenRecap(session.user.id, recapPeriod)])
+    : [false, true];
   const defaultTitle = t('defaultTitle', { n: week.weekOfMonth, month: formatMonthName(week.year, week.month, locale) });
 
   return (
@@ -64,6 +72,7 @@ export async function WeekPage({ start }: { start: DateISO }) {
           <WeekReadingCard personal={reading.personal} pending={reading.pending} />
         }
         focusNotes={focusNotes}
+        recap={recapPeriod && recapShow ? <RecapEntryCard period={recapPeriod} unseen={!recapSeen} /> : undefined}
       />
     </>
   );

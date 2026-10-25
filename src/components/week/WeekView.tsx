@@ -30,10 +30,12 @@ interface WeekViewProps {
   reading?: ReactNode;
   /** Foco sugerido por área (da leitura pessoal da semana). */
   focusNotes?: Partial<Record<ProjectArea, string>>;
+  /** F13: cartão da retrospectiva (antes da reflexão). */
+  recap?: ReactNode;
 }
 
 /** Cartões interactivos da semana com gravação automática. */
-export function WeekView({ initial, days, previousWeightGrams, wellbeing, defaultTitle, sky, glowNote, reading, focusNotes }: WeekViewProps) {
+export function WeekView({ initial, days, previousWeightGrams, wellbeing, defaultTitle, sky, glowNote, reading, focusNotes, recap }: WeekViewProps) {
   const t = useTranslations();
   const { data, setText, setWeight, setDayNote, setProject, status, errorKey, flush } = useWeekAutosave(initial);
   const onBlur = () => void flush();
@@ -93,6 +95,7 @@ export function WeekView({ initial, days, previousWeightGrams, wellbeing, defaul
           />
         </div>
         <div className="mg-week__cell mg-week__cell--reflection">
+          {recap}
           <PeriodReflectionCard
             id="week-reflection"
             label={t('week.reflection.title')}

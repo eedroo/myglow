@@ -49,6 +49,7 @@ const source = {
     model: 'm', promptVersion: 1, createdAt: at,
   }],
   activeDays: [{ userId: 'u1', day: toDbDate('2026-10-01') }, { userId: 'u1', day: toDbDate('2026-10-02') }],
+  recapViews: [{ userId: 'u1', kind: 'WEEK', periodKey: '2026-10-18', firstSeenAt: at, completedAt: null }],
   // Não faz parte da origem, mas se alguém o passar por engano não pode aparecer.
   pushSubscriptions: [{ endpoint: 'https://push.example.com/SEGREDO', p256dh: 'SEGREDO_P256DH', auth: 'SEGREDO_AUTH' }],
 } as unknown as ExportSource;
@@ -61,11 +62,13 @@ describe('buildExport', () => {
     expect(out.format).toBe('myglow-export-v1');
     for (const key of [
       'exportedAt', 'user', 'birthProfile', 'dailyEntries', 'weeks', 'months', 'years', 'projectIntentions', 'xpEvents',
-      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays',
+      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays', 'recapViews',
     ]) expect(out, key).toHaveProperty(key);
     // F12: plano e dias activos.
     expect(out.user).toMatchObject({ plan: 'PREMIUM', planSince: at.toISOString(), planExpiresAt: null, premiumInterestAt: at.toISOString() });
     expect(out.activeDays).toEqual(['2026-10-01', '2026-10-02']);
+    // F13: retrospectivas vistas.
+    expect(out.recapViews).toEqual([{ kind: 'WEEK', periodKey: '2026-10-18', firstSeenAt: at.toISOString(), completedAt: null }]);
     expect(out.grimoire.lessonProgress).toHaveLength(1);
     expect(out.grimoire.courseProgress[0]).toMatchObject({ course: 'vida-magica', bestScore: 5 });
     expect(out.glow).toEqual({ total: 320, bestMagicStreak: 6 });

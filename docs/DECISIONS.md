@@ -108,6 +108,14 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Vercel Analytics (sem cookies) só nas páginas públicas.
 - Cópia diária encriptada no GitHub (30 dias) e teste de reposição mensal; procedimentos em `docs/RUNBOOK.md`.
 
+## Retrospectiva (Fase 13)
+- Retrospectiva semanal e mensal em slides, sem IA e grátis.
+- Abre sozinha na primeira visita: semanal de domingo a quarta, mensal do dia 1 ao 5. Se as duas coincidirem, só a mensal.
+- Mínimo de 2 dias registados.
+- Slides sem dados são omitidos; comparações só quando sobem; bem-estar só com consentimento.
+- O último slide liga ao Guia (cadeado para quem não é premium) e à reflexão se a janela de Glow estiver aberta.
+- `RecapView` guarda vista e concluída.
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

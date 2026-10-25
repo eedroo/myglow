@@ -1,0 +1,57 @@
+/* RecapEntryCard (F13): cartão compacto para rever a retrospectiva */
+
+.mg-recap-entry {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: box-shadow var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.mg-recap-entry:hover {
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.mg-recap-entry:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-recap-entry__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.mg-recap-entry__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mg-recap-entry__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.mg-recap-entry__period {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-recap-entry__dot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--gold-500);
+  box-shadow: var(--shadow-glow);
+}

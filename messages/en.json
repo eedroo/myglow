@@ -803,6 +803,7 @@
       },
       "weekStart": {
           "readyBody": "Your theme for the week is here. Ready to plan your week?",
+          "recapBody": "Your recap is ready. Take a look and plan your week.",
         "title": "A new week begins",
         "body": "Plan your week by Tuesday and earn {points} Glow."
       },
@@ -812,6 +813,7 @@
       },
       "monthStart": {
           "readyBody": "Your month is ready{rituals, plural, =0 {} one {, with # ritual} other {, with # rituals}}. Set your intention.",
+          "recapBody": "Your month in review is ready. Take a look and plan your month.",
         "title": "A new month begins",
         "body": "Set the month's intention and goals and earn {points} Glow."
       },
@@ -1531,5 +1533,106 @@
     "lockLabel": "Premium content",
     "interest": "Tell me when it opens",
     "interestDone": "Deal, we'll let you know."
+  },
+  "recap": {
+    "meta": {
+      "week": "Week in review",
+      "month": "Month in review"
+    },
+    "label": {
+      "week": "Week in review",
+      "month": "Month in review"
+    },
+    "close": "Close",
+    "prev": "Previous",
+    "next": "Next",
+    "slide": "slide",
+    "progress": "{n} of {total}",
+    "cover": {
+      "weekTitle": "Your week",
+      "monthTitle": "Your {month}",
+      "weekText": "{title}.",
+      "monthText": "Your month in numbers.",
+      "intentionLabel": "Your intention was:",
+      "intention": "“{intention}”",
+      "noIntention": "Let's look at what you lived."
+    },
+    "days": {
+      "title": "{n, plural, one {# day with you} other {# days with you}}",
+      "complete": "{n, plural, one {# complete day} other {# complete days}}",
+      "streak": "Longest streak: {n, plural, one {# day} other {# days}}",
+      "moreWeek": "{n} more than last week",
+      "moreMonth": "{n} more than last month",
+      "dotsLabel": "The days of this period"
+    },
+    "level": {
+      "empty": "{date}: nothing logged",
+      "partial": "{date}: logged",
+      "complete": "{date}: complete day"
+    },
+    "glow": {
+      "title": "Glow",
+      "text": "Every bit of care lit up your glow.",
+      "moreWeek": "{n} more Glow than last week",
+      "moreMonth": "{n} more Glow than last month",
+      "progressLabel": "Level progress",
+      "levelUp": "You reached {level}."
+    },
+    "rituals": {
+      "title": "Your rituals",
+      "count": "{done} of {of}",
+      "morning": "Morning ritual",
+      "night": "Night ritual",
+      "banish": "Banishings"
+    },
+    "body": {
+      "title": "Your body",
+      "water": "Water",
+      "stretch": "Stretching",
+      "workout": "Workout",
+      "days": "{n, plural, one {# day} other {# days}}",
+      "weight": "From {from} kg to {to} kg",
+      "sparkLabel": "Weight across {n} weigh-ins"
+    },
+    "rest": {
+      "title": "How you woke up",
+      "wake": "Average waking mood",
+      "mood": "Average mood",
+      "sleep": "Sleep goal",
+      "count": "{done} of {of}"
+    },
+    "grimoire": {
+      "title": "In the Grimoire",
+      "lessons": "{n, plural, one {# lesson completed} other {# lessons completed}}",
+      "badge": "New badge: {course}"
+    },
+    "sky": {
+      "titleWeek": "This week's sky",
+      "titleMonth": "This month's sky"
+    },
+    "highlight": {
+      "title": "Your best day",
+      "intentionLabel": "Your intention that day:",
+      "intention": "“{intention}”"
+    },
+    "closing": {
+      "title": "What now?",
+      "weekText": "A new week begins.",
+      "monthText": "A new month begins.",
+      "guideTitle": "Your Guide",
+      "guideTeaserWeek": "There's a reading about your week waiting for you.",
+      "guideTeaserMonth": "There's a reading about your month waiting for you.",
+      "guideSoon": "Your Guide's reading is coming soon.",
+      "planWeek": "Plan the week",
+      "planMonth": "Plan the month",
+      "reflection": "Write your reflection (+{points} Glow)",
+      "close": "Close"
+    },
+    "entry": {
+      "title": "See your recap",
+      "week": "Week of {range}",
+      "month": "{month}",
+      "unseen": "Not seen yet"
+    }
   }
 }

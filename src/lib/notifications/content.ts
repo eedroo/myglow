@@ -44,6 +44,8 @@ export interface NotificationContext {
   periodKey?: string;
   /** Grimório do dia (GRIMOIRE e GRIMOIRE_LAST), com a próxima lição e os seus ganchos. */
   grimoire?: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
+  /** F13: retrospectiva elegível e por ver (WEEK_START e MONTH_START): o aviso abre-a. */
+  recapUrl?: { week?: string; month?: string };
 }
 
 const clip = (s: string, max: number) => (s.length <= max ? s : `${s.slice(0, max - 1).trimEnd()}…`);
@@ -112,6 +114,10 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
         ? t('notifications.push.weekStart.readyBody')
         : t('notifications.push.weekStart.body', { points: XP_POINTS.WEEK_PLAN });
       url = '/week';
+      if (ctx.recapUrl?.week) {
+        body = t('notifications.push.weekStart.recapBody');
+        url = ctx.recapUrl.week;
+      }
       break;
     case 'WEEK_END':
       title = t('notifications.push.weekEnd.title');
@@ -124,6 +130,10 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
         ? t('notifications.push.monthStart.readyBody', { rituals: ctx.monthRituals ?? 0 })
         : t('notifications.push.monthStart.body', { points: XP_POINTS.MONTH_PLAN });
       url = '/month';
+      if (ctx.recapUrl?.month) {
+        body = t('notifications.push.monthStart.recapBody');
+        url = ctx.recapUrl.month;
+      }
       break;
     case 'MONTH_END':
       title = t('notifications.push.monthEnd.title');

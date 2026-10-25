@@ -21,6 +21,9 @@ import { getMonthReading } from '@/lib/ai/queries';
 import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
 import { MonthReadingCard } from '@/components/reading/MonthReadingCard';
 import { RitualsCard } from '@/components/reading/RitualsCard';
+import { RecapEntryCard } from '@/components/recap/RecapEntryCard';
+import { monthRecapPeriod } from '@/lib/recap/period';
+import { hasSeenRecap, isRecapShowable } from '@/lib/recap/server';
 
 /** Planner mensal (intenção, metas, reflexão) + calendário, céu, retrógrados, semanas e estatísticas. */
 export async function MonthPlannerPage({ year, month }: { year: number; month: number }) {
@@ -28,7 +31,7 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
   if (!session?.user) redirect('/login');
   const user = await db.user.findUnique({
     where: { id: session.user.id },
-    select: { timezone: true, hemisphere: true },
+    select: { timezone: true, hemisphere: true, createdAt: true },
   });
   if (!user) redirect('/login');
 
@@ -55,6 +58,11 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
   const currentWeekStart = weekStartOf(overview.today);
   const title = formatMonthYear(year, month, locale);
   const signLabel = natal ? ta(`signs.${natal.bodies.SUN.sign}`) : null;
+  // F13: mês actual → retrospectiva do anterior; mês passado → a dele.
+  const recapPeriod = isCurrent ? monthRecapPeriod(key(prev)) : key({ year, month }) < key(current) ? monthRecapPeriod(key({ year, month })) : null;
+  const [recapShow, recapSeen] = recapPeriod
+    ? await Promise.all([isRecapShowable({ id: session.user.id, ...user }, recapPeriod), hasSeenRecap(session.user.id, recapPeriod)])
+    : [false, true];
   const ritualsPending = reading.pending.filter((r) => r.kind === 'MONTH_RITUALS');
   const readingPending = reading.pending.filter((r) => r.kind !== 'MONTH_RITUALS');
 
@@ -85,6 +93,7 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
         retrogrades: <RetrogradesCard periods={data.retrogrades} today={overview.today} />,
         weeks: <MonthWeeksList year={year} month={month} weeks={overview.weeks} currentWeekStart={currentWeekStart} />,
         stats: data.isFuture ? null : <PeriodStatsCard stats={data.stats} />,
+        recap: recapPeriod && recapShow ? <RecapEntryCard period={recapPeriod} unseen={!recapSeen} /> : null,
         reading: (
           <MonthReadingCard
             energy={reading.energy}

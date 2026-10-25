@@ -488,3 +488,25 @@ Substitui a apresentação de slides (`/welcome` redirecciona para `/today`). M�
 | `StartTourButton` | client | — | — | "Fazer o guia": `restartTour` e abre `/today` no primeiro passo (perfil e primeiros passos) |
 
 Alvos `data-tour`: `sky-card` (`DailySkyCard`), `reading-card` (`DailyReadingCard`), `intention` (`IntentionCard`), `morning-banish` (`CheckTile` do banimento), `wake-mood` (`WakeMoodCard`), `body-focus` (`BodyFocusBar`), `night-section` (`NightSection`), `avatar` (`LevelBadge`), `nav-week` e `nav-grimoire` (`BottomNav`), `week-intention` (`PeriodIntentionCard` da semana), `lesson-current` (`LessonNode` actual).
+
+### Retrospectiva — F13 (`src/components/recap/`, lógica em `src/lib/recap/`, rotas `/recap/week/[start]`, `/recap/month/[ym]`)
+
+Stories da semana ou do mês que acabou, sem IA e grátis. Lógica pura em `period.ts` (`weekRecapPeriod`, `monthRecapPeriod`, `isEnded`, `dueRecap`, `isWorthShowing`) e `build.ts` (`buildRecap` → `RecapSlide[]`); recolha em `server.ts`; `recapSeen`/`recapCompleted` em `actions/recap.ts` (tabela `RecapView`). Celebrar, nunca culpar: slide sem dados é omitido, comparações só quando sobem, números sem cores de bom/mau; humor, sono e peso só com consentimento de bem-estar. Sem avanço automático.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `RecapPlayer` | client | `recap.css` | `mg-recap`, `__bars`, `__bar`, `__bar--done`, `__close`, `__stage`, `__nav`, `__slide` | ecrã inteiro (`position: fixed`, `--z-recap`, por cima da `TopBar` e da `BottomNav`); uma barra por slide; toque na metade direita avança e na esquerda recua; deslizar horizontal; setas do teclado; Esc e o botão fechar voltam a `closeHref`; "Anterior/Seguinte" para leitores de ecrã (visíveis com foco); `recapSeen` ao montar e `recapCompleted` ao chegar ao último; pré-carrega o slide seguinte (escondido) |
+| `RecapSlideView` | client | `recap-slide.css` | `mg-recap-slide`, `--{type}`, `--bg-1`…`--bg-4` | região `aria-live="polite"`; escolhe o componente do slide; fundo `--recap-bg-*` em rodízio |
+| `RecapCover` | client | `recap-slide.css` | `mg-recap-cover` | "A sua semana" / "O seu {mês}", datas e a intenção da pessoa entre aspas |
+| `RecapDays` | client | `recap-slide.css` | `mg-recap-days`, `__dots`, `__dot--{level}`, `__grid` | dias registados (contagem), completos, maior sequência, "a mais" só se subir; 7 pontos (semana) ou mini calendário (mês) com as opacidades de nível existentes |
+| `RecapGlow` | client | `recap-slide.css` | `mg-recap-glow`, `__bar`, `__fill` | "+{n} Glow", ícone do nível, barra de progresso do nível; "Você chegou a {nível}" se subiu |
+| `RecapRituals` | client | `recap-slide.css` | `mg-recap-list` | ritual da manhã e da noite "x de y", banimentos |
+| `RecapBody` | client | `recap-slide.css` | `mg-recap-list`, `mg-recap-body__spark` | água, alongamento, treino; peso "De {kg} para {kg}" com sparkline sem juízo |
+| `RecapRest` | client | `recap-slide.css` | `mg-recap-list` | acordar e humor em média (ícone `mood-*`), meta de sono |
+| `RecapGrimoire` | client | `recap-slide.css` | `mg-recap-grimoire` | lições concluídas; "Novo emblema: {curso}" com o ícone do emblema |
+| `RecapSky` | client | `recap-slide.css` | `mg-recap-sky`, `__item` | fases principais (semana); + eclipses, ingressos do Sol, sabbats e retrógrados (mês), com ícone e data |
+| `RecapHighlight` | client | `recap-slide.css` | `mg-recap-highlight` | "O seu melhor dia": dia da semana e data, intenção desse dia |
+| `RecapClosing` | client | `recap-slide.css` | `mg-recap-closing`, `__actions` | "E agora?"; Guia: `PremiumLock` (`title`/`teaser` de `recap`) ou "chega em breve"; "Planejar a semana/o mês", "Escrever a reflexão (+Glow)" se a janela estiver aberta, "Fechar" |
+| `RecapCountUp` | client | `recap-count.css` | `mg-recap-count` | número grande na tipografia de destaque, de 0 ao valor em 800 ms; sem animação com `prefers-reduced-motion` |
+| `RecapEntryCard` | server | `recap-entry.css` | `mg-recap-entry`, `__icon`, `__text`, `__title`, `__period`, `__dot` | cartão compacto "Ver a retrospectiva" com ícone e período; ponto dourado "por ver" sem `RecapView`; na Semana (antes da reflexão) e no Mês (junto às estatísticas) |
+| `RecapAutoOpen` | client | — | — | no layout `(app)`: `router.push` para a retrospectiva com `?auto=1`, uma vez por sessão (`sessionStorage`), nunca dentro de `/recap` |

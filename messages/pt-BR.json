@@ -803,6 +803,7 @@
       },
       "weekStart": {
           "readyBody": "O tema da sua semana chegou. Que tal planejar a semana?",
+          "recapBody": "A sua retrospectiva está pronta. Veja e planeje a semana.",
         "title": "Uma nova semana começa",
         "body": "Planeje sua semana até terça e ganhe {points} Glow."
       },
@@ -812,6 +813,7 @@
       },
       "monthStart": {
           "readyBody": "Seu mês está pronto{rituals, plural, =0 {} one {, com # ritual} other {, com # rituais}}. Defina sua intenção.",
+          "recapBody": "A sua retrospectiva do mês está pronta. Veja e planeje o mês.",
         "title": "Um novo mês começa",
         "body": "Defina a intenção e as metas do mês e ganhe {points} Glow."
       },
@@ -1531,5 +1533,106 @@
     "lockLabel": "Conteúdo premium",
     "interest": "Quero saber quando abrir",
     "interestDone": "Combinado, avisamos você."
+  },
+  "recap": {
+    "meta": {
+      "week": "Retrospectiva da semana",
+      "month": "Retrospectiva do mês"
+    },
+    "label": {
+      "week": "Retrospectiva da semana",
+      "month": "Retrospectiva do mês"
+    },
+    "close": "Fechar",
+    "prev": "Anterior",
+    "next": "Próximo",
+    "slide": "slide",
+    "progress": "{n} de {total}",
+    "cover": {
+      "weekTitle": "A sua semana",
+      "monthTitle": "O seu {month}",
+      "weekText": "{title}.",
+      "monthText": "O mês em números.",
+      "intentionLabel": "A sua intenção foi:",
+      "intention": "“{intention}”",
+      "noIntention": "Vamos ver o que você viveu."
+    },
+    "days": {
+      "title": "{n, plural, one {# dia com você} other {# dias com você}}",
+      "complete": "{n, plural, one {# dia completo} other {# dias completos}}",
+      "streak": "Maior sequência: {n, plural, one {# dia} other {# dias}}",
+      "moreWeek": "{n, plural, one {# a mais que a semana passada} other {# a mais que a semana passada}}",
+      "moreMonth": "{n, plural, one {# a mais que o mês passado} other {# a mais que o mês passado}}",
+      "dotsLabel": "Os dias do período"
+    },
+    "level": {
+      "empty": "{date}: sem registo",
+      "partial": "{date}: registrado",
+      "complete": "{date}: dia completo"
+    },
+    "glow": {
+      "title": "Glow",
+      "text": "Cada cuidado acendeu a sua luz.",
+      "moreWeek": "{n} Glow a mais que a semana passada",
+      "moreMonth": "{n} Glow a mais que o mês passado",
+      "progressLabel": "Progresso do nível",
+      "levelUp": "Você chegou a {level}."
+    },
+    "rituals": {
+      "title": "Os seus rituais",
+      "count": "{done} de {of}",
+      "morning": "Ritual da manhã",
+      "night": "Ritual da noite",
+      "banish": "Banimentos"
+    },
+    "body": {
+      "title": "O seu corpo",
+      "water": "Água",
+      "stretch": "Alongamento",
+      "workout": "Treino",
+      "days": "{n, plural, one {# dia} other {# dias}}",
+      "weight": "De {from} kg para {to} kg",
+      "sparkLabel": "Peso em {n} pesagens"
+    },
+    "rest": {
+      "title": "Como você acordou",
+      "wake": "Acordar em média",
+      "mood": "Humor em média",
+      "sleep": "Meta de sono",
+      "count": "{done} de {of}"
+    },
+    "grimoire": {
+      "title": "No Grimório",
+      "lessons": "{n, plural, one {# lição concluída} other {# lições concluídas}}",
+      "badge": "Novo emblema: {course}"
+    },
+    "sky": {
+      "titleWeek": "O céu desta semana",
+      "titleMonth": "O céu deste mês"
+    },
+    "highlight": {
+      "title": "O seu melhor dia",
+      "intentionLabel": "A sua intenção nesse dia:",
+      "intention": "“{intention}”"
+    },
+    "closing": {
+      "title": "E agora?",
+      "weekText": "Uma nova semana começa.",
+      "monthText": "Um novo mês começa.",
+      "guideTitle": "O seu Guia",
+      "guideTeaserWeek": "Há uma leitura sobre a sua semana à sua espera.",
+      "guideTeaserMonth": "Há uma leitura sobre o seu mês à sua espera.",
+      "guideSoon": "A leitura do seu Guia chega em breve.",
+      "planWeek": "Planejar a semana",
+      "planMonth": "Planejar o mês",
+      "reflection": "Escrever a reflexão (+{points} Glow)",
+      "close": "Fechar"
+    },
+    "entry": {
+      "title": "Ver a retrospectiva",
+      "week": "Semana {range}",
+      "month": "{month}",
+      "unseen": "Por ver"
+    }
   }
 }

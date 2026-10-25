@@ -1,0 +1,10 @@
+/* RecapCountUp (F13): número grande na tipografia de destaque */
+
+.mg-recap-count {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 18vw, 7rem);
+  font-weight: var(--weight-light);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}

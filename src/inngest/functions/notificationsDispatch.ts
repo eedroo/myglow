@@ -2,6 +2,7 @@ import { inngest } from '../client';
 import { db, isUserGoneError } from '@/lib/db';
 import { applyBackoff, BACKOFF_KINDS, dueCandidates, dueNotifications } from '@/lib/notifications/schedule';
 import { buildNotification } from '@/lib/notifications/content';
+import { readyRecapUrls } from '@/lib/recap/server';
 import { notificationContext, notificationState } from '@/lib/notifications/queries';
 import { deliver } from '@/lib/notifications/send';
 import { reportJobFailure } from '../sentry';
@@ -71,9 +72,12 @@ export const notificationsDispatch = inngest.createFunction(
           const todo = applyBackoff(pendingNow, history.map((h) => ({ kind: h.kind, periodKey: h.periodKey, read: h.readAt !== null })), u.date);
           if (!todo.length) return 0;
           const ctx = await notificationContext(u.id, { locale: u.locale, date: u.date, tz: u.tz, hemisphere: u.hemisphere });
+          // F13: no início da semana/mês, se houver retrospectiva por ver, o aviso abre-a.
+          const recapKinds = { week: todo.some((d) => d.kind === 'WEEK_START'), month: todo.some((d) => d.kind === 'MONTH_START') };
+          const recapUrl = recapKinds.week || recapKinds.month ? await readyRecapUrls(u.id, u.date, recapKinds) : undefined;
           let count = 0;
           for (const d of todo) {
-            const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, { ...ctx, periodKey: d.periodKey, grimoire: state.grimoire }) });
+            const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, { ...ctx, periodKey: d.periodKey, grimoire: state.grimoire, recapUrl }) });
             if (res !== 'duplicate') count++;
           }
           return count;

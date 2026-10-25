@@ -46,6 +46,8 @@ export interface NotificationContext {
   grimoire?: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
   /** F13: retrospectiva elegível e por ver (WEEK_START e MONTH_START): o aviso abre-a. */
   recapUrl?: { week?: string; month?: string };
+  /** F15: primeiro nome de quem pediu ou aceitou a amizade. */
+  friendName?: string;
 }
 
 const clip = (s: string, max: number) => (s.length <= max ? s : `${s.slice(0, max - 1).trimEnd()}…`);
@@ -196,6 +198,17 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       url = '/grimoire';
       break;
     }
+    // F15: amigos. Só o primeiro nome de quem pediu ou aceitou.
+    case 'FRIEND_REQUEST':
+      title = t('notifications.push.friendRequest.title', { name: ctx.friendName ?? '' });
+      body = t('notifications.push.friendRequest.body');
+      url = '/friends';
+      break;
+    case 'FRIEND_ACCEPTED':
+      title = t('notifications.push.friendAccepted.title', { name: ctx.friendName ?? '' });
+      body = t('notifications.push.friendAccepted.body');
+      url = '/friends';
+      break;
   }
   return { title: clip(title, MAX_TITLE), body: clip(body, MAX_BODY), url };
 }

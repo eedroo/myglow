@@ -19,7 +19,7 @@ export default async function AdminUserPage({ params }: { params: { id: string }
       id: true, email: true, name: true, createdAt: true, lastActiveAt: true, plan: true, planSource: true, planSince: true,
       planExpiresAt: true, premiumInterestAt: true, tourCompletedAt: true, locale: true,
       featureOverrides: { select: { key: true, enabled: true } },
-      _count: { select: { courseProgress: { where: { completedAt: { not: null } } }, activeDays: true } },
+      _count: { select: { courseProgress: { where: { completedAt: { not: null } } }, activeDays: true, friendshipsA: true, friendshipsB: true } },
     },
   });
   if (!user) notFound();
@@ -50,6 +50,7 @@ export default async function AdminUserPage({ params }: { params: { id: string }
             { k: 'Interesse no premium', v: date(user.premiumInterestAt) },
             { k: 'Guia concluído', v: user.tourCompletedAt ? date(user.tourCompletedAt) : 'Não' },
             { k: 'Cursos concluídos', v: user._count.courseProgress },
+            { k: 'Amigos', v: user._count.friendshipsA + user._count.friendshipsB },
           ]}
         />
       </GlassCard>

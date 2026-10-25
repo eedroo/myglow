@@ -19,6 +19,7 @@ import { StartTourButton } from '@/components/tour/StartTourButton';
 import { PremiumBadge } from '@/components/premium/PremiumBadge';
 import { getEntitlements } from '@/lib/entitlements/server';
 import { isAdminEmail } from '@/lib/admin';
+import { FriendsCard } from '@/components/friends/FriendsCard';
 
 /** /profile: nível, caminho dos níveis, emblemas do Grimório, streak mágico e histórico de Glow; definições no topo. */
 export async function JourneyPage() {
@@ -63,6 +64,7 @@ export async function JourneyPage() {
             : t('journey.max')}
         </p>
       </section>
+      <FriendsCard userId={session.user.id} />
       <LevelPathCard total={summary.total} />
       <BadgesCard badges={badges} />
       <StreakCard current={summary.magicStreak} best={summary.bestMagicStreak} />

@@ -14,6 +14,8 @@ import { guessHemisphere } from '@/lib/hemisphere';
 import { birthProfileSchema, type BirthProfileInput } from '@/lib/validation/onboarding';
 import { currentUserJobs } from '@/lib/ai/schedule';
 import { sendSafely, userEvents } from '@/inngest/client';
+import { clearFriendInviteCookie, inviterFromCookie, readFriendInviteCookie } from '@/lib/friends/invite';
+import { requestFriendship } from '@/lib/friends/service';
 
 export type BirthField = 'birthDate' | 'birthTime' | 'placeName' | 'timezone';
 
@@ -113,6 +115,10 @@ export async function saveBirthProfile(input: BirthProfileInput): Promise<SaveBi
   // Primeiras leituras (hoje, esta semana, este mês) — assíncronas, via Inngest.
   if (existing && !existing.onboardedAt) {
     await sendSafely(userEvents(userId, existing.locale, currentUserJobs(new Date(), userTimezone)));
+    // F15: veio por link de um amigo → pedido de amizade para quem convidou (aceita na app). Nunca falha o onboarding.
+    const inviter = await inviterFromCookie();
+    if (inviter && inviter.id !== userId) await requestFriendship(userId, inviter.id).catch(() => undefined);
+    if (readFriendInviteCookie()) clearFriendInviteCookie();
   }
 
   // Registo → nascimento → hoje, com o guia (a edição posterior volta às definições).

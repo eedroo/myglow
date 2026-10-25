@@ -1,0 +1,13 @@
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3125
+
+ ✓ Starting...
+[env] Variáveis de ambiente em falta ou inválidas: OPENAI_API_KEY, OPENAI_MODEL_DAILY, OPENAI_MODEL_RICH, RESEND_API_KEY, EMAIL_FROM, EMAIL_REPLY_TO, APP_URL, LEGAL_TERMS_VERSION, LEGAL_PRIVACY_VERSION, INNGEST_EVENT_KEY, INNGEST_SIGNING_KEY, UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN — funcionalidades de IA desactivadas até serem configuradas.
+ ✓ Ready in 1035ms
+[ratelimit] Upstash não configurado: pedidos sem limite.
+prisma:error 
+Invalid `prisma.userActiveDay.upsert()` invocation:
+
+
+Unique constraint failed on the fields: (`userId`,`day`)
+prisma:error Unique constraint failed on the fields: (`userId`,`day`)

@@ -1,0 +1,43 @@
+/* InviteLanding (F15): página pública /f/[code] */
+
+.mg-invite-landing {
+  display: flex;
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5) var(--space-4);
+}
+
+.mg-invite-landing__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: min(100%, 420px);
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-strong);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.mg-invite-landing__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+}
+
+.mg-invite-landing__text {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.mg-invite-landing__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}

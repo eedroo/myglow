@@ -775,6 +775,8 @@
   },
   "notifications": {
     "push": {
+      "friendRequest": {"title": "{name} quer ser seu amigo no MYGLOW", "body": "Veja o pedido e aceite se quiser caminhar junto."},
+      "friendAccepted": {"title": "{name} aceitou o seu pedido", "body": "Agora vocês acompanham a jornada um do outro."},
       "morning": {
         "body2": "O dia ainda está em branco. Escreva a primeira linha.",
         "body3": "Uma intenção basta. Escolha antes do café.",
@@ -1745,6 +1747,117 @@
       "activate": "Ativar o {name}",
       "deleteReports": "Apagar também todas as leituras",
       "deactivate": "Desligar o {name}"
+    }
+  },
+  "friends": {
+    "title": "Amigos",
+    "subtitle": "Quem caminha com você. Eles veem o seu nível e a sua jornada, nunca o seu diário.",
+    "back": "Voltar aos amigos",
+    "levelLine": "Nível {level} · {name}",
+    "streakLabel": "Sequência de {n} dias",
+    "pendingLabel": "{n, plural, one {# pedido de amizade} other {# pedidos de amizade}}",
+    "list": {
+      "title": "{n, plural, =0 {Os seus amigos} one {# amigo} other {# amigos}}",
+      "empty": "Convide alguém para caminhar com você."
+    },
+    "invite": {
+      "title": "O seu convite",
+      "codeLabel": "O seu código: {code}",
+      "handleLabel": "O seu @",
+      "handlePlaceholder": "ex.: ana.luz",
+      "handleSave": "Salvar",
+      "noHandle": "Você ainda não tem um @.",
+      "handleChange": "Alterar",
+      "handleCreate": "Criar o meu @",
+      "share": "Partilhar convite",
+      "copy": "Copiar link",
+      "copied": "Link copiado.",
+      "shareTitle": "MYGLOW",
+      "shareText": "Venha acompanhar a minha jornada no MYGLOW",
+      "haveCode": "Tenho um código ou @",
+      "haveCodePlaceholder": "Código ou @",
+      "send": "Pedir amizade",
+      "sent": "Pedido enviado.",
+      "acceptedNow": "Agora vocês são amigos.",
+      "alreadyFriends": "Vocês já são amigos.",
+      "handleSaved": "@ salvo.",
+      "regenerated": "Novo código criado. O link antigo deixou de funcionar.",
+      "regenerate": "Gerar novo código",
+      "regenConfirm": "O link e o código atuais deixam de funcionar. Continuar?",
+      "regenYes": "Gerar novo",
+      "regenNo": "Cancelar"
+    },
+    "requests": {
+      "title": "{n, plural, one {# pedido} other {# pedidos}}",
+      "accept": "Aceitar",
+      "decline": "Recusar"
+    },
+    "outgoing": {
+      "title": "Pedidos enviados",
+      "waiting": "À espera de {name}",
+      "cancel": "Cancelar"
+    },
+    "profile": {
+      "title": "Perfil do amigo",
+      "level": "Nível {level} · {name}",
+      "since": "Amigos desde {date}",
+      "streakTitle": "Sequência mágica",
+      "streakNow": "Sequência atual",
+      "streakBest": "Melhor sequência",
+      "coursesTitle": "Grimório",
+      "coursesDone": "{n, plural, =0 {Nenhum curso concluído ainda} one {# curso concluído} other {# cursos concluídos}}",
+      "courseNow": "Agora em {course}: {done} de {total} lições",
+      "skyTitle": "Sol, Lua e Ascendente",
+      "sky": {
+        "sun": "Sol",
+        "moon": "Lua",
+        "asc": "Ascendente"
+      }
+    },
+    "menu": {
+      "remove": "Remover amigo",
+      "block": "Bloquear",
+      "removeConfirm": "Remover {name} dos seus amigos? {name} não será avisado(a).",
+      "blockConfirm": "Bloquear {name}? A amizade e os pedidos são apagados e {name} não poderá pedir de novo.",
+      "removeYes": "Remover",
+      "blockYes": "Bloquear",
+      "no": "Cancelar"
+    },
+    "landing": {
+      "unavailableTitle": "Convite indisponível",
+      "unavailableText": "Este convite já não está disponível.",
+      "home": "Conhecer o MYGLOW",
+      "title": "{name} convidou você para o MYGLOW",
+      "level": "Nível {level} no diário mágico",
+      "self": "Este é o seu próprio convite.",
+      "goFriends": "Ver os meus amigos",
+      "createAccount": "Criar conta",
+      "haveAccount": "Já tenho conta",
+      "request": "Pedir amizade a {name}",
+      "sent": "Pedido enviado a {name}.",
+      "nowFriends": "Agora você e {name} são amigos."
+    },
+    "card": {
+      "pending": "{n, plural, one {# pedido por responder} other {# pedidos por responder}}",
+      "count": "{n, plural, one {# amigo} other {# amigos}}",
+      "empty": "Convide alguém para caminhar com você"
+    },
+    "settings": {
+      "showBigThree": "Mostrar Sol, Lua e Ascendente aos amigos",
+      "showBigThreeHint": "Desligado, os amigos veem a sua esfera de luz dourada, sem as cores dos seus signos.",
+      "notifications": "Avisos de amigos (pedidos e aceitações)",
+      "blockedTitle": "Bloqueados",
+      "blockedEmpty": "Ninguém bloqueado.",
+      "unblock": "Desbloquear"
+    },
+    "errors": {
+      "invalidCode": "Código inválido ou indisponível.",
+      "rateLimited": "Muitos pedidos hoje. Tente de novo amanhã.",
+      "limitPending": "Você tem pedidos demais à espera. Cancele alguns primeiro.",
+      "unavailable": "Este pedido já não está disponível.",
+      "handleTaken": "Este @ não está disponível.",
+      "handleLength": "O @ precisa ter de 3 a 20 caracteres.",
+      "handleChars": "Use só letras minúsculas, números, ponto e sublinhado."
     }
   }
 }

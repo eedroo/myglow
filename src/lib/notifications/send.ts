@@ -61,6 +61,8 @@ export async function pushToUser(userId: string, payload: PushPayload): Promise<
 export async function deliver(
   userId: string,
   n: DueNotification & NotificationContent,
+  /** F15: `push: false` grava só na caixa de avisos (ex.: avisos de amigos desligados nas preferências). */
+  opts: { push?: boolean } = {},
 ): Promise<DeliverResult> {
   let logId: string;
   try {
@@ -74,6 +76,7 @@ export async function deliver(
     throw err;
   }
 
+  if (opts.push === false) return 'inbox-only';
   const ok = await pushToUser(userId, { title: n.title, body: n.body, url: n.url, tag: n.kind, id: logId });
   if (ok === 0) return 'inbox-only';
   await db.notificationLog.update({ where: { id: logId }, data: { pushed: true } });

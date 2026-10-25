@@ -49,7 +49,17 @@ If you don't want personalised readings, you can leave your birth data out or de
 
 **Guide (optional).** If you turn on the Guide, at the end of each week and month we send to the same AI provider: intentions, banishings, gratitudes, reflections, summaries, week notes and goals by area, plus the period's numbers (days, rituals, body, Glow, lessons). Mood, how you woke up and sleep are sent only as averages, and only if you allowed wellbeing data. Before sending we remove emails, phone numbers and links from the texts and shorten each field. We **never** send your name, email, weight, birth date and place, or your notes on how you woke up. We use the provider's paid API, which does not use this data to train models and may keep it for a limited time to detect abuse. The Guide is not a substitute for professional help.
 
-## 5. Processors
+## 5. Friends
+
+Friends in MYGLOW are **optional and mutual**: a friendship exists only once a request is accepted. You add someone through your personal link, an 8-character code or the @ you choose; there is no search by email.
+
+A friend sees **only**: your name, your light orb and level ring, your level, badges, magic streak (current and best), completed courses and the course in progress. Your Sun, Moon and Ascendant (and the orb colours, which reveal them) appear only if you turn that option on in Settings; it is off by default.
+
+A friend **never** sees anything from your journal, planners, Guide or wellbeing data.
+
+You can decline requests, remove friends or block someone at any time, without the other person being told. If you delete your account, your friends stop seeing you.
+
+## 6. Processors
 
 We use these providers, which process data only on our behalf and following our instructions:
 
@@ -65,11 +75,11 @@ We use these providers, which process data only on our behalf and following our 
 
 Some of these providers may process data outside the European Economic Area. In those cases, transfers rely on appropriate safeguards, namely the standard contractual clauses approved by the European Commission.
 
-## 6. Retention
+## 7. Retention
 
 We keep your data for as long as your account exists. When you delete your account, **all your data is removed immediately** from the database. It may remain in encrypted backups for up to {{DIAS_BACKUP}} days, after which it is erased.
 
-## 7. Your rights
+## 8. Your rights
 
 You have the right to:
 
@@ -83,14 +93,14 @@ You have the right to:
 
 To exercise any of these rights, write to [privacidade@onda.work](mailto:privacidade@onda.work).
 
-## 8. Minimum age
+## 9. Minimum age
 
 MYGLOW is for people aged **16 or over**. We do not knowingly collect data from anyone younger; if we learn that we have, we delete the account.
 
-## 9. Cookies
+## 10. Cookies
 
 We only use **essential** cookies: session (to keep you signed in), language and app preferences (for example, reading the Grimoire in Portuguese or hiding a notice). We do not use advertising or third-party analytics cookies.
 
-## 10. Changes to this policy
+## 11. Changes to this policy
 
 If we change this policy, we update the version at the top and ask you to accept it again in the app before you continue.

@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
  */
 
 const AUTH_PAGES = ['/login', '/register'];
-const PUBLIC_PREFIXES = ['/dev', '/api/test/'];
+const PUBLIC_PREFIXES = ['/dev', '/api/test/', '/f/']; // F15: /f/{código} (convite de amigo) abre com ou sem sessão
 /** F9: páginas abertas com ou sem sessão (links dos emails e documentos legais). */
 const PUBLIC_PAGES = ['/', '/forgot-password', '/reset-password', '/verify-email', '/confirm-email-change', '/privacy', '/terms', '/goodbye'];
 

@@ -20,8 +20,10 @@ const LIMITS: Record<string, { tokens: number; window: Window }> = {
   invite: { tokens: 10, window: '1 h' },
   feedback: { tokens: 5, window: '1 h' },
   guide: { tokens: 10, window: '1 d' },
+  'friend-request': { tokens: 20, window: '1 d' },
+  'friend-code': { tokens: 3, window: '1 d' },
 };
-type LimitName = 'ai-request' | 'push-test' | 'login' | 'reset-ip' | 'reset-email' | 'verify-resend' | 'export' | 'invite' | 'feedback' | 'guide';
+type LimitName = 'ai-request' | 'push-test' | 'login' | 'reset-ip' | 'reset-email' | 'verify-resend' | 'export' | 'invite' | 'feedback' | 'guide' | 'friend-request' | 'friend-code';
 
 const limiters = new Map<LimitName, Ratelimit>();
 let warned = false;
@@ -92,6 +94,15 @@ export function allowFeedback(userId: string): Promise<boolean> {
 /** F14: pedidos e regenerações do Guia (10/dia por utilizador). */
 export function allowGuideRequest(userId: string): Promise<boolean> {
   return allow('guide', userId);
+}
+
+/** F15: pedidos de amizade (20/dia) e novos códigos de amigo (3/dia) por utilizador. */
+export function allowFriendRequest(userId: string): Promise<boolean> {
+  return allow('friend-request', userId);
+}
+
+export function allowFriendCodeChange(userId: string): Promise<boolean> {
+  return allow('friend-code', userId);
 }
 
 /** IP do pedido (primeiro de `x-forwarded-for`, como na Vercel). */

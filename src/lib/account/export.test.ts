@@ -50,6 +50,9 @@ const source = {
   }],
   activeDays: [{ userId: 'u1', day: toDbDate('2026-10-01') }, { userId: 'u1', day: toDbDate('2026-10-02') }],
   recapViews: [{ userId: 'u1', kind: 'WEEK', periodKey: '2026-10-18', firstSeenAt: at, completedAt: null }],
+  friends: [{ id: 'u2', name: 'Bia', since: at }],
+  friendRequests: [{ direction: 'received', otherName: 'Caio', status: 'PENDING', createdAt: at, respondedAt: null }],
+  blocks: [{ name: 'Dora', createdAt: at }],
   guideReports: [{
     id: 'g1', userId: 'u1', kind: 'WEEK', periodKey: '2026-10-18', locale: 'pt-PT', status: 'READY', payload: { opening: 'Olá' },
     model: 'm', promptVersion: 1, inputHash: 'h', inputTokens: 10, outputTokens: 5, regenerations: 0, generatedAt: at, readAt: null, rating: 1,
@@ -66,11 +69,15 @@ describe('buildExport', () => {
     expect(out.format).toBe('myglow-export-v1');
     for (const key of [
       'exportedAt', 'user', 'birthProfile', 'dailyEntries', 'weeks', 'months', 'years', 'projectIntentions', 'xpEvents',
-      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays', 'recapViews', 'guideReports',
+      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays', 'recapViews', 'guideReports', 'friends', 'friendRequests', 'blocks',
     ]) expect(out, key).toHaveProperty(key);
     // F12: plano e dias activos.
     expect(out.user).toMatchObject({ plan: 'PREMIUM', planSince: at.toISOString(), planExpiresAt: null, premiumInterestAt: at.toISOString() });
     expect(out.activeDays).toEqual(['2026-10-01', '2026-10-02']);
+    // F15: amigos, pedidos e bloqueios (só nomes do outro lado).
+    expect(out.friends).toEqual([{ id: 'u2', name: 'Bia', since: at.toISOString() }]);
+    expect(out.friendRequests[0]).toMatchObject({ direction: 'received', otherName: 'Caio' });
+    expect(out.blocks).toEqual([{ name: 'Dora', createdAt: at.toISOString() }]);
     // F14: Guia (consentimento e leituras, sem o hash nem os tokens).
     expect(out.guideReports).toEqual([{
       kind: 'WEEK', periodKey: '2026-10-18', locale: 'pt-PT', status: 'READY', report: { opening: 'Olá' },

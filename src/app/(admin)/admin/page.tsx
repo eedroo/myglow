@@ -103,6 +103,24 @@ export default async function AdminMetricsPage() {
         <p className="mg-admin__note">Concluída = chegou ao último slide.</p>
       </GlassCard>
 
+      <GlassCard title="Amigos">
+        <div className="mg-admin__tiles">
+          <MetricCard value={n(m.friends.friendships)} label="Amizades" hint="total" />
+          <MetricCard
+            value={m.friends.active30 ? `${Math.round((100 * m.friends.activeWithFriend) / m.friends.active30)}%` : '–'}
+            label="Activos com 1+ amigo"
+            hint="30 dias"
+          />
+          <MetricCard value={n(m.friends.sent30)} label="Pedidos enviados" hint="30 dias" />
+          <MetricCard
+            value={m.friends.sent30 ? `${Math.round((100 * m.friends.accepted30) / m.friends.sent30)}%` : '–'}
+            label="Aceitação"
+            hint={`${n(m.friends.accepted30)} aceites`}
+          />
+          <MetricCard value={n(m.friends.invited)} label="Registos por convite de amigo" hint={`${n(m.friends.invited30)} em 30 dias`} />
+        </div>
+      </GlassCard>
+
       <GlassCard title="Guia (4 semanas)">
         <div className="mg-admin__tiles">
           <MetricCard value={n(m.guide.consented)} label="Com consentimento" hint="agora" />

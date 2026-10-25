@@ -90,7 +90,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
           <TopBar
             appName={t('common.appName')}
             homeLabel={t('shell.home')}
-            badge={<LevelBadge total={xpTotal} name={session.user.name} />}
+            badge={<LevelBadge total={xpTotal} name={session.user.name} userId={session.user.id} />}
             bell={<NotificationBell userId={session.user.id} />}
           />
         }

@@ -8,6 +8,7 @@ const LOCALES: Locale[] = ['PT_PT', 'PT_BR', 'EN'];
 const KINDS: NotificationKind[] = [
   'MORNING', 'BODY', 'NIGHT', 'WEEK_START', 'WEEK_END', 'MONTH_START', 'MONTH_END',
   'WEEK_PLAN_LAST', 'WEEK_REFLECTION_LAST', 'MONTH_PLAN_LAST', 'MONTH_REFLECTION_LAST', 'GRIMOIRE', 'GRIMOIRE_LAST',
+  'FRIEND_REQUEST', 'FRIEND_ACCEPTED',
 ];
 const PHASES = Object.keys(MOON_EMOJI) as MoonPhase[];
 const base = { date: '2026-05-06', tz: 'Europe/Lisbon' };
@@ -27,7 +28,7 @@ describe('buildNotification', () => {
               expect(n.title.length, `${locale} ${kind} ${phase} ${sign}: ${n.title}`).toBeLessThanOrEqual(MAX_TITLE);
               expect(n.body.length).toBeLessThanOrEqual(MAX_BODY);
               expect(n.title.endsWith('…'), n.title).toBe(false);
-              expect(n.url).toMatch(/^\/(today|week|month|grimoire)(\/[\d-]+)?$/);
+              expect(n.url).toMatch(/^\/(today|week|month|grimoire|friends)(\/[\d-]+)?$/);
             }
           }
         }
@@ -93,6 +94,22 @@ describe('convites e última chamada', () => {
       for (const kind of ['WEEK_START', 'MONTH_START'] as const) {
         expect(buildNotification(kind, { ...base, locale, recapUrl }).body.length).toBeLessThanOrEqual(MAX_BODY);
       }
+    }
+  });
+
+  it('F15: pedidos e aceitações de amizade nas 3 línguas, com o nome e a abrir /friends', () => {
+    const want = {
+      PT_BR: ['Ana quer ser seu amigo no MYGLOW', 'Ana aceitou o seu pedido'],
+      PT_PT: ['Ana quer ser teu amigo no MYGLOW', 'Ana aceitou o teu pedido'],
+      EN: ['Ana wants to be your friend on MYGLOW', 'Ana accepted your request'],
+    } as const;
+    for (const locale of LOCALES) {
+      const req = buildNotification('FRIEND_REQUEST', { ...base, locale, friendName: 'Ana' });
+      const acc = buildNotification('FRIEND_ACCEPTED', { ...base, locale, friendName: 'Ana' });
+      expect([req.title, acc.title]).toEqual(want[locale]);
+      expect(req.url).toBe('/friends');
+      expect(acc.url).toBe('/friends');
+      expect(req.body.length).toBeGreaterThan(0);
     }
   });
 

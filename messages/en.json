@@ -775,6 +775,8 @@
   },
   "notifications": {
     "push": {
+      "friendRequest": {"title": "{name} wants to be your friend on MYGLOW", "body": "See the request and accept if you'd like to walk together."},
+      "friendAccepted": {"title": "{name} accepted your request", "body": "Now you can follow each other's journey."},
       "morning": {
         "body2": "The day is still blank. Write the first line.",
         "body3": "One intention is enough. Pick it before coffee.",
@@ -1745,6 +1747,117 @@
       "activate": "Turn on {name}",
       "deleteReports": "Also delete all readings",
       "deactivate": "Turn off {name}"
+    }
+  },
+  "friends": {
+    "title": "Friends",
+    "subtitle": "The people walking with you. They see your level and your journey, never your journal.",
+    "back": "Back to friends",
+    "levelLine": "Level {level} · {name}",
+    "streakLabel": "{n}-day streak",
+    "pendingLabel": "{n, plural, one {# friend request} other {# friend requests}}",
+    "list": {
+      "title": "{n, plural, =0 {Your friends} one {# friend} other {# friends}}",
+      "empty": "Invite someone to walk with you."
+    },
+    "invite": {
+      "title": "Your invite",
+      "codeLabel": "Your code: {code}",
+      "handleLabel": "Your @",
+      "handlePlaceholder": "e.g. ana.luz",
+      "handleSave": "Save",
+      "noHandle": "You don't have an @ yet.",
+      "handleChange": "Change",
+      "handleCreate": "Create my @",
+      "share": "Share invite",
+      "copy": "Copy link",
+      "copied": "Link copied.",
+      "shareTitle": "MYGLOW",
+      "shareText": "Come follow my journey on MYGLOW",
+      "haveCode": "I have a code or @",
+      "haveCodePlaceholder": "Code or @",
+      "send": "Send request",
+      "sent": "Request sent.",
+      "acceptedNow": "You're friends now.",
+      "alreadyFriends": "You're already friends.",
+      "handleSaved": "@ saved.",
+      "regenerated": "New code created. The old link no longer works.",
+      "regenerate": "Create a new code",
+      "regenConfirm": "Your current link and code will stop working. Continue?",
+      "regenYes": "Create new",
+      "regenNo": "Cancel"
+    },
+    "requests": {
+      "title": "{n, plural, one {# request} other {# requests}}",
+      "accept": "Accept",
+      "decline": "Decline"
+    },
+    "outgoing": {
+      "title": "Sent requests",
+      "waiting": "Waiting for {name}",
+      "cancel": "Cancel"
+    },
+    "profile": {
+      "title": "Friend's profile",
+      "level": "Level {level} · {name}",
+      "since": "Friends since {date}",
+      "streakTitle": "Magic streak",
+      "streakNow": "Current streak",
+      "streakBest": "Best streak",
+      "coursesTitle": "Grimoire",
+      "coursesDone": "{n, plural, =0 {No courses completed yet} one {# course completed} other {# courses completed}}",
+      "courseNow": "Now in {course}: {done} of {total} lessons",
+      "skyTitle": "Sun, Moon and Ascendant",
+      "sky": {
+        "sun": "Sun",
+        "moon": "Moon",
+        "asc": "Ascendant"
+      }
+    },
+    "menu": {
+      "remove": "Remove friend",
+      "block": "Block",
+      "removeConfirm": "Remove {name} from your friends? They won't be told.",
+      "blockConfirm": "Block {name}? The friendship and requests are deleted and they won't be able to ask again.",
+      "removeYes": "Remove",
+      "blockYes": "Block",
+      "no": "Cancel"
+    },
+    "landing": {
+      "unavailableTitle": "Invite unavailable",
+      "unavailableText": "This invite is no longer available.",
+      "home": "Discover MYGLOW",
+      "title": "{name} invited you to MYGLOW",
+      "level": "Level {level} in the magical journal",
+      "self": "This is your own invite.",
+      "goFriends": "See my friends",
+      "createAccount": "Create account",
+      "haveAccount": "I already have an account",
+      "request": "Send {name} a friend request",
+      "sent": "Request sent to {name}.",
+      "nowFriends": "You and {name} are friends now."
+    },
+    "card": {
+      "pending": "{n, plural, one {# request to answer} other {# requests to answer}}",
+      "count": "{n, plural, one {# friend} other {# friends}}",
+      "empty": "Invite someone to walk with you"
+    },
+    "settings": {
+      "showBigThree": "Show my Sun, Moon and Ascendant to friends",
+      "showBigThreeHint": "When off, friends see your golden light orb, without the colours of your signs.",
+      "notifications": "Friend alerts (requests and acceptances)",
+      "blockedTitle": "Blocked",
+      "blockedEmpty": "No one blocked.",
+      "unblock": "Unblock"
+    },
+    "errors": {
+      "invalidCode": "Invalid or unavailable code.",
+      "rateLimited": "Too many requests today. Try again tomorrow.",
+      "limitPending": "You have too many pending requests. Cancel some first.",
+      "unavailable": "This request is no longer available.",
+      "handleTaken": "This @ isn't available.",
+      "handleLength": "Your @ needs 3 to 20 characters.",
+      "handleChars": "Use only lowercase letters, numbers, dots and underscores."
     }
   }
 }

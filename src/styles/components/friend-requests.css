@@ -1,0 +1,33 @@
+/* FriendRequestsList (F15): pedidos por responder */
+
+.mg-friend-requests {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-friend-requests__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mg-friend-requests__text {
+  display: flex;
+  flex: 1 1 140px;
+  flex-direction: column;
+}
+
+.mg-friend-requests__meta {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-friend-requests__actions {
+  display: flex;
+  gap: var(--space-2);
+}

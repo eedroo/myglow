@@ -125,3 +125,12 @@
 @import './components/guide-states.css';
 @import './components/guide-entry.css';
 @import './components/guide-history.css';
+@import './components/friends.css';
+@import './components/friend-invite.css';
+@import './components/friend-requests.css';
+@import './components/friend-list.css';
+@import './components/friend-row.css';
+@import './components/friend-avatar.css';
+@import './components/friend-profile.css';
+@import './components/friend-menu.css';
+@import './components/invite-landing.css';

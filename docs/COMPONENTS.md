@@ -530,3 +530,26 @@ Leitura escrita, semanal e mensal, feita por IA a partir do diário: a primeira 
 | `GuideEntryCard` | server | `guide-entry.css` | `mg-guide-entry`, `__icon`, `__text`, `__title`, `__status` | cartão compacto na Semana e no Mês, ao lado do `RecapEntryCard`, só para quem tem acesso: pronto, a preparar ou activar + link |
 | `GuideHistory` | server | `guide-history.css` | `mg-guide-history`, `__item`, `__unread` | lista em `/profile/guide`: período, tipo, estado, lido ou por ler |
 | `GuideSettings` | client | `guide-consent.css` | `mg-guide-consent` | secção das definições (só com acesso): estado do consentimento, desligar e "Apagar todas as leituras" → `withdrawGuideConsent`; sem consentimento, link para activar |
+
+### Amigos — F15 (`src/components/friends/`, lógica em `src/lib/friends/`, rotas `/friends`, `/friends/[id]`, `/f/[code]`)
+
+Amizades só mútuas (pedido e aceitação), dentro do Perfil (sem aba nova). Adicionar por link pessoal (`/f/{código}`), código de 8 caracteres ou @ escolhido pela pessoa; sem pesquisa por email. O perfil de um amigo sai só de `getFriendProfile` (DTO de campos fechados); nada do diário, dos planners, do Guia nem de bem-estar. Erros genéricos ("Código inválido ou indisponível"); recusar e remover são silenciosos.
+
+**Esfera de luz (avatar):** cada pessoa é uma esfera com gradiente radial: Sol no centro, Lua no meio e Ascendente na borda (`orbSigns`, `src/lib/friends/orb.ts`; cores `--sign-*` em `tokens.css`, uma por signo), dentro do anel de progresso do nível. Os amigos só vêem a esfera colorida se a pessoa partilha o Sol, a Lua e o Ascendente (as cores revelariam os signos); senão vêem a esfera neutra dourada com as iniciais. O próprio vê sempre a sua. Sem fotografias.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `LightOrb` | server | `friend-avatar.css` | `mg-orb`, `__glow`, `__stop--{signo}`, `--neutral` | SVG da esfera: gradiente radial com as três cores (ou neutro), brilho suave e reflexo; id do gradiente único por instância (`idKey`) |
+| `FriendAvatar` | server | `friend-avatar.css` | `mg-friend-avatar`, `--sm`, `--md`, `--lg`, `__ring`, `__track`, `__arc`, `__initials` | `LightOrb` dentro do anel do nível (o mesmo desenho do `LevelBadge`); iniciais só na esfera neutra |
+| `FriendsPage` | server | `friends.css` | `mg-friends` | ordem: `FriendRequestsList` (se houver) → `FriendInviteCard` → `FriendList` → `OutgoingRequests` (compacto) |
+| `FriendInviteCard` | client | `friend-invite.css` | `mg-friend-invite`, `__code`, `__handle`, `__actions`, `__form` | o meu código em grande (`ABCD-EFGH`) e o meu @; "Partilhar convite" (`navigator.share`, senão copia) e "Copiar"; escolher o @; campo "Tenho um código ou @" → `sendFriendRequestByCode`; "Gerar novo código" com confirmação |
+| `FriendRequestsList` | client | `friend-requests.css` | `mg-friend-requests`, `__item`, `__actions` | cada pedido: avatar, nome, nível, "Aceitar" (primary) e "Recusar" (ghost) |
+| `FriendList` | server | `friend-list.css` | `mg-friend-list`, `__empty` | linhas `FriendRow`; vazio: esfera + "Convide alguém para caminhar com você" |
+| `FriendRow` | server | `friend-row.css` | `mg-friend-row`, `__text`, `__name`, `__meta`, `__streak` | `FriendAvatar`, nome, nível (nome do nível), sequência com chama; link para o perfil |
+| `FriendProfileView` | server | `friend-profile.css` | `mg-friend-profile`, `__hero`, `__stats`, `__badges`, `__courses`, `__sky` | avatar grande, nome, nível e "amigos desde"; sequência (actual e melhor), cursos (concluídos e o actual com barra), emblemas conquistados (visual do `BadgesCard`), Sol/Lua/Asc com glifos (se partilhados) |
+| `FriendMenu` | client | `friend-menu.css` | `mg-friend-menu`, `__confirm` | no perfil do amigo: "Remover amigo" e "Bloquear", cada um com confirmação |
+| `OutgoingRequests` | client | `friends.css` | `mg-friend-outgoing`, `__item` | pedidos enviados pendentes com "Cancelar" |
+| `InviteLanding` | server | `invite-landing.css` | `mg-invite-landing`, `__card`, `__actions` | `/f/[code]`: sem sessão, "{nome} convidou você" + "Criar conta" (guarda o código e segue para o registo); com sessão, "Pedir amizade a {nome}"; código inválido: "Convite indisponível" |
+| `InviteRequestButton` | client | `invite-landing.css` | — | botão "Pedir amizade" da página do convite → `sendFriendRequestByCode` |
+| `FriendsCard` | server | `friends.css` | `mg-friends-card`, `__avatars`, `__dot` | no `/profile`: número de amigos, até 5 avatares sobrepostos e ponto dourado com pedidos por responder; link para `/friends` |
+| `FriendSettings` | client | `friends.css` | `mg-friend-settings` | definições, secção Amigos: partilhar Sol/Lua/Asc (desligado por defeito), avisos de amigos, bloqueados com "Desbloquear" |

@@ -1,6 +1,8 @@
 import { getTranslations } from 'next-intl/server';
 import { levelFor } from '@/lib/xp/levels';
 import { ProfileAvatarLink } from './ProfileAvatarLink';
+import { LightOrb } from '@/components/friends/LightOrb';
+import { ownOrb, pendingCount } from '@/lib/friends/queries';
 
 const R = 19;
 const C = 2 * Math.PI * R;
@@ -12,11 +14,23 @@ function initials(name: string): string {
   return letters.map((p) => p.charAt(0).toUpperCase()).join('') || '·';
 }
 
-/** Avatar (iniciais) dentro do anel de progresso do nível; abre o perfil (F8: substitui o Perfil da barra). */
-export async function LevelBadge({ total, name }: { total: number; name: string }) {
-  const [t, tn] = await Promise.all([getTranslations('glow'), getTranslations('nav')]);
+/**
+ * Avatar dentro do anel de progresso do nível; abre o perfil (F8: substitui o Perfil da barra).
+ * F15: a esfera de luz da pessoa (Sol, Lua e Ascendente; sem mapa, iniciais) e um ponto dourado com pedidos de amizade.
+ */
+export async function LevelBadge({ total, name, userId }: { total: number; name: string; userId?: string }) {
+  const [t, tn, tf, orb, pending] = await Promise.all([
+    getTranslations('glow'),
+    getTranslations('nav'),
+    getTranslations('friends'),
+    userId ? ownOrb(userId) : null, // sem userId (/dev/ui): iniciais e sem ponto
+    userId ? pendingCount(userId) : 0,
+  ]);
   const info = levelFor(total);
-  const label = `${tn('profile')} · ${t('badge', { level: info.level, name: t(`levels.${info.key}.name`), total })}`;
+  const label = [
+    `${tn('profile')} · ${t('badge', { level: info.level, name: t(`levels.${info.key}.name`), total })}`,
+    ...(pending > 0 ? [tf('pendingLabel', { n: pending })] : []),
+  ].join(' · ');
 
   return (
     <ProfileAvatarLink label={label}>
@@ -32,9 +46,14 @@ export async function LevelBadge({ total, name }: { total: number; name: string 
           />
         )}
       </svg>
-      <span className="mg-level-badge__initials" aria-hidden="true">
-        {initials(name)}
-      </span>
+      {orb ? (
+        <LightOrb signs={orb} idKey="me" className="mg-level-badge__orb" />
+      ) : (
+        <span className="mg-level-badge__initials" aria-hidden="true">
+          {initials(name)}
+        </span>
+      )}
+      {pending > 0 && <span className="mg-level-badge__dot" aria-hidden="true" />}
     </ProfileAvatarLink>
   );
 }

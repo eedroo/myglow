@@ -17,7 +17,7 @@ export interface ExportSource {
     | 'name' | 'email' | 'locale' | 'theme' | 'timezone' | 'hemisphere' | 'sleepGoalMinutes' | 'pronouns' | 'xpTotal'
     | 'bestMagicStreak' | 'emailVerifiedAt' | 'termsAcceptedAt' | 'termsVersion' | 'privacyVersion' | 'wellbeingConsentAt'
     | 'createdAt' | 'onboardedAt' | 'plan' | 'planSince' | 'planExpiresAt' | 'premiumInterestAt'
-    | 'guideConsentAt' | 'guideConsentVersion'
+    | 'guideConsentAt' | 'guideConsentVersion' | 'friendCode' | 'handle' | 'showBigThree'
   >;
   birthProfile: BirthProfile | null;
   dailyEntries: DailyEntry[];
@@ -37,6 +37,10 @@ export interface ExportSource {
   recapViews: RecapView[];
   /** F14: leituras do Guia. */
   guideReports: GuideReport[];
+  /** F15: amigos (id, nome, desde), pedidos (só o nome do outro) e bloqueios. */
+  friends: { id: string; name: string; since: Date }[];
+  friendRequests: { direction: 'sent' | 'received'; otherName: string; status: string; createdAt: Date; respondedAt: Date | null }[];
+  blocks: { name: string; createdAt: Date }[];
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -71,6 +75,9 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       premiumInterestAt: iso(u.premiumInterestAt),
       guideConsentAt: iso(u.guideConsentAt),
       guideConsentVersion: u.guideConsentVersion,
+      friendCode: u.friendCode,
+      handle: u.handle,
+      showBigThree: u.showBigThree,
     },
     activeDays: data.activeDays.map((a) => day(a.day)),
     recapViews: data.recapViews.map((r) => ({
@@ -79,6 +86,15 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       firstSeenAt: iso(r.firstSeenAt),
       completedAt: iso(r.completedAt),
     })),
+    friends: data.friends.map((f) => ({ id: f.id, name: f.name, since: iso(f.since) })),
+    friendRequests: data.friendRequests.map((r) => ({
+      direction: r.direction,
+      otherName: r.otherName,
+      status: r.status,
+      createdAt: iso(r.createdAt),
+      respondedAt: iso(r.respondedAt),
+    })),
+    blocks: data.blocks.map((b) => ({ name: b.name, createdAt: iso(b.createdAt) })),
     guideReports: data.guideReports.map((g) => ({
       kind: g.kind,
       periodKey: g.periodKey,

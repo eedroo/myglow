@@ -1,0 +1,90 @@
+/* FriendProfileView (F15): o que um amigo vê (lista fechada) */
+
+.mg-friend-profile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mg-friend-profile__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.mg-friend-profile__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+}
+
+.mg-friend-profile__meta {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-friend-profile__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.mg-friend-profile__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+}
+
+.mg-friend-profile__value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+}
+
+.mg-friend-profile__label {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-friend-profile__courses {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mg-friend-profile__bar {
+  height: 6px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--glass-border);
+}
+
+.mg-friend-profile__fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--gold-gradient);
+}
+
+.mg-friend-profile__sky {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.mg-friend-profile__sky li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}

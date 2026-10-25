@@ -25,7 +25,8 @@ interface RegisterFormProps {
   /** F10: aviso de beta (por cima dos consentimentos). */
   betaNotice?: ReactNode;
   /** F10: código de convite obrigatório (`BETA_INVITE_CODES`); `initial` vem de `?convite=`. */
-  invite?: { initial: string } | null;
+  /** `hidden`: F15, o link de um amigo conta como convite (o campo fica preenchido e escondido). */
+  invite?: { initial: string; hidden?: boolean } | null;
 }
 
 export function RegisterForm({ betaNotice, invite }: RegisterFormProps) {
@@ -92,7 +93,8 @@ export function RegisterForm({ betaNotice, invite }: RegisterFormProps) {
         defaultValue={defaultLocale}
         options={DB_LOCALES.map((value) => ({ value, label: t(`settings.languageOptions.${value}`) }))}
       />
-      {invite && (
+      {invite?.hidden && <input type="hidden" name="inviteCode" value={invite.initial} />}
+      {invite && !invite.hidden && (
         <Field id="register-invite" label={t('beta.invite.label')} hint={t('beta.invite.hint')} error={err(errors.inviteCode)}>
           <TextInput
             id="register-invite"

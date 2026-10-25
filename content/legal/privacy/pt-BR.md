@@ -49,7 +49,17 @@ Se não quiser leituras personalizadas, você pode não preencher os dados de na
 
 **Guia (opcional).** Se você ativar o Guia, no fim de cada semana e de cada mês enviamos ao mesmo fornecedor de IA: intenções, banimentos, gratidões, reflexões, resumos, notas da semana e metas por área, mais os números do período (dias, rituais, corpo, Glow, lições). Humor, como você acordou e sono vão só como médias, e só se você autorizou dados de bem-estar. Antes do envio retiramos e-mails, telefones e links dos textos e cortamos cada campo. **Nunca** enviamos o seu nome, e-mail, peso, data e local de nascimento, nem as notas de como você acordou. Usamos a API paga do fornecedor, que não usa estes dados para treinar modelos e pode guardá-los por um período limitado para detectar abusos. O Guia não substitui ajuda profissional.
 
-## 5. Operadores (subcontratados)
+## 5. Amigos
+
+Os amigos no MYGLOW são **opcionais e mútuos**: só existe amizade quando um pedido é aceito. Você adiciona alguém pelo seu link pessoal, por um código de 8 caracteres ou pelo @ que escolher; não há pesquisa por e-mail.
+
+Um amigo vê **apenas**: o seu nome, a sua esfera de luz e o anel do nível, o nível, os emblemas, a sequência mágica (atual e melhor), os cursos concluídos e o curso em andamento. O Sol, a Lua e o Ascendente (e as cores da esfera, que os revelam) só aparecem se você ativar essa opção nas Configurações; vem desligada.
+
+Um amigo **nunca** vê nada do seu diário, dos planners, do Guia nem dos dados de bem-estar.
+
+Você pode recusar pedidos, remover amigos ou bloquear alguém a qualquer momento, sem aviso para a outra pessoa. Se apagar a conta, os seus amigos deixam de ver você.
+
+## 6. Operadores (subcontratados)
 
 Usamos estes prestadores, que tratam dados apenas em nosso nome e segundo as nossas instruções:
 
@@ -65,11 +75,11 @@ Usamos estes prestadores, que tratam dados apenas em nosso nome e segundo as nos
 
 Alguns desses prestadores podem tratar dados fora do Espaço Econômico Europeu. Nesses casos, as transferências são feitas com garantias adequadas, em especial as cláusulas contratuais-padrão aprovadas pela Comissão Europeia.
 
-## 6. Retenção
+## 7. Retenção
 
 Guardamos seus dados enquanto sua conta existir. Quando você apaga a conta, **todos os seus dados são removidos imediatamente** do banco de dados. Eles podem permanecer em backups criptografados por até {{DIAS_BACKUP}} dias e depois são eliminados.
 
-## 7. Seus direitos
+## 8. Seus direitos
 
 Você tem direito a:
 
@@ -83,14 +93,14 @@ Você tem direito a:
 
 Para exercer qualquer direito, escreva para [privacidade@onda.work](mailto:privacidade@onda.work).
 
-## 8. Idade mínima
+## 9. Idade mínima
 
 O MYGLOW é destinado a maiores de **16 anos**. Não coletamos conscientemente dados de menores dessa idade; se soubermos que isso aconteceu, apagamos a conta.
 
-## 9. Cookies
+## 10. Cookies
 
 Usamos apenas cookies **essenciais**: sessão (para você continuar conectado), idioma e preferências do app (por exemplo, ler o Grimório em português ou esconder um aviso). Não usamos cookies de publicidade nem de análise de terceiros.
 
-## 10. Alterações nesta política
+## 11. Alterações nesta política
 
 Se alterarmos esta política, atualizamos a versão no topo e pedimos que você a aceite de novo no app antes de continuar.

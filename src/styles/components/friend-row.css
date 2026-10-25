@@ -1,0 +1,48 @@
+/* FriendRow (F15) */
+
+.mg-friend-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease);
+}
+
+.mg-friend-row:hover {
+  background: var(--glass-bg);
+}
+
+.mg-friend-row:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-friend-row__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mg-friend-row__name {
+  overflow: hidden;
+  font-weight: var(--weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mg-friend-row__meta {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-friend-row__streak {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}

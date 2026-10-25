@@ -1,0 +1,99 @@
+/* FriendsPage, OutgoingRequests, FriendsCard e FriendSettings (F15) */
+
+.mg-friends {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mg-friend-outgoing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-friend-outgoing__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-friends-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-friends-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-friends-card__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mg-friends-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.mg-friends-card__meta {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-friends-card__avatars {
+  display: flex;
+}
+
+.mg-friends-card__avatars > * + * {
+  margin-left: calc(var(--space-3) * -1);
+}
+
+.mg-friends-card__dot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--gold-500);
+  box-shadow: var(--shadow-glow);
+}
+
+.mg-friend-settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-friend-settings__blocked {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-friend-settings__blocked li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}

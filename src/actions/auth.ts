@@ -9,6 +9,7 @@ import { db } from '@/lib/db';
 import { loginSchema, registerSchemaFor } from '@/lib/validation/auth';
 import { inviteRequired, isValidInvite, normalizeInvite } from '@/lib/beta';
 import { allowInviteAttempt, clientIp } from '@/lib/ratelimit';
+import { inviterFromCookie } from '@/lib/friends/invite';
 import { legalVersions } from '@/lib/env';
 import { sendVerificationEmail } from '@/lib/account/mail';
 import { LOCALE_COOKIE, LOCALE_COOKIE_OPTIONS, dbToAppLocale, type DbLocale } from '@/i18n/locales';
@@ -59,7 +60,9 @@ export async function register(_prev: AuthFormState, formData: FormData): Promis
 
   // F10: registo fechado por código de convite (10 tentativas/h por IP; erro genérico).
   let inviteCode: string | null = null;
-  if (needsInvite) {
+  // F15: o link de um amigo (cookie) conta como convite e fica em `invitedById`.
+  const inviter = await inviterFromCookie();
+  if (needsInvite && !inviter) {
     const code = parsed.data.inviteCode ?? '';
     if (!(await allowInviteAttempt(clientIp(headers()))) || !isValidInvite(code)) {
       return { fieldErrors: { inviteCode: 'beta.invite.invalid' } };
@@ -86,6 +89,7 @@ export async function register(_prev: AuthFormState, formData: FormData): Promis
         privacyVersion: privacy,
         wellbeingConsentAt: now,
         inviteCode,
+        invitedById: inviter?.id ?? null,
         notificationPrefs: { create: {} },
       },
       select: { id: true },

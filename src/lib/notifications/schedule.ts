@@ -110,6 +110,9 @@ function pending(kind: NotificationKind, s: NotificationState): boolean {
     case 'MONTH_REFLECTION_LAST': return !s.lastMonthReflectionDone;
     case 'GRIMOIRE': return s.grimoire.lessonsLeft > 0 || s.grimoire.quizPending;
     case 'GRIMOIRE_LAST': return s.grimoire.lessonsLeft > 0;
+    // F15: os avisos de amigos não são agendados (enviados na hora pela acção).
+    case 'FRIEND_REQUEST':
+    case 'FRIEND_ACCEPTED': return false;
   }
 }
 

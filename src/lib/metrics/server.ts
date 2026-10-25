@@ -20,6 +20,8 @@ export interface AdminMetrics {
   /** F13: retrospectivas abertas nas últimas 4 semanas, por tipo. */
   recaps: { kind: RecapKind; viewed: number; completed: number }[];
   /** F14: Guia nas últimas 4 semanas (só contagens, nunca conteúdo). */
+  /** F15: amigos (só contagens). */
+  friends: { friendships: number; activeWithFriend: number; active30: number; sent30: number; accepted30: number; invited: number; invited30: number };
   guide: { consented: number; byStatus: Record<GuideStatus, number>; rated: number; helped: number; inputTokens: number; outputTokens: number; costUsd: number };
 }
 
@@ -60,6 +62,17 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
         _sum: { inputTokens: true, outputTokens: true },
       }),
     ]);
+  const [friendships, sent30, accepted30, invited, invited30, activeWithFriendRows] = await Promise.all([
+    db.friendship.count(),
+    db.friendRequest.count({ where: { createdAt: { gte: ago(30) } } }),
+    db.friendRequest.count({ where: { createdAt: { gte: ago(30) }, status: 'ACCEPTED' } }),
+    db.user.count({ where: { invitedById: { not: null } } }),
+    db.user.count({ where: { invitedById: { not: null }, createdAt: { gte: ago(30) } } }),
+    db.$queryRaw<{ n: bigint }[]>`
+      SELECT count(DISTINCT a."userId") AS n FROM "UserActiveDay" a
+      WHERE a.day >= ${toDbDate(addDays(today, -29))}
+        AND EXISTS (SELECT 1 FROM "Friendship" f WHERE f."userAId" = a."userId" OR f."userBId" = a."userId")`,
+  ]);
   const [guideRated, guideHelped] = await Promise.all([
     db.guideReport.count({ where: { generatedAt: { gte: ago(28) }, rating: { not: null } } }),
     db.guideReport.count({ where: { generatedAt: { gte: ago(28) }, rating: 1 } }),
@@ -74,17 +87,27 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
   }
 
   const rows: ActiveRow[] = activeRows.map((r) => ({ userId: r.userId, day: fromDbDate(r.day) }));
+  const activity = activeUsers(rows, today);
   const signupRows: SignupRow[] = signups.map((u) => ({ userId: u.id, createdDay: todayInTz(u.timezone, u.createdAt) }));
   return {
     today,
     users: { total, new7, new30, premium, interested },
-    activity: { ...activeUsers(rows, today), byDay: activeByDay(rows, today, 30) },
+    activity: { ...activity, byDay: activeByDay(rows, today, 30) },
     funnel: funnelRates(funnel),
     retention: retention(signupRows, rows, today, RETENTION_WEEKS),
     grimoire: { lessons7, coursesCompleted },
     feedback: { total: fbTotal, last7: fb7 },
     notifications: notif.map((n) => ({ kind: n.kind, sent: Number(n.sent), opened: Number(n.opened) })),
     recaps: recaps.map((r) => ({ kind: r.kind, viewed: Number(r.viewed), completed: Number(r.completed) })),
+    friends: {
+      friendships,
+      activeWithFriend: Number(activeWithFriendRows[0]?.n ?? 0),
+      active30: activity.mau,
+      sent30,
+      accepted30,
+      invited,
+      invited30,
+    },
     guide: {
       consented: guideConsented,
       byStatus,

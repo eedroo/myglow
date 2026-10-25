@@ -134,6 +134,9 @@ enum NotificationKind {
   // Grimório: convite de manhã (lições do dia liberadas) e última chamada à noite (lições por fazer)
   GRIMOIRE
   GRIMOIRE_LAST
+  // F15: amigos (periodKey = id do pedido + instante do envio)
+  FRIEND_REQUEST
+  FRIEND_ACCEPTED
 }
 
 model User {
@@ -202,6 +205,17 @@ model User {
   guideConsentAt      DateTime?
   guideConsentVersion String? // versão do texto de consentimento aceite
   guideReports        GuideReport[]
+  // F15: amigos (só mútuos). Código do link gerado na base (mg_friend_code), regenerável; @ escolhido pela pessoa.
+  friendCode       String          @unique @default(dbgenerated("mg_friend_code()"))
+  handle           String?         @unique // @ sem o arroba, em minúsculas
+  showBigThree     Boolean         @default(false) // Sol, Lua e Ascendente visíveis aos amigos
+  invitedById      String? // quem convidou (link de amigo), para métricas
+  sentRequests     FriendRequest[] @relation("sent")
+  receivedRequests FriendRequest[] @relation("received")
+  friendshipsA     Friendship[]    @relation("a")
+  friendshipsB     Friendship[]    @relation("b")
+  blocks           UserBlock[]     @relation("blocker")
+  blockedBy        UserBlock[]     @relation("blocked")
 }
 
 enum FeedbackKind {
@@ -478,6 +492,7 @@ model NotificationPrefs {
   lastCall       Boolean @default(true) // avisos de última chamada (plano/reflexão da semana e do mês)
   grimoireEnabled Boolean @default(true) // convite do Grimório (a última chamada depende também de lastCall)
   grimoireTime    String  @default("10:00")
+  friends         Boolean @default(true) // F15: pedidos e aceitações de amizade (push; a caixa recebe sempre)
 }
 
 model PushSubscription {
@@ -586,4 +601,51 @@ model GuideReport {
   @@unique([userId, kind, periodKey])
   @@index([userId, generatedAt])
   @@index([generatedAt])
+}
+
+// F15: amigos
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CANCELLED
+  EXPIRED
+}
+
+model FriendRequest {
+  id          String              @id @default(cuid())
+  fromId      String
+  toId        String
+  status      FriendRequestStatus @default(PENDING)
+  createdAt   DateTime            @default(now())
+  respondedAt DateTime?
+  from        User                @relation("sent", fields: [fromId], references: [id], onDelete: Cascade)
+  to          User                @relation("received", fields: [toId], references: [id], onDelete: Cascade)
+
+  @@unique([fromId, toId]) // reenvio reutiliza a linha
+  @@index([toId, status])
+  @@index([status, createdAt])
+}
+
+// Um registo por par; userAId < userBId
+model Friendship {
+  userAId   String
+  userBId   String
+  createdAt DateTime @default(now())
+  userA     User     @relation("a", fields: [userAId], references: [id], onDelete: Cascade)
+  userB     User     @relation("b", fields: [userBId], references: [id], onDelete: Cascade)
+
+  @@id([userAId, userBId])
+  @@index([userBId])
+}
+
+model UserBlock {
+  blockerId String
+  blockedId String
+  createdAt DateTime @default(now())
+  blocker   User     @relation("blocker", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked   User     @relation("blocked", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  @@id([blockerId, blockedId])
+  @@index([blockedId])
 }

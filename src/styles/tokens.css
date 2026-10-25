@@ -71,6 +71,20 @@
   --recap-bar-fill: var(--gold-700);
   --guide-accent: #8A6A9E; /* F14: Guia (lilás suave, sem significado de bom/mau) */
   --guide-surface: rgba(138, 106, 158, 0.08);
+  /* F15: esfera de luz (avatar): uma cor por signo; Sol no centro, Lua no meio, Ascendente na borda */
+  --sign-aries: #E0533C;
+  --sign-taurus: #5E9C5A;
+  --sign-gemini: #E2BC3A;
+  --sign-cancer: #AFBCD0;
+  --sign-leo: #F0A030;
+  --sign-virgo: #8FA66B;
+  --sign-libra: #E79AB8;
+  --sign-scorpio: #8E2340;
+  --sign-sagittarius: #8A5BC4;
+  --sign-capricorn: #6E6152;
+  --sign-aquarius: #3BA6E0;
+  --sign-pisces: #4FB7A7;
+  --orb-highlight: #FFFBF2;
 
   /* Raios */
   --radius-sm: 10px;
@@ -189,4 +203,17 @@
   --recap-bar-fill: var(--gold-300);
   --guide-accent: #C6A8DA;
   --guide-surface: rgba(198, 168, 218, 0.1);
+  --sign-aries: #FF7A5C;
+  --sign-taurus: #86C97F;
+  --sign-gemini: #F5D96B;
+  --sign-cancer: #D7E1F0;
+  --sign-leo: #FFBE55;
+  --sign-virgo: #B2C98C;
+  --sign-libra: #F5B6CF;
+  --sign-scorpio: #C2406A;
+  --sign-sagittarius: #AE84E8;
+  --sign-capricorn: #A3917C;
+  --sign-aquarius: #66C4F5;
+  --sign-pisces: #74D6C6;
+  --orb-highlight: rgba(255, 246, 228, 0.92);
 }

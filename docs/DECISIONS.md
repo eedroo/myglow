@@ -128,6 +128,14 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Feedback e admin:** feedback 👍/👎; o admin só vê contagens.
 - **Nome:** só em `messages` (`guide.name`).
 
+## Amigos (Fase 15)
+- Amigos só mútuos, por link pessoal, código de 8 caracteres ou @ escolhido pela pessoa; sem pesquisa por email.
+- Perfil de amigo com lista fechada de campos (`FriendProfile`: nome, iniciais, nível, anel, sequência actual e melhor, emblemas, cursos concluídos e o actual, Sol/Lua/Asc, amigos desde, cores da esfera); Sol/Lua/Asc opcional e desligado por defeito.
+- Recusar e remover são silenciosos; bloqueio apaga amizade e pedidos.
+- Limites: 100 amigos, 30 pendentes, 20 pedidos por dia; pedidos expiram em 30 dias; 7 dias antes de reenviar.
+- Link de amigo conta como convite no beta.
+- Avatares: esfera de luz com as cores do Sol (centro), da Lua (meio) e do Ascendente (borda), dentro do anel do nível; sem fotografias. Os amigos só vêem as cores se a pessoa partilha o Sol, a Lua e o Ascendente (as cores revelam os signos); senão, esfera neutra dourada com as iniciais. A página pública do convite usa sempre a neutra.
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

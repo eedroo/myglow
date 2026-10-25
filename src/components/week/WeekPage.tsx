@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
-import { addDays, formatDateRange, formatMonthName, type DateISO } from '@/lib/dates';
+import { addDays, formatDateRange, formatMonthName, todayInTz, type DateISO } from '@/lib/dates';
 import { MAX_WEEKS_AHEAD, monthKey, weekStartOf, weeksBetween } from '@/lib/weeks';
 import { getWeekPageData } from '@/lib/week/queries';
 import { isAppLocale } from '@/i18n/locales';
@@ -15,8 +15,10 @@ import { getWeekReading } from '@/lib/ai/queries';
 import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
 import { WeekReadingCard } from '@/components/reading/WeekReadingCard';
 import { RecapEntryCard } from '@/components/recap/RecapEntryCard';
-import { weekRecapPeriod } from '@/lib/recap/period';
+import { isRecapAvailable, weekRecapPeriod } from '@/lib/recap/period';
 import { hasSeenRecap, isRecapShowable } from '@/lib/recap/server';
+import { GuideEntryCard } from '@/components/guide/GuideEntryCard';
+import { getEntitlements } from '@/lib/entitlements/server';
 
 /** Planner de uma semana (domingo → sábado). */
 export async function WeekPage({ start }: { start: DateISO }) {
@@ -48,6 +50,18 @@ export async function WeekPage({ start }: { start: DateISO }) {
   const [recapShow, recapSeen] = recapPeriod
     ? await Promise.all([isRecapShowable({ id: session.user.id, ...user }, recapPeriod), hasSeenRecap(session.user.id, recapPeriod)])
     : [false, true];
+  // F14: cartão do Guia ao lado, só para quem tem acesso e se a conta já existia no período.
+  const guideShow =
+    !!recapPeriod &&
+    (await getEntitlements(session.user.id)).features.guide &&
+    isRecapAvailable(recapPeriod, todayInTz(user.timezone), todayInTz(user.timezone, user.createdAt));
+  const recapCards =
+    recapPeriod && (recapShow || guideShow) ? (
+      <>
+        {recapShow && <RecapEntryCard period={recapPeriod} unseen={!recapSeen} />}
+        {guideShow && <GuideEntryCard userId={session.user.id} period={recapPeriod} />}
+      </>
+    ) : null;
   const defaultTitle = t('defaultTitle', { n: week.weekOfMonth, month: formatMonthName(week.year, week.month, locale) });
 
   return (
@@ -72,7 +86,7 @@ export async function WeekPage({ start }: { start: DateISO }) {
           <WeekReadingCard personal={reading.personal} pending={reading.pending} />
         }
         focusNotes={focusNotes}
-        recap={recapPeriod && recapShow ? <RecapEntryCard period={recapPeriod} unseen={!recapSeen} /> : undefined}
+        recap={recapCards ?? undefined}
       />
     </>
   );

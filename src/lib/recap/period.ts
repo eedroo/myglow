@@ -63,6 +63,15 @@ export function isRecapAvailable(p: RecapPeriod, today: DateISO, accountCreatedD
   return isEnded(p, today) && compareDates(accountCreatedDay, p.to) <= 0;
 }
 
+/** `today` ainda está na janela de abertura do período anterior (semanal: domingo a quarta; mensal: dia 1 a 5). */
+export function inAutoOpenWindow(kind: RecapKindKey, today: DateISO): boolean {
+  const daysIn =
+    kind === 'MONTH'
+      ? Number(today.slice(8, 10)) - 1
+      : Math.round((Date.parse(today) - Date.parse(weekStartOf(today))) / 86_400_000);
+  return daysIn < AUTO_OPEN_DAYS[kind];
+}
+
 export function dueRecap(i: {
   today: DateISO;
   accountCreatedDay: DateISO;
@@ -71,17 +80,15 @@ export function dueRecap(i: {
 }): RecapPeriod | null {
   if (i.blocked) return null;
   const seen = new Set(i.seen.map((s) => `${s.kind}:${s.key}`));
-  const candidate = (p: RecapPeriod, daysIn: number) =>
-    daysIn < AUTO_OPEN_DAYS[p.kind] && isRecapAvailable(p, i.today, i.accountCreatedDay);
+  const candidate = (p: RecapPeriod) => inAutoOpenWindow(p.kind, i.today) && isRecapAvailable(p, i.today, i.accountCreatedDay);
   const unseen = (p: RecapPeriod) => (seen.has(`${p.kind}:${p.key}`) ? null : p);
 
   // Mensal primeiro: quando as duas coincidem, só a mensal abre (a semanal fica no botão da Semana).
   const month = previousMonthPeriod(i.today);
-  if (candidate(month, Number(i.today.slice(8, 10)) - 1)) return unseen(month);
+  if (candidate(month)) return unseen(month);
 
   const week = previousWeekPeriod(i.today);
-  const weekDay = Math.round((Date.parse(i.today) - Date.parse(weekStartOf(i.today))) / 86_400_000);
-  if (candidate(week, weekDay)) return unseen(week);
+  if (candidate(week)) return unseen(week);
 
   return null;
 }

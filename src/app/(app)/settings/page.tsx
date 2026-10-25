@@ -22,8 +22,13 @@ import { WellbeingConsentCard } from '@/components/account/WellbeingConsentCard'
 import { DeleteAccountDialog } from '@/components/account/DeleteAccountDialog';
 import { DELETE_CONFIRM_WORD } from '@/lib/validation/account';
 import { FeedbackDialog } from '@/components/beta/FeedbackDialog';
+import { getEntitlements } from '@/lib/entitlements/server';
+import { GuideSettings } from '@/components/guide/GuideSettings';
+import { hasGuideConsent } from '@/lib/guide/consent';
+import { todayInTz } from '@/lib/dates';
+import { previousWeekPeriod } from '@/lib/recap/period';
 
-const SECTIONS = ['profile', 'account', 'preferences', 'birth', 'notifications', 'privacy', 'sessions', 'danger'] as const;
+const SECTIONS = ['profile', 'account', 'preferences', 'birth', 'notifications', 'privacy', 'guide', 'sessions', 'danger'] as const;
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('settings');
@@ -39,12 +44,14 @@ export default async function SettingsPage() {
   const session = await auth();
   if (!session?.user) redirect('/login');
 
-  const [t, tAuth, tn, ta, tr, locale, devices, user] = await Promise.all([
+  const [t, tAuth, tn, ta, tr, tguide, entitlements, locale, devices, user] = await Promise.all([
     getTranslations('settings'),
     getTranslations('auth'),
     getTranslations('notifications.settings'),
     getTranslations('account'),
     getTranslations('reading.settings'),
+    getTranslations('guide'),
+    getEntitlements(session.user.id),
     getLocale(),
     listDevices(),
     db.user.findUnique({
@@ -60,6 +67,8 @@ export default async function SettingsPage() {
         pronouns: true,
         emailVerifiedAt: true,
         wellbeingConsentAt: true,
+        guideConsentAt: true,
+        guideConsentVersion: true,
         notificationPrefs: true,
         birthProfile: {
           select: { birthDate: true, birthTime: true, birthTimeKnown: true, placeName: true, timezone: true },
@@ -81,6 +90,13 @@ export default async function SettingsPage() {
   const consentedOn = user.wellbeingConsentAt
     ? new Intl.DateTimeFormat(intl, { dateStyle: 'long', timeZone: user.timezone }).format(user.wellbeingConsentAt)
     : null;
+  // F14: secção do Guia só para quem tem acesso.
+  const guideAccess = entitlements.features.guide;
+  const sections = SECTIONS.filter((id) => id !== 'guide' || guideAccess);
+  const guideConsentedOn =
+    user.guideConsentAt && hasGuideConsent(user)
+      ? new Intl.DateTimeFormat(intl, { dateStyle: 'long', timeZone: user.timezone }).format(user.guideConsentAt)
+      : null;
   const formInitial = {
     name: user.name,
     locale: user.locale,
@@ -97,7 +113,7 @@ export default async function SettingsPage() {
       <PageHeader title={t('title')} subtitle={t('subtitle')} />
 
       <div className="mg-settings">
-      <SettingsNav label={t('sections.label')} sections={SECTIONS.map((id) => ({ id, label: t(`sections.${id}`) }))} />
+      <SettingsNav label={t('sections.label')} sections={sections.map((id) => ({ id, label: id === 'guide' ? tguide('name') : t(`sections.${id}`) }))} />
       <div className="mg-settings__sections">
       <GlassCard id="profile" className="mg-settings__section" title={t('sections.profile')}>
         <SettingsForm part="profile" initial={formInitial} timezones={timezones} />
@@ -208,6 +224,15 @@ export default async function SettingsPage() {
           </div>
         </div>
       </GlassCard>
+
+      {guideAccess && (
+        <GlassCard id="guide" className="mg-settings__section" title={tguide('name')}>
+          <GuideSettings
+            consentedOn={guideConsentedOn}
+            activateHref={`/guide/week/${previousWeekPeriod(todayInTz(user.timezone)).key}`}
+          />
+        </GlassCard>
+      )}
 
       <GlassCard id="sessions" className="mg-settings__section" title={t('sections.sessions')}>
         <div className="mg-form">

@@ -1619,10 +1619,14 @@
       "title": "E agora?",
       "weekText": "Uma nova semana começa.",
       "monthText": "Um novo mês começa.",
-      "guideTitle": "O seu Guia",
+      "guideTitle": "O seu {name}",
       "guideTeaserWeek": "Há uma leitura sobre a sua semana à sua espera.",
       "guideTeaserMonth": "Há uma leitura sobre o seu mês à sua espera.",
-      "guideSoon": "A leitura do seu Guia chega em breve.",
+      "guideConsentText": "Uma leitura escrita sobre o que você viveu, feita a partir do seu diário. Só com a sua autorização.",
+      "guideReadyWeek": "A sua leitura da semana está à sua espera.",
+      "guideReadyMonth": "A sua leitura do mês está à sua espera.",
+      "guideActivate": "Ativar o {name}",
+      "guideOpen": "Abrir o {name}",
       "planWeek": "Planejar a semana",
       "planMonth": "Planejar o mês",
       "reflection": "Escrever a reflexão (+{points} Glow)",
@@ -1633,6 +1637,114 @@
       "week": "Semana {range}",
       "month": "{month}",
       "unseen": "Por ver"
+    }
+  },
+  "guide": {
+    "name": "Guia",
+    "profileLink": "Leituras do {name}",
+    "header": {
+      "week": "Semana {range}",
+      "month": "{month}",
+      "generated": "Leitura de {date}"
+    },
+    "consent": {
+      "title": "Como funciona o {name}",
+      "intro": "No fim de cada semana e de cada mês, o {name} lê o que você escreveu e devolve uma leitura com o que continuar, o que ajustar e 3 focos.",
+      "sentTitle": "O que é enviado",
+      "sent": "Intenções, banimentos, gratidões, reflexões, resumos, notas da semana e metas por área, mais os números do período (dias, rituais, corpo, Glow, lições). Humor, acordar e sono vão só como médias, e só se você autorizou dados de bem-estar. E-mails, telefones e links são retirados antes do envio.",
+      "neverTitle": "O que nunca é enviado",
+      "never": "O seu nome, e-mail, peso, data e local de nascimento, e as notas de como você acordou.",
+      "whoTitle": "Quem processa",
+      "who": "A Google, através da API paga do Gemini, que não usa estes dados para treinar modelos. Pode guardá-los por um período limitado para detectar abusos.",
+      "offTitle": "Pode desligar quando quiser",
+      "off": "Nas Configurações você desliga o {name} e pode apagar todas as leituras.",
+      "notProfessional": "O {name} não substitui ajuda profissional.",
+      "check": "Li e autorizo o envio destes textos para o {name} gerar as minhas leituras.",
+      "activate": "Ativar o {name}"
+    },
+    "pending": {
+      "week": "O seu {name} está lendo a sua semana…",
+      "month": "O seu {name} está lendo o seu mês…",
+      "long": "A leitura está demorando mais do que o normal. Volte daqui a pouco: o {name} continua trabalhando."
+    },
+    "insufficient": {
+      "text": "Escreva em mais alguns dias para o {name} ter o que ler.",
+      "cta": "Escrever hoje",
+      "retry": "Já escrevi, ler agora"
+    },
+    "failed": {
+      "text": "Não foi possível preparar esta leitura agora. O {name} tenta de novo mais tarde."
+    },
+    "errors": {
+      "rateLimited": "Muitos pedidos hoje. Tente de novo amanhã.",
+      "generic": "Algo correu mal. Tente de novo."
+    },
+    "support": {
+      "title": "Estamos com você",
+      "text": "Parece que este período foi pesado. Você não precisa atravessar isso sem apoio.",
+      "invite": "Se puder, fale hoje com alguém de confiança. Se estiver em perigo, ligue já para a emergência.",
+      "contacts": {
+        "cvv": "CVV, 24 horas",
+        "samu": "Emergência (SAMU)",
+        "sns24": "SNS 24",
+        "vozAmiga": "SOS Voz Amiga",
+        "emergency": "Emergência",
+        "findHelpline": "Linhas de apoio no mundo",
+        "localEmergency": "Emergência local"
+      }
+    },
+    "report": {
+      "continue": "Continue",
+      "improve": "Pode melhorar",
+      "patterns": "Padrões",
+      "areas": "As suas áreas",
+      "focuses": "3 focos",
+      "evidenceLabel": "Dias em que esta leitura se baseia",
+      "action": "Como: {action}",
+      "status": {
+        "aligned": "Alinhado",
+        "partial": "A meio",
+        "not_yet": "Ainda não"
+      }
+    },
+    "feedback": {
+      "question": "Esta leitura ajudou?",
+      "yes": "Ajudou",
+      "no": "Não ajudou",
+      "thanks": "Obrigado pela resposta."
+    },
+    "regen": {
+      "button": "Ler de novo com o que escrevi depois"
+    },
+    "entry": {
+      "titleWeek": "O {name} da semana",
+      "titleMonth": "O {name} do mês",
+      "consent": "Ativar o {name}",
+      "pending": "Preparando a leitura",
+      "ready": "A sua leitura está pronta",
+      "other": "Ver a leitura"
+    },
+    "history": {
+      "title": "Leituras do {name}",
+      "subtitle": "As leituras das suas semanas e dos seus meses.",
+      "empty": "Ainda não há leituras.",
+      "week": "Semana {range}",
+      "month": "{month}",
+      "unread": "Por ler",
+      "status": {
+        "READY": "Pronta",
+        "INSUFFICIENT": "Poucos dias escritos",
+        "SUPPORT": "Mensagem de apoio",
+        "FAILED": "Não foi possível preparar"
+      }
+    },
+    "settings": {
+      "on": "{name} ativado em {date}.",
+      "off": "O {name} está desligado.",
+      "deactivated": "O {name} foi desligado.",
+      "activate": "Ativar o {name}",
+      "deleteReports": "Apagar também todas as leituras",
+      "deactivate": "Desligar o {name}"
     }
   }
 }

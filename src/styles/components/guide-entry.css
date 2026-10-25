@@ -1,0 +1,50 @@
+/* GuideEntryCard (F14): cartão compacto do Guia na Semana e no Mês */
+
+.mg-guide-entry {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--guide-surface);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-guide-entry:hover {
+  border-color: var(--glass-border-strong);
+}
+
+.mg-guide-entry:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-guide-entry__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.mg-guide-entry__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mg-guide-entry__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.mg-guide-entry__status {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* Na Semana fica na célula da reflexão, ao lado do cartão da retrospectiva */
+.mg-week__cell > .mg-guide-entry {
+  flex: 0 0 auto;
+}

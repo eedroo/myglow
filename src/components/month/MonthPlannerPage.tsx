@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
-import { formatMonthYear } from '@/lib/dates';
+import { formatMonthYear, todayInTz } from '@/lib/dates';
 import { MAX_MONTHS_AHEAD, addMonths, monthKey, monthOf, weekStartOf } from '@/lib/weeks';
 import { getDailyMoon } from '@/lib/astro/moon';
 import { getMonthPageData } from '@/lib/planner/queries';
@@ -22,8 +22,10 @@ import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
 import { MonthReadingCard } from '@/components/reading/MonthReadingCard';
 import { RitualsCard } from '@/components/reading/RitualsCard';
 import { RecapEntryCard } from '@/components/recap/RecapEntryCard';
-import { monthRecapPeriod } from '@/lib/recap/period';
+import { isRecapAvailable, monthRecapPeriod } from '@/lib/recap/period';
 import { hasSeenRecap, isRecapShowable } from '@/lib/recap/server';
+import { GuideEntryCard } from '@/components/guide/GuideEntryCard';
+import { getEntitlements } from '@/lib/entitlements/server';
 
 /** Planner mensal (intenção, metas, reflexão) + calendário, céu, retrógrados, semanas e estatísticas. */
 export async function MonthPlannerPage({ year, month }: { year: number; month: number }) {
@@ -63,6 +65,18 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
   const [recapShow, recapSeen] = recapPeriod
     ? await Promise.all([isRecapShowable({ id: session.user.id, ...user }, recapPeriod), hasSeenRecap(session.user.id, recapPeriod)])
     : [false, true];
+  // F14: cartão do Guia ao lado, só para quem tem acesso e se a conta já existia no período.
+  const guideShow =
+    !!recapPeriod &&
+    (await getEntitlements(session.user.id)).features.guide &&
+    isRecapAvailable(recapPeriod, todayInTz(user.timezone), todayInTz(user.timezone, user.createdAt));
+  const recapCards =
+    recapPeriod && (recapShow || guideShow) ? (
+      <>
+        {recapShow && <RecapEntryCard period={recapPeriod} unseen={!recapSeen} />}
+        {guideShow && <GuideEntryCard userId={session.user.id} period={recapPeriod} />}
+      </>
+    ) : null;
   const ritualsPending = reading.pending.filter((r) => r.kind === 'MONTH_RITUALS');
   const readingPending = reading.pending.filter((r) => r.kind !== 'MONTH_RITUALS');
 
@@ -93,7 +107,7 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
         retrogrades: <RetrogradesCard periods={data.retrogrades} today={overview.today} />,
         weeks: <MonthWeeksList year={year} month={month} weeks={overview.weeks} currentWeekStart={currentWeekStart} />,
         stats: data.isFuture ? null : <PeriodStatsCard stats={data.stats} />,
-        recap: recapPeriod && recapShow ? <RecapEntryCard period={recapPeriod} unseen={!recapSeen} /> : null,
+        recap: recapCards,
         reading: (
           <MonthReadingCard
             energy={reading.energy}

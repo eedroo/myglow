@@ -119,3 +119,9 @@
 @import './components/recap-slide.css';
 @import './components/recap-count.css';
 @import './components/recap-entry.css';
+@import './components/guide.css';
+@import './components/guide-report.css';
+@import './components/guide-consent.css';
+@import './components/guide-states.css';
+@import './components/guide-entry.css';
+@import './components/guide-history.css';

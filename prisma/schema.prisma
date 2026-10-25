@@ -198,6 +198,10 @@ model User {
   activeDays        UserActiveDay[]
   featureOverrides  FeatureOverride[]
   recapViews        RecapView[]
+  // F14: Guia (premium), com consentimento próprio, desligado por defeito
+  guideConsentAt      DateTime?
+  guideConsentVersion String? // versão do texto de consentimento aceite
+  guideReports        GuideReport[]
 }
 
 enum FeedbackKind {
@@ -550,4 +554,36 @@ model RecapView {
 
   @@id([userId, kind, periodKey])
   @@index([firstSeenAt])
+}
+
+// F14: leitura do Guia (semanal ou mensal) a partir do diário; uma por período
+enum GuideStatus {
+  READY
+  INSUFFICIENT
+  SUPPORT
+  FAILED
+}
+
+model GuideReport {
+  id            String      @id @default(cuid())
+  userId        String
+  kind          RecapKind // WEEK | MONTH
+  periodKey     String // 'YYYY-MM-DD' (domingo) | 'YYYY-MM'
+  locale        String
+  status        GuideStatus
+  payload       Json? // GuideReportPayload validado (READY); null nos outros
+  model         String?
+  promptVersion Int         @default(1)
+  inputHash     String? // sha256 do input já limpo; evita regenerar igual
+  inputTokens   Int?
+  outputTokens  Int?
+  regenerations Int         @default(0) // máx. 1 por período
+  generatedAt   DateTime    @default(now())
+  readAt        DateTime?
+  rating        Int? // 1 = ajudou, -1 = não ajudou
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, kind, periodKey])
+  @@index([userId, generatedAt])
+  @@index([generatedAt])
 }

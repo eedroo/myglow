@@ -1,0 +1,63 @@
+/* Estados do Guia (F14): a preparar, sem dados suficientes, apoio */
+
+.mg-guide-pending,
+.mg-guide-empty,
+.mg-guide-support {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+}
+
+.mg-guide-pending__glow {
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--guide-surface), var(--guide-accent), var(--guide-surface));
+  background-size: 200% 100%;
+  animation: mg-guide-glow 2.4s var(--ease) infinite;
+}
+
+.mg-guide-pending__text,
+.mg-guide-empty__text,
+.mg-guide-support__text {
+  margin: 0;
+  line-height: var(--leading-normal);
+}
+
+.mg-guide-support__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-guide-support__contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-strong);
+}
+
+.mg-guide-support__value {
+  font-weight: var(--weight-medium);
+}
+
+@keyframes mg-guide-glow {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-guide-pending__glow {
+    animation: none;
+  }
+}

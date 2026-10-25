@@ -1,0 +1,46 @@
+/* GuideHistory (F14): leituras anteriores em /profile/guide */
+
+.mg-guide-history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-guide-history__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-guide-history__item:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-guide-history__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.mg-guide-history__status {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-guide-history__unread {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--guide-accent);
+}

@@ -19,8 +19,9 @@ const LIMITS: Record<string, { tokens: number; window: Window }> = {
   export: { tokens: 3, window: '1 d' },
   invite: { tokens: 10, window: '1 h' },
   feedback: { tokens: 5, window: '1 h' },
+  guide: { tokens: 10, window: '1 d' },
 };
-type LimitName = 'ai-request' | 'push-test' | 'login' | 'reset-ip' | 'reset-email' | 'verify-resend' | 'export' | 'invite' | 'feedback';
+type LimitName = 'ai-request' | 'push-test' | 'login' | 'reset-ip' | 'reset-email' | 'verify-resend' | 'export' | 'invite' | 'feedback' | 'guide';
 
 const limiters = new Map<LimitName, Ratelimit>();
 let warned = false;
@@ -86,6 +87,11 @@ export function allowInviteAttempt(ip: string): Promise<boolean> {
 
 export function allowFeedback(userId: string): Promise<boolean> {
   return allow('feedback', userId);
+}
+
+/** F14: pedidos e regenerações do Guia (10/dia por utilizador). */
+export function allowGuideRequest(userId: string): Promise<boolean> {
+  return allow('guide', userId);
 }
 
 /** IP do pedido (primeiro de `x-forwarded-for`, como na Vercel). */

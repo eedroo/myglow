@@ -1,5 +1,6 @@
 import 'server-only';
-import type { NotificationKind, RecapKind } from '@prisma/client';
+import type { GuideStatus, NotificationKind, RecapKind } from '@prisma/client';
+import { estimateCostUsd } from '@/lib/guide/cost';
 import { db } from '@/lib/db';
 import { addDays, fromDbDate, todayInTz, toDbDate, type DateISO } from '@/lib/dates';
 import { activeByDay, activeUsers, type ActiveRow, type SignupRow } from './active';
@@ -18,6 +19,8 @@ export interface AdminMetrics {
   notifications: { kind: NotificationKind; sent: number; opened: number }[];
   /** F13: retrospectivas abertas nas últimas 4 semanas, por tipo. */
   recaps: { kind: RecapKind; viewed: number; completed: number }[];
+  /** F14: Guia nas últimas 4 semanas (só contagens, nunca conteúdo). */
+  guide: { consented: number; byStatus: Record<GuideStatus, number>; rated: number; helped: number; inputTokens: number; outputTokens: number; costUsd: number };
 }
 
 const RETENTION_WEEKS = 8;
@@ -29,7 +32,7 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
   const since = addDays(today, -(RETENTION_WEEKS * 7 + 37));
   const ago = (d: number) => new Date(now.getTime() - d * DAY_MS);
 
-  const [total, new7, new30, premium, interested, activeRows, signups, funnel, lessons7, coursesCompleted, fbTotal, fb7, notif, recaps] =
+  const [total, new7, new30, premium, interested, activeRows, signups, funnel, lessons7, coursesCompleted, fbTotal, fb7, notif, recaps, guideConsented, guideRows] =
     await Promise.all([
       db.user.count(),
       db.user.count({ where: { createdAt: { gte: ago(7) } } }),
@@ -49,7 +52,26 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
       db.$queryRaw<{ kind: RecapKind; viewed: bigint; completed: bigint }[]>`
         SELECT kind, count(*) AS viewed, count("completedAt") AS completed
         FROM "RecapView" WHERE "firstSeenAt" >= ${ago(28)} GROUP BY 1 ORDER BY 1`,
+      db.user.count({ where: { guideConsentAt: { not: null } } }),
+      db.guideReport.groupBy({
+        by: ['status'],
+        where: { generatedAt: { gte: ago(28) } },
+        _count: { _all: true },
+        _sum: { inputTokens: true, outputTokens: true },
+      }),
     ]);
+  const [guideRated, guideHelped] = await Promise.all([
+    db.guideReport.count({ where: { generatedAt: { gte: ago(28) }, rating: { not: null } } }),
+    db.guideReport.count({ where: { generatedAt: { gte: ago(28) }, rating: 1 } }),
+  ]);
+  const byStatus: Record<GuideStatus, number> = { READY: 0, INSUFFICIENT: 0, SUPPORT: 0, FAILED: 0 };
+  let inputTokens = 0;
+  let outputTokens = 0;
+  for (const g of guideRows) {
+    byStatus[g.status] = g._count._all;
+    inputTokens += g._sum.inputTokens ?? 0;
+    outputTokens += g._sum.outputTokens ?? 0;
+  }
 
   const rows: ActiveRow[] = activeRows.map((r) => ({ userId: r.userId, day: fromDbDate(r.day) }));
   const signupRows: SignupRow[] = signups.map((u) => ({ userId: u.id, createdDay: todayInTz(u.timezone, u.createdAt) }));
@@ -63,6 +85,15 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
     feedback: { total: fbTotal, last7: fb7 },
     notifications: notif.map((n) => ({ kind: n.kind, sent: Number(n.sent), opened: Number(n.opened) })),
     recaps: recaps.map((r) => ({ kind: r.kind, viewed: Number(r.viewed), completed: Number(r.completed) })),
+    guide: {
+      consented: guideConsented,
+      byStatus,
+      rated: guideRated,
+      helped: guideHelped,
+      inputTokens,
+      outputTokens,
+      costUsd: estimateCostUsd(inputTokens, outputTokens),
+    },
   };
 }
 

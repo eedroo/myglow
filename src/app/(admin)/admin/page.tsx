@@ -103,6 +103,24 @@ export default async function AdminMetricsPage() {
         <p className="mg-admin__note">Concluída = chegou ao último slide.</p>
       </GlassCard>
 
+      <GlassCard title="Guia (4 semanas)">
+        <div className="mg-admin__tiles">
+          <MetricCard value={n(m.guide.consented)} label="Com consentimento" hint="agora" />
+          <MetricCard value={n(m.guide.byStatus.READY)} label="Prontas" />
+          <MetricCard value={n(m.guide.byStatus.INSUFFICIENT)} label="Sem dados suficientes" />
+          <MetricCard value={n(m.guide.byStatus.SUPPORT)} label="Modo apoio" />
+          <MetricCard value={n(m.guide.byStatus.FAILED)} label="Falhadas" />
+          <MetricCard
+            value={m.guide.rated ? `${Math.round((100 * m.guide.helped) / m.guide.rated)}%` : '–'}
+            label="Ajudou"
+            hint={`${n(m.guide.rated)} avaliadas`}
+          />
+          <MetricCard value={n(m.guide.inputTokens + m.guide.outputTokens)} label="Tokens" hint={`${n(m.guide.inputTokens)} entrada · ${n(m.guide.outputTokens)} saída`} />
+          <MetricCard value={`$${m.guide.costUsd.toFixed(2)}`} label="Custo estimado" hint="preços em lib/guide/cost.ts" />
+        </div>
+        <p className="mg-admin__note">Só contagens: o conteúdo das leituras nunca aparece aqui.</p>
+      </GlassCard>
+
       <GlassCard title="Feedback">
         <div className="mg-admin__tiles">
           <MetricCard value={n(m.feedback.total)} label="Total" />

@@ -510,3 +510,23 @@ Stories da semana ou do mês que acabou, sem IA e grátis. Lógica pura em `peri
 | `RecapCountUp` | client | `recap-count.css` | `mg-recap-count` | número grande na tipografia de destaque, de 0 ao valor em 800 ms; sem animação com `prefers-reduced-motion` |
 | `RecapEntryCard` | server | `recap-entry.css` | `mg-recap-entry`, `__icon`, `__text`, `__title`, `__period`, `__dot` | cartão compacto "Ver a retrospectiva" com ícone e período; ponto dourado "por ver" sem `RecapView`; na Semana (antes da reflexão) e no Mês (junto às estatísticas) |
 | `RecapAutoOpen` | client | — | — | no layout `(app)`: `router.push` para a retrospectiva com `?auto=1`, uma vez por sessão (`sessionStorage`), nunca dentro de `/recap` |
+
+### Guia — F14 (`src/components/guide/`, lógica em `src/lib/guide/`, rotas `/guide/[kind]/[key]` e `/profile/guide`)
+
+Leitura escrita, semanal e mensal, feita por IA a partir do diário: a primeira vez que texto do diário segue para a IA. Premium (`guide`) e com consentimento próprio (`guideConsentAt` + `guideConsentVersion`), desligado por defeito. Três portões no servidor e no job (acesso, consentimento, dados suficientes); geração só em Inngest (`guideGenerate`), as páginas lêem `getGuideState`. Modo apoio (texto fixo e contactos) quando há sinais de sofrimento sério, antes ou depois da IA. O nome vive só em `messages` (`guide.name`). Sem aba nova.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `GuidePage` | server | `guide.css` | `mg-guide`, `__header`, `__title`, `__meta` | cabeçalho com o nome, o período e a data de geração; corpo conforme o estado (`GuideConsent`, `GuidePending`, `GuideInsufficient`, `GuideSupport`, `GuideReportView`, falha); marca como lida |
+| `GuideConsent` | client | `guide-consent.css` | `mg-guide-consent`, `__list`, `__actions` | o que é enviado e o que não é, quem processa, como desligar, não substitui ajuda profissional; checkbox + "Activar o {nome}" → `giveGuideConsent` |
+| `GuideReportView` | server | `guide-report.css` | `mg-guide-report`, `__section`, `__item`, `__evidence`, `__focus`, `__status` | abertura; continuar; pode melhorar; padrões; as suas áreas (ícone da área + estado sem cores de bom/mau); 3 focos numerados; encorajamento; datas de `evidence` como etiquetas com link para `/day/[date]` |
+| `GuidePending` | client | `guide-states.css` | `mg-guide-pending` | pede a leitura (`requestGuide`) e refresca a cada 5 s durante no máximo 2 min (`router.refresh()`); brilho suave que pára no fim |
+| `GuideInsufficient` | server | `guide-states.css` | `mg-guide-empty` | "Escreva em mais alguns dias para o {nome} ter o que ler." + link para Hoje |
+| `GuideSupport` | server | `guide-states.css` | `mg-guide-support`, `__contacts` | texto fixo cuidadoso, contactos de ajuda da língua (`tel:` e `https:`), convite a falar com alguém de confiança; sem análise nem focos |
+| `GuideMarkRead` | client | — | — | marca a leitura como lida ao aparecer (`markGuideRead`) |
+| `GuideRetry` | client | `guide-consent.css` | `mg-guide-consent__note` | no estado "escreva mais": pedir de novo depois de escrever (`requestGuide`) |
+| `GuideFeedback` | client | `guide-report.css` | `mg-guide-feedback` | "Esta leitura ajudou?" com ícones de linha (polegar) → `rateGuide` |
+| `GuideRegenerate` | client | `guide-report.css` | `mg-guide-regen` | "Ler de novo com o que escrevi depois" (só com `canRegenerate`) → `regenerateGuide`, depois espera pela leitura nova |
+| `GuideEntryCard` | server | `guide-entry.css` | `mg-guide-entry`, `__icon`, `__text`, `__title`, `__status` | cartão compacto na Semana e no Mês, ao lado do `RecapEntryCard`, só para quem tem acesso: pronto, a preparar ou activar + link |
+| `GuideHistory` | server | `guide-history.css` | `mg-guide-history`, `__item`, `__unread` | lista em `/profile/guide`: período, tipo, estado, lido ou por ler |
+| `GuideSettings` | client | `guide-consent.css` | `mg-guide-consent` | secção das definições (só com acesso): estado do consentimento, desligar e "Apagar todas as leituras" → `withdrawGuideConsent`; sem consentimento, link para activar |

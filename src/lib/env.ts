@@ -137,6 +137,17 @@ export function hasPush(): boolean {
 }
 
 /** Pedidos por minuto à IA (sem validar o resto da env; usado na definição das funções Inngest). */
+/** F14: modelo do Guia (vazio = o modelo maior). */
+export function guideModel(): string {
+  return process.env.OPENAI_MODEL_GUIDE || getAiEnv().OPENAI_MODEL_RICH;
+}
+
+/** F14: versão do texto de consentimento do Guia; um consentimento de outra versão deixa de valer. */
+export const DEFAULT_GUIDE_CONSENT_VERSION = '2026-11';
+export function guideConsentVersion(): string {
+  return process.env.GUIDE_CONSENT_VERSION || DEFAULT_GUIDE_CONSENT_VERSION;
+}
+
 export function aiRequestsPerMinute(): number {
   const n = Number(process.env.AI_REQUESTS_PER_MINUTE);
   return Number.isInteger(n) && n > 0 ? n : 60;

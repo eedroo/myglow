@@ -13,11 +13,14 @@ interface RecapClosingProps extends RecapSlideProps<'closing'> {
   guideInterested: boolean;
   /** Página do período, onde fica a reflexão. */
   periodHref: string;
+  /** F14: leitura do Guia deste período. */
+  guideHref: string;
 }
 
 /** Último slide: a porta para o Guia, planear o período novo e a reflexão (se ainda der Glow). */
-export function RecapClosing({ slide, onClose, guideInterested, periodHref }: RecapClosingProps) {
+export function RecapClosing({ slide, onClose, guideInterested, periodHref, guideHref }: RecapClosingProps) {
   const t = useTranslations('recap.closing');
+  const name = useTranslations('guide')('name');
   const isWeek = slide.kind === 'WEEK';
   const reflectionHref = `${periodHref}#${isWeek ? 'week-reflection' : 'month-reflection'}`;
   const points = XP_POINTS[isWeek ? 'WEEK_REFLECTION' : 'MONTH_REFLECTION'];
@@ -26,12 +29,15 @@ export function RecapClosing({ slide, onClose, guideInterested, periodHref }: Re
       <h2 className="mg-recap-slide__title">{t('title')}</h2>
       <p className="mg-recap-slide__text">{t(isWeek ? 'weekText' : 'monthText')}</p>
       {slide.guide === 'locked' ? (
-        <PremiumLock title={t('guideTitle')} teaser={t(isWeek ? 'guideTeaserWeek' : 'guideTeaserMonth')} interested={guideInterested} />
+        <PremiumLock title={t('guideTitle', { name })} teaser={t(isWeek ? 'guideTeaserWeek' : 'guideTeaserMonth')} interested={guideInterested} />
       ) : (
-        <section className="mg-recap-closing__soon" aria-label={t('guideTitle')}>
+        <section className="mg-recap-closing__soon" aria-label={t('guideTitle', { name })}>
           <MagicIcon name="crystal-ball" size="lg" decorative />
-          <h3 className="mg-recap-slide__eyebrow">{t('guideTitle')}</h3>
-          <p className="mg-recap-slide__text">{t('guideSoon')}</p>
+          <h3 className="mg-recap-slide__eyebrow">{t('guideTitle', { name })}</h3>
+          <p className="mg-recap-slide__text">{t(slide.guide === 'consent' ? 'guideConsentText' : isWeek ? 'guideReadyWeek' : 'guideReadyMonth', { name })}</p>
+          <Link href={guideHref} className="mg-btn mg-btn--primary">
+            {t(slide.guide === 'consent' ? 'guideActivate' : 'guideOpen', { name })}
+          </Link>
         </section>
       )}
       <div className="mg-recap-closing__actions">

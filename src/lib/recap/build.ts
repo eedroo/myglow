@@ -13,7 +13,8 @@ import type { RecapKindKey, RecapPeriod } from './period';
  * Retrospectiva (F13): constrói os slides a partir de números que a app já calcula. Sem IA.
  * Tom: celebrar, nunca culpar. Slide sem dados é omitido; comparações só quando sobem.
  */
-export type GuideAccess = 'locked' | 'soon';
+/** F14: cadeado (sem acesso), activar (sem consentimento), a preparar ou pronta. */
+export type GuideAccess = 'locked' | 'consent' | 'pending' | 'ready';
 
 /** Curso concluído no período: título e ícone do emblema já resolvidos (o conteúdo do Grimório não vive em `messages`). */
 export interface RecapCourse {
@@ -29,7 +30,7 @@ export interface RecapInput {
   tz: string;
   locale: AppLocale;
   hasWellbeingConsent: boolean;
-  guideAccess: GuideAccess; // Fase 14 acrescenta 'ready'
+  guideAccess: GuideAccess;
   periodTitle: string; // título da semana ou nome do mês já formatado
   intention: string | null; // intenção da semana ou do mês
   reflectionEmpty: boolean; // reflexão do período por escrever

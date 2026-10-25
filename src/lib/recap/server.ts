@@ -10,6 +10,7 @@ import { hasWellbeingConsent } from '@/lib/account/consent';
 import { getMoonEvents } from '@/lib/astro/moonCalendar';
 import { getCachedRetrogradePeriods, getCachedSkyEvents } from '@/lib/astro/skyCache';
 import { getEntitlements } from '@/lib/entitlements/server';
+import { getGuideEntryStatus } from '@/lib/guide/queries';
 import { publishedCourses } from '@/lib/grimoire/queries';
 import { dbToAppLocale, isAppLocale } from '@/i18n/locales';
 import type { RecapCourse, RecapInput } from './build';
@@ -137,6 +138,11 @@ export async function getRecapInput(userId: string, period: RecapPeriod): Promis
     periodTitle = formatMonthName(year, month, locale);
   }
 
+  // F14: estado do Guia para o último slide.
+  const guideAccess: RecapInput['guideAccess'] = !entitlements.features.guide
+    ? 'locked'
+    : await getGuideEntryStatus(userId, period.kind, period.key).then((s) => (s === 'consent' ? 'consent' : s === 'ready' ? 'ready' : 'pending'));
+
   const [skyEvents, retrogrades] = isWeek
     ? [[], []]
     : await Promise.all([
@@ -151,7 +157,7 @@ export async function getRecapInput(userId: string, period: RecapPeriod): Promis
     tz,
     locale,
     hasWellbeingConsent: wellbeing,
-    guideAccess: entitlements.features.guide ? 'soon' : 'locked',
+    guideAccess,
     periodTitle,
     intention: filled(plan?.intention) ? plan!.intention!.trim() : null,
     reflectionEmpty: !filled(plan?.reflection),

@@ -31,6 +31,7 @@ export async function GET() {
       userAiContent: { orderBy: { periodStart: 'asc' } },
       activeDays: { orderBy: { day: 'asc' } },
       recapViews: { orderBy: { firstSeenAt: 'asc' } },
+      guideReports: { orderBy: { generatedAt: 'asc' } },
     },
   });
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -51,6 +52,7 @@ export async function GET() {
     aiContent: user.userAiContent,
     activeDays: user.activeDays,
     recapViews: user.recapViews,
+    guideReports: user.guideReports,
   });
 
   return new NextResponse(JSON.stringify(data, null, 2), {

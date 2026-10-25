@@ -1,5 +1,5 @@
 import type {
-  BirthProfile, CourseProgress, DailyEntry, LessonProgress, Month, NotificationLog, NotificationPrefs,
+  BirthProfile, CourseProgress, DailyEntry, GuideReport, LessonProgress, Month, NotificationLog, NotificationPrefs,
   ProjectIntention, RecapView, User, UserActiveDay, UserAiContent, Week, WeekDayNote, XpEvent, Year,
 } from '@prisma/client';
 import { fromDbDate } from '@/lib/dates';
@@ -17,6 +17,7 @@ export interface ExportSource {
     | 'name' | 'email' | 'locale' | 'theme' | 'timezone' | 'hemisphere' | 'sleepGoalMinutes' | 'pronouns' | 'xpTotal'
     | 'bestMagicStreak' | 'emailVerifiedAt' | 'termsAcceptedAt' | 'termsVersion' | 'privacyVersion' | 'wellbeingConsentAt'
     | 'createdAt' | 'onboardedAt' | 'plan' | 'planSince' | 'planExpiresAt' | 'premiumInterestAt'
+    | 'guideConsentAt' | 'guideConsentVersion'
   >;
   birthProfile: BirthProfile | null;
   dailyEntries: DailyEntry[];
@@ -34,6 +35,8 @@ export interface ExportSource {
   activeDays: UserActiveDay[];
   /** F13: retrospectivas vistas (e concluídas). */
   recapViews: RecapView[];
+  /** F14: leituras do Guia. */
+  guideReports: GuideReport[];
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -66,6 +69,8 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       planSince: iso(u.planSince),
       planExpiresAt: iso(u.planExpiresAt),
       premiumInterestAt: iso(u.premiumInterestAt),
+      guideConsentAt: iso(u.guideConsentAt),
+      guideConsentVersion: u.guideConsentVersion,
     },
     activeDays: data.activeDays.map((a) => day(a.day)),
     recapViews: data.recapViews.map((r) => ({
@@ -73,6 +78,16 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       periodKey: r.periodKey,
       firstSeenAt: iso(r.firstSeenAt),
       completedAt: iso(r.completedAt),
+    })),
+    guideReports: data.guideReports.map((g) => ({
+      kind: g.kind,
+      periodKey: g.periodKey,
+      locale: g.locale,
+      status: g.status,
+      report: g.payload,
+      generatedAt: iso(g.generatedAt),
+      readAt: iso(g.readAt),
+      rating: g.rating,
     })),
     birthProfile: b && {
       birthDate: day(b.birthDate),

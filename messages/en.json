@@ -1619,10 +1619,14 @@
       "title": "What now?",
       "weekText": "A new week begins.",
       "monthText": "A new month begins.",
-      "guideTitle": "Your Guide",
+      "guideTitle": "Your {name}",
       "guideTeaserWeek": "There's a reading about your week waiting for you.",
       "guideTeaserMonth": "There's a reading about your month waiting for you.",
-      "guideSoon": "Your Guide's reading is coming soon.",
+      "guideConsentText": "A written reading of what you lived, made from your journal. Only with your permission.",
+      "guideReadyWeek": "Your reading of the week is waiting for you.",
+      "guideReadyMonth": "Your reading of the month is waiting for you.",
+      "guideActivate": "Turn on {name}",
+      "guideOpen": "Open {name}",
       "planWeek": "Plan the week",
       "planMonth": "Plan the month",
       "reflection": "Write your reflection (+{points} Glow)",
@@ -1633,6 +1637,114 @@
       "week": "Week of {range}",
       "month": "{month}",
       "unseen": "Not seen yet"
+    }
+  },
+  "guide": {
+    "name": "Guide",
+    "profileLink": "{name} readings",
+    "header": {
+      "week": "Week of {range}",
+      "month": "{month}",
+      "generated": "Reading from {date}"
+    },
+    "consent": {
+      "title": "How {name} works",
+      "intro": "At the end of each week and month, {name} reads what you wrote and gives you a reading with what to keep, what to adjust and 3 focuses.",
+      "sentTitle": "What is sent",
+      "sent": "Intentions, banishings, gratitudes, reflections, summaries, week notes and goals by area, plus the period's numbers (days, rituals, body, Glow, lessons). Mood, waking and sleep are sent only as averages, and only if you allowed wellbeing data. Emails, phone numbers and links are removed before sending.",
+      "neverTitle": "What is never sent",
+      "never": "Your name, email, weight, birth date and place, and your notes on how you woke up.",
+      "whoTitle": "Who processes it",
+      "who": "Google, through the paid Gemini API, which does not use this data to train models. It may keep it for a limited time to detect abuse.",
+      "offTitle": "Turn it off any time",
+      "off": "In Settings you can turn {name} off and delete all readings.",
+      "notProfessional": "{name} is not a substitute for professional help.",
+      "check": "I have read this and allow these texts to be sent so {name} can write my readings.",
+      "activate": "Turn on {name}"
+    },
+    "pending": {
+      "week": "Your {name} is reading your week…",
+      "month": "Your {name} is reading your month…",
+      "long": "This reading is taking longer than usual. Come back in a little while: {name} is still working."
+    },
+    "insufficient": {
+      "text": "Write on a few more days so {name} has something to read.",
+      "cta": "Write today",
+      "retry": "I wrote more, read now"
+    },
+    "failed": {
+      "text": "This reading couldn't be prepared right now. {name} will try again later."
+    },
+    "errors": {
+      "rateLimited": "Too many requests today. Try again tomorrow.",
+      "generic": "Something went wrong. Try again."
+    },
+    "support": {
+      "title": "We're with you",
+      "text": "It looks like this period was heavy. You don't have to go through it without support.",
+      "invite": "If you can, talk to someone you trust today. If you are in danger, call emergency services now.",
+      "contacts": {
+        "findHelpline": "Helplines worldwide",
+        "localEmergency": "Local emergency number",
+        "sns24": "SNS 24 (Portugal)",
+        "vozAmiga": "SOS Voz Amiga (Portugal)",
+        "emergency": "Emergency",
+        "cvv": "CVV (Brazil)",
+        "samu": "SAMU (Brazil)"
+      }
+    },
+    "report": {
+      "continue": "Keep going",
+      "improve": "Could improve",
+      "patterns": "Patterns",
+      "areas": "Your areas",
+      "focuses": "3 focuses",
+      "evidenceLabel": "Days this reading is based on",
+      "action": "How: {action}",
+      "status": {
+        "aligned": "Aligned",
+        "partial": "Halfway",
+        "not_yet": "Not yet"
+      }
+    },
+    "feedback": {
+      "question": "Did this reading help?",
+      "yes": "It helped",
+      "no": "It didn't help",
+      "thanks": "Thanks for letting us know."
+    },
+    "regen": {
+      "button": "Read again with what I wrote since"
+    },
+    "entry": {
+      "titleWeek": "{name} for the week",
+      "titleMonth": "{name} for the month",
+      "consent": "Turn on {name}",
+      "pending": "Preparing your reading",
+      "ready": "Your reading is ready",
+      "other": "See the reading"
+    },
+    "history": {
+      "title": "{name} readings",
+      "subtitle": "The readings of your weeks and months.",
+      "empty": "No readings yet.",
+      "week": "Week of {range}",
+      "month": "{month}",
+      "unread": "Unread",
+      "status": {
+        "READY": "Ready",
+        "INSUFFICIENT": "Too few days written",
+        "SUPPORT": "Support message",
+        "FAILED": "Couldn't be prepared"
+      }
+    },
+    "settings": {
+      "on": "{name} turned on on {date}.",
+      "off": "{name} is off.",
+      "deactivated": "{name} has been turned off.",
+      "activate": "Turn on {name}",
+      "deleteReports": "Also delete all readings",
+      "deactivate": "Turn off {name}"
     }
   }
 }

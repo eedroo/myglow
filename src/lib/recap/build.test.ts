@@ -25,7 +25,7 @@ const input = (patch: Partial<RecapInput> = {}): RecapInput => ({
   tz: 'Europe/Lisbon',
   locale: 'pt-BR',
   hasWellbeingConsent: true,
-  guideAccess: 'soon',
+  guideAccess: 'pending',
   periodTitle: 'Semana 3 de outubro',
   intention: 'Calma',
   reflectionEmpty: true,
@@ -96,8 +96,11 @@ describe('buildRecap', () => {
     expect(find(buildRecap(input({ reflectionEmpty: false })), 'closing')?.reflectionCta).toBe(false);
   });
 
-  it('guide locked passa para o closing', () => {
+  it('guideAccess passa para o closing (locked, consent, pending, ready)', () => {
     expect(find(buildRecap(input({ guideAccess: 'locked' })), 'closing')).toMatchObject({ guide: 'locked', nextHref: '/week' });
+    for (const guideAccess of ['consent', 'pending', 'ready'] as const) {
+      expect(find(buildRecap(input({ guideAccess })), 'closing')?.guide).toBe(guideAccess);
+    }
   });
 
   it('ordem respeitada; cover, days e closing sempre presentes', () => {

@@ -116,6 +116,18 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - O último slide liga ao Guia (cadeado para quem não é premium) e à reflexão se a janela de Glow estiver aberta.
 - `RecapView` guarda vista e concluída.
 
+## Guia (Fase 14)
+- **Acesso:** Guia premium, com consentimento próprio (versão em env), desligado por defeito.
+- **Dados enviados:** textos do período limpos de contactos e cortados, mais números; bem-estar só como médias e com consentimento. Nunca nome, email, peso, nascimento nem notas de acordar.
+- **Geração:**
+  - semanal ao domingo de madrugada e mensal no dia 1, no fuso da pessoa, ou a pedido;
+  - mínimo de 3 dias com texto;
+  - 1 regeneração por período;
+  - validação contra o input.
+- **Modo apoio:** com sinais de sofrimento sério, sem chamada à IA ou descartando a resposta.
+- **Feedback e admin:** feedback 👍/👎; o admin só vê contagens.
+- **Nome:** só em `messages` (`guide.name`).
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

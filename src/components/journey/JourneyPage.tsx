@@ -27,9 +27,10 @@ export async function JourneyPage() {
   const user = await db.user.findUnique({ where: { id: session.user.id }, select: { timezone: true, locale: true } });
   if (!user) redirect('/login');
 
-  const [t, tg, summary, history, badges, entitlements] = await Promise.all([
+  const [t, tg, tguide, summary, history, badges, entitlements] = await Promise.all([
     getTranslations('glow'),
     getTranslations('grimoire.profile'),
+    getTranslations('guide'),
     getGlowSummary(session.user.id, user.timezone),
     getGlowHistory(session.user.id, 30),
     getBadges(session.user.id, contentPrefsFor(user.locale)),
@@ -69,6 +70,11 @@ export async function JourneyPage() {
       <div className="mg-journey__extras">
         <FeedbackDialog />
         <StartTourButton label={tg('startTour')} />
+        {entitlements.features.guide && (
+          <Link href="/profile/guide" className="mg-btn mg-btn--subtle">
+            {tguide('profileLink', { name: tguide('name') })}
+          </Link>
+        )}
         {isAdminEmail(session.user.email) && (
           <Link href="/admin" className="mg-btn mg-btn--subtle">
             {tg('admin')}

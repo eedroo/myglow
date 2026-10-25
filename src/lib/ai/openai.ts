@@ -41,13 +41,17 @@ export async function completeJson(i: {
   name: string;
   schema: z.ZodTypeAny;
   messages: ChatMessage[];
-}): Promise<{ data: unknown; raw: string }> {
+  /** F14: limite de tokens de saída (o Guia usa 1500). */
+  maxTokens?: number;
+}): Promise<{ data: unknown; raw: string; usage: { input: number; output: number } }> {
   const completion = await getClient().chat.completions.parse({
     model: i.model,
     messages: i.messages,
     response_format: zodResponseFormat(wireSchema(i.schema), i.name),
+    ...(i.maxTokens ? { max_tokens: i.maxTokens } : {}),
   });
   const message = completion.choices[0]?.message;
   if (!message || message.refusal) throw new Error(`[ai] Sem resposta utilizável (${message?.refusal ?? 'vazia'})`);
-  return { data: message.parsed, raw: message.content ?? '' };
+  const usage = { input: completion.usage?.prompt_tokens ?? 0, output: completion.usage?.completion_tokens ?? 0 };
+  return { data: message.parsed, raw: message.content ?? '', usage };
 }

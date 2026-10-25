@@ -69,6 +69,8 @@
   --recap-bg-4: linear-gradient(160deg, #FDF6E8 0%, #F5E4C4 50%, #EBCF9F 100%);
   --recap-bar: rgba(59, 47, 30, 0.18);
   --recap-bar-fill: var(--gold-700);
+  --guide-accent: #8A6A9E; /* F14: Guia (lilás suave, sem significado de bom/mau) */
+  --guide-surface: rgba(138, 106, 158, 0.08);
 
   /* Raios */
   --radius-sm: 10px;
@@ -185,4 +187,6 @@
   --recap-bg-4: linear-gradient(160deg, #1A140C 0%, #2B2112 50%, #43331A 100%);
   --recap-bar: rgba(243, 233, 214, 0.2);
   --recap-bar-fill: var(--gold-300);
+  --guide-accent: #C6A8DA;
+  --guide-surface: rgba(198, 168, 218, 0.1);
 }

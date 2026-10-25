@@ -1,5 +1,5 @@
 version: 2026-10
-date: 2026-10-24
+date: 2026-10-25
 
 > **Rascunho — revisar com advogado antes do lançamento.**
 
@@ -29,6 +29,7 @@ Para qualquer dúvida sobre privacidade, escreva para [privacidade@onda.work](ma
 
 - **Prestar o serviço** (conta, diário, planners, Grimório, leituras, lembretes, exportação): execução do contrato que você aceita ao criar a conta.
 - **Dados de bem-estar** (humor, sono, peso): **consentimento explícito**, usado exclusivamente nas suas estatísticas e no seu diário. Você pode retirá-lo a qualquer momento nas Configurações, sem afetar o resto do app.
+- **Guia (opcional, com consentimento):** uma leitura escrita no fim de cada semana e de cada mês, feita por IA a partir do que você escreveu no diário. Fundamento: o seu **consentimento**, dado à parte e desligado por padrão. Você pode retirá-lo a qualquer momento nas Configurações e apagar todas as leituras.
 - **Segurança e prevenção de abuso** (limites de tentativas, registros técnicos): legítimo interesse em proteger a conta e o serviço.
 - **E-mails de serviço** (confirmação de e-mail, recuperação de senha, avisos de segurança): execução do contrato. Não enviamos marketing.
 
@@ -42,7 +43,11 @@ As leituras personalizadas (dia, semana, mês e rituais) são geradas por um mod
 
 **Nunca** enviamos seu nome, e-mail, local ou data de nascimento, nem nada do seu diário ou dos seus planners — incluindo intenções, metas, humor, sono e peso.
 
+A única exceção é o **Guia**, descrito abaixo, e só com o seu consentimento.
+
 Se não quiser leituras personalizadas, você pode não preencher os dados de nascimento ou apagar a conta; o resto do diário funciona sem IA.
+
+**Guia (opcional).** Se você ativar o Guia, no fim de cada semana e de cada mês enviamos ao mesmo fornecedor de IA: intenções, banimentos, gratidões, reflexões, resumos, notas da semana e metas por área, mais os números do período (dias, rituais, corpo, Glow, lições). Humor, como você acordou e sono vão só como médias, e só se você autorizou dados de bem-estar. Antes do envio retiramos e-mails, telefones e links dos textos e cortamos cada campo. **Nunca** enviamos o seu nome, e-mail, peso, data e local de nascimento, nem as notas de como você acordou. Usamos a API paga do fornecedor, que não usa estes dados para treinar modelos e pode guardá-los por um período limitado para detectar abusos. O Guia não substitui ajuda profissional.
 
 ## 5. Operadores (subcontratados)
 
@@ -50,7 +55,7 @@ Usamos estes prestadores, que tratam dados apenas em nosso nome e segundo as nos
 
 - **Vercel** — hospedagem do app;
 - **Neon** — banco de dados;
-- **Google (API Gemini)** — geração das leituras com IA;
+- **Google (API Gemini)** — geração das leituras com IA e do Guia;
 - **Inngest** — tarefas agendadas (leituras e lembretes);
 - **Upstash** — limites de uso (segurança);
 - **Resend** — envio de e-mails;
@@ -72,6 +77,7 @@ Você tem direito a:
 - **correção** — você pode editar seus dados no app a qualquer momento;
 - **eliminação** — em Configurações › Zona de perigo, «Apagar conta» remove tudo;
 - **retirar o consentimento** dos dados de bem-estar, nas Configurações, sem afetar a licitude do tratamento anterior;
+- **retirar o consentimento** do Guia, nas Configurações, e apagar todas as leituras;
 - **oposição** e **limitação** do tratamento, nos casos previstos em lei;
 - apresentar **reclamação** à Comissão Nacional de Proteção de Dados (CNPD, Portugal) ou à autoridade do seu país (no Brasil, a ANPD).
 

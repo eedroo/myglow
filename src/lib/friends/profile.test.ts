@@ -24,7 +24,7 @@ const state = {
 
 const fullUser = () => ({
   id: 'b', name: 'Beatriz Lua', email: 'beatriz@example.com', passwordHash: 'HASH', xpTotal: 1200, timezone: TZ,
-  showBigThree: state.showBigThree, bestMagicStreak: 9, locale: 'PT_PT', friendCode: 'ABCDEFGH',
+  showBigThree: state.showBigThree, bestMagicStreak: 9, locale: 'PT_PT', friendCode: 'ABCDEFGH', handle: 'bia.lua',
   wellbeingConsentAt: new Date(), guideConsentAt: new Date(),
   dailyEntries: [{ intention: 'INTENCAO', reflection: 'REFLEXAO', gratitude: 'GRATIDAO', summary: 'RESUMO', mood: 5 }],
   weeks: [{ weightGrams: 60000, intention: 'INTENCAO_SEMANA' }],
@@ -54,7 +54,7 @@ vi.mock('@/lib/db', () => ({
 const { getFriendProfile } = await import('./queries');
 
 const ALLOWED = [
-  'id', 'name', 'initials', 'level', 'levelKey', 'progress', 'magicStreak', 'orb', 'bestMagicStreak', 'badges',
+  'id', 'name', 'initials', 'level', 'levelKey', 'progress', 'magicStreak', 'orb', 'handle', 'bestMagicStreak', 'badges',
   'coursesCompleted', 'currentCourse', 'bigThree', 'friendsSince',
 ].sort();
 const FORBIDDEN = ['intention', 'reflection', 'gratitude', 'summary', 'mood', 'weight', 'email'];
@@ -87,7 +87,7 @@ describe('getFriendProfile', () => {
     for (const marker of ['intencao', 'reflexao', 'gratidao', 'resumo', 'local_nascimento', 'abcdefgh', 'hash']) {
       expect(json, marker).not.toContain(marker);
     }
-    expect(p).toMatchObject({ name: 'Beatriz Lua', level: 3, bestMagicStreak: 9, coursesCompleted: 1 });
+    expect(p).toMatchObject({ name: 'Beatriz Lua', handle: 'bia.lua', level: 3, bestMagicStreak: 9, coursesCompleted: 1 });
     expect(p!.badges).toEqual([{ courseSlug: 'vida-magica', earnedAt: '2026-10-05T10:00:00.000Z' }]);
   });
 

@@ -29,6 +29,8 @@ export interface FriendSummary {
 }
 
 export interface FriendProfile extends FriendSummary {
+  /** O @ escolhido pela pessoa (público por natureza), ou null. */
+  handle: string | null;
   bestMagicStreak: number;
   badges: { courseSlug: string; earnedAt: string }[];
   coursesCompleted: number;
@@ -196,7 +198,7 @@ export async function getFriendProfile(viewerId: string, targetId: string): Prom
   ]);
   if (!friendship || blocked) return null;
 
-  const user = await db.user.findUnique({ where: { id: targetId }, select: { ...PUBLIC_USER, bestMagicStreak: true, locale: true } });
+  const user = await db.user.findUnique({ where: { id: targetId }, select: { ...PUBLIC_USER, bestMagicStreak: true, locale: true, handle: true } });
   if (!user) return null;
 
   const [streaks, big, courses, lessons] = await Promise.all([
@@ -225,6 +227,7 @@ export async function getFriendProfile(viewerId: string, targetId: string): Prom
   const bigThree = user.showBigThree ? (big.get(user.id) ?? null) : null;
   const profile: FriendProfile = {
     ...summary(user, streak, big.get(user.id)),
+    handle: user.handle,
     bestMagicStreak: Math.max(user.bestMagicStreak, streak),
     badges: completed
       .sort((a, b) => a.completedAt!.getTime() - b.completedAt!.getTime())

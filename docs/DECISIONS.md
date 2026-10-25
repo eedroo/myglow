@@ -130,7 +130,7 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 
 ## Amigos (Fase 15)
 - Amigos só mútuos, por link pessoal, código de 8 caracteres ou @ escolhido pela pessoa; sem pesquisa por email.
-- Perfil de amigo com lista fechada de campos (`FriendProfile`: nome, iniciais, nível, anel, sequência actual e melhor, emblemas, cursos concluídos e o actual, Sol/Lua/Asc, amigos desde, cores da esfera); Sol/Lua/Asc opcional e desligado por defeito.
+- Perfil de amigo com lista fechada de campos (`FriendProfile`: nome, @, iniciais, nível, anel, sequência actual e melhor, emblemas, cursos concluídos e o actual, Sol/Lua/Asc, amigos desde, cores da esfera); Sol/Lua/Asc opcional e desligado por defeito.
 - Recusar e remover são silenciosos; bloqueio apaga amizade e pedidos.
 - Limites: 100 amigos, 30 pendentes, 20 pedidos por dia; pedidos expiram em 30 dias; 7 dias antes de reenviar.
 - Link de amigo conta como convite no beta.

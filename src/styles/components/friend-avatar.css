@@ -40,6 +40,7 @@
 
 .mg-friend-avatar--sm { width: 36px; height: 36px; }
 .mg-friend-avatar--lg { width: 96px; height: 96px; }
+.mg-friend-avatar--xl { width: 168px; height: 168px; }
 
 .mg-friend-avatar__ring {
   position: absolute;
@@ -62,9 +63,13 @@
   stroke-linecap: round;
 }
 
+/* SVG absoluto não estica com `inset`: tamanho e posição explícitos, centrados no anel */
 .mg-friend-avatar__orb {
   position: absolute;
-  inset: 12%;
+  top: 12%;
+  left: 12%;
+  width: 76%;
+  height: 76%;
 }
 
 .mg-friend-avatar__initials {
@@ -79,10 +84,23 @@
   font-size: var(--text-xl);
 }
 
+.mg-friend-avatar--xl .mg-friend-avatar__initials {
+  font-size: var(--text-3xl);
+}
+
+/* No tamanho grande o anel fica mais fino (o traço escala com o SVG) */
+.mg-friend-avatar--xl .mg-friend-avatar__track,
+.mg-friend-avatar--xl .mg-friend-avatar__arc {
+  stroke-width: 1.6;
+}
+
 /* LevelBadge (TopBar): a esfera ocupa o lugar das iniciais; ponto dourado com pedidos por responder */
 .mg-level-badge__orb {
   position: absolute;
-  inset: 5px;
+  top: 5px;
+  left: 5px;
+  width: 34px;
+  height: 34px;
 }
 
 .mg-level-badge__dot {

@@ -14,7 +14,7 @@
 }
 
 .mg-settings__section {
-  scroll-margin-top: calc(var(--topbar-height) + var(--space-7));
+  scroll-margin-top: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--space-7));
 }
 
 .mg-settings-nav {

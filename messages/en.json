@@ -1801,18 +1801,23 @@
       "title": "Friend's profile",
       "level": "Level {level} · {name}",
       "since": "Friends since {date}",
-      "streakTitle": "Magic streak",
       "streakNow": "Current streak",
       "streakBest": "Best streak",
-      "coursesTitle": "Grimoire",
-      "coursesDone": "{n, plural, =0 {No courses completed yet} one {# course completed} other {# courses completed}}",
       "courseNow": "Now in {course}: {done} of {total} lessons",
-      "skyTitle": "Sun, Moon and Ascendant",
+      "skyTitle": "Constellation",
       "sky": {
         "sun": "Sun",
         "moon": "Moon",
         "asc": "Ascendant"
-      }
+      },
+      "toNext": "{pct}% of the way to level {level}",
+      "maxLevel": "Top level reached",
+      "statsTitle": "Stats",
+      "badgesCount": "Achievements",
+      "coursesCount": "Courses",
+      "daysTogether": "Days as friends",
+      "questTitle": "Current quest",
+      "achievementsTitle": "Achievements"
     },
     "menu": {
       "remove": "Remove friend",

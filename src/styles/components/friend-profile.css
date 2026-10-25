@@ -1,4 +1,4 @@
-/* FriendProfileView (F15): o que um amigo vê (lista fechada) */
+/* FriendProfileView (F15): ficha de jogador do amigo (lista fechada de campos) */
 
 .mg-friend-profile {
   display: flex;
@@ -6,71 +6,19 @@
   gap: var(--space-5);
 }
 
-.mg-friend-profile__hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  text-align: center;
-}
 
-.mg-friend-profile__name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-regular);
-}
 
-.mg-friend-profile__meta {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-}
 
-.mg-friend-profile__stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-3);
-}
 
-.mg-friend-profile__stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-4);
-  border: var(--border-width) solid var(--glass-border);
-  border-radius: var(--radius-md);
-  background: var(--glass-bg);
-}
 
-.mg-friend-profile__value {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-}
 
 .mg-friend-profile__label {
   font-size: var(--text-sm);
   color: var(--text-muted);
 }
 
-.mg-friend-profile__courses {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
 
-.mg-friend-profile__bar {
-  height: 6px;
-  overflow: hidden;
-  border-radius: var(--radius-pill);
-  background: var(--glass-border);
-}
 
-.mg-friend-profile__fill {
-  height: 100%;
-  border-radius: var(--radius-pill);
-  background: var(--gold-gradient);
-}
 
 .mg-friend-profile__sky {
   display: grid;
@@ -87,4 +35,30 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-1);
+}
+
+/* Constelação: uma pequena esfera por signo com o glifo por cima */
+.mg-friend-profile__sky-orb {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+}
+
+.mg-friend-profile__sky-orb > .mg-orb {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mg-friend-profile__glyph {
+  position: relative;
+  display: inline-flex;
+  color: var(--text-on-gold);
+}
+
+.mg-friend-profile__badges .mg-badges__slot--earned .mg-badges__icon {
+  filter: drop-shadow(var(--shadow-glow));
 }

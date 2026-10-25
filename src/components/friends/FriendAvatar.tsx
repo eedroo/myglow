@@ -9,7 +9,7 @@ interface FriendAvatarProps {
   orb: OrbSigns | null;
   initials: string;
   progress: number; // 0–1 dentro do nível
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 /** Esfera de luz dentro do anel de nível; as iniciais aparecem só na esfera neutra. */

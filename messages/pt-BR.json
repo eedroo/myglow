@@ -1801,18 +1801,23 @@
       "title": "Perfil do amigo",
       "level": "Nível {level} · {name}",
       "since": "Amigos desde {date}",
-      "streakTitle": "Sequência mágica",
       "streakNow": "Sequência atual",
       "streakBest": "Melhor sequência",
-      "coursesTitle": "Grimório",
-      "coursesDone": "{n, plural, =0 {Nenhum curso concluído ainda} one {# curso concluído} other {# cursos concluídos}}",
       "courseNow": "Agora em {course}: {done} de {total} lições",
-      "skyTitle": "Sol, Lua e Ascendente",
+      "skyTitle": "Constelação",
       "sky": {
         "sun": "Sol",
         "moon": "Lua",
         "asc": "Ascendente"
-      }
+      },
+      "toNext": "{pct}% do caminho até o nível {level}",
+      "maxLevel": "Nível máximo alcançado",
+      "statsTitle": "Atributos",
+      "badgesCount": "Conquistas",
+      "coursesCount": "Cursos",
+      "daysTogether": "Dias de amizade",
+      "questTitle": "Missão atual",
+      "achievementsTitle": "Conquistas"
     },
     "menu": {
       "remove": "Remover amigo",

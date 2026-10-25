@@ -4,9 +4,6 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
-import { PageHeader } from '@/components/shell/PageHeader';
-import { MagicIcon } from '@/components/ui/MagicIcon';
-import type { MagicIconName } from '@/lib/icons';
 import { LEVELS } from '@/lib/xp/levels';
 import { getGlowHistory, getGlowSummary } from '@/lib/xp/queries';
 import { GlowHistoryCard } from './GlowHistoryCard';
@@ -20,15 +17,18 @@ import { PremiumBadge } from '@/components/premium/PremiumBadge';
 import { getEntitlements } from '@/lib/entitlements/server';
 import { isAdminEmail } from '@/lib/admin';
 import { FriendsCard } from '@/components/friends/FriendsCard';
+import { ProfileHero } from '@/components/friends/ProfileHero';
+import { ownOrb } from '@/lib/friends/queries';
+import { initialsOf } from '@/lib/friends/rules';
 
 /** /profile: nível, caminho dos níveis, emblemas do Grimório, streak mágico e histórico de Glow; definições no topo. */
 export async function JourneyPage() {
   const session = await auth();
   if (!session?.user) redirect('/login');
-  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { timezone: true, locale: true } });
+  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { timezone: true, locale: true, name: true, handle: true } });
   if (!user) redirect('/login');
 
-  const [t, tg, tguide, summary, history, badges, entitlements] = await Promise.all([
+  const [t, tg, tguide, summary, history, badges, entitlements, orb] = await Promise.all([
     getTranslations('glow'),
     getTranslations('grimoire.profile'),
     getTranslations('guide'),
@@ -36,6 +36,7 @@ export async function JourneyPage() {
     getGlowHistory(session.user.id, 30),
     getBadges(session.user.id, contentPrefsFor(user.locale)),
     getEntitlements(session.user.id),
+    ownOrb(session.user.id),
   ]);
   const { level } = summary;
   const next = (LEVELS as readonly (typeof LEVELS)[number][])[level.level];
@@ -45,25 +46,20 @@ export async function JourneyPage() {
       <Link href="/settings" className="mg-journey__gear" aria-label={tg('settings')} title={tg('settings')}>
         <Settings size={20} strokeWidth={1.75} aria-hidden="true" />
       </Link>
-      <PageHeader title={t('journey.title')} subtitle={t('journey.subtitle')} />
-      <section className="mg-journey__summary" aria-label={t('level', { level: level.level })}>
-        <MagicIcon name={`level-${level.level}` as MagicIconName} size="xl" decorative />
-        <p className="mg-journey__level">
-          {t('level', { level: level.level })} · {t(`levels.${level.key}.name`)}
-          {entitlements.plan === 'PREMIUM' && (
-            <>
-              {' '}
-              <PremiumBadge />
-            </>
-          )}
-        </p>
-        <p className="mg-journey__total">{t('amount', { points: summary.total })}</p>
-        <p className="mg-journey__hint">
-          {next
-            ? t('journey.toNext', { n: next.minXp - summary.total, name: t(`levels.${next.key}.name`) })
-            : t('journey.max')}
-        </p>
-      </section>
+      {/* F15: ficha de jogador, com a esfera de luz da pessoa a flutuar */}
+      <ProfileHero
+        idKey="me-profile"
+        orb={orb}
+        initials={initialsOf(user.name)}
+        name={user.name}
+        handle={user.handle}
+        levelLabel={`${t('level', { level: level.level })} · ${t(`levels.${level.key}.name`)}`}
+        progress={level.progress}
+        xpText={`${t('amount', { points: summary.total })} · ${
+          next ? t('journey.toNext', { n: next.minXp - summary.total, name: t(`levels.${next.key}.name`) }) : t('journey.max')
+        }`}
+        badge={entitlements.plan === 'PREMIUM' ? <PremiumBadge /> : undefined}
+      />
       <FriendsCard userId={session.user.id} />
       <LevelPathCard total={summary.total} />
       <BadgesCard badges={badges} />

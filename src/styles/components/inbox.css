@@ -3,7 +3,7 @@
 .mg-inbox {
   width: min(calc(100% - var(--space-5)), 440px);
   max-height: min(80dvh, 640px);
-  margin: calc(var(--topbar-height) + var(--space-2)) var(--space-3) auto auto;
+  margin: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--space-2)) var(--space-3) auto auto;
   padding: 0;
   border: var(--border-width) solid var(--glass-border-strong);
   border-radius: var(--radius-lg);
@@ -24,7 +24,7 @@
 
 @media (max-width: 599px) {
   .mg-inbox {
-    margin: calc(var(--topbar-height) + var(--space-2)) auto auto;
+    margin: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--space-2)) auto auto;
   }
 }
 

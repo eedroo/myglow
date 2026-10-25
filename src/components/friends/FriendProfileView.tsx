@@ -5,9 +5,17 @@ import { ZODIAC_ICON } from '@/components/ui/ZodiacStrip';
 import { intlLocale, isAppLocale } from '@/i18n/locales';
 import { publishedCourses } from '@/lib/grimoire/queries';
 import type { FriendProfile } from '@/lib/friends/queries';
-import { FriendAvatar } from './FriendAvatar';
+import { LEVELS } from '@/lib/xp/levels';
+import { LightOrb } from './LightOrb';
+import { ProfileHero } from './ProfileHero';
+import { ProfileQuest, ProfileStats } from './ProfileStats';
 
-/** O que um amigo vê: nível, sequência, cursos, emblemas e (se partilhados) Sol, Lua e Ascendente. Nada do diário. */
+const DAY_MS = 86_400_000;
+
+/**
+ * Ficha de jogador do amigo: esfera grande, atributos, missão actual, conquistas e constelação (se partilhada).
+ * Só campos de `FriendProfile`; nada do diário.
+ */
 export async function FriendProfileView({ profile }: { profile: FriendProfile }) {
   const [t, tg, tb, ta, rawLocale] = await Promise.all([
     getTranslations('friends.profile'),
@@ -24,55 +32,45 @@ export async function FriendProfileView({ profile }: { profile: FriendProfile })
     const course = catalog.get(b.courseSlug);
     return course ? [{ ...b, name: course.badge.name, icon: course.badge.icon }] : [];
   });
+  const next = LEVELS.find((l) => l.level === profile.level + 1);
+  const daysTogether = Math.max(1, Math.floor((Date.now() - new Date(profile.friendsSince).getTime()) / DAY_MS));
 
   return (
     <div className="mg-friend-profile">
-      <section className="mg-friend-profile__hero">
-        <FriendAvatar idKey={profile.id} orb={profile.orb} initials={profile.initials} progress={profile.progress} size="lg" />
-        <h1 className="mg-friend-profile__name">{profile.name}</h1>
-        <span>{t('level', { level: profile.level, name: tg(`levels.${profile.levelKey}.name`) })}</span>
-        <span className="mg-friend-profile__meta">{t('since', { date: fmt.format(new Date(profile.friendsSince)) })}</span>
-      </section>
+      <ProfileHero
+        idKey={profile.id}
+        orb={profile.orb}
+        initials={profile.initials}
+        name={profile.name}
+        handle={profile.handle}
+        levelLabel={t('level', { level: profile.level, name: tg(`levels.${profile.levelKey}.name`) })}
+        progress={profile.progress}
+        xpText={next ? t('toNext', { pct: Math.round(profile.progress * 100), level: next.level }) : t('maxLevel')}
+        meta={t('since', { date: fmt.format(new Date(profile.friendsSince)) })}
+      />
 
-      <section className="mg-friend-profile__stats" aria-label={t('streakTitle')}>
-        <div className="mg-friend-profile__stat">
-          <MagicIcon name="flame" size="md" decorative />
-          <span className="mg-friend-profile__value">{profile.magicStreak}</span>
-          <span className="mg-friend-profile__label">{t('streakNow')}</span>
-        </div>
-        <div className="mg-friend-profile__stat">
-          <MagicIcon name="star" size="md" decorative />
-          <span className="mg-friend-profile__value">{profile.bestMagicStreak}</span>
-          <span className="mg-friend-profile__label">{t('streakBest')}</span>
-        </div>
-      </section>
+      <ProfileStats
+        label={t('statsTitle')}
+        tiles={[
+          { key: 'streak', icon: 'flame', value: profile.magicStreak, label: t('streakNow') },
+          { key: 'best', icon: 'star', value: profile.bestMagicStreak, label: t('streakBest') },
+          { key: 'badges', icon: 'crystal-cluster', value: badges.length, label: t('badgesCount') },
+          { key: 'courses', icon: 'grimoire', value: profile.coursesCompleted, label: t('coursesCount') },
+          { key: 'days', icon: 'heart', value: daysTogether, label: t('daysTogether') },
+        ]}
+      />
 
-      <GlassCard title={t('coursesTitle')}>
-        <div className="mg-friend-profile__courses">
-          <p>{t('coursesDone', { n: profile.coursesCompleted })}</p>
-          {current && profile.currentCourse && (
-            <>
-              <p>{t('courseNow', { course: current.title, done: profile.currentCourse.done, total: profile.currentCourse.total })}</p>
-              <div
-                className="mg-friend-profile__bar"
-                role="progressbar"
-                aria-label={current.title}
-                aria-valuemin={0}
-                aria-valuemax={profile.currentCourse.total}
-                aria-valuenow={profile.currentCourse.done}
-              >
-                <div
-                  className="mg-friend-profile__fill"
-                  style={{ width: `${Math.round((100 * profile.currentCourse.done) / Math.max(1, profile.currentCourse.total))}%` }}
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </GlassCard>
+      {current && profile.currentCourse && (
+        <ProfileQuest
+          title={t('questTitle')}
+          text={t('courseNow', { course: current.title, done: profile.currentCourse.done, total: profile.currentCourse.total })}
+          done={profile.currentCourse.done}
+          total={profile.currentCourse.total}
+        />
+      )}
 
       {badges.length > 0 && (
-        <GlassCard className="mg-badges mg-friend-profile__badges" title={tb('title')}>
+        <GlassCard className="mg-badges mg-friend-profile__badges" title={t('achievementsTitle')}>
           <ul className="mg-badges__grid">
             {badges.map((b) => (
               <li key={b.courseSlug} className="mg-badges__slot mg-badges__slot--earned">
@@ -99,7 +97,12 @@ export async function FriendProfileView({ profile }: { profile: FriendProfile })
             ).map(([k, sign]) =>
               sign ? (
                 <li key={k}>
-                  <MagicIcon name={ZODIAC_ICON[sign]} size="md" decorative />
+                  <span className="mg-friend-profile__sky-orb" aria-hidden="true">
+                    <LightOrb signs={{ core: sign, mid: sign, edge: sign }} idKey={`${profile.id}-${k}`} />
+                    <span className="mg-friend-profile__glyph">
+                      <MagicIcon name={ZODIAC_ICON[sign]} size="sm" decorative />
+                    </span>
+                  </span>
                   <span className="mg-friend-profile__label">{t(`sky.${k}`)}</span>
                   <span>{ta(`signs.${sign}`)}</span>
                 </li>

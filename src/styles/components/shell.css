@@ -88,7 +88,6 @@
   position: relative;
   z-index: var(--z-content);
   min-height: 100dvh;
-  padding-top: env(safe-area-inset-top);
   padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
 }
 
@@ -122,9 +121,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--topbar-height);
-  padding: 0 var(--space-4);
-  background: var(--glass-bg);
+  /* iPhone (viewport-fit: cover): a barra cobre também a zona da barra de estado, com o conteúdo por baixo dela */
+  height: calc(var(--topbar-height) + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) var(--space-4) 0;
+  background: var(--glass-bg-strong);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   border-bottom: var(--border-width) solid var(--glass-border);

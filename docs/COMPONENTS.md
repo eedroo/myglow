@@ -597,3 +597,34 @@ Módulo premium (`body-pro`) com navegação própria, inspirado no Setgraph: bi
 | `RestTimer` | client | `rest.css` | `mg-rest`, `__ring`, `__count`, `--done` | faixa fixa: contagem decrescente grande, anel, −15 s, +30 s, Saltar; a 0 "Bora!", som curto e vibração (pisca sem `prefers-reduced-motion`) |
 | `SessionSummary` | server | `session-summary.css` | `mg-session-summary`, `__stats`, `__ex` | duração, exercícios, séries, reps, volume, descanso médio; lista por exercício; entrada animada ao terminar |
 | `SessionList` / `SessionRow` | server | `session-summary.css` | `mg-session-list`, `mg-session-row` | sessões por mês: treino, duração, data |
+
+### Corpo II — F17 (`src/components/body/`, lógica em `src/lib/body/` e `src/lib/fitness/progress.ts`, rotas `/body/day`, `/body/corpo`, `/body/weight`)
+
+Peso diário com média semanal, objectivo em linguagem neutra, recordes e evolução por exercício, tab Dia (estilo Today do Setgraph) e mapa muscular com recuperação. Tudo `body-pro`; o peso só com consentimento de bem-estar. Sem cores de bom/mau no peso: setas e diferenças usam `--text-muted`. Gráficos em SVG próprio.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `WeekWeightAverage` | client | `weight-card.css` | `mg-week-weight-avg` | Semana (body-pro com pesagens): média do peso diário só de leitura, nº de pesagens, diferença para a semana anterior e link para `/body/weight` |
+| `BodyNav` (alterado) | client | `body-nav.css` | — | 5 itens: Treinos · Exercícios · Sessões · Dia · Corpo |
+| `BodyDayView` | server | `day-metrics.css` | — | tab Dia: título (Hoje ou a data), `DayStrip`, `DayMetrics`, `SetDetails` e as sessões; sem treino "Dia de descanso" e "Começar treino" (só hoje) |
+| `DayStrip` | client | `day-strip.css` | `mg-day-strip`, `__day`, `--trained`, `--selected`, `--today` | 7 dias (domingo a sábado) com marcador de treino; tocar abre o dia; setas para a semana anterior e seguinte; botão do calendário |
+| `TrainingCalendar` | client | `train-cal.css` | `mg-train-cal`, `__month`, `__day--trained`, `--today` | folha (`dialog`) com os meses (do mais recente para trás), dias treinados preenchidos com `--body-accent`; tocar abre o dia |
+| `DayMetrics` | server | `day-metrics.css` | `mg-day-metrics`, `__metric`, `--{kind}` | grelha 2 colunas: Séries, Repetições, Exercícios, Volume, Duração, Descanso médio, Tempo de sessão, Recordes (cor fixa por métrica) |
+| `SetDetails` | server | `set-details.css` | `mg-set-details`, `__ex`, `__line` | por exercício: "60 kg: 11, 10, 10 rep" (troféu quando há recorde) |
+| `BodyWeightCard` | server | `weight-card.css` | `mg-weight-card`, `__value`, `__delta` | último peso e média da semana com a diferença (seta neutra) → `/body/weight` |
+| `MuscleMap` | client | `muscle-map.css` | `mg-muscle-map`, `__views`, `__legend` | `react-body-highlighter` frente e costas; cores `--recovery-just`, `--recovery-mid`, `--recovery-rested`; tocar num músculo abre a `MuscleExercisesSheet` |
+| `MuscleExercisesSheet` | client | `muscle-map.css` | `mg-muscle-sheet` | últimos exercícios do músculo, com data e link |
+| `WeightChart` | client | `weight-chart.css` | `mg-weight-chart`, `__point`, `__trend`, `__goal`, `__axis`, `__tip` | SVG responsivo: pontos diários vazios, tendência de 7 dias, linha tracejada do alvo, 4 a 5 marcas por eixo; toque num ponto mostra data e kg; selector M · 6M · A (`SegmentedControl`) |
+| `WeightEntrySheet` | client | `weight-entry.css` | `mg-weight-entry` | folha (`dialog`): data (hoje por defeito), kg com teclado decimal, "Guardar"; abre sozinha com `?new=1` |
+| `WeightList` | client | `weight-entry.css` | `mg-weight-list`, `__row`, `__delete` | registos (data e kg), deslizar para a esquerda (ou botão) para apagar |
+| `BodyGoalSheet` | client | `goal.css` | `mg-goal-sheet` | direcção (Ganhar · Manter · Perder em `SegmentedControl`), ritmo de `GOAL_RATES` ("+0,25 kg por semana"), alvo opcional; remover objectivo |
+| `BodyGoalCard` | server | `goal.css` | `mg-goal-card` | "Objectivo: ganhar 0,25 kg/semana" · "Esta semana: +0,3 kg (dentro do ritmo)" · "Faltam 2,0 kg (≈ 8 semanas)" |
+| `WeighInReminder` | client | `goal.css` | `mg-weighin` | interruptor e hora do lembrete de pesagem |
+| `BodyGuideCard` | client | `goal.css` | `mg-goal-card` | convite para o Guia ler também o corpo (`setGuideIncludeBody`); desligar |
+| `ExerciseTabs` | client | `ex-list.css` (reutiliza `mg-ex-tabs`) | `mg-ex-tabs`, `__tab` | Séries · Evolução · Recordes no topo do exercício |
+| `CompareBlock` | server | `compare.css` | `mg-compare`, `__row`, `__bar`, `__delta` | "Comparado com a anterior": séries, reps, volume, kg/rep com barra de cor, valor, seta e % |
+| `ExerciseProgressChart` | client | `ex-chart.css` | `mg-ex-chart` | SVG de linha por sessão; selector melhor peso · e1RM · volume |
+| `ExerciseRecords` | server | `ex-records.css` | `mg-ex-records`, `__row` | melhor peso, melhor e1RM, máx. reps por peso, com datas |
+| `PrTrophy` | client | `pr.css` | `mg-pr`, `--fresh` | troféu dourado (`--pr-gold`); animação curta só sem `prefers-reduced-motion` |
+
+Alterados (cirúrgico): `SessionScreen` e `SetRow` (troféu na série com recorde), `SessionSummary` (nº de recordes), `ExerciseHistory` (troféu), página do exercício (tabs). Na Semana, o campo do peso mostra a média diária só de leitura para `body-pro` com registos (`WeekWeightAverage`, `weight-card.css`, `mg-week-weight-avg`).

@@ -105,6 +105,25 @@ export function computePeriodStats(i: {
   };
 }
 
+/**
+ * F17 (body-pro): as médias semanais do peso diário substituem (ou juntam-se a) o peso semanal manual dessas semanas.
+ * Sem registos diários numa semana, fica o valor manual.
+ */
+export function mergeDailyWeights(
+  weeks: { startDate: DateISO; weightGrams: number | null }[],
+  daily: { startDate: DateISO; weightGrams: number }[],
+): { startDate: DateISO; weightGrams: number | null }[] {
+  const byWeek = new Map(weeks.map((w) => [w.startDate, w]));
+  for (const d of daily) byWeek.set(d.startDate, d);
+  return [...byWeek.values()].sort((a, b) => compareDates(a.startDate, b.startDate));
+}
+
+/** Peso de um período a partir de pontos semanais já escolhidos (retrospectiva semanal: esta semana e a anterior). */
+export function weightFromPoints(points: { weekStart: DateISO; grams: number }[]): PeriodStats['weight'] {
+  const sorted = [...points].sort((a, b) => compareDates(a.weekStart, b.weekStart));
+  return { first: sorted[0]?.grams ?? null, last: sorted[sorted.length - 1]?.grams ?? null, points: sorted };
+}
+
 export interface MonthlyMood {
   month: number;
   avgMood: number | null;

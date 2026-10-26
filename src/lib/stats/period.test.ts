@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { ProgressEntry } from '@/lib/daily/progress';
-import { computePeriodStats, computeYearMonthly, type DailyEntryLike } from './period';
+import { computePeriodStats, computeYearMonthly, mergeDailyWeights, weightFromPoints, type DailyEntryLike } from './period';
 
 const blank: ProgressEntry = {
   intention: null, morningBanishName: null, morningBanishDone: false, morningRitualDone: false, sleepGoalMet: false,
@@ -105,5 +105,29 @@ describe('computeYearMonthly', () => {
     expect(months[0]).toMatchObject({ month: 1, avgMood: 3, daysTouched: 1, daysElapsed: 31 });
     expect(months[4]).toMatchObject({ month: 5, avgMood: 5, daysElapsed: 10 });
     expect(months[5]).toMatchObject({ month: 6, daysElapsed: 0, avgMood: null });
+  });
+});
+
+describe('peso diário (F17, body-pro)', () => {
+  it('as médias semanais substituem o peso manual dessas semanas', () => {
+    const weeks = mergeDailyWeights(
+      [{ startDate: '2026-10-04', weightGrams: 77000 }, { startDate: '2026-10-11', weightGrams: 76900 }],
+      [{ startDate: '2026-10-11', weightGrams: 76400 }, { startDate: '2026-10-18', weightGrams: 76200 }],
+    );
+    expect(weeks).toEqual([
+      { startDate: '2026-10-04', weightGrams: 77000 },
+      { startDate: '2026-10-11', weightGrams: 76400 },
+      { startDate: '2026-10-18', weightGrams: 76200 },
+    ]);
+    const s = computePeriodStats({ from: '2026-10-01', to: '2026-10-31', today: '2026-10-31', entries: [], weeks, wellbeing: true });
+    expect(s.weight.points.map((p) => p.grams)).toEqual([77000, 76400, 76200]);
+  });
+
+  it('weightFromPoints ordena e tira o primeiro e o último', () => {
+    expect(weightFromPoints([{ weekStart: '2026-10-18', grams: 76200 }, { weekStart: '2026-10-11', grams: 76400 }])).toEqual({
+      first: 76400,
+      last: 76200,
+      points: [{ weekStart: '2026-10-11', grams: 76400 }, { weekStart: '2026-10-18', grams: 76200 }],
+    });
   });
 });

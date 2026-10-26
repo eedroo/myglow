@@ -9,7 +9,8 @@ import type { SkyEvent } from '@/lib/astro/skyEvents';
 import { getDailySky } from '@/lib/astro/sky';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
 import { hasWellbeingConsent } from '@/lib/account/consent';
-import { computePeriodStats, computeYearMonthly, type DailyEntryLike } from '@/lib/stats/period';
+import { computePeriodStats, computeYearMonthly, mergeDailyWeights, type DailyEntryLike } from '@/lib/stats/period';
+import { dailyWeightWeeks } from '@/lib/body/queries';
 import { PROJECT_AREAS } from '@/types/week';
 import type { MonthPageData, Projects, YearPageData } from '@/types/planner';
 
@@ -74,7 +75,7 @@ export async function getMonthPageData(
       to,
       today: overview.today,
       entries: overview.entries.filter((e) => e.date >= from && e.date <= to),
-      weeks: weeks.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })),
+      weeks: mergeDailyWeights(weeks.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })), await dailyWeightWeeks(userId, from, to)),
       wellbeing,
     }),
     isFuture: compareDates(from, overview.today) > 0,
@@ -140,7 +141,7 @@ export async function getYearPageData(userId: string, year: number, tz: string, 
       to,
       today,
       entries: list,
-      weeks: weeks.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })),
+      weeks: mergeDailyWeights(weeks.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })), await dailyWeightWeeks(userId, from, to)),
       wellbeing,
     }),
     today,

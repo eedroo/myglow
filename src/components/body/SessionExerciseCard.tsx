@@ -11,6 +11,8 @@ type Item = ActiveSessionView['items'][number];
 export interface ShownSet extends SetValues {
   id: string;
   pending: boolean;
+  prKinds: string[];
+  fresh: boolean;
 }
 
 /** Um exercício na sessão: alvo, "Última vez", séries feitas e a próxima. */
@@ -67,6 +69,8 @@ export function SessionExerciseCard({
               measure={exercise.measure}
               values={s}
               pending={s.pending}
+              prKinds={s.prKinds}
+              fresh={s.fresh}
               onSave={(v) => onUpdate(s.id, v)}
               onDelete={() => onDelete(s.id)}
             />

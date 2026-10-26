@@ -15,7 +15,10 @@ export type NotificationPrefsInput = Pick<
   NotificationPrefs,
   | 'enabled' | 'morningTime' | 'bodyTime' | 'nightTime' | 'morningEnabled' | 'bodyEnabled' | 'nightEnabled'
   | 'weekStart' | 'weekEnd' | 'monthStart' | 'monthEnd' | 'lastCall' | 'grimoireEnabled' | 'grimoireTime'
->;
+> & {
+  /** F17: hora do lembrete de pesagem (em `FitnessPrefs`); null ou ausente = desligado (sem body-pro, consentimento ou interruptor). */
+  weighInTime?: string | null;
+};
 
 export interface NotificationState {
   day: DayProgress; // hoje
@@ -28,6 +31,8 @@ export interface NotificationState {
   lastMonthReflectionDone: boolean;
   /** Grimório no dia: lições novas que ainda dá para fazer hoje e quiz por fazer num curso aberto. */
   grimoire: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
+  /** F17: já há peso registado hoje (o lembrete de pesagem só sai se for false). */
+  weighedToday?: boolean;
 }
 
 export interface DueNotification {
@@ -75,6 +80,8 @@ const RULES: Rule[] = [
   // Grimório: convite à hora escolhida; última chamada 45 min depois da noite (a seguir às outras).
   { kind: 'GRIMOIRE', time: (p) => p.grimoireTime, offset: 0, on: (p) => p.grimoireEnabled, key: dayKey },
   { kind: 'GRIMOIRE_LAST', time: (p) => p.nightTime, offset: 45, on: (p) => p.lastCall && p.grimoireEnabled, key: dayKey },
+  // F17: pesagem à hora escolhida no mundo do corpo.
+  { kind: 'WEIGH_IN', time: (p) => p.weighInTime ?? '00:00', offset: 0, on: (p) => !!p.weighInTime, key: dayKey },
 ];
 
 /** Avisos cujo horário cai no slot actual (ainda sem olhar ao que está feito). */
@@ -111,6 +118,7 @@ function pending(kind: NotificationKind, s: NotificationState): boolean {
     case 'GRIMOIRE': return s.grimoire.lessonsLeft > 0 || s.grimoire.quizPending;
     case 'GRIMOIRE_LAST': return s.grimoire.lessonsLeft > 0;
     // F15: os avisos de amigos não são agendados (enviados na hora pela acção).
+    case 'WEIGH_IN': return s.weighedToday === false;
     case 'FRIEND_REQUEST':
     case 'FRIEND_ACCEPTED':
     case 'REST_DONE': return false;

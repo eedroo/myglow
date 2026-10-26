@@ -40,4 +40,6 @@ export interface WeekPageData {
   previousWeightGrams: number | null; // peso da semana anterior mais recente com peso
   wellbeing: boolean; // F9: consentimento de bem-estar (sem ele o peso fica desactivado)
   today: DateISO;
+  /** F17 (body-pro): média do peso diário desta semana (e da anterior); null = sem registos diários → campo manual. */
+  dailyWeight: { avgGrams: number; count: number; previousAvgGrams: number | null } | null;
 }

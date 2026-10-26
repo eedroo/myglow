@@ -1,7 +1,9 @@
 import { createHash } from 'node:crypto';
 import type { ProjectArea } from '@prisma/client';
 import type { AppLocale } from '@/i18n/locales';
-import type { DateISO } from '@/lib/dates';
+import { addDays, type DateISO } from '@/lib/dates';
+import { weekStartOf } from '@/lib/weeks';
+import { goalStatus, weekAverage, type GoalDirection, type GoalStatus, type WeightPoint } from '@/lib/body/weight';
 import type { MoonEvent } from '@/lib/astro/moonCalendar';
 import { computeDayProgress, type DayLevel, type ProgressEntry } from '@/lib/daily/progress';
 import type { PeriodStats } from '@/lib/stats/period';
@@ -60,6 +62,34 @@ export interface GuideInput {
   };
   sky: { moonEvents: { type: string; date: DateISO; sign: string }[] }; // contexto leve, calculado pela app
   previousFocuses?: string[]; // títulos dos 3 focos do relatório anterior, se existir
+  /** F17: o corpo, só com body-pro, `guideIncludeBody` e consentimento de bem-estar. Só agregados. */
+  body?: GuideBodyInput;
+}
+
+export interface GuideBodyInput {
+  weight?: {
+    thisWeekAvgGrams: number | null;
+    lastWeekAvgGrams: number | null;
+    weighIns: number;
+    weeklyAvgGrams?: { weekStart: DateISO; avgGrams: number }[]; // MONTH: as médias semanais do mês
+    goal: { direction: GoalDirection; weeklyRateGrams: number; status: GoalStatus['status'] } | null;
+  };
+  training: {
+    sessions: number;
+    daysTrained: number;
+    sets: number;
+    volumeGrams: number;
+    prs: number;
+    stretchDays: number;
+    topExercises: { name: string; sets: number }[];
+  };
+}
+
+/** Dados do corpo recolhidos pelo servidor (com registos individuais); `buildGuideInput` só passa agregados. */
+export interface RawGuideBody {
+  weights: WeightPoint[]; // inclui a semana anterior ao período
+  goal: { direction: GoalDirection; weeklyRateGrams: number; targetGrams: number | null } | null;
+  sessions: { date: DateISO; sets: { exerciseName: string; reps: number | null; weightGrams: number | null; prKinds: string[] }[] }[];
 }
 
 /** Texto de um período (semana ou mês) tal como vem da base. */
@@ -84,6 +114,7 @@ export interface RawGuideData {
   lessons: number;
   moonEvents: MoonEvent[];
   previousFocuses?: string[];
+  body?: RawGuideBody;
 }
 
 const EMAIL_RE = /[\p{L}\p{N}._%+-]+@[\p{L}\p{N}.-]+\.[\p{L}]{2,}/gu;
@@ -129,7 +160,7 @@ const TEXT_FIELDS = ['intention', 'morningBanish', 'nightBanish', 'gratitude', '
 
 const size = (i: GuideInput) => JSON.stringify(i).length;
 
-export function buildGuideInput(raw: RawGuideData, opts: { hasWellbeingConsent: boolean }): GuideInput {
+export function buildGuideInput(raw: RawGuideData, opts: { hasWellbeingConsent: boolean; includeBody?: boolean }): GuideInput {
   const wellbeing = opts.hasWellbeingConsent;
   const max = raw.kind === 'WEEK' ? LIMITS.dayField : LIMITS.dayFieldMonth;
   const byDate = new Map(raw.entries.map((e) => [e.date, e]));
@@ -187,6 +218,7 @@ export function buildGuideInput(raw: RawGuideData, opts: { hasWellbeingConsent: 
     },
     sky: { moonEvents: raw.moonEvents.map((m) => ({ type: m.phase, date: m.date, sign: m.sign })) },
     ...(raw.previousFocuses?.length && { previousFocuses: raw.previousFocuses.slice(0, 3) }),
+    ...(opts.includeBody && wellbeing && raw.body && { body: guideBody(raw, raw.body) }),
   };
 
   // Demasiado texto: primeiro só intenção + reflexão por dia; depois cortam-se os dias mais antigos.
@@ -220,4 +252,47 @@ export function allTexts(input: GuideInput): string[] {
     ...(input.weeks ?? []).flatMap(fromPeriod),
     ...input.days.flatMap((d) => TEXT_FIELDS.map((f) => d[f])),
   ].filter((t): t is string => typeof t === 'string' && t.length > 0);
+}
+
+/** F17: agregados do corpo (médias semanais, objectivo e treino); nunca os registos de cada dia. */
+function guideBody(raw: RawGuideData, b: RawGuideBody): GuideBodyInput {
+  const inPeriod = (d: DateISO) => d >= raw.from && d <= raw.to;
+  const weekStarts = raw.kind === 'WEEK' ? [raw.from] : (raw.weeks ?? []).map((w) => w.start);
+  const lastWeek = weekStarts[weekStarts.length - 1] ?? weekStartOf(raw.to);
+  const thisWeekAvgGrams = weekAverage(b.weights, lastWeek);
+  const lastWeekAvgGrams = weekAverage(b.weights, addDays(lastWeek, -7));
+  const weighIns = b.weights.filter((p) => inPeriod(p.date)).length;
+  const weeklyAvgGrams =
+    raw.kind === 'MONTH'
+      ? weekStarts.flatMap((w) => {
+          const avg = weekAverage(b.weights, w);
+          return avg == null ? [] : [{ weekStart: w, avgGrams: avg }];
+        })
+      : undefined;
+  const sets = b.sessions.flatMap((s) => s.sets);
+  const counts = new Map<string, number>();
+  for (const s of sets) counts.set(s.exerciseName, (counts.get(s.exerciseName) ?? 0) + 1);
+  return {
+    ...(weighIns > 0 && {
+      weight: compact({
+        thisWeekAvgGrams,
+        lastWeekAvgGrams,
+        weighIns,
+        weeklyAvgGrams,
+        goal: b.goal ? { direction: b.goal.direction, weeklyRateGrams: b.goal.weeklyRateGrams, status: goalStatus(b.goal, thisWeekAvgGrams, lastWeekAvgGrams).status } : null,
+      }),
+    }),
+    training: {
+      sessions: b.sessions.length,
+      daysTrained: new Set(b.sessions.map((s) => s.date)).size,
+      sets: sets.length,
+      volumeGrams: sets.reduce((n, s) => n + (s.reps ?? 0) * (s.weightGrams ?? 0), 0),
+      prs: sets.filter((s) => s.prKinds.length > 0).length,
+      stretchDays: raw.entries.filter((e) => inPeriod(e.date) && e.stretchDone).length,
+      topExercises: [...counts.entries()]
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .slice(0, 5)
+        .map(([name, n]) => ({ name: clip(redact(name), 60), sets: n })),
+    },
+  };
 }

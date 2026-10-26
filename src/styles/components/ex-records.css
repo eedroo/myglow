@@ -1,0 +1,32 @@
+/* ExerciseRecords (F17) */
+
+.mg-ex-records {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-ex-records__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  border-bottom: var(--border-width) solid var(--glass-border);
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-ex-records__value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-lg);
+}
+
+.mg-ex-records__date {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}

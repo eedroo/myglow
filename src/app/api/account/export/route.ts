@@ -41,6 +41,8 @@ export async function GET() {
       fitnessPrograms: { orderBy: { order: 'asc' }, include: { workouts: { orderBy: { order: 'asc' }, include: { items: { orderBy: { order: 'asc' } } } } } },
       fitnessSessions: { orderBy: { startedAt: 'asc' }, include: { sets: { orderBy: { completedAt: 'asc' } } } },
       customExercises: { orderBy: { id: 'asc' } },
+      bodyWeights: { orderBy: { date: 'asc' } },
+      bodyGoal: true,
     },
   });
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -76,6 +78,8 @@ export async function GET() {
       programs: user.fitnessPrograms,
       sessions: user.fitnessSessions,
       customExercises: user.customExercises,
+      weights: user.bodyWeights,
+      goal: user.bodyGoal,
     },
   });
 

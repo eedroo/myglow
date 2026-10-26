@@ -1,4 +1,5 @@
 import type {
+  BodyGoal, BodyWeightEntry,
   BirthProfile, CourseProgress, DailyEntry, Exercise, FitnessPrefs, FitnessProgram, FitnessSession, FitnessWorkout, GuideReport, LessonProgress, Month, NotificationLog, NotificationPrefs,
   ProjectIntention, RecapView, SessionSet, User, UserActiveDay, UserAiContent, Week, WeekDayNote, WorkoutItem, XpEvent, Year,
 } from '@prisma/client';
@@ -17,7 +18,7 @@ export interface ExportSource {
     | 'name' | 'email' | 'locale' | 'theme' | 'timezone' | 'hemisphere' | 'sleepGoalMinutes' | 'pronouns' | 'xpTotal'
     | 'bestMagicStreak' | 'emailVerifiedAt' | 'termsAcceptedAt' | 'termsVersion' | 'privacyVersion' | 'wellbeingConsentAt'
     | 'createdAt' | 'onboardedAt' | 'plan' | 'planSince' | 'planExpiresAt' | 'premiumInterestAt'
-    | 'guideConsentAt' | 'guideConsentVersion' | 'friendCode' | 'handle' | 'showBigThree'
+    | 'guideConsentAt' | 'guideConsentVersion' | 'friendCode' | 'handle' | 'showBigThree' | 'guideIncludeBody'
   >;
   birthProfile: BirthProfile | null;
   dailyEntries: DailyEntry[];
@@ -47,6 +48,9 @@ export interface ExportSource {
     programs: (FitnessProgram & { workouts: (FitnessWorkout & { items: WorkoutItem[] })[] })[];
     sessions: (FitnessSession & { sets: SessionSet[] })[];
     customExercises: Exercise[];
+    /** F17: peso diário e objectivo. */
+    weights: BodyWeightEntry[];
+    goal: BodyGoal | null;
   };
 }
 
@@ -85,6 +89,7 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       friendCode: u.friendCode,
       handle: u.handle,
       showBigThree: u.showBigThree,
+      guideIncludeBody: u.guideIncludeBody,
     },
     activeDays: data.activeDays.map((a) => day(a.day)),
     recapViews: data.recapViews.map((r) => ({
@@ -107,6 +112,8 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
         defaultRestSec: data.fitness.prefs.defaultRestSec,
         restAlert: data.fitness.prefs.restAlert,
         keepAwake: data.fitness.prefs.keepAwake,
+        weighInReminder: data.fitness.prefs.weighInReminder,
+        weighInTime: data.fitness.prefs.weighInTime,
         onboardedAt: iso(data.fitness.prefs.onboardedAt),
       },
       customExercises: data.fitness.customExercises.map((e) => ({
@@ -146,6 +153,19 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
           })),
         })),
       })),
+      weights: data.fitness.weights.map((w) => ({
+        date: day(w.date),
+        grams: w.grams,
+        kg: Math.round(w.grams / 10) / 100,
+        updatedAt: iso(w.updatedAt),
+      })),
+      goal: data.fitness.goal && {
+        direction: data.fitness.goal.direction,
+        weeklyRateGrams: data.fitness.goal.weeklyRateGrams,
+        targetGrams: data.fitness.goal.targetGrams,
+        startGrams: data.fitness.goal.startGrams,
+        startedAt: iso(data.fitness.goal.startedAt),
+      },
       sessions: data.fitness.sessions.map((x) => ({
         id: x.id,
         workoutId: x.workoutId,
@@ -162,6 +182,7 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
           durationSec: t.durationSec,
           restSec: t.restSec,
           completedAt: iso(t.completedAt),
+          prKinds: t.prKinds,
         })),
       })),
     },

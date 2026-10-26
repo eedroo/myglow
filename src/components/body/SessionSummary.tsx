@@ -15,12 +15,15 @@ async function localeTools() {
 /** Resumo de uma sessão: números grandes e a lista por exercício. `fresh` anima a entrada ao terminar. */
 export async function SessionSummary({ summary, fresh }: { summary: Summary; fresh: boolean }) {
   const [t, { locale, kg }] = await Promise.all([getTranslations('fitness.summary'), localeTools()]);
+  const prs = summary.byExercise.reduce((n, g) => n + g.sets.filter((s) => s.prKinds.length > 0).length, 0);
   const stats: { label: string; value: string; metric?: string }[] = [
     { label: t('duration'), value: formatClock(summary.durationSec), metric: 'time' },
     { label: t('exercises'), value: String(summary.exercises) },
     { label: t('sets'), value: String(summary.sets) },
     { label: t('reps'), value: String(summary.reps), metric: 'reps' },
     ...(summary.volumeGrams > 0 ? [{ label: t('volume'), value: t('kgValue', { kg: kg(summary.volumeGrams) }), metric: 'volume' }] : []),
+    // F17: recordes batidos nesta sessão.
+    ...(prs > 0 ? [{ label: t('prs'), value: String(prs), metric: 'pr' }] : []),
     ...(summary.avgRestSec != null ? [{ label: t('avgRest'), value: formatClock(summary.avgRestSec).replace(/^0(\d):/, '$1:'), metric: 'time' }] : []),
   ];
   return (

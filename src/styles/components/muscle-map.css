@@ -1,0 +1,89 @@
+/* MuscleMap e MuscleExercisesSheet (F17) */
+
+.mg-muscle-map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-muscle-map__views {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.mg-muscle-map__view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.mg-muscle-map__view .rbh-wrapper {
+  width: 100%;
+  max-width: 180px;
+}
+
+.mg-muscle-map__view polygon {
+  stroke: var(--bg-base);
+  stroke-width: 0.4;
+}
+
+.mg-muscle-map__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  list-style: none;
+}
+
+.mg-muscle-map__legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.mg-muscle-map__swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+}
+
+.mg-muscle-map__swatch--just { background: var(--recovery-just); }
+.mg-muscle-map__swatch--mid { background: var(--recovery-mid); }
+.mg-muscle-map__swatch--rested { background: var(--recovery-rested); }
+
+.mg-muscle-map__warn {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-muscle-sheet__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-muscle-sheet__list a {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 44px;
+  align-items: center;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-muscle-sheet__date {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}

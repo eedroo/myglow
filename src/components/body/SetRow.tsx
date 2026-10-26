@@ -8,6 +8,7 @@ import { formatGramsAsKg, parseKgToGrams } from '@/lib/weight';
 import { isAppLocale, intlLocale } from '@/i18n/locales';
 import { Button } from '@/components/ui/Button';
 import { NumberStepper } from './NumberStepper';
+import { PrTrophy } from './PrTrophy';
 
 export type SetValues = Omit<SetInput, 'exerciseId'>;
 
@@ -57,6 +58,8 @@ export function SetRow({
   measure,
   values,
   pending,
+  prKinds = [],
+  fresh = false,
   onSave,
   onDelete,
 }: {
@@ -64,6 +67,9 @@ export function SetRow({
   measure: ExerciseMeasure;
   values: SetValues;
   pending?: boolean;
+  /** F17: recordes desta série (troféu; `fresh` anima quando acabou de ser batido). */
+  prKinds?: string[];
+  fresh?: boolean;
   onSave: (v: SetValues) => Promise<string | null>;
   onDelete: () => Promise<void>;
 }) {
@@ -135,7 +141,7 @@ export function SetRow({
           <span className="mg-set-row__reps">{values.reps != null ? t('repsShort', { n: values.reps }) : ''}</span>
         )}
         <span className="mg-set-row__kg">{values.weightGrams != null ? t('kgShort', { kg: kg(values.weightGrams) }) : ''}</span>
-        <span aria-hidden="true">{pending ? '…' : '✓'}</span>
+        {prKinds.length ? <PrTrophy kinds={prKinds} fresh={fresh} /> : <span aria-hidden="true">{pending ? '…' : '✓'}</span>}
       </button>
     </li>
   );

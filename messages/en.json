@@ -411,6 +411,10 @@
     "chip": "Week {n} · {month}"
   },
   "weight": {
+    "averageTitle": "Average weight this week",
+    "kgValue": "{kg} kg",
+    "fromWeighIns": "{n, plural, one {from # weigh-in} other {from # weigh-ins}}",
+    "openWeight": "Open weight",
     "title": "My weight this week",
     "label": "Weight in kilograms",
     "unit": "kg",
@@ -776,6 +780,7 @@
   },
   "notifications": {
     "push": {
+      "weighIn": {"title": "Good morning", "body": "Have you weighed in today?"},
       "restDone": {"title": "Rest's over", "body": "Time for your next set of {exercise}.", "bodyGeneric": "Time for your next set."},
       "friendRequest": {"title": "{name} wants to be your friend on MYGLOW", "body": "See the request and accept if you'd like to walk together."},
       "friendAccepted": {"title": "{name} accepted your request", "body": "Now you can follow each other's journey."},
@@ -1652,12 +1657,14 @@
       "generated": "Reading from {date}"
     },
     "consent": {
+      "bodyTitle": "Your body, only if you allow it",
+      "body": "With Body focus, you can separately allow {name} to read your weekly average weight, your goal and your workouts. Never your daily weigh-ins.",
       "title": "How {name} works",
       "intro": "At the end of each week and month, {name} reads what you wrote and gives you a reading with what to keep, what to adjust and 3 focuses.",
       "sentTitle": "What is sent",
       "sent": "Intentions, banishings, gratitudes, reflections, summaries, week notes and goals by area, plus the period's numbers (days, rituals, body, Glow, lessons). Mood, waking and sleep are sent only as averages, and only if you allowed wellbeing data. Emails, phone numbers and links are removed before sending.",
       "neverTitle": "What is never sent",
-      "never": "Your name, email, weight, birth date and place, and your notes on how you woke up.",
+      "never": "Your name, email, birth date and place, your daily weigh-ins and your notes on how you woke up.",
       "whoTitle": "Who processes it",
       "who": "Google, through the paid Gemini API, which does not use this data to train models. It may keep it for a limited time to detect abuse.",
       "offTitle": "Turn it off any time",
@@ -1867,6 +1874,113 @@
       "handleChars": "Use only lowercase letters, numbers, dots and underscores."
     }
   },
+  "body": {
+    "title": "Body",
+    "weight": {
+      "title": "Weight",
+      "back": "Body",
+      "weekAverage": "This week's average",
+      "kg": "{kg} kg",
+      "vsLastWeek": "{delta} vs last week",
+      "fromWeighIns": "{n, plural, one {from # weigh-in} other {from # weigh-ins}}",
+      "lastEntry": "Last entry: {kg} kg on {date}",
+      "noEntries": "No entries yet.",
+      "new": "New entry",
+      "date": "Date",
+      "kgLabel": "Weight (kg)",
+      "save": "Save",
+      "cancel": "Cancel",
+      "entries": "Entries",
+      "delete": "Delete",
+      "deleteEntry": "Delete the entry for {date}",
+      "range": "Range",
+      "rangeM": "M",
+      "range6M": "6M",
+      "rangeY": "Y",
+      "chartEmpty": "No entries in this range.",
+      "chartHint": "Tap a point to see the date and weight.",
+      "chartLabel": "Weight chart with {n} entries and the 7-day trend",
+      "pointTip": "{date}: {kg} kg",
+      "reminder": "Weigh-in reminder",
+      "reminderTime": "Reminder time"
+    },
+    "goal": {
+      "title": "Goal",
+      "button": "Goal",
+      "direction": "Direction",
+      "directions": {
+        "GAIN": "Gain",
+        "MAINTAIN": "Maintain",
+        "LOSE": "Lose"
+      },
+      "rate": "Pace",
+      "rateOption": "{sign}{kg} kg per week",
+      "target": "Target weight (optional, kg)",
+      "targetPlaceholder": "e.g. 78.0",
+      "save": "Save",
+      "clear": "Remove goal",
+      "cancel": "Cancel",
+      "summaryGain": "Goal: gain {kg} kg/week",
+      "summaryLose": "Goal: lose {kg} kg/week",
+      "summaryMaintain": "Goal: maintain weight",
+      "thisWeek": "This week: {delta} ({status})",
+      "toTarget": "{kg} kg to go",
+      "toTargetWeeks": "{kg} kg to go (≈ {weeks, plural, one {# week} other {# weeks}})",
+      "status": {
+        "on-track": "on pace",
+        "above": "above pace",
+        "below": "below pace",
+        "not-enough-data": "The week's status needs weigh-ins this week and last week."
+      }
+    },
+    "map": {
+      "title": "Muscle map",
+      "front": "Front",
+      "back": "Back",
+      "just": "Just trained",
+      "mid": "Recovering",
+      "rested": "Rested",
+      "noneRecent": "No exercises for this muscle in the last 60 days.",
+      "close": "Close",
+      "unassigned": "{n, plural, one {# exercise has no muscle set.} other {# exercises have no muscle set.}}",
+      "unassignedLink": "Edit",
+      "muscles": {
+        "trapezius": "Traps",
+        "upper-back": "Upper back",
+        "lower-back": "Lower back",
+        "chest": "Chest",
+        "biceps": "Biceps",
+        "triceps": "Triceps",
+        "forearm": "Forearms",
+        "back-deltoids": "Rear delts",
+        "front-deltoids": "Front delts",
+        "abs": "Abs",
+        "obliques": "Obliques",
+        "adductor": "Adductors",
+        "abductors": "Abductors",
+        "hamstring": "Hamstrings",
+        "quadriceps": "Quads",
+        "calves": "Calves",
+        "gluteal": "Glutes",
+        "neck": "Neck"
+      }
+    },
+    "guide": {
+      "title": "Your Guide and your body",
+      "invite": "Your Guide can also read your body: average weight, goal and workouts. Turn it on?",
+      "on": "Your Guide reads your weekly average weight, your goal and your workouts. Never your daily weigh-ins.",
+      "enable": "Turn on",
+      "disable": "Turn off"
+    },
+    "errors": {
+      "consent": "To log your weight, first allow wellbeing data.",
+      "weight": "Enter your weight in kg, between 30 and 300 (e.g. 76.4).",
+      "date": "Pick today or a day in the last year.",
+      "goal": "Pick a direction and one of the paces.",
+      "noWeight": "Log your weight first to set a goal.",
+      "guideConsent": "Turn on your Guide in Settings first."
+    }
+  },
   "fitness": {
     "muscles": {
       "abdominals": "Abs",
@@ -1955,7 +2069,9 @@
       "label": "Body focus",
       "workouts": "Workouts",
       "sessions": "Sessions",
-      "exercises": "Exercises"
+      "exercises": "Exercises",
+      "day": "Day",
+      "body": "Body"
     },
     "home": {
       "myExercises": "My exercises ({n})",
@@ -2146,7 +2262,8 @@
       "volume": "Volume",
       "avgRest": "Average rest",
       "kgValue": "{kg} kg",
-      "secondsShort": "{n}s"
+      "secondsShort": "{n}s",
+      "prs": "Records"
     },
     "errors": {
       "name": "Enter a name.",
@@ -2157,6 +2274,74 @@
       "missing-weight": "Enter the weight.",
       "missing-duration": "Enter the time.",
       "out-of-range": "That value is out of range."
+    },
+    "day": {
+      "title": "Day",
+      "today": "Today",
+      "week": "Week",
+      "prevWeek": "Previous week",
+      "nextWeek": "Next week",
+      "calendar": "Training calendar",
+      "close": "Close",
+      "trainedOn": "{day}, trained",
+      "details": "Set details",
+      "sessions": "Sessions",
+      "rest": "Rest day.",
+      "start": "Start workout",
+      "repsList": "{list} reps",
+      "secondsList": "{list}s",
+      "weightLine": "{kg} kg: {list}",
+      "prCount": "{n, plural, one {# record} other {# records}}",
+      "metrics": {
+        "sets": "Sets",
+        "reps": "Reps",
+        "exercises": "Exercises",
+        "volume": "Volume",
+        "duration": "Duration",
+        "rest": "Average rest",
+        "session": "Session time",
+        "prs": "Records",
+        "kg": "{kg} kg"
+      }
+    },
+    "records": {
+      "trophy": "Record: {kinds}",
+      "kinds": {
+        "weight": "weight",
+        "e1rm": "estimated 1RM",
+        "reps": "reps"
+      },
+      "empty": "No records for this exercise yet.",
+      "bestWeight": "Heaviest weight",
+      "bestE1rm": "Best estimated 1RM",
+      "repsAt": "Most reps at {kg} kg",
+      "repsBody": "Most reps",
+      "kg": "{kg} kg",
+      "reps": "{n} reps"
+    },
+    "compare": {
+      "title": "Compared with last time",
+      "kg": "{kg} kg",
+      "rows": {
+        "sets": "Sets",
+        "reps": "Reps",
+        "volume": "Volume",
+        "kg": "kg per rep"
+      }
+    },
+    "progress": {
+      "metric": "Metric",
+      "weight": "Heaviest weight",
+      "e1rm": "Estimated 1RM",
+      "volume": "Volume",
+      "notEnough": "Do this exercise in 2 sessions to see your progress.",
+      "label": "{metric} over {n} sessions"
+    },
+    "exerciseTabs": {
+      "label": "Exercise views",
+      "sets": "Sets",
+      "progress": "Progress",
+      "records": "Records"
     }
   }
 }

@@ -142,3 +142,16 @@ describe('applyBackoff', () => {
     expect(applyBackoff(week, [], today)).toEqual(week);
   });
 });
+
+describe('lembrete de pesagem (F17)', () => {
+  const weigh = { ...PREFS, weighInTime: '08:00' };
+  it('à hora escolhida, só sem registo hoje', () => {
+    expect(at('2026-05-06T07:05:00Z', LX, weigh, { ...TODO, weighedToday: false }).map((d) => d.kind)).toContain('WEIGH_IN');
+    expect(at('2026-05-06T07:05:00Z', LX, weigh, { ...TODO, weighedToday: true }).map((d) => d.kind)).not.toContain('WEIGH_IN');
+  });
+  it('desligado (sem hora) ou sem estado conhecido não sai', () => {
+    expect(at('2026-05-06T07:05:00Z', LX, PREFS, { ...TODO, weighedToday: false }).map((d) => d.kind)).not.toContain('WEIGH_IN');
+    expect(at('2026-05-06T07:05:00Z', LX, weigh, TODO).map((d) => d.kind)).not.toContain('WEIGH_IN');
+    expect(at('2026-05-06T07:05:00Z', LX, { ...weigh, enabled: false }, { ...TODO, weighedToday: false })).toEqual([]);
+  });
+});

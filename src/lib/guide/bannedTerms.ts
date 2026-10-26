@@ -5,12 +5,15 @@
  */
 export const BANNED_TERMS: Record<'pt' | 'en', string[]> = {
   pt: [
-    'dieta', 'dietas', 'caloria', 'calorias', 'imc', 'perder peso', 'perda de peso', 'emagrecer', 'emagrecimento',
+    'dieta', 'dietas', 'caloria', 'calorias', 'imc', 'perda de peso', 'emagrecer', 'emagrecimento',
     'medicamento', 'medicamentos', 'medicacao', 'medicar', 'diagnostico', 'diagnosticar', 'presenca',
+    // F17: "perder peso" pode descrever o objectivo da pessoa; suplementos e contas de comida continuam fora.
+    'suplemento', 'suplementos', 'proteina em gramas', 'gramas de proteina', 'defice calorico', 'excedente calorico',
   ],
   en: [
-    'diet', 'diets', 'dieting', 'calorie', 'calories', 'bmi', 'lose weight', 'losing weight', 'weight loss',
+    'diet', 'diets', 'dieting', 'calorie', 'calories', 'bmi', 'losing weight', 'weight loss',
     'medication', 'medications', 'medicine', 'diagnosis', 'diagnose', 'presence',
+    'supplement', 'supplements', 'grams of protein', 'protein grams', 'calorie deficit', 'caloric deficit', 'calorie surplus', 'caloric surplus',
   ],
 };
 

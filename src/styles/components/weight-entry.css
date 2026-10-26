@@ -1,0 +1,59 @@
+/* WeightEntrySheet e WeightList (F17) */
+
+.mg-weight-entry__kg {
+  font-size: var(--text-2xl);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-weight-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-weight-list__item {
+  position: relative;
+  overflow: hidden;
+  border-bottom: var(--border-width) solid var(--glass-border);
+}
+
+.mg-weight-list__row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 var(--space-2);
+  background: var(--bg-base);
+  font-variant-numeric: tabular-nums;
+  transition: transform 150ms var(--ease);
+  touch-action: pan-y;
+}
+
+.mg-weight-list__kg {
+  color: var(--metric-weight);
+}
+
+.mg-weight-list__delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-4);
+  border: 0;
+  background: var(--danger);
+  color: var(--body-on-accent);
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-weight-list__row {
+    transition: none;
+  }
+}

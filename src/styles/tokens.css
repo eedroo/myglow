@@ -96,6 +96,15 @@
   --metric-kg: #B7790A;
   --metric-volume: #6A54E0;
   --metric-time: #2479C2;
+  /* F17: mais métricas, recuperação muscular e recordes */
+  --metric-sets: #C2417A;
+  --metric-exercises: #3E8E41;
+  --metric-rest: #8A6A4F;
+  --metric-weight: #5E6B78;
+  --recovery-just: #D9582C;
+  --recovery-mid: #F0A868;
+  --recovery-rested: #CFC6BA;
+  --pr-gold: #C9971A;
 
   /* Raios */
   --radius-sm: 10px;
@@ -240,4 +249,12 @@
   --metric-kg: #F6B93B;
   --metric-volume: #A594FF;
   --metric-time: #5DB3F5;
+  --metric-sets: #F07AAE;
+  --metric-exercises: #7BD17F;
+  --metric-rest: #D2B394;
+  --metric-weight: #B4C0CC;
+  --recovery-just: #FF8657;
+  --recovery-mid: #B9784A;
+  --recovery-rested: #4A4238;
+  --pr-gold: #F6C445;
 }

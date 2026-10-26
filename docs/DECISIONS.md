@@ -144,6 +144,18 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Aviso de fim de descanso:** push só com a app em segundo plano.
 - **Diário:** terminar a sessão marca os checks do diário (nunca desmarca).
 
+## Corpo II (Fase 17)
+- **Peso diário** (premium, com consentimento de bem-estar):
+  - 1 registo por dia;
+  - média semanal (domingo a sábado) é o número principal;
+  - tendência de 7 dias;
+  - objectivo ganhar / manter / perder com ritmos fixos e linguagem neutra;
+  - a Semana e a retrospectiva usam a média para `body-pro`.
+- **Recordes:** peso, e1RM (Epley, até 12 reps) e reps por peso, gravados na série e recalculados ao editar.
+- **Comparação** com a sessão anterior por exercício.
+- **Mapa muscular** com recuperação: menos de 48 h, 48 a 72 h, mais de 72 h.
+- **Guia:** lê o corpo só com autorização própria (`guideIncludeBody`) e nunca sugere dietas ou suplementos.
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

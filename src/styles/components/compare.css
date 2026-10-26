@@ -1,0 +1,42 @@
+/* CompareBlock (F17): sessão mais recente vs a anterior; setas neutras */
+
+.mg-compare {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-compare__row {
+  display: grid;
+  grid-template-columns: 4px 1fr auto auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 40px;
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-compare__bar {
+  align-self: stretch;
+  border-radius: var(--radius-pill);
+  background: var(--metric-color, var(--glass-border));
+}
+
+.mg-compare__value {
+  font-size: var(--text-lg);
+  color: var(--metric-color, var(--text-primary));
+}
+
+.mg-compare__delta {
+  min-width: 7ch;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.mg-compare__row--sets { --metric-color: var(--metric-sets); }
+.mg-compare__row--reps { --metric-color: var(--metric-reps); }
+.mg-compare__row--volume { --metric-color: var(--metric-volume); }
+.mg-compare__row--kg { --metric-color: var(--metric-kg); }

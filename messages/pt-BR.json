@@ -411,6 +411,10 @@
     "chip": "Semana {n} · {month}"
   },
   "weight": {
+    "averageTitle": "Média do peso da semana",
+    "kgValue": "{kg} kg",
+    "fromWeighIns": "{n, plural, one {a partir de # pesagem} other {a partir de # pesagens}}",
+    "openWeight": "Ver o peso",
     "title": "Meu peso da semana",
     "label": "Peso em quilos",
     "unit": "kg",
@@ -776,6 +780,7 @@
   },
   "notifications": {
     "push": {
+      "weighIn": {"title": "Bom dia", "body": "Já se pesou hoje?"},
       "restDone": {"title": "Descanso acabou", "body": "Bora pra próxima série de {exercise}.", "bodyGeneric": "Bora pra próxima série."},
       "friendRequest": {"title": "{name} quer ser seu amigo no MYGLOW", "body": "Veja o pedido e aceite se quiser caminhar junto."},
       "friendAccepted": {"title": "{name} aceitou o seu pedido", "body": "Agora vocês acompanham a jornada um do outro."},
@@ -1652,12 +1657,14 @@
       "generated": "Leitura de {date}"
     },
     "consent": {
+      "bodyTitle": "O corpo, só se você autorizar",
+      "body": "Com o Foco no corpo, você pode autorizar à parte que o {name} leia a média semanal do peso, a meta e os treinos. Nunca as pesagens de cada dia.",
       "title": "Como funciona o {name}",
       "intro": "No fim de cada semana e de cada mês, o {name} lê o que você escreveu e devolve uma leitura com o que continuar, o que ajustar e 3 focos.",
       "sentTitle": "O que é enviado",
       "sent": "Intenções, banimentos, gratidões, reflexões, resumos, notas da semana e metas por área, mais os números do período (dias, rituais, corpo, Glow, lições). Humor, acordar e sono vão só como médias, e só se você autorizou dados de bem-estar. E-mails, telefones e links são retirados antes do envio.",
       "neverTitle": "O que nunca é enviado",
-      "never": "O seu nome, e-mail, peso, data e local de nascimento, e as notas de como você acordou.",
+      "never": "O seu nome, e-mail, data e local de nascimento, as pesagens de cada dia e as notas de como você acordou.",
       "whoTitle": "Quem processa",
       "who": "A Google, através da API paga do Gemini, que não usa estes dados para treinar modelos. Pode guardá-los por um período limitado para detectar abusos.",
       "offTitle": "Pode desligar quando quiser",
@@ -1867,6 +1874,113 @@
       "handleChars": "Use só letras minúsculas, números, ponto e sublinhado."
     }
   },
+  "body": {
+    "title": "Corpo",
+    "weight": {
+      "title": "Peso",
+      "back": "Corpo",
+      "weekAverage": "Média desta semana",
+      "kg": "{kg} kg",
+      "vsLastWeek": "{delta} em relação à semana anterior",
+      "fromWeighIns": "{n, plural, one {a partir de # pesagem} other {a partir de # pesagens}}",
+      "lastEntry": "Último registro: {kg} kg em {date}",
+      "noEntries": "Ainda sem registros.",
+      "new": "Novo registro",
+      "date": "Data",
+      "kgLabel": "Peso (kg)",
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "entries": "Registros",
+      "delete": "Apagar",
+      "deleteEntry": "Apagar o registro de {date}",
+      "range": "Período",
+      "rangeM": "M",
+      "range6M": "6M",
+      "rangeY": "A",
+      "chartEmpty": "Sem registros neste período.",
+      "chartHint": "Toque em um ponto para ver a data e o peso.",
+      "chartLabel": "Gráfico do peso com {n} registros e a tendência de 7 dias",
+      "pointTip": "{date}: {kg} kg",
+      "reminder": "Lembrete de pesagem",
+      "reminderTime": "Horário do lembrete"
+    },
+    "goal": {
+      "title": "Meta",
+      "button": "Meta",
+      "direction": "Direção",
+      "directions": {
+        "GAIN": "Ganhar",
+        "MAINTAIN": "Manter",
+        "LOSE": "Perder"
+      },
+      "rate": "Ritmo",
+      "rateOption": "{sign}{kg} kg por semana",
+      "target": "Peso-alvo (opcional, kg)",
+      "targetPlaceholder": "Ex.: 78,0",
+      "save": "Salvar",
+      "clear": "Remover meta",
+      "cancel": "Cancelar",
+      "summaryGain": "Meta: ganhar {kg} kg/semana",
+      "summaryLose": "Meta: perder {kg} kg/semana",
+      "summaryMaintain": "Meta: manter o peso",
+      "thisWeek": "Esta semana: {delta} ({status})",
+      "toTarget": "Faltam {kg} kg",
+      "toTargetWeeks": "Faltam {kg} kg (≈ {weeks, plural, one {# semana} other {# semanas}})",
+      "status": {
+        "on-track": "dentro do ritmo",
+        "above": "acima do ritmo",
+        "below": "abaixo do ritmo",
+        "not-enough-data": "Para o status da semana, são necessárias pesagens nesta semana e na anterior."
+      }
+    },
+    "map": {
+      "title": "Mapa muscular",
+      "front": "Frente",
+      "back": "Costas",
+      "just": "Acabou de treinar",
+      "mid": "Recuperando",
+      "rested": "Descansado",
+      "noneRecent": "Sem exercícios para este músculo nos últimos 60 dias.",
+      "close": "Fechar",
+      "unassigned": "{n, plural, one {# exercício sem músculo definido.} other {# exercícios sem músculo definido.}}",
+      "unassignedLink": "Editar",
+      "muscles": {
+        "trapezius": "Trapézio",
+        "upper-back": "Costas (parte superior)",
+        "lower-back": "Lombar",
+        "chest": "Peito",
+        "biceps": "Bíceps",
+        "triceps": "Tríceps",
+        "forearm": "Antebraço",
+        "back-deltoids": "Deltoide posterior",
+        "front-deltoids": "Deltoide anterior",
+        "abs": "Abdômen",
+        "obliques": "Oblíquos",
+        "adductor": "Adutores",
+        "abductors": "Abdutores",
+        "hamstring": "Posteriores da coxa",
+        "quadriceps": "Quadríceps",
+        "calves": "Panturrilha",
+        "gluteal": "Glúteos",
+        "neck": "Pescoço"
+      }
+    },
+    "guide": {
+      "title": "O Guia e o seu corpo",
+      "invite": "O seu Guia pode ler também o seu corpo: peso médio, meta e treinos. Quer ativar?",
+      "on": "O Guia lê a média semanal do peso, a meta e os treinos. Nunca as pesagens de cada dia.",
+      "enable": "Ativar",
+      "disable": "Desligar"
+    },
+    "errors": {
+      "consent": "Para registrar o peso, autorize primeiro os dados de bem-estar.",
+      "weight": "Digite o peso em kg, entre 30 e 300 (por exemplo 76,4).",
+      "date": "Escolha hoje ou um dia do último ano.",
+      "goal": "Escolha a direção e um dos ritmos.",
+      "noWeight": "Registre o peso primeiro para criar a meta.",
+      "guideConsent": "Ative primeiro o Guia nas Configurações."
+    }
+  },
   "fitness": {
     "muscles": {
       "abdominals": "Abdominais",
@@ -1955,7 +2069,9 @@
       "label": "Foco no corpo",
       "workouts": "Treinos",
       "sessions": "Sessões",
-      "exercises": "Exercícios"
+      "exercises": "Exercícios",
+      "day": "Dia",
+      "body": "Corpo"
     },
     "home": {
       "myExercises": "Meus exercícios ({n})",
@@ -2146,7 +2262,8 @@
       "volume": "Volume",
       "avgRest": "Descanso médio",
       "kgValue": "{kg} kg",
-      "secondsShort": "{n} s"
+      "secondsShort": "{n} s",
+      "prs": "Recordes"
     },
     "errors": {
       "name": "Digite um nome.",
@@ -2157,6 +2274,74 @@
       "missing-weight": "Informe o peso.",
       "missing-duration": "Informe o tempo.",
       "out-of-range": "Esse valor está fora do intervalo."
+    },
+    "day": {
+      "title": "Dia",
+      "today": "Hoje",
+      "week": "Semana",
+      "prevWeek": "Semana anterior",
+      "nextWeek": "Próxima semana",
+      "calendar": "Calendário de treinos",
+      "close": "Fechar",
+      "trainedOn": "{day}, com treino",
+      "details": "Detalhe das séries",
+      "sessions": "Sessões do dia",
+      "rest": "Dia de descanso.",
+      "start": "Começar treino",
+      "repsList": "{list} rep",
+      "secondsList": "{list} s",
+      "weightLine": "{kg} kg: {list}",
+      "prCount": "{n, plural, one {# recorde} other {# recordes}}",
+      "metrics": {
+        "sets": "Séries",
+        "reps": "Repetições",
+        "exercises": "Exercícios",
+        "volume": "Volume",
+        "duration": "Duração",
+        "rest": "Descanso médio",
+        "session": "Tempo de sessão",
+        "prs": "Recordes",
+        "kg": "{kg} kg"
+      }
+    },
+    "records": {
+      "trophy": "Recorde: {kinds}",
+      "kinds": {
+        "weight": "carga",
+        "e1rm": "1RM estimado",
+        "reps": "repetições"
+      },
+      "empty": "Ainda sem recordes neste exercício.",
+      "bestWeight": "Maior carga",
+      "bestE1rm": "Melhor 1RM estimado",
+      "repsAt": "Máx. reps com {kg} kg",
+      "repsBody": "Máx. reps",
+      "kg": "{kg} kg",
+      "reps": "{n} reps"
+    },
+    "compare": {
+      "title": "Comparado com a anterior",
+      "kg": "{kg} kg",
+      "rows": {
+        "sets": "Séries",
+        "reps": "Reps",
+        "volume": "Volume",
+        "kg": "kg por rep"
+      }
+    },
+    "progress": {
+      "metric": "Métrica",
+      "weight": "Maior carga",
+      "e1rm": "1RM estimado",
+      "volume": "Volume",
+      "notEnough": "Faça este exercício em 2 sessões para ver a evolução.",
+      "label": "{metric} em {n} sessões"
+    },
+    "exerciseTabs": {
+      "label": "Visões do exercício",
+      "sets": "Séries",
+      "progress": "Evolução",
+      "records": "Recordes"
     }
   }
 }

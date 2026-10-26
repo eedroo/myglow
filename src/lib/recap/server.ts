@@ -5,7 +5,8 @@ import { db } from '@/lib/db';
 import { addDays, compareDates, dayBoundsUtc, formatMonthName, fromDbDate, toDbDate, todayInTz, type DateISO } from '@/lib/dates';
 import { parseMonthKey, weekKey } from '@/lib/weeks';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
-import { computePeriodStats, type DailyEntryLike, type PeriodStats } from '@/lib/stats/period';
+import { computePeriodStats, mergeDailyWeights, weightFromPoints, type DailyEntryLike, type PeriodStats } from '@/lib/stats/period';
+import { dailyWeightWeeks } from '@/lib/body/queries';
 import { hasWellbeingConsent } from '@/lib/account/consent';
 import { getMoonEvents } from '@/lib/astro/moonCalendar';
 import { getCachedRetrogradePeriods, getCachedSkyEvents } from '@/lib/astro/skyCache';
@@ -110,8 +111,11 @@ export async function getRecapInput(userId: string, period: RecapPeriod): Promis
     ]);
 
   const today = period.to; // o período já acabou: conta-se até ao último dia
-  const weeks = weights.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams }));
-  const stats: PeriodStats = computePeriodStats({ from: period.from, to: period.to, today, entries, weeks, wellbeing });
+  // F17 (body-pro): médias do peso diário. Semanal: esta semana e a anterior; mensal: as semanas do mês.
+  const daily = await dailyWeightWeeks(userId, isWeek ? addDays(period.from, -7) : period.from, period.to);
+  const weeks = mergeDailyWeights(weights.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })), daily);
+  let stats: PeriodStats = computePeriodStats({ from: period.from, to: period.to, today, entries, weeks, wellbeing });
+  if (isWeek && wellbeing && daily.length) stats = { ...stats, weight: weightFromPoints(daily.map((d) => ({ weekStart: d.startDate, grams: d.weightGrams }))) };
   const prevStats = computePeriodStats({ from: period.prev.from, to: period.prev.to, today: period.prev.to, entries: prevEntries, weeks: [], wellbeing });
 
   const byDate = new Map(entries.map((e) => [e.date, e]));

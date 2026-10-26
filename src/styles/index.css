@@ -148,3 +148,16 @@
 @import './components/session.css';
 @import './components/rest.css';
 @import './components/session-summary.css';
+@import './components/day-strip.css';
+@import './components/train-cal.css';
+@import './components/day-metrics.css';
+@import './components/set-details.css';
+@import './components/weight-card.css';
+@import './components/muscle-map.css';
+@import './components/weight-chart.css';
+@import './components/weight-entry.css';
+@import './components/goal.css';
+@import './components/compare.css';
+@import './components/ex-chart.css';
+@import './components/ex-records.css';
+@import './components/pr.css';

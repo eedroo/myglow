@@ -19,6 +19,7 @@ import { ChangeEmailForm } from '@/components/account/ChangeEmailForm';
 import { ChangePasswordForm } from '@/components/account/ChangePasswordForm';
 import { ResendVerificationButton } from '@/components/account/ResendVerificationButton';
 import { WellbeingConsentCard } from '@/components/account/WellbeingConsentCard';
+import { BodyGuideCard } from '@/components/body/BodyGuideCard';
 import { DeleteAccountDialog } from '@/components/account/DeleteAccountDialog';
 import { DELETE_CONFIRM_WORD } from '@/lib/validation/account';
 import { FeedbackDialog } from '@/components/beta/FeedbackDialog';
@@ -70,6 +71,7 @@ export default async function SettingsPage() {
         emailVerifiedAt: true,
         wellbeingConsentAt: true,
         guideConsentAt: true,
+        guideIncludeBody: true,
         guideConsentVersion: true,
         showBigThree: true,
         blocks: { select: { blocked: { select: { id: true, name: true } } }, orderBy: { createdAt: 'desc' } },
@@ -235,6 +237,8 @@ export default async function SettingsPage() {
             consentedOn={guideConsentedOn}
             activateHref={`/guide/week/${previousWeekPeriod(todayInTz(user.timezone)).key}`}
           />
+          {/* F17: o Guia a ler também o corpo (body-pro, com o Guia e o bem-estar autorizados). */}
+          {entitlements.features['body-pro'] && guideConsentedOn && user.wellbeingConsentAt && <BodyGuideCard enabled={user.guideIncludeBody} />}
         </GlassCard>
       )}
 

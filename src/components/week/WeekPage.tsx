@@ -78,6 +78,7 @@ export async function WeekPage({ start }: { start: DateISO }) {
         initial={week}
         days={data.days}
         previousWeightGrams={data.previousWeightGrams}
+        dailyWeight={data.dailyWeight}
         wellbeing={data.wellbeing}
         defaultTitle={defaultTitle}
         glowNote={<GlowWindowNote period="week" periodStart={start} timezone={user.timezone} today={data.today} earned={weekAwards} />}

@@ -62,6 +62,7 @@
 .mg-metric--kg { color: var(--metric-kg); }
 .mg-metric--volume { color: var(--metric-volume); }
 .mg-metric--time { color: var(--metric-time); }
+.mg-metric--pr { color: var(--pr-gold); }
 
 .mg-ex-howto {
   display: flex;

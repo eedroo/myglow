@@ -96,3 +96,51 @@
     animation: none;
   }
 }
+
+/* F17: folha (dialog) partilhada pelas folhas do corpo (calendário, peso, objectivo, músculo) */
+.mg-body-sheet {
+  width: min(100%, 560px);
+  max-width: 100%;
+  max-height: 88dvh;
+  margin: auto auto 0;
+  padding: var(--space-5) var(--space-4) calc(var(--space-5) + env(safe-area-inset-bottom));
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--glass-bg-solid);
+  color: var(--text-primary);
+  overflow-y: auto;
+}
+
+.mg-body-sheet::backdrop {
+  background: var(--scrim);
+}
+
+.mg-body-sheet__title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+}
+
+.mg-body-sheet__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-body-sheet__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.mg-body-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--body-surface);
+  color: var(--text-primary);
+  text-decoration: none;
+}

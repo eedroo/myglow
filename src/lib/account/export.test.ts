@@ -54,7 +54,9 @@ const source = {
   friendRequests: [{ direction: 'received', otherName: 'Caio', status: 'PENDING', createdAt: at, respondedAt: null }],
   blocks: [{ name: 'Dora', createdAt: at }],
   fitness: {
-    prefs: { userId: 'u1', defaultRestSec: 90, restAlert: true, keepAwake: true, onboardedAt: at },
+    prefs: { userId: 'u1', defaultRestSec: 90, restAlert: true, keepAwake: true, onboardedAt: at, weighInReminder: true, weighInTime: '07:30' },
+    weights: [{ userId: 'u1', date: toDbDate('2026-10-20'), grams: 76250, createdAt: at, updatedAt: at }],
+    goal: { userId: 'u1', direction: 'GAIN', weeklyRateGrams: 250, targetGrams: 78000, startGrams: 76000, startedAt: at },
     programs: [{
       id: 'p1', userId: 'u1', name: 'PPL', description: null, kind: 'STRENGTH', order: 0, archivedAt: null, createdAt: at,
       workouts: [{
@@ -65,7 +67,7 @@ const source = {
     sessions: [{
       id: 's1', userId: 'u1', workoutId: 'w1', date: toDbDate('2026-10-01'), startedAt: at, endedAt: at, restEndsAt: null, restExerciseId: null,
       clientHidden: false, extraExercises: [], notes: null,
-      sets: [{ id: 'x1', sessionId: 's1', userId: 'u1', exerciseId: 'Barbell_Bench_Press', order: 1, reps: 10, weightGrams: 62500, durationSec: null, completedAt: at, restSec: 90 }],
+      sets: [{ id: 'x1', sessionId: 's1', userId: 'u1', exerciseId: 'Barbell_Bench_Press', order: 1, reps: 10, weightGrams: 62500, durationSec: null, completedAt: at, restSec: 90, prKinds: ['weight'] }],
     }],
     customExercises: [{
       id: 'custom_1', source: 'CUSTOM', ownerId: 'u1', names: { 'pt-PT': 'Remada' }, category: 'strength', measure: 'REPS_WEIGHT',
@@ -95,7 +97,11 @@ describe('buildExport', () => {
     expect(out.fitness.sessions[0]).toMatchObject({ date: '2026-10-01', workoutId: 'w1' });
     expect(out.fitness.sessions[0]!.sets[0]).toMatchObject({ reps: 10, weightGrams: 62500, weightKg: 62.5 });
     expect(out.fitness.customExercises[0]).toMatchObject({ id: 'custom_1', names: { 'pt-PT': 'Remada' } });
-    expect(out.fitness.prefs).toMatchObject({ defaultRestSec: 90, keepAwake: true });
+    expect(out.fitness.prefs).toMatchObject({ defaultRestSec: 90, keepAwake: true, weighInReminder: true, weighInTime: '07:30' });
+    // F17: peso diário, objectivo e recordes.
+    expect(out.fitness.weights).toEqual([{ date: '2026-10-20', grams: 76250, kg: 76.25, updatedAt: at.toISOString() }]);
+    expect(out.fitness.goal).toMatchObject({ direction: 'GAIN', weeklyRateGrams: 250, targetGrams: 78000 });
+    expect(out.fitness.sessions[0]!.sets[0]!.prKinds).toEqual(['weight']);
     // F12: plano e dias activos.
     expect(out.user).toMatchObject({ plan: 'PREMIUM', planSince: at.toISOString(), planExpiresAt: null, premiumInterestAt: at.toISOString() });
     expect(out.activeDays).toEqual(['2026-10-01', '2026-10-02']);

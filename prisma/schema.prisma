@@ -139,6 +139,8 @@ enum NotificationKind {
   FRIEND_ACCEPTED
   // F16: fim do descanso numa sessão de treino (só push; periodKey = sessionId:restEndsAt)
   REST_DONE
+  // F17: lembrete de pesagem (só se ainda não há registo hoje; periodKey = dia local)
+  WEIGH_IN
 }
 
 model User {
@@ -223,6 +225,10 @@ model User {
   customExercises  Exercise[]
   fitnessPrograms  FitnessProgram[]
   fitnessSessions  FitnessSession[]
+  // F17: peso diário, objectivo e o Guia a ler o corpo (autorização própria)
+  bodyWeights      BodyWeightEntry[]
+  bodyGoal         BodyGoal?
+  guideIncludeBody Boolean           @default(false)
 }
 
 enum FeedbackKind {
@@ -702,6 +708,8 @@ model FitnessPrefs {
   defaultRestSec Int       @default(90)
   restAlert      Boolean   @default(true) // aviso de fim de descanso
   keepAwake      Boolean   @default(true) // manter o ecrã ligado durante o treino
+  weighInReminder Boolean  @default(false) // F17: lembrete de pesagem
+  weighInTime     String   @default("08:00")
   onboardedAt    DateTime?
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -783,9 +791,39 @@ model SessionSet {
   durationSec Int?
   completedAt DateTime
   restSec     Int? // descanso usado depois desta série
+  prKinds     String[]       @default([]) // F17: recordes batidos nesta série ('weight' | 'e1rm' | 'reps')
   session     FitnessSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   exercise    Exercise       @relation(fields: [exerciseId], references: [id])
 
   @@index([userId, exerciseId, completedAt])
   @@index([sessionId])
+}
+
+// ─── F17: Corpo II (peso diário e objectivo) ─────────────────────────────────────────────────────
+
+enum BodyGoalDirection {
+  GAIN
+  MAINTAIN
+  LOSE
+}
+
+model BodyWeightEntry {
+  userId    String
+  date      DateTime @db.Date // dia local; 1 registo por dia (o último substitui)
+  grams     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, date])
+}
+
+model BodyGoal {
+  userId          String            @id
+  direction       BodyGoalDirection
+  weeklyRateGrams Int // valor absoluto; MAINTAIN = 0
+  targetGrams     Int?
+  startGrams      Int // média da semana em que o objectivo foi criado
+  startedAt       DateTime          @default(now())
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

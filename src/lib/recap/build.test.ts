@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { DayLevel } from '@/lib/daily/progress';
-import { HABIT_KEYS, type HabitCount, type HabitKey, type PeriodStats } from '@/lib/stats/period';
+import { HABIT_KEYS, weightFromPoints, type HabitCount, type HabitKey, type PeriodStats } from '@/lib/stats/period';
 import { buildRecap, type RecapInput, type RecapSlide } from './build';
 import { weekRecapPeriod } from './period';
 
@@ -118,5 +118,13 @@ describe('buildRecap', () => {
       glow: { earned: 0, prevEarned: null, totalBefore: 0, totalAfter: 0 },
     }));
     expect(types(empty)).toEqual(['cover', 'days', 'closing']);
+  });
+});
+
+describe('peso diário na retrospectiva (F17, body-pro)', () => {
+  it('semanal: média desta semana e da anterior', () => {
+    const weight = weightFromPoints([{ weekStart: '2026-10-11', grams: 76400 }, { weekStart: '2026-10-18', grams: 76650 }]);
+    const s = buildRecap(input({ stats: stats({ weight }) }));
+    expect(find(s, 'body')?.weight).toEqual({ firstGrams: 76400, lastGrams: 76650, points: [76400, 76650] });
   });
 });

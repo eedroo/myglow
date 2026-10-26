@@ -1,12 +1,14 @@
 import 'server-only';
 import { db } from '@/lib/db';
-import { compareDates, fromDbDate, toDbDate, todayInTz, type DateISO } from '@/lib/dates';
+import { addDays, compareDates, fromDbDate, toDbDate, todayInTz, type DateISO } from '@/lib/dates';
 import { weekDays, weekKey } from '@/lib/weeks';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
 import { hasWellbeingConsent } from '@/lib/account/consent';
 import { getMoonCalendar, getMoonEvents } from '@/lib/astro/moonCalendar';
 import { PROJECT_AREAS, type WeekData, type WeekPageData } from '@/types/week';
 import type { ProjectArea } from '@prisma/client';
+import { getEntitlements } from '@/lib/entitlements/server';
+import { weeklyWeightAverages } from '@/lib/body/queries';
 
 /** Tudo o que a página da semana precisa. Não cria registos. */
 export async function getWeekPageData(userId: string, start: DateISO, tz: string): Promise<WeekPageData> {
@@ -58,8 +60,18 @@ export async function getWeekPageData(userId: string, start: DateISO, tz: string
       isFuture: compareDates(date, today) > 0,
     })),
     moonEvents: getMoonEvents(start, end, tz),
+    dailyWeight: await dailyWeightFor(userId, start, wellbeing),
     previousWeightGrams: previous?.weightGrams ?? null,
     wellbeing,
     today,
   };
+}
+
+/** F17: para body-pro com registos diários nesta semana, a média (só leitura na Semana). */
+async function dailyWeightFor(userId: string, start: DateISO, wellbeing: boolean): Promise<WeekPageData['dailyWeight']> {
+  if (!wellbeing || !(await getEntitlements(userId)).features['body-pro']) return null;
+  const prev = addDays(start, -7);
+  const avgs = await weeklyWeightAverages(userId, [prev, start]);
+  const cur = avgs.get(start);
+  return cur ? { avgGrams: cur.avgGrams, count: cur.count, previousAvgGrams: avgs.get(prev)?.avgGrams ?? null } : null;
 }

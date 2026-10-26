@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { giveGuideConsent } from '@/actions/guide';
 import { Button } from '@/components/ui/Button';
 
-const ITEMS = ['sent', 'never', 'who', 'off'] as const;
+const ITEMS = ['sent', 'never', 'body', 'who', 'off'] as const;
 
 /** Consentimento do Guia: o que é enviado, o que nunca é, quem processa e como desligar. Desligado por defeito. */
 export function GuideConsent() {

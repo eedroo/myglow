@@ -80,6 +80,8 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const flushing = useRef(false);
+  // F17: recordes batidos nesta visita (o troféu aparece logo, com animação).
+  const [freshPrs, setFreshPrs] = useState<Record<string, string[]>>({});
 
   useWakeLock(keepAwake);
 
@@ -117,6 +119,7 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
           setError(te(res.error));
           continue;
         }
+        if (res.data.prKinds.length) setFreshPrs((m) => ({ ...m, [q.id]: res.data.prKinds }));
         if (res.data.restEndsAt) {
           const item = session.items.find((i) => i.exercise.id === q.exerciseId);
           setRest({ endsAt: res.data.restEndsAt, total: item?.target.restSec ?? 90, exerciseId: q.exerciseId });
@@ -165,13 +168,15 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
     const done = (item?.doneSets ?? []).map((s) => ({
       id: s.id,
       pending: false,
+      prKinds: s.prKinds,
+      fresh: s.id in freshPrs,
       ...(s.reps != null && { reps: s.reps }),
       ...(s.weightGrams != null && { weightGrams: s.weightGrams }),
       ...(s.durationSec != null && { durationSec: s.durationSec }),
     }));
     const queued = queue
       .filter((q) => q.exerciseId === exerciseId && !serverIds.has(q.id))
-      .map(({ id, reps, weightGrams, durationSec }) => ({ id, pending: true, reps, weightGrams, durationSec }));
+      .map(({ id, reps, weightGrams, durationSec }) => ({ id, pending: !(id in freshPrs), prKinds: freshPrs[id] ?? [], fresh: id in freshPrs, reps, weightGrams, durationSec }));
     return [...done, ...queued];
   };
 

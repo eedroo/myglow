@@ -219,6 +219,12 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
         : t('notifications.push.restDone.bodyGeneric');
       url = '/body/session';
       break;
+    // F17: lembrete de pesagem (só sai sem registo hoje).
+    case 'WEIGH_IN':
+      title = t('notifications.push.weighIn.title');
+      body = t('notifications.push.weighIn.body');
+      url = '/body/weight?new=1';
+      break;
   }
   return { title: clip(title, MAX_TITLE), body: clip(body, MAX_BODY), url };
 }

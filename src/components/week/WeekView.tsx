@@ -13,12 +13,15 @@ import { PeriodReflectionCard } from '@/components/period/PeriodReflectionCard';
 import { WeekDayRow } from './WeekDayRow';
 import { WeekTitleCard } from './WeekTitleCard';
 import { WeightCard } from './WeightCard';
+import { WeekWeightAverage } from './WeekWeightAverage';
 import { WellbeingNotice } from '@/components/account/WellbeingNotice';
 
 interface WeekViewProps {
   initial: WeekData;
   days: WeekDaySummary[];
   previousWeightGrams: number | null;
+  /** F17: média do peso diário (body-pro); substitui o campo manual. */
+  dailyWeight?: { avgGrams: number; count: number; previousAvgGrams: number | null } | null;
   /** F9: sem consentimento de bem-estar o peso fica desactivado (nota + link). */
   wellbeing: boolean;
   defaultTitle: string;
@@ -35,7 +38,7 @@ interface WeekViewProps {
 }
 
 /** Cartões interactivos da semana com gravação automática. */
-export function WeekView({ initial, days, previousWeightGrams, wellbeing, defaultTitle, sky, glowNote, reading, focusNotes, recap }: WeekViewProps) {
+export function WeekView({ initial, days, previousWeightGrams, dailyWeight, wellbeing, defaultTitle, sky, glowNote, reading, focusNotes, recap }: WeekViewProps) {
   const t = useTranslations();
   const { data, setText, setWeight, setDayNote, setProject, status, errorKey, flush } = useWeekAutosave(initial);
   const onBlur = () => void flush();
@@ -79,7 +82,9 @@ export function WeekView({ initial, days, previousWeightGrams, wellbeing, defaul
           ))}
         </section>
         <div className="mg-week__cell mg-week__cell--weight">
-          {wellbeing ? (
+          {wellbeing && dailyWeight ? (
+            <WeekWeightAverage {...dailyWeight} />
+          ) : wellbeing ? (
             <WeightCard grams={data.weightGrams} previousGrams={previousWeightGrams} onCommit={setWeight} />
           ) : (
             <WellbeingNotice />

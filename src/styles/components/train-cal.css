@@ -1,0 +1,53 @@
+/* TrainingCalendar (F17): meses com os dias treinados */
+
+.mg-train-cal__months {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mg-train-cal__month h3 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+}
+
+.mg-train-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.mg-train-cal__dow {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.mg-train-cal__day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-pill);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+.mg-train-cal__day--trained {
+  background: var(--body-accent);
+  color: var(--body-on-accent);
+}
+
+.mg-train-cal__day--today {
+  border-color: var(--body-accent);
+}
+
+.mg-train-cal__day:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}

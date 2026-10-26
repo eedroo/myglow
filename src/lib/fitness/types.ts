@@ -38,6 +38,8 @@ export interface SessionSetView {
   weightGrams: number | null;
   durationSec: number | null;
   completedAt: string;
+  /** F17: recordes batidos nesta série. */
+  prKinds: string[];
 }
 
 export interface ActiveSessionView {
@@ -67,5 +69,6 @@ export interface ExerciseHistoryGroup {
     reps: number | null;
     weightGrams: number | null;
     durationSec: number | null;
+    prKinds: string[];
   }[];
 }

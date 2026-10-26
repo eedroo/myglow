@@ -1,0 +1,64 @@
+/* WeightChart (F17): pontos diários, tendência de 7 dias e linha do alvo */
+
+.mg-weight-chart {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mg-weight-chart svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.mg-weight-chart__axis {
+  font-size: 10px;
+  fill: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-weight-chart__grid {
+  stroke: var(--glass-border);
+  stroke-width: 1;
+}
+
+.mg-weight-chart__point {
+  fill: var(--bg-base);
+  stroke: var(--metric-weight);
+  stroke-width: 1.5;
+}
+
+.mg-weight-chart__point--active {
+  fill: var(--metric-weight);
+}
+
+.mg-weight-chart__trend {
+  fill: none;
+  stroke: var(--body-accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mg-weight-chart__goal {
+  stroke: var(--text-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+}
+
+.mg-weight-chart__tip {
+  align-self: center;
+  min-height: 1.5em;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+
+.mg-weight-chart__empty {
+  padding: var(--space-6) 0;
+  text-align: center;
+  color: var(--text-muted);
+}

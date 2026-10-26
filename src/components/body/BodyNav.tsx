@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Dumbbell, History, ListChecks } from 'lucide-react';
+import { CalendarDays, Dumbbell, History, ListChecks, PersonStanding } from 'lucide-react';
 
-const ICONS = [ListChecks, History, Dumbbell];
+const ICONS = [ListChecks, Dumbbell, History, CalendarDays, PersonStanding];
 
-/** Navegação própria do Foco no corpo: Treinos · Sessões · Exercícios. */
+/** Navegação própria do Foco no corpo: Treinos · Exercícios · Sessões · Dia · Corpo (F17). */
 export function BodyNav({ label, items }: { label: string; items: { href: string; label: string; match: string[] }[] }) {
   const pathname = usePathname();
   const isActive = (match: string[]) =>

@@ -5,6 +5,7 @@ import { fromDbDate, type DateISO } from '@/lib/dates';
 import type { AppLocale } from '@/i18n/locales';
 import { exerciseInstructions, exerciseName, type ExerciseNames } from './library';
 import { autoEndAt, restFor } from './session';
+import { recomputePrs } from './progress';
 import type { ActiveSessionView, ExerciseHistoryGroup, ExerciseView, LastPerformance, SessionSetView } from './types';
 
 /** Leituras do Foco no corpo (F16). Só lêem (excepto fechar uma sessão esquecida há mais de 6 h). */
@@ -15,7 +16,7 @@ export async function getFitnessPrefs(userId: string) {
   return (await db.fitnessPrefs.findUnique({ where: { userId } })) ?? { userId, ...DEFAULT_PREFS };
 }
 
-const EXERCISE_VIEW = {
+export const EXERCISE_VIEW = {
   id: true, source: true, names: true, category: true, measure: true, primaryMuscles: true, secondaryMuscles: true,
   equipment: true, images: true,
 } as const satisfies Prisma.ExerciseSelect;
@@ -170,14 +171,33 @@ async function lastPerformances(userId: string, exerciseIds: string[], excludeSe
   return out;
 }
 
-const setView = (s: { id: string; order: number; reps: number | null; weightGrams: number | null; durationSec: number | null; completedAt: Date }): SessionSetView => ({
+const setView = (s: { id: string; order: number; reps: number | null; weightGrams: number | null; durationSec: number | null; completedAt: Date; prKinds: string[] }): SessionSetView => ({
   id: s.id,
   order: s.order,
   reps: s.reps,
   weightGrams: s.weightGrams,
   durationSec: s.durationSec,
   completedAt: s.completedAt.toISOString(),
+  prKinds: s.prKinds,
 });
+
+/**
+ * F17: recalcula os recordes de um exercício da pessoa (`recomputePrs`) e grava só as séries que mudaram.
+ * Corre depois de registar (uma série enviada tarde pela fila pode mudar as seguintes), editar ou apagar.
+ */
+export async function recomputeExercisePrs(userId: string, exerciseId: string): Promise<Record<string, string[]>> {
+  const sets = await db.sessionSet.findMany({
+    where: { userId, exerciseId },
+    select: { id: true, completedAt: true, reps: true, weightGrams: true, prKinds: true },
+  });
+  const next = recomputePrs(sets);
+  const same = (a: string[], b: string[]) => a.length === b.length && a.every((x, i) => x === b[i]);
+  const changed = sets.filter((s) => !same(s.prKinds, next[s.id] ?? []));
+  if (changed.length) {
+    await db.$transaction(changed.map((s) => db.sessionSet.update({ where: { id: s.id }, data: { prKinds: next[s.id] ?? [] } })));
+  }
+  return next;
+}
 
 export async function getActiveSession(userId: string, locale: AppLocale): Promise<ActiveSessionView | null> {
   const s = await db.fitnessSession.findFirst({
@@ -329,7 +349,7 @@ export async function getExerciseHistory(userId: string, exerciseId: string, tak
     where: { userId, sets: { some: { exerciseId } } },
     orderBy: { startedAt: 'desc' },
     take,
-    select: { id: true, date: true, sets: { orderBy: { completedAt: 'asc' }, select: { id: true, exerciseId: true, order: true, reps: true, weightGrams: true, durationSec: true, completedAt: true } } },
+    select: { id: true, date: true, sets: { orderBy: { completedAt: 'asc' }, select: { id: true, exerciseId: true, order: true, reps: true, weightGrams: true, durationSec: true, completedAt: true, prKinds: true } } },
   });
   return sessions.map((s) => ({
     date: fromDbDate(s.date),
@@ -344,6 +364,7 @@ export async function getExerciseHistory(userId: string, exerciseId: string, tak
             reps: x.reps,
             weightGrams: x.weightGrams,
             durationSec: x.durationSec,
+            prKinds: x.prKinds,
           }]
         : [],
     ),

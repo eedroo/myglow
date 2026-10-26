@@ -5,6 +5,7 @@ import { formatLongDate } from '@/lib/dates';
 import { isAppLocale, intlLocale } from '@/i18n/locales';
 import type { ExerciseHistoryGroup, ExerciseView } from '@/lib/fitness/types';
 import { formatClock } from '@/lib/fitness/session';
+import { PrTrophy } from './PrTrophy';
 
 /** "+4:02" (descanso antes desta série). */
 const restText = (sec: number | null) => (sec === null ? '' : `+${formatClock(sec).replace(/^00:/, '0:').replace(/^0(\d):/, '$1:')}`);
@@ -35,6 +36,7 @@ export async function ExerciseHistory({ groups, timezone }: { groups: ExerciseHi
                   </>
                 )}
               </span>
+              <PrTrophy kinds={s.prKinds} size={16} />
             </div>
           ))}
         </li>

@@ -9,6 +9,9 @@ import { dbToAppLocale } from '@/i18n/locales';
 import type { RecapPeriod } from '@/lib/recap/period';
 import type { RawGuideData, RawPeriodText } from './input';
 import { guideReportSchema } from './schema';
+import { getEntitlements } from '@/lib/entitlements/server';
+import { addDays } from '@/lib/dates';
+import { exerciseName, type ExerciseNames } from '@/lib/fitness/library';
 
 /**
  * Recolha dos dados do Guia (F14). Lê só os campos de que precisa; o filtro final do que segue para a IA
@@ -17,12 +20,14 @@ import { guideReportSchema } from './schema';
 export interface GuideData {
   raw: RawGuideData;
   hasWellbeingConsent: boolean;
+  /** F17: body-pro + `guideIncludeBody` + consentimento de bem-estar. */
+  includeBody: boolean;
 }
 
 const prevKey = (p: RecapPeriod) => (p.kind === 'WEEK' ? p.prev.from : p.prev.from.slice(0, 7));
 
 export async function loadGuideData(userId: string, period: RecapPeriod): Promise<GuideData | null> {
-  const user = await db.user.findUnique({ where: { id: userId }, select: { locale: true, timezone: true, wellbeingConsentAt: true } });
+  const user = await db.user.findUnique({ where: { id: userId }, select: { locale: true, timezone: true, wellbeingConsentAt: true, guideIncludeBody: true } });
   if (!user) return null;
   const tz = user.timezone;
   const wellbeing = !!user.wellbeingConsentAt;
@@ -92,5 +97,27 @@ export async function loadGuideData(userId: string, period: RecapPeriod): Promis
     moonEvents: getMoonEvents(period.from, period.to, tz),
     ...(prevPayload?.success ? { previousFocuses: prevPayload.data.focuses.map((f) => f.title) } : {}),
   };
-  return { raw, hasWellbeingConsent: wellbeing };
+  // F17: o corpo só com autorização própria (e acesso e consentimento de bem-estar).
+  const includeBody = !!user.guideIncludeBody && wellbeing && (await getEntitlements(userId)).features['body-pro'];
+  if (includeBody) raw.body = await loadGuideBody(userId, period.from, period.to, dbToAppLocale(user.locale));
+  return { raw, hasWellbeingConsent: wellbeing, includeBody };
+}
+
+async function loadGuideBody(userId: string, from: string, to: string, locale: ReturnType<typeof dbToAppLocale>): Promise<NonNullable<RawGuideData['body']>> {
+  const [weights, goal, sessions] = await Promise.all([
+    db.bodyWeightEntry.findMany({ where: { userId, date: { gte: toDbDate(addDays(from, -7)), lte: toDbDate(to) } }, select: { date: true, grams: true } }),
+    db.bodyGoal.findUnique({ where: { userId }, select: { direction: true, weeklyRateGrams: true, targetGrams: true } }),
+    db.fitnessSession.findMany({
+      where: { userId, date: { gte: toDbDate(from), lte: toDbDate(to) }, sets: { some: {} } },
+      select: { date: true, sets: { select: { reps: true, weightGrams: true, prKinds: true, exercise: { select: { names: true } } } } },
+    }),
+  ]);
+  return {
+    weights: weights.map((w) => ({ date: fromDbDate(w.date), grams: w.grams })),
+    goal,
+    sessions: sessions.map((s) => ({
+      date: fromDbDate(s.date),
+      sets: s.sets.map((x) => ({ exerciseName: exerciseName(x.exercise.names as ExerciseNames, locale), reps: x.reps, weightGrams: x.weightGrams, prKinds: x.prKinds })),
+    })),
+  };
 }

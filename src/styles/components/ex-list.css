@@ -109,7 +109,8 @@
   cursor: pointer;
 }
 
-.mg-chip-toggle[aria-pressed='true'] {
+.mg-chip-toggle[aria-pressed='true'],
+.mg-chip-toggle[aria-checked='true'] {
   border-color: var(--body-accent);
   background: var(--body-accent-soft);
   color: var(--text-primary);

@@ -1,0 +1,40 @@
+/* BodyWeightCard (F17) e a média do peso na Semana: neutros, sem cores de bom/mau */
+
+.mg-weight-card__label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--text-muted);
+}
+
+.mg-weight-card__value {
+  font-size: var(--text-2xl);
+  font-variant-numeric: tabular-nums;
+  color: var(--metric-weight);
+}
+
+.mg-weight-card__delta {
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.mg-week-weight-avg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mg-week-weight-avg__value {
+  font-size: var(--text-xl);
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-week-weight-avg__meta {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-week-weight-avg a {
+  color: var(--gold-accent);
+}

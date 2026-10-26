@@ -11,7 +11,7 @@ import { translatorFor } from '@/i18n/translator';
 import { sendSafely, type FitnessRestEvent } from '@/inngest/client';
 import { patchDailyEntry } from '@/actions/daily';
 import { findTemplate } from '@/lib/fitness/templates';
-import { getFitnessPrefs, usableExercise } from '@/lib/fitness/queries';
+import { getFitnessPrefs, recomputeExercisePrs, usableExercise } from '@/lib/fitness/queries';
 import { diaryChecksFor, restEndsAt, restFor, validateSet } from '@/lib/fitness/session';
 
 /**
@@ -404,7 +404,7 @@ const setSchema = z.object({
 export async function logSet(
   sessionId: string,
   input: z.input<typeof setSchema>,
-): Promise<FitnessResult<{ setId: string; restEndsAt: string | null }>> {
+): Promise<FitnessResult<{ setId: string; restEndsAt: string | null; prKinds: string[] }>> {
   const uid = await userId();
   if (!uid) return fail('common.errors.unauthorized');
   const p = setSchema.safeParse(input);
@@ -418,7 +418,7 @@ export async function logSet(
 
   if (p.data.id) {
     const dup = await db.sessionSet.findUnique({ where: { id: p.data.id }, select: { id: true, sessionId: true } });
-    if (dup) return dup.sessionId === s.id ? { ok: true, data: { setId: dup.id, restEndsAt: s.restEndsAt?.toISOString() ?? null } } : fail();
+    if (dup) return dup.sessionId === s.id ? { ok: true, data: { setId: dup.id, restEndsAt: s.restEndsAt?.toISOString() ?? null, prKinds: [] } } : fail();
   }
 
   const now = new Date();
@@ -454,7 +454,9 @@ export async function logSet(
     data: { restEndsAt: restOn ? ends : null, restExerciseId: restOn ? exercise.id : null },
   });
   if (restOn && prefs.restAlert) await sendRestEvent(uid, s.id, ends);
-  return { ok: true, data: { setId: set.id, restEndsAt: restOn ? ends.toISOString() : null } };
+  // F17: recordes (recalculados para o exercício todo: uma série vinda da fila pode ser anterior a outras).
+  const prs = await recomputeExercisePrs(uid, exercise.id);
+  return { ok: true, data: { setId: set.id, restEndsAt: restOn ? ends.toISOString() : null, prKinds: prs[set.id] ?? [] } };
 }
 
 async function sendRestEvent(uid: string, sessionId: string, ends: Date): Promise<void> {
@@ -487,6 +489,7 @@ export async function updateSet(setId: string, patch: z.input<typeof setPatchSch
     where: { id: setId },
     data: { reps: next.reps ?? null, weightGrams: next.weightGrams ?? null, durationSec: next.durationSec ?? null },
   });
+  await recomputeExercisePrs(uid, set.exerciseId);
   refresh();
   return ok();
 }
@@ -495,7 +498,10 @@ export async function deleteSet(setId: string): Promise<FitnessResult> {
   const uid = await userId();
   if (!uid) return fail('common.errors.unauthorized');
   if (!id.safeParse(setId).success) return fail();
+  const set = await db.sessionSet.findFirst({ where: { id: setId, userId: uid }, select: { exerciseId: true } });
+  if (!set) return ok();
   await db.sessionSet.deleteMany({ where: { id: setId, userId: uid } });
+  await recomputeExercisePrs(uid, set.exerciseId);
   refresh();
   return ok();
 }

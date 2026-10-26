@@ -1,0 +1,43 @@
+/* DayMetrics (F17): métricas do dia, cor fixa por métrica */
+
+.mg-day-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-day-metrics__metric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-left: 4px solid var(--metric-color, var(--glass-border));
+  border-radius: var(--radius-md);
+  background: var(--body-surface);
+}
+
+.mg-day-metrics__label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--text-muted);
+}
+
+.mg-day-metrics__value {
+  font-size: var(--text-xl);
+  font-variant-numeric: tabular-nums;
+  color: var(--metric-color, var(--text-primary));
+}
+
+.mg-day-metrics__metric--sets { --metric-color: var(--metric-sets); }
+.mg-day-metrics__metric--reps { --metric-color: var(--metric-reps); }
+.mg-day-metrics__metric--exercises { --metric-color: var(--metric-exercises); }
+.mg-day-metrics__metric--volume { --metric-color: var(--metric-volume); }
+.mg-day-metrics__metric--duration,
+.mg-day-metrics__metric--session { --metric-color: var(--metric-time); }
+.mg-day-metrics__metric--rest { --metric-color: var(--metric-rest); }
+.mg-day-metrics__metric--prs { --metric-color: var(--pr-gold); }

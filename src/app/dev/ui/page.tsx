@@ -222,13 +222,7 @@ export default async function DevUiPage() {
           <DailyReadingCard personal={ready(dayPersonalSchema.parse(samplePersonal))} pending={[]} />
           <RitualTodayCard ritual={rituals.rituals[0]!} locale={appLocale} />
           <p className="mg-dev__caption">{t('readingPending')}</p>
-          <MonthReadingCard
-            energy={{ status: 'pending' }}
-            personal={{ status: 'pending' }}
-            pending={[]}
-            signLabel={ta('signs.CANCER')}
-            locale={appLocale}
-          />
+          <MonthReadingCard personal={{ status: 'pending' }} pending={[]} />
           <RitualsCard rituals={ready(rituals)} pending={[]} year={2026} month={5} locale={appLocale} />
         </section>
         <section className="mg-stack">

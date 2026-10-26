@@ -26,6 +26,7 @@ import { StepScale } from './StepScale';
 import { StepText } from './StepText';
 import { StepWeight } from './StepWeight';
 import { StepWord } from './StepWord';
+import type { PeriodInspiration } from './GuidedPeriodReading';
 
 /** O que cada adaptador dá ao runner: valores achatados, gravar um campo e gravar já o pendente. */
 interface GuidedStore {
@@ -45,6 +46,8 @@ interface RunnerProps {
   reading?: { node: ReactNode; pending: boolean };
   ritual?: ReactNode;
   weightAverage?: { avgGrams: number; count: number } | null;
+  /** O que a leitura pessoal e o céu do período sugerem para a intenção e cada área. */
+  inspiration?: PeriodInspiration;
 }
 
 const AREA_ICON: Record<ProjectArea, MagicIconName> = { MAGIC: 'sparkles', PERSONAL: 'heart', LEISURE: 'lotus', PROFESSIONAL: 'briefcase', STUDIES: 'book-open' };
@@ -61,7 +64,7 @@ const NEXT: Partial<Record<GuidedFlow, GuidedFlow>> = { DAY_MORNING: 'DAY_BODY',
 const THEME: Record<string, string> = { DAY_MORNING: 'morning', DAY_BODY: 'body', DAY_NIGHT: 'night' };
 const glowOf = (xp: XpResult) => xp.awards.reduce((n, a) => n + a.points, 0);
 
-function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, reading, ritual, weightAverage, store, glow }: RunnerProps & { store: GuidedStore; glow: number }) {
+function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, reading, ritual, weightAverage, inspiration, store, glow }: RunnerProps & { store: GuidedStore; glow: number }) {
   const t = useTranslations('guided');
   const td = useTranslations('day');
   const tp = useTranslations('projects');
@@ -94,7 +97,14 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
         return intro;
       case 'reading':
         return (
-          <StepReading title={t('steps.reading.title')} show={t('steps.reading.show')} skip={t('steps.reading.skip')} pending={!!reading?.pending} onSkip={goNext}>
+          <StepReading
+            title={t(`steps.${s.id}.title`)}
+            show={t('steps.reading.show')}
+            skip={t('steps.reading.skip')}
+            pending={!!reading?.pending}
+            onSkip={goNext}
+            openByDefault={s.id === 'periodReading'}
+          >
             {reading?.node}
           </StepReading>
         );
@@ -111,6 +121,12 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
             onBlur={onBlur}
             maxLength={max}
             {...(s.area && { area: { icon: AREA_ICON[s.area], name: tp(`areas.${s.area}`) } })}
+            {...(inspiration && {
+              inspiration: {
+                title: t('inspo.title'),
+                items: s.area ? (inspiration.areas[s.area] ?? []) : s.field === 'intention' ? inspiration.intention : [],
+              },
+            })}
           />
         );
       }

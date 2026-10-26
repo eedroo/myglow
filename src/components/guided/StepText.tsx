@@ -15,6 +15,7 @@ export function StepText({
   maxLength,
   placeholder,
   area,
+  inspiration,
 }: {
   id: string;
   title: string;
@@ -25,6 +26,8 @@ export function StepText({
   maxLength: number;
   placeholder?: string;
   area?: { icon: MagicIconName; name: string };
+  /** O que a leitura e o céu do período sugerem para este passo. */
+  inspiration?: { title: string; items: string[] };
 }) {
   const ref = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
@@ -45,6 +48,16 @@ export function StepText({
       <p className="mg-step__help" id={`${id}-help`}>
         {help}
       </p>
+      {inspiration && inspiration.items.length > 0 && (
+        <aside className="mg-step-text__inspo">
+          <p className="mg-step-text__inspo-title">{inspiration.title}</p>
+          <ul>
+            {inspiration.items.map((x) => (
+              <li key={x}>{x}</li>
+            ))}
+          </ul>
+        </aside>
+      )}
       <textarea
         ref={ref}
         id={id}

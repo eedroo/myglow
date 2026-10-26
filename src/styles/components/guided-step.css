@@ -249,3 +249,51 @@
   .mg-step-closing__glow { animation: none; }
   .mg-step-toggle { transition: none; }
 }
+
+/* Leitura do período e inspiração por passo */
+.mg-guided-reading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-align: left;
+}
+
+.mg-guided-reading__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-secondary);
+}
+
+.mg-step-text__inspo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-left: 3px solid var(--gold-500);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-step-text__inspo-title {
+  margin: 0;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--gold-accent);
+}
+
+.mg-step-text__inspo ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

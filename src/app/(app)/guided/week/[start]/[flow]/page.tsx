@@ -11,6 +11,7 @@ import { guidedUser } from '@/lib/guided/server';
 import { isAppLocale } from '@/i18n/locales';
 import { StepIntro } from '@/components/guided/StepIntro';
 import { GuidedWeekRunner } from '@/components/guided/GuidedRunner';
+import { periodGuidance } from '@/components/guided/GuidedPeriodReading';
 
 export async function generateMetadata({ params }: { params: { flow: string } }): Promise<Metadata> {
   const flow = flowFromRoute('week', params.flow);
@@ -38,6 +39,10 @@ export default async function GuidedWeekRoute({ params }: { params: { start: str
   ]);
   const locale = isAppLocale(rawLocale) ? rawLocale : 'pt-PT';
   const earlier = flow === 'WEEK_PLAN' ? prev?.intention?.trim() : data.week.intention.trim();
+  const guidance =
+    flow === 'WEEK_PLAN'
+      ? await periodGuidance({ userId: session.user.id, kind: 'WEEK', from: start, to: addDays(start, 6), tz: g.user.timezone, hemisphere: g.user.hemisphere, locale })
+      : null;
   return (
     <GuidedWeekRunner
       flow={flow}
@@ -46,6 +51,7 @@ export default async function GuidedWeekRoute({ params }: { params: { start: str
       initial={data.week}
       ctx={g.ctx}
       weightAverage={data.dailyWeight}
+      {...(guidance && { reading: guidance.reading, inspiration: guidance.inspiration })}
       closeHref={start === current ? '/week' : `/week/${start}`}
       intro={
         <StepIntro

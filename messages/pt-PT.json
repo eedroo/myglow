@@ -1880,6 +1880,25 @@
     }
   },
   "guided": {
+    "inspo": {
+      "title": "Inspiração",
+      "fromReading": "Da tua leitura: {text}",
+      "ritualLine": "{date} · Ritual {title}: {intention}",
+      "datesTitle": "Datas e fases da lua",
+      "ritualsTitle": "Rituais do período",
+      "noReading": "A tua leitura deste período ainda não está pronta. Fica o céu para te inspirar.",
+      "pending": "A tua leitura está a ser preparada. Entretanto, o céu já tem sugestões.",
+      "yearNoReading": "O ano não tem leitura própria: guia-te pelos sabbats, pelas estações e pelos eclipses.",
+      "suggest": {
+        "begin": "bom para semear intenções e começar",
+        "act": "hora de agir e ajustar",
+        "celebrate": "celebra e agradece o que floresceu",
+        "release": "solta o que já não serve",
+        "sabbat": "um marco da Roda do Ano para honrar",
+        "season": "a estação muda: revê o ritmo",
+        "eclipse": "um ponto de viragem: escolhe com calma"
+      }
+    },
     "doneButton": "Feito",
     "labels": {
       "close": "Fechar o modo guiado",
@@ -2016,6 +2035,7 @@
       "thisIntention": "A tua intenção: \"{text}\""
     },
     "steps": {
+      "periodReading": {"title": "Antes de planear"},
       "reading": {
         "title": "Queres ver a tua leitura de hoje?",
         "show": "Ver",

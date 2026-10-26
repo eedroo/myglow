@@ -18,8 +18,10 @@ describe('buildFlow', () => {
     expect(areas).toHaveLength(5);
     expect(areas.every((s) => s.optional && s.kind === 'text')).toBe(true);
   });
-  it('ano começa pela palavra', () => {
-    expect(buildFlow('YEAR_PLAN', all)[1]!.kind).toBe('word');
+  it('planear começa pela leitura do período; o ano segue com a palavra', () => {
+    for (const f of ['WEEK_PLAN', 'MONTH_PLAN', 'YEAR_PLAN'] as const) expect(buildFlow(f, all)[1]!.id).toBe('periodReading');
+    expect(buildFlow('YEAR_PLAN', all)[2]!.kind).toBe('word');
+    expect(buildFlow('WEEK_CLOSE', all).map((s) => s.id)).not.toContain('periodReading');
   });
 });
 

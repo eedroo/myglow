@@ -58,6 +58,8 @@ export default async function GuidedDayRoute({ params }: { params: { date: strin
       {...(reading && {
         reading: { node: <DailyReadingCard personal={reading.personal} pending={reading.pending} />, pending: reading.personal.status !== 'ready' },
         ritual: reading.ritualToday ? <RitualTodayCard ritual={reading.ritualToday} locale={locale} /> : undefined,
+        // A intenção sugerida pela leitura pessoal do dia aparece ao lado do passo da intenção.
+        inspiration: { intention: reading.personal.status === 'ready' ? [reading.personal.data.intentionSuggestion] : [], areas: {} },
       })}
     />
   );

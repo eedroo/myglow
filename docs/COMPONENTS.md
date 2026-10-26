@@ -647,7 +647,8 @@ Um passo por ecrã, com a linguagem da retrospectiva. Cada passo grava pelos hoo
 | `GuidedRunner` | client | `guided.css` | `mg-guided`, `--morning`, `--body`, `--night`, `--period` | monta os slides do fluxo a partir dos passos e de um "store" (valores + `set` + `flush`); grava `GuidedRun` (início e fim); soma o Glow; `GuidedDayRunner`, `GuidedWeekRunner`, `GuidedMonthRunner`, `GuidedYearRunner` ligam cada hook de autosave |
 | `StepIntro` | server | `guided-step.css` | `mg-step-intro` | saudação, data, lua (fase e signo) ou título do período e a intenção anterior |
 | `StepReading` | client | `guided-step.css` | `mg-step-reading`, `--pending` | "Quer ver a sua leitura?" → Ver / Agora não; a leitura (`DailyReadingCard`) dentro do passo com scroll |
-| `StepText` | client | `guided-step.css` | `mg-step-text`, `__area` | título, ajuda, `textarea` grande com autofocus, contador perto do limite; ícone e nome da área |
+| `GuidedPeriodReading` (`periodGuidance`) | server | `guided-step.css` | `mg-guided-reading`, `__list` | antes de planear: leitura pessoal do período, datas e fases da lua com sugestão, rituais; e a inspiração por passo (intenção e áreas) |
+| `StepText` | client | `guided-step.css` | `mg-step-text`, `__area`, `__inspo` | título, ajuda, `textarea` grande com autofocus, contador perto do limite; ícone e nome da área |
 | `StepBanish` | client | `guided-step.css` | `mg-step-banish` | nome do banimento + "Feito" grande |
 | `StepCheck` | client | `guided-step.css` | `mg-step-check`, `__toggle--on` | ícone grande, pergunta e botão de alternar; ritual sugerido (`RitualTodayCard`) quando existe |
 | `StepScale` | client | `guided-step.css` | `mg-step-scale` | as 5 carinhas do diário (`MoodScale`) e a nota opcional do "como acordou" |

@@ -11,6 +11,8 @@ import { guidedUser } from '@/lib/guided/server';
 import { isAppLocale } from '@/i18n/locales';
 import { StepIntro } from '@/components/guided/StepIntro';
 import { GuidedMonthRunner } from '@/components/guided/GuidedRunner';
+import { periodGuidance } from '@/components/guided/GuidedPeriodReading';
+import { monthRange } from '@/lib/weeks';
 
 export async function generateMetadata({ params }: { params: { flow: string } }): Promise<Metadata> {
   const flow = flowFromRoute('month', params.flow);
@@ -42,6 +44,11 @@ export default async function GuidedMonthRoute({ params }: { params: { ym: strin
   const locale = isAppLocale(rawLocale) ? rawLocale : 'pt-PT';
   const earlier = flow === 'MONTH_PLAN' ? prev?.intention?.trim() : data.plan.intention.trim();
   const isCurrent = params.ym === monthKey(current.year, current.month);
+  const range = monthRange(year, month);
+  const guidance =
+    flow === 'MONTH_PLAN'
+      ? await periodGuidance({ userId: session.user.id, kind: 'MONTH', from: range.from, to: range.to, tz: g.user.timezone, hemisphere: g.user.hemisphere, locale })
+      : null;
   return (
     <GuidedMonthRunner
       flow={flow}
@@ -50,6 +57,7 @@ export default async function GuidedMonthRoute({ params }: { params: { ym: strin
       initial={data.plan}
       ctx={g.ctx}
       closeHref={isCurrent ? '/month' : `/month/${params.ym}`}
+      {...(guidance && { reading: guidance.reading, inspiration: guidance.inspiration })}
       intro={
         <StepIntro
           icon="calendar"

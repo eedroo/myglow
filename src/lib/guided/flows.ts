@@ -44,11 +44,12 @@ const MIDDLE: Record<GuidedFlow, GuidedStep[]> = {
     step('reflection', 'text', 'reflection', 'reflection'),
     step('summary', 'text', 'summary', 'summary', true),
   ],
-  WEEK_PLAN: [step('weekIntention', 'text', 'weekIntention', 'intention'), ...areas('weekProjects'), step('weekWeight', 'weight', 'weekWeight', 'weightGrams', true)],
+  // Antes de planear: a leitura pessoal do período, as datas e fases da lua e os rituais.
+  WEEK_PLAN: [step('periodReading', 'reading', 'reading'), step('weekIntention', 'text', 'weekIntention', 'intention'), ...areas('weekProjects'), step('weekWeight', 'weight', 'weekWeight', 'weightGrams', true)],
   WEEK_CLOSE: [step('weekReflection', 'text', 'weekReflection', 'reflection')],
-  MONTH_PLAN: [step('monthIntention', 'text', 'monthIntention', 'intention'), ...areas('monthProjects')],
+  MONTH_PLAN: [step('periodReading', 'reading', 'reading'), step('monthIntention', 'text', 'monthIntention', 'intention'), ...areas('monthProjects')],
   MONTH_CLOSE: [step('monthReflection', 'text', 'monthReflection', 'reflection')],
-  YEAR_PLAN: [step('yearWord', 'word', 'yearWord', 'word'), step('yearIntention', 'text', 'yearIntention', 'intention'), ...areas('yearProjects')],
+  YEAR_PLAN: [step('periodReading', 'reading', 'reading'), step('yearWord', 'word', 'yearWord', 'word'), step('yearIntention', 'text', 'yearIntention', 'intention'), ...areas('yearProjects')],
   YEAR_CLOSE: [step('yearReflection', 'text', 'yearReflection', 'reflection')],
 };
 

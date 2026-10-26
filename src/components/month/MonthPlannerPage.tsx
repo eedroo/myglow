@@ -39,14 +39,12 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
   if (!user) redirect('/login');
 
   const monthStart = `${monthKey(year, month)}-01`;
-  const [data, tsky, rawLocale, monthAwards, reading, natal, ta] = await Promise.all([
+  const [data, tsky, rawLocale, monthAwards, reading] = await Promise.all([
     getMonthPageData(session.user.id, year, month, user.timezone, user.hemisphere),
     getTranslations('sky'),
     getLocale(),
     getPeriodAwards(session.user.id, ['MONTH_PLAN', 'MONTH_REFLECTION'], monthStart),
     getMonthReading(session.user.id, year, month),
-    ensureNatalChart(session.user.id),
-    getTranslations('astro'),
   ]);
   const locale = isAppLocale(rawLocale) ? rawLocale : 'pt-PT';
   const { overview } = data;
@@ -60,7 +58,6 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
   const isCurrent = key({ year, month }) === key(current);
   const currentWeekStart = weekStartOf(overview.today);
   const title = formatMonthYear(year, month, locale);
-  const signLabel = natal ? ta(`signs.${natal.bodies.SUN.sign}`) : null;
   // F13: mês actual → retrospectiva do anterior; mês passado → a dele.
   const recapPeriod = isCurrent ? monthRecapPeriod(key(prev)) : key({ year, month }) < key(current) ? monthRecapPeriod(key({ year, month })) : null;
   const [recapShow, recapSeen] = recapPeriod
@@ -122,13 +119,7 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
         stats: data.isFuture ? null : <PeriodStatsCard stats={data.stats} />,
         recap: recapCards,
         reading: (
-          <MonthReadingCard
-            energy={reading.energy}
-            personal={reading.personal}
-            pending={readingPending}
-            signLabel={signLabel}
-            locale={locale}
-          />
+          <MonthReadingCard personal={reading.personal} pending={readingPending} />
         ),
         rituals: <RitualsCard rituals={reading.rituals} pending={ritualsPending} year={year} month={month} locale={locale} />,
         glowNote: (

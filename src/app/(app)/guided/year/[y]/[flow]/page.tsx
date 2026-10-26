@@ -9,6 +9,9 @@ import { flowFromRoute } from '@/lib/guided/flows';
 import { guidedUser } from '@/lib/guided/server';
 import { StepIntro } from '@/components/guided/StepIntro';
 import { GuidedYearRunner } from '@/components/guided/GuidedRunner';
+import { periodGuidance } from '@/components/guided/GuidedPeriodReading';
+import { getLocale } from 'next-intl/server';
+import { isAppLocale } from '@/i18n/locales';
 
 export async function generateMetadata({ params }: { params: { flow: string } }): Promise<Metadata> {
   const flow = flowFromRoute('year', params.flow);
@@ -35,6 +38,19 @@ export default async function GuidedYearRoute({ params }: { params: { y: string;
     db.year.findUnique({ where: { userId_year: { userId: session.user.id, year: year - 1 } }, select: { intention: true, word: true } }),
   ]);
   const earlier = flow === 'YEAR_PLAN' ? (prev?.word?.trim() || prev?.intention?.trim()) : data.plan.intention.trim();
+  const rawLocale = await getLocale();
+  const guidance =
+    flow === 'YEAR_PLAN'
+      ? await periodGuidance({
+          userId: session.user.id,
+          kind: 'YEAR',
+          from: `${year}-01-01`,
+          to: `${year}-12-31`,
+          tz: g.user.timezone,
+          hemisphere: g.user.hemisphere,
+          locale: isAppLocale(rawLocale) ? rawLocale : 'pt-PT',
+        })
+      : null;
   return (
     <GuidedYearRunner
       flow={flow}
@@ -43,6 +59,7 @@ export default async function GuidedYearRoute({ params }: { params: { y: string;
       initial={data.plan}
       ctx={g.ctx}
       closeHref={year === current ? '/year' : `/year/${year}`}
+      {...(guidance && { reading: guidance.reading, inspiration: guidance.inspiration })}
       intro={
         <StepIntro
           icon="calendar"

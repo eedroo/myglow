@@ -6,8 +6,8 @@ import { addDays, compareDates, toDbDate, todayInTz, type DateISO } from '@/lib/
 import { addMonths, monthKey, monthOf, weekStartOf } from '@/lib/weeks';
 import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
 import {
-  SIGN_SCHEMAS, USER_READ_SCHEMAS,
-  type DayPersonalView, type MonthEnergy, type MonthPersonal, type MonthRituals, type Ritual, type WeekPersonal,
+  USER_READ_SCHEMAS,
+  type DayPersonalView, type MonthPersonal, type MonthRituals, type Ritual, type WeekPersonal,
 } from './schemas';
 import { minPromptVersion } from './prompts/system';
 
@@ -89,16 +89,6 @@ function toState<T>(
   return { status: 'pending' };
 }
 
-async function signState<K extends SignContentKind>(ctx: Ctx, kind: K, periodStart: DateISO) {
-  const row = ctx.sign
-    ? await db.signContent.findUnique({
-        where: { kind_periodStart_sign_locale: { kind, periodStart: toDbDate(periodStart), sign: ctx.sign, locale: ctx.locale } },
-        select: { payload: true, promptVersion: true },
-      })
-    : null;
-  return toState(ctx, kind, periodStart, row, SIGN_SCHEMAS[kind] as z.ZodType<z.infer<(typeof SIGN_SCHEMAS)[K]>>);
-}
-
 async function userState<K extends UserContentKind>(ctx: Ctx, kind: K, periodStart: DateISO) {
   const row = await db.userAiContent.findUnique({
     where: { userId_kind_periodStart_locale: { userId: ctx.userId, kind, periodStart: toDbDate(periodStart), locale: ctx.locale } },
@@ -134,21 +124,17 @@ export async function getWeekReading(userId: string, start: DateISO): Promise<{
   return { personal, pending: ctx.pending };
 }
 
+/** Leitura pessoal e rituais do mês. A energia do signo (`MONTH_ENERGY`) saiu (F18): só leituras pessoais. */
 export async function getMonthReading(userId: string, year: number, month: number): Promise<{
-  energy: AiState<MonthEnergy>;
   personal: AiState<MonthPersonal>;
   rituals: AiState<MonthRituals>;
   pending: AiRequest[];
 }> {
   const ctx = await context(userId);
-  if (!ctx) return { energy: UNAVAILABLE, personal: UNAVAILABLE, rituals: UNAVAILABLE, pending: [] };
+  if (!ctx) return { personal: UNAVAILABLE, rituals: UNAVAILABLE, pending: [] };
   const start = `${monthKey(year, month)}-01`;
-  const [energy, personal, rituals] = await Promise.all([
-    signState(ctx, 'MONTH_ENERGY', start),
-    userState(ctx, 'MONTH_PERSONAL', start),
-    userState(ctx, 'MONTH_RITUALS', start),
-  ]);
-  return { energy, personal, rituals, pending: ctx.pending };
+  const [personal, rituals] = await Promise.all([userState(ctx, 'MONTH_PERSONAL', start), userState(ctx, 'MONTH_RITUALS', start)]);
+  return { personal, rituals, pending: ctx.pending };
 }
 
 /** Rituais do mês na língua actual (usado pelo ritual do dia e por `addRitualToWeek`). */

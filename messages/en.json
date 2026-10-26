@@ -1880,6 +1880,25 @@
     }
   },
   "guided": {
+    "inspo": {
+      "title": "Inspiration",
+      "fromReading": "From your reading: {text}",
+      "ritualLine": "{date} · {title} ritual: {intention}",
+      "datesTitle": "Dates and moon phases",
+      "ritualsTitle": "Rituals in this period",
+      "noReading": "Your reading for this period isn't ready yet. Let the sky inspire you meanwhile.",
+      "pending": "Your reading is being prepared. The sky already has suggestions.",
+      "yearNoReading": "The year has no reading of its own: let the sabbats, seasons and eclipses guide you.",
+      "suggest": {
+        "begin": "good for planting intentions and beginning",
+        "act": "time to act and adjust",
+        "celebrate": "celebrate and give thanks for what bloomed",
+        "release": "let go of what no longer serves you",
+        "sabbat": "a Wheel of the Year milestone to honour",
+        "season": "the season turns: revisit your pace",
+        "eclipse": "a turning point: choose calmly"
+      }
+    },
     "doneButton": "Done",
     "labels": {
       "close": "Close guided mode",
@@ -2016,6 +2035,7 @@
       "thisIntention": "Your intention: \"{text}\""
     },
     "steps": {
+      "periodReading": {"title": "Before you plan"},
       "reading": {
         "title": "Want to see today's reading?",
         "show": "Show me",

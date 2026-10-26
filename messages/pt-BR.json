@@ -132,6 +132,7 @@
       }
     },
     "sections": {
+      "diary": "Diário",
       "label": "Seções das configurações",
       "profile": "Perfil",
       "account": "Conta",
@@ -240,6 +241,8 @@
     "motto": "Lema"
   },
   "day": {
+    "guidedNight": "Noite passo a passo",
+    "guidedMorning": "Manhã passo a passo",
     "title": "Hoje",
     "nav": {
       "label": "Navegar entre os dias",
@@ -288,6 +291,7 @@
       "notePlaceholder": "Uma palavra, um sonho, uma sensação…"
     },
     "body": {
+      "guidedBody": "Corpo passo a passo",
       "openWorkouts": "Abrir os treinos",
       "title": "Foco no meu corpo",
       "stretch": "Alongamento",
@@ -1873,6 +1877,260 @@
       "handleTaken": "Este @ não está disponível.",
       "handleLength": "O @ precisa ter de 3 a 20 caracteres.",
       "handleChars": "Use só letras minúsculas, números, ponto e sublinhado."
+    }
+  },
+  "guided": {
+    "doneButton": "Feito",
+    "labels": {
+      "close": "Fechar o modo guiado",
+      "back": "Voltar",
+      "skip": "Pular",
+      "continue": "Continuar"
+    },
+    "done": {
+      "intention": "Intenção",
+      "morningBanish": "Banimento da manhã",
+      "morningRitual": "Ritual da manhã",
+      "sleep": "Sono",
+      "wakeMood": "Como você acordou",
+      "body": "Os três gestos do corpo",
+      "nightBanish": "Banimento da noite",
+      "nightRitual": "Ritual da noite",
+      "gratitude": "Gratidão",
+      "mood": "Humor do dia",
+      "reflection": "Reflexão",
+      "summary": "Resumo",
+      "weekIntention": "Intenção da semana",
+      "weekProjects": "{area}",
+      "weekWeight": "Peso da semana",
+      "weekReflection": "Reflexão da semana",
+      "monthIntention": "Intenção do mês",
+      "monthProjects": "{area}",
+      "monthReflection": "Reflexão do mês",
+      "yearWord": "Palavra do ano",
+      "yearIntention": "Intenção do ano",
+      "yearProjects": "{area}",
+      "yearReflection": "Reflexão do ano"
+    },
+    "card": {
+      "hint": "Passo a passo, uma tela de cada vez."
+    },
+    "settings": {
+      "autoOpen": "Abrir o Hoje no modo guiado",
+      "autoOpenHint": "Ao entrar no Hoje, abre sozinho o momento do dia que falta, uma vez por momento e por dia."
+    },
+    "flows": {
+      "DAY_MORNING": {
+        "label": "Manhã guiada",
+        "start": "Começar a manhã ✨",
+        "closing": "Manhã feita",
+        "short": "a manhã"
+      },
+      "DAY_BODY": {
+        "label": "Corpo guiado",
+        "start": "Cuidar do corpo",
+        "closing": "Corpo cuidado",
+        "short": "cuidar do corpo"
+      },
+      "DAY_NIGHT": {
+        "label": "Noite guiada",
+        "start": "Fechar o dia",
+        "closing": "Dia fechado",
+        "short": "fechar o dia"
+      },
+      "WEEK_PLAN": {
+        "label": "Planejar a semana",
+        "start": "Planejar com calma",
+        "closing": "Semana planejada",
+        "short": "planejar a semana"
+      },
+      "WEEK_CLOSE": {
+        "label": "Fechar a semana",
+        "start": "Fechar a semana",
+        "closing": "Semana fechada",
+        "short": "fechar a semana"
+      },
+      "MONTH_PLAN": {
+        "label": "Planejar o mês",
+        "start": "Planejar com calma",
+        "closing": "Mês planejado",
+        "short": "planejar o mês"
+      },
+      "MONTH_CLOSE": {
+        "label": "Fechar o mês",
+        "start": "Fechar o mês",
+        "closing": "Mês fechado",
+        "short": "fechar o mês"
+      },
+      "YEAR_PLAN": {
+        "label": "Planejar o ano",
+        "start": "Planejar com calma",
+        "closing": "Ano planejado",
+        "short": "planejar o ano"
+      },
+      "YEAR_CLOSE": {
+        "label": "Fechar o ano",
+        "start": "Fechar o ano",
+        "closing": "Ano fechado",
+        "short": "fechar o ano"
+      }
+    },
+    "intro": {
+      "morning": {
+        "title": "Bom dia, {name}",
+        "cta": "Vamos começar o seu dia"
+      },
+      "body": {
+        "title": "Um momento para o corpo",
+        "cta": "Três gestos simples"
+      },
+      "night": {
+        "title": "Hora de fechar o dia",
+        "cta": "Devagar, um passo de cada vez"
+      },
+      "WEEK_PLAN": {
+        "title": "Uma semana nova",
+        "cta": "Vamos dar uma direção a ela"
+      },
+      "WEEK_CLOSE": {
+        "title": "A semana chega ao fim",
+        "cta": "Olhe para trás com carinho"
+      },
+      "MONTH_PLAN": {
+        "title": "Um mês novo",
+        "cta": "Vamos dar uma direção a ele"
+      },
+      "MONTH_CLOSE": {
+        "title": "O mês chega ao fim",
+        "cta": "Olhe para trás com carinho"
+      },
+      "YEAR_PLAN": {
+        "title": "Um ano novo",
+        "cta": "Comece por uma palavra"
+      },
+      "YEAR_CLOSE": {
+        "title": "O ano chega ao fim",
+        "cta": "Olhe para trás com carinho"
+      },
+      "previousIntention": "Da última vez: \"{text}\"",
+      "thisIntention": "Sua intenção: \"{text}\""
+    },
+    "steps": {
+      "reading": {
+        "title": "Quer ver a sua leitura de hoje?",
+        "show": "Ver",
+        "skip": "Agora não"
+      },
+      "intention": {
+        "title": "Sua intenção",
+        "help": "Como você quer viver o dia de hoje? Uma frase basta.",
+        "placeholder": "Hoje quero…"
+      },
+      "morningBanish": {
+        "title": "O que você quer soltar?",
+        "help": "Dê um nome e marque quando tiver banido.",
+        "placeholder": "Pressa, medo, comparação…"
+      },
+      "morningRitual": {
+        "title": "Ritual da manhã",
+        "help": "Seu ritual, curto ou longo. Marque quando estiver feito."
+      },
+      "sleep": {
+        "title": "Dormiu o que queria?",
+        "help": "Sem julgamento: só para você saber como está."
+      },
+      "wakeMood": {
+        "title": "Como você acordou?",
+        "help": "Escolha a carinha que mais se parece com você agora."
+      },
+      "body": {
+        "title": "Seu corpo hoje",
+        "help": "Alongar, treinar, beber água. Marque o que já fez.",
+        "open": "Abrir o Foco no corpo"
+      },
+      "nightBanish": {
+        "title": "O que fica para trás?",
+        "help": "Dê nome ao que você quer largar antes de dormir.",
+        "placeholder": "Uma conversa, um peso, uma preocupação…"
+      },
+      "nightRitual": {
+        "title": "Ritual da noite",
+        "help": "Um gesto para fechar o dia. Marque quando estiver feito."
+      },
+      "gratitude": {
+        "title": "Gratidão",
+        "help": "Pelo que você é grato hoje? Pode ser pequeno.",
+        "placeholder": "Hoje agradeço…"
+      },
+      "mood": {
+        "title": "Como você se sentiu hoje?",
+        "help": "Uma carinha para o dia inteiro."
+      },
+      "reflection": {
+        "title": "Reflexão",
+        "help": "O que este dia lhe ensinou?",
+        "placeholder": "Hoje percebi…"
+      },
+      "summary": {
+        "title": "Resumo do dia",
+        "help": "Se quiser, guarde o dia em uma ou duas linhas.",
+        "placeholder": "Um dia de…"
+      },
+      "weekIntention": {
+        "title": "A intenção da semana",
+        "help": "Como você quer que esta semana seja? Uma frase basta."
+      },
+      "weekProjects": {
+        "title": "Para esta área, esta semana",
+        "help": "Um passo pequeno e concreto. Você pode pular."
+      },
+      "weekWeight": {
+        "title": "Peso da semana",
+        "help": "Opcional. Só para acompanhar, sem julgamento."
+      },
+      "weekReflection": {
+        "title": "Reflexão da semana",
+        "help": "O que deu certo? O que você leva para a próxima?"
+      },
+      "monthIntention": {
+        "title": "A intenção do mês",
+        "help": "Que energia você quer trazer para este mês?"
+      },
+      "monthProjects": {
+        "title": "Para esta área, este mês",
+        "help": "Uma meta clara. Você pode pular."
+      },
+      "monthReflection": {
+        "title": "Reflexão do mês",
+        "help": "O que mudou em você este mês?"
+      },
+      "yearWord": {
+        "title": "A palavra do ano",
+        "help": "Uma palavra que guie você o ano inteiro.",
+        "placeholder": "Coragem"
+      },
+      "yearIntention": {
+        "title": "A intenção do ano",
+        "help": "O que você quer viver este ano?"
+      },
+      "yearProjects": {
+        "title": "Para esta área, este ano",
+        "help": "Uma meta grande, dita com simplicidade. Você pode pular."
+      },
+      "yearReflection": {
+        "title": "Reflexão do ano",
+        "help": "O que este ano lhe deu? O que você deixa ir?"
+      }
+    },
+    "closing": {
+      "glow": "Glow",
+      "next": "Mais tarde: {flow}",
+      "back": {
+        "DAY": "Voltar ao Hoje",
+        "WEEK": "Voltar à semana",
+        "MONTH": "Voltar ao mês",
+        "YEAR": "Voltar ao ano"
+      }
     }
   },
   "body": {

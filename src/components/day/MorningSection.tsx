@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { CheckTile } from '@/components/ui/CheckTile';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import type { DailyEntryData, DailyField } from '@/types/daily';
+import { GuidedSectionButton } from '@/components/guided/GuidedSectionButton';
 
 interface MorningSectionProps {
   data: DailyEntryData;
@@ -15,13 +16,19 @@ interface MorningSectionProps {
   banishSuggestion?: string;
   /** F9: sono só com consentimento de bem-estar. */
   showSleep?: boolean;
+  /** F18: base das rotas do modo guiado deste dia (só hoje e ontem). */
+  guidedBase?: string | null;
 }
 
-export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, current, banishSuggestion, showSleep = true }: MorningSectionProps) {
+export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, current, banishSuggestion, showSleep = true, guidedBase }: MorningSectionProps) {
   const t = useTranslations('day');
   return (
     <section className={current ? 'mg-period mg-period--morning mg-period--current' : 'mg-period mg-period--morning'}>
-      <SectionHeader title={t('morning.title')} icon="sun" />
+      <SectionHeader
+        title={t('morning.title')}
+        icon="sun"
+        action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/morning`} label={t('guidedMorning')} /> : undefined}
+      />
       <CheckTile
         icon="tea-cup"
         tour="morning-banish"

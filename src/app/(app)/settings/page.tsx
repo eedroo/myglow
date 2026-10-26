@@ -20,6 +20,7 @@ import { ChangePasswordForm } from '@/components/account/ChangePasswordForm';
 import { ResendVerificationButton } from '@/components/account/ResendVerificationButton';
 import { WellbeingConsentCard } from '@/components/account/WellbeingConsentCard';
 import { BodyGuideCard } from '@/components/body/BodyGuideCard';
+import { GuidedSettings } from '@/components/guided/GuidedSettings';
 import { DeleteAccountDialog } from '@/components/account/DeleteAccountDialog';
 import { DELETE_CONFIRM_WORD } from '@/lib/validation/account';
 import { FeedbackDialog } from '@/components/beta/FeedbackDialog';
@@ -30,7 +31,7 @@ import { hasGuideConsent } from '@/lib/guide/consent';
 import { todayInTz } from '@/lib/dates';
 import { previousWeekPeriod } from '@/lib/recap/period';
 
-const SECTIONS = ['profile', 'account', 'preferences', 'birth', 'notifications', 'privacy', 'guide', 'friends', 'sessions', 'danger'] as const;
+const SECTIONS = ['profile', 'account', 'preferences', 'diary', 'birth', 'notifications', 'privacy', 'guide', 'friends', 'sessions', 'danger'] as const;
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('settings');
@@ -72,6 +73,7 @@ export default async function SettingsPage() {
         wellbeingConsentAt: true,
         guideConsentAt: true,
         guideIncludeBody: true,
+        guidedAutoOpen: true,
         guideConsentVersion: true,
         showBigThree: true,
         blocks: { select: { blocked: { select: { id: true, name: true } } }, orderBy: { createdAt: 'desc' } },
@@ -150,6 +152,11 @@ export default async function SettingsPage() {
 
       <GlassCard id="preferences" className="mg-settings__section" title={t('sections.preferences')}>
         <SettingsForm part="preferences" initial={formInitial} timezones={timezones} />
+      </GlassCard>
+
+      {/* F18: modo guiado */}
+      <GlassCard id="diary" className="mg-settings__section" title={t('sections.diary')}>
+        <GuidedSettings autoOpen={user.guidedAutoOpen} />
       </GlassCard>
 
       <GlassCard

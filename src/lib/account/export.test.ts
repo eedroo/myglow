@@ -53,6 +53,7 @@ const source = {
   friends: [{ id: 'u2', name: 'Bia', since: at }],
   friendRequests: [{ direction: 'received', otherName: 'Caio', status: 'PENDING', createdAt: at, respondedAt: null }],
   blocks: [{ name: 'Dora', createdAt: at }],
+  guidedRuns: [{ userId: 'u1', flow: 'DAY_MORNING', periodKey: '2026-10-20', startedAt: at, completedAt: null }],
   fitness: {
     prefs: { userId: 'u1', defaultRestSec: 90, restAlert: true, keepAwake: true, onboardedAt: at, weighInReminder: true, weighInTime: '07:30' },
     weights: [{ userId: 'u1', date: toDbDate('2026-10-20'), grams: 76250, createdAt: at, updatedAt: at }],
@@ -90,7 +91,7 @@ describe('buildExport', () => {
     expect(out.format).toBe('myglow-export-v1');
     for (const key of [
       'exportedAt', 'user', 'birthProfile', 'dailyEntries', 'weeks', 'months', 'years', 'projectIntentions', 'xpEvents',
-      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays', 'recapViews', 'guideReports', 'friends', 'friendRequests', 'blocks', 'fitness',
+      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays', 'recapViews', 'guideReports', 'friends', 'friendRequests', 'blocks', 'fitness', 'guidedRuns',
     ]) expect(out, key).toHaveProperty(key);
     // F16: treinos, sessões com séries (kg) e exercícios próprios.
     expect(out.fitness.programs[0]!.workouts[0]!.items[0]).toMatchObject({ exerciseId: 'Barbell_Bench_Press', targetSets: 3 });
@@ -98,6 +99,9 @@ describe('buildExport', () => {
     expect(out.fitness.sessions[0]!.sets[0]).toMatchObject({ reps: 10, weightGrams: 62500, weightKg: 62.5 });
     expect(out.fitness.customExercises[0]).toMatchObject({ id: 'custom_1', names: { 'pt-PT': 'Remada' } });
     expect(out.fitness.prefs).toMatchObject({ defaultRestSec: 90, keepAwake: true, weighInReminder: true, weighInTime: '07:30' });
+    // F18: modo guiado.
+    expect(out.guidedRuns).toEqual([{ flow: 'DAY_MORNING', periodKey: '2026-10-20', startedAt: at.toISOString(), completedAt: null }]);
+    expect(out.user).toHaveProperty('guidedAutoOpen');
     // F17: peso diário, objectivo e recordes.
     expect(out.fitness.weights).toEqual([{ date: '2026-10-20', grams: 76250, kg: 76.25, updatedAt: at.toISOString() }]);
     expect(out.fitness.goal).toMatchObject({ direction: 'GAIN', weeklyRateGrams: 250, targetGrams: 78000 });

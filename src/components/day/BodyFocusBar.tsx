@@ -7,14 +7,17 @@ import { CheckChip } from '@/components/ui/CheckChip';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 import { useEntitlements } from '@/components/premium/EntitlementsProvider';
 import type { DailyEntryData, DailyField } from '@/types/daily';
+import { GuidedSectionButton } from '@/components/guided/GuidedSectionButton';
 
 interface BodyFocusBarProps {
   data: DailyEntryData;
   setField: <K extends DailyField>(key: K, value: DailyEntryData[K]) => void;
   current: boolean;
+  /** F18: base das rotas do modo guiado deste dia (só hoje e ontem). */
+  guidedBase?: string | null;
 }
 
-export function BodyFocusBar({ data, setField, current }: BodyFocusBarProps) {
+export function BodyFocusBar({ data, setField, current, guidedBase }: BodyFocusBarProps) {
   const t = useTranslations('day.body');
   // F16: com o Foco no corpo (premium), o título abre os treinos; os checks ficam iguais para todos.
   const body = useEntitlements().can('body-pro');
@@ -34,6 +37,7 @@ export function BodyFocusBar({ data, setField, current }: BodyFocusBarProps) {
         ) : (
           t('title')
         )}
+        {guidedBase && <GuidedSectionButton href={`${guidedBase}/body`} label={t('guidedBody')} />}
       </h2>
       <div className="mg-body-bar__chips">
         <CheckChip icon="stretch" label={t('stretch')} checked={data.stretchDone} onCheckedChange={(v) => setField('stretchDone', v)} />

@@ -1,5 +1,5 @@
 import type {
-  BodyGoal, BodyWeightEntry,
+  BodyGoal, BodyWeightEntry, GuidedRun,
   BirthProfile, CourseProgress, DailyEntry, Exercise, FitnessPrefs, FitnessProgram, FitnessSession, FitnessWorkout, GuideReport, LessonProgress, Month, NotificationLog, NotificationPrefs,
   ProjectIntention, RecapView, SessionSet, User, UserActiveDay, UserAiContent, Week, WeekDayNote, WorkoutItem, XpEvent, Year,
 } from '@prisma/client';
@@ -18,7 +18,7 @@ export interface ExportSource {
     | 'name' | 'email' | 'locale' | 'theme' | 'timezone' | 'hemisphere' | 'sleepGoalMinutes' | 'pronouns' | 'xpTotal'
     | 'bestMagicStreak' | 'emailVerifiedAt' | 'termsAcceptedAt' | 'termsVersion' | 'privacyVersion' | 'wellbeingConsentAt'
     | 'createdAt' | 'onboardedAt' | 'plan' | 'planSince' | 'planExpiresAt' | 'premiumInterestAt'
-    | 'guideConsentAt' | 'guideConsentVersion' | 'friendCode' | 'handle' | 'showBigThree' | 'guideIncludeBody'
+    | 'guideConsentAt' | 'guideConsentVersion' | 'friendCode' | 'handle' | 'showBigThree' | 'guideIncludeBody' | 'guidedAutoOpen'
   >;
   birthProfile: BirthProfile | null;
   dailyEntries: DailyEntry[];
@@ -52,6 +52,8 @@ export interface ExportSource {
     weights: BodyWeightEntry[];
     goal: BodyGoal | null;
   };
+  /** F18: fluxos do modo guiado (início e fim). */
+  guidedRuns: GuidedRun[];
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -90,6 +92,7 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       handle: u.handle,
       showBigThree: u.showBigThree,
       guideIncludeBody: u.guideIncludeBody,
+      guidedAutoOpen: u.guidedAutoOpen,
     },
     activeDays: data.activeDays.map((a) => day(a.day)),
     recapViews: data.recapViews.map((r) => ({
@@ -107,6 +110,7 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       respondedAt: iso(r.respondedAt),
     })),
     blocks: data.blocks.map((b) => ({ name: b.name, createdAt: iso(b.createdAt) })),
+    guidedRuns: data.guidedRuns.map((g) => ({ flow: g.flow, periodKey: g.periodKey, startedAt: iso(g.startedAt), completedAt: iso(g.completedAt) })),
     fitness: {
       prefs: data.fitness.prefs && {
         defaultRestSec: data.fitness.prefs.defaultRestSec,

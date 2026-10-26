@@ -132,6 +132,7 @@
       }
     },
     "sections": {
+      "diary": "Journal",
       "label": "Settings sections",
       "profile": "Profile",
       "account": "Account",
@@ -240,6 +241,8 @@
     "motto": "Motto"
   },
   "day": {
+    "guidedNight": "Guided evening",
+    "guidedMorning": "Guided morning",
     "title": "Today",
     "nav": {
       "label": "Move between days",
@@ -288,6 +291,7 @@
       "notePlaceholder": "A word, a dream, a feeling…"
     },
     "body": {
+      "guidedBody": "Guided body",
       "openWorkouts": "Open workouts",
       "title": "Focus on my body",
       "stretch": "Stretching",
@@ -1873,6 +1877,260 @@
       "handleTaken": "This @ isn't available.",
       "handleLength": "Your @ needs 3 to 20 characters.",
       "handleChars": "Use only lowercase letters, numbers, dots and underscores."
+    }
+  },
+  "guided": {
+    "doneButton": "Done",
+    "labels": {
+      "close": "Close guided mode",
+      "back": "Back",
+      "skip": "Skip",
+      "continue": "Continue"
+    },
+    "done": {
+      "intention": "Intention",
+      "morningBanish": "Morning banishing",
+      "morningRitual": "Morning ritual",
+      "sleep": "Sleep",
+      "wakeMood": "How you woke up",
+      "body": "The three body gestures",
+      "nightBanish": "Evening banishing",
+      "nightRitual": "Evening ritual",
+      "gratitude": "Gratitude",
+      "mood": "Mood of the day",
+      "reflection": "Reflection",
+      "summary": "Summary",
+      "weekIntention": "Week intention",
+      "weekProjects": "{area}",
+      "weekWeight": "Weight this week",
+      "weekReflection": "Week reflection",
+      "monthIntention": "Month intention",
+      "monthProjects": "{area}",
+      "monthReflection": "Month reflection",
+      "yearWord": "Word of the year",
+      "yearIntention": "Year intention",
+      "yearProjects": "{area}",
+      "yearReflection": "Year reflection"
+    },
+    "card": {
+      "hint": "Step by step, one screen at a time."
+    },
+    "settings": {
+      "autoOpen": "Open Today in guided mode",
+      "autoOpenHint": "When you open Today, the part of the day you still have to do opens on its own, once per part and per day."
+    },
+    "flows": {
+      "DAY_MORNING": {
+        "label": "Guided morning",
+        "start": "Start your morning ✨",
+        "closing": "Morning done",
+        "short": "your morning"
+      },
+      "DAY_BODY": {
+        "label": "Guided body",
+        "start": "Care for your body",
+        "closing": "Body cared for",
+        "short": "care for your body"
+      },
+      "DAY_NIGHT": {
+        "label": "Guided evening",
+        "start": "Close your day",
+        "closing": "Day closed",
+        "short": "close your day"
+      },
+      "WEEK_PLAN": {
+        "label": "Plan the week",
+        "start": "Plan calmly",
+        "closing": "Week planned",
+        "short": "plan the week"
+      },
+      "WEEK_CLOSE": {
+        "label": "Close the week",
+        "start": "Close the week",
+        "closing": "Week closed",
+        "short": "close the week"
+      },
+      "MONTH_PLAN": {
+        "label": "Plan the month",
+        "start": "Plan calmly",
+        "closing": "Month planned",
+        "short": "plan the month"
+      },
+      "MONTH_CLOSE": {
+        "label": "Close the month",
+        "start": "Close the month",
+        "closing": "Month closed",
+        "short": "close the month"
+      },
+      "YEAR_PLAN": {
+        "label": "Plan the year",
+        "start": "Plan calmly",
+        "closing": "Year planned",
+        "short": "plan the year"
+      },
+      "YEAR_CLOSE": {
+        "label": "Close the year",
+        "start": "Close the year",
+        "closing": "Year closed",
+        "short": "close the year"
+      }
+    },
+    "intro": {
+      "morning": {
+        "title": "Good morning, {name}",
+        "cta": "Let's begin your day"
+      },
+      "body": {
+        "title": "A moment for your body",
+        "cta": "Three simple gestures"
+      },
+      "night": {
+        "title": "Time to close the day",
+        "cta": "Slowly, one step at a time"
+      },
+      "WEEK_PLAN": {
+        "title": "A new week",
+        "cta": "Let's give it a direction"
+      },
+      "WEEK_CLOSE": {
+        "title": "The week is ending",
+        "cta": "Look back with kindness"
+      },
+      "MONTH_PLAN": {
+        "title": "A new month",
+        "cta": "Let's give it a direction"
+      },
+      "MONTH_CLOSE": {
+        "title": "The month is ending",
+        "cta": "Look back with kindness"
+      },
+      "YEAR_PLAN": {
+        "title": "A new year",
+        "cta": "Start with one word"
+      },
+      "YEAR_CLOSE": {
+        "title": "The year is ending",
+        "cta": "Look back with kindness"
+      },
+      "previousIntention": "Last time: \"{text}\"",
+      "thisIntention": "Your intention: \"{text}\""
+    },
+    "steps": {
+      "reading": {
+        "title": "Want to see today's reading?",
+        "show": "Show me",
+        "skip": "Not now"
+      },
+      "intention": {
+        "title": "Your intention",
+        "help": "How do you want to live today? One sentence is enough.",
+        "placeholder": "Today I want…"
+      },
+      "morningBanish": {
+        "title": "What do you want to let go of?",
+        "help": "Give it a name and tick it once it's banished.",
+        "placeholder": "Rushing, fear, comparison…"
+      },
+      "morningRitual": {
+        "title": "Morning ritual",
+        "help": "Your ritual, short or long. Tick it when it's done."
+      },
+      "sleep": {
+        "title": "Did you sleep as much as you wanted?",
+        "help": "No judgement: just a way to check in."
+      },
+      "wakeMood": {
+        "title": "How did you wake up?",
+        "help": "Pick the face that feels most like you right now."
+      },
+      "body": {
+        "title": "Your body today",
+        "help": "Stretch, train, drink water. Tick what you've done.",
+        "open": "Open Body focus"
+      },
+      "nightBanish": {
+        "title": "What are you leaving behind?",
+        "help": "Name what you want to let go of before sleep.",
+        "placeholder": "A conversation, a weight, a worry…"
+      },
+      "nightRitual": {
+        "title": "Evening ritual",
+        "help": "One gesture to close the day. Tick it when it's done."
+      },
+      "gratitude": {
+        "title": "Gratitude",
+        "help": "What are you grateful for today? It can be small.",
+        "placeholder": "Today I'm grateful for…"
+      },
+      "mood": {
+        "title": "How did today feel?",
+        "help": "One face for the whole day."
+      },
+      "reflection": {
+        "title": "Reflection",
+        "help": "What did today teach you?",
+        "placeholder": "Today I realised…"
+      },
+      "summary": {
+        "title": "Day summary",
+        "help": "If you like, keep the day in a line or two.",
+        "placeholder": "A day of…"
+      },
+      "weekIntention": {
+        "title": "This week's intention",
+        "help": "How do you want this week to feel? One sentence is enough."
+      },
+      "weekProjects": {
+        "title": "For this area, this week",
+        "help": "One small, concrete step. You can skip."
+      },
+      "weekWeight": {
+        "title": "Weight this week",
+        "help": "Optional. Just to keep track, no judgement."
+      },
+      "weekReflection": {
+        "title": "Week reflection",
+        "help": "What went well? What do you carry into next week?"
+      },
+      "monthIntention": {
+        "title": "This month's intention",
+        "help": "What energy do you want to bring into this month?"
+      },
+      "monthProjects": {
+        "title": "For this area, this month",
+        "help": "One clear goal. You can skip."
+      },
+      "monthReflection": {
+        "title": "Month reflection",
+        "help": "What changed in you this month?"
+      },
+      "yearWord": {
+        "title": "Your word of the year",
+        "help": "One word to guide you all year.",
+        "placeholder": "Courage"
+      },
+      "yearIntention": {
+        "title": "This year's intention",
+        "help": "What do you want to live this year?"
+      },
+      "yearProjects": {
+        "title": "For this area, this year",
+        "help": "One big goal, said simply. You can skip."
+      },
+      "yearReflection": {
+        "title": "Year reflection",
+        "help": "What did this year give you? What are you letting go?"
+      }
+    },
+    "closing": {
+      "glow": "Glow",
+      "next": "Later: {flow}",
+      "back": {
+        "DAY": "Back to Today",
+        "WEEK": "Back to the week",
+        "MONTH": "Back to the month",
+        "YEAR": "Back to the year"
+      }
     }
   },
   "body": {

@@ -43,6 +43,7 @@ export async function GET() {
       customExercises: { orderBy: { id: 'asc' } },
       bodyWeights: { orderBy: { date: 'asc' } },
       bodyGoal: true,
+      guidedRuns: { orderBy: { startedAt: 'asc' } },
     },
   });
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -81,6 +82,7 @@ export async function GET() {
       weights: user.bodyWeights,
       goal: user.bodyGoal,
     },
+    guidedRuns: user.guidedRuns,
   });
 
   return new NextResponse(JSON.stringify(data, null, 2), {

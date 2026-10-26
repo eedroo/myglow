@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { patchDailyEntry } from '@/actions/daily';
 import { isDailyTextField, type DailyEntryData, type DailyField, type DailyPatch } from '@/types/daily';
-import { useAutosaveQueue, type SaveOk } from './useAutosaveQueue';
+import { useAutosaveQueue, type AutosaveOptions, type SaveOk } from './useAutosaveQueue';
 import { useGlow } from '@/components/glow/GlowProvider';
 import { dailyTourEvents, emitTourEvent } from '@/lib/tour/bus';
 
@@ -15,7 +15,7 @@ const mergePatches = (a: DailyPatch, b: DailyPatch): DailyPatch => ({ ...a, ...b
  * Estado do diário com gravação automática (ver `useAutosaveQueue`):
  * checks e escalas gravam logo; textos com debounce de 800 ms (e `flush` no blur).
  */
-export function useDailyAutosave(date: string, initial: DailyEntryData) {
+export function useDailyAutosave(date: string, initial: DailyEntryData, opts: AutosaveOptions = {}) {
   const [data, setData] = useState<DailyEntryData>(initial);
 
   // Gravado com sucesso: avisa o guia (F11) das acções reais (intenção, banimento, como acordei).
@@ -29,7 +29,17 @@ export function useDailyAutosave(date: string, initial: DailyEntryData) {
   );
   const onSaved = useCallback((updatedAt: string) => setData((d) => ({ ...d, updatedAt })), []);
   const glow = useGlow();
-  const onResult = useCallback((r: SaveOk) => r.xp && glow.push(r.xp), [glow]);
+  // F18: o modo guiado soma o Glow ganho (o servidor continua a decidir).
+  const onXp = useRef(opts.onXp);
+  onXp.current = opts.onXp;
+  const onResult = useCallback(
+    (r: SaveOk) => {
+      if (!r.xp) return;
+      glow.push(r.xp);
+      onXp.current?.(r.xp);
+    },
+    [glow],
+  );
   const { queue, flush, status, errorKey } = useAutosaveQueue<DailyPatch>({
     save,
     merge: mergePatches,

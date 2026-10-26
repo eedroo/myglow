@@ -105,6 +105,12 @@
   --recovery-mid: #F0A868;
   --recovery-rested: #CFC6BA;
   --pr-gold: #C9971A;
+  /* F18: fundos do modo guiado (manhã clara e dourada, noite profunda e azulada) */
+  --guided-bg-morning: radial-gradient(ellipse at 50% -10%, #FFE7B0 0%, #FBF1DC 45%, #F6EAD6 100%);
+  --guided-bg-body: radial-gradient(ellipse at 50% -10%, #FFD9C4 0%, #FBEFE4 50%, #F5E9DD 100%);
+  --guided-bg-night: radial-gradient(ellipse at 50% -10%, #C9C3E6 0%, #E4DEEF 45%, #EFE9F1 100%);
+  --guided-bg-period: radial-gradient(ellipse at 50% -10%, #F3DFB1 0%, #F8EEDB 50%, #F4EADB 100%);
+  --guided-glow: rgba(212, 166, 74, 0.45);
 
   /* Raios */
   --radius-sm: 10px;
@@ -257,4 +263,9 @@
   --recovery-mid: #B9784A;
   --recovery-rested: #4A4238;
   --pr-gold: #F6C445;
+  --guided-bg-morning: radial-gradient(ellipse at 50% -10%, #5A4320 0%, #2A2114 50%, #15110B 100%);
+  --guided-bg-body: radial-gradient(ellipse at 50% -10%, #5B3424 0%, #29190F 50%, #15110B 100%);
+  --guided-bg-night: radial-gradient(ellipse at 50% -10%, #2C2F5E 0%, #171A33 50%, #0C0D19 100%);
+  --guided-bg-period: radial-gradient(ellipse at 50% -10%, #4A3B1F 0%, #231C10 50%, #15110B 100%);
+  --guided-glow: rgba(246, 196, 69, 0.35);
 }

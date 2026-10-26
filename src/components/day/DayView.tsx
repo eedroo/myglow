@@ -28,10 +28,12 @@ interface DayViewProps {
   wellbeing: boolean;
   /** O texto do planner da Semana para este dia (`DayPlanNote`), acima da intenção. */
   planNote?: ReactNode;
+  /** F18: base das rotas do modo guiado (`/guided/day/{date}`) quando o dia ainda o permite. */
+  guidedBase?: string | null;
 }
 
 /** Cartões interactivos do diário com gravação automática. */
-export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions, wellbeing, planNote }: DayViewProps) {
+export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions, wellbeing, planNote, guidedBase }: DayViewProps) {
   const t = useTranslations();
   const { data, setField, status, errorKey, flush } = useDailyAutosave(date, initial);
   const onBlur = () => void flush();
@@ -58,6 +60,7 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, sugges
             current={currentPeriod === 'morning'}
             banishSuggestion={suggestions?.banish}
             showSleep={wellbeing}
+            guidedBase={guidedBase}
           />
         </div>
         <div className="mg-day__cell mg-day__cell--wake">
@@ -74,10 +77,10 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, sugges
           )}
         </div>
         <div className="mg-day__cell mg-day__cell--body">
-          <BodyFocusBar data={data} setField={setField} current={currentPeriod === 'body'} />
+          <BodyFocusBar data={data} setField={setField} current={currentPeriod === 'body'} guidedBase={guidedBase} />
         </div>
         <div className="mg-day__cell mg-day__cell--night">
-          <NightSection data={data} setField={setField} onTextBlur={onBlur} current={currentPeriod === 'night'} />
+          <NightSection data={data} setField={setField} onTextBlur={onBlur} current={currentPeriod === 'night'} guidedBase={guidedBase} />
         </div>
         <div className="mg-day__cell mg-day__cell--gratitude">
           <GratitudeMoodCard

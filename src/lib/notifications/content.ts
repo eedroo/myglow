@@ -2,6 +2,7 @@ import type { Locale, MoonPhase, NotificationKind, ZodiacSign } from '@prisma/cl
 import type { DateISO } from '@/lib/dates';
 import type { SabbatKey } from '@/lib/astro/skyEvents';
 import { XP_POINTS } from '@/lib/xp/rules';
+import { weekStartOf } from '@/lib/weeks';
 import { translatorFor } from '@/i18n/translator';
 
 /** Texto de cada lembrete (push e caixa de avisos), na língua do utilizador. Puro. */
@@ -76,6 +77,10 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
   let title: string;
   let body: string;
   let url = '/today';
+  // F18: os lembretes do dia e do período abrem o fluxo do modo guiado.
+  const dayFlow = (segment: 'morning' | 'body' | 'night') => `/guided/day/${ctx.date}/${segment}`;
+  const weekFlow = (segment: 'plan' | 'close') => `/guided/week/${weekStartOf(ctx.date)}/${segment}`;
+  const monthFlow = (segment: 'plan' | 'close') => `/guided/month/${ctx.date.slice(0, 7)}/${segment}`;
 
   switch (kind) {
     case 'MORNING':
@@ -100,24 +105,27 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
         : ctx.sabbatToday
           ? t('notifications.push.morning.bodySabbat', { sabbat: t(`sky.sabbats.${ctx.sabbatToday}.name`) })
           : t(variantKey('notifications.push.morning.body', dailyVariant(ctx.date, 3)));
+      url = dayFlow('morning');
       break;
     case 'BODY': {
       const i = dailyVariant(ctx.date, 3, 1);
       title = t(variantKey('notifications.push.body.title', i));
       body = t(variantKey('notifications.push.body.body', i));
+      url = dayFlow('body');
       break;
     }
     case 'NIGHT':
       // A pergunta de reflexão da leitura do dia; sem leitura, uma das variantes.
       title = t(variantKey('notifications.push.night.title', dailyVariant(ctx.date, 3, 2)), { emoji });
       body = ctx.dayQuestion ?? t(variantKey('notifications.push.night.body', dailyVariant(ctx.date, 3)));
+      url = dayFlow('night');
       break;
     case 'WEEK_START':
       title = ctx.weekHeadline ?? t('notifications.push.weekStart.title');
       body = ctx.weekHeadline
         ? t('notifications.push.weekStart.readyBody')
         : t('notifications.push.weekStart.body', { points: XP_POINTS.WEEK_PLAN });
-      url = '/week';
+      url = weekFlow('plan');
       if (ctx.recapUrl?.week) {
         body = t('notifications.push.weekStart.recapBody');
         url = ctx.recapUrl.week;
@@ -126,14 +134,14 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
     case 'WEEK_END':
       title = t('notifications.push.weekEnd.title');
       body = t('notifications.push.weekEnd.body', { points: XP_POINTS.WEEK_REFLECTION });
-      url = '/week';
+      url = weekFlow('close');
       break;
     case 'MONTH_START':
       title = ctx.monthHeadline ?? t('notifications.push.monthStart.title');
       body = ctx.monthHeadline
         ? t('notifications.push.monthStart.readyBody', { rituals: ctx.monthRituals ?? 0 })
         : t('notifications.push.monthStart.body', { points: XP_POINTS.MONTH_PLAN });
-      url = '/month';
+      url = monthFlow('plan');
       if (ctx.recapUrl?.month) {
         body = t('notifications.push.monthStart.recapBody');
         url = ctx.recapUrl.month;
@@ -142,7 +150,7 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
     case 'MONTH_END':
       title = t('notifications.push.monthEnd.title');
       body = t('notifications.push.monthEnd.body', { points: XP_POINTS.MONTH_REFLECTION });
-      url = '/month';
+      url = monthFlow('close');
       break;
     case 'WEEK_PLAN_LAST':
       title = t('notifications.push.weekPlanLast.title');

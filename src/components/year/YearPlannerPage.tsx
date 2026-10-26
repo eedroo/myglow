@@ -12,6 +12,7 @@ import { YearNav } from './YearNav';
 import { YearPlanView } from './YearPlanView';
 import { GlowWindowNote } from '@/components/glow/GlowWindowNote';
 import { getPeriodAwards } from '@/lib/xp/queries';
+import { PeriodGuidedButton } from '@/components/guided/PeriodGuidedButton';
 
 /** Planner anual + grelha dos 12 meses, Roda do Ano, retrógrados, humor e estatísticas. */
 export async function YearPlannerPage({ year }: { year: number }) {
@@ -42,6 +43,18 @@ export async function YearPlannerPage({ year }: { year: number }) {
             prevHref={year > MIN_YEAR ? href(year - 1) : null}
             nextHref={year < currentYear + MAX_YEARS_AHEAD ? href(year + 1) : null}
             isCurrent={year === currentYear}
+          />
+        ),
+        // F18: modo guiado (planear ou fechar o ano) logo abaixo da navegação.
+        guided: (
+          <PeriodGuidedButton
+            kind="YEAR"
+            periodStart={yearStart}
+            routeBase={`/guided/year/${year}`}
+            today={data.today}
+            tz={user.timezone}
+            planFilled={!!data.plan.intention.trim() || !!data.plan.word.trim()}
+            reflectionFilled={!!data.plan.reflection.trim()}
           />
         ),
         grid: <YearGrid year={year} months={data.months} today={data.today} />,

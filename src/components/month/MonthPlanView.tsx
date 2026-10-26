@@ -15,6 +15,8 @@ interface MonthPlanViewProps {
   /** Cartões server inseridos na ordem da página. */
   slots: {
     nav: ReactNode;
+    /** F18: botão do modo guiado abaixo da navegação. */
+    guided?: ReactNode;
     hero: ReactNode;
     calendar: ReactNode;
     sky: ReactNode;
@@ -38,6 +40,7 @@ export function MonthPlanView({ initial, slots }: MonthPlanViewProps) {
     <div className="mg-month">
       <SaveStatus status={status} />
       {slots.nav}
+      {slots.guided}
       {slots.glowNote}
       {slots.hero}
       <div className="mg-month__pair">

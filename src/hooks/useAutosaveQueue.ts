@@ -8,6 +8,12 @@ export type SaveStatus = 'idle' | 'saving' | 'saved' | 'offline' | 'error';
 export type SaveResult = { ok: true; updatedAt: string; xp?: XpResult } | { ok: false; error: string };
 export type SaveOk = Extract<SaveResult, { ok: true }>;
 
+/** Opções comuns dos hooks de autosave (diário, semana, mês, ano). */
+export interface AutosaveOptions {
+  /** F18: chamado com o Glow ganho em cada gravação (além do toast do GlowProvider). */
+  onXp?: (xp: XpResult) => void;
+}
+
 const TEXT_DEBOUNCE_MS = 800;
 const RETRY_MS = 15_000;
 

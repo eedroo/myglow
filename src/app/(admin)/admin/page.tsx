@@ -103,6 +103,38 @@ export default async function AdminMetricsPage() {
         <p className="mg-admin__note">Concluída = chegou ao último slide.</p>
       </GlassCard>
 
+      <GlassCard title="Modo guiado (30 dias)">
+        <div className="mg-admin__tiles">
+          <MetricCard value={n(m.guided.users30)} label="Pessoas activas que usaram" />
+          <MetricCard
+            value={m.guided.active30 ? `${Math.round((100 * m.guided.users30) / m.guided.active30)}%` : '–'}
+            label="Dos activos"
+            hint="30 dias"
+          />
+        </div>
+        {m.guided.byFlow.length === 0 ? (
+          <p>Ainda sem fluxos.</p>
+        ) : (
+          <div className="mg-admin__scroll">
+            <AdminTable
+              caption="Fluxos guiados dos últimos 30 dias"
+              columns={[
+                { key: 'flow', label: 'Fluxo' },
+                { key: 'started', label: 'Iniciados', numeric: true },
+                { key: 'completed', label: 'Concluídos', numeric: true },
+                { key: 'rate', label: '% concluídos', numeric: true },
+              ]}
+              rows={m.guided.byFlow.map((r) => ({
+                flow: r.flow,
+                started: n(r.started),
+                completed: n(r.completed),
+                rate: r.started ? `${Math.round((100 * r.completed) / r.started)}%` : '–',
+              }))}
+            />
+          </div>
+        )}
+      </GlassCard>
+
       <GlassCard title="Amigos">
         <div className="mg-admin__tiles">
           <MetricCard value={n(m.friends.friendships)} label="Amizades" hint="total" />

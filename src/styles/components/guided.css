@@ -1,0 +1,20 @@
+/* GuidedRunner (F18): o leitor de slides com o fundo de cada momento do dia */
+
+.mg-slides--guided {
+  z-index: var(--z-recap);
+  background: var(--guided-bg-period);
+}
+
+.mg-guided--morning .mg-slides--guided { background: var(--guided-bg-morning); }
+.mg-guided--body .mg-slides--guided { background: var(--guided-bg-body); }
+.mg-guided--night .mg-slides--guided { background: var(--guided-bg-night); }
+.mg-guided--period .mg-slides--guided { background: var(--guided-bg-period); }
+
+.mg-slides--guided .mg-slides__stage {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mg-slides--guided .mg-slides__slide {
+  justify-content: center;
+}

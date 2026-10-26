@@ -26,6 +26,7 @@ import { isRecapAvailable, monthRecapPeriod } from '@/lib/recap/period';
 import { hasSeenRecap, isRecapShowable } from '@/lib/recap/server';
 import { GuideEntryCard } from '@/components/guide/GuideEntryCard';
 import { getEntitlements } from '@/lib/entitlements/server';
+import { PeriodGuidedButton } from '@/components/guided/PeriodGuidedButton';
 
 /** Planner mensal (intenção, metas, reflexão) + calendário, céu, retrógrados, semanas e estatísticas. */
 export async function MonthPlannerPage({ year, month }: { year: number; month: number }) {
@@ -93,6 +94,18 @@ export async function MonthPlannerPage({ year, month }: { year: number; month: n
             isCurrent={isCurrent}
             yearHref={year === current.year ? '/year' : `/year/${year}`}
             hideLabel
+          />
+        ),
+        // F18: modo guiado (planear ou fechar o mês) logo abaixo da navegação.
+        guided: (
+          <PeriodGuidedButton
+            kind="MONTH"
+            periodStart={monthStart}
+            routeBase={`/guided/month/${key({ year, month })}`}
+            today={overview.today}
+            tz={user.timezone}
+            planFilled={!!data.plan.intention.trim()}
+            reflectionFilled={!!data.plan.reflection.trim()}
           />
         ),
         hero: (

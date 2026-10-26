@@ -30,6 +30,10 @@ import { hasWellbeingConsent } from '@/lib/account/consent';
 import { RecapAutoOpen } from '@/components/recap/RecapAutoOpen';
 import { getActiveSessionBrief } from '@/lib/fitness/queries';
 import { ActiveSessionPill } from '@/components/body/ActiveSessionPill';
+import { GuidedAutoOpen } from '@/components/guided/GuidedAutoOpen';
+import { dayGuided } from '@/lib/guided/server';
+import { routeSegment } from '@/lib/guided/flows';
+import { getDailyEntry } from '@/lib/daily/queries';
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const session = await auth();
@@ -45,7 +49,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       select: {
         xpTotal: true, levelSeen: true, lastActiveAt: true, locale: true, timezone: true, createdAt: true,
         emailVerifiedAt: true, termsVersion: true, privacyVersion: true, wellbeingConsentAt: true,
-        tourStep: true, tourPausedAt: true, tourCompletedAt: true,
+        tourStep: true, tourPausedAt: true, tourCompletedAt: true, guidedAutoOpen: true,
       },
     }),
     getEntitlements(session.user.id),
@@ -79,6 +83,18 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   // F12: um registo por dia em que a pessoa abre a app (+ lastActiveAt, usado na pré-geração IA e nos avisos).
   // Sem esperar: nunca atrasa nem parte a página.
   if (glow) touchActivity(session.user.id, glow.timezone, glow.lastActiveAt);
+
+  // F18: "Abrir o Hoje no modo guiado": o fluxo sugerido, uma vez por fluxo e dia, abaixo do guia, das políticas, da
+  // subida de nível, das novidades e da retrospectiva.
+  let guidedHref: string | null = null;
+  if (glow?.guidedAutoOpen && !recapHref && !policyPending && announcements.length === 0 && levelFor(xpTotal).level <= glow.levelSeen && tourStateFromDb(glow).status !== 'active') {
+    const today = todayInTz(glow.timezone);
+    const entry = await getDailyEntry(session.user.id, today);
+    const g = await dayGuided(session.user.id, { date: today, today, tz: glow.timezone, entry, wellbeing: !!glow.wellbeingConsentAt });
+    if (g.suggested && !(await db.guidedRun.findUnique({ where: { userId_flow_periodKey: { userId: session.user.id, flow: g.suggested, periodKey: today } }, select: { flow: true } }))) {
+      guidedHref = `/guided/day/${today}/${routeSegment(g.suggested)}`;
+    }
+  }
 
   // F16: sessão de treino em curso → pílula no Hoje para voltar a ela.
   const bodySession = entitlements.features['body-pro'] ? await getActiveSessionBrief(session.user.id).catch(() => null) : null;
@@ -121,6 +137,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
               {policyPending && <PolicyUpdateDialog askWellbeing={!glow?.wellbeingConsentAt} />}
               <WhatsNewDialog items={announcements} />
               {recapHref && <RecapAutoOpen href={recapHref} />}
+              {guidedHref && <GuidedAutoOpen href={guidedHref} />}
               {bodySession && <ActiveSessionPill startedAt={bodySession.startedAt} onlyOn="/today" />}
             </TourProvider>
           </EntitlementsProvider>

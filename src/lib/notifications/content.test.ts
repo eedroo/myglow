@@ -28,7 +28,7 @@ describe('buildNotification', () => {
               expect(n.title.length, `${locale} ${kind} ${phase} ${sign}: ${n.title}`).toBeLessThanOrEqual(MAX_TITLE);
               expect(n.body.length).toBeLessThanOrEqual(MAX_BODY);
               expect(n.title.endsWith('…'), n.title).toBe(false);
-              expect(n.url).toMatch(/^\/(today|week|month|grimoire|friends)(\/[\d-]+)?$/);
+              expect(n.url).toMatch(/^\/((today|week|month|grimoire|friends)(\/[\d-]+)?|guided\/(day|week|month)\/[\d-]+\/(morning|body|night|plan|close))$/);
             }
           }
         }
@@ -54,9 +54,14 @@ describe('buildNotification', () => {
 
   it('semana e mês levam à página certa e mostram o Glow', () => {
     const w = buildNotification('WEEK_START', { ...base, locale: 'PT_PT' });
-    expect(w.url).toBe('/week');
+    // F18: abrem o modo guiado (2026-05-06 é quarta: semana de 2026-05-03).
+    expect(w.url).toBe('/guided/week/2026-05-03/plan');
     expect(w.body).toContain('20 Glow');
-    expect(buildNotification('MONTH_END', { ...base, locale: 'EN' }).url).toBe('/month');
+    expect(buildNotification('MONTH_END', { ...base, locale: 'EN' }).url).toBe('/guided/month/2026-05/close');
+    expect(buildNotification('WEEK_END', { ...base, locale: 'EN' }).url).toBe('/guided/week/2026-05-03/close');
+    expect(buildNotification('MORNING', { ...base, locale: 'EN' }).url).toBe('/guided/day/2026-05-06/morning');
+    expect(buildNotification('BODY', { ...base, locale: 'EN' }).url).toBe('/guided/day/2026-05-06/body');
+    expect(buildNotification('NIGHT', { ...base, locale: 'EN' }).url).toBe('/guided/day/2026-05-06/night');
   });
 });
 
@@ -73,7 +78,7 @@ describe('convites e última chamada', () => {
 
   it('semana e mês com a leitura pronta', () => {
     expect(buildNotification('WEEK_START', { ...base, locale: 'PT_BR', weekHeadline: 'Tema' })).toMatchObject({
-      title: 'Tema', body: 'O tema da sua semana chegou. Que tal planejar a semana?', url: '/week',
+      title: 'Tema', body: 'O tema da sua semana chegou. Que tal planejar a semana?', url: '/guided/week/2026-05-03/plan',
     });
     expect(buildNotification('MONTH_START', { ...base, locale: 'PT_BR', monthHeadline: 'Mês', monthRituals: 4 }).body).toBe(
       'Seu mês está pronto, com 4 rituais. Defina sua intenção.',
@@ -89,7 +94,7 @@ describe('convites e última chamada', () => {
       title: 'Tema', body: 'A sua retrospectiva está pronta. Veja e planeje a semana.', url: recapUrl.week,
     });
     expect(buildNotification('MONTH_START', { ...base, locale: 'PT_PT', recapUrl })).toMatchObject({ url: recapUrl.month });
-    expect(buildNotification('WEEK_START', { ...base, locale: 'EN', recapUrl: { month: recapUrl.month } }).url).toBe('/week');
+    expect(buildNotification('WEEK_START', { ...base, locale: 'EN', recapUrl: { month: recapUrl.month } }).url).toBe('/guided/week/2026-05-03/plan');
     for (const locale of LOCALES) {
       for (const kind of ['WEEK_START', 'MONTH_START'] as const) {
         expect(buildNotification(kind, { ...base, locale, recapUrl }).body.length).toBeLessThanOrEqual(MAX_BODY);

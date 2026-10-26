@@ -1,5 +1,5 @@
 import 'server-only';
-import type { GuideStatus, NotificationKind, RecapKind } from '@prisma/client';
+import type { GuidedFlow, GuideStatus, NotificationKind, RecapKind } from '@prisma/client';
 import { estimateCostUsd } from '@/lib/guide/cost';
 import { db } from '@/lib/db';
 import { addDays, fromDbDate, todayInTz, toDbDate, type DateISO } from '@/lib/dates';
@@ -23,6 +23,8 @@ export interface AdminMetrics {
   /** F15: amigos (só contagens). */
   friends: { friendships: number; activeWithFriend: number; active30: number; sent30: number; accepted30: number; invited: number; invited30: number };
   guide: { consented: number; byStatus: Record<GuideStatus, number>; rated: number; helped: number; inputTokens: number; outputTokens: number; costUsd: number };
+  /** F18: modo guiado nos últimos 30 dias (iniciados e concluídos por fluxo; pessoas activas que o usaram). */
+  guided: { byFlow: { flow: GuidedFlow; started: number; completed: number }[]; users30: number; active30: number };
 }
 
 const RETENTION_WEEKS = 8;
@@ -86,6 +88,16 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
     outputTokens += g._sum.outputTokens ?? 0;
   }
 
+  const [guidedRows, guidedUsers] = await Promise.all([
+    db.$queryRaw<{ flow: GuidedFlow; started: bigint; completed: bigint }[]>`
+      SELECT flow, count(*) AS started, count("completedAt") AS completed
+      FROM "GuidedRun" WHERE "startedAt" >= ${ago(30)} GROUP BY 1 ORDER BY 1`,
+    db.$queryRaw<{ n: bigint }[]>`
+      SELECT count(DISTINCT g."userId") AS n FROM "GuidedRun" g
+      WHERE g."startedAt" >= ${ago(30)}
+        AND EXISTS (SELECT 1 FROM "UserActiveDay" a WHERE a."userId" = g."userId" AND a.day >= ${toDbDate(addDays(today, -29))})`,
+  ]);
+
   const rows: ActiveRow[] = activeRows.map((r) => ({ userId: r.userId, day: fromDbDate(r.day) }));
   const activity = activeUsers(rows, today);
   const signupRows: SignupRow[] = signups.map((u) => ({ userId: u.id, createdDay: todayInTz(u.timezone, u.createdAt) }));
@@ -99,6 +111,11 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
     feedback: { total: fbTotal, last7: fb7 },
     notifications: notif.map((n) => ({ kind: n.kind, sent: Number(n.sent), opened: Number(n.opened) })),
     recaps: recaps.map((r) => ({ kind: r.kind, viewed: Number(r.viewed), completed: Number(r.completed) })),
+    guided: {
+      byFlow: guidedRows.map((r) => ({ flow: r.flow, started: Number(r.started), completed: Number(r.completed) })),
+      users30: Number(guidedUsers[0]?.n ?? 0),
+      active30: activity.mau,
+    },
     friends: {
       friendships,
       activeWithFriend: Number(activeWithFriendRows[0]?.n ?? 0),

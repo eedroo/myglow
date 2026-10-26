@@ -634,3 +634,28 @@ Alterados (cirúrgico): `SessionScreen` e `SetRow` (troféu na série com record
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
 | `RouteError` | client | `route-error.css` | `mg-route-error`, `__title`, `__actions` | `error.tsx` dos grupos `(app)` e `(body)`: mensagem em cartão de vidro dentro do layout (a navegação continua à vista), "Tentar de novo" (refresca e repõe) e "Recarregar a app"; erros de rede ou de versão nova (`isRecoverableError`) recarregam sozinhos, no máximo uma vez por minuto |
+
+### Leitor de slides e Modo guiado — F18 (`src/components/slides/`, `src/components/guided/`, lógica em `src/lib/guided/`, rotas `/guided/*`)
+
+Um passo por ecrã, com a linguagem da retrospectiva. Cada passo grava pelos hooks da vista normal (`useDailyAutosave`, `useWeekAutosave`, `useMonthAutosave`, `useYearAutosave`), que ganharam `onXp` para o ecrã final somar o Glow. Fluxos como dados puros (`buildFlow`, `isSectionAvailable`).
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `SlidePlayer` | client | `slides.css` | `mg-slides`, `--recap`, `--guided`, `__top`, `__bars`, `__bar--done`, `__close`, `__stage`, `__slide--back`, `__preload`, `__nav` | leitor em ecrã inteiro partilhado: barras, setas, Esc, `aria-live`, `prefers-reduced-motion`; toques nas metades e deslizar só em slides sem campos; controlado ou não (`index`) |
+| `SlideFooter` | client | `slides.css` | `mg-slides__footer` | Voltar · Saltar (opcional) · Continuar (`onBeforeAdvance` grava antes); acima do teclado via `visualViewport` (`--slides-keyboard`) |
+| `RecapPlayer` (alterado) | client | `recap.css` | `mg-recap` + `mg-slides--recap` | wrapper fino do `SlidePlayer` (comportamento igual) |
+| `GuidedRunner` | client | `guided.css` | `mg-guided`, `--morning`, `--body`, `--night`, `--period` | monta os slides do fluxo a partir dos passos e de um "store" (valores + `set` + `flush`); grava `GuidedRun` (início e fim); soma o Glow; `GuidedDayRunner`, `GuidedWeekRunner`, `GuidedMonthRunner`, `GuidedYearRunner` ligam cada hook de autosave |
+| `StepIntro` | server | `guided-step.css` | `mg-step-intro` | saudação, data, lua (fase e signo) ou título do período e a intenção anterior |
+| `StepReading` | client | `guided-step.css` | `mg-step-reading`, `--pending` | "Quer ver a sua leitura?" → Ver / Agora não; a leitura (`DailyReadingCard`) dentro do passo com scroll |
+| `StepText` | client | `guided-step.css` | `mg-step-text`, `__area` | título, ajuda, `textarea` grande com autofocus, contador perto do limite; ícone e nome da área |
+| `StepBanish` | client | `guided-step.css` | `mg-step-banish` | nome do banimento + "Feito" grande |
+| `StepCheck` | client | `guided-step.css` | `mg-step-check`, `__toggle--on` | ícone grande, pergunta e botão de alternar; ritual sugerido (`RitualTodayCard`) quando existe |
+| `StepScale` | client | `guided-step.css` | `mg-step-scale` | as 5 carinhas do diário (`MoodScale`) e a nota opcional do "como acordou" |
+| `StepBodyChecks` | client | `guided-step.css` | `mg-step-body` | 3 checks grandes; com `body-pro`, "Abrir o Foco no corpo" |
+| `StepWeight` | client | `guided-step.css` | `mg-step-weight` | peso da semana (`WeightInput`) ou, com `body-pro` e pesagens, a média só de leitura |
+| `StepWord` | client | `guided-step.css` | `mg-step-word` | palavra do ano numa linha em tipografia grande |
+| `StepClosing` | client | `guided-step.css` | `mg-step-closing` | brilho dourado, título, o que ficou feito, Glow ganho (`RecapCountUp`), próximo fluxo sugerido e "Voltar" |
+| `GuidedStartCard` | server | `guided-start.css` | `mg-guided-start`, `--morning`, `--body`, `--night` | no Hoje, abaixo do `DailySkyCard`: o fluxo sugerido (`suggestDayFlow`); some com tudo feito ou com o onboarding guiado activo |
+| `GuidedSectionButton` | client | `guided-start.css` | `mg-guided-btn` | ícone "passo a passo" ao lado do título das secções Manhã, Corpo e Noite, e botão no cabeçalho da Semana, Mês e Ano |
+| `GuidedAutoOpen` | client | — | — | com `guidedAutoOpen`, abre o fluxo sugerido no Hoje uma vez por fluxo e dia (sem `GuidedRun`), abaixo das outras prioridades |
+| `GuidedSettings` | client | `guided-start.css` | — | definições → Diário: "Abrir o Hoje no modo guiado" |

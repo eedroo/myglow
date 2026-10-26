@@ -19,6 +19,7 @@ import { isRecapAvailable, weekRecapPeriod } from '@/lib/recap/period';
 import { hasSeenRecap, isRecapShowable } from '@/lib/recap/server';
 import { GuideEntryCard } from '@/components/guide/GuideEntryCard';
 import { getEntitlements } from '@/lib/entitlements/server';
+import { PeriodGuidedButton } from '@/components/guided/PeriodGuidedButton';
 
 /** Planner de uma semana (domingo → sábado). */
 export async function WeekPage({ start }: { start: DateISO }) {
@@ -72,6 +73,15 @@ export async function WeekPage({ start }: { start: DateISO }) {
         nextHref={weeksBetween(currentStart, next) <= MAX_WEEKS_AHEAD ? (next === currentStart ? '/week' : `/week/${next}`) : null}
         isCurrent={start === currentStart}
         monthHref={`/month/${monthKey(week.year, week.month)}`}
+      />
+      <PeriodGuidedButton
+        kind="WEEK"
+        periodStart={start}
+        routeBase={`/guided/week/${start}`}
+        today={data.today}
+        tz={user.timezone}
+        planFilled={!!week.intention.trim()}
+        reflectionFilled={!!week.reflection.trim()}
       />
       <WeekView
         key={start}

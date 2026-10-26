@@ -115,6 +115,7 @@
 @import './components/beta-badge.css';
 @import './components/beta-notice.css';
 @import './components/feedback.css';
+@import './components/slides.css';
 @import './components/recap.css';
 @import './components/recap-slide.css';
 @import './components/recap-count.css';
@@ -162,3 +163,6 @@
 @import './components/ex-records.css';
 @import './components/pr.css';
 @import './components/route-error.css';
+@import './components/guided.css';
+@import './components/guided-step.css';
+@import './components/guided-start.css';

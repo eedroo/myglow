@@ -27,6 +27,8 @@ import { NotificationsPromptCard } from '@/components/notifications/Notification
 import { PROMPT_DISMISS_COOKIE, shouldShowPrompt } from '@/lib/notifications/prompt';
 import { DAY_SOURCES } from '@/lib/xp/rules';
 import { FirstStepsCard } from '@/components/welcome/FirstStepsCard';
+import { dayGuided } from '@/lib/guided/server';
+import { GuidedStartCard } from '@/components/guided/GuidedStartCard';
 
 /** Página de um dia do diário (hoje ou passado). */
 export async function DayPage({ date }: { date: DateISO }) {
@@ -64,6 +66,9 @@ export async function DayPage({ date }: { date: DateISO }) {
     href: week.start === weekStartOf(today) ? '/week' : `/week/${week.start}`,
   };
 
+  // F18: modo guiado (hoje e ontem) e o fluxo sugerido para esta hora.
+  const guided = await dayGuided(userId, { date, today, tz: user.timezone, entry, wellbeing: !!user.wellbeingConsentAt });
+
   const phaseLabels = Object.fromEntries(MOON_PHASE_ORDER.map((p) => [p, ta(`phases.${p}`)])) as Record<MoonPhase, string>;
   const signLabels = Object.fromEntries(ZODIAC_ORDER.map((s) => [s, ta(`signs.${s}`)])) as Record<ZodiacSign, string>;
 
@@ -89,6 +94,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         glowNote={<GlowWindowNote period="day" periodStart={date} timezone={user.timezone} today={today} earned={dayAwards} />}
       />
       <DailySkyCard sky={sky} natal={natal} isToday={isToday} />
+      <GuidedStartCard flow={guided.suggested} date={date} />
       <DailyReadingCard personal={reading.personal} pending={reading.pending} />
       {reading.ritualToday && <RitualTodayCard ritual={reading.ritualToday} locale={appLocale} />}
       {shouldShowPrompt({
@@ -104,6 +110,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         sleepGoalMinutes={user.sleepGoalMinutes}
         wellbeing={!!user.wellbeingConsentAt}
         planNote={planNote?.text.trim() ? <DayPlanNote text={planNote.text.trim()} weekHref={weekChip.href} /> : undefined}
+        guidedBase={guided.base}
         currentPeriod={isToday ? getDayPeriod(new Date(), user.timezone) : null}
         suggestions={
           personal

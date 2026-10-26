@@ -15,6 +15,8 @@ interface YearPlanViewProps {
   initial: YearPlanData;
   slots: {
     nav: ReactNode;
+    /** F18: botão do modo guiado abaixo da navegação. */
+    guided?: ReactNode;
     grid: ReactNode;
     wheel: ReactNode;
     retrogrades: ReactNode;
@@ -34,6 +36,7 @@ export function YearPlanView({ initial, slots }: YearPlanViewProps) {
     <div className="mg-year">
       <SaveStatus status={status} />
       {slots.nav}
+      {slots.guided}
       {slots.glowNote}
       <YearWordCard value={data.word} onChange={(v) => setText('word', v)} onBlur={onBlur} />
       <div className="mg-year__pair">

@@ -156,6 +156,16 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Mapa muscular** com recuperação: menos de 48 h, 48 a 72 h, mais de 72 h.
 - **Guia:** lê o corpo só com autorização própria (`guideIncludeBody`) e nunca sugere dietas ou suplementos.
 
+## Modo guiado (Fase 18)
+- **Leitor único:** Modo guiado com `SlidePlayer` genérico, partilhado com a retrospectiva.
+- **Fluxos:** 3 no diário (manhã, corpo, noite) e 2 por período (planear, fechar).
+- **Gravação:** cada passo grava com os hooks existentes; a vista normal continua igual.
+- **Sugestão do fluxo:** pela hora (diário, a partir dos horários das notificações) e pelas janelas de Glow (períodos).
+- **Notificações** abrem o fluxo guiado.
+- **Abrir sozinho:** opção nas definições, desligada por defeito.
+- **Disponibilidade:** `isSectionAvailable` decide que passos aparecem (consentimento, premium e, na Fase 19, desbloqueio).
+- **Corpo:** a barra do mundo do corpo tem 4 itens (Treinos · Sessões · Dia · Corpo); os exercícios abrem-se a partir de Treinos.
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

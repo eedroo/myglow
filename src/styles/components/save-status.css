@@ -2,7 +2,7 @@
 
 .mg-save-status {
   position: fixed;
-  top: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--space-2));
+  top: calc(var(--topbar-offset) + var(--space-2));
   right: var(--space-4);
   z-index: var(--z-nav);
   display: inline-flex;

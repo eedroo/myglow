@@ -108,6 +108,10 @@
   --icon-xl: 120px;
   --control-height: 46px;
   --topbar-height: 60px;
+  /* Espaço extra entre a barra de estado do iPhone e o conteúdo da TopBar (0 sem notch/safe-area) */
+  --topbar-safe-gap: min(var(--space-4), env(safe-area-inset-top));
+  /* Altura total ocupada pela TopBar (para o que fica fixo por baixo dela) */
+  --topbar-offset: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--topbar-safe-gap));
   --bottom-nav-height: 68px;
   --rail-width: 96px;
   --content-max: 720px;

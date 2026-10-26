@@ -14,12 +14,12 @@
 }
 
 .mg-settings__section {
-  scroll-margin-top: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--space-7));
+  scroll-margin-top: calc(var(--topbar-offset) + var(--space-7));
 }
 
 .mg-settings-nav {
   position: sticky;
-  top: calc(var(--topbar-height) + env(safe-area-inset-top));
+  top: var(--topbar-offset);
   z-index: var(--z-nav);
   margin: 0 calc(var(--space-4) * -1);
   padding: var(--space-2) var(--space-4);

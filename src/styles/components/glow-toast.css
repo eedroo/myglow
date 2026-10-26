@@ -2,7 +2,7 @@
 
 .mg-glow-toast {
   position: fixed;
-  top: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--space-7));
+  top: calc(var(--topbar-offset) + var(--space-7));
   right: var(--space-4);
   z-index: var(--z-toast);
   display: inline-flex;

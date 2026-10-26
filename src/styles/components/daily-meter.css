@@ -2,7 +2,7 @@
 
 .mg-daily-meter {
   position: sticky;
-  top: calc(var(--topbar-height) + env(safe-area-inset-top) + var(--space-2));
+  top: calc(var(--topbar-offset) + var(--space-2));
   z-index: var(--z-content);
   display: flex;
   align-items: center;

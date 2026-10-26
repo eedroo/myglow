@@ -167,6 +167,7 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Corpo:** a barra do mundo do corpo tem 4 itens (Treinos · Sessões · Dia · Corpo); os exercícios abrem-se a partir de Treinos.
 - **Leituras só pessoais:** a leitura do signo saiu (o mês deixou de ter `MONTH_ENERGY`; o cron mensal por signo foi retirado). Ficam a leitura pessoal, os rituais e as sugestões do céu por data e fase da lua.
 - **Planear com leitura:** semana, mês e ano começam por "Antes de planear" (leitura pessoal, datas e fases da lua com o que convidam a fazer, rituais); a intenção e cada área mostram a inspiração que daí vem (focos da leitura, rituais da área, momentos do céu).
+- **Leitura do dia: agora ou à noite:** todos os dias, antes de a leitura aparecer, pergunta-se se a pessoa a quer já ou no fecho do dia (`DailyEntry.readingChoice`, `NOW`/`NIGHT`). À noite: em Hoje fica à espera até às 18h (com "Ver já") e o modo guiado da noite começa por ela. Dias passados mostram sempre a leitura.
 
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.

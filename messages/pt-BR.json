@@ -697,6 +697,15 @@
     }
   },
   "reading": {
+    "gate": {
+      "question": "Quer ver a leitura de hoje agora ou deixar para a noite?",
+      "hint": "Você pode ler já, para guiar o dia, ou guardar para o fechamento do dia, como reflexão.",
+      "now": "Ver agora",
+      "night": "À noite",
+      "waitingTitle": "Sua leitura está esperando a noite",
+      "waiting": "Você guardou a leitura de hoje para o fechamento do dia. Ela aparece aqui a partir das 18h e no ritual da noite.",
+      "showNow": "Ver já"
+    },
     "day": {
       "signTitle": "Seu signo hoje · {sign}",
       "personalTitle": "Para você",
@@ -2037,9 +2046,16 @@
     "steps": {
       "periodReading": {"title": "Antes de planejar"},
       "reading": {
-        "title": "Quer ver a sua leitura de hoje?",
+        "title": "Quer ver sua leitura de hoje agora ou à noite?",
         "show": "Ver",
-        "skip": "Agora não"
+        "skip": "Agora não",
+        "now": "Agora",
+        "night": "À noite",
+        "waiting": "Ficou para a noite. Você vai encontrá-la no fechamento do dia.",
+        "showNow": "Ver já"
+      },
+      "nightReading": {
+        "title": "A leitura que você guardou para hoje"
       },
       "intention": {
         "title": "Sua intenção",

@@ -23,7 +23,7 @@ const source = {
     id: 'd1', userId: 'u1', date: toDbDate('2026-10-01'), moonPhase: 'FULL_MOON', moonSign: 'ARIES', intention: 'Calma',
     morningBanishName: null, morningBanishDone: true, morningRitualDone: true, sleepGoalMet: true, wakeMood: 4, wakeNote: null,
     stretchDone: true, workoutDone: false, waterDone: true, nightBanishName: null, nightBanishDone: false, nightRitualDone: false,
-    gratitude: 'Sol', mood: 5, reflection: null, summary: null, createdAt: at, updatedAt: at,
+    gratitude: 'Sol', mood: 5, reflection: null, summary: null, readingChoice: 'NIGHT', createdAt: at, updatedAt: at,
   }],
   weeks: [{
     id: 'w1', userId: 'u1', startDate: toDbDate('2026-09-27'), year: 2026, month: 9, weekOfMonth: 5, title: 'Raízes',
@@ -133,6 +133,7 @@ describe('buildExport', () => {
 
   it('datas de calendário em YYYY-MM-DD e peso em kg', () => {
     expect(out.dailyEntries[0]!.date).toBe('2026-10-01');
+    expect(out.dailyEntries[0]!.readingChoice).toBe('NIGHT');
     expect(out.birthProfile!.birthDate).toBe('1990-07-15');
     expect(out.weeks[0]).toMatchObject({ startDate: '2026-09-27', weightGrams: 61250, weightKg: 61.25 });
     expect(out.weeks[0]!.dayNotes[0]).toEqual({ date: '2026-09-28', text: 'Nota' });

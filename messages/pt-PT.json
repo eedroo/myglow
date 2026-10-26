@@ -697,6 +697,15 @@
     }
   },
   "reading": {
+    "gate": {
+      "question": "Queres ver a leitura de hoje agora ou deixá-la para a noite?",
+      "hint": "Podes lê-la já, para orientar o dia, ou guardá-la para o fecho do dia, como reflexão.",
+      "now": "Ver agora",
+      "night": "À noite",
+      "waitingTitle": "A tua leitura espera pela noite",
+      "waiting": "Guardaste a leitura de hoje para o fecho do dia. Aparece aqui a partir das 18h e no ritual da noite.",
+      "showNow": "Ver já"
+    },
     "day": {
       "signTitle": "O teu signo hoje · {sign}",
       "personalTitle": "Para ti",
@@ -2037,9 +2046,16 @@
     "steps": {
       "periodReading": {"title": "Antes de planear"},
       "reading": {
-        "title": "Queres ver a tua leitura de hoje?",
+        "title": "Queres ver a tua leitura de hoje agora ou à noite?",
         "show": "Ver",
-        "skip": "Agora não"
+        "skip": "Agora não",
+        "now": "Agora",
+        "night": "À noite",
+        "waiting": "Ficou para a noite. Vais encontrá-la no fecho do dia.",
+        "showNow": "Ver já"
+      },
+      "nightReading": {
+        "title": "A leitura que guardaste para hoje"
       },
       "intention": {
         "title": "A tua intenção",

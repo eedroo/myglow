@@ -317,10 +317,17 @@ model DailyEntry {
   mood              Int? // 1–5
   reflection        String?
   summary           String?
+  readingChoice     ReadingChoice? // F18: leitura do dia agora ou à noite (pergunta diária)
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
 
   @@unique([userId, date])
+}
+
+/// F18: quando a pessoa quer ver a leitura do dia.
+enum ReadingChoice {
+  NOW
+  NIGHT
 }
 
 model Week {

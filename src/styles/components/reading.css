@@ -263,3 +263,16 @@
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
+
+/* DailyReadingGate (F18): agora ou à noite */
+.mg-reading-gate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-reading-gate__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}

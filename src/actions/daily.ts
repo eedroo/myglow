@@ -69,3 +69,26 @@ export async function patchDailyEntry(date: DateISO, patch: DailyPatch): Promise
   );
   return { ok: true, updatedAt: row.updatedAt.toISOString(), ...(xp && { xp }) };
 }
+
+/**
+ * F18: leitura do dia agora ou à noite (pergunta diária). Só hoje e dias passados; não mexe no progresso nem no
+ * Glow (não passa pelo `patchDailyEntry`). No `create` grava o snapshot da lua, como o patch.
+ */
+export async function setReadingChoice(date: DateISO, choice: 'NOW' | 'NIGHT'): Promise<{ ok: true } | { ok: false; error: string }> {
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: 'common.errors.unauthorized' };
+  if (typeof date !== 'string' || !isDateISO(date) || compareDates(date, MIN_DATE) < 0) return { ok: false, error: 'day.errors.invalidDate' };
+  if (choice !== 'NOW' && choice !== 'NIGHT') return { ok: false, error: 'day.errors.invalid' };
+  const userId = session.user.id;
+  const user = await db.user.findUnique({ where: { id: userId }, select: { timezone: true } });
+  if (!user) return { ok: false, error: 'common.errors.unauthorized' };
+  if (compareDates(date, todayInTz(user.timezone)) > 0) return { ok: false, error: 'day.errors.futureDate' };
+  const dbDate = toDbDate(date);
+  const moon = getDailyMoon(date, user.timezone);
+  await db.dailyEntry.upsert({
+    where: { userId_date: { userId, date: dbDate } },
+    create: { userId, date: dbDate, moonPhase: moon.phase, moonSign: moon.signAtNoon, readingChoice: choice },
+    update: { readingChoice: choice },
+  });
+  return { ok: true };
+}

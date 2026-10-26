@@ -646,7 +646,7 @@ Um passo por ecrã, com a linguagem da retrospectiva. Cada passo grava pelos hoo
 | `RecapPlayer` (alterado) | client | `recap.css` | `mg-recap` + `mg-slides--recap` | wrapper fino do `SlidePlayer` (comportamento igual) |
 | `GuidedRunner` | client | `guided.css` | `mg-guided`, `--morning`, `--body`, `--night`, `--period` | monta os slides do fluxo a partir dos passos e de um "store" (valores + `set` + `flush`); grava `GuidedRun` (início e fim); soma o Glow; `GuidedDayRunner`, `GuidedWeekRunner`, `GuidedMonthRunner`, `GuidedYearRunner` ligam cada hook de autosave |
 | `StepIntro` | server | `guided-step.css` | `mg-step-intro` | saudação, data, lua (fase e signo) ou título do período e a intenção anterior |
-| `StepReading` | client | `guided-step.css` | `mg-step-reading`, `--pending` | "Quer ver a sua leitura?" → Ver / Agora não; a leitura (`DailyReadingCard`) dentro do passo com scroll |
+| `StepReading` | client | `guided-step.css` | `mg-step-reading`, `--pending` | manhã: "Quer a leitura agora ou à noite?" (grava `readingChoice`); agora mostra a leitura, à noite avança e ela aparece no fecho do dia (`nightReading`); planear: a leitura do período aberta logo |
 | `GuidedPeriodReading` (`periodGuidance`) | server | `guided-step.css` | `mg-guided-reading`, `__list` | antes de planear: leitura pessoal do período, datas e fases da lua com sugestão, rituais; e a inspiração por passo (intenção e áreas) |
 | `StepText` | client | `guided-step.css` | `mg-step-text`, `__area`, `__inspo` | título, ajuda, `textarea` grande com autofocus, contador perto do limite; ícone e nome da área |
 | `StepBanish` | client | `guided-step.css` | `mg-step-banish` | nome do banimento + "Feito" grande |
@@ -660,3 +660,4 @@ Um passo por ecrã, com a linguagem da retrospectiva. Cada passo grava pelos hoo
 | `GuidedSectionButton` | client | `guided-start.css` | `mg-guided-btn` | ícone "passo a passo" ao lado do título das secções Manhã, Corpo e Noite, e botão no cabeçalho da Semana, Mês e Ano |
 | `GuidedAutoOpen` | client | — | — | com `guidedAutoOpen`, abre o fluxo sugerido no Hoje uma vez por fluxo e dia (sem `GuidedRun`), abaixo das outras prioridades |
 | `GuidedSettings` | client | `guided-start.css` | — | definições → Diário: "Abrir o Hoje no modo guiado" |
+| `DailyReadingGate` | client | `reading.css` | `mg-reading-gate`, `__actions` | Hoje (F18): antes da leitura do dia pergunta "agora ou à noite?" uma vez por dia; à noite (depois das 18:00) a leitura aparece; durante o dia mostra que espera, com "Ver agora" |

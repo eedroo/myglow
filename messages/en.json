@@ -697,6 +697,15 @@
     }
   },
   "reading": {
+    "gate": {
+      "question": "Read today's reading now, or save it for tonight?",
+      "hint": "Read it now to set the tone for your day, or keep it for the end of the day as a reflection.",
+      "now": "Read now",
+      "night": "Tonight",
+      "waitingTitle": "Your reading is waiting for tonight",
+      "waiting": "You saved today's reading for the end of the day. It shows up here from 6pm and in your night ritual.",
+      "showNow": "Read it now"
+    },
     "day": {
       "signTitle": "Your sign today · {sign}",
       "personalTitle": "For you",
@@ -2037,9 +2046,16 @@
     "steps": {
       "periodReading": {"title": "Before you plan"},
       "reading": {
-        "title": "Want to see today's reading?",
+        "title": "See today's reading now or tonight?",
         "show": "Show me",
-        "skip": "Not now"
+        "skip": "Not now",
+        "now": "Now",
+        "night": "Tonight",
+        "waiting": "Saved for tonight. You'll find it when you close your day.",
+        "showNow": "Read it now"
+      },
+      "nightReading": {
+        "title": "The reading you saved for today"
       },
       "intention": {
         "title": "Your intention",

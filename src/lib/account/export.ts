@@ -232,6 +232,7 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       mood: e.mood,
       reflection: e.reflection,
       summary: e.summary,
+      readingChoice: e.readingChoice,
     })),
     weeks: data.weeks.map((w) => ({
       startDate: day(w.startDate),

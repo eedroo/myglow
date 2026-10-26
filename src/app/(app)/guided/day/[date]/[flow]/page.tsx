@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { auth } from '@/auth';
 import { addDays, formatLongDate, isDateISO } from '@/lib/dates';
 import { getDailySky } from '@/lib/astro/sky';
-import { getDailyEntry } from '@/lib/daily/queries';
+import { getDailyEntry, getReadingChoice } from '@/lib/daily/queries';
 import { getDayReading } from '@/lib/ai/queries';
 import { isWindowOpen, xpWindow } from '@/lib/xp/rules';
 import { flowFromRoute } from '@/lib/guided/flows';
@@ -36,7 +36,10 @@ export default async function GuidedDayRoute({ params }: { params: { date: strin
 
   const [entry, rawLocale, t, ta] = await Promise.all([getDailyEntry(session.user.id, date), getLocale(), getTranslations('guided'), getTranslations('astro')]);
   const locale = isAppLocale(rawLocale) ? rawLocale : 'pt-PT';
-  const reading = flow === 'DAY_MORNING' ? await getDayReading(session.user.id, date) : null;
+  // F18: a leitura do dia aparece na manhã (com a pergunta agora ou à noite) ou no fecho do dia, se ficou para a noite.
+  const choice = await getReadingChoice(session.user.id, date);
+  const readingAtNight = flow === 'DAY_NIGHT' && choice === 'NIGHT';
+  const reading = flow === 'DAY_MORNING' || readingAtNight ? await getDayReading(session.user.id, date) : null;
   const sky = getDailySky(date, g.user.timezone);
   const moon = `${ta(`phases.${sky.moon.phase}`)} · ${ta(`signs.${sky.moon.signAtNoon}`)}`;
   const intro = {
@@ -52,12 +55,13 @@ export default async function GuidedDayRoute({ params }: { params: { date: strin
       periodKey={date}
       routeBase={`/guided/day/${date}`}
       initial={entry}
-      ctx={g.ctx}
+      ctx={{ ...g.ctx, readingAtNight }}
+      readingChoice={choice}
       closeHref={date === g.today ? '/today' : `/day/${date}`}
       intro={<StepIntro icon={intro.icon} eyebrow={formatLongDate(date, locale)} title={intro.title} lines={[moon]} cta={intro.cta} />}
       {...(reading && {
         reading: { node: <DailyReadingCard personal={reading.personal} pending={reading.pending} />, pending: reading.personal.status !== 'ready' },
-        ritual: reading.ritualToday ? <RitualTodayCard ritual={reading.ritualToday} locale={locale} /> : undefined,
+        ritual: flow === 'DAY_MORNING' && reading.ritualToday ? <RitualTodayCard ritual={reading.ritualToday} locale={locale} /> : undefined,
         // A intenção sugerida pela leitura pessoal do dia aparece ao lado do passo da intenção.
         inspiration: { intention: reading.personal.status === 'ready' ? [reading.personal.data.intentionSuggestion] : [], areas: {} },
       })}

@@ -3,7 +3,7 @@
  * Na Fase 19 (Jornada) `unlocked` passa a dizer o que a pessoa já desbloqueou; aqui é sempre tudo.
  */
 export type SectionKey =
-  | 'reading' | 'intention' | 'morningBanish' | 'morningRitual' | 'sleep' | 'wakeMood'
+  | 'reading' | 'nightReading' | 'intention' | 'morningBanish' | 'morningRitual' | 'sleep' | 'wakeMood'
   | 'body' | 'nightBanish' | 'nightRitual' | 'gratitude' | 'mood' | 'reflection' | 'summary'
   | 'weekIntention' | 'weekProjects' | 'weekWeight' | 'weekReflection'
   | 'monthIntention' | 'monthProjects' | 'monthReflection'
@@ -14,6 +14,8 @@ export interface SectionContext {
   hasBodyPro: boolean;
   /** Fase 19; undefined = tudo desbloqueado. */
   unlocked?: Set<SectionKey>;
+  /** A leitura do dia ficou para a noite (escolha do dia): o fecho do dia começa por ela. */
+  readingAtNight?: boolean;
 }
 
 /** Dados de bem-estar (Fase 9): só com consentimento. */
@@ -21,6 +23,7 @@ const WELLBEING: SectionKey[] = ['sleep', 'wakeMood', 'mood', 'weekWeight'];
 
 export function isSectionAvailable(key: SectionKey, ctx: SectionContext): boolean {
   if (WELLBEING.includes(key) && !ctx.hasWellbeingConsent) return false;
+  if (key === 'nightReading' && !ctx.readingAtNight) return false;
   if (ctx.unlocked && !ctx.unlocked.has(key)) return false;
   return true;
 }

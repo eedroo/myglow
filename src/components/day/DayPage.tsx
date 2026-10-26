@@ -9,7 +9,8 @@ import { weekKey, weekStartOf } from '@/lib/weeks';
 import { getDailySky } from '@/lib/astro/sky';
 import { ensureNatalChart } from '@/lib/astro/ensureNatalChart';
 import { ZODIAC_ORDER } from '@/lib/astro/zodiac';
-import { getDailyEntry } from '@/lib/daily/queries';
+import { getDailyEntry, getReadingChoice } from '@/lib/daily/queries';
+import { DailyReadingGate } from '@/components/reading/DailyReadingGate';
 import { getDayPeriod } from '@/lib/daily/period';
 import { isAppLocale } from '@/i18n/locales';
 import { MOON_PHASE_ORDER } from '@/components/ui/MoonPhaseStrip';
@@ -95,7 +96,14 @@ export async function DayPage({ date }: { date: DateISO }) {
       />
       <DailySkyCard sky={sky} natal={natal} isToday={isToday} />
       <GuidedStartCard flow={guided.suggested} date={date} />
-      <DailyReadingCard personal={reading.personal} pending={reading.pending} />
+      {/* F18: hoje, a leitura do dia agora ou à noite (pergunta diária). */}
+      {isToday && reading.personal.status !== 'unavailable' ? (
+        <DailyReadingGate date={date} initialChoice={await getReadingChoice(userId, date)} isNight={getDayPeriod(new Date(), user.timezone) === 'night'}>
+          <DailyReadingCard personal={reading.personal} pending={reading.pending} />
+        </DailyReadingGate>
+      ) : (
+        <DailyReadingCard personal={reading.personal} pending={reading.pending} />
+      )}
       {reading.ritualToday && <RitualTodayCard ritual={reading.ritualToday} locale={appLocale} />}
       {shouldShowPrompt({
         firstDay: todayInTz(user.timezone, user.createdAt),

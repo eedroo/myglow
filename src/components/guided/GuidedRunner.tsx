@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import type { GuidedFlow, ProjectArea } from '@prisma/client';
 import { guidedCompleted, guidedStarted } from '@/actions/guided';
+import { setReadingChoice } from '@/actions/daily';
 import { buildFlow, firstIncompleteStep, isStepDone, routeSegment, type GuidedStep } from '@/lib/guided/flows';
 import type { SectionContext } from '@/lib/guided/sections';
 import type { MagicIconName } from '@/lib/icons';
@@ -48,6 +49,8 @@ interface RunnerProps {
   weightAverage?: { avgGrams: number; count: number } | null;
   /** O que a leitura pessoal e o céu do período sugerem para a intenção e cada área. */
   inspiration?: PeriodInspiration;
+  /** Manhã: a escolha do dia para a leitura (agora ou à noite); null = ainda por perguntar. */
+  readingChoice?: 'NOW' | 'NIGHT' | null;
 }
 
 const AREA_ICON: Record<ProjectArea, MagicIconName> = { MAGIC: 'sparkles', PERSONAL: 'heart', LEISURE: 'lotus', PROFESSIONAL: 'briefcase', STUDIES: 'book-open' };
@@ -64,7 +67,7 @@ const NEXT: Partial<Record<GuidedFlow, GuidedFlow>> = { DAY_MORNING: 'DAY_BODY',
 const THEME: Record<string, string> = { DAY_MORNING: 'morning', DAY_BODY: 'body', DAY_NIGHT: 'night' };
 const glowOf = (xp: XpResult) => xp.awards.reduce((n, a) => n + a.points, 0);
 
-function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, reading, ritual, weightAverage, inspiration, store, glow }: RunnerProps & { store: GuidedStore; glow: number }) {
+function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, reading, ritual, weightAverage, inspiration, readingChoice = null, store, glow }: RunnerProps & { store: GuidedStore; glow: number }) {
   const t = useTranslations('guided');
   const td = useTranslations('day');
   const tp = useTranslations('projects');
@@ -99,11 +102,16 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
         return (
           <StepReading
             title={t(`steps.${s.id}.title`)}
-            show={t('steps.reading.show')}
-            skip={t('steps.reading.skip')}
+            show={t('steps.reading.now')}
+            skip={t('steps.reading.night')}
             pending={!!reading?.pending}
             onSkip={goNext}
-            openByDefault={s.id === 'periodReading'}
+            openByDefault={s.id !== 'reading'}
+            {...(s.id === 'reading' && {
+              initialChoice: readingChoice,
+              onChoose: (c: 'NOW' | 'NIGHT') => void setReadingChoice(periodKey, c).catch(() => {}),
+              waiting: { text: t('steps.reading.waiting'), showNow: t('steps.reading.showNow') },
+            })}
           >
             {reading?.node}
           </StepReading>

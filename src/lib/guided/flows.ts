@@ -37,6 +37,7 @@ const MIDDLE: Record<GuidedFlow, GuidedStep[]> = {
   ],
   DAY_BODY: [step('body', 'bodyChecks', 'body')],
   DAY_NIGHT: [
+    step('nightReading', 'reading', 'nightReading'),
     step('nightBanish', 'banish', 'nightBanish', 'nightBanishName'),
     step('nightRitual', 'check', 'nightRitual', 'nightRitualDone'),
     step('gratitude', 'text', 'gratitude', 'gratitude'),

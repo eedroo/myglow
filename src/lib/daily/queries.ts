@@ -35,3 +35,9 @@ export async function getDailyEntry(userId: string, date: DateISO): Promise<Dail
   const row = await db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(date) } } });
   return toDailyEntryData(date, row);
 }
+
+/** F18: escolha do dia para a leitura (agora ou à noite); null se ainda não respondeu. */
+export async function getReadingChoice(userId: string, date: DateISO): Promise<'NOW' | 'NIGHT' | null> {
+  const row = await db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(date) } }, select: { readingChoice: true } });
+  return row?.readingChoice ?? null;
+}

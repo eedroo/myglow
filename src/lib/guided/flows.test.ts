@@ -13,6 +13,10 @@ describe('buildFlow', () => {
     expect(ids).not.toContain('wakeMood');
     expect(buildFlow('DAY_NIGHT', { hasWellbeingConsent: false, hasBodyPro: false }).map((s) => s.id)).not.toContain('mood');
   });
+  it('leitura do dia à noite: o fecho começa por ela só quando ficou para a noite', () => {
+    expect(buildFlow('DAY_NIGHT', all)[1]!.id).toBe('nightBanish');
+    expect(buildFlow('DAY_NIGHT', { ...all, readingAtNight: true })[1]!.id).toBe('nightReading');
+  });
   it('semana: 5 áreas opcionais', () => {
     const areas = buildFlow('WEEK_PLAN', all).filter((s) => s.section === 'weekProjects');
     expect(areas).toHaveLength(5);

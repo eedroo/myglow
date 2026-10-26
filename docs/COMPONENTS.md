@@ -605,7 +605,7 @@ Peso diário com média semanal, objectivo em linguagem neutra, recordes e evolu
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
 | `WeekWeightAverage` | client | `weight-card.css` | `mg-week-weight-avg` | Semana (body-pro com pesagens): média do peso diário só de leitura, nº de pesagens, diferença para a semana anterior e link para `/body/weight` |
-| `BodyNav` (alterado) | client | `body-nav.css` | — | 5 itens: Treinos · Exercícios · Sessões · Dia · Corpo |
+| `BodyNav` (alterado) | client | `body-nav.css` | — | 4 itens: Treinos · Sessões · Dia · Corpo (sem Exercícios: a biblioteca abre-se por "Os meus exercícios", pelos exercícios dos treinos e pelo aviso do mapa) |
 | `BodyDayView` | server | `day-metrics.css` | — | tab Dia: título (Hoje ou a data), `DayStrip`, `DayMetrics`, `SetDetails` e as sessões; sem treino "Dia de descanso" e "Começar treino" (só hoje) |
 | `DayStrip` | client | `day-strip.css` | `mg-day-strip`, `__day`, `--trained`, `--selected`, `--today` | 7 dias (domingo a sábado) com marcador de treino; tocar abre o dia; setas para a semana anterior e seguinte; botão do calendário |
 | `TrainingCalendar` | client | `train-cal.css` | `mg-train-cal`, `__month`, `__day--trained`, `--today` | folha (`dialog`) com os meses (do mais recente para trás), dias treinados preenchidos com `--body-accent`; tocar abre o dia |

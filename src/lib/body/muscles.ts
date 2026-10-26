@@ -1,5 +1,5 @@
 /**
- * Mapa muscular (F17). Puro. Vocabulário da free-exercise-db → músculos do `react-body-highlighter` (2.0.5)
+ * Mapa muscular (F17). Puro. Vocabulário da free-exercise-db → partes do mapa (`mapShapes.ts`)
  * e estado de recuperação: menos de 48 h, 48 a 72 h, mais de 72 h.
  */
 

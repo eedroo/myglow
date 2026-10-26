@@ -17,18 +17,71 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-3) var(--space-2) var(--space-2);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: radial-gradient(ellipse at 50% 35%, var(--body-accent-soft), transparent 70%), var(--body-surface);
   font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   color: var(--text-muted);
 }
 
-.mg-muscle-map__view .rbh-wrapper {
+.mg-muscle-map__view svg {
   width: 100%;
-  max-width: 180px;
+  max-width: 190px;
+  height: auto;
+  overflow: visible;
 }
 
-.mg-muscle-map__view polygon {
-  stroke: var(--bg-base);
-  stroke-width: 0.4;
+/* Cantos suaves: o contorno da mesma cor arredonda os polígonos */
+.mg-muscle-map__shape {
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+  transition: opacity 200ms var(--ease), stroke 200ms var(--ease);
+}
+
+.mg-muscle-map__shape--neutral { fill: var(--recovery-rested); stroke: var(--recovery-rested); opacity: 0.55; }
+.mg-muscle-map__shape--rested { stroke: var(--recovery-rested); }
+.mg-muscle-map__shape--mid { stroke: var(--recovery-mid); }
+.mg-muscle-map__shape--just { stroke: var(--recovery-just); }
+
+.mg-muscle-map__stop--rested-hi { stop-color: var(--recovery-rested); stop-opacity: 0.95; }
+.mg-muscle-map__stop--rested-lo { stop-color: var(--recovery-rested); stop-opacity: 0.7; }
+.mg-muscle-map__stop--mid-hi { stop-color: var(--recovery-mid); stop-opacity: 1; }
+.mg-muscle-map__stop--mid-lo { stop-color: var(--recovery-mid); stop-opacity: 0.75; }
+.mg-muscle-map__stop--just-hi { stop-color: var(--recovery-just); stop-opacity: 1; }
+.mg-muscle-map__stop--just-lo { stop-color: var(--recovery-just); stop-opacity: 0.8; }
+
+.mg-muscle-map__glow polygon {
+  fill: var(--recovery-just);
+  opacity: 0.55;
+}
+
+.mg-muscle-map__glow {
+  animation: mg-muscle-glow 2.8s ease-in-out infinite;
+}
+
+@keyframes mg-muscle-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.mg-muscle-map__muscle {
+  cursor: pointer;
+  outline: none;
+}
+
+.mg-muscle-map__muscle:hover .mg-muscle-map__shape,
+.mg-muscle-map__muscle:focus-visible .mg-muscle-map__shape,
+.mg-muscle-map__muscle--selected .mg-muscle-map__shape {
+  stroke: var(--text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-muscle-map__glow { animation: none; }
+  .mg-muscle-map__shape { transition: none; }
 }
 
 .mg-muscle-map__legend {

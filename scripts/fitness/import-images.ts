@@ -63,7 +63,11 @@ async function main() {
     }
   }
   save();
-  if (failed) console.warn(`[images] ${failed} falharam: correr de novo para tentar só esses.`);
+  if (failed) {
+    // Vermelho no workflow: com tudo a falhar (token, store privado) um passo verde escondia o problema.
+    console.error(`[images] ${failed} de ${todo.length} falharam: correr de novo para tentar só esses.`);
+    process.exit(1);
+  }
 }
 
 main().catch((err) => {

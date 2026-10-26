@@ -53,6 +53,25 @@ const source = {
   friends: [{ id: 'u2', name: 'Bia', since: at }],
   friendRequests: [{ direction: 'received', otherName: 'Caio', status: 'PENDING', createdAt: at, respondedAt: null }],
   blocks: [{ name: 'Dora', createdAt: at }],
+  fitness: {
+    prefs: { userId: 'u1', defaultRestSec: 90, restAlert: true, keepAwake: true, onboardedAt: at },
+    programs: [{
+      id: 'p1', userId: 'u1', name: 'PPL', description: null, kind: 'STRENGTH', order: 0, archivedAt: null, createdAt: at,
+      workouts: [{
+        id: 'w1', programId: 'p1', userId: 'u1', name: 'Push', notes: null, order: 0, archivedAt: null,
+        items: [{ id: 'i1', workoutId: 'w1', exerciseId: 'Barbell_Bench_Press', order: 0, targetSets: 3, targetRepsMin: 8, targetRepsMax: 12, targetSec: null, restSec: null, notes: null }],
+      }],
+    }],
+    sessions: [{
+      id: 's1', userId: 'u1', workoutId: 'w1', date: toDbDate('2026-10-01'), startedAt: at, endedAt: at, restEndsAt: null, restExerciseId: null,
+      clientHidden: false, extraExercises: [], notes: null,
+      sets: [{ id: 'x1', sessionId: 's1', userId: 'u1', exerciseId: 'Barbell_Bench_Press', order: 1, reps: 10, weightGrams: 62500, durationSec: null, completedAt: at, restSec: 90 }],
+    }],
+    customExercises: [{
+      id: 'custom_1', source: 'CUSTOM', ownerId: 'u1', names: { 'pt-PT': 'Remada' }, category: 'strength', measure: 'REPS_WEIGHT',
+      primaryMuscles: ['lats'], secondaryMuscles: [], equipment: null, level: null, instructions: null, images: [], defaultRestSec: null, archivedAt: null,
+    }],
+  },
   guideReports: [{
     id: 'g1', userId: 'u1', kind: 'WEEK', periodKey: '2026-10-18', locale: 'pt-PT', status: 'READY', payload: { opening: 'Olá' },
     model: 'm', promptVersion: 1, inputHash: 'h', inputTokens: 10, outputTokens: 5, regenerations: 0, generatedAt: at, readAt: null, rating: 1,
@@ -69,8 +88,14 @@ describe('buildExport', () => {
     expect(out.format).toBe('myglow-export-v1');
     for (const key of [
       'exportedAt', 'user', 'birthProfile', 'dailyEntries', 'weeks', 'months', 'years', 'projectIntentions', 'xpEvents',
-      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays', 'recapViews', 'guideReports', 'friends', 'friendRequests', 'blocks',
+      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays', 'recapViews', 'guideReports', 'friends', 'friendRequests', 'blocks', 'fitness',
     ]) expect(out, key).toHaveProperty(key);
+    // F16: treinos, sessões com séries (kg) e exercícios próprios.
+    expect(out.fitness.programs[0]!.workouts[0]!.items[0]).toMatchObject({ exerciseId: 'Barbell_Bench_Press', targetSets: 3 });
+    expect(out.fitness.sessions[0]).toMatchObject({ date: '2026-10-01', workoutId: 'w1' });
+    expect(out.fitness.sessions[0]!.sets[0]).toMatchObject({ reps: 10, weightGrams: 62500, weightKg: 62.5 });
+    expect(out.fitness.customExercises[0]).toMatchObject({ id: 'custom_1', names: { 'pt-PT': 'Remada' } });
+    expect(out.fitness.prefs).toMatchObject({ defaultRestSec: 90, keepAwake: true });
     // F12: plano e dias activos.
     expect(out.user).toMatchObject({ plan: 'PREMIUM', planSince: at.toISOString(), planExpiresAt: null, premiumInterestAt: at.toISOString() });
     expect(out.activeDays).toEqual(['2026-10-01', '2026-10-02']);

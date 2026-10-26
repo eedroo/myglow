@@ -14,10 +14,13 @@
     "postinstall": "prisma generate",
     "docs:icons": "vite-node --config vitest.config.ts scripts/icons-doc.ts",
     "content:check": "vite-node --config vitest.config.ts scripts/check-content.ts",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "vercel-build": "prisma generate && prisma migrate deploy && tsx prisma/seed-exercises.ts && next build",
     "test:e2e": "playwright test",
     "ai:seed": "tsx --conditions=react-server prisma/scripts/seed-ai.ts",
-    "ai:check": "tsx --conditions=react-server prisma/scripts/ai-check.ts"
+    "ai:check": "tsx --conditions=react-server prisma/scripts/ai-check.ts",
+    "seed:exercises": "tsx prisma/seed-exercises.ts",
+    "fitness:translate": "tsx scripts/fitness/translate.ts",
+    "fitness:images": "tsx scripts/fitness/import-images.ts"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
@@ -53,9 +56,11 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/web-push": "^3.6.4",
+    "@vercel/blob": "^0.27.3",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.35",
     "prisma": "^6.19.3",
+    "sharp": "^0.33.5",
     "tsx": "^4.23.15",
     "typescript": "^5.6.3",
     "vitest": "^3.2.7"

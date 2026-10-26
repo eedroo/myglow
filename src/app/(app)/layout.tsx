@@ -28,6 +28,8 @@ import { dueRecap, isWorthShowing } from '@/lib/recap/period';
 import { recapDaysTouched, recentRecapViews } from '@/lib/recap/server';
 import { hasWellbeingConsent } from '@/lib/account/consent';
 import { RecapAutoOpen } from '@/components/recap/RecapAutoOpen';
+import { getActiveSessionBrief } from '@/lib/fitness/queries';
+import { ActiveSessionPill } from '@/components/body/ActiveSessionPill';
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const session = await auth();
@@ -78,6 +80,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   // Sem esperar: nunca atrasa nem parte a página.
   if (glow) touchActivity(session.user.id, glow.timezone, glow.lastActiveAt);
 
+  // F16: sessão de treino em curso → pílula no Hoje para voltar a ela.
+  const bodySession = entitlements.features['body-pro'] ? await getActiveSessionBrief(session.user.id).catch(() => null) : null;
+
   return (
     <>
       <a href="#main" className="mg-visually-hidden">
@@ -116,6 +121,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
               {policyPending && <PolicyUpdateDialog askWellbeing={!glow?.wellbeingConsentAt} />}
               <WhatsNewDialog items={announcements} />
               {recapHref && <RecapAutoOpen href={recapHref} />}
+              {bodySession && <ActiveSessionPill startedAt={bodySession.startedAt} onlyOn="/today" />}
             </TourProvider>
           </EntitlementsProvider>
         </GlowProvider>

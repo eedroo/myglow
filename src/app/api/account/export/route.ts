@@ -37,6 +37,10 @@ export async function GET() {
       sentRequests: { select: { status: true, createdAt: true, respondedAt: true, to: { select: { name: true } } } },
       receivedRequests: { select: { status: true, createdAt: true, respondedAt: true, from: { select: { name: true } } } },
       blocks: { select: { createdAt: true, blocked: { select: { name: true } } } },
+      fitnessPrefs: true,
+      fitnessPrograms: { orderBy: { order: 'asc' }, include: { workouts: { orderBy: { order: 'asc' }, include: { items: { orderBy: { order: 'asc' } } } } } },
+      fitnessSessions: { orderBy: { startedAt: 'asc' }, include: { sets: { orderBy: { completedAt: 'asc' } } } },
+      customExercises: { orderBy: { id: 'asc' } },
     },
   });
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -67,6 +71,12 @@ export async function GET() {
       ...user.receivedRequests.map((r) => ({ direction: 'received' as const, otherName: r.from.name, status: r.status, createdAt: r.createdAt, respondedAt: r.respondedAt })),
     ],
     blocks: user.blocks.map((b) => ({ name: b.blocked.name, createdAt: b.createdAt })),
+    fitness: {
+      prefs: user.fitnessPrefs,
+      programs: user.fitnessPrograms,
+      sessions: user.fitnessSessions,
+      customExercises: user.customExercises,
+    },
   });
 
   return new NextResponse(JSON.stringify(data, null, 2), {

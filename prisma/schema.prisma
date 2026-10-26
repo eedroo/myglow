@@ -137,6 +137,8 @@ enum NotificationKind {
   // F15: amigos (periodKey = id do pedido + instante do envio)
   FRIEND_REQUEST
   FRIEND_ACCEPTED
+  // F16: fim do descanso numa sessão de treino (só push; periodKey = sessionId:restEndsAt)
+  REST_DONE
 }
 
 model User {
@@ -216,6 +218,11 @@ model User {
   friendshipsB     Friendship[]    @relation("b")
   blocks           UserBlock[]     @relation("blocker")
   blockedBy        UserBlock[]     @relation("blocked")
+  // F16: Foco no corpo (premium)
+  fitnessPrefs     FitnessPrefs?
+  customExercises  Exercise[]
+  fitnessPrograms  FitnessProgram[]
+  fitnessSessions  FitnessSession[]
 }
 
 enum FeedbackKind {
@@ -648,4 +655,137 @@ model UserBlock {
 
   @@id([blockerId, blockedId])
   @@index([blockedId])
+}
+
+// F16: Foco no corpo (treinos e sessões)
+enum ExerciseSource {
+  LIBRARY
+  CUSTOM
+}
+
+enum ExerciseMeasure {
+  REPS_WEIGHT // kg + reps
+  REPS // só reps (peso corporal)
+  DURATION // tempo
+}
+
+enum ProgramKind {
+  STRENGTH
+  STRETCH
+  MIXED
+}
+
+model Exercise {
+  id               String          @id // LIBRARY: id da free-exercise-db; CUSTOM: cuid
+  source           ExerciseSource
+  ownerId          String? // só CUSTOM
+  names            Json // { en, "pt-PT", "pt-BR" }
+  category         String
+  measure          ExerciseMeasure
+  primaryMuscles   String[]
+  secondaryMuscles String[]
+  equipment        String?
+  level            String?
+  instructions     Json? // { en: string[], "pt-PT"?: string[], "pt-BR"?: string[] }
+  images           String[] // URLs no Vercel Blob
+  defaultRestSec   Int?
+  archivedAt       DateTime?
+  owner            User?           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  workoutItems     WorkoutItem[]
+  sets             SessionSet[]
+
+  @@index([ownerId])
+}
+
+model FitnessPrefs {
+  userId         String    @id
+  defaultRestSec Int       @default(90)
+  restAlert      Boolean   @default(true) // aviso de fim de descanso
+  keepAwake      Boolean   @default(true) // manter o ecrã ligado durante o treino
+  onboardedAt    DateTime?
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model FitnessProgram {
+  id          String           @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  kind        ProgramKind      @default(STRENGTH)
+  order       Int
+  archivedAt  DateTime?
+  createdAt   DateTime         @default(now())
+  workouts    FitnessWorkout[]
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model FitnessWorkout {
+  id         String           @id @default(cuid())
+  programId  String
+  userId     String
+  name       String
+  notes      String?
+  order      Int
+  archivedAt DateTime?
+  items      WorkoutItem[]
+  sessions   FitnessSession[]
+  program    FitnessProgram   @relation(fields: [programId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model WorkoutItem {
+  id            String         @id @default(cuid())
+  workoutId     String
+  exerciseId    String
+  order         Int
+  targetSets    Int?
+  targetRepsMin Int?
+  targetRepsMax Int?
+  targetSec     Int? // exercícios DURATION
+  restSec       Int? // sobrepõe o descanso por defeito
+  notes         String?
+  workout       FitnessWorkout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise      Exercise       @relation(fields: [exerciseId], references: [id])
+
+  @@index([workoutId])
+}
+
+model FitnessSession {
+  id             String          @id @default(cuid())
+  userId         String
+  workoutId      String? // null = treino livre
+  date           DateTime        @db.Date // dia local do início
+  startedAt      DateTime
+  endedAt        DateTime?
+  restEndsAt     DateTime? // descanso em curso
+  restExerciseId String?
+  clientHidden   Boolean         @default(false) // app em segundo plano (para decidir o push)
+  extraExercises String[] // "+ Exercício" na sessão (não muda o treino guardado)
+  notes          String?
+  sets           SessionSet[]
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workout        FitnessWorkout? @relation(fields: [workoutId], references: [id], onDelete: SetNull)
+
+  @@index([userId, startedAt])
+}
+
+model SessionSet {
+  id          String         @id @default(cuid())
+  sessionId   String
+  userId      String
+  exerciseId  String
+  order       Int
+  reps        Int?
+  weightGrams Int?
+  durationSec Int?
+  completedAt DateTime
+  restSec     Int? // descanso usado depois desta série
+  session     FitnessSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  exercise    Exercise       @relation(fields: [exerciseId], references: [id])
+
+  @@index([userId, exerciseId, completedAt])
+  @@index([sessionId])
 }

@@ -287,6 +287,7 @@
       "notePlaceholder": "Uma palavra, um sonho, uma sensação…"
     },
     "body": {
+      "openWorkouts": "Abrir os treinos",
       "title": "Foco no meu corpo",
       "stretch": "Alongamento",
       "workout": "Treino",
@@ -775,6 +776,7 @@
   },
   "notifications": {
     "push": {
+      "restDone": {"title": "Descanso terminado", "body": "Bora para a próxima série de {exercise}.", "bodyGeneric": "Bora para a próxima série."},
       "friendRequest": {"title": "{name} quer ser teu amigo no MYGLOW", "body": "Vê o pedido e aceita se quiseres caminhar em conjunto."},
       "friendAccepted": {"title": "{name} aceitou o teu pedido", "body": "Agora acompanham a jornada um do outro."},
       "morning": {
@@ -1863,6 +1865,298 @@
       "handleTaken": "Este @ não está disponível.",
       "handleLength": "O @ tem de ter de 3 a 20 caracteres.",
       "handleChars": "Usa só letras minúsculas, números, ponto e sublinhado."
+    }
+  },
+  "fitness": {
+    "muscles": {
+      "abdominals": "Abdominais",
+      "abductors": "Abdutores",
+      "adductors": "Adutores",
+      "biceps": "Bíceps",
+      "calves": "Gémeos",
+      "chest": "Peito",
+      "forearms": "Antebraços",
+      "glutes": "Glúteos",
+      "hamstrings": "Isquiotibiais",
+      "lats": "Dorsais",
+      "lower back": "Lombar",
+      "middle back": "Meio das costas",
+      "neck": "Pescoço",
+      "quadriceps": "Quadríceps",
+      "shoulders": "Ombros",
+      "traps": "Trapézios",
+      "triceps": "Tríceps"
+    },
+    "equipment": {
+      "barbell": "Barra",
+      "dumbbell": "Halteres",
+      "other": "Outro",
+      "body only": "Peso do corpo",
+      "cable": "Cabo",
+      "machine": "Máquina",
+      "kettlebells": "Kettlebell",
+      "bands": "Bandas elásticas",
+      "medicine ball": "Bola medicinal",
+      "exercise ball": "Bola de exercício",
+      "foam roll": "Rolo de espuma",
+      "e-z curl bar": "Barra EZ",
+      "none": "Sem equipamento"
+    },
+    "categories": {
+      "strength": "Força",
+      "stretching": "Alongamento",
+      "plyometrics": "Pliometria",
+      "powerlifting": "Powerlifting",
+      "olympic weightlifting": "Halterofilismo olímpico",
+      "strongman": "Strongman",
+      "cardio": "Cardio"
+    },
+    "templates": {
+      "ppl": {
+        "name": "Push · Pull · Legs",
+        "description": "Três treinos: empurrar, puxar e pernas.",
+        "workouts": {
+          "push": "Push (peito, ombros, tríceps)",
+          "pull": "Pull (costas, bíceps)",
+          "legs": "Legs (pernas)"
+        }
+      },
+      "fullbody": {
+        "name": "Corpo inteiro A/B",
+        "description": "Dois treinos de corpo inteiro, alternados.",
+        "workouts": {
+          "a": "Corpo inteiro A",
+          "b": "Corpo inteiro B"
+        }
+      },
+      "upperlower": {
+        "name": "Superior / Inferior",
+        "description": "Quatro dias: dois de tronco, dois de pernas.",
+        "workouts": {
+          "upperA": "Superior A",
+          "lowerA": "Inferior A",
+          "upperB": "Superior B",
+          "lowerB": "Inferior B"
+        }
+      },
+      "stretch": {
+        "name": "Alongamento diário",
+        "description": "Dez alongamentos de 30 segundos.",
+        "workouts": {
+          "daily": "Alongamento diário"
+        }
+      }
+    },
+    "title": "Treinos",
+    "backToApp": "MYGLOW",
+    "moveUp": "Subir",
+    "moveDown": "Descer",
+    "nav": {
+      "label": "Foco no corpo",
+      "workouts": "Treinos",
+      "sessions": "Sessões",
+      "exercises": "Exercícios"
+    },
+    "home": {
+      "myExercises": "Os meus exercícios ({n})",
+      "myExercisesHint": "Cria os teus e encontra-os aqui",
+      "programs": "Programas",
+      "freeWorkout": "Treino livre"
+    },
+    "measures": {
+      "REPS_WEIGHT": "Peso e repetições",
+      "REPS": "Só repetições",
+      "DURATION": "Tempo"
+    },
+    "levels": {
+      "beginner": "Iniciante",
+      "intermediate": "Intermédio",
+      "expert": "Avançado"
+    },
+    "target": {
+      "sets": "{sets} × {what}",
+      "setsOnly": "{sets, plural, one {# série} other {# séries}}",
+      "seconds": "{n} s",
+      "rest": "descanso {n} s"
+    },
+    "welcome": {
+      "hello": "O teu corpo, no seu ritmo",
+      "helloText": "Programas, treinos e sessões com cronómetro e descanso. Os checks do Hoje ficam iguais e marcam-se sozinhos quando terminas uma sessão.",
+      "restTitle": "Quanto descansas entre séries?",
+      "seconds": "{n} s",
+      "restOther": "Outro valor (segundos)",
+      "restHint": "Podes mudar por exercício ou por treino.",
+      "alertTitle": "Aviso de fim de descanso",
+      "alertText": "Com a app aberta, toca e vibra. Com a app em segundo plano, chega uma notificação.",
+      "alertToggle": "Avisar quando o descanso acaba",
+      "startTitle": "Por onde começas?",
+      "fromScratch": "Do zero",
+      "fromScratchText": "Crio os meus programas e treinos",
+      "back": "Voltar",
+      "next": "Seguinte",
+      "finish": "Começar"
+    },
+    "programs": {
+      "new": "Novo programa",
+      "edit": "Editar programa",
+      "name": "Nome",
+      "description": "Descrição",
+      "kind": "Tipo",
+      "kinds": {
+        "STRENGTH": "Força",
+        "STRETCH": "Alongamentos",
+        "MIXED": "Misto"
+      },
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "archive": "Arquivar programa",
+      "archiveConfirm": "Arquivar \"{name}\"? As sessões feitas ficam no histórico.",
+      "fromTemplate": "Usar um modelo",
+      "empty": "Ainda não tens programas. Cria um ou usa um modelo.",
+      "workoutsCount": "{n, plural, =0 {sem treinos} one {# treino} other {# treinos}}"
+    },
+    "workouts": {
+      "new": "Novo treino",
+      "edit": "Editar treino",
+      "name": "Nome",
+      "notes": "Notas",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "archive": "Arquivar treino",
+      "archiveConfirm": "Arquivar \"{name}\"? As sessões feitas ficam no histórico.",
+      "empty": "Este programa ainda não tem treinos.",
+      "noItems": "Ainda sem exercícios. Acrescenta os primeiros.",
+      "exercisesCount": "{n, plural, =0 {sem exercícios} one {# exercício} other {# exercícios}}",
+      "addExercises": "+ Exercícios",
+      "add": "Acrescentar",
+      "start": "Começar treino",
+      "editTarget": "Editar alvo",
+      "remove": "Remover",
+      "targetSets": "Séries",
+      "targetSec": "Segundos",
+      "repsMin": "Reps mín.",
+      "repsMax": "Reps máx.",
+      "restOwn": "Descanso (s, vazio = por defeito)",
+      "lastDays": "{n, plural, =0 {feito hoje} one {há # dia} other {há # dias}}",
+      "lastWeeks": "{n, plural, one {há # semana} other {há # semanas}}"
+    },
+    "picker": {
+      "title": "Escolher exercícios",
+      "search": "Procurar (português ou inglês)",
+      "cancel": "Cancelar",
+      "none": "Nenhum exercício encontrado.",
+      "more": "Mais {n}. Afina a pesquisa."
+    },
+    "filters": {
+      "muscle": "Músculo",
+      "equipment": "Equipamento",
+      "category": "Categoria",
+      "anyMuscle": "Todos os músculos",
+      "anyEquipment": "Todo o equipamento",
+      "anyCategory": "Todas as categorias"
+    },
+    "exercises": {
+      "title": "Exercícios",
+      "tabAll": "Biblioteca",
+      "tabMine": "Os meus",
+      "search": "Procurar (português ou inglês)",
+      "none": "Nenhum exercício encontrado.",
+      "mineEmpty": "Ainda não criaste exercícios.",
+      "more": "Mostrar mais ({n})",
+      "addTo": "Adicionar a um treino",
+      "added": "Adicionado.",
+      "howTo": "Como se faz",
+      "imageAlt": "{name}, posição {n}",
+      "secondary": "{muscle} (secundário)"
+    },
+    "custom": {
+      "new": "+ Criar exercício",
+      "edit": "Editar exercício",
+      "name": "Nome",
+      "measure": "Como se regista",
+      "muscles": "Músculos (até 5)",
+      "equipment": "Equipamento",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "archive": "Arquivar",
+      "archiveConfirm": "Arquivar \"{name}\"? O histórico fica guardado."
+    },
+    "history": {
+      "title": "Histórico",
+      "empty": "Ainda não fizeste este exercício.",
+      "reps": "{n} reps",
+      "kg": "{kg} kg",
+      "seconds": "{n} s"
+    },
+    "session": {
+      "title": "Sessão",
+      "free": "Treino livre",
+      "finish": "Terminar",
+      "more": "Mais opções",
+      "finishConfirm": "Terminar a sessão?",
+      "discard": "Descartar sessão",
+      "discardConfirm": "Descartar esta sessão sem séries?",
+      "notes": "Notas da sessão",
+      "elapsed": "Tempo de treino {time}",
+      "pill": "Sessão em curso · {time}",
+      "pillLabel": "Voltar à sessão em curso, {time}",
+      "queued": "{n, plural, one {# série por enviar} other {# séries por enviar}}. Seguem quando voltar a rede.",
+      "offlineFinish": "Sem rede. Termina quando as séries estiverem enviadas.",
+      "emptyFree": "Treino livre: acrescenta o primeiro exercício.",
+      "addExercise": "+ Exercício",
+      "addExerciseConfirm": "Acrescentar",
+      "lastTime": "Última vez: {sets}",
+      "reps": "Reps",
+      "kg": "kg",
+      "seconds": "Segundos",
+      "repsShort": "{n} reps",
+      "kgShort": "{kg} kg",
+      "secondsShort": "{n} s",
+      "minus": "Menos {step} em {label}",
+      "plus": "Mais {step} em {label}",
+      "done": "Feita ✓",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "deleteSet": "Apagar série",
+      "editSet": "Editar série {n}",
+      "invalid": "Valor inválido."
+    },
+    "rest": {
+      "label": "Descanso",
+      "after": "Descanso depois de {name}",
+      "go": "Bora!",
+      "minus15": "−15 s",
+      "plus30": "+30 s",
+      "skip": "Saltar",
+      "close": "Fechar"
+    },
+    "sessions": {
+      "title": "Sessões",
+      "empty": "Ainda não terminaste nenhuma sessão.",
+      "free": "Treino livre",
+      "sets": "{n, plural, one {# série} other {# séries}}"
+    },
+    "summary": {
+      "title": "Resumo da sessão",
+      "well": "Sessão terminada. Bem feito!",
+      "duration": "Duração",
+      "exercises": "Exercícios",
+      "sets": "Séries",
+      "reps": "Reps",
+      "volume": "Volume",
+      "avgRest": "Descanso médio",
+      "kgValue": "{kg} kg",
+      "secondsShort": "{n} s"
+    },
+    "errors": {
+      "name": "Escreve um nome.",
+      "set": "Série inválida.",
+      "noSession": "Não há nenhuma sessão em curso.",
+      "hasSets": "Esta sessão já tem séries: termina-a em vez de a descartar.",
+      "missing-reps": "Indica as repetições.",
+      "missing-weight": "Indica o peso.",
+      "missing-duration": "Indica o tempo.",
+      "out-of-range": "Esse valor está fora do intervalo."
     }
   }
 }

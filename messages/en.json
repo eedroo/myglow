@@ -287,6 +287,7 @@
       "notePlaceholder": "A word, a dream, a feeling…"
     },
     "body": {
+      "openWorkouts": "Open workouts",
       "title": "Focus on my body",
       "stretch": "Stretching",
       "workout": "Workout",
@@ -775,6 +776,7 @@
   },
   "notifications": {
     "push": {
+      "restDone": {"title": "Rest's over", "body": "Time for your next set of {exercise}.", "bodyGeneric": "Time for your next set."},
       "friendRequest": {"title": "{name} wants to be your friend on MYGLOW", "body": "See the request and accept if you'd like to walk together."},
       "friendAccepted": {"title": "{name} accepted your request", "body": "Now you can follow each other's journey."},
       "morning": {
@@ -1863,6 +1865,298 @@
       "handleTaken": "This @ isn't available.",
       "handleLength": "Your @ needs 3 to 20 characters.",
       "handleChars": "Use only lowercase letters, numbers, dots and underscores."
+    }
+  },
+  "fitness": {
+    "muscles": {
+      "abdominals": "Abs",
+      "abductors": "Abductors",
+      "adductors": "Adductors",
+      "biceps": "Biceps",
+      "calves": "Calves",
+      "chest": "Chest",
+      "forearms": "Forearms",
+      "glutes": "Glutes",
+      "hamstrings": "Hamstrings",
+      "lats": "Lats",
+      "lower back": "Lower back",
+      "middle back": "Middle back",
+      "neck": "Neck",
+      "quadriceps": "Quads",
+      "shoulders": "Shoulders",
+      "traps": "Traps",
+      "triceps": "Triceps"
+    },
+    "equipment": {
+      "barbell": "Barbell",
+      "dumbbell": "Dumbbells",
+      "other": "Other",
+      "body only": "Bodyweight",
+      "cable": "Cable",
+      "machine": "Machine",
+      "kettlebells": "Kettlebells",
+      "bands": "Bands",
+      "medicine ball": "Medicine ball",
+      "exercise ball": "Exercise ball",
+      "foam roll": "Foam roller",
+      "e-z curl bar": "EZ bar",
+      "none": "No equipment"
+    },
+    "categories": {
+      "strength": "Strength",
+      "stretching": "Stretching",
+      "plyometrics": "Plyometrics",
+      "powerlifting": "Powerlifting",
+      "olympic weightlifting": "Olympic weightlifting",
+      "strongman": "Strongman",
+      "cardio": "Cardio"
+    },
+    "templates": {
+      "ppl": {
+        "name": "Push · Pull · Legs",
+        "description": "Three workouts: push, pull and legs.",
+        "workouts": {
+          "push": "Push (chest, shoulders, triceps)",
+          "pull": "Pull (back, biceps)",
+          "legs": "Legs"
+        }
+      },
+      "fullbody": {
+        "name": "Full body A/B",
+        "description": "Two alternating full-body workouts.",
+        "workouts": {
+          "a": "Full body A",
+          "b": "Full body B"
+        }
+      },
+      "upperlower": {
+        "name": "Upper / Lower",
+        "description": "Four days: two upper, two lower.",
+        "workouts": {
+          "upperA": "Upper A",
+          "lowerA": "Lower A",
+          "upperB": "Upper B",
+          "lowerB": "Lower B"
+        }
+      },
+      "stretch": {
+        "name": "Daily stretch",
+        "description": "Ten 30-second stretches.",
+        "workouts": {
+          "daily": "Daily stretch"
+        }
+      }
+    },
+    "title": "Workouts",
+    "backToApp": "MYGLOW",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "nav": {
+      "label": "Body focus",
+      "workouts": "Workouts",
+      "sessions": "Sessions",
+      "exercises": "Exercises"
+    },
+    "home": {
+      "myExercises": "My exercises ({n})",
+      "myExercisesHint": "Create your own and find them here",
+      "programs": "Programs",
+      "freeWorkout": "Free workout"
+    },
+    "measures": {
+      "REPS_WEIGHT": "Weight and reps",
+      "REPS": "Reps only",
+      "DURATION": "Time"
+    },
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "expert": "Advanced"
+    },
+    "target": {
+      "sets": "{sets} × {what}",
+      "setsOnly": "{sets, plural, one {# set} other {# sets}}",
+      "seconds": "{n}s",
+      "rest": "rest {n}s"
+    },
+    "welcome": {
+      "hello": "Your body, at its own pace",
+      "helloText": "Programs, workouts and sessions with a timer and rest. The checks on Today stay the same and tick themselves when you finish a session.",
+      "restTitle": "How long do you rest between sets?",
+      "seconds": "{n}s",
+      "restOther": "Another value (seconds)",
+      "restHint": "You can change it per exercise or per workout.",
+      "alertTitle": "Rest's over alert",
+      "alertText": "With the app open, it beeps and vibrates. With the app in the background, you get a notification.",
+      "alertToggle": "Let me know when rest is over",
+      "startTitle": "Where do you want to start?",
+      "fromScratch": "From scratch",
+      "fromScratchText": "I'll build my own programs and workouts",
+      "back": "Back",
+      "next": "Next",
+      "finish": "Let's go"
+    },
+    "programs": {
+      "new": "New program",
+      "edit": "Edit program",
+      "name": "Name",
+      "description": "Description",
+      "kind": "Type",
+      "kinds": {
+        "STRENGTH": "Strength",
+        "STRETCH": "Stretching",
+        "MIXED": "Mixed"
+      },
+      "save": "Save",
+      "cancel": "Cancel",
+      "archive": "Archive program",
+      "archiveConfirm": "Archive \"{name}\"? Finished sessions stay in your history.",
+      "fromTemplate": "Use a template",
+      "empty": "No programs yet. Create one or use a template.",
+      "workoutsCount": "{n, plural, =0 {no workouts} one {# workout} other {# workouts}}"
+    },
+    "workouts": {
+      "new": "New workout",
+      "edit": "Edit workout",
+      "name": "Name",
+      "notes": "Notes",
+      "save": "Save",
+      "cancel": "Cancel",
+      "archive": "Archive workout",
+      "archiveConfirm": "Archive \"{name}\"? Finished sessions stay in your history.",
+      "empty": "This program has no workouts yet.",
+      "noItems": "No exercises yet. Add the first ones.",
+      "exercisesCount": "{n, plural, =0 {no exercises} one {# exercise} other {# exercises}}",
+      "addExercises": "+ Exercises",
+      "add": "Add",
+      "start": "Start workout",
+      "editTarget": "Edit target",
+      "remove": "Remove",
+      "targetSets": "Sets",
+      "targetSec": "Seconds",
+      "repsMin": "Min reps",
+      "repsMax": "Max reps",
+      "restOwn": "Rest (s, empty = default)",
+      "lastDays": "{n, plural, =0 {done today} one {# day ago} other {# days ago}}",
+      "lastWeeks": "{n, plural, one {# week ago} other {# weeks ago}}"
+    },
+    "picker": {
+      "title": "Choose exercises",
+      "search": "Search",
+      "cancel": "Cancel",
+      "none": "No exercises found.",
+      "more": "{n} more. Narrow your search."
+    },
+    "filters": {
+      "muscle": "Muscle",
+      "equipment": "Equipment",
+      "category": "Category",
+      "anyMuscle": "All muscles",
+      "anyEquipment": "All equipment",
+      "anyCategory": "All categories"
+    },
+    "exercises": {
+      "title": "Exercises",
+      "tabAll": "Library",
+      "tabMine": "Mine",
+      "search": "Search",
+      "none": "No exercises found.",
+      "mineEmpty": "You haven't created any exercises yet.",
+      "more": "Show more ({n})",
+      "addTo": "Add to a workout",
+      "added": "Added.",
+      "howTo": "How to do it",
+      "imageAlt": "{name}, position {n}",
+      "secondary": "{muscle} (secondary)"
+    },
+    "custom": {
+      "new": "+ Create exercise",
+      "edit": "Edit exercise",
+      "name": "Name",
+      "measure": "How it's logged",
+      "muscles": "Muscles (up to 5)",
+      "equipment": "Equipment",
+      "save": "Save",
+      "cancel": "Cancel",
+      "archive": "Archive",
+      "archiveConfirm": "Archive \"{name}\"? Your history is kept."
+    },
+    "history": {
+      "title": "History",
+      "empty": "You haven't done this exercise yet.",
+      "reps": "{n} reps",
+      "kg": "{kg} kg",
+      "seconds": "{n}s"
+    },
+    "session": {
+      "title": "Session",
+      "free": "Free workout",
+      "finish": "Finish",
+      "more": "More options",
+      "finishConfirm": "Finish this session?",
+      "discard": "Discard session",
+      "discardConfirm": "Discard this session with no sets?",
+      "notes": "Session notes",
+      "elapsed": "Workout time {time}",
+      "pill": "Session in progress · {time}",
+      "pillLabel": "Back to the session in progress, {time}",
+      "queued": "{n, plural, one {# set waiting to send} other {# sets waiting to send}}. They'll go when you're back online.",
+      "offlineFinish": "You're offline. Finish once your sets have been sent.",
+      "emptyFree": "Free workout: add your first exercise.",
+      "addExercise": "+ Exercise",
+      "addExerciseConfirm": "Add",
+      "lastTime": "Last time: {sets}",
+      "reps": "Reps",
+      "kg": "kg",
+      "seconds": "Seconds",
+      "repsShort": "{n} reps",
+      "kgShort": "{kg} kg",
+      "secondsShort": "{n}s",
+      "minus": "{step} less {label}",
+      "plus": "{step} more {label}",
+      "done": "Done ✓",
+      "save": "Save",
+      "cancel": "Cancel",
+      "deleteSet": "Delete set",
+      "editSet": "Edit set {n}",
+      "invalid": "Invalid value."
+    },
+    "rest": {
+      "label": "Rest",
+      "after": "Rest after {name}",
+      "go": "Go!",
+      "minus15": "−15s",
+      "plus30": "+30s",
+      "skip": "Skip",
+      "close": "Close"
+    },
+    "sessions": {
+      "title": "Sessions",
+      "empty": "You haven't finished a session yet.",
+      "free": "Free workout",
+      "sets": "{n, plural, one {# set} other {# sets}}"
+    },
+    "summary": {
+      "title": "Session summary",
+      "well": "Session done. Nice work!",
+      "duration": "Duration",
+      "exercises": "Exercises",
+      "sets": "Sets",
+      "reps": "Reps",
+      "volume": "Volume",
+      "avgRest": "Average rest",
+      "kgValue": "{kg} kg",
+      "secondsShort": "{n}s"
+    },
+    "errors": {
+      "name": "Enter a name.",
+      "set": "Invalid set.",
+      "noSession": "There's no session in progress.",
+      "hasSets": "This session already has sets: finish it instead of discarding.",
+      "missing-reps": "Enter the reps.",
+      "missing-weight": "Enter the weight.",
+      "missing-duration": "Enter the time.",
+      "out-of-range": "That value is out of range."
     }
   }
 }

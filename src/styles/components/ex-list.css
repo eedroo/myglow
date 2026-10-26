@@ -1,0 +1,116 @@
+/* ExerciseList, ExerciseRow, ExerciseFilters, CustomExerciseForm (F16) */
+
+.mg-ex-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-ex-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 64px;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-ex-row:hover {
+  background: var(--glass-bg);
+}
+
+.mg-ex-row:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-ex-row__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mg-ex-row__name {
+  font-weight: var(--weight-medium);
+}
+
+.mg-ex-row__meta {
+  overflow: hidden;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mg-ex-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.mg-ex-filters select {
+  flex: 1 1 120px;
+  min-height: 44px;
+}
+
+.mg-ex-tabs {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.mg-ex-tabs__tab {
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  color: var(--text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.mg-ex-tabs__tab[aria-selected='true'] {
+  border-color: var(--body-accent);
+  background: var(--body-accent-soft);
+  color: var(--text-primary);
+}
+
+.mg-ex-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--body-surface);
+}
+
+.mg-ex-form__muscles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.mg-chip-toggle {
+  min-height: 40px;
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.mg-chip-toggle[aria-pressed='true'] {
+  border-color: var(--body-accent);
+  background: var(--body-accent-soft);
+  color: var(--text-primary);
+}

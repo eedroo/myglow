@@ -8,6 +8,7 @@ import { notificationsDispatch } from '@/inngest/functions/notificationsDispatch
 import { guideDispatch } from '@/inngest/functions/guideDispatch';
 import { guideGenerate } from '@/inngest/functions/guideGenerate';
 import { friendRequestsExpire } from '@/inngest/functions/friendRequestsExpire';
+import { fitnessRestAlert } from '@/inngest/functions/fitnessRestAlert';
 
 /** Endpoint do Inngest (assinado com INNGEST_SIGNING_KEY em produção). */
 export const maxDuration = 60;
@@ -15,5 +16,5 @@ export const maxDuration = 60;
 export const { GET, POST, PUT } = serve({
   client: inngest,
   // O horóscopo diário e a energia semanal por signo deixaram de ser gerados (só o mês tem leitura por signo).
-  functions: [signMonthly, userDispatch, generateSign, generateUser, notificationsDispatch, guideDispatch, guideGenerate, friendRequestsExpire],
+  functions: [signMonthly, userDispatch, generateSign, generateUser, notificationsDispatch, guideDispatch, guideGenerate, friendRequestsExpire, fitnessRestAlert],
 });

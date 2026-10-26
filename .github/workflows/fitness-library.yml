@@ -1,0 +1,54 @@
+# Biblioteca de exercícios (F16): traduz os nomes e as instruções (pt-PT, pt-BR) e envia as imagens para o
+# Vercel Blob. Corre à mão (Actions → fitness-library → Run workflow, no ramo certo) e faz commit dos JSON
+# gerados nesse ramo, para revisão. Pode correr várias vezes: o que já existe é saltado.
+# Segredos: OPENAI_API_KEY, OPENAI_MODEL_RICH, OPENAI_BASE_URL (Gemini) e BLOB_READ_WRITE_TOKEN.
+name: fitness-library
+
+on:
+  workflow_dispatch:
+    inputs:
+      step:
+        description: 'O que correr'
+        type: choice
+        options: [all, translate, images]
+        default: all
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fitness-library-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  library:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Traduzir (pt-PT e pt-BR)
+        if: inputs.step != 'images'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL_RICH: ${{ secrets.OPENAI_MODEL_RICH }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+        run: npm run fitness:translate
+      - name: Imagens → Vercel Blob
+        if: inputs.step != 'translate'
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: npm run fitness:images
+      - name: Commit dos ficheiros gerados
+        if: always()
+        run: |
+          git config user.name "myglow-bot"
+          git config user.email "myglow-bot@users.noreply.github.com"
+          git add content/exercises/images.json content/exercises/i18n
+          if git diff --cached --quiet; then echo "Nada de novo."; exit 0; fi
+          git commit -m "chore(corpo): biblioteca de exercícios (traduções e imagens)"
+          git push

@@ -136,6 +136,14 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - Link de amigo conta como convite no beta.
 - Avatares: esfera de luz com as cores do Sol (centro), da Lua (meio) e do Ascendente (borda), dentro do anel do nível; sem fotografias. Os amigos só vêem as cores se a pessoa partilha o Sol, a Lua e o Ascendente (as cores revelam os signos); senão, esfera neutra dourada com as iniciais. A página pública do convite usa sempre a neutra.
 
+## Foco no corpo (Fase 16)
+- **Acesso:** Foco no corpo premium (`body-pro`), em grupo de rotas próprio (`/body`) com navegação própria. Entra-se pelo título do `BodyFocusBar` no Hoje, cujos checks não mudam.
+- **Biblioteca:** free-exercise-db (Unlicense) importada para a DB, com imagens no Vercel Blob e nomes traduzidos e revistos.
+- **Estrutura:** Programa → Treino → Item. As séries ficam em `SessionSet`, ligadas ao exercício (histórico por data).
+- **Sessão:** uma activa de cada vez; tempos sempre a partir de timestamps; descanso por item, depois por exercício, depois pela preferência.
+- **Aviso de fim de descanso:** push só com a app em segundo plano.
+- **Diário:** terminar a sessão marca os checks do diário (nunca desmarca).
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

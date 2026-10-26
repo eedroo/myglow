@@ -232,7 +232,7 @@ Mobile: coluna única pela ordem abaixo. ≥ 768 px: grelha de 2 colunas que esp
 | `IntentionCard` | client | `day.css` | `mg-intention`, `__head` | `MagicIcon sparkles` + "Intenção do dia" + `LinedTextArea` (3); F6: `suggestion?` → placeholder + botão "Usar sugestão" (`__use`) |
 | `MorningSection` | client | `period.css` | `mg-period`, `--morning`, `--current` | `SectionHeader(sun)` + banimento (`CheckTile withText`, tea-cup; F6: placeholder = `banishSuggestion`) + ritual (lotus) + sono (bed, "{h}h de sono") |
 | `WakeMoodCard` | client | `day.css` | `mg-wake` | "Como me senti ao acordar?" + `MoodScale` + `TextInput` de nota |
-| `BodyFocusBar` | client | `body-bar.css` | `mg-body-bar`, `__label`, `__chips`, `--current` | "Foco no meu corpo" + 3 × `CheckChip` (stretch, dumbbell, water-drop) |
+| `BodyFocusBar` | client | `body-bar.css` | `mg-body-bar`, `__label`, `__chips`, `--current` | "Foco no meu corpo" + 3 × `CheckChip` (stretch, dumbbell, water-drop); com `body-pro` o título (`__link`) abre `/body` (F16) |
 | `NightSection` | client | `period.css` | `mg-period`, `--night`, `--current` | `SectionHeader(moon-crescent)` + banimento (feather) + ritual (crystal-ball) |
 | `GratitudeMoodCard` | client | `day.css` | `mg-gratitude`, `__block` | gratidão (heart + `LinedTextArea` 3) + humor (thermometer + `MoodScale`) |
 | `ReflectionCard` | client | `reflection.css` | `mg-reflection`, `__body`, `__head`, `__subtitle`, `__crystal` | moon-stars + "Reflexão final" + `LinedTextArea` 3 + cristal `xl` (oculto < 480 px); F6: `hint?` = `reflectionQuestion` em vez do subtítulo fixo |
@@ -556,3 +556,44 @@ Amizades só mútuas (pedido e aceitação), dentro do Perfil (sem aba nova). Ad
 | `InviteRequestButton` | client | `invite-landing.css` | — | botão "Pedir amizade" da página do convite → `sendFriendRequestByCode` |
 | `FriendsCard` | server | `friends.css` | `mg-friends-card`, `__avatars`, `__dot` | no `/profile`: número de amigos, até 5 avatares sobrepostos e ponto dourado com pedidos por responder; link para `/friends` |
 | `FriendSettings` | client | `friends.css` | `mg-friend-settings` | definições, secção Amigos: partilhar Sol/Lua/Asc (desligado por defeito), avisos de amigos, bloqueados com "Desbloquear" |
+
+### Foco no corpo — F16 (`src/components/body/`, lógica em `src/lib/fitness/`, grupo `(body)`, rotas `/body/*`)
+
+Módulo premium (`body-pro`) com navegação própria, inspirado no Setgraph: biblioteca de exercícios (free-exercise-db + próprios), Programa → Treino → Item, sessão com cronómetro e descanso, histórico por exercício. Sem `TopBar` nem `BottomNav` da app. Tempos sempre a partir de timestamps gravados (`startedAt`, `restEndsAt`). Acento próprio: `--body-accent`, `--body-accent-soft`, `--body-surface`, `--body-timer`; cores fixas por métrica (`--metric-reps`, `--metric-kg`, `--metric-volume`, `--metric-time`), sem significado de bom ou mau. Números grandes; alvos de toque ≥ 48 px.
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `BodyShell` | server | `body-shell.css` | `mg-body-shell`, `__main` | layout do grupo `(body)`: fundo, conteúdo, `ActiveSessionPill` e `BodyNav`; entrada com fade e brilho |
+| `BodyHeader` | server | `body-shell.css` | `mg-body-header`, `__back`, `__title`, `__actions` | "← MYGLOW" (ou o voltar da secção), título e acções |
+| `BodyNav` | client | `body-nav.css` | `mg-body-nav`, `__item`, `--active` | Treinos · Sessões · Exercícios |
+| `useNow` / `formatClock` | client (hook) | — | — | hora actual a cada segundo (e ao voltar à app); `formatClock` ("1:02:05") vive em `src/lib/fitness/session.ts` (usado também nos componentes servidor) |
+| `ActiveSessionPill` | client | `session-pill.css` | `mg-session-pill` | "Sessão em curso · 00:32:10" acima da `BodyNav` e no Hoje acima da `BottomNav`; toca para voltar (escondida no ecrã da sessão) |
+| `BodyWelcome` | client | `body-welcome.css` | `mg-body-welcome`, `__step`, `__options`, `__option--active` | onboarding em 4 passos: boas-vindas, descanso (60 · 90 · 120 · 180 · outro), aviso de fim de descanso (pede notificações), modelo ou do zero |
+| `ProgramList` / `ProgramRow` | server | `program.css` | `mg-program-list`, `mg-program-row` | programas: nome, descrição curta, nº de treinos |
+| `ProgramForm` | client | `program.css` | `mg-program-form` | criar ou editar programa (nome, descrição, tipo) e "Usar um modelo"; arquivar |
+| `WorkoutList` / `WorkoutRow` | client (reordenação) | `program.css` | `mg-workout-list`, `mg-workout-row` | treinos do programa: nome, notas curtas, nº de exercícios |
+| `WorkoutForm` | client | `workout.css` | `mg-workout-form` | criar ou editar treino (nome, notas); arquivar |
+| `ReorderButtons` | client | `workout.css` | `mg-reorder` | subir e descer (programas, treinos e itens) |
+| `WorkoutItemRow` | client | `workout.css` | `mg-workout-item` | exercício com alvo ("3 × 8–12 · descanso 90 s"), "última vez há 3 sem."; editar (abre `WorkoutItemForm`), remover, reordenar |
+| `WorkoutItemForm` | client | `workout.css` | `mg-workout-item-form` | séries, reps mín. e máx. (ou segundos), descanso próprio |
+| `WorkoutItems` | client | `workout.css` | `mg-workout-items` | lista de `WorkoutItemRow` e "+ Exercícios" (abre o `ExercisePicker`) |
+| `ExerciseThumb` | server | `workout.css` | `mg-ex-row__thumb` (ou a classe passada) | miniatura WebP (ou haltere quando não há imagem) |
+| `StartSessionButton` | client | `workout.css` | — | "Começar treino" (ou "Treino livre"); com sessão activa volta a ela |
+| `ExercisePicker` | client | `ex-picker.css` | `mg-ex-picker`, `__search`, `__list`, `__item--selected`, `__footer` | folha (`dialog`) com pesquisa e filtros, selecção múltipla; confirma para o treino ou para a sessão |
+| `ExerciseList` / `ExerciseRow` | client | `ex-list.css` | `mg-ex-list`, `mg-ex-row` | biblioteca e os meus, com miniatura, músculos e equipamento; separador "Os meus" |
+| `ExerciseFilters` | client | `ex-list.css` | `mg-ex-filters` | músculo, equipamento, categoria |
+| `CustomExerciseForm` | client | `ex-list.css` | `mg-ex-form` | exercício próprio: nome, como se regista, músculos, equipamento; arquivar |
+| `ExerciseDetail` | server | `ex-detail.css` | `mg-ex-detail` | cabeçalho com músculos e equipamento; histórico; como se faz; "Adicionar a um treino" |
+| `ExerciseHistory` | server | `ex-detail.css` | `mg-ex-history`, `__group`, `__row` | por data: hora, descanso antes (+4:02), reps e kg |
+| `ExerciseHowTo` | server | `ex-detail.css` | `mg-ex-howto`, `__images` | imagens e instruções na língua da pessoa |
+| `AddToWorkout` | client | `ex-detail.css` | `mg-add-to-workout` | escolhe o treino e acrescenta o exercício |
+| `SessionScreen` | client | `session.css` | `mg-session`, `__top`, `__list` | sessão activa: nome, cronómetro total, Terminar e ⋯ (notas, descartar), cartões dos exercícios, "+ Exercício", descanso; fila de gravação sem rede; wake lock; `visibilitychange` → `setClientHidden` |
+| `SessionTimer` | client | `session.css` | `mg-session-timer` | cronómetro total grande a partir de `startedAt` |
+| `SessionExerciseCard` | client | `session.css` | `mg-session-ex`, `__target`, `__last` | nome, alvo, "Última vez: 60 kg × 10, 10, 9", séries feitas e a próxima |
+| `SetRow` | client | `session.css` | `mg-set-row`, `__n`, `__reps`, `__kg`, `__time` | série feita (toque para editar ou apagar) |
+| `SetInputRow` | client | `session.css` | `mg-set-input` | próxima série pré-preenchida (`prefillSet`) com steppers e "Feita ✓" |
+| `NumberStepper` | client | `session.css` | `mg-stepper`, `__btn`, `__value` | − / valor (teclado numérico ao tocar) / + |
+| `sessionQueue` | client (módulo) | — | — | fila de séries sem rede no dispositivo (id do cliente e hora real), reenviada ao voltar a rede |
+| `RestTimer` | client | `rest.css` | `mg-rest`, `__ring`, `__count`, `--done` | faixa fixa: contagem decrescente grande, anel, −15 s, +30 s, Saltar; a 0 "Bora!", som curto e vibração (pisca sem `prefers-reduced-motion`) |
+| `SessionSummary` | server | `session-summary.css` | `mg-session-summary`, `__stats`, `__ex` | duração, exercícios, séries, reps, volume, descanso médio; lista por exercício; entrada animada ao terminar |
+| `SessionList` / `SessionRow` | server | `session-summary.css` | `mg-session-list`, `mg-session-row` | sessões por mês: treino, duração, data |

@@ -48,6 +48,8 @@ export interface NotificationContext {
   recapUrl?: { week?: string; month?: string };
   /** F15: primeiro nome de quem pediu ou aceitou a amizade. */
   friendName?: string;
+  /** F16: exercício da próxima série (aviso de fim de descanso). */
+  exerciseName?: string;
 }
 
 const clip = (s: string, max: number) => (s.length <= max ? s : `${s.slice(0, max - 1).trimEnd()}…`);
@@ -208,6 +210,14 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       title = t('notifications.push.friendAccepted.title', { name: ctx.friendName ?? '' });
       body = t('notifications.push.friendAccepted.body');
       url = '/friends';
+      break;
+    // F16: fim do descanso (só push, nunca na caixa de avisos).
+    case 'REST_DONE':
+      title = t('notifications.push.restDone.title');
+      body = ctx.exerciseName
+        ? t('notifications.push.restDone.body', { exercise: ctx.exerciseName })
+        : t('notifications.push.restDone.bodyGeneric');
+      url = '/body/session';
       break;
   }
   return { title: clip(title, MAX_TITLE), body: clip(body, MAX_BODY), url };

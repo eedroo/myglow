@@ -1,0 +1,116 @@
+/* WorkoutRow, WorkoutForm, WorkoutItemRow, WorkoutItemForm, ReorderButtons (F16) */
+
+.mg-workout-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-workout-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+}
+
+.mg-workout-item__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mg-workout-item__thumb,
+.mg-ex-row__thumb {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--body-accent-soft);
+  object-fit: cover;
+}
+
+.mg-workout-item__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mg-workout-item__name {
+  color: var(--text-primary);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+
+.mg-workout-item__target,
+.mg-workout-item__last {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-workout-item__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.mg-workout-item-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.mg-workout-item-form label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-reorder {
+  display: inline-flex;
+  gap: var(--space-1);
+}
+
+.mg-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.mg-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.mg-icon-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-body-cta {
+  position: sticky;
+  bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom) + var(--space-3));
+  z-index: var(--z-content);
+}
+
+.mg-body-cta .mg-btn {
+  min-height: 56px;
+  font-size: var(--text-lg);
+}

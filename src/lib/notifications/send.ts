@@ -30,7 +30,8 @@ export interface PushPayload extends NotificationContent {
 }
 
 /** Envia a todos os dispositivos do utilizador; apaga subscrições expiradas (404/410). Devolve quantos receberam. */
-export async function pushToUser(userId: string, payload: PushPayload): Promise<number> {
+/** `ttl` em segundos (F16: o aviso de fim de descanso só vale 60 s). */
+export async function pushToUser(userId: string, payload: PushPayload, opts: { ttl?: number } = {}): Promise<number> {
   if (!hasPush()) return 0;
   const subs = await db.pushSubscription.findMany({ where: { userId } });
   if (!subs.length) return 0;
@@ -41,7 +42,7 @@ export async function pushToUser(userId: string, payload: PushPayload): Promise<
     subs.map(async (s) => {
       try {
         await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, body, {
-          TTL: TTL_SECONDS,
+          TTL: opts.ttl ?? TTL_SECONDS,
         });
         return true;
       } catch (err) {

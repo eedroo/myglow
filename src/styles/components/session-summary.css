@@ -1,0 +1,109 @@
+/* SessionSummary, SessionList, SessionRow (F16) */
+
+.mg-session-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mg-session-summary--fresh {
+  animation: mg-summary-in 600ms var(--ease);
+}
+
+.mg-session-summary__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-session-summary__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--body-surface);
+  text-align: center;
+}
+
+.mg-session-summary__value {
+  font-size: var(--text-2xl);
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-session-summary__label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--text-muted);
+}
+
+.mg-session-summary__ex {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+}
+
+.mg-session-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-session-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 60px;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-session-row__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.mg-session-row__name {
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-session-row__meta {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-session-row__time {
+  font-variant-numeric: tabular-nums;
+  color: var(--metric-time);
+}
+
+@keyframes mg-summary-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-session-summary--fresh {
+    animation: none;
+  }
+}

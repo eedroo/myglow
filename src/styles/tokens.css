@@ -85,6 +85,17 @@
   --sign-aquarius: #3BA6E0;
   --sign-pisces: #4FB7A7;
   --orb-highlight: #FFFBF2;
+  /* F16: Foco no corpo, acento mais vivo que o dourado (placeholder, a definir com o Eduardo) */
+  --body-accent: #D9582C;
+  --body-accent-soft: rgba(217, 88, 44, 0.12);
+  --body-surface: rgba(255, 248, 240, 0.72);
+  --body-timer: #2E2216;
+  --body-on-accent: #FFF8F0;
+  /* Cores fixas por métrica (sem significado de bom/mau) */
+  --metric-reps: #1F8A7E;
+  --metric-kg: #B7790A;
+  --metric-volume: #6A54E0;
+  --metric-time: #2479C2;
 
   /* Raios */
   --radius-sm: 10px;
@@ -220,4 +231,13 @@
   --sign-aquarius: #66C4F5;
   --sign-pisces: #74D6C6;
   --orb-highlight: rgba(255, 246, 228, 0.92);
+  --body-accent: #FF8657;
+  --body-accent-soft: rgba(255, 134, 87, 0.16);
+  --body-surface: rgba(30, 24, 16, 0.78);
+  --body-timer: #FFF3E3;
+  --body-on-accent: #1E140C;
+  --metric-reps: #4FD1C5;
+  --metric-kg: #F6B93B;
+  --metric-volume: #A594FF;
+  --metric-time: #5DB3F5;
 }

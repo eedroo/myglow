@@ -114,6 +114,15 @@ PWA que junta diário mágico, planner (dia / semana / mês / ano) e grimório a
 - **Fluxo:** `guideDispatch` (de hora a hora; quem tem consentimento e acesso; `dueGuideJobs` em `schedule.ts`: domingo 04:00 a 05:00 locais → semana anterior; dia 1 04:30 a 05:30 → mês anterior) envia `guide/generate`; `guideGenerate` gera (idempotência `guide:{userId}:{kind}:{periodKey}:{regenerate}`, concorrência 3, 2 retries, o throttle da Fase 6). A pedido: `GuidePending` chama `requestGuide` (10/dia no Upstash) e refresca a cada 5 s durante 2 min.
 - **Leitura** (`queries.ts`): `getGuideState` (no-access, no-consent, pending, insufficient, support, failed, ready com `canRegenerate`), `getGuideEntryStatus` (cartões e último slide da retrospectiva), `listGuideReports` (histórico). Admin: só contagens, tokens e custo estimado (`cost.ts`).
 
+### Foco no corpo (Fase 16, `src/lib/fitness/`, `src/app/(body)/`, `src/components/body/`)
+
+- **Acesso:** tudo atrás de `requireFeature(userId, 'body-pro')` (layout do grupo `(body)`, `bodyPage()` em cada página, todas as actions de `src/actions/fitness.ts`, o job `fitnessRestAlert`). Sem acesso → 404. O grupo tem layout próprio (`BodyShell` + `BodyNav`), sem `TopBar` nem `BottomNav`.
+- **Biblioteca** (`content/exercises/`): `source/exercises.json` (free-exercise-db, Unlicense, 876 exercícios na versão copiada) + `i18n/{pt-PT,pt-BR}.json` (nomes e instruções) + `images.json` (URLs no Vercel Blob). `npm run fitness:translate` (`scripts/fitness/translate.ts`: lotes de 25, retoma onde parou, usa `OPENAI_*`) e `npm run fitness:images` (`scripts/fitness/import-images.ts`: WebP 640 px com `sharp`, `exercises/<id>/<n>.webp`, idempotente, precisa de `BLOB_READ_WRITE_TOKEN`). Os dois correm no workflow manual `fitness-library` (GitHub Actions, com os segredos do repositório) e fazem commit dos JSON. `prisma/seed-exercises.ts` (`npm run seed:exercises`) faz upsert da biblioteca e corre no `vercel-build`. `measure` é inferido (`inferMeasure`): alongamentos, cardio e isometrias → tempo; peso corporal → reps; resto → kg e reps. Sem tradução, o nome cai para inglês; sem imagem, a UI mostra o haltere.
+- **Regras puras** (`session.ts`, `restAlert.ts`, `library.ts`, `templates.ts`, todas testadas): descanso por item → exercício → preferência (`restFor`); tempos de `startedAt`/`restEndsAt` (`elapsed`, `remainingRest`); pré-preenchimento (`prefillSet`: a mesma série da última vez, senão a anterior desta sessão, senão o alvo); limites e validação das séries; `diaryChecksFor` (treino ou alongamento); sessões abandonadas fecham 6 h depois da última série.
+- **Sessão:** uma activa por pessoa (`startSession` devolve a existente). `logSet` aceita o id do cliente e a hora real (fila sem rede no dispositivo, `sessionQueue.ts`, reenviada no evento `online`; repetir o mesmo id não duplica). `endSession` grava o fim e chama `patchDailyEntry` só com `true` (o Glow do corpo conta como antes). Wake lock com `keepAwake`; `visibilitychange` → `clientHidden`.
+- **Aviso de fim de descanso:** cada descanso envia `fitness/rest.started`; `fitnessRestAlert` dorme até `restEndsAt` e só envia push (`REST_DONE`, tag `rest`, TTL 60 s, sem entrada na caixa de avisos) se `shouldSendRestPush`: sessão ainda activa, o mesmo `restEndsAt` (um +30 s ou Saltar cancela) e a app em segundo plano. Com a app aberta: som curto (Web Audio), vibração e "Bora!".
+- **Exportação:** programas, treinos, itens, sessões com séries, exercícios próprios e preferências em `fitness` no JSON da conta.
+
 ### Notificações (Fase 7, `src/lib/notifications/`, `src/lib/push/`)
 
 - **Chaves VAPID:** `npx web-push generate-vapid-keys` → `NEXT_PUBLIC_VAPID_PUBLIC_KEY` (vai para o browser), `VAPID_PRIVATE_KEY` (só servidor) e `VAPID_SUBJECT` (`mailto:…`). Sem elas não há push, mas os avisos continuam na caixa da app.
@@ -231,7 +240,7 @@ src/styles/                 tokens, base, components/*
    - `AUTH_URL` não é necessário na Vercel (`trustHost: true`).
    - F10: `BETA`, `BETA_INVITE_CODES`, `FEEDBACK_EMAIL`.
    - F9: `RESEND_API_KEY`, `EMAIL_FROM` (domínio verificado no Resend), `EMAIL_REPLY_TO`, `APP_URL` (links dos emails), `LEGAL_TERMS_VERSION`, `LEGAL_PRIVACY_VERSION`.
-3. O script `vercel-build` corre `prisma generate && prisma migrate deploy && next build`: as migrações são aplicadas ao Neon em cada deploy.
+3. O script `vercel-build` corre `prisma generate && prisma migrate deploy && tsx prisma/seed-exercises.ts && next build`: as migrações são aplicadas ao Neon em cada deploy e a biblioteca de exercícios é actualizada (F16).
 4. Verificar: registo → onboarding (pesquisa de local via Open-Meteo) → `/today`; Lighthouse → PWA instalável.
 
 ## Fases

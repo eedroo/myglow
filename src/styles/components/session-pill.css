@@ -1,0 +1,52 @@
+/* ActiveSessionPill (F16): sessão em curso, acima da barra de baixo (corpo e Hoje) */
+
+.mg-session-pill {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom) + var(--space-3));
+  z-index: var(--z-nav);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--body-accent);
+  box-shadow: var(--shadow-button);
+  color: var(--body-on-accent);
+  font-weight: var(--weight-medium);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  transform: translateX(-50%);
+}
+
+.mg-session-pill:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-session-pill__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--body-on-accent);
+  animation: mg-pill-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes mg-pill-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@media (min-width: 960px) {
+  .mg-shell .mg-session-pill {
+    bottom: var(--space-5);
+    left: calc(50% + var(--rail-width) / 2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-session-pill__dot {
+    animation: none;
+  }
+}

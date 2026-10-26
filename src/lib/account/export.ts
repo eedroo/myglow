@@ -1,6 +1,6 @@
 import type {
-  BirthProfile, CourseProgress, DailyEntry, GuideReport, LessonProgress, Month, NotificationLog, NotificationPrefs,
-  ProjectIntention, RecapView, User, UserActiveDay, UserAiContent, Week, WeekDayNote, XpEvent, Year,
+  BirthProfile, CourseProgress, DailyEntry, Exercise, FitnessPrefs, FitnessProgram, FitnessSession, FitnessWorkout, GuideReport, LessonProgress, Month, NotificationLog, NotificationPrefs,
+  ProjectIntention, RecapView, SessionSet, User, UserActiveDay, UserAiContent, Week, WeekDayNote, WorkoutItem, XpEvent, Year,
 } from '@prisma/client';
 import { fromDbDate } from '@/lib/dates';
 
@@ -41,6 +41,13 @@ export interface ExportSource {
   friends: { id: string; name: string; since: Date }[];
   friendRequests: { direction: 'sent' | 'received'; otherName: string; status: string; createdAt: Date; respondedAt: Date | null }[];
   blocks: { name: string; createdAt: Date }[];
+  /** F16: Foco no corpo (preferências, programas, treinos, sessões com séries, exercícios próprios). */
+  fitness: {
+    prefs: FitnessPrefs | null;
+    programs: (FitnessProgram & { workouts: (FitnessWorkout & { items: WorkoutItem[] })[] })[];
+    sessions: (FitnessSession & { sets: SessionSet[] })[];
+    customExercises: Exercise[];
+  };
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -95,6 +102,69 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       respondedAt: iso(r.respondedAt),
     })),
     blocks: data.blocks.map((b) => ({ name: b.name, createdAt: iso(b.createdAt) })),
+    fitness: {
+      prefs: data.fitness.prefs && {
+        defaultRestSec: data.fitness.prefs.defaultRestSec,
+        restAlert: data.fitness.prefs.restAlert,
+        keepAwake: data.fitness.prefs.keepAwake,
+        onboardedAt: iso(data.fitness.prefs.onboardedAt),
+      },
+      customExercises: data.fitness.customExercises.map((e) => ({
+        id: e.id,
+        names: e.names,
+        category: e.category,
+        measure: e.measure,
+        primaryMuscles: e.primaryMuscles,
+        secondaryMuscles: e.secondaryMuscles,
+        equipment: e.equipment,
+        defaultRestSec: e.defaultRestSec,
+        archivedAt: iso(e.archivedAt),
+      })),
+      programs: data.fitness.programs.map((p) => ({
+        id: p.id,
+        name: p.name,
+        description: p.description,
+        kind: p.kind,
+        order: p.order,
+        createdAt: iso(p.createdAt),
+        archivedAt: iso(p.archivedAt),
+        workouts: p.workouts.map((w) => ({
+          id: w.id,
+          name: w.name,
+          notes: w.notes,
+          order: w.order,
+          archivedAt: iso(w.archivedAt),
+          items: w.items.map((i) => ({
+            exerciseId: i.exerciseId,
+            order: i.order,
+            targetSets: i.targetSets,
+            targetRepsMin: i.targetRepsMin,
+            targetRepsMax: i.targetRepsMax,
+            targetSec: i.targetSec,
+            restSec: i.restSec,
+            notes: i.notes,
+          })),
+        })),
+      })),
+      sessions: data.fitness.sessions.map((x) => ({
+        id: x.id,
+        workoutId: x.workoutId,
+        date: day(x.date),
+        startedAt: iso(x.startedAt),
+        endedAt: iso(x.endedAt),
+        notes: x.notes,
+        sets: x.sets.map((t) => ({
+          exerciseId: t.exerciseId,
+          order: t.order,
+          reps: t.reps,
+          weightGrams: t.weightGrams,
+          weightKg: t.weightGrams === null ? null : Math.round(t.weightGrams / 10) / 100,
+          durationSec: t.durationSec,
+          restSec: t.restSec,
+          completedAt: iso(t.completedAt),
+        })),
+      })),
+    },
     guideReports: data.guideReports.map((g) => ({
       kind: g.kind,
       periodKey: g.periodKey,

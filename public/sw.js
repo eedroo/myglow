@@ -27,7 +27,8 @@ self.addEventListener('push', (event) => {
       badge: data.badge || '/icons/icon-192.png',
       tag: data.tag,
       data: { url: data.url || '/today', id: data.id },
-      renotify: false,
+      // F16: o aviso de fim de descanso (tag 'rest') substitui o anterior e volta a tocar.
+      renotify: data.tag === 'rest',
     }),
   );
 });

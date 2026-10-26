@@ -1,0 +1,103 @@
+/* ExerciseDetail, ExerciseHistory, ExerciseHowTo, AddToWorkout (F16) */
+
+.mg-ex-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mg-ex-detail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.mg-ex-detail__tag {
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-ex-history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-ex-history__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+}
+
+.mg-ex-history__date {
+  margin: 0 0 var(--space-1);
+  font-weight: var(--weight-medium);
+}
+
+.mg-ex-history__row {
+  display: grid;
+  grid-template-columns: 2ch 5ch 6ch 1fr;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-ex-history__time,
+.mg-ex-history__rest {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-metric--reps { color: var(--metric-reps); }
+.mg-metric--kg { color: var(--metric-kg); }
+.mg-metric--volume { color: var(--metric-volume); }
+.mg-metric--time { color: var(--metric-time); }
+
+.mg-ex-howto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-ex-howto__images {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.mg-ex-howto__images img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  background: var(--body-accent-soft);
+}
+
+.mg-ex-howto__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-5);
+  line-height: var(--leading-normal);
+}
+
+.mg-add-to-workout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.mg-add-to-workout select {
+  flex: 1 1 200px;
+  min-height: 48px;
+}

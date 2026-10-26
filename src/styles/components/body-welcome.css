@@ -1,0 +1,82 @@
+/* BodyWelcome (F16): onboarding do Foco no corpo */
+
+.mg-body-welcome {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-4) 0;
+}
+
+.mg-body-welcome__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-body-welcome__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+}
+
+.mg-body-welcome__text {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+}
+
+.mg-body-welcome__options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: var(--space-2);
+}
+
+.mg-body-welcome__option {
+  min-height: 56px;
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mg-body-welcome__option--active {
+  border-color: var(--body-accent);
+  background: var(--body-accent-soft);
+}
+
+.mg-body-welcome__option strong {
+  display: block;
+}
+
+.mg-body-welcome__option span {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.mg-body-welcome__progress {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.mg-body-welcome__dot {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-border);
+}
+
+.mg-body-welcome__dot--done {
+  background: var(--body-accent);
+}
+
+.mg-body-welcome__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}

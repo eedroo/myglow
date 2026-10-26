@@ -1,0 +1,81 @@
+/* ProgramList, ProgramRow, ProgramForm (F16) */
+
+.mg-program-list,
+.mg-workout-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-program-row,
+.mg-workout-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 64px;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-program-row:focus-visible,
+.mg-workout-row:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-program-row__text,
+.mg-workout-row__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.mg-program-row__name,
+.mg-workout-row__name {
+  font-weight: var(--weight-medium);
+}
+
+.mg-program-row__meta,
+.mg-workout-row__meta {
+  overflow: hidden;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mg-program-form,
+.mg-workout-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--body-surface);
+}
+
+.mg-program-form__actions,
+.mg-workout-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.mg-program-form__templates {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.mg-workout-list .mg-workout-row {
+  flex: 1;
+}

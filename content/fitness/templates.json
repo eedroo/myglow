@@ -1,0 +1,488 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "id": "ppl",
+      "kind": "STRENGTH",
+      "workouts": [
+        {
+          "key": "push",
+          "items": [
+            {
+              "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+              "sets": 4,
+              "repsMin": 6,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Incline_Dumbbell_Press",
+              "sets": 3,
+              "repsMin": 8,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Standing_Military_Press",
+              "sets": 3,
+              "repsMin": 6,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Side_Lateral_Raise",
+              "sets": 3,
+              "repsMin": 12,
+              "repsMax": 15,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Triceps_Pushdown",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Dips_-_Triceps_Version",
+              "sets": 2,
+              "repsMin": 8,
+              "repsMax": 12,
+              "restSec": 90
+            }
+          ]
+        },
+        {
+          "key": "pull",
+          "items": [
+            {
+              "exerciseId": "Pullups",
+              "sets": 3,
+              "repsMin": 5,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Bent_Over_Barbell_Row",
+              "sets": 4,
+              "repsMin": 6,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Wide-Grip_Lat_Pulldown",
+              "sets": 3,
+              "repsMin": 8,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Seated_Cable_Rows",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Face_Pull",
+              "sets": 3,
+              "repsMin": 12,
+              "repsMax": 15,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Barbell_Curl",
+              "sets": 3,
+              "repsMin": 8,
+              "repsMax": 12,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Hammer_Curls",
+              "sets": 2,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 60
+            }
+          ]
+        },
+        {
+          "key": "legs",
+          "items": [
+            {
+              "exerciseId": "Barbell_Squat",
+              "sets": 4,
+              "repsMin": 5,
+              "repsMax": 8,
+              "restSec": 150
+            },
+            {
+              "exerciseId": "Romanian_Deadlift",
+              "sets": 3,
+              "repsMin": 8,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Leg_Press",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Lying_Leg_Curls",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Leg_Extensions",
+              "sets": 3,
+              "repsMin": 12,
+              "repsMax": 15,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Standing_Calf_Raises",
+              "sets": 4,
+              "repsMin": 10,
+              "repsMax": 15,
+              "restSec": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fullbody",
+      "kind": "STRENGTH",
+      "workouts": [
+        {
+          "key": "a",
+          "items": [
+            {
+              "exerciseId": "Barbell_Squat",
+              "sets": 3,
+              "repsMin": 5,
+              "repsMax": 8,
+              "restSec": 150
+            },
+            {
+              "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+              "sets": 3,
+              "repsMin": 6,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Bent_Over_Barbell_Row",
+              "sets": 3,
+              "repsMin": 6,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Side_Lateral_Raise",
+              "sets": 2,
+              "repsMin": 12,
+              "repsMax": 15,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Plank",
+              "sets": 3,
+              "sec": 45,
+              "restSec": 45
+            }
+          ]
+        },
+        {
+          "key": "b",
+          "items": [
+            {
+              "exerciseId": "Barbell_Deadlift",
+              "sets": 3,
+              "repsMin": 5,
+              "repsMax": 5,
+              "restSec": 180
+            },
+            {
+              "exerciseId": "Standing_Military_Press",
+              "sets": 3,
+              "repsMin": 6,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Wide-Grip_Lat_Pulldown",
+              "sets": 3,
+              "repsMin": 8,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Dumbbell_Lunges",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Hanging_Leg_Raise",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 15,
+              "restSec": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upperlower",
+      "kind": "STRENGTH",
+      "workouts": [
+        {
+          "key": "upperA",
+          "items": [
+            {
+              "exerciseId": "Barbell_Bench_Press_-_Medium_Grip",
+              "sets": 4,
+              "repsMin": 6,
+              "repsMax": 8,
+              "restSec": 150
+            },
+            {
+              "exerciseId": "Bent_Over_Barbell_Row",
+              "sets": 4,
+              "repsMin": 6,
+              "repsMax": 8,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Standing_Military_Press",
+              "sets": 3,
+              "repsMin": 8,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Wide-Grip_Lat_Pulldown",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Barbell_Curl",
+              "sets": 2,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Triceps_Pushdown",
+              "sets": 2,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 60
+            }
+          ]
+        },
+        {
+          "key": "lowerA",
+          "items": [
+            {
+              "exerciseId": "Barbell_Squat",
+              "sets": 4,
+              "repsMin": 5,
+              "repsMax": 8,
+              "restSec": 150
+            },
+            {
+              "exerciseId": "Romanian_Deadlift",
+              "sets": 3,
+              "repsMin": 8,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Leg_Press",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Standing_Calf_Raises",
+              "sets": 4,
+              "repsMin": 10,
+              "repsMax": 15,
+              "restSec": 60
+            }
+          ]
+        },
+        {
+          "key": "upperB",
+          "items": [
+            {
+              "exerciseId": "Incline_Dumbbell_Press",
+              "sets": 4,
+              "repsMin": 8,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Seated_Cable_Rows",
+              "sets": 4,
+              "repsMin": 8,
+              "repsMax": 10,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Dumbbell_Shoulder_Press",
+              "sets": 3,
+              "repsMin": 8,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Pullups",
+              "sets": 3,
+              "repsMin": 6,
+              "repsMax": 10,
+              "restSec": 120
+            },
+            {
+              "exerciseId": "Hammer_Curls",
+              "sets": 2,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Dips_-_Triceps_Version",
+              "sets": 2,
+              "repsMin": 8,
+              "repsMax": 12,
+              "restSec": 90
+            }
+          ]
+        },
+        {
+          "key": "lowerB",
+          "items": [
+            {
+              "exerciseId": "Barbell_Deadlift",
+              "sets": 3,
+              "repsMin": 5,
+              "repsMax": 5,
+              "restSec": 180
+            },
+            {
+              "exerciseId": "Goblet_Squat",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 90
+            },
+            {
+              "exerciseId": "Lying_Leg_Curls",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 12,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Leg_Extensions",
+              "sets": 3,
+              "repsMin": 12,
+              "repsMax": 15,
+              "restSec": 60
+            },
+            {
+              "exerciseId": "Hanging_Leg_Raise",
+              "sets": 3,
+              "repsMin": 10,
+              "repsMax": 15,
+              "restSec": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stretch",
+      "kind": "STRETCH",
+      "workouts": [
+        {
+          "key": "daily",
+          "items": [
+            {
+              "exerciseId": "Hamstring_Stretch",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            },
+            {
+              "exerciseId": "All_Fours_Quad_Stretch",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            },
+            {
+              "exerciseId": "Calf_Stretch_Hands_Against_Wall",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            },
+            {
+              "exerciseId": "Kneeling_Hip_Flexor",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            },
+            {
+              "exerciseId": "Knee_Across_The_Body",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            },
+            {
+              "exerciseId": "Childs_Pose",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            },
+            {
+              "exerciseId": "Cat_Stretch",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            },
+            {
+              "exerciseId": "Middle_Back_Stretch",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            },
+            {
+              "exerciseId": "Chest_And_Front_Of_Shoulder_Stretch",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            },
+            {
+              "exerciseId": "Chin_To_Chest_Stretch",
+              "sets": 1,
+              "sec": 30,
+              "restSec": 10
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

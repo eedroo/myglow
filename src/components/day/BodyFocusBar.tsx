@@ -1,8 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { ChevronRight } from 'lucide-react';
 import { CheckChip } from '@/components/ui/CheckChip';
 import { MagicIcon } from '@/components/ui/MagicIcon';
+import { useEntitlements } from '@/components/premium/EntitlementsProvider';
 import type { DailyEntryData, DailyField } from '@/types/daily';
 
 interface BodyFocusBarProps {
@@ -13,6 +16,8 @@ interface BodyFocusBarProps {
 
 export function BodyFocusBar({ data, setField, current }: BodyFocusBarProps) {
   const t = useTranslations('day.body');
+  // F16: com o Foco no corpo (premium), o título abre os treinos; os checks ficam iguais para todos.
+  const body = useEntitlements().can('body-pro');
   return (
     <section
       data-tour="body-focus"
@@ -21,7 +26,14 @@ export function BodyFocusBar({ data, setField, current }: BodyFocusBarProps) {
     >
       <h2 id="body-bar-title" className="mg-body-bar__label">
         <MagicIcon name="sparkles" size="sm" decorative />
-        {t('title')}
+        {body ? (
+          <Link href="/body" className="mg-body-bar__link" aria-label={t('openWorkouts')}>
+            {t('title')}
+            <ChevronRight size={16} aria-hidden="true" />
+          </Link>
+        ) : (
+          t('title')
+        )}
       </h2>
       <div className="mg-body-bar__chips">
         <CheckChip icon="stretch" label={t('stretch')} checked={data.stretchDone} onCheckedChange={(v) => setField('stretchDone', v)} />

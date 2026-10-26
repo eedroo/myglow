@@ -8,11 +8,11 @@ import { db } from '@/lib/db';
 import { compareDates, fromDbDate, toDbDate, todayInTz } from '@/lib/dates';
 import { requireFeature } from '@/lib/entitlements/server';
 import { translatorFor } from '@/i18n/translator';
-import { sendSafely, type FitnessRestEvent } from '@/inngest/client';
 import { patchDailyEntry } from '@/actions/daily';
 import { findTemplate } from '@/lib/fitness/templates';
 import { getFitnessPrefs, recomputeExercisePrs, usableExercise } from '@/lib/fitness/queries';
-import { diaryChecksFor, restEndsAt, restFor, validateSet } from '@/lib/fitness/session';
+import { diaryChecksFor, restEndsAt, validateSet } from '@/lib/fitness/session';
+import { activeSession, logSetFor, sendRestEvent, type SetPayload } from '@/lib/fitness/write';
 
 /**
  * Acções do Foco no corpo (F16). Todas: sessão, `requireFeature('body-pro')` (sem acesso → 404), Zod e
@@ -365,13 +365,6 @@ export async function archiveCustomExercise(exerciseId: string): Promise<Fitness
 
 // ─── Sessão ───────────────────────────────────────────────────────────────────────────────────────
 
-async function activeSession(uid: string, sessionId: string) {
-  return db.fitnessSession.findFirst({
-    where: { id: sessionId, userId: uid, endedAt: null },
-    include: { workout: { select: { items: { select: { exerciseId: true, restSec: true } }, program: { select: { kind: true } } } } },
-  });
-}
-
 /** Começa um treino (ou um treino livre). Já havendo uma sessão activa, devolve essa. */
 export async function startSession(workoutId: string | null): Promise<FitnessResult<{ id: string; existing: boolean }>> {
   const uid = await userId();
@@ -390,78 +383,13 @@ export async function startSession(workoutId: string | null): Promise<FitnessRes
   return { ok: true, data: { id: s.id, existing: false } };
 }
 
-const setSchema = z.object({
-  /** Id gerado no cliente: repetir o pedido (fila sem rede) não duplica a série. */
-  id: z.string().regex(/^[a-z0-9]{16,40}$/).optional(),
-  exerciseId: id,
-  reps: z.number().int().optional(),
-  weightGrams: z.number().int().optional(),
-  durationSec: z.number().int().optional(),
-  /** Hora real da série (registada sem rede e enviada mais tarde). */
-  completedAt: z.string().datetime().optional(),
-});
-
 export async function logSet(
   sessionId: string,
-  input: z.input<typeof setSchema>,
+  input: SetPayload,
 ): Promise<FitnessResult<{ setId: string; restEndsAt: string | null; prKinds: string[] }>> {
   const uid = await userId();
   if (!uid) return fail('common.errors.unauthorized');
-  const p = setSchema.safeParse(input);
-  if (!id.safeParse(sessionId).success || !p.success) return fail('fitness.errors.set');
-  const s = await activeSession(uid, sessionId);
-  if (!s) return fail('fitness.errors.noSession');
-  const exercise = await usableExercise(uid, p.data.exerciseId);
-  if (!exercise) return fail();
-  const check = validateSet(exercise.measure, p.data);
-  if (!check.ok) return fail(`fitness.errors.${check.reason}`);
-
-  if (p.data.id) {
-    const dup = await db.sessionSet.findUnique({ where: { id: p.data.id }, select: { id: true, sessionId: true } });
-    if (dup) return dup.sessionId === s.id ? { ok: true, data: { setId: dup.id, restEndsAt: s.restEndsAt?.toISOString() ?? null, prKinds: [] } } : fail();
-  }
-
-  const now = new Date();
-  const client = p.data.completedAt ? new Date(p.data.completedAt) : null;
-  const completedAt = client && client >= s.startedAt && client <= new Date(now.getTime() + 60_000) ? client : now;
-  const [prefs, count] = await Promise.all([
-    getFitnessPrefs(uid),
-    db.sessionSet.count({ where: { sessionId: s.id, exerciseId: exercise.id } }),
-  ]);
-  const item = s.workout?.items.find((i) => i.exerciseId === exercise.id) ?? null;
-  const rest = restFor(item, exercise, prefs);
-  const ends = restEndsAt(completedAt, rest);
-
-  const set = await db.sessionSet.create({
-    data: {
-      ...(p.data.id && { id: p.data.id }),
-      sessionId: s.id,
-      userId: uid,
-      exerciseId: exercise.id,
-      order: count + 1,
-      reps: p.data.reps ?? null,
-      weightGrams: p.data.weightGrams ?? null,
-      durationSec: p.data.durationSec ?? null,
-      completedAt,
-      restSec: rest,
-    },
-    select: { id: true },
-  });
-  // O descanso só começa se ainda não acabou (uma série enviada tarde pela fila não reabre o descanso).
-  const restOn = ends > now;
-  await db.fitnessSession.update({
-    where: { id: s.id },
-    data: { restEndsAt: restOn ? ends : null, restExerciseId: restOn ? exercise.id : null },
-  });
-  if (restOn && prefs.restAlert) await sendRestEvent(uid, s.id, ends);
-  // F17: recordes (recalculados para o exercício todo: uma série vinda da fila pode ser anterior a outras).
-  const prs = await recomputeExercisePrs(uid, exercise.id);
-  return { ok: true, data: { setId: set.id, restEndsAt: restOn ? ends.toISOString() : null, prKinds: prs[set.id] ?? [] } };
-}
-
-async function sendRestEvent(uid: string, sessionId: string, ends: Date): Promise<void> {
-  const event: FitnessRestEvent = { name: 'fitness/rest.started', data: { userId: uid, sessionId, restEndsAt: ends.toISOString() } };
-  await sendSafely([event]);
+  return logSetFor(uid, sessionId, input);
 }
 
 const setPatchSchema = z.object({

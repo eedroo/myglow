@@ -18,6 +18,7 @@
     "motto": "Pequenas escolhas, grandes transformações.",
     "skipToContent": "Saltar para o conteúdo",
     "retry": "Tentar de novo",
+    "reloadApp": "Recarregar a app",
     "errors": {
       "generic": "Algo correu mal. Tenta novamente.",
       "unauthorized": "A tua sessão expirou. Inicia sessão novamente."

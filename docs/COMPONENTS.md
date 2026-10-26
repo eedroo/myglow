@@ -628,3 +628,9 @@ Peso diário com média semanal, objectivo em linguagem neutra, recordes e evolu
 | `PrTrophy` | client | `pr.css` | `mg-pr`, `--fresh` | troféu dourado (`--pr-gold`); animação curta só sem `prefers-reduced-motion` |
 
 Alterados (cirúrgico): `SessionScreen` e `SetRow` (troféu na série com recorde), `SessionSummary` (nº de recordes), `ExerciseHistory` (troféu), página do exercício (tabs). Na Semana, o campo do peso mostra a média diária só de leitura para `body-pro` com registos (`WeekWeightAverage`, `weight-card.css`, `mg-week-weight-avg`).
+
+### Recuperação de erros (F18, `src/components/shell/RouteError.tsx`, `src/lib/errors/recover.ts`)
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `RouteError` | client | `route-error.css` | `mg-route-error`, `__title`, `__actions` | `error.tsx` dos grupos `(app)` e `(body)`: mensagem em cartão de vidro dentro do layout (a navegação continua à vista), "Tentar de novo" (refresca e repõe) e "Recarregar a app"; erros de rede ou de versão nova (`isRecoverableError`) recarregam sozinhos, no máximo uma vez por minuto |

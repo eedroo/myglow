@@ -18,6 +18,7 @@
     "motto": "Small choices, great transformations.",
     "skipToContent": "Skip to content",
     "retry": "Try again",
+    "reloadApp": "Reload the app",
     "errors": {
       "generic": "Something went wrong. Please try again.",
       "unauthorized": "Your session has expired. Please sign in again."

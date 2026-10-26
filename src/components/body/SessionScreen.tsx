@@ -10,9 +10,6 @@ import {
   deleteSet,
   discardSession,
   endSession,
-  logSet,
-  setClientHidden,
-  setSessionNotes,
   skipRest,
   updateSet,
 } from '@/actions/fitness';
@@ -22,7 +19,7 @@ import { Button } from '@/components/ui/Button';
 import { ExercisePicker } from './ExercisePicker';
 import { RestTimer } from './RestTimer';
 import { SessionExerciseCard, type ShownSet } from './SessionExerciseCard';
-import { newSetId, readQueue, writeQueue, type QueuedSet } from './sessionQueue';
+import { canSync, newSetId, postSession, readQueue, writeQueue, type QueuedSet } from './sessionQueue';
 import type { SetValues } from './SetRow';
 import { formatClock, useNow } from './useNow';
 
@@ -108,12 +105,9 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
     flushing.current = true;
     try {
       for (const q of [...queueRef.current]) {
-        let res: Awaited<ReturnType<typeof logSet>>;
-        try {
-          res = await logSet(session.id, q);
-        } catch {
-          break; // sem rede: tenta outra vez quando voltar
-        }
+        type SetResult = { ok: true; data: { setId: string; restEndsAt: string | null; prKinds: string[] } } | { ok: false; error: string };
+        const res = await postSession<SetResult>(session.id, { op: 'set', set: q });
+        if (!res) break; // sem rede (ou a app a ser suspensa): tenta outra vez quando voltar
         if (!res.ok) {
           saveQueue((list) => list.filter((x) => x.id !== q.id));
           setError(te(res.error));
@@ -125,7 +119,7 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
           setRest({ endsAt: res.data.restEndsAt, total: item?.target.restSec ?? 90, exerciseId: q.exerciseId });
         }
       }
-      router.refresh();
+      if (canSync()) router.refresh();
     } finally {
       flushing.current = false;
     }
@@ -145,10 +139,15 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
 
   // Em segundo plano: o fim do descanso vai por push; com a app à vista, só o aviso no ecrã.
   useEffect(() => {
-    const onVis = () => void setClientHidden(session.id, document.visibilityState === 'hidden').catch(() => {});
+    const onVis = () => {
+      const hidden = document.visibilityState === 'hidden';
+      void postSession(session.id, { op: 'hidden', hidden }, hidden);
+      // Ao voltar: envia o que ficou na fila e actualiza (só quando houver rede).
+      if (!hidden) void flush();
+    };
     document.addEventListener('visibilitychange', onVis);
     return () => document.removeEventListener('visibilitychange', onVis);
-  }, [session.id]);
+  }, [session.id, flush]);
 
   const log = (exerciseId: string, restSec: number, v: SetValues): string | null => {
     const item = session.items.find((i) => i.exercise.id === exerciseId);
@@ -226,7 +225,7 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
               maxLength={1000}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              onBlur={() => void setSessionNotes(session.id, notes).catch(() => {})}
+              onBlur={() => void postSession(session.id, { op: 'notes', notes }, document.visibilityState === 'hidden')}
             />
           </label>
           {totalSets === 0 && (

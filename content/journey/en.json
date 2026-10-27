@@ -1,0 +1,65 @@
+{
+  "lessons": [
+    {
+      "unlockId": "stage-2",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "New step: letting go", "text": "You already open your day with an intention and close it with gratitude. Now let's learn to let go." },
+        { "id": "what", "icon": "flame", "title": "What banishing is", "text": "Choosing what you won't carry today: a worry, a habit, a thought that keeps coming back." },
+        { "id": "how", "icon": "feather", "title": "How to do it", "text": "Name what you want to release. Take three deep breaths and picture it leaving with the air. Then mark it as done." },
+        { "id": "when", "icon": "moon-stars", "title": "Morning and night", "text": "In the morning, let go of what would get in the way of your day. At night, of what weighed on you." },
+        { "id": "try", "icon": "sparkles", "title": "Try it today", "text": "A banishing takes a minute. Your first one can be right now." }
+      ],
+      "tryLabel": "Do my first banishing",
+      "tryTarget": { "kind": "guided", "flow": "DAY_NOW" }
+    },
+    {
+      "unlockId": "stage-3",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "New step: rituals", "text": "A ritual is a simple gesture repeated with intention: lighting a candle, making tea, stretching when you wake up." },
+        { "id": "morning", "icon": "sun", "title": "Morning ritual", "text": "Pick something short you can repeat every day. Repetition matters more than length." },
+        { "id": "night", "icon": "moon-crescent", "title": "Night ritual", "text": "A gesture that tells your body the day is over: dimming the lights, writing, breathing." },
+        { "id": "wake", "icon": "bed", "title": "How you woke up", "text": "From now on you also log how you woke up and whether you got the sleep you wanted. Over time, patterns show up.", "only": "wellbeing" },
+        { "id": "care", "icon": "candle", "title": "With care", "text": "Never leave a candle unattended, and don't swallow anything. Magic is care." },
+        { "id": "areas", "icon": "zodiac-wheel", "title": "Intentions by area", "text": "Your Week now also opens intentions by area: Magic, Personal, Leisure, Work and Study." },
+        { "id": "try", "icon": "sparkles", "title": "Try it today", "text": "Choose your morning ritual and do it once. Tomorrow it gets easier." }
+      ],
+      "tryLabel": "Choose my ritual",
+      "tryTarget": { "kind": "guided", "flow": "DAY_MORNING" }
+    },
+    {
+      "unlockId": "stage-4",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "New step: your body", "text": "Your body is where your magic happens. Caring for it is practice too." },
+        { "id": "three", "icon": "water-drop", "title": "Three kinds of care", "text": "Water, stretching and movement. Tick them off through the day as you go." },
+        { "id": "gentle", "icon": "star", "title": "No performance goals", "text": "What counts here is care, not hitting numbers." },
+        { "id": "focus", "icon": "dumbbell", "title": "Your Body Focus", "text": "Tap \"My body focus\" to build workouts, log sets and follow your progress.", "only": "body-pro" },
+        { "id": "try", "icon": "sparkles", "title": "Try it today", "text": "A glass of water already counts. Start with whatever you can." }
+      ],
+      "tryLabel": "Care for my body",
+      "tryTarget": { "kind": "guided", "flow": "DAY_BODY" }
+    },
+    {
+      "unlockId": "stage-5",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "The last step: reflecting", "text": "Closing your day with awareness is what turns a routine into a path." },
+        { "id": "reflection", "icon": "journal", "title": "Final reflection", "text": "What did today teach you? Two lines are enough." },
+        { "id": "summary", "icon": "scroll", "title": "Day in a sentence", "text": "A line you'll enjoy rereading a year from now." },
+        { "id": "whole", "icon": "glow-orb", "title": "The whole method", "text": "Intention, letting go, ritual, body, gratitude and reflection. The whole journal is yours now." },
+        { "id": "try", "icon": "sparkles", "title": "Try it today", "text": "Close today with your first reflection." }
+      ],
+      "tryLabel": "Close my day",
+      "tryTarget": { "kind": "guided", "flow": "DAY_NIGHT" }
+    },
+    {
+      "unlockId": "month-year",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "You closed your first week", "text": "Now you can look further ahead." },
+        { "id": "month", "icon": "moon-crescent", "title": "The Month", "text": "Intention, goals by area, moons and rituals for the month." },
+        { "id": "year", "icon": "glow-orb", "title": "The Year", "text": "Your word for the year and what you want to build." },
+        { "id": "try", "icon": "calendar", "title": "Try it", "text": "Start with this month: one intention and two goals are enough." }
+      ],
+      "tryLabel": "Plan this month",
+      "tryTarget": { "kind": "guided", "flow": "MONTH_PLAN" }
+    }
+  ]
+}

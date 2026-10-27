@@ -141,6 +141,9 @@ enum NotificationKind {
   REST_DONE
   // F17: lembrete de pesagem (só se ainda não há registo hoje; periodKey = dia local)
   WEIGH_IN
+  // F19: novo passo da jornada (periodKey = unlockId) e anúncios publicados no admin (periodKey = ex. 'v2')
+  JOURNEY_UNLOCK
+  ANNOUNCEMENT
 }
 
 model User {
@@ -232,6 +235,12 @@ model User {
   // F18: modo guiado
   guidedRuns       GuidedRun[]
   guidedAutoOpen   Boolean           @default(false) // abrir o fluxo sugerido ao entrar no Hoje (uma vez por fluxo e dia)
+  // F19: jornada da metodologia (etapas 1–5; o que está desbloqueado vem de src/lib/journey)
+  journeyStage         Int             @default(1)
+  journeyAllUnlockedAt DateTime? // "desbloquear tudo"
+  journeyMappedAt      DateTime? // utilizadores anteriores à F19, mapeados pelo histórico na migração
+  announcementSeen     String[]        @default([]) // anúncios em slides já vistos (ex.: 'v2')
+  journeyUnlocks       JourneyUnlock[]
 }
 
 enum FeedbackKind {
@@ -861,4 +870,22 @@ model GuidedRun {
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, flow, periodKey])
+}
+
+// F19: desbloqueios da jornada ('stage-2' … 'stage-5' | 'week-projects' | 'month-year').
+model JourneyUnlock {
+  userId            String
+  unlockId          String
+  unlockedAt        DateTime  @default(now())
+  ceremonySeenAt    DateTime? // mini-lição vista (ou dispensada)
+  ceremonyDismissed Boolean   @default(false) // fechada antes do último slide (métricas do admin)
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, unlockId])
+}
+
+// F19: anúncios em slides publicados pelo admin (ex.: 'v2'); activa o WhatsNew e o envio por push e caixa.
+model Announcement {
+  key         String   @id
+  publishedAt DateTime @default(now())
 }

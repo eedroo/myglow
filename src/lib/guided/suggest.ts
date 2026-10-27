@@ -16,7 +16,11 @@ export function suggestDayFlow(i: {
   progress: DayProgress;
 }): GuidedFlow | null {
   const now = minutes(i.localTime);
-  const { morning, body, night } = i.progress;
+  // F19: uma parte do dia ainda bloqueada na jornada conta como feita (nada de "Cuidar do corpo" antes da etapa 4).
+  const { applicable } = i.progress;
+  const morning = i.progress.morning || !applicable.morning;
+  const body = i.progress.body || !applicable.body;
+  const night = i.progress.night || !applicable.night;
   if (now >= minutes(i.prefs.nightTime)) return night ? null : 'DAY_NIGHT';
   if (now < minutes(i.prefs.bodyTime)) return !morning ? 'DAY_MORNING' : body ? null : 'DAY_BODY';
   if (!body) return 'DAY_BODY';

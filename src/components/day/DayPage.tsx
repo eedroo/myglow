@@ -27,9 +27,10 @@ import { RitualTodayCard } from '@/components/reading/RitualTodayCard';
 import { NotificationsPromptCard } from '@/components/notifications/NotificationsPromptCard';
 import { PROMPT_DISMISS_COOKIE, shouldShowPrompt } from '@/lib/notifications/prompt';
 import { DAY_SOURCES } from '@/lib/xp/rules';
-import { FirstStepsCard } from '@/components/welcome/FirstStepsCard';
 import { dayGuided } from '@/lib/guided/server';
 import { GuidedStartCard } from '@/components/guided/GuidedStartCard';
+import { getJourney } from '@/lib/journey/server';
+import { JourneyCard } from '@/components/journey-path/JourneyCard';
 
 /** Página de um dia do diário (hoje ou passado). */
 export async function DayPage({ date }: { date: DateISO }) {
@@ -37,7 +38,7 @@ export async function DayPage({ date }: { date: DateISO }) {
   if (!session?.user) redirect('/login');
   const userId = session.user.id;
 
-  const [user, entry, natal, locale, ta, td, dayAwards, reading, planNote] = await Promise.all([
+  const [user, entry, natal, locale, ta, td, dayAwards, reading, planNote, journey] = await Promise.all([
     db.user.findUnique({ where: { id: userId }, select: { timezone: true, sleepGoalMinutes: true, createdAt: true, wellbeingConsentAt: true } }),
     getDailyEntry(userId, date),
     ensureNatalChart(userId),
@@ -48,6 +49,8 @@ export async function DayPage({ date }: { date: DateISO }) {
     getDayReading(userId, date),
     // O que ficou escrito para este dia no planner da Semana.
     db.weekDayNote.findFirst({ where: { date: toDbDate(date), week: { userId } }, select: { text: true } }),
+    // F19: o que a jornada já abriu (o resto não aparece; os dados ficam).
+    getJourney(userId),
   ]);
   if (!user) redirect('/login');
 
@@ -81,7 +84,6 @@ export async function DayPage({ date }: { date: DateISO }) {
         nextHref={isToday ? null : compareDates(addDays(date, 1), today) === 0 ? '/today' : `/day/${addDays(date, 1)}`}
         isToday={isToday}
       />
-      {isToday && <FirstStepsCard userId={userId} today={today} />}
       <DailyHeader
         date={date}
         dateLabel={longDate}
@@ -119,6 +121,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         wellbeing={!!user.wellbeingConsentAt}
         planNote={planNote?.text.trim() ? <DayPlanNote text={planNote.text.trim()} weekHref={weekChip.href} /> : undefined}
         guidedBase={guided.base}
+        unlocked={[...journey.sections]}
         currentPeriod={isToday ? getDayPeriod(new Date(), user.timezone) : null}
         suggestions={
           personal
@@ -126,6 +129,7 @@ export async function DayPage({ date }: { date: DateISO }) {
             : undefined
         }
       />
+      {isToday && <JourneyCard userId={userId} />}
     </>
   );
 }

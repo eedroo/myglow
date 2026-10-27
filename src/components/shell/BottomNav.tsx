@@ -1,8 +1,10 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, CalendarDays, CalendarRange, Sun, Telescope, type LucideIcon } from 'lucide-react';
+import { BookOpen, CalendarDays, CalendarRange, Lock, Sun, Telescope, type LucideIcon } from 'lucide-react';
+import { NavLockedSheet } from '@/components/journey-path/NavLockedSheet';
 
 export type NavKey = 'today' | 'week' | 'month' | 'year' | 'grimoire';
 
@@ -17,15 +19,37 @@ const ITEMS: { key: NavKey; href: string; icon: LucideIcon }[] = [
 interface BottomNavProps {
   labels: Record<NavKey, string>;
   ariaLabel: string;
+  /** F19: itens ainda bloqueados na jornada (Mês e Ano): esbatidos com cadeado; tocar explica como abrir. */
+  locked?: NavKey[];
 }
 
 /** Navegação principal: barra inferior em mobile, rail lateral em desktop. */
-export function BottomNav({ labels, ariaLabel }: BottomNavProps) {
+export function BottomNav({ labels, ariaLabel, locked = [] }: BottomNavProps) {
   const pathname = usePathname();
+  const sheet = useRef<HTMLDialogElement>(null);
 
   return (
     <nav className="mg-bottom-nav" aria-label={ariaLabel}>
       {ITEMS.map(({ key, href, icon: Icon }) => {
+        if (locked.includes(key)) {
+          return (
+            <button
+              key={key}
+              type="button"
+              className="mg-bottom-nav__item mg-bottom-nav__item--locked"
+              aria-haspopup="dialog"
+              onClick={() => sheet.current?.showModal()}
+            >
+              <span className="mg-bottom-nav__icon">
+                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+              </span>
+              <span className="mg-bottom-nav__lock" aria-hidden="true">
+                <Lock size={10} strokeWidth={2} />
+              </span>
+              <span className="mg-bottom-nav__label">{labels[key]}</span>
+            </button>
+          );
+        }
         const active =
           pathname === href ||
           pathname.startsWith(`${href}/`) ||
@@ -45,6 +69,7 @@ export function BottomNav({ labels, ariaLabel }: BottomNavProps) {
           </Link>
         );
       })}
+      {locked.length > 0 && <NavLockedSheet ref={sheet} />}
     </nav>
   );
 }

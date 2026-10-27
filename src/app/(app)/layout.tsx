@@ -34,6 +34,12 @@ import { GuidedAutoOpen } from '@/components/guided/GuidedAutoOpen';
 import { dayGuided } from '@/lib/guided/server';
 import { routeSegment } from '@/lib/guided/flows';
 import { getDailyEntry } from '@/lib/daily/queries';
+import { getJourney, tourJourney } from '@/lib/journey/server';
+import { getJourneyLessons } from '@/lib/journey/content';
+import { shouldShowWhatsNew } from '@/lib/journey/announcements';
+import { UnlockCeremonyProvider } from '@/components/journey-path/UnlockCeremony';
+import { WhatsNew } from '@/components/journey-path/WhatsNew';
+import { dbToAppLocale } from '@/i18n/locales';
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const session = await auth();
@@ -42,7 +48,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   if (!session?.user) redirect('/api/session/end');
   if (!session.user.onboarded) redirect('/onboarding');
 
-  const [t, glow, entitlements] = await Promise.all([
+  const [t, glow, entitlements, journey, v2] = await Promise.all([
     getTranslations(),
     db.user.findUnique({
       where: { id: session.user.id },
@@ -50,9 +56,12 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         xpTotal: true, levelSeen: true, lastActiveAt: true, locale: true, timezone: true, createdAt: true,
         emailVerifiedAt: true, termsVersion: true, privacyVersion: true, wellbeingConsentAt: true,
         tourStep: true, tourPausedAt: true, tourCompletedAt: true, guidedAutoOpen: true,
+        journeyMappedAt: true, announcementSeen: true,
       },
     }),
     getEntitlements(session.user.id),
+    getJourney(session.user.id),
+    db.announcement.findUnique({ where: { key: 'v2' }, select: { key: true } }),
   ]);
   // Termos/Política: versão nova (ou nunca aceite) → diálogo bloqueante; as Novidades esperam pela aceitação.
   const legal = legalVersions();
@@ -62,12 +71,19 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     : [];
   const xpTotal = glow?.xpTotal ?? 0;
 
+  // F19: slides da v2 (a quem já usava a app, depois de publicados) e a mini-lição de um novo passo. Abaixo das
+  // políticas, da subida de nível e do onboarding guiado; acima da retrospectiva e do modo guiado automático.
+  const aboveJourney = !glow || policyPending || levelFor(xpTotal).level > glow.levelSeen || tourStateFromDb(glow).status === 'active' || announcements.length > 0;
+  const showWhatsNew = !aboveJourney && !!glow && shouldShowWhatsNew({ mappedAt: glow.journeyMappedAt, seen: glow.announcementSeen, published: !!v2, key: 'v2' });
+  const pendingCeremony = aboveJourney || showWhatsNew ? null : journey.pendingCeremony;
+  const journeyBlocks = showWhatsNew || pendingCeremony !== null;
+
   // F13: retrospectiva devida (semana ou mês que acabou) abre sozinha, mas nunca por cima do guia,
   // dos termos, da subida de nível ou das novidades.
   let recapHref: string | null = null;
   if (glow) {
     const tour = tourStateFromDb(glow);
-    const blocked = policyPending || tour.status === 'active' || levelFor(xpTotal).level > glow.levelSeen || announcements.length > 0;
+    const blocked = policyPending || tour.status === 'active' || levelFor(xpTotal).level > glow.levelSeen || announcements.length > 0 || journeyBlocks;
     const due = dueRecap({
       today: todayInTz(glow.timezone),
       accountCreatedDay: todayInTz(glow.timezone, glow.createdAt),
@@ -87,7 +103,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   // F18: "Abrir o Hoje no modo guiado": o fluxo sugerido, uma vez por fluxo e dia, abaixo do guia, das políticas, da
   // subida de nível, das novidades e da retrospectiva.
   let guidedHref: string | null = null;
-  if (glow?.guidedAutoOpen && !recapHref && !policyPending && announcements.length === 0 && levelFor(xpTotal).level <= glow.levelSeen && tourStateFromDb(glow).status !== 'active') {
+  if (glow?.guidedAutoOpen && !recapHref && !journeyBlocks && !policyPending && announcements.length === 0 && levelFor(xpTotal).level <= glow.levelSeen && tourStateFromDb(glow).status !== 'active') {
     const today = todayInTz(glow.timezone);
     const entry = await getDailyEntry(session.user.id, today);
     const g = await dayGuided(session.user.id, { date: today, today, tz: glow.timezone, entry, wellbeing: !!glow.wellbeingConsentAt });
@@ -125,13 +141,21 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
               year: t('nav.year'),
               grimoire: t('nav.grimoire'),
             }}
+            locked={journey.planners.has('month') ? [] : ['month', 'year']}
           />
         }
       >
         <GlowProvider level={levelFor(xpTotal).level} levelSeen={glow?.levelSeen ?? 1}>
           <SentryUser id={session.user.id} />
           <EntitlementsProvider value={entitlements}>
-            <TourProvider initial={glow ? tourStateFromDb(glow) : IDLE_TOUR}>
+            <TourProvider initial={glow ? tourStateFromDb(glow) : IDLE_TOUR} journey={tourJourney(journey)}>
+            <UnlockCeremonyProvider
+              lessons={getJourneyLessons(dbToAppLocale(glow?.locale ?? session.user.locale))}
+              pending={pendingCeremony}
+              today={todayInTz(glow?.timezone ?? 'UTC')}
+              wellbeing={!!glow?.wellbeingConsentAt}
+              bodyPro={!!entitlements.features['body-pro']}
+            >
               <VerifyEmailBanner verified={!glow || glow.emailVerifiedAt !== null} />
               {children}
               {policyPending && <PolicyUpdateDialog askWellbeing={!glow?.wellbeingConsentAt} />}
@@ -139,6 +163,8 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
               {recapHref && <RecapAutoOpen href={recapHref} />}
               {guidedHref && <GuidedAutoOpen href={guidedHref} />}
               {bodySession && <ActiveSessionPill startedAt={bodySession.startedAt} onlyOn="/today" />}
+              {showWhatsNew && <WhatsNew stage={journey.state.stage} bodyPro={!!entitlements.features['body-pro']} />}
+            </UnlockCeremonyProvider>
             </TourProvider>
           </EntitlementsProvider>
         </GlowProvider>

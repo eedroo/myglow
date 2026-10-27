@@ -9,6 +9,7 @@ import { PROJECT_AREAS, type WeekData, type WeekPageData } from '@/types/week';
 import type { ProjectArea } from '@prisma/client';
 import { getEntitlements } from '@/lib/entitlements/server';
 import { weeklyWeightAverages } from '@/lib/body/queries';
+import { getJourney } from '@/lib/journey/server';
 
 /** Tudo o que a página da semana precisa. Não cria registos. */
 export async function getWeekPageData(userId: string, start: DateISO, tz: string): Promise<WeekPageData> {
@@ -16,7 +17,7 @@ export async function getWeekPageData(userId: string, start: DateISO, tz: string
   const end = days[6]!;
   const today = todayInTz(tz);
 
-  const [week, projects, entries, previous, wellbeing] = await Promise.all([
+  const [week, projects, entries, previous, wellbeing, journey] = await Promise.all([
     db.week.findUnique({
       where: { userId_startDate: { userId, startDate: toDbDate(start) } },
       include: { dayNotes: true },
@@ -32,6 +33,7 @@ export async function getWeekPageData(userId: string, start: DateISO, tz: string
       select: { weightGrams: true },
     }),
     hasWellbeingConsent(userId),
+    getJourney(userId),
   ]);
 
   const notes = new Map(week?.dayNotes.map((n) => [fromDbDate(n.date), n.text]) ?? []);
@@ -54,7 +56,7 @@ export async function getWeekPageData(userId: string, start: DateISO, tz: string
     week: data,
     days: days.map((date) => ({
       date,
-      progress: computeDayProgress(date, entryByDate.get(date) ?? null, { wellbeing }),
+      progress: computeDayProgress(date, entryByDate.get(date) ?? null, { wellbeing, available: journey.sections }),
       moon: moon[date]!,
       isToday: date === today,
       isFuture: compareDates(date, today) > 0,
@@ -64,6 +66,7 @@ export async function getWeekPageData(userId: string, start: DateISO, tz: string
     previousWeightGrams: previous?.weightGrams ?? null,
     wellbeing,
     today,
+    showProjects: journey.sections.has('weekProjects'),
   };
 }
 

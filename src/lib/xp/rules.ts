@@ -1,7 +1,7 @@
 import type { XpSource } from '@prisma/client';
 import { DateTime } from 'luxon';
 import type { DateISO } from '@/lib/dates';
-import type { DayProgress } from '@/lib/daily/progress';
+import { isDayComplete, type DayProgress } from '@/lib/daily/progress';
 
 /**
  * Regras do Glow (no código: xp). Funções puras.
@@ -97,10 +97,11 @@ function pick(sources: WindowedSource[], periodStart: DateISO, now: Date, tz: st
 
 export function dayCandidates(i: { date: DateISO; progress: DayProgress; now: Date; tz: string }): XpCandidate[] {
   const met: WindowedSource[] = [];
+  // F19: só partes aplicáveis (desbloqueadas) dão Glow; o dia completo é relativo a elas.
   if (i.progress.morning) met.push('DAY_MORNING');
   if (i.progress.body) met.push('DAY_BODY');
   if (i.progress.night) met.push('DAY_NIGHT');
-  if (i.progress.morning && i.progress.body && i.progress.night) met.push('DAY_COMPLETE');
+  if (isDayComplete(i.progress)) met.push('DAY_COMPLETE');
   return pick(met, i.date, i.now, i.tz);
 }
 

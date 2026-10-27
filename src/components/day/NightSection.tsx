@@ -13,17 +13,21 @@ interface NightSectionProps {
   current: boolean;
   /** F18: base das rotas do modo guiado deste dia (só hoje e ontem). */
   guidedBase?: string | null;
+  /** F19: banimento e ritual só depois de desbloqueados na jornada. */
+  showBanish?: boolean;
+  showRitual?: boolean;
 }
 
-export function NightSection({ data, setField, onTextBlur, current, guidedBase }: NightSectionProps) {
+export function NightSection({ data, setField, onTextBlur, current, guidedBase, showBanish = true, showRitual = true }: NightSectionProps) {
   const t = useTranslations('day');
   return (
-    <section className={current ? 'mg-period mg-period--night mg-period--current' : 'mg-period mg-period--night'} data-tour="night-section">
+    <section className={current ? 'mg-period mg-period--night mg-period--current' : 'mg-period mg-period--night'}>
       <SectionHeader
         title={t('night.title')}
         icon="moon-crescent"
         action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/night`} label={t('guidedNight')} /> : undefined}
       />
+      {showBanish && (
       <CheckTile
         icon="feather"
         label={t('night.banish')}
@@ -38,13 +42,16 @@ export function NightSection({ data, setField, onTextBlur, current, guidedBase }
         checkLabel={t('done')}
         onCheckedChange={(v) => setField('nightBanishDone', v)}
       />
-      <CheckTile
-        icon="crystal-ball"
-        label={t('night.ritual')}
-        checked={data.nightRitualDone}
-        checkLabel={t('done')}
-        onCheckedChange={(v) => setField('nightRitualDone', v)}
-      />
+      )}
+      {showRitual && (
+        <CheckTile
+          icon="crystal-ball"
+          label={t('night.ritual')}
+          checked={data.nightRitualDone}
+          checkLabel={t('done')}
+          onCheckedChange={(v) => setField('nightRitualDone', v)}
+        />
+      )}
     </section>
   );
 }

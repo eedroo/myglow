@@ -6,6 +6,7 @@ import { addDays, toDbDate, type DateISO } from '@/lib/dates';
 import { addMonths, monthOf, weekStartOf } from '@/lib/weeks';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
 import { hasWellbeingConsent } from '@/lib/account/consent';
+import { loadJourney } from '@/lib/journey/server';
 import { planMet, reflectionMet } from '@/lib/xp/rules';
 import { getDailyMoon } from '@/lib/astro/moon';
 import { getSkyEvents, type SabbatKey } from '@/lib/astro/skyEvents';
@@ -24,7 +25,7 @@ export async function notificationState(userId: string, date: DateISO, locale: L
   const monthStart = toDbDate(`${date.slice(0, 7)}-01`);
   const prevWeekStart = toDbDate(addDays(weekStartOf(date), -7));
   const prev = addMonths(year, month, -1);
-  const [entry, week, weekProjects, monthRow, monthProjects, prevWeek, prevMonth, grimoire, wellbeing] = await Promise.all([
+  const [entry, week, weekProjects, monthRow, monthProjects, prevWeek, prevMonth, grimoire, wellbeing, journey] = await Promise.all([
     db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(date) } }, select: PROGRESS_SELECT }),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: weekStart } }, select: { intention: true, reflection: true } }),
     db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: weekStart } }),
@@ -38,9 +39,12 @@ export async function notificationState(userId: string, date: DateISO, locale: L
       return { lessonsToday: 0, lessonsLeft: 0, quizPending: false };
     }),
     hasWellbeingConsent(userId),
+    // F19: só se lembra o que a jornada já abriu (sem corpo antes da etapa 4; sem Mês antes de o desbloquear).
+    loadJourney(userId),
   ]);
   return {
-    day: computeDayProgress(date, entry, { wellbeing }),
+    day: computeDayProgress(date, entry, { wellbeing, available: journey.sections }),
+    monthUnlocked: journey.planners.has('month'),
     weekPlanDone: planMet(week?.intention ?? '', weekProjects),
     weekReflectionDone: reflectionMet(week?.reflection ?? ''),
     monthPlanDone: planMet(monthRow?.intention ?? '', monthProjects),

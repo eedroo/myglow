@@ -97,7 +97,7 @@ export async function generateGuideReport(
 
   const data = await loadGuideData(userId, period);
   if (!data) return 'skipped';
-  const input = buildGuideInput(data.raw, { hasWellbeingConsent: data.hasWellbeingConsent, includeBody: data.includeBody });
+  const input = buildGuideInput(data.raw, { hasWellbeingConsent: data.hasWellbeingConsent, includeBody: data.includeBody, available: data.available });
   const hash = inputHash(input);
   const base = { locale: input.locale, inputHash: hash, regenerated: regenerate };
 

@@ -1,0 +1,21 @@
+/* WhatsNew (F19): "Chegou a MYGLOW v2" em slides */
+
+.mg-whats-new-v2-player {
+  z-index: var(--z-tour);
+}
+
+.mg-whats-new-v2 {
+  align-items: center;
+  text-align: center;
+}
+
+.mg-whats-new-v2__icon {
+  display: inline-flex;
+}
+
+.mg-whats-new-v2__text {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}

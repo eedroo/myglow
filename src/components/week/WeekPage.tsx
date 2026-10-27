@@ -90,6 +90,7 @@ export async function WeekPage({ start }: { start: DateISO }) {
         previousWeightGrams={data.previousWeightGrams}
         dailyWeight={data.dailyWeight}
         wellbeing={data.wellbeing}
+        showProjects={data.showProjects}
         defaultTitle={defaultTitle}
         glowNote={<GlowWindowNote period="week" periodStart={start} timezone={user.timezone} today={data.today} earned={weekAwards} />}
         sky={<WeekSkyCard events={data.moonEvents} moonDays={data.days.map((d) => d.moon)} timezone={user.timezone} />}

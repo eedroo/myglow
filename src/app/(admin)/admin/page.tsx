@@ -6,6 +6,8 @@ import { ActivityBars } from '@/components/admin/ActivityBars';
 import { FunnelTable } from '@/components/admin/FunnelTable';
 import { RetentionTable } from '@/components/admin/RetentionTable';
 import { AdminTable } from '@/components/admin/AdminTable';
+import { JourneyAdminCard } from '@/components/admin/JourneyAdminCard';
+import { AnnouncementsCard } from '@/components/admin/AnnouncementsCard';
 
 /** Métricas de produto, calculadas a pedido a partir da base de dados (só totais). */
 export default async function AdminMetricsPage() {
@@ -101,6 +103,12 @@ export default async function AdminMetricsPage() {
           </div>
         )}
         <p className="mg-admin__note">Concluída = chegou ao último slide.</p>
+      </GlassCard>
+
+      <JourneyAdminCard journey={m.journey} />
+
+      <GlassCard title="Anúncios">
+        <AnnouncementsCard publishedAt={m.announcements.find((a) => a.key === 'v2')?.publishedAt.toISOString().slice(0, 10) ?? null} />
       </GlassCard>
 
       <GlassCard title="Modo guiado (30 dias)">

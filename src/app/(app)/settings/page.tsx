@@ -21,6 +21,7 @@ import { ResendVerificationButton } from '@/components/account/ResendVerificatio
 import { WellbeingConsentCard } from '@/components/account/WellbeingConsentCard';
 import { BodyGuideCard } from '@/components/body/BodyGuideCard';
 import { GuidedSettings } from '@/components/guided/GuidedSettings';
+import { UnlockAllDialog } from '@/components/journey-path/UnlockAllDialog';
 import { DeleteAccountDialog } from '@/components/account/DeleteAccountDialog';
 import { DELETE_CONFIRM_WORD } from '@/lib/validation/account';
 import { FeedbackDialog } from '@/components/beta/FeedbackDialog';
@@ -74,6 +75,8 @@ export default async function SettingsPage() {
         guideConsentAt: true,
         guideIncludeBody: true,
         guidedAutoOpen: true,
+        journeyStage: true,
+        journeyAllUnlockedAt: true,
         guideConsentVersion: true,
         showBigThree: true,
         blocks: { select: { blocked: { select: { id: true, name: true } } }, orderBy: { createdAt: 'desc' } },
@@ -157,6 +160,13 @@ export default async function SettingsPage() {
       {/* F18: modo guiado */}
       <GlassCard id="diary" className="mg-settings__section" title={t('sections.diary')}>
         <GuidedSettings autoOpen={user.guidedAutoOpen} />
+        {/* F19: a jornada da metodologia; "Já conheço" abre o diário completo. */}
+        {!user.journeyAllUnlockedAt && user.journeyStage < 5 && (
+          <div className="mg-form__row">
+            <p className="mg-form__status">{t('journey.hint')}</p>
+            <UnlockAllDialog />
+          </div>
+        )}
       </GlassCard>
 
       <GlassCard

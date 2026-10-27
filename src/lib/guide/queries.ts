@@ -42,7 +42,7 @@ export async function getGuideState(userId: string, kind: RecapKind, periodKey: 
   let canRegenerate = false;
   if (row.regenerations < MAX_REGENERATIONS) {
     const data = await loadGuideData(userId, recapPeriod(kind, periodKey));
-    canRegenerate = !!data && inputHash(buildGuideInput(data.raw, { hasWellbeingConsent: data.hasWellbeingConsent, includeBody: data.includeBody })) !== row.inputHash;
+    canRegenerate = !!data && inputHash(buildGuideInput(data.raw, { hasWellbeingConsent: data.hasWellbeingConsent, includeBody: data.includeBody, available: data.available })) !== row.inputHash;
   }
   return { status: 'ready', report: parsed.data, generatedAt: row.generatedAt.toISOString(), canRegenerate, rating: row.rating };
 }

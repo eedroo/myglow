@@ -9,8 +9,10 @@ import { DAILY_TEXT_FIELDS, type DailyPatch } from '@/types/daily';
 import { computeDayProgress } from '@/lib/daily/progress';
 import { dayCandidates } from '@/lib/xp/rules';
 import { safeAwardXp, type XpResult } from '@/lib/xp/award';
+import { getJourney, runJourneyEvaluation } from '@/lib/journey/server';
+import type { UnlockId } from '@/lib/journey/stages';
 
-export type PatchDailyResult = { ok: true; updatedAt: string; xp?: XpResult } | { ok: false; error: string };
+export type PatchDailyResult = { ok: true; updatedAt: string; xp?: XpResult; journeyUnlocked?: UnlockId } | { ok: false; error: string };
 
 const MIN_DATE: DateISO = '2000-01-01';
 const WELLBEING_FIELDS = ['wakeMood', 'wakeNote', 'mood', 'sleepGoalMet'] as const;
@@ -61,13 +63,16 @@ export async function patchDailyEntry(date: DateISO, patch: DailyPatch): Promise
         });
       })();
 
-  // Glow: avaliado depois de gravar; nunca faz falhar a gravação.
+  // Glow: avaliado depois de gravar; nunca faz falhar a gravação. F19: relativo ao que está desbloqueado.
+  const available = await getJourney(userId).then((j) => j.sections).catch(() => undefined);
   const xp = await safeAwardXp(
     userId,
-    () => dayCandidates({ date, progress: computeDayProgress(date, row, { wellbeing }), now: new Date(), tz: user.timezone }),
+    () => dayCandidates({ date, progress: computeDayProgress(date, row, { wellbeing, available }), now: new Date(), tz: user.timezone }),
     { tz: user.timezone, today },
   );
-  return { ok: true, updatedAt: row.updatedAt.toISOString(), ...(xp && { xp }) };
+  // F19: jornada depois do Glow (nunca lança); o primeiro desbloqueio abre a mini-lição logo.
+  const [journeyUnlocked] = await runJourneyEvaluation(userId);
+  return { ok: true, updatedAt: row.updatedAt.toISOString(), ...(xp && { xp }), ...(journeyUnlocked && { journeyUnlocked }) };
 }
 
 /**

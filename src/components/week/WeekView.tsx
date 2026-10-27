@@ -35,10 +35,25 @@ interface WeekViewProps {
   focusNotes?: Partial<Record<ProjectArea, string>>;
   /** F13: cartão da retrospectiva (antes da reflexão). */
   recap?: ReactNode;
+  /** F19: cartão das áreas só com `weekProjects` desbloqueado (os textos gravados ficam). */
+  showProjects?: boolean;
 }
 
 /** Cartões interactivos da semana com gravação automática. */
-export function WeekView({ initial, days, previousWeightGrams, dailyWeight, wellbeing, defaultTitle, sky, glowNote, reading, focusNotes, recap }: WeekViewProps) {
+export function WeekView({
+  initial,
+  days,
+  previousWeightGrams,
+  dailyWeight,
+  wellbeing,
+  defaultTitle,
+  sky,
+  glowNote,
+  reading,
+  focusNotes,
+  recap,
+  showProjects = true,
+}: WeekViewProps) {
   const t = useTranslations();
   const { data, setText, setWeight, setDayNote, setProject, status, errorKey, flush } = useWeekAutosave(initial);
   const onBlur = () => void flush();
@@ -90,15 +105,17 @@ export function WeekView({ initial, days, previousWeightGrams, dailyWeight, well
             <WellbeingNotice />
           )}
         </div>
-        <div className="mg-week__cell mg-week__cell--projects">
-          <PeriodProjectsCard
-            title={t('projects.title')}
-            values={data.projects}
-            onChange={setProject}
-            onBlur={onBlur}
-            notes={focusNotes}
-          />
-        </div>
+        {showProjects && (
+          <div className="mg-week__cell mg-week__cell--projects">
+            <PeriodProjectsCard
+              title={t('projects.title')}
+              values={data.projects}
+              onChange={setProject}
+              onBlur={onBlur}
+              notes={focusNotes}
+            />
+          </div>
+        )}
         <div className="mg-week__cell mg-week__cell--reflection">
           {recap}
           <PeriodReflectionCard

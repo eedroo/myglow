@@ -33,6 +33,8 @@ export interface NotificationState {
   grimoire: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
   /** F17: já há peso registado hoje (o lembrete de pesagem só sai se for false). */
   weighedToday?: boolean;
+  /** F19: o Mês já está desbloqueado na jornada (sem ele, os avisos do mês não saem); undefined = sim. */
+  monthUnlocked?: boolean;
 }
 
 export interface DueNotification {
@@ -104,24 +106,28 @@ export function dueCandidates(now: Date, tz: string, prefs: NotificationPrefsInp
 
 function pending(kind: NotificationKind, s: NotificationState): boolean {
   switch (kind) {
-    case 'MORNING': return !s.day.morning;
-    case 'BODY': return !s.day.body;
-    case 'NIGHT': return !s.day.night;
+    // F19: só partes do dia desbloqueadas (o corpo não sai antes da etapa 4).
+    case 'MORNING': return s.day.applicable.morning && !s.day.morning;
+    case 'BODY': return s.day.applicable.body && !s.day.body;
+    case 'NIGHT': return s.day.applicable.night && !s.day.night;
     case 'WEEK_START': return !s.weekPlanDone;
     case 'WEEK_END': return !s.weekReflectionDone;
-    case 'MONTH_START': return !s.monthPlanDone;
-    case 'MONTH_END': return !s.monthReflectionDone;
+    case 'MONTH_START': return s.monthUnlocked !== false && !s.monthPlanDone;
+    case 'MONTH_END': return s.monthUnlocked !== false && !s.monthReflectionDone;
     case 'WEEK_PLAN_LAST': return !s.weekPlanDone;
     case 'WEEK_REFLECTION_LAST': return !s.lastWeekReflectionDone;
-    case 'MONTH_PLAN_LAST': return !s.monthPlanDone;
-    case 'MONTH_REFLECTION_LAST': return !s.lastMonthReflectionDone;
+    case 'MONTH_PLAN_LAST': return s.monthUnlocked !== false && !s.monthPlanDone;
+    case 'MONTH_REFLECTION_LAST': return s.monthUnlocked !== false && !s.lastMonthReflectionDone;
     case 'GRIMOIRE': return s.grimoire.lessonsLeft > 0 || s.grimoire.quizPending;
     case 'GRIMOIRE_LAST': return s.grimoire.lessonsLeft > 0;
     // F15: os avisos de amigos não são agendados (enviados na hora pela acção).
     case 'WEIGH_IN': return s.weighedToday === false;
     case 'FRIEND_REQUEST':
     case 'FRIEND_ACCEPTED':
-    case 'REST_DONE': return false;
+    case 'REST_DONE':
+    // F19: novo passo da jornada e anúncios saem na hora (avaliação e admin), nunca agendados.
+    case 'JOURNEY_UNLOCK':
+    case 'ANNOUNCEMENT': return false;
   }
 }
 

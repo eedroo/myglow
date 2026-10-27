@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import type { DayProgress } from '@/lib/daily/progress';
+import { computeDayProgress, type DayProgress } from '@/lib/daily/progress';
+import { NEW_JOURNEY, unlockedSections } from '@/lib/journey/state';
 import { DAY_MAX_POINTS, dayCandidates, isWindowOpen, weekCandidates, xpWindow, type WindowedSource } from './rules';
 
 const TZ = 'Europe/Lisbon';
 const iso = (d: Date) => d.toISOString();
 
 const progress = (p: Partial<DayProgress>): DayProgress => ({
-  date: '2026-05-06', hasEntry: true, morning: false, body: false, bodyChecks: 0, night: false, level: 'partial', ...p,
+  date: '2026-05-06', hasEntry: true, morning: false, body: false, bodyChecks: 0, night: false, level: 'partial', applicable: { morning: true, body: true, night: true }, ...p,
 });
 
 describe('janelas', () => {
@@ -96,5 +97,22 @@ describe('candidatos', () => {
 
   it('reflexão fora da janela (terça) não conta', () => {
     expect(weekCandidates({ ...week, intention: '', projectsFilled: 0, reflection: 'a'.repeat(40) })).toEqual([]);
+  });
+});
+
+describe('dayCandidates com a jornada (F19)', () => {
+  it('etapa 1 completa → manhã, noite e dia completo, sem corpo', () => {
+    const now = new Date('2026-05-06T20:00:00Z');
+    const p = computeDayProgress('2026-05-06', {
+      intention: 'Calma', morningBanishName: null, morningBanishDone: false, morningRitualDone: false, sleepGoalMet: false,
+      wakeMood: null, wakeNote: null, stretchDone: false, workoutDone: false, waterDone: false,
+      nightBanishName: null, nightBanishDone: false, nightRitualDone: false, gratitude: 'Sol', mood: 4, reflection: null, summary: null,
+    }, { available: unlockedSections(NEW_JOURNEY) });
+    expect(dayCandidates({ date: '2026-05-06', progress: p, now, tz: TZ }).map((c) => c.source)).toEqual(['DAY_MORNING', 'DAY_NIGHT', 'DAY_COMPLETE']);
+  });
+
+  it('nada aplicável → nunca dia completo', () => {
+    const p = progress({ applicable: { morning: false, body: false, night: false } });
+    expect(dayCandidates({ date: '2026-05-06', progress: p, now: new Date('2026-05-06T20:00:00Z'), tz: TZ })).toEqual([]);
   });
 });

@@ -1,4 +1,5 @@
 import type { AppLocale } from '@/i18n/locales';
+import type { SectionKey } from '@/lib/guided/sections';
 import type { MoonEvent } from '@/lib/astro/moonCalendar';
 import type { RetrogradePeriod, SkyEvent } from '@/lib/astro/skyEvents';
 import { compareDates, type DateISO } from '@/lib/dates';
@@ -43,6 +44,8 @@ export interface RecapInput {
   moonEvents: MoonEvent[];
   skyEvents: SkyEvent[]; // MONTH apenas
   retrogrades: RetrogradePeriod[]; // MONTH apenas
+  /** F19: secções desbloqueadas na jornada; os slides de secções bloqueadas não aparecem. Sem isto, tudo. */
+  available?: Set<SectionKey>;
 }
 
 export type RecapSlide =
@@ -118,13 +121,15 @@ export function buildRecap(i: RecapInput): RecapSlide[] {
   }
 
   const h = stats.habits;
-  if ([h.morningRitual, h.nightRitual, h.morningBanish, h.nightBanish].some((x) => x.done > 0)) {
+  const has = (k: SectionKey) => !i.available || i.available.has(k);
+  const ritualsOpen = has('morningBanish') || has('nightBanish') || has('morningRitual') || has('nightRitual');
+  if (ritualsOpen && [h.morningRitual, h.nightRitual, h.morningBanish, h.nightBanish].some((x) => x.done > 0)) {
     slides.push({ type: 'rituals', morningRitual: h.morningRitual, nightRitual: h.nightRitual, morningBanish: h.morningBanish, nightBanish: h.nightBanish });
   }
 
   const points = wellbeing ? stats.weight.points.map((p) => p.grams) : [];
   const weight = points.length >= 2 ? { firstGrams: points[0]!, lastGrams: points[points.length - 1]!, points } : null;
-  if ([h.stretch, h.workout, h.water].some((x) => x.done > 0) || weight) {
+  if ((has('body') && [h.stretch, h.workout, h.water].some((x) => x.done > 0)) || weight) {
     slides.push({ type: 'body', stretch: h.stretch, workout: h.workout, water: h.water, weight });
   }
 

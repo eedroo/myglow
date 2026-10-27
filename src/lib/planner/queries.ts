@@ -8,6 +8,7 @@ import { getCachedRetrogradePeriods, getCachedSkyEvents } from '@/lib/astro/skyC
 import type { SkyEvent } from '@/lib/astro/skyEvents';
 import { getDailySky } from '@/lib/astro/sky';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
+import { getJourney } from '@/lib/journey/server';
 import { hasWellbeingConsent } from '@/lib/account/consent';
 import { computePeriodStats, computeYearMonthly, mergeDailyWeights, type DailyEntryLike } from '@/lib/stats/period';
 import { dailyWeightWeeks } from '@/lib/body/queries';
@@ -77,6 +78,7 @@ export async function getMonthPageData(
       entries: overview.entries.filter((e) => e.date >= from && e.date <= to),
       weeks: mergeDailyWeights(weeks.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })), await dailyWeightWeeks(userId, from, to)),
       wellbeing,
+      available: (await getJourney(userId)).sections,
     }),
     isFuture: compareDates(from, overview.today) > 0,
   };
@@ -104,7 +106,7 @@ export async function getYearPageData(userId: string, year: number, tz: string, 
   ]);
 
   const list: DailyEntryLike[] = entries.map((e) => ({ ...e, date: fromDbDate(e.date) }));
-  const wellbeing = await hasWellbeingConsent(userId);
+  const [wellbeing, journey] = await Promise.all([hasWellbeingConsent(userId), getJourney(userId)]);
   const monthly = computeYearMonthly(year, today, list, wellbeing);
   const intentionByMonth = new Map(months.map((m) => [m.month, m.intention ?? '']));
   const current = monthOf(today);
@@ -113,7 +115,7 @@ export async function getYearPageData(userId: string, year: number, tz: string, 
   for (const e of list) {
     const m = Number(e.date.slice(5, 7));
     const levels = levelsByMonth.get(m) ?? {};
-    levels[e.date] = computeDayProgress(e.date, e, { wellbeing }).level;
+    levels[e.date] = computeDayProgress(e.date, e, { wellbeing, available: journey.sections }).level;
     levelsByMonth.set(m, levels);
   }
 
@@ -143,6 +145,7 @@ export async function getYearPageData(userId: string, year: number, tz: string, 
       entries: list,
       weeks: mergeDailyWeights(weeks.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })), await dailyWeightWeeks(userId, from, to)),
       wellbeing,
+      available: journey.sections,
     }),
     today,
   };

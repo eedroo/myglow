@@ -4,7 +4,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { usePathname, useRouter } from 'next/navigation';
 import { saveTourState } from '@/actions/tour';
 import { onTourEvent } from '@/lib/tour/bus';
-import { currentStep, isOnStepRoute, progress, reduceTour, startTour, type TourState } from '@/lib/tour/machine';
+import { currentStep, isOnStepRoute, progress, reduceTour, startTour, visibleSteps, type TourOptions, type TourState } from '@/lib/tour/machine';
+import type { SectionKey } from '@/lib/guided/sections';
 import { TOUR_STEPS, type TourEvent, type TourStep } from '@/lib/tour/steps';
 import { TourOverlay } from './TourOverlay';
 import { TourBubble } from './TourBubble';
@@ -38,8 +39,25 @@ export function useTour(): TourContextValue | null {
 const routeHref = (step: TourStep) => (step.route === 'lesson' ? '/grimoire' : step.route);
 
 /** Mantém o estado do guia, escuta as acções reais (bus), grava cada mudança e mostra o passo certo. */
-export function TourProvider({ initial, children }: { initial: TourState; children: ReactNode }) {
+export function TourProvider({
+  initial,
+  journey,
+  children,
+}: {
+  initial: TourState;
+  /** F19: secções desbloqueadas e se o cartão da jornada aparece no Hoje (passos bloqueados saltam-se). */
+  journey?: { available: SectionKey[]; journeyCard: boolean };
+  children: ReactNode;
+}) {
   const router = useRouter();
+  const sectionsKey = journey?.available.join(',');
+  const opts = useMemo<TourOptions>(
+    () => (journey ? { available: new Set(journey.available), journeyCard: journey.journeyCard } : {}),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- muda só quando muda a lista
+    [sectionsKey, journey?.journeyCard],
+  );
+  const optsRef = useRef(opts);
+  optsRef.current = opts;
   const pathname = usePathname();
   const [state, setState] = useState<TourState>(initial);
   const stateRef = useRef(state);
@@ -71,7 +89,7 @@ export function TourProvider({ initial, children }: { initial: TourState; childr
   const dispatch = useCallback(
     (event: TourEvent) => {
       const prev = stateRef.current;
-      const next = reduceTour(prev, event);
+      const next = reduceTour(prev, event, optsRef.current);
       if (next === prev || (next.stepId === prev.stepId && next.status === prev.status)) return;
       stateRef.current = next;
       remember(next);
@@ -119,6 +137,11 @@ export function TourProvider({ initial, children }: { initial: TourState; childr
   const step = currentStep(state);
   const onRoute = !!step && isOnStepRoute(step, pathname);
 
+  // F19: passo gravado que entretanto ficou escondido pela jornada: segue para o próximo visível.
+  useEffect(() => {
+    if (state.status === 'active' && step && !visibleSteps(opts).some((s) => s.id === step.id)) dispatch('next');
+  }, [state.status, step, opts, dispatch]);
+
   // A pessoa tocou na própria aba em destaque (Semana, Grimório): chegou ao passo seguinte sozinha.
   useEffect(() => {
     if (state.status !== 'active' || !step || step.advanceOn !== 'next' || step.route === pathname) return;
@@ -164,7 +187,7 @@ export function TourProvider({ initial, children }: { initial: TourState; childr
   }, [active, step?.id, pathname]);
 
   const value = useMemo(() => ({ state, dispatch, restartLocal }), [state, dispatch, restartLocal]);
-  const { index, total } = progress(state);
+  const { index, total } = progress(state, opts);
 
   let ui: ReactNode = null;
   if (active && step) {

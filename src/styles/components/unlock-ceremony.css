@@ -1,0 +1,66 @@
+/* UnlockCeremony (F19): mini-lição de um novo passo, sobre o leitor de slides do modo guiado */
+
+.mg-unlock-player {
+  z-index: var(--z-tour);
+}
+
+.mg-unlock {
+  align-items: center;
+  text-align: center;
+}
+
+.mg-unlock__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--gold-500);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--gold-accent);
+}
+
+.mg-unlock__icon {
+  display: inline-flex;
+}
+
+/* Brilho dourado na abertura (partilhado com os slides de novidades) */
+.mg-unlock__glow {
+  filter: drop-shadow(0 0 28px var(--guided-glow));
+  animation: mg-unlock-glow 2.4s ease-in-out infinite;
+}
+
+.mg-unlock__text {
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
+.mg-unlock__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.mg-unlock__deeper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--gold-accent);
+}
+
+@keyframes mg-unlock-glow {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-unlock__glow { animation: none; }
+}

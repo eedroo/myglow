@@ -1,0 +1,175 @@
+/* JourneyPath e UnlockAllDialog (F19): /journey */
+
+.mg-journey-path {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mg-journey-path__list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A linha do caminho, por trás dos marcadores */
+.mg-journey-path__list::before {
+  content: '';
+  position: absolute;
+  top: var(--space-4);
+  bottom: var(--space-4);
+  left: 17px;
+  width: 2px;
+  background: var(--glass-border);
+}
+
+.mg-journey-path__stage {
+  position: relative;
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.mg-journey-path__marker {
+  z-index: 1;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: 50%;
+  background: var(--glass-bg-solid);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.mg-journey-path__stage--done .mg-journey-path__marker {
+  border-color: var(--gold-500);
+  background: var(--gold-500);
+  color: var(--glass-bg-solid);
+}
+
+.mg-journey-path__stage--current .mg-journey-path__marker {
+  border-color: var(--gold-500);
+  color: var(--gold-accent);
+  box-shadow: 0 0 14px var(--gold-halo);
+}
+
+.mg-journey-path__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+}
+
+.mg-journey-path__stage--current .mg-journey-path__body {
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.mg-journey-path__stage--next .mg-journey-path__body {
+  opacity: 0.7;
+}
+
+.mg-journey-path__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-regular);
+}
+
+.mg-journey-path__opens,
+.mg-journey-path__extra {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.mg-journey-path__state {
+  margin: 0;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--gold-accent);
+}
+
+.mg-journey-path__progress {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+.mg-journey-path__extra {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: baseline;
+}
+
+.mg-journey-path__review,
+.mg-unlock-all__link {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gold-accent);
+  font: inherit;
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.mg-journey-path__footer {
+  display: flex;
+  justify-content: center;
+}
+
+.mg-unlock-all__link {
+  align-self: center;
+  color: var(--text-muted);
+}
+
+.mg-unlock-all {
+  width: min(calc(100% - var(--space-6)), 440px);
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-solid);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  color: var(--text-primary);
+}
+
+.mg-unlock-all::backdrop {
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.mg-unlock-all__title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+}
+
+.mg-unlock-all__text {
+  margin: 0 0 var(--space-5);
+  color: var(--text-secondary);
+}
+
+.mg-unlock-all__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}

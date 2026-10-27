@@ -25,6 +25,19 @@ export interface AdminMetrics {
   guide: { consented: number; byStatus: Record<GuideStatus, number>; rated: number; helped: number; inputTokens: number; outputTokens: number; costUsd: number };
   /** F18: modo guiado nos últimos 30 dias (iniciados e concluídos por fluxo; pessoas activas que o usaram). */
   guided: { byFlow: { flow: GuidedFlow; started: number; completed: number }[]; users30: number; active30: number };
+  /**
+   * F19: jornada. Pessoas por etapa, mediana de dias desde o registo até cada etapa (só desbloqueios reais, não os do
+   * mapeamento), % que desbloqueou tudo e mini-lições vistas até ao fim vs fechadas antes.
+   */
+  journey: {
+    byStage: { stage: number; users: number }[];
+    medianDays: { unlockId: string; days: number | null; users: number }[];
+    allUnlocked: number;
+    total: number;
+    ceremonies: { seen: number; dismissed: number };
+  };
+  /** F19: anúncios publicados (key → data). */
+  announcements: { key: string; publishedAt: Date }[];
 }
 
 const RETENTION_WEEKS = 8;
@@ -98,6 +111,24 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
         AND EXISTS (SELECT 1 FROM "UserActiveDay" a WHERE a."userId" = g."userId" AND a.day >= ${toDbDate(addDays(today, -29))})`,
   ]);
 
+  const [stageRows, medianRows, allUnlocked, ceremonyRows, announcements] = await Promise.all([
+    db.$queryRaw<{ stage: number; n: bigint }[]>`SELECT "journeyStage" AS stage, count(*) AS n FROM "User" GROUP BY 1 ORDER BY 1`,
+    db.$queryRaw<{ unlockId: string; days: number | null; n: bigint }[]>`
+      SELECT j."unlockId" AS "unlockId",
+        percentile_cont(0.5) WITHIN GROUP (ORDER BY EXTRACT(EPOCH FROM j."unlockedAt" - u."createdAt") / 86400) AS days,
+        count(*) AS n
+      FROM "JourneyUnlock" j JOIN "User" u ON u.id = j."userId"
+      WHERE (u."journeyMappedAt" IS NULL OR j."unlockedAt" > u."journeyMappedAt")
+        AND (u."journeyAllUnlockedAt" IS NULL OR j."unlockedAt" < u."journeyAllUnlockedAt")
+      GROUP BY 1 ORDER BY 1`,
+    db.user.count({ where: { journeyAllUnlockedAt: { not: null } } }),
+    db.$queryRaw<{ seen: bigint; dismissed: bigint }[]>`
+      SELECT count(*) FILTER (WHERE NOT j."ceremonyDismissed") AS seen, count(*) FILTER (WHERE j."ceremonyDismissed") AS dismissed
+      FROM "JourneyUnlock" j
+      WHERE j."ceremonySeenAt" IS NOT NULL AND j."ceremonySeenAt" > j."unlockedAt"`,
+    db.announcement.findMany({ orderBy: { publishedAt: 'desc' } }),
+  ]);
+
   const rows: ActiveRow[] = activeRows.map((r) => ({ userId: r.userId, day: fromDbDate(r.day) }));
   const activity = activeUsers(rows, today);
   const signupRows: SignupRow[] = signups.map((u) => ({ userId: u.id, createdDay: todayInTz(u.timezone, u.createdAt) }));
@@ -111,6 +142,14 @@ export async function getAdminMetrics(now = new Date()): Promise<AdminMetrics> {
     feedback: { total: fbTotal, last7: fb7 },
     notifications: notif.map((n) => ({ kind: n.kind, sent: Number(n.sent), opened: Number(n.opened) })),
     recaps: recaps.map((r) => ({ kind: r.kind, viewed: Number(r.viewed), completed: Number(r.completed) })),
+    journey: {
+      byStage: stageRows.map((r) => ({ stage: Number(r.stage), users: Number(r.n) })),
+      medianDays: medianRows.map((r) => ({ unlockId: r.unlockId, days: r.days === null ? null : Math.round(Number(r.days) * 10) / 10, users: Number(r.n) })),
+      allUnlocked,
+      total,
+      ceremonies: { seen: Number(ceremonyRows[0]?.seen ?? 0), dismissed: Number(ceremonyRows[0]?.dismissed ?? 0) },
+    },
+    announcements,
     guided: {
       byFlow: guidedRows.map((r) => ({ flow: r.flow, started: Number(r.started), completed: Number(r.completed) })),
       users30: Number(guidedUsers[0]?.n ?? 0),

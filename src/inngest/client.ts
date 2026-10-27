@@ -15,6 +15,8 @@ type Events = {
   'guide/generate': { data: { userId: string; kind: 'WEEK' | 'MONTH'; periodKey: string; regenerate: boolean } };
   // F16: descanso iniciado numa sessão de treino (o job dorme até ao fim e decide o push).
   'fitness/rest.started': { data: { userId: string; sessionId: string; restEndsAt: string } };
+  // F19: anúncio publicado no admin → caixa + push a todos os utilizadores existentes, em lotes.
+  'announcement/fanout': { data: { key: string } };
 };
 
 export const inngest = new Inngest({ id: 'myglow', schemas: new EventSchemas().fromRecord<Events>() });
@@ -23,6 +25,7 @@ export type SignGenerateEvent = { name: 'ai/sign.generate'; data: Events['ai/sig
 export type UserGenerateEvent = { name: 'ai/user.generate'; data: Events['ai/user.generate']['data'] };
 export type GuideGenerateEvent = { name: 'guide/generate'; data: Events['guide/generate']['data'] };
 export type FitnessRestEvent = { name: 'fitness/rest.started'; data: Events['fitness/rest.started']['data'] };
+export type AnnouncementFanoutEvent = { name: 'announcement/fanout'; data: Events['announcement/fanout']['data'] };
 
 const LOCALES: Locale[] = ['PT_PT', 'PT_BR', 'EN'];
 
@@ -41,7 +44,9 @@ export function userEvents(userId: string, locale: Locale, jobs: UserJob[]): Use
  * Envia eventos sem nunca falhar o request que os disparou (a geração é assíncrona e best-effort;
  * sem Inngest configurado em desenvolvimento, só regista o aviso; com o dev server local usar `INNGEST_DEV=1`).
  */
-export async function sendSafely(events: (SignGenerateEvent | UserGenerateEvent | GuideGenerateEvent | FitnessRestEvent)[]): Promise<boolean> {
+export async function sendSafely(
+  events: (SignGenerateEvent | UserGenerateEvent | GuideGenerateEvent | FitnessRestEvent | AnnouncementFanoutEvent)[],
+): Promise<boolean> {
   if (!events.length) return true;
   if (!process.env.INNGEST_EVENT_KEY && !process.env.INNGEST_DEV) {
     console.warn('[inngest] Sem INNGEST_EVENT_KEY nem INNGEST_DEV: eventos não enviados.');

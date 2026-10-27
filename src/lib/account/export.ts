@@ -1,5 +1,5 @@
 import type {
-  BodyGoal, BodyWeightEntry, GuidedRun,
+  BodyGoal, BodyWeightEntry, GuidedRun, JourneyUnlock,
   BirthProfile, CourseProgress, DailyEntry, Exercise, FitnessPrefs, FitnessProgram, FitnessSession, FitnessWorkout, GuideReport, LessonProgress, Month, NotificationLog, NotificationPrefs,
   ProjectIntention, RecapView, SessionSet, User, UserActiveDay, UserAiContent, Week, WeekDayNote, WorkoutItem, XpEvent, Year,
 } from '@prisma/client';
@@ -19,6 +19,7 @@ export interface ExportSource {
     | 'bestMagicStreak' | 'emailVerifiedAt' | 'termsAcceptedAt' | 'termsVersion' | 'privacyVersion' | 'wellbeingConsentAt'
     | 'createdAt' | 'onboardedAt' | 'plan' | 'planSince' | 'planExpiresAt' | 'premiumInterestAt'
     | 'guideConsentAt' | 'guideConsentVersion' | 'friendCode' | 'handle' | 'showBigThree' | 'guideIncludeBody' | 'guidedAutoOpen'
+    | 'journeyStage' | 'journeyAllUnlockedAt' | 'announcementSeen'
   >;
   birthProfile: BirthProfile | null;
   dailyEntries: DailyEntry[];
@@ -54,6 +55,8 @@ export interface ExportSource {
   };
   /** F18: fluxos do modo guiado (início e fim). */
   guidedRuns: GuidedRun[];
+  /** F19: desbloqueios da jornada. */
+  journeyUnlocks: JourneyUnlock[];
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -93,6 +96,9 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       showBigThree: u.showBigThree,
       guideIncludeBody: u.guideIncludeBody,
       guidedAutoOpen: u.guidedAutoOpen,
+      journeyStage: u.journeyStage,
+      journeyAllUnlockedAt: iso(u.journeyAllUnlockedAt),
+      announcementSeen: u.announcementSeen,
     },
     activeDays: data.activeDays.map((a) => day(a.day)),
     recapViews: data.recapViews.map((r) => ({
@@ -111,6 +117,7 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
     })),
     blocks: data.blocks.map((b) => ({ name: b.name, createdAt: iso(b.createdAt) })),
     guidedRuns: data.guidedRuns.map((g) => ({ flow: g.flow, periodKey: g.periodKey, startedAt: iso(g.startedAt), completedAt: iso(g.completedAt) })),
+    journeyUnlocks: data.journeyUnlocks.map((j) => ({ unlockId: j.unlockId, unlockedAt: iso(j.unlockedAt), ceremonySeenAt: iso(j.ceremonySeenAt) })),
     fitness: {
       prefs: data.fitness.prefs && {
         defaultRestSec: data.fitness.prefs.defaultRestSec,

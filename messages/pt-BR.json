@@ -81,6 +81,9 @@
     "saveEdit": "Salvar dados"
   },
   "settings": {
+    "journey": {
+      "hint": "A jornada abre o diário aos poucos, conforme você pratica. Se já conhece a metodologia, pode abrir tudo agora."
+    },
     "title": "Configurações",
     "subtitle": "Deixe o MYGLOW do seu jeito.",
     "profileSection": "Perfil",
@@ -794,6 +797,21 @@
   },
   "notifications": {
     "push": {
+      "announcement": {
+        "v2": {
+          "title": "A MYGLOW v2 chegou ✨",
+          "body": "Veja as novidades."
+        }
+      },
+      "journeyUnlock": {
+        "title": "Novo passo desbloqueado ✨",
+        "stage-2": "Você aprendeu a abrir e fechar o dia. Agora vamos aprender a soltar.",
+        "stage-3": "Chegou a hora dos rituais. Abra a MYGLOW para conhecer.",
+        "stage-4": "Novo passo: o corpo. Cuidar dele também é prática.",
+        "stage-5": "O último passo: refletir. O diário inteiro agora é seu.",
+        "week-projects": "Na Semana, abriram as intenções por área.",
+        "month-year": "Você fechou a sua primeira semana. O Mês e o Ano estão abertos."
+      },
       "weighIn": {"title": "Bom dia", "body": "Já se pesou hoje?"},
       "restDone": {"title": "Descanso acabou", "body": "Bora pra próxima série de {exercise}.", "bodyGeneric": "Bora pra próxima série."},
       "friendRequest": {"title": "{name} quer ser seu amigo no MYGLOW", "body": "Veja o pedido e aceite se quiser caminhar junto."},
@@ -1035,6 +1053,39 @@
     }
   },
   "whatsNew": {
+    "v2": {
+      "label": "Novidades da MYGLOW v2",
+      "close": "Fechar as novidades",
+      "hello": {
+        "title": "Chegou a MYGLOW v2",
+        "text": "Uma nova forma de viver o seu diário. Veja o que mudou."
+      },
+      "guided": {
+        "title": "Modo guiado",
+        "text": "Um passo de cada vez, de manhã e à noite."
+      },
+      "journey": {
+        "title": "A sua jornada",
+        "text": "A metodologia em 5 etapas. Você está na etapa {n} e tudo o que já usava continua aberto."
+      },
+      "recap": {
+        "title": "Retrospectiva",
+        "text": "A sua semana e o seu mês em slides."
+      },
+      "friends": {
+        "title": "Amigos",
+        "text": "Convide quem caminha com você."
+      },
+      "body": {
+        "title": "Foco no corpo",
+        "text": "Treinos, séries e evolução."
+      },
+      "start": {
+        "title": "Comece agora",
+        "text": "O seu diário continua como você deixou, com tudo isso ao lado.",
+        "cta": "Começar"
+      }
+    },
     "title": "Novidades MYGLOW",
     "subtitle": "O que há de novo desde a sua última visita",
     "course": "Curso “{title}” já disponível no Grimório",
@@ -1497,6 +1548,10 @@
     "start": "Começar",
     "counter": "{index} de {total}",
     "steps": {
+      "journey": {
+        "title": "A sua jornada",
+        "text": "Novos passos vão abrir conforme você pratica. Em 3 dias com intenção e gratidão, você aprende a soltar."
+      },
       "welcome": {
         "title": "Vamos viver o seu primeiro dia juntos",
         "text": "Em dois minutos você conhece o essencial do MYGLOW. Pode pausar quando quiser."
@@ -1527,7 +1582,7 @@
       },
       "night": {
         "title": "À noite, feche o dia",
-        "text": "Gratidão, humor e reflexão. Volte aqui antes de dormir."
+        "text": "À noite, feche o dia com gratidão e o seu humor."
       },
       "glow": {
         "title": "O seu Glow",
@@ -2274,6 +2329,75 @@
       "goal": "Escolha a direção e um dos ritmos.",
       "noWeight": "Registre o peso primeiro para criar a meta.",
       "guideConsent": "Ative primeiro o Guia nas Configurações."
+    }
+  },
+  "journey": {
+    "card": {
+      "title": "A sua jornada",
+      "stage": "Etapa {n} de {total}",
+      "next": "Próximo: {name} · {done} de {of} dias com {what}"
+    },
+    "stages": {
+      "1": {
+        "name": "Abrir e fechar o dia",
+        "next": "abrir e fechar o dia",
+        "opens": "Intenção, gratidão e humor",
+        "practice": "intenção e gratidão"
+      },
+      "2": {
+        "name": "Soltar",
+        "next": "soltar",
+        "opens": "Banimento da manhã e da noite",
+        "practice": "banimento"
+      },
+      "3": {
+        "name": "Rituais",
+        "next": "os rituais",
+        "opens": "Ritual da manhã e da noite, sono, como você acordou e intenções por área na Semana",
+        "practice": "ritual"
+      },
+      "4": {
+        "name": "Corpo",
+        "next": "o corpo",
+        "opens": "Os três cuidados do corpo: água, alongamento e movimento",
+        "practice": "cuidado do corpo"
+      },
+      "5": {
+        "name": "Reflexão",
+        "next": "a reflexão",
+        "opens": "Reflexão final e resumo do dia",
+        "practice": "reflexão"
+      }
+    },
+    "path": {
+      "title": "A sua jornada",
+      "subtitle": "A metodologia MYGLOW em 5 etapas. Cada uma abre depois de 3 dias de prática da anterior, mesmo que não sejam seguidos.",
+      "done": "Concluída",
+      "current": "Em curso",
+      "next": "Por vir",
+      "progress": "{done} de {of} dias com {what}",
+      "review": "Rever a mini-lição",
+      "monthYear": "Mês e Ano abertos."
+    },
+    "ceremony": {
+      "badge": "Novo passo desbloqueado",
+      "deeper": "Aprofundar no Grimório",
+      "label": "Mini-lição",
+      "close": "Fechar a mini-lição"
+    },
+    "unlockAll": {
+      "trigger": "Já conheço a metodologia",
+      "button": "Desbloquear tudo",
+      "title": "Abrir o diário completo?",
+      "text": "Se você já pratica intenção, banimento, rituais e reflexão, pode abrir o diário completo agora. A jornada deixa de aparecer.",
+      "confirm": "Desbloquear tudo",
+      "cancel": "Continuar a jornada"
+    },
+    "navLocked": {
+      "title": "Mês e Ano ainda fechados",
+      "text": "O Mês e o Ano abrem quando você fechar a sua primeira semana. Escreva a reflexão da semana para desbloquear.",
+      "cta": "Ir para a Semana",
+      "close": "Agora não"
     }
   },
   "fitness": {

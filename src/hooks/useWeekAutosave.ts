@@ -8,6 +8,7 @@ import { mergeWeekPatches } from '@/lib/week/patch';
 import type { WeekData, WeekPatch } from '@/types/week';
 import { useAutosaveQueue, type AutosaveOptions, type SaveOk } from './useAutosaveQueue';
 import { useGlow } from '@/components/glow/GlowProvider';
+import { useJourneyUnlock } from '@/components/journey-path/UnlockCeremony';
 import { emitTourEvent, weekTourEvents } from '@/lib/tour/bus';
 
 type WeekTextField = 'title' | 'intention' | 'reflection';
@@ -28,16 +29,19 @@ export function useWeekAutosave(initial: WeekData, opts: AutosaveOptions = {}) {
   );
   const onSaved = useCallback((updatedAt: string) => setData((d) => ({ ...d, updatedAt })), []);
   const glow = useGlow();
+  const journey = useJourneyUnlock();
   // F18: o modo guiado soma o Glow ganho (o servidor continua a decidir).
   const onXp = useRef(opts.onXp);
   onXp.current = opts.onXp;
   const onResult = useCallback(
     (r: SaveOk) => {
+      // F19: novo passo desbloqueado nesta gravação → a mini-lição abre logo.
+      if (r.journeyUnlocked) journey.unlocked(r.journeyUnlocked);
       if (!r.xp) return;
       glow.push(r.xp);
       onXp.current?.(r.xp);
     },
-    [glow],
+    [glow, journey],
   );
   const { queue, flush, status, errorKey } = useAutosaveQueue<WeekPatch>({
     save,

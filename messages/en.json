@@ -81,6 +81,9 @@
     "saveEdit": "Save details"
   },
   "settings": {
+    "journey": {
+      "hint": "The journey opens your journal bit by bit as you practise. If you already know the method, you can open everything now."
+    },
     "title": "Settings",
     "subtitle": "Make MYGLOW your own.",
     "profileSection": "Profile",
@@ -794,6 +797,21 @@
   },
   "notifications": {
     "push": {
+      "announcement": {
+        "v2": {
+          "title": "MYGLOW v2 is here ✨",
+          "body": "See what's new."
+        }
+      },
+      "journeyUnlock": {
+        "title": "New step unlocked ✨",
+        "stage-2": "You've learned to open and close your day. Now let's learn to let go.",
+        "stage-3": "It's time for rituals. Open MYGLOW to find out more.",
+        "stage-4": "New step: your body. Caring for it is practice too.",
+        "stage-5": "The last step: reflecting. The whole journal is yours now.",
+        "week-projects": "Intentions by area are now open in your Week.",
+        "month-year": "You closed your first week. Month and Year are open."
+      },
       "weighIn": {"title": "Good morning", "body": "Have you weighed in today?"},
       "restDone": {"title": "Rest's over", "body": "Time for your next set of {exercise}.", "bodyGeneric": "Time for your next set."},
       "friendRequest": {"title": "{name} wants to be your friend on MYGLOW", "body": "See the request and accept if you'd like to walk together."},
@@ -1035,6 +1053,39 @@
     }
   },
   "whatsNew": {
+    "v2": {
+      "label": "What's new in MYGLOW v2",
+      "close": "Close what's new",
+      "hello": {
+        "title": "MYGLOW v2 is here",
+        "text": "A new way to live your journal. Here's what changed."
+      },
+      "guided": {
+        "title": "Guided mode",
+        "text": "One step at a time, morning and night."
+      },
+      "journey": {
+        "title": "Your journey",
+        "text": "The method in 5 steps. You're on step {n}, and everything you already used stays open."
+      },
+      "recap": {
+        "title": "Recap",
+        "text": "Your week and your month in slides."
+      },
+      "friends": {
+        "title": "Friends",
+        "text": "Invite the people who walk with you."
+      },
+      "body": {
+        "title": "Body Focus",
+        "text": "Workouts, sets and progress."
+      },
+      "start": {
+        "title": "Start now",
+        "text": "Your journal is just as you left it, with all of this alongside.",
+        "cta": "Let's go"
+      }
+    },
     "title": "What's new in MYGLOW",
     "subtitle": "What's new since your last visit",
     "course": "The “{title}” course is now in the Grimoire",
@@ -1497,6 +1548,10 @@
     "start": "Start",
     "counter": "{index} of {total}",
     "steps": {
+      "journey": {
+        "title": "Your journey",
+        "text": "New steps open as you practise. After 3 days of intention and gratitude, you'll learn to let go."
+      },
       "welcome": {
         "title": "Let's live your first day together",
         "text": "In two minutes you'll know the essentials of MYGLOW. You can pause whenever you like."
@@ -1527,7 +1582,7 @@
       },
       "night": {
         "title": "At night, close the day",
-        "text": "Gratitude, mood and reflection. Come back here before bed."
+        "text": "At night, close your day with gratitude and your mood."
       },
       "glow": {
         "title": "Your Glow",
@@ -2274,6 +2329,75 @@
       "goal": "Pick a direction and one of the paces.",
       "noWeight": "Log your weight first to set a goal.",
       "guideConsent": "Turn on your Guide in Settings first."
+    }
+  },
+  "journey": {
+    "card": {
+      "title": "Your journey",
+      "stage": "Step {n} of {total}",
+      "next": "Next: {name} · {done} of {of} days with {what}"
+    },
+    "stages": {
+      "1": {
+        "name": "Opening and closing the day",
+        "next": "opening and closing the day",
+        "opens": "Intention, gratitude and mood",
+        "practice": "intention and gratitude"
+      },
+      "2": {
+        "name": "Letting go",
+        "next": "letting go",
+        "opens": "Morning and night banishing",
+        "practice": "a banishing"
+      },
+      "3": {
+        "name": "Rituals",
+        "next": "rituals",
+        "opens": "Morning and night rituals, sleep, how you woke up and intentions by area in your Week",
+        "practice": "a ritual"
+      },
+      "4": {
+        "name": "Body",
+        "next": "your body",
+        "opens": "Three kinds of body care: water, stretching and movement",
+        "practice": "body care"
+      },
+      "5": {
+        "name": "Reflection",
+        "next": "reflection",
+        "opens": "Final reflection and day in a sentence",
+        "practice": "a reflection"
+      }
+    },
+    "path": {
+      "title": "Your journey",
+      "subtitle": "The MYGLOW method in 5 steps. Each one opens after 3 days of practising the one before, even if they're not in a row.",
+      "done": "Done",
+      "current": "In progress",
+      "next": "Coming up",
+      "progress": "{done} of {of} days with {what}",
+      "review": "Replay the mini lesson",
+      "monthYear": "Month and Year are open."
+    },
+    "ceremony": {
+      "badge": "New step unlocked",
+      "deeper": "Go deeper in the Grimoire",
+      "label": "Mini lesson",
+      "close": "Close the mini lesson"
+    },
+    "unlockAll": {
+      "trigger": "I already know the method",
+      "button": "Unlock everything",
+      "title": "Open the whole journal?",
+      "text": "If you already practise intention, banishing, rituals and reflection, you can open the whole journal now. The journey will stop showing.",
+      "confirm": "Unlock everything",
+      "cancel": "Keep the journey"
+    },
+    "navLocked": {
+      "title": "Month and Year are still closed",
+      "text": "Month and Year open once you close your first week. Write your week's reflection to unlock them.",
+      "cta": "Go to my Week",
+      "close": "Not now"
     }
   },
   "fitness": {

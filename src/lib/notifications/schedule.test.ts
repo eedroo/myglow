@@ -9,7 +9,7 @@ const PREFS: NotificationPrefsInput = {
   grimoireEnabled: true, grimoireTime: '10:00',
 };
 const day = (p: Partial<DayProgress> = {}): DayProgress => ({
-  date: '2026-05-06', hasEntry: false, morning: false, body: false, bodyChecks: 0, night: false, level: 'empty', ...p,
+  date: '2026-05-06', hasEntry: false, morning: false, body: false, bodyChecks: 0, night: false, level: 'empty', applicable: { morning: true, body: true, night: true }, ...p,
 });
 const TODO: NotificationState = {
   day: day(), weekPlanDone: false, weekReflectionDone: false, monthPlanDone: false, monthReflectionDone: false,
@@ -153,5 +153,22 @@ describe('lembrete de pesagem (F17)', () => {
     expect(at('2026-05-06T07:05:00Z', LX, PREFS, { ...TODO, weighedToday: false }).map((d) => d.kind)).not.toContain('WEIGH_IN');
     expect(at('2026-05-06T07:05:00Z', LX, weigh, TODO).map((d) => d.kind)).not.toContain('WEIGH_IN');
     expect(at('2026-05-06T07:05:00Z', LX, { ...weigh, enabled: false }, { ...TODO, weighedToday: false })).toEqual([]);
+  });
+});
+
+describe('jornada (F19)', () => {
+  const stage1 = day({ applicable: { morning: true, body: false, night: true } });
+
+  it('BODY não sai antes da etapa 4 (corpo não aplicável)', () => {
+    expect(at('2026-05-06T12:05:00Z')).toEqual([{ kind: 'BODY', periodKey: '2026-05-06' }]);
+    expect(at('2026-05-06T12:05:00Z', LX, PREFS, { ...TODO, day: stage1 })).toEqual([]);
+  });
+
+  it('MORNING continua a sair com a manhã aplicável e por fazer', () => {
+    expect(at('2026-05-06T07:05:00Z', LX, PREFS, { ...TODO, day: stage1 })).toEqual([{ kind: 'MORNING', periodKey: '2026-05-06' }]);
+  });
+
+  it('avisos do mês só com o Mês desbloqueado', () => {
+    expect(at('2026-05-31T21:05:00Z', LX, PREFS, { ...TODO, monthUnlocked: false })).toEqual([]);
   });
 });

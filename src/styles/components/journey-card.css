@@ -1,0 +1,70 @@
+/* JourneyCard (F19): a jornada no fundo do Hoje */
+
+.mg-journey-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.mg-journey-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-journey-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.mg-journey-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+}
+
+.mg-journey-card__stage {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--gold-accent);
+}
+
+.mg-journey-card__dots {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.mg-journey-card__dot {
+  flex: 1;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-border);
+}
+
+.mg-journey-card__dot--done {
+  background: var(--gold-500);
+}
+
+.mg-journey-card__dot--current {
+  background: var(--gold-gradient);
+  box-shadow: 0 0 10px var(--gold-halo);
+}
+
+.mg-journey-card__next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}

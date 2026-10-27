@@ -111,7 +111,6 @@
 @import './components/tour-pill.css';
 @import './components/premium-badge.css';
 @import './components/premium-lock.css';
-@import './components/first-steps.css';
 @import './components/beta-badge.css';
 @import './components/beta-notice.css';
 @import './components/feedback.css';
@@ -166,3 +165,8 @@
 @import './components/guided.css';
 @import './components/guided-step.css';
 @import './components/guided-start.css';
+@import './components/journey-card.css';
+@import './components/journey-path.css';
+@import './components/unlock-ceremony.css';
+@import './components/whats-new-v2.css';
+@import './components/nav-locked.css';

@@ -44,6 +44,7 @@ export async function GET() {
       bodyWeights: { orderBy: { date: 'asc' } },
       bodyGoal: true,
       guidedRuns: { orderBy: { startedAt: 'asc' } },
+      journeyUnlocks: { orderBy: { unlockedAt: 'asc' } },
     },
   });
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -83,6 +84,7 @@ export async function GET() {
       goal: user.bodyGoal,
     },
     guidedRuns: user.guidedRuns,
+    journeyUnlocks: user.journeyUnlocks,
   });
 
   return new NextResponse(JSON.stringify(data, null, 2), {

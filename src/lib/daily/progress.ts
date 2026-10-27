@@ -1,5 +1,6 @@
 import type { DailyEntry } from '@prisma/client';
 import type { DateISO } from '@/lib/dates';
+import type { SectionKey } from '@/lib/guided/sections';
 
 /**
  * Progresso de um dia do diário — base da gamificação (Fase 5).
@@ -14,6 +15,8 @@ export interface DayProgress {
   body: boolean; // alongamento + treino + água
   bodyChecks: number; // 0–3
   night: boolean; // banimento nocturno feito + ritual nocturno + gratidão + humor + reflexão (sem consentimento: sem humor)
+  /** F19: secções com pelo menos um campo desbloqueado; as outras não contam para o nível nem dão Glow. */
+  applicable: { morning: boolean; body: boolean; night: boolean };
   level: DayLevel;
 }
 
@@ -40,20 +43,37 @@ export interface ProgressOptions {
    * (a manhã passa a ser intenção + banimento + ritual; a noite deixa de pedir o humor).
    */
   wellbeing?: boolean;
+  /**
+   * F19: secções desbloqueadas na jornada. Cada parte do dia conta só os campos disponíveis; sem nenhum fica não
+   * aplicável. Sem isto, tudo conta (comportamento anterior).
+   */
+  available?: Set<SectionKey>;
 }
 
 export function computeDayProgress(date: DateISO, entry: ProgressEntry | null, opts: ProgressOptions = {}): DayProgress {
+  const wellbeing = opts.wellbeing ?? true;
+  const has = (k: SectionKey) => !opts.available || opts.available.has(k);
+  const applicable = {
+    morning: has('intention') || has('morningBanish') || has('morningRitual') || (wellbeing && has('wakeMood')),
+    body: has('body'),
+    night: has('nightBanish') || has('nightRitual') || has('gratitude') || (wellbeing && has('mood')) || has('reflection'),
+  };
   if (!entry) {
-    return { date, hasEntry: false, morning: false, body: false, bodyChecks: 0, night: false, level: 'empty' };
+    return { date, hasEntry: false, morning: false, body: false, bodyChecks: 0, night: false, applicable, level: 'empty' };
   }
 
-  const wellbeing = opts.wellbeing ?? true;
+  // Um campo bloqueado conta como feito (não se pede o que a pessoa ainda não vê); secção não aplicável = false.
+  const ok = (k: SectionKey, done: boolean) => !has(k) || done;
   const morning =
-    filled(entry.intention) && entry.morningBanishDone && entry.morningRitualDone && (!wellbeing || entry.wakeMood !== null);
+    applicable.morning &&
+    ok('intention', filled(entry.intention)) && ok('morningBanish', entry.morningBanishDone) && ok('morningRitual', entry.morningRitualDone) &&
+    (!wellbeing || ok('wakeMood', entry.wakeMood !== null));
   const bodyChecks = [entry.stretchDone, entry.workoutDone, entry.waterDone].filter(Boolean).length;
-  const body = bodyChecks === 3;
+  const body = applicable.body && bodyChecks === 3;
   const night =
-    entry.nightBanishDone && entry.nightRitualDone && filled(entry.gratitude) && (!wellbeing || entry.mood !== null) && filled(entry.reflection);
+    applicable.night &&
+    ok('nightBanish', entry.nightBanishDone) && ok('nightRitual', entry.nightRitualDone) && ok('gratitude', filled(entry.gratitude)) &&
+    (!wellbeing || ok('mood', entry.mood !== null)) && ok('reflection', filled(entry.reflection));
 
   const touched =
     [entry.intention, entry.morningBanishName, entry.wakeNote, entry.nightBanishName, entry.gratitude, entry.reflection, entry.summary].some(filled) ||
@@ -62,6 +82,13 @@ export function computeDayProgress(date: DateISO, entry: ProgressEntry | null, o
     entry.wakeMood !== null ||
     entry.mood !== null;
 
-  const level: DayLevel = morning && body && night ? 'complete' : touched ? 'partial' : 'empty';
-  return { date, hasEntry: true, morning, body, bodyChecks, night, level };
+  const complete = isDayComplete({ morning, body, night, applicable });
+  const level: DayLevel = complete ? 'complete' : touched ? 'partial' : 'empty';
+  return { date, hasEntry: true, morning, body, bodyChecks, night, applicable, level };
+}
+
+/** F19: dia completo = todas as partes aplicáveis completas (e pelo menos uma aplicável). */
+export function isDayComplete(p: Pick<DayProgress, 'morning' | 'body' | 'night' | 'applicable'>): boolean {
+  const parts = (['morning', 'body', 'night'] as const).filter((k) => p.applicable[k]);
+  return parts.length > 0 && parts.every((k) => p[k]);
 }

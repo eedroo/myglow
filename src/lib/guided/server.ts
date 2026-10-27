@@ -10,18 +10,21 @@ import type { DailyEntryData } from '@/types/daily';
 import type { GuidedFlow } from '@prisma/client';
 import type { SectionContext } from './sections';
 import { suggestDayFlow } from './suggest';
+import { getJourney } from '@/lib/journey/server';
 
 /** Modo guiado (F18): dados comuns das rotas `/guided/*`. */
 export async function guidedUser(userId: string) {
-  const [user, ent] = await Promise.all([
+  const [user, ent, journey] = await Promise.all([
     db.user.findUnique({
       where: { id: userId },
       select: { name: true, timezone: true, hemisphere: true, wellbeingConsentAt: true, guidedAutoOpen: true },
     }),
     getEntitlements(userId),
+    getJourney(userId),
   ]);
   if (!user) return null;
-  const ctx: SectionContext = { hasWellbeingConsent: !!user.wellbeingConsentAt, hasBodyPro: !!ent.features['body-pro'] };
+  // F19: o modo guiado só pede o que está desbloqueado na jornada.
+  const ctx: SectionContext = { hasWellbeingConsent: !!user.wellbeingConsentAt, hasBodyPro: !!ent.features['body-pro'], unlocked: journey.sections };
   return { user, ctx, today: todayInTz(user.timezone) as DateISO, firstName: user.name.trim().split(/\s+/)[0] ?? '' };
 }
 
@@ -40,11 +43,12 @@ export async function dayGuided(
   if (!allowed) return { base: null, suggested: null };
   const base = `/guided/day/${i.date}`;
   if (i.date !== i.today) return { base, suggested: null };
-  const [prefs, user] = await Promise.all([
+  const [prefs, user, journey] = await Promise.all([
     db.notificationPrefs.findUnique({ where: { userId }, select: { morningTime: true, bodyTime: true, nightTime: true } }),
     db.user.findUnique({ where: { id: userId }, select: { tourStep: true, tourPausedAt: true, tourCompletedAt: true } }),
+    getJourney(userId),
   ]);
   if (user && tourStateFromDb(user).status === 'active') return { base, suggested: null };
-  const progress = computeDayProgress(i.date, i.entry as unknown as ProgressEntry, { wellbeing: i.wellbeing });
+  const progress = computeDayProgress(i.date, i.entry as unknown as ProgressEntry, { wellbeing: i.wellbeing, available: journey.sections });
   return { base, suggested: suggestDayFlow({ localTime: formatTimeInTz(now.toISOString(), i.tz), prefs: prefs ?? DEFAULT_TIMES, progress }) };
 }

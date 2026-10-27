@@ -18,9 +18,23 @@ interface MorningSectionProps {
   showSleep?: boolean;
   /** F18: base das rotas do modo guiado deste dia (só hoje e ontem). */
   guidedBase?: string | null;
+  /** F19: banimento e ritual só depois de desbloqueados na jornada. */
+  showBanish?: boolean;
+  showRitual?: boolean;
 }
 
-export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, current, banishSuggestion, showSleep = true, guidedBase }: MorningSectionProps) {
+export function MorningSection({
+  data,
+  setField,
+  onTextBlur,
+  sleepGoalMinutes,
+  current,
+  banishSuggestion,
+  showSleep = true,
+  guidedBase,
+  showBanish = true,
+  showRitual = true,
+}: MorningSectionProps) {
   const t = useTranslations('day');
   return (
     <section className={current ? 'mg-period mg-period--morning mg-period--current' : 'mg-period mg-period--morning'}>
@@ -29,6 +43,7 @@ export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, c
         icon="sun"
         action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/morning`} label={t('guidedMorning')} /> : undefined}
       />
+      {showBanish && (
       <CheckTile
         icon="tea-cup"
         tour="morning-banish"
@@ -44,13 +59,16 @@ export function MorningSection({ data, setField, onTextBlur, sleepGoalMinutes, c
         checkLabel={t('done')}
         onCheckedChange={(v) => setField('morningBanishDone', v)}
       />
-      <CheckTile
-        icon="lotus"
-        label={t('morning.ritual')}
-        checked={data.morningRitualDone}
-        checkLabel={t('done')}
-        onCheckedChange={(v) => setField('morningRitualDone', v)}
-      />
+      )}
+      {showRitual && (
+        <CheckTile
+          icon="lotus"
+          label={t('morning.ritual')}
+          checked={data.morningRitualDone}
+          checkLabel={t('done')}
+          onCheckedChange={(v) => setField('morningRitualDone', v)}
+        />
+      )}
       {showSleep && (
         <CheckTile
           icon="bed"

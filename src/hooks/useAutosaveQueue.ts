@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { XpResult } from '@/lib/xp/award';
+import type { UnlockId } from '@/lib/journey/stages';
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'offline' | 'error';
 
-export type SaveResult = { ok: true; updatedAt: string; xp?: XpResult } | { ok: false; error: string };
+export type SaveResult = { ok: true; updatedAt: string; xp?: XpResult; journeyUnlocked?: UnlockId } | { ok: false; error: string };
 export type SaveOk = Extract<SaveResult, { ok: true }>;
 
 /** Opções comuns dos hooks de autosave (diário, semana, mês, ano). */

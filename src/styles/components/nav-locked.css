@@ -1,0 +1,65 @@
+/* BottomNav bloqueado e NavLockedSheet (F19): Mês e Ano antes de desbloquear */
+
+.mg-bottom-nav__item--locked {
+  position: relative;
+  border: 0;
+  background: none;
+  font: inherit;
+  opacity: 0.45;
+  cursor: pointer;
+}
+
+.mg-bottom-nav__lock {
+  position: absolute;
+  top: 2px;
+  right: calc(50% - 18px);
+  display: inline-flex;
+  color: var(--text-muted);
+}
+
+.mg-nav-locked {
+  width: min(calc(100% - var(--space-6)), 420px);
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  border: var(--border-width) solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-solid);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.mg-nav-locked::backdrop {
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.mg-nav-locked__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: var(--space-3);
+  border-radius: 50%;
+  background: var(--glass-bg);
+  color: var(--gold-accent);
+}
+
+.mg-nav-locked__title {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
+}
+
+.mg-nav-locked__text {
+  margin: 0 0 var(--space-5);
+  color: var(--text-secondary);
+}
+
+.mg-nav-locked__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}

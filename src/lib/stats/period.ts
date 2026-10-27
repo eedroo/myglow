@@ -1,6 +1,7 @@
 import { addDays, compareDates, type DateISO } from '@/lib/dates';
 import { monthRange } from '@/lib/weeks';
 import { computeDayProgress, type ProgressEntry } from '@/lib/daily/progress';
+import type { SectionKey } from '@/lib/guided/sections';
 
 /** Entrada do diário com a data já em `DateISO`. */
 export type DailyEntryLike = ProgressEntry & { date: DateISO };
@@ -53,6 +54,8 @@ export function computePeriodStats(i: {
   entries: DailyEntryLike[];
   weeks: { startDate: DateISO; weightGrams: number | null }[];
   wellbeing?: boolean;
+  /** F19: secções desbloqueadas na jornada (o nível de cada dia é relativo a elas). */
+  available?: Set<SectionKey>;
 }): PeriodStats {
   const wellbeing = i.wellbeing ?? true;
   const to = compareDates(i.to, i.today) > 0 ? i.today : i.to;
@@ -61,7 +64,7 @@ export function computePeriodStats(i: {
   const days: DateISO[] = [];
   for (let d = i.from; compareDates(d, to) <= 0; d = addDays(d, 1)) days.push(d);
 
-  const levels = days.map((d) => computeDayProgress(d, byDate.get(d) ?? null, { wellbeing }).level);
+  const levels = days.map((d) => computeDayProgress(d, byDate.get(d) ?? null, { wellbeing, available: i.available }).level);
   const active = levels.map((l) => l !== 'empty');
 
   let bestStreak = 0;

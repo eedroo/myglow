@@ -12,6 +12,7 @@ const source = {
     xpTotal: 320, bestMagicStreak: 6, emailVerifiedAt: at, termsAcceptedAt: at, termsVersion: '2026-10', privacyVersion: '2026-10',
     wellbeingConsentAt: at, createdAt: at, onboardedAt: at,
     plan: 'PREMIUM', planSource: 'MANUAL', planSince: at, planExpiresAt: null, premiumInterestAt: at,
+    journeyStage: 3, journeyAllUnlockedAt: null, announcementSeen: ['v2'],
     authTokens: [{ tokenHash: 'SEGREDO_TOKEN_HASH' }],
   },
   birthProfile: {
@@ -54,6 +55,7 @@ const source = {
   friendRequests: [{ direction: 'received', otherName: 'Caio', status: 'PENDING', createdAt: at, respondedAt: null }],
   blocks: [{ name: 'Dora', createdAt: at }],
   guidedRuns: [{ userId: 'u1', flow: 'DAY_MORNING', periodKey: '2026-10-20', startedAt: at, completedAt: null }],
+  journeyUnlocks: [{ userId: 'u1', unlockId: 'stage-2', unlockedAt: at, ceremonySeenAt: at, ceremonyDismissed: false }],
   fitness: {
     prefs: { userId: 'u1', defaultRestSec: 90, restAlert: true, keepAwake: true, onboardedAt: at, weighInReminder: true, weighInTime: '07:30' },
     weights: [{ userId: 'u1', date: toDbDate('2026-10-20'), grams: 76250, createdAt: at, updatedAt: at }],
@@ -91,7 +93,7 @@ describe('buildExport', () => {
     expect(out.format).toBe('myglow-export-v1');
     for (const key of [
       'exportedAt', 'user', 'birthProfile', 'dailyEntries', 'weeks', 'months', 'years', 'projectIntentions', 'xpEvents',
-      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays', 'recapViews', 'guideReports', 'friends', 'friendRequests', 'blocks', 'fitness', 'guidedRuns',
+      'glow', 'grimoire', 'notificationPrefs', 'notificationLog', 'aiContent', 'activeDays', 'recapViews', 'guideReports', 'friends', 'friendRequests', 'blocks', 'fitness', 'guidedRuns', 'journeyUnlocks',
     ]) expect(out, key).toHaveProperty(key);
     // F16: treinos, sessões com séries (kg) e exercícios próprios.
     expect(out.fitness.programs[0]!.workouts[0]!.items[0]).toMatchObject({ exerciseId: 'Barbell_Bench_Press', targetSets: 3 });
@@ -102,6 +104,8 @@ describe('buildExport', () => {
     // F18: modo guiado.
     expect(out.guidedRuns).toEqual([{ flow: 'DAY_MORNING', periodKey: '2026-10-20', startedAt: at.toISOString(), completedAt: null }]);
     expect(out.user).toHaveProperty('guidedAutoOpen');
+    expect(out.user).toMatchObject({ journeyStage: 3, journeyAllUnlockedAt: null, announcementSeen: ['v2'] });
+    expect(out.journeyUnlocks).toEqual([{ unlockId: 'stage-2', unlockedAt: at.toISOString(), ceremonySeenAt: at.toISOString() }]);
     // F17: peso diário, objectivo e recordes.
     expect(out.fitness.weights).toEqual([{ date: '2026-10-20', grams: 76250, kg: 76.25, updatedAt: at.toISOString() }]);
     expect(out.fitness.goal).toMatchObject({ direction: 'GAIN', weeklyRateGrams: 250, targetGrams: 78000 });

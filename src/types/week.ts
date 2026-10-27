@@ -42,4 +42,6 @@ export interface WeekPageData {
   today: DateISO;
   /** F17 (body-pro): média do peso diário desta semana (e da anterior); null = sem registos diários → campo manual. */
   dailyWeight: { avgGrams: number; count: number; previousAvgGrams: number | null } | null;
+  /** F19: intenções por área só depois da etapa 3 da jornada (o resto da Semana está sempre aberto). */
+  showProjects: boolean;
 }

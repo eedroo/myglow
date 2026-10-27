@@ -9,8 +9,10 @@ import { weekPatchSchema } from '@/lib/validation/week';
 import type { WeekPatch } from '@/types/week';
 import { weekCandidates } from '@/lib/xp/rules';
 import { safeAwardXp, type XpResult } from '@/lib/xp/award';
+import { runJourneyEvaluation } from '@/lib/journey/server';
+import type { UnlockId } from '@/lib/journey/stages';
 
-export type PatchWeekResult = { ok: true; updatedAt: string; xp?: XpResult } | { ok: false; error: string };
+export type PatchWeekResult = { ok: true; updatedAt: string; xp?: XpResult; journeyUnlocked?: UnlockId } | { ok: false; error: string };
 
 const MIN_DATE: DateISO = '2000-01-01';
 
@@ -57,5 +59,7 @@ export async function patchWeek(start: DateISO, patch: WeekPatch): Promise<Patch
       }),
     { tz: user.timezone, today },
   );
-  return { ok: true, updatedAt: week.updatedAt.toISOString(), ...(xp && { xp }) };
+  // F19: a primeira reflexão da semana abre o Mês e o Ano (nunca lança).
+  const [journeyUnlocked] = await runJourneyEvaluation(userId);
+  return { ok: true, updatedAt: week.updatedAt.toISOString(), ...(xp && { xp }), ...(journeyUnlocked && { journeyUnlocked }) };
 }

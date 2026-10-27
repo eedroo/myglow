@@ -1,4 +1,6 @@
 import 'server-only';
+import type { SectionKey } from '@/lib/guided/sections';
+import { loadJourney } from '@/lib/journey/server';
 import { db } from '@/lib/db';
 import { dayBoundsUtc, fromDbDate, toDbDate } from '@/lib/dates';
 import { parseMonthKey, weeksOfMonth } from '@/lib/weeks';
@@ -22,6 +24,8 @@ export interface GuideData {
   hasWellbeingConsent: boolean;
   /** F17: body-pro + `guideIncludeBody` + consentimento de bem-estar. */
   includeBody: boolean;
+  /** F19: secções desbloqueadas na jornada (os campos bloqueados não seguem para a IA). */
+  available?: Set<SectionKey>;
 }
 
 const prevKey = (p: RecapPeriod) => (p.kind === 'WEEK' ? p.prev.from : p.prev.from.slice(0, 7));
@@ -100,7 +104,8 @@ export async function loadGuideData(userId: string, period: RecapPeriod): Promis
   // F17: o corpo só com autorização própria (e acesso e consentimento de bem-estar).
   const includeBody = !!user.guideIncludeBody && wellbeing && (await getEntitlements(userId)).features['body-pro'];
   if (includeBody) raw.body = await loadGuideBody(userId, period.from, period.to, dbToAppLocale(user.locale));
-  return { raw, hasWellbeingConsent: wellbeing, includeBody };
+  const available = await loadJourney(userId).then((j) => j.sections).catch(() => undefined);
+  return { raw, hasWellbeingConsent: wellbeing, includeBody, available };
 }
 
 async function loadGuideBody(userId: string, from: string, to: string, locale: ReturnType<typeof dbToAppLocale>): Promise<NonNullable<RawGuideData['body']>> {

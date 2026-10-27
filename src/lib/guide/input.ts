@@ -6,6 +6,7 @@ import { weekStartOf } from '@/lib/weeks';
 import { goalStatus, weekAverage, type GoalDirection, type GoalStatus, type WeightPoint } from '@/lib/body/weight';
 import type { MoonEvent } from '@/lib/astro/moonCalendar';
 import { computeDayProgress, type DayLevel, type ProgressEntry } from '@/lib/daily/progress';
+import type { SectionKey } from '@/lib/guided/sections';
 import type { PeriodStats } from '@/lib/stats/period';
 import { PROJECT_AREAS } from '@/types/week';
 
@@ -160,8 +161,13 @@ const TEXT_FIELDS = ['intention', 'morningBanish', 'nightBanish', 'gratitude', '
 
 const size = (i: GuideInput) => JSON.stringify(i).length;
 
-export function buildGuideInput(raw: RawGuideData, opts: { hasWellbeingConsent: boolean; includeBody?: boolean }): GuideInput {
+export function buildGuideInput(
+  raw: RawGuideData,
+  /** F19: `available` = secções desbloqueadas na jornada; campos bloqueados não seguem para a IA. */
+  opts: { hasWellbeingConsent: boolean; includeBody?: boolean; available?: Set<SectionKey> },
+): GuideInput {
   const wellbeing = opts.hasWellbeingConsent;
+  const has = (k: SectionKey) => !opts.available || opts.available.has(k);
   const max = raw.kind === 'WEEK' ? LIMITS.dayField : LIMITS.dayFieldMonth;
   const byDate = new Map(raw.entries.map((e) => [e.date, e]));
   const dates = [...new Set([...raw.entries.map((e) => e.date), ...Object.keys(raw.dayNotes)])]
@@ -174,22 +180,22 @@ export function buildGuideInput(raw: RawGuideData, opts: { hasWellbeingConsent: 
     const day: GuideDayInput = compact({
       date,
       weekday: new Date(`${date}T00:00:00Z`).getUTCDay(),
-      level: computeDayProgress(date, e ?? null, { wellbeing }).level,
+      level: computeDayProgress(date, e ?? null, { wellbeing, available: opts.available }).level,
       intention: clean(e?.intention, max),
-      morningBanish: clean(e?.morningBanishName, max),
-      nightBanish: clean(e?.nightBanishName, max),
+      morningBanish: has('morningBanish') ? clean(e?.morningBanishName, max) : undefined,
+      nightBanish: has('nightBanish') ? clean(e?.nightBanishName, max) : undefined,
       gratitude: clean(e?.gratitude, max),
-      reflection: clean(e?.reflection, max),
-      summary: clean(e?.summary, max),
+      reflection: has('reflection') ? clean(e?.reflection, max) : undefined,
+      summary: has('summary') ? clean(e?.summary, max) : undefined,
       dayNote: clean(raw.dayNotes[date], max),
       habits: {
-        morningRitual: !!e?.morningRitualDone,
-        nightRitual: !!e?.nightRitualDone,
-        morningBanish: !!e?.morningBanishDone,
-        nightBanish: !!e?.nightBanishDone,
-        stretch: !!e?.stretchDone,
-        workout: !!e?.workoutDone,
-        water: !!e?.waterDone,
+        morningRitual: has('morningRitual') && !!e?.morningRitualDone,
+        nightRitual: has('nightRitual') && !!e?.nightRitualDone,
+        morningBanish: has('morningBanish') && !!e?.morningBanishDone,
+        nightBanish: has('nightBanish') && !!e?.nightBanishDone,
+        stretch: has('body') && !!e?.stretchDone,
+        workout: has('body') && !!e?.workoutDone,
+        water: has('body') && !!e?.waterDone,
       },
     });
     const hasHabit = Object.values(day.habits).some(Boolean);

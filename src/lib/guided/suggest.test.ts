@@ -3,7 +3,7 @@ import type { DayProgress } from '@/lib/daily/progress';
 import { suggestDayFlow, suggestPeriodFlow } from './suggest';
 
 const prefs = { morningTime: '08:00', bodyTime: '13:00', nightTime: '21:00' };
-const progress = (p: Partial<DayProgress>): DayProgress => ({ date: '2026-10-28', hasEntry: true, morning: false, body: false, bodyChecks: 0, night: false, level: 'partial', ...p });
+const progress = (p: Partial<DayProgress>): DayProgress => ({ date: '2026-10-28', hasEntry: true, morning: false, body: false, bodyChecks: 0, night: false, level: 'partial', applicable: { morning: true, body: true, night: true }, ...p });
 
 describe('suggestDayFlow', () => {
   it('09:00 com a manhã incompleta → manhã', () => {
@@ -36,5 +36,13 @@ describe('suggestPeriodFlow', () => {
     expect(
       suggestPeriodFlow({ kind: 'WEEK', periodStart: '2026-11-01', today: '2026-11-04', now: new Date('2026-11-04T10:00:00Z'), tz, planFilled: false, reflectionFilled: false }),
     ).toBeNull();
+  });
+});
+
+describe('suggestDayFlow com a jornada (F19)', () => {
+  it('antes da etapa 4 não sugere o corpo', () => {
+    const p = progress({ morning: true, applicable: { morning: true, body: false, night: true } });
+    expect(suggestDayFlow({ localTime: '13:30', prefs, progress: p })).toBeNull();
+    expect(suggestDayFlow({ localTime: '10:00', prefs, progress: p })).toBeNull();
   });
 });

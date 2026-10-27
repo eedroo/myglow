@@ -5,6 +5,7 @@ import { db } from '@/lib/db';
 import { addDays, compareDates, dayBoundsUtc, formatMonthName, fromDbDate, toDbDate, todayInTz, type DateISO } from '@/lib/dates';
 import { parseMonthKey, weekKey } from '@/lib/weeks';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
+import { getJourney } from '@/lib/journey/server';
 import { computePeriodStats, mergeDailyWeights, weightFromPoints, type DailyEntryLike, type PeriodStats } from '@/lib/stats/period';
 import { dailyWeightWeeks } from '@/lib/body/queries';
 import { hasWellbeingConsent } from '@/lib/account/consent';
@@ -83,7 +84,7 @@ export async function getRecapInput(userId: string, period: RecapPeriod): Promis
   const start = dayBoundsUtc(period.from, tz).start;
   const end = dayBoundsUtc(period.to, tz).end;
 
-  const [wellbeing, entitlements, entries, prevEntries, weights, plan, earned, prevEarned, totalBefore, lessons, courses, t] =
+  const [wellbeing, entitlements, entries, prevEntries, weights, plan, earned, prevEarned, totalBefore, lessons, courses, t, journey] =
     await Promise.all([
       hasWellbeingConsent(userId),
       getEntitlements(userId),
@@ -108,20 +109,23 @@ export async function getRecapInput(userId: string, period: RecapPeriod): Promis
       db.lessonProgress.count({ where: { userId, completedAt: { gte: start, lt: end } } }),
       db.courseProgress.findMany({ where: { userId, completedAt: { gte: start, lt: end } }, select: { courseSlug: true } }),
       getTranslations('week'),
+      getJourney(userId),
     ]);
+  // F19: dias e slides relativos ao que a jornada já abriu.
+  const available = journey.sections;
 
   const today = period.to; // o período já acabou: conta-se até ao último dia
   // F17 (body-pro): médias do peso diário. Semanal: esta semana e a anterior; mensal: as semanas do mês.
   const daily = await dailyWeightWeeks(userId, isWeek ? addDays(period.from, -7) : period.from, period.to);
   const weeks = mergeDailyWeights(weights.map((w) => ({ startDate: fromDbDate(w.startDate), weightGrams: w.weightGrams })), daily);
-  let stats: PeriodStats = computePeriodStats({ from: period.from, to: period.to, today, entries, weeks, wellbeing });
+  let stats: PeriodStats = computePeriodStats({ from: period.from, to: period.to, today, entries, weeks, wellbeing, available });
   if (isWeek && wellbeing && daily.length) stats = { ...stats, weight: weightFromPoints(daily.map((d) => ({ weekStart: d.startDate, grams: d.weightGrams }))) };
-  const prevStats = computePeriodStats({ from: period.prev.from, to: period.prev.to, today: period.prev.to, entries: prevEntries, weeks: [], wellbeing });
+  const prevStats = computePeriodStats({ from: period.prev.from, to: period.prev.to, today: period.prev.to, entries: prevEntries, weeks: [], wellbeing, available });
 
   const byDate = new Map(entries.map((e) => [e.date, e]));
   const dayLevels: RecapInput['dayLevels'] = [];
   for (let date = period.from; compareDates(date, period.to) <= 0; date = addDays(date, 1)) {
-    dayLevels.push({ date, level: computeDayProgress(date, byDate.get(date) ?? null, { wellbeing }).level });
+    dayLevels.push({ date, level: computeDayProgress(date, byDate.get(date) ?? null, { wellbeing, available }).level });
   }
   const dayIntentions: Record<DateISO, string> = {};
   for (const e of entries) if (filled(e.intention)) dayIntentions[e.date] = e.intention!.trim();
@@ -174,6 +178,7 @@ export async function getRecapInput(userId: string, period: RecapPeriod): Promis
     moonEvents: getMoonEvents(period.from, period.to, tz),
     skyEvents,
     retrogrades,
+    available,
   };
 }
 

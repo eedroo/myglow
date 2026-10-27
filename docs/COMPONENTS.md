@@ -170,6 +170,7 @@ Referência visual: diário físico em papel — fundo creme com mármore dourad
 - **TSX:** `BottomNav.tsx` (`'use client'` — usa `usePathname`) · **Classes:** `mg-bottom-nav`, `mg-bottom-nav__item`, `mg-bottom-nav__item--active`, `mg-bottom-nav__icon`, `mg-bottom-nav__label`
 - Hoje · Semana · Mês · Ano · Grimório (F8; o Perfil passou para o avatar da TopBar); mobile-first, ≥ 960 px vira rail lateral
 - **Props:** `labels: Record<'today' | 'week' | 'month' | 'year' | 'grimoire', string>`, `ariaLabel`
+- F19: `locked?: NavKey[]` (Mês e Ano antes de desbloquear): item esbatido com cadeado (`mg-bottom-nav__item--locked`, `nav-locked.css`) que abre o `NavLockedSheet` em vez de navegar
 
 ### PageHeader — F1
 - **TSX:** `PageHeader.tsx` (Server) · **Classes:** `mg-page-header`, `mg-page-header__eyebrow`, `mg-page-header__title`, `mg-page-header__subtitle`
@@ -426,7 +427,7 @@ Textos em `beta`, `feedback`, `welcome`, `firstSteps` e `landing`. O beta só ap
 | `BetaBadge` | server | `beta-badge.css` | `mg-beta-badge` | pílula pequena "beta" ao lado do logo (`TopBar`, `LandingNav`) |
 | `BetaNotice` | server | `beta-notice.css` | `mg-beta-notice`, `__icon`, `__text` | registo, por cima das caixas de consentimento: `sparkles` pequeno + texto secundário, sem caixa |
 | `FeedbackDialog` | client | `feedback.css` | `mg-feedback`, `__dialog`, `__title`, `__form`, `__thanks`, `__actions`, `--link` | botão (ou link discreto `--link`) que abre um `<dialog>`: tipo (Problema · Ideia · Elogio · Outro, `SegmentedControl`), mensagem, enviar → `sendFeedback`; depois "Obrigada! Lemos tudo." |
-| `FirstStepsCard` | server | `first-steps.css` | `mg-first-steps`, `__list`, `__step`, `--done`, `__check`, `__link`, `__footer` | topo do `/today`: 4 passos com ✓ (intenção de hoje, primeira lição, plano da semana, lembretes/instalação); "Dispensar" (`dismissFirstSteps`) e "Fazer o guia" (`StartTourButton`); some quando tudo está feito e enquanto o guia está activo (F11) |
+| ~~`FirstStepsCard`~~ | — | — | — | F19: apagado (e `first-steps.css`); substituído pelo `JourneyCard` |
 | `LandingPage` | server | `landing.css` | `mg-landing`, `__section`, `__inner`, `--split`, `--reverse`, `__eyebrow`, `__title`, `__lead`, `__text`, `__note` | `/` sem sessão: compõe as secções abaixo (coluna única no telemóvel; texto/pré-visualização lado a lado a partir de 1024 px; máximo 1120 px) |
 | `LandingNav` | server | `landing-nav.css` | `mg-landing-nav`, `__brand`, `__actions` | logo + `BetaBadge`, `LocaleSwitcher`, "Entrar" (ghost) e "Criar conta" (primary) |
 | `Hero` | server | `landing-hero.css` | `mg-landing-hero`, `__copy`, `__title`, `__lead`, `__actions` | título, subtítulo, "Criar conta grátis" / "Já tenho conta" + `AppPreview today` |
@@ -661,3 +662,18 @@ Um passo por ecrã, com a linguagem da retrospectiva. Cada passo grava pelos hoo
 | `GuidedAutoOpen` | client | — | — | com `guidedAutoOpen`, abre o fluxo sugerido no Hoje uma vez por fluxo e dia (sem `GuidedRun`), abaixo das outras prioridades |
 | `GuidedSettings` | client | `guided-start.css` | — | definições → Diário: "Abrir o Hoje no modo guiado" |
 | `DailyReadingGate` | client | `reading.css` | `mg-reading-gate`, `__actions` | Hoje (F18): antes da leitura do dia pergunta "agora ou à noite?" uma vez por dia; à noite (depois das 18:00) a leitura aparece; durante o dia mostra que espera, com "Ver agora" |
+
+### Jornada da metodologia — F19 (`src/components/journey-path/`, lógica em `src/lib/journey/`, rota `/journey`)
+
+A metodologia em 5 etapas (`STAGES`): o que está bloqueado não aparece, mas os dados nunca são apagados. O nome da pasta evita a `journey/` da F5 (página `/profile`); o CSS da página usa `journey-path.css` porque `journey.css` já é o do perfil, e os slides de novidades usam `whats-new-v2.css` (o `whats-new.css` é o pop-up de Novidades).
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `JourneyCard` | server | `journey-card.css` | `mg-journey-card`, `__head`, `__dots`, `__dot`, `--done`, `--current`, `__next` | fundo do Hoje, antes do `Motto`: "A sua jornada · Etapa 2 de 5", 5 pontos e o próximo passo ("2 de 3 dias com banimento"); toca e abre `/journey`; some na etapa 5 ou com tudo desbloqueado; `data-tour="journey-card"` |
+| `JourneyPath` | server | `journey-path.css` | `mg-journey-path`, `__stage`, `--done`, `--current`, `--next`, `__marker`, `__name`, `__opens`, `__state`, `__progress`, `__review`, `__footer` | `/journey`: as 5 etapas num caminho vertical (nome, o que abre, estado e progresso), "Rever a mini-lição" nas concluídas e "Já conheço a metodologia" no fundo |
+| `UnlockCeremony` (+ `UnlockCeremonyProvider`, `useJourneyUnlock`, `ReviewLessonButton`) | client | `unlock-ceremony.css` | `mg-unlock`, `__glow`, `__badge`, `__icon`, `__title`, `__text`, `__actions`, `__deeper` | mini-lição em slides (`SlidePlayer` `theme="guided"`): abre logo depois do desbloqueio (`journeyUnlocked` do autosave) ou na abertura seguinte (`pendingCeremony`); brilho dourado e "Novo passo desbloqueado"; último slide com o botão para experimentar e "Aprofundar no Grimório"; fechar marca `ceremonySeenAt` |
+| `UnlockAllDialog` | client | `journey-path.css` | `mg-unlock-all` | `<dialog>` "Desbloquear tudo" / "Continuar a jornada" (`unlockAll`); em `/journey` e nas definições → Diário |
+| `NavLockedSheet` | client | `nav-locked.css` | `mg-nav-locked`, `__icon`, `__text`, `__actions` | folha quando se toca no Mês ou no Ano bloqueados: "abrem quando fechar a primeira semana", com botão para a Semana |
+| `WhatsNew` | client | `whats-new-v2.css` | `mg-whats-new-v2`, `__icon`, `__title`, `__text` | slides "Chegou a MYGLOW v2" (`SlidePlayer`), uma vez, a quem foi mapeado e só depois de o admin publicar o anúncio |
+| `AnnouncementsCard` (`admin/`) | client | `admin.css` | `mg-admin__actions` | `/admin`: "Publicar anúncio v2" (slides, caixa e push a todos) |
+| `JourneyAdminCard` (`admin/`) | server | `admin.css` | — | `/admin`: utilizadores por etapa, mediana de dias até cada etapa, % que desbloqueou tudo, mini-lições vistas vs dispensadas |

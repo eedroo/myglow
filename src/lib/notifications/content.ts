@@ -51,6 +51,9 @@ export interface NotificationContext {
   friendName?: string;
   /** F16: exercício da próxima série (aviso de fim de descanso). */
   exerciseName?: string;
+  /** F19: o que abriu na jornada (JOURNEY_UNLOCK) ou o anúncio publicado (ANNOUNCEMENT), ex. 'stage-2', 'v2'. */
+  unlockId?: string;
+  announcement?: string;
 }
 
 const clip = (s: string, max: number) => (s.length <= max ? s : `${s.slice(0, max - 1).trimEnd()}…`);
@@ -232,6 +235,15 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       title = t('notifications.push.weighIn.title');
       body = t('notifications.push.weighIn.body');
       url = '/body/weight?new=1';
+      break;
+    // F19: novo passo da jornada (a mini-lição abre no Hoje) e anúncios (os slides de novidades abrem no Hoje).
+    case 'JOURNEY_UNLOCK':
+      title = t('notifications.push.journeyUnlock.title');
+      body = t(`notifications.push.journeyUnlock.${ctx.unlockId ?? 'stage-2'}`);
+      break;
+    case 'ANNOUNCEMENT':
+      title = t(`notifications.push.announcement.${ctx.announcement ?? 'v2'}.title`);
+      body = t(`notifications.push.announcement.${ctx.announcement ?? 'v2'}.body`);
       break;
   }
   return { title: clip(title, MAX_TITLE), body: clip(body, MAX_BODY), url };

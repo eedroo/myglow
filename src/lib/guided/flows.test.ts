@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildFlow, firstIncompleteStep, flowFromRoute, isStepDone, routeSegment } from './flows';
+import { NEW_JOURNEY, unlockedSections } from '@/lib/journey/state';
 
 const all = { hasWellbeingConsent: true, hasBodyPro: true };
 
@@ -47,5 +48,13 @@ describe('progresso no fluxo', () => {
     expect(flowFromRoute('day', 'night')).toBe('DAY_NIGHT');
     expect(flowFromRoute('week', 'morning')).toBeNull();
     expect(routeSegment('MONTH_CLOSE')).toBe('close');
+  });
+});
+
+describe('buildFlow com a jornada (F19)', () => {
+  it('etapa 1: manhã só com leitura e intenção; semana sem áreas', () => {
+    const unlocked = unlockedSections(NEW_JOURNEY);
+    expect(buildFlow('DAY_MORNING', { ...all, unlocked }).map((s) => s.id)).toEqual(['intro', 'reading', 'intention', 'closing']);
+    expect(buildFlow('WEEK_PLAN', { ...all, unlocked }).some((s) => s.section === 'weekProjects')).toBe(false);
   });
 });

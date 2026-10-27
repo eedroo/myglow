@@ -1,0 +1,65 @@
+{
+  "lessons": [
+    {
+      "unlockId": "stage-2",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "Novo passo: soltar", "text": "Já abres o dia com uma intenção e fechas com gratidão. Agora vamos aprender a soltar." },
+        { "id": "what", "icon": "flame", "title": "O que é banir", "text": "É escolher o que não levas contigo hoje: uma preocupação, um hábito, um pensamento que não te larga." },
+        { "id": "how", "icon": "feather", "title": "Como se faz", "text": "Dá um nome ao que queres soltar. Respira fundo três vezes e imagina-o a ir embora com o ar. Depois, marca como feito." },
+        { "id": "when", "icon": "moon-stars", "title": "Manhã e noite", "text": "De manhã, soltas o que te atrapalharia o dia. À noite, o que te pesou ao longo dele." },
+        { "id": "try", "icon": "sparkles", "title": "Experimenta hoje", "text": "Um banimento leva um minuto. O primeiro pode ser já." }
+      ],
+      "tryLabel": "Fazer o meu primeiro banimento",
+      "tryTarget": { "kind": "guided", "flow": "DAY_NOW" }
+    },
+    {
+      "unlockId": "stage-3",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "Novo passo: os rituais", "text": "Um ritual é um gesto simples repetido com intenção: acender uma vela, fazer um chá, alongar ao acordar." },
+        { "id": "morning", "icon": "sun", "title": "Ritual da manhã", "text": "Escolhe algo curto que consigas repetir todos os dias. O que conta é a repetição, não a duração." },
+        { "id": "night", "icon": "moon-crescent", "title": "Ritual da noite", "text": "Um gesto que diga ao corpo que o dia acabou: baixar as luzes, escrever, respirar." },
+        { "id": "wake", "icon": "bed", "title": "Como acordaste", "text": "A partir de agora também registas como acordaste e se dormiste o que querias. Com o tempo, surgem padrões.", "only": "wellbeing" },
+        { "id": "care", "icon": "candle", "title": "Com cuidado", "text": "Velas sempre vigiadas e nada ingerido. Magia é cuidado." },
+        { "id": "areas", "icon": "zodiac-wheel", "title": "Intenções por área", "text": "Na Semana abrem também as intenções por área: Magic, Pessoal, Lazer, Profissional e Estudos." },
+        { "id": "try", "icon": "sparkles", "title": "Experimenta hoje", "text": "Escolhe o teu ritual da manhã e fá-lo uma vez. Amanhã já custa menos." }
+      ],
+      "tryLabel": "Escolher o meu ritual",
+      "tryTarget": { "kind": "guided", "flow": "DAY_MORNING" }
+    },
+    {
+      "unlockId": "stage-4",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "Novo passo: o corpo", "text": "O corpo é onde a tua magia acontece. Cuidar dele também é prática." },
+        { "id": "three", "icon": "water-drop", "title": "Três cuidados", "text": "Água, alongamentos e movimento. Vai marcando ao longo do dia, à medida que os fazes." },
+        { "id": "gentle", "icon": "star", "title": "Sem metas de desempenho", "text": "Aqui conta cuidar de ti, não bater números." },
+        { "id": "focus", "icon": "dumbbell", "title": "O teu Foco no corpo", "text": "Toca em \"Foco no meu corpo\" para montar treinos, registar séries e acompanhar a tua evolução.", "only": "body-pro" },
+        { "id": "try", "icon": "sparkles", "title": "Experimenta hoje", "text": "Um copo de água já conta. Começa pelo que der." }
+      ],
+      "tryLabel": "Cuidar do corpo",
+      "tryTarget": { "kind": "guided", "flow": "DAY_BODY" }
+    },
+    {
+      "unlockId": "stage-5",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "O último passo: reflectir", "text": "Fechar o dia com consciência é o que transforma a rotina num caminho." },
+        { "id": "reflection", "icon": "journal", "title": "Reflexão final", "text": "O que te ensinou este dia? Duas linhas chegam." },
+        { "id": "summary", "icon": "scroll", "title": "Resumo do dia", "text": "Uma frase que vais gostar de reler daqui a um ano." },
+        { "id": "whole", "icon": "glow-orb", "title": "A metodologia completa", "text": "Intenção, soltar, ritual, corpo, gratidão e reflexão. Agora o diário inteiro é teu." },
+        { "id": "try", "icon": "sparkles", "title": "Experimenta hoje", "text": "Fecha o dia de hoje com a tua primeira reflexão." }
+      ],
+      "tryLabel": "Fechar o dia",
+      "tryTarget": { "kind": "guided", "flow": "DAY_NIGHT" }
+    },
+    {
+      "unlockId": "month-year",
+      "slides": [
+        { "id": "intro", "icon": "sparkles", "title": "Fechaste a tua primeira semana", "text": "Agora podes olhar mais longe." },
+        { "id": "month", "icon": "moon-crescent", "title": "O Mês", "text": "Intenção, metas por área, luas e rituais do mês." },
+        { "id": "year", "icon": "glow-orb", "title": "O Ano", "text": "A tua palavra do ano e o que queres construir." },
+        { "id": "try", "icon": "calendar", "title": "Experimenta", "text": "Começa pelo mês em que estás: uma intenção e duas metas chegam." }
+      ],
+      "tryLabel": "Planear este mês",
+      "tryTarget": { "kind": "guided", "flow": "MONTH_PLAN" }
+    }
+  ]
+}

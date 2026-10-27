@@ -1,4 +1,6 @@
 /** Guia interactivo (F11): passos e eventos. Puro. */
+import type { SectionKey } from '@/lib/guided/sections';
+
 export type TourEvent =
   | 'next' | 'back' | 'pause' | 'resume' | 'skip'
   | 'intention-saved' | 'morning-banish-done' | 'wake-mood-set'
@@ -11,6 +13,8 @@ export interface TourStep {
   advanceOn: TourEvent; // 'next' = botão "Continuar"; outro = acção real da pessoa
   optional?: boolean; // mostra "Fazer depois" para avançar sem a acção
   placement?: 'top' | 'bottom' | 'auto';
+  /** F19: secção do diário que o passo mostra; sem ela desbloqueada na jornada, o passo salta-se. */
+  section?: SectionKey;
 }
 
 export const TOUR_STEPS: TourStep[] = [
@@ -18,11 +22,13 @@ export const TOUR_STEPS: TourStep[] = [
   { id: 'sky', route: '/today', target: 'sky-card', advanceOn: 'next' },
   { id: 'reading', route: '/today', target: 'reading-card', advanceOn: 'next' },
   { id: 'intention', route: '/today', target: 'intention', advanceOn: 'intention-saved', optional: true },
-  { id: 'banish', route: '/today', target: 'morning-banish', advanceOn: 'morning-banish-done', optional: true },
-  { id: 'wake', route: '/today', target: 'wake-mood', advanceOn: 'wake-mood-set', optional: true },
-  { id: 'body', route: '/today', target: 'body-focus', advanceOn: 'next' },
+  { id: 'banish', route: '/today', target: 'morning-banish', advanceOn: 'morning-banish-done', optional: true, section: 'morningBanish' },
+  { id: 'wake', route: '/today', target: 'wake-mood', advanceOn: 'wake-mood-set', optional: true, section: 'wakeMood' },
+  { id: 'body', route: '/today', target: 'body-focus', advanceOn: 'next', section: 'body' },
   { id: 'night', route: '/today', target: 'night-section', advanceOn: 'next' },
   { id: 'glow', route: '/today', target: 'avatar', advanceOn: 'next', placement: 'bottom' },
+  // F19: a jornada (some quando já não há cartão: etapa 5 ou tudo desbloqueado).
+  { id: 'journey', route: '/today', target: 'journey-card', advanceOn: 'next' },
   { id: 'week-tab', route: '/today', target: 'nav-week', advanceOn: 'next', placement: 'top' }, // "Continuar" navega para /week
   { id: 'week', route: '/week', target: 'week-intention', advanceOn: 'week-intention-saved', optional: true },
   { id: 'grimoire-tab', route: '/week', target: 'nav-grimoire', advanceOn: 'next', placement: 'top' }, // navega para /grimoire

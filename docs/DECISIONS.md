@@ -169,6 +169,16 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Planear com leitura:** semana, mês e ano começam por "Antes de planear" (leitura pessoal, datas e fases da lua com o que convidam a fazer, rituais); a intenção e cada área mostram a inspiração que daí vem (focos da leitura, rituais da área, momentos do céu).
 - **Leitura do dia: agora ou à noite:** todos os dias, antes de a leitura aparecer, pergunta-se se a pessoa a quer já ou no fecho do dia (`DailyEntry.readingChoice`, `NOW`/`NIGHT`). À noite: em Hoje fica à espera até às 18h (com "Ver já") e o modo guiado da noite começa por ela. Dias passados mostram sempre a leitura.
 
+## Jornada da metodologia (Fase 19)
+- **Etapas:** a metodologia abre em 5 etapas: 1. Abrir e fechar o dia (intenção, gratidão, humor); 2. Soltar (banimento da manhã e da noite); 3. Rituais (ritual matinal e nocturno, sono, como acordei, intenções por área na Semana); 4. Corpo (os 3 checks; e a entrada no Foco no corpo para premium); 5. Reflexão (reflexão final e resumo). Cada etapa abre com 3 dias de prática da anterior (não precisam de ser seguidos), sobe uma etapa de cada vez e tem a sua mini-lição em slides. A leitura do dia está sempre disponível. Lógica única em `src/lib/journey/`.
+- **O que fica bloqueado:** escondido, nunca apagado nem alterado.
+- **Progresso e Glow relativos** às secções desbloqueadas; uma parte do dia sem nenhum campo disponível é não aplicável (não conta para o nível nem dá Glow). Notificações, retrospectiva, modo guiado, onboarding guiado e Guia ignoram o que está bloqueado.
+- **Planners:** a Semana está aberta desde o início (intenção, peso, notas e reflexão); as áreas da Semana abrem na etapa 3; Mês e Ano abrem com a primeira reflexão da semana ou na etapa 3, o que vier primeiro.
+- **Utilizadores actuais:** mapeados pelo histórico na migração `journey` (uma etapa abre se alguma vez usaram um campo dela), sem perder nada e sem mini-lições antigas.
+- **Anúncio v2:** publicado pelo admin em `/admin`; slides de novidades uma vez a quem foi mapeado, aviso na caixa e push para todos os utilizadores existentes, sem email.
+- **Desbloquear tudo:** disponível em `/journey` e nas definições → Diário.
+- **`FirstStepsCard`** substituído pelo `JourneyCard`.
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
-import { currentStep, IDLE_TOUR, isOnStepRoute, progress, reduceTour, startTour, tourStateFromDb, type TourState } from './machine';
+import { currentStep, IDLE_TOUR, isOnStepRoute, progress, reduceTour, startTour, tourStateFromDb, visibleSteps, type TourState } from './machine';
 import { TOUR_STEPS } from './steps';
+import { NEW_JOURNEY, unlockedSections } from '@/lib/journey/state';
 import { dailyTourEvents, emitTourEvent, onTourEvent, weekTourEvents } from './bus';
 
 const at = (stepId: string, status: TourState['status'] = 'active'): TourState => ({ stepId, status });
@@ -48,8 +49,35 @@ describe('máquina do guia', () => {
     expect(s.status).toBe('done');
   });
 
-  it('progress em banish → 5 de 13', () => {
-    expect(progress(at('banish'))).toEqual({ index: 5, total: 13 });
+  it('progress em banish → 5 de 14 (com o passo da jornada)', () => {
+    expect(progress(at('banish'))).toEqual({ index: 5, total: 14 });
+  });
+
+  describe('jornada (F19)', () => {
+    const stage1 = { available: unlockedSections(NEW_JOURNEY), journeyCard: true };
+
+    it('etapa 1 salta banish, wake e body; o total conta só os visíveis', () => {
+      expect(visibleSteps(stage1).some((s) => ['banish', 'wake', 'body'].includes(s.id))).toBe(false);
+      expect(reduceTour(at('intention'), 'intention-saved', stage1)).toEqual(at('night'));
+      expect(reduceTour(at('night'), 'back', stage1)).toEqual(at('intention'));
+      expect(progress(at('night'), stage1)).toEqual({ index: 5, total: 11 });
+    });
+
+    it('passo "A sua jornada" antes do separador da Semana; sem cartão salta-se', () => {
+      expect(reduceTour(at('glow'), 'next', stage1)).toEqual(at('journey'));
+      expect(reduceTour(at('journey'), 'next', stage1)).toEqual(at('week-tab'));
+      expect(reduceTour(at('glow'), 'next', { journeyCard: false })).toEqual(at('week-tab'));
+    });
+
+    it('passo gravado que deixou de se ver: Continuar passa à frente', () => {
+      expect(reduceTour(at('body'), 'next', stage1)).toEqual(at('night'));
+    });
+
+    it('o percurso da etapa 1 termina em done', () => {
+      let s = startTour();
+      for (const step of visibleSteps(stage1)) s = reduceTour(s, step.advanceOn, stage1);
+      expect(s.status).toBe('done');
+    });
   });
 
   it('isOnStepRoute: lições do Grimório (não o quiz) e rotas exactas', () => {

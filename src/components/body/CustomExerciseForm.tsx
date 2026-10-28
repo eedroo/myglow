@@ -11,17 +11,31 @@ type Measure = 'REPS_WEIGHT' | 'REPS' | 'DURATION';
 const MUSCLES = ['chest', 'shoulders', 'triceps', 'biceps', 'forearms', 'lats', 'middle back', 'lower back', 'traps', 'abdominals', 'glutes', 'quadriceps', 'hamstrings', 'calves', 'adductors', 'abductors', 'neck'];
 const EQUIPMENT = ['barbell', 'dumbbell', 'cable', 'machine', 'kettlebells', 'bands', 'body only', 'other'];
 
+export interface CreatedExercise {
+  id: string;
+  name: string;
+  measure: Measure;
+  primaryMuscles: string[];
+  equipment: string | null;
+}
+
 interface Props {
   exercise?: { id: string; name: string; measure: Measure; primaryMuscles: string[]; equipment: string | null };
+  /** Dentro do seletor de exercícios: devolve o exercício criado em vez de abrir a página dele. */
+  onCreated?: (e: CreatedExercise) => void;
+  /** Abre logo o formulário (com o nome já escrito na pesquisa). */
+  initialOpen?: boolean;
+  initialName?: string;
+  onCancel?: () => void;
 }
 
 /** Exercício próprio: nome, como se regista, músculos e equipamento; arquivar. */
-export function CustomExerciseForm({ exercise }: Props) {
+export function CustomExerciseForm({ exercise, onCreated, initialOpen = false, initialName = '', onCancel }: Props) {
   const t = useTranslations('fitness');
   const te = useTranslations();
   const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [name, setName] = useState(exercise?.name ?? '');
+  const [open, setOpen] = useState(initialOpen);
+  const [name, setName] = useState(exercise?.name ?? initialName);
   const [measure, setMeasure] = useState<Measure>(exercise?.measure ?? 'REPS_WEIGHT');
   const [muscles, setMuscles] = useState<string[]>(exercise?.primaryMuscles ?? []);
   const [equipment, setEquipment] = useState(exercise?.equipment ?? '');
@@ -46,6 +60,7 @@ export function CustomExerciseForm({ exercise }: Props) {
       }
       const res = await createCustomExercise(input);
       if (!res.ok) return setError(te(res.error));
+      if (onCreated) return onCreated({ id: res.data.id, name: name.trim(), measure, primaryMuscles: muscles, equipment: equipment || null });
       router.push(`/body/exercises/${encodeURIComponent(res.data.id)}`);
     });
 
@@ -103,7 +118,13 @@ export function CustomExerciseForm({ exercise }: Props) {
         <Button className="mg-btn--body" loading={pending} disabled={!name.trim()} onClick={save}>
           {t('custom.save')}
         </Button>
-        <Button variant="ghost" onClick={() => setOpen(false)}>
+        <Button
+          variant="ghost"
+          onClick={() => {
+            setOpen(false);
+            onCancel?.();
+          }}
+        >
           {t('custom.cancel')}
         </Button>
         {exercise && (

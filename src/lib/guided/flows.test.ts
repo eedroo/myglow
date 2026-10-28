@@ -6,7 +6,11 @@ const all = { hasWellbeingConsent: true, hasBodyPro: true };
 
 describe('buildFlow', () => {
   it('manhã com tudo disponível', () => {
-    expect(buildFlow('DAY_MORNING', all).map((s) => s.id)).toEqual(['intro', 'reading', 'intention', 'morningBanish', 'morningRitual', 'sleep', 'wakeMood', 'closing']);
+    expect(buildFlow('DAY_MORNING', all).map((s) => s.id)).toEqual(['intro', 'reading', 'intention', 'morningBanish', 'morningRitual', 'sleep', 'wakeMood', 'dailyWeight', 'closing']);
+  });
+  it('peso do dia no fim da manhã só com o Foco no corpo e o consentimento', () => {
+    expect(buildFlow('DAY_MORNING', { ...all, hasBodyPro: false }).map((s) => s.id)).not.toContain('dailyWeight');
+    expect(buildFlow('DAY_MORNING', { hasWellbeingConsent: false, hasBodyPro: true }).map((s) => s.id)).not.toContain('dailyWeight');
   });
   it('sem consentimento: sem sono nem como acordei', () => {
     const ids = buildFlow('DAY_MORNING', { hasWellbeingConsent: false, hasBodyPro: false }).map((s) => s.id);
@@ -36,7 +40,7 @@ describe('progresso no fluxo', () => {
     expect(steps[firstIncompleteStep(steps, { intention: 'Calma' })]!.id).toBe('morningBanish');
   });
   it('tudo preenchido → closing', () => {
-    const v = { intention: 'x', morningBanishName: 'medo', morningBanishDone: true, morningRitualDone: true, sleepGoalMet: true, wakeMood: 4 };
+    const v = { intention: 'x', morningBanishName: 'medo', morningBanishDone: true, morningRitualDone: true, sleepGoalMet: true, wakeMood: 4, dailyWeightGrams: 61200 };
     expect(steps[firstIncompleteStep(steps, v)]!.id).toBe('closing');
   });
   it('banimento com nome mas sem "feito" não está feito', () => {
@@ -54,7 +58,8 @@ describe('progresso no fluxo', () => {
 describe('buildFlow com a jornada (F19)', () => {
   it('etapa 1: manhã só com leitura e intenção; semana sem áreas', () => {
     const unlocked = unlockedSections(NEW_JOURNEY);
-    expect(buildFlow('DAY_MORNING', { ...all, unlocked }).map((s) => s.id)).toEqual(['intro', 'reading', 'intention', 'closing']);
+    expect(buildFlow('DAY_MORNING', { ...all, unlocked }).map((s) => s.id)).toEqual(['intro', 'reading', 'intention', 'dailyWeight', 'closing']);
+    expect(buildFlow('DAY_MORNING', { ...all, hasBodyPro: false, unlocked }).map((s) => s.id)).toEqual(['intro', 'reading', 'intention', 'closing']);
     expect(buildFlow('WEEK_PLAN', { ...all, unlocked }).some((s) => s.section === 'weekProjects')).toBe(false);
   });
 });

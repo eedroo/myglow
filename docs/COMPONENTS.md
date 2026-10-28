@@ -580,10 +580,10 @@ Módulo premium (`body-pro`) com navegação própria, inspirado no Setgraph: bi
 | `WorkoutItems` | client | `workout.css` | `mg-workout-items` | lista de `WorkoutItemRow` e "+ Exercícios" (abre o `ExercisePicker`) |
 | `ExerciseThumb` | server | `workout.css` | `mg-ex-row__thumb` (ou a classe passada) | miniatura WebP (ou haltere quando não há imagem) |
 | `StartSessionButton` | client | `workout.css` | — | "Começar treino" (ou "Treino livre"); com sessão activa volta a ela |
-| `ExercisePicker` | client | `ex-picker.css` | `mg-ex-picker`, `__search`, `__list`, `__item--selected`, `__footer` | folha (`dialog`) com pesquisa e filtros, selecção múltipla; confirma para o treino ou para a sessão |
+| `ExercisePicker` | client | `ex-picker.css` | `mg-ex-picker`, `__search`, `__list`, `__item--selected`, `__footer` | folha (`dialog`) com pesquisa e filtros, selecção múltipla; confirma para o treino ou para a sessão; os exercícios próprios primeiro e "+ Criar exercício" ali mesmo (`CustomExerciseForm` com `onCreated`), que entra já seleccionado |
 | `ExerciseList` / `ExerciseRow` | client | `ex-list.css` | `mg-ex-list`, `mg-ex-row` | biblioteca e os meus, com miniatura, músculos e equipamento; separador "Os meus" |
 | `ExerciseFilters` | client | `ex-list.css` | `mg-ex-filters` | músculo, equipamento, categoria |
-| `CustomExerciseForm` | client | `ex-list.css` | `mg-ex-form` | exercício próprio: nome, como se regista, músculos, equipamento; arquivar |
+| `CustomExerciseForm` | client | `ex-list.css` | `mg-ex-form` | exercício próprio: nome, como se regista, músculos, equipamento; arquivar; `onCreated`, `initialOpen`, `initialName`, `onCancel` para usar dentro do `ExercisePicker` |
 | `ExerciseDetail` | server | `ex-detail.css` | `mg-ex-detail` | cabeçalho com músculos e equipamento; histórico; como se faz; "Adicionar a um treino" |
 | `ExerciseHistory` | server | `ex-detail.css` | `mg-ex-history`, `__group`, `__row` | por data: hora, descanso antes (+4:02), reps e kg |
 | `ExerciseHowTo` | server | `ex-detail.css` | `mg-ex-howto`, `__images` | imagens e instruções na língua da pessoa |
@@ -615,7 +615,7 @@ Peso diário com média semanal, objectivo em linguagem neutra, recordes e evolu
 | `BodyWeightCard` | server | `weight-card.css` | `mg-weight-card`, `__value`, `__delta` | último peso e média da semana com a diferença (seta neutra) → `/body/weight` |
 | `MuscleMap` | client | `muscle-map.css` | `mg-muscle-map`, `__views`, `__view`, `__shape--{just,mid,rested,neutral}`, `__glow`, `__legend` | SVG próprio (formas de `mapShapes.ts`) frente e costas, com gradiente, cantos suaves, brilho a pulsar nos músculos acabados de treinar e teclado; cores `--recovery-just`, `--recovery-mid`, `--recovery-rested`; tocar num músculo abre a `MuscleExercisesSheet` |
 | `MuscleExercisesSheet` | client | `muscle-map.css` | `mg-muscle-sheet` | últimos exercícios do músculo, com data e link |
-| `WeightChart` | client | `weight-chart.css` | `mg-weight-chart`, `__point`, `__trend`, `__goal`, `__axis`, `__tip` | SVG responsivo: pontos diários vazios, tendência de 7 dias, linha tracejada do alvo, 4 a 5 marcas por eixo; toque num ponto mostra data e kg; selector M · 6M · A (`SegmentedControl`) |
+| `WeightChart` | client | `weight-chart.css` | `mg-weight-chart`, `__point`, `__trend`, `__goal`, `__axis`, `__tip` | SVG responsivo: pontos diários vazios, tendência de 7 dias, linha tracejada do alvo, 4 a 5 marcas por eixo; toque num ponto mostra data e kg; selector M · 6M · A (`SegmentedControl`); períodos Semana (por defeito), Mês e 6 meses |
 | `WeightEntrySheet` | client | `weight-entry.css` | `mg-weight-entry` | folha (`dialog`): data (hoje por defeito), kg com teclado decimal, "Guardar"; abre sozinha com `?new=1` |
 | `WeightList` | client | `weight-entry.css` | `mg-weight-list`, `__row`, `__delete` | registos (data e kg), deslizar para a esquerda (ou botão) para apagar |
 | `BodyGoalSheet` | client | `goal.css` | `mg-goal-sheet` | direcção (Ganhar · Manter · Perder em `SegmentedControl`), ritmo de `GOAL_RATES` ("+0,25 kg por semana"), alvo opcional; remover objectivo |
@@ -654,7 +654,7 @@ Um passo por ecrã, com a linguagem da retrospectiva. Cada passo grava pelos hoo
 | `StepCheck` | client | `guided-step.css` | `mg-step-check`, `__toggle--on` | ícone grande, pergunta e botão de alternar; ritual sugerido (`RitualTodayCard`) quando existe |
 | `StepScale` | client | `guided-step.css` | `mg-step-scale` | as 5 carinhas do diário (`MoodScale`) e a nota opcional do "como acordou" |
 | `StepBodyChecks` | client | `guided-step.css` | `mg-step-body` | 3 checks grandes; com `body-pro`, "Abrir o Foco no corpo" |
-| `StepWeight` | client | `guided-step.css` | `mg-step-weight` | peso da semana (`WeightInput`) ou, com `body-pro` e pesagens, a média só de leitura |
+| `StepWeight` | client | `guided-step.css` | `mg-step-weight` | peso da semana (`WeightInput`) ou, com `body-pro` e pesagens, a média só de leitura; também o peso do dia no fim da manhã (`dailyWeight`, body-pro + consentimento), gravado no registo diário do peso |
 | `StepWord` | client | `guided-step.css` | `mg-step-word` | palavra do ano numa linha em tipografia grande |
 | `StepClosing` | client | `guided-step.css` | `mg-step-closing` | brilho dourado, título, o que ficou feito, Glow ganho (`RecapCountUp`), próximo fluxo sugerido e "Voltar" |
 | `GuidedStartCard` | server | `guided-start.css` | `mg-guided-start`, `--morning`, `--body`, `--night` | no Hoje, abaixo do `DailySkyCard`: o fluxo sugerido (`suggestDayFlow`); some com tudo feito ou com o onboarding guiado activo |

@@ -50,10 +50,11 @@ export function rollingAverage(points: WeightPoint[], days = 7): WeightPoint[] {
   return sorted.map((p) => ({ date: p.date, grams: rangeAverage(sorted, addDays(p.date, -(days - 1)), p.date)! }));
 }
 
-export type WeightRange = 'M' | '6M' | 'Y';
+export type WeightRange = 'W' | 'M' | '6M' | 'Y';
 
-/** M = último mês, 6M = últimos 6 meses, Y = último ano; até hoje. */
+/** W = últimos 7 dias, M = último mês, 6M = últimos 6 meses, Y = último ano; até hoje. */
 export function rangeBounds(range: WeightRange, today: DateISO): { from: DateISO; to: DateISO } {
+  if (range === 'W') return { from: DateTime.fromISO(today, { zone: 'utc' }).minus({ days: 6 }).toISODate() as DateISO, to: today };
   const months = range === 'M' ? 1 : range === '6M' ? 6 : 12;
   const from = DateTime.fromISO(today, { zone: 'utc' }).minus({ months }).plus({ days: 1 }).toISODate() as DateISO;
   return { from, to: today };

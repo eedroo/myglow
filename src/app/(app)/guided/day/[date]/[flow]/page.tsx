@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { auth } from '@/auth';
-import { addDays, formatLongDate, isDateISO } from '@/lib/dates';
+import { addDays, formatLongDate, isDateISO, toDbDate } from '@/lib/dates';
+import { db } from '@/lib/db';
 import { getDailySky } from '@/lib/astro/sky';
 import { getDailyEntry, getReadingChoice } from '@/lib/daily/queries';
 import { getDayReading } from '@/lib/ai/queries';
@@ -40,6 +41,14 @@ export default async function GuidedDayRoute({ params }: { params: { date: strin
   const choice = await getReadingChoice(session.user.id, date);
   const readingAtNight = flow === 'DAY_NIGHT' && choice === 'NIGHT';
   const reading = flow === 'DAY_MORNING' || readingAtNight ? await getDayReading(session.user.id, date) : null;
+  // Manhã: a intenção parte do que ficou escrito para hoje no planner da Semana; com o Foco no corpo, pesa-se no fim.
+  const morning = flow === 'DAY_MORNING';
+  const [planNote, weighIn] = await Promise.all([
+    morning ? db.weekDayNote.findFirst({ where: { date: toDbDate(date), week: { userId: session.user.id } }, select: { text: true } }) : null,
+    morning && g.ctx.hasBodyPro && g.ctx.hasWellbeingConsent
+      ? db.bodyWeightEntry.findUnique({ where: { userId_date: { userId: session.user.id, date: toDbDate(date) } }, select: { grams: true } })
+      : null,
+  ]);
   const sky = getDailySky(date, g.user.timezone);
   const moon = `${ta(`phases.${sky.moon.phase}`)} · ${ta(`signs.${sky.moon.signAtNoon}`)}`;
   const intro = {
@@ -57,13 +66,13 @@ export default async function GuidedDayRoute({ params }: { params: { date: strin
       initial={entry}
       ctx={{ ...g.ctx, readingAtNight }}
       readingChoice={choice}
+      planNote={planNote?.text.trim() || undefined}
+      dailyWeightGrams={weighIn?.grams ?? null}
       closeHref={date === g.today ? '/today' : `/day/${date}`}
       intro={<StepIntro icon={intro.icon} eyebrow={formatLongDate(date, locale)} title={intro.title} lines={[moon]} cta={intro.cta} />}
       {...(reading && {
         reading: { node: <DailyReadingCard personal={reading.personal} pending={reading.pending} />, pending: reading.personal.status !== 'ready' },
         ritual: flow === 'DAY_MORNING' && reading.ritualToday ? <RitualTodayCard ritual={reading.ritualToday} locale={locale} /> : undefined,
-        // A intenção sugerida pela leitura pessoal do dia aparece ao lado do passo da intenção.
-        inspiration: { intention: reading.personal.status === 'ready' ? [reading.personal.data.intentionSuggestion] : [], areas: {} },
       })}
     />
   );

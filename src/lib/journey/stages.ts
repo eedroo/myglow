@@ -67,8 +67,8 @@ export const STAGES: StageDef[] = [
   },
 ];
 
-/** Secções fora da jornada: a leitura do dia está sempre disponível. */
-export const ALWAYS_SECTIONS: SectionKey[] = ['reading', 'nightReading'];
+/** Secções fora da jornada: a leitura do dia e a pesagem (Foco no corpo) estão sempre disponíveis. */
+export const ALWAYS_SECTIONS: SectionKey[] = ['reading', 'nightReading', 'dailyWeight'];
 
 /** Secções do Mês e do Ano (abrem com o planner). */
 export const PLANNER_SECTIONS: Record<PlannerKey, SectionKey[]> = {

@@ -25,6 +25,7 @@ describe('médias', () => {
 
   it('rangeBounds', () => {
     expect(rangeBounds('6M', '2026-10-25')).toEqual({ from: '2026-04-26', to: '2026-10-25' });
+    expect(rangeBounds('W', '2026-10-25')).toEqual({ from: '2026-10-19', to: '2026-10-25' });
     expect(rangeBounds('M', '2026-10-25').from).toBe('2026-09-26');
     expect(rangeBounds('Y', '2026-10-25').from).toBe('2025-10-26');
   });

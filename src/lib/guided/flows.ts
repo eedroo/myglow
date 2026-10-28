@@ -9,7 +9,7 @@ import { isSectionAvailable, type SectionContext, type SectionKey } from './sect
  */
 export type { GuidedFlow };
 
-export type StepKind = 'intro' | 'reading' | 'text' | 'banish' | 'check' | 'scale' | 'bodyChecks' | 'weight' | 'word' | 'closing';
+export type StepKind = 'intro' | 'reading' | 'text' | 'banish' | 'check' | 'scale' | 'bodyChecks' | 'weight' | 'dailyWeight' | 'word' | 'closing';
 
 export interface GuidedStep {
   id: string;
@@ -34,6 +34,8 @@ const MIDDLE: Record<GuidedFlow, GuidedStep[]> = {
     step('morningRitual', 'check', 'morningRitual', 'morningRitualDone'),
     step('sleep', 'check', 'sleep', 'sleepGoalMet'),
     step('wakeMood', 'scale', 'wakeMood', 'wakeMood'),
+    // Pesagem de manhã (body-pro + consentimento): fica no fim do guia, antes do fecho.
+    step('dailyWeight', 'dailyWeight', 'dailyWeight', 'dailyWeightGrams', true),
   ],
   DAY_BODY: [step('body', 'bodyChecks', 'body')],
   DAY_NIGHT: [
@@ -82,6 +84,7 @@ export function isStepDone(s: GuidedStep, values: Record<string, unknown>): bool
       return v === true;
     case 'scale':
     case 'weight':
+    case 'dailyWeight':
       return typeof v === 'number';
     case 'bodyChecks':
       return values.stretchDone === true && values.workoutDone === true && values.waterDone === true;

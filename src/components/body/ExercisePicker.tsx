@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Check } from 'lucide-react';
 import { searchExercises } from '@/lib/fitness/library';
@@ -9,6 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { TextInput } from '@/components/ui/TextInput';
 import { ExerciseThumb } from './ExerciseThumb';
 import { ExerciseFilters, type ExerciseFilterState } from './ExerciseFilters';
+import { CustomExerciseForm, type CreatedExercise } from './CustomExerciseForm';
 
 const MAX_SHOWN = 80;
 
@@ -21,7 +23,10 @@ interface ExercisePickerProps {
   multiple?: boolean;
 }
 
-/** Folha com pesquisa (português e inglês) e filtros; selecção múltipla. */
+/** Os exercícios próprios primeiro (eram fáceis de perder no meio dos ~900 da biblioteca). */
+const mineFirst = (list: ExerciseView[]) => [...list.filter((e) => e.source === 'CUSTOM'), ...list.filter((e) => e.source !== 'CUSTOM')];
+
+/** Folha com pesquisa (português e inglês) e filtros; selecção múltipla; criar um exercício próprio sem sair. */
 export function ExercisePicker({ exercises, open, onClose, onConfirm, confirmLabel, multiple = true }: ExercisePickerProps) {
   const t = useTranslations('fitness');
   const ref = useRef<HTMLDialogElement>(null);
@@ -29,6 +34,11 @@ export function ExercisePicker({ exercises, open, onClose, onConfirm, confirmLab
   const [filters, setFilters] = useState<ExerciseFilterState>({ muscle: '', equipment: '', category: '' });
   const [selected, setSelected] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
+  const router = useRouter();
+  // Criados aqui: entram já na lista e seleccionados (o servidor actualiza a lista no refresh).
+  const [created, setCreated] = useState<ExerciseView[]>([]);
+  const [creating, setCreating] = useState(false);
+  const all = useMemo(() => [...created.filter((c) => !exercises.some((e) => e.id === c.id)), ...exercises], [created, exercises]);
 
   useEffect(() => {
     const d = ref.current;
@@ -38,9 +48,29 @@ export function ExercisePicker({ exercises, open, onClose, onConfirm, confirmLab
   }, [open]);
 
   const results = useMemo(
-    () => searchExercises(exercises, query, { muscle: filters.muscle || undefined, equipment: filters.equipment || undefined, category: filters.category || undefined }),
-    [exercises, query, filters],
+    () => mineFirst(searchExercises(all, query, { muscle: filters.muscle || undefined, equipment: filters.equipment || undefined, category: filters.category || undefined })),
+    [all, query, filters],
   );
+
+  const onCreated = (e: CreatedExercise) => {
+    const view: ExerciseView = {
+      id: e.id,
+      source: 'CUSTOM',
+      name: e.name,
+      nameEn: e.name,
+      category: e.measure === 'DURATION' ? 'stretching' : 'strength',
+      measure: e.measure,
+      primaryMuscles: e.primaryMuscles,
+      secondaryMuscles: [],
+      equipment: e.equipment,
+      thumb: null,
+    };
+    setCreated((c) => [view, ...c]);
+    setSelected((s) => (multiple ? [...s, e.id] : [e.id]));
+    setCreating(false);
+    setQuery('');
+    router.refresh();
+  };
 
   const toggle = (id: string) => setSelected((s) => (s.includes(id) ? s.filter((x) => x !== id) : multiple ? [...s, id] : [id]));
   const confirm = async () => {
@@ -59,7 +89,14 @@ export function ExercisePicker({ exercises, open, onClose, onConfirm, confirmLab
       <div className="mg-ex-picker__inner">
         <div className="mg-ex-picker__head">
           <TextInput type="search" value={query} placeholder={t('picker.search')} aria-label={t('picker.search')} onChange={(e) => setQuery(e.target.value)} autoFocus />
-          <ExerciseFilters exercises={exercises} value={filters} onChange={setFilters} />
+          <ExerciseFilters exercises={all} value={filters} onChange={setFilters} />
+          {creating ? (
+            <CustomExerciseForm initialOpen initialName={query.trim()} onCreated={onCreated} onCancel={() => setCreating(false)} />
+          ) : (
+            <Button variant="subtle" onClick={() => setCreating(true)}>
+              {t('custom.new')}
+            </Button>
+          )}
         </div>
         <ul className="mg-ex-picker__list">
           {results.slice(0, MAX_SHOWN).map((e) => {

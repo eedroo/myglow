@@ -28,7 +28,7 @@ export function WeightChart({ points, today, targetGrams }: { points: WeightPoin
   const raw = useLocale();
   const locale = isAppLocale(raw) ? raw : 'pt-PT';
   const kg = (g: number) => formatGramsAsKg(g, intlLocale(locale));
-  const [range, setRange] = useState<WeightRange>('M');
+  const [range, setRange] = useState<WeightRange>('W');
   const [active, setActive] = useState<number | null>(null);
 
   const view = useMemo(() => {
@@ -70,9 +70,9 @@ export function WeightChart({ points, today, targetGrams }: { points: WeightPoin
           setActive(null);
         }}
         options={[
+          { value: 'W', label: t('rangeW') },
           { value: 'M', label: t('rangeM') },
           { value: '6M', label: t('range6M') },
-          { value: 'Y', label: t('rangeY') },
         ]}
       />
       {view.shown.length === 0 ? (

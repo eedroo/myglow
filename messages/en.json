@@ -1971,6 +1971,7 @@
       "continue": "Continue"
     },
     "done": {
+      "dailyWeight": "Today's weight",
       "intention": "Intention",
       "morningBanish": "Morning banishing",
       "morningRitual": "Morning ritual",
@@ -2099,6 +2100,7 @@
       "thisIntention": "Your intention: \"{text}\""
     },
     "steps": {
+      "dailyWeight": {"title": "Today's weight", "help": "Optional. Weigh yourself in the morning, before eating, so days compare fairly."},
       "periodReading": {"title": "Before you plan"},
       "reading": {
         "title": "See today's reading now or tonight?",
@@ -2113,6 +2115,7 @@
         "title": "The reading you saved for today"
       },
       "intention": {
+        "fromPlanner": "From your weekly planner",
         "title": "Your intention",
         "help": "How do you want to live today? One sentence is enough.",
         "placeholder": "Today I want…"
@@ -2244,8 +2247,9 @@
       "delete": "Delete",
       "deleteEntry": "Delete the entry for {date}",
       "range": "Range",
-      "rangeM": "M",
-      "range6M": "6M",
+      "rangeW": "Week",
+      "rangeM": "Month",
+      "range6M": "6 months",
       "rangeY": "Y",
       "chartEmpty": "No entries in this range.",
       "chartHint": "Tap a point to see the date and weight.",

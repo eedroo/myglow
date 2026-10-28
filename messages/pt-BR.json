@@ -1971,6 +1971,7 @@
       "continue": "Continuar"
     },
     "done": {
+      "dailyWeight": "Peso de hoje",
       "intention": "Intenção",
       "morningBanish": "Banimento da manhã",
       "morningRitual": "Ritual da manhã",
@@ -2099,6 +2100,7 @@
       "thisIntention": "Sua intenção: \"{text}\""
     },
     "steps": {
+      "dailyWeight": {"title": "Seu peso de hoje", "help": "Opcional. Pese-se de manhã, antes de comer, para comparar dias parecidos."},
       "periodReading": {"title": "Antes de planejar"},
       "reading": {
         "title": "Quer ver sua leitura de hoje agora ou à noite?",
@@ -2113,6 +2115,7 @@
         "title": "A leitura que você guardou para hoje"
       },
       "intention": {
+        "fromPlanner": "Do seu planner da semana",
         "title": "Sua intenção",
         "help": "Como você quer viver o dia de hoje? Uma frase basta.",
         "placeholder": "Hoje quero…"
@@ -2244,8 +2247,9 @@
       "delete": "Apagar",
       "deleteEntry": "Apagar o registro de {date}",
       "range": "Período",
-      "rangeM": "M",
-      "range6M": "6M",
+      "rangeW": "Semana",
+      "rangeM": "Mês",
+      "range6M": "6 meses",
       "rangeY": "A",
       "chartEmpty": "Sem registros neste período.",
       "chartHint": "Toque em um ponto para ver a data e o peso.",

@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import type { GuidedFlow, ProjectArea } from '@prisma/client';
 import { guidedCompleted, guidedStarted } from '@/actions/guided';
 import { setReadingChoice } from '@/actions/daily';
+import { logWeight } from '@/actions/body';
 import { buildFlow, firstIncompleteStep, isStepDone, routeSegment, type GuidedStep } from '@/lib/guided/flows';
 import type { SectionContext } from '@/lib/guided/sections';
 import type { MagicIconName } from '@/lib/icons';
@@ -51,6 +52,8 @@ interface RunnerProps {
   inspiration?: PeriodInspiration;
   /** Manhã: a escolha do dia para a leitura (agora ou à noite); null = ainda por perguntar. */
   readingChoice?: 'NOW' | 'NIGHT' | null;
+  /** Manhã: o que ficou escrito para hoje no planner da Semana (a intenção parte daí, sem sugestão da IA). */
+  planNote?: string;
 }
 
 const AREA_ICON: Record<ProjectArea, MagicIconName> = { MAGIC: 'sparkles', PERSONAL: 'heart', LEISURE: 'lotus', PROFESSIONAL: 'briefcase', STUDIES: 'book-open' };
@@ -67,7 +70,7 @@ const NEXT: Partial<Record<GuidedFlow, GuidedFlow>> = { DAY_MORNING: 'DAY_BODY',
 const THEME: Record<string, string> = { DAY_MORNING: 'morning', DAY_BODY: 'body', DAY_NIGHT: 'night' };
 const glowOf = (xp: XpResult) => xp.awards.reduce((n, a) => n + a.points, 0);
 
-function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, reading, ritual, weightAverage, inspiration, readingChoice = null, store, glow }: RunnerProps & { store: GuidedStore; glow: number }) {
+function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, reading, ritual, weightAverage, inspiration, readingChoice = null, planNote, store, glow }: RunnerProps & { store: GuidedStore; glow: number }) {
   const t = useTranslations('guided');
   const td = useTranslations('day');
   const tp = useTranslations('projects');
@@ -84,6 +87,14 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
   useEffect(() => {
     void guidedStarted(flow, periodKey).catch(() => {});
   }, [flow, periodKey]);
+
+  // Manhã: ao chegar à intenção ainda vazia, ela começa com o texto do planner da Semana para hoje (editável).
+  const planIntention = flow === 'DAY_MORNING' && planNote ? planNote : null;
+  useEffect(() => {
+    const s = steps[index];
+    if (planIntention && s?.field === 'intention' && !String(values.intention ?? '').trim()) set('intention', planIntention);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- só ao mudar de passo
+  }, [index]);
 
   const close = useCallback(async () => {
     await flush();
@@ -129,12 +140,14 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
             onBlur={onBlur}
             maxLength={max}
             {...(s.area && { area: { icon: AREA_ICON[s.area], name: tp(`areas.${s.area}`) } })}
-            {...(inspiration && {
-              inspiration: {
-                title: t('inspo.title'),
-                items: s.area ? (inspiration.areas[s.area] ?? []) : s.field === 'intention' ? inspiration.intention : [],
-              },
-            })}
+            {...(planIntention && s.field === 'intention'
+              ? { inspiration: { title: t('steps.intention.fromPlanner'), items: [planIntention] } }
+              : inspiration && {
+                  inspiration: {
+                    title: t('inspo.title'),
+                    items: s.area ? (inspiration.areas[s.area] ?? []) : s.field === 'intention' ? inspiration.intention : [],
+                  },
+                })}
           />
         );
       }
@@ -209,6 +222,21 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
             openLabel={tw('openWeight')}
           />
         );
+      case 'dailyWeight':
+        return (
+          <StepWeight
+            title={t('steps.dailyWeight.title')}
+            help={t('steps.dailyWeight.help')}
+            grams={typeof values.dailyWeightGrams === 'number' ? (values.dailyWeightGrams as number) : null}
+            onCommit={(g) => set('dailyWeightGrams', g)}
+            average={null}
+            unit={tw('unit')}
+            placeholder={tw('placeholder')}
+            invalidLabel={tw('invalid')}
+            averageLabel=""
+            openLabel={tw('openWeight')}
+          />
+        );
       case 'word':
         return (
           <StepWord
@@ -270,12 +298,27 @@ function useGlowSum() {
 }
 
 /** Diário: manhã, corpo e noite. */
-export function GuidedDayRunner({ date, initial, ...props }: RunnerProps & { date: string; initial: DailyEntryData }) {
+export function GuidedDayRunner({
+  date,
+  initial,
+  dailyWeightGrams = null,
+  ...props
+}: RunnerProps & { date: string; initial: DailyEntryData; dailyWeightGrams?: number | null }) {
   const { glow, onXp } = useGlowSum();
   const { data, setField, flush } = useDailyAutosave(date, initial, { onXp });
+  // Peso do dia (Foco no corpo): grava no registo diário do peso, não na entrada do diário.
+  const [weight, setWeight] = useState<number | null>(dailyWeightGrams);
   const store = useMemo<GuidedStore>(
-    () => ({ values: data as unknown as Record<string, unknown>, set: (f, v) => setField(f as DailyField, v as never), flush }),
-    [data, setField, flush],
+    () => ({
+      values: { ...(data as unknown as Record<string, unknown>), dailyWeightGrams: weight },
+      set: (f, v) => {
+        if (f !== 'dailyWeightGrams') return setField(f as DailyField, v as never);
+        setWeight(typeof v === 'number' ? v : null);
+        if (typeof v === 'number') void logWeight({ date, kg: String(v / 1000) }).catch(() => undefined);
+      },
+      flush,
+    }),
+    [data, setField, flush, weight, date],
   );
   return <GuidedRunner {...props} store={store} glow={glow} />;
 }

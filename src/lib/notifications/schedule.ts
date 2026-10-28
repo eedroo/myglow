@@ -29,8 +29,8 @@ export interface NotificationState {
   /** Reflexões do período anterior (a última chamada de domingo e do dia 1 fecha a semana/mês que acabou). */
   lastWeekReflectionDone: boolean;
   lastMonthReflectionDone: boolean;
-  /** Grimório no dia: lições novas que ainda dá para fazer hoje e quiz por fazer num curso aberto. */
-  grimoire: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
+  /** Grimório no dia (já não há avisos do Grimório; fica para o texto de avisos antigos). */
+  grimoire?: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
   /** F17: já há peso registado hoje (o lembrete de pesagem só sai se for false). */
   weighedToday?: boolean;
   /** F19: o Mês já está desbloqueado na jornada (sem ele, os avisos do mês não saem); undefined = sim. */
@@ -79,11 +79,7 @@ const RULES: Rule[] = [
   { kind: 'WEEK_REFLECTION_LAST', time: (p) => p.nightTime, offset: 15, on: (p) => p.lastCall && p.weekEnd, day: (d) => d.weekday === 7, key: (d) => weekKey(addDays(d, -7)) },
   { kind: 'MONTH_PLAN_LAST', time: (p) => p.nightTime, offset: 30, on: (p) => p.lastCall && p.monthStart, day: (d) => d.day === 7, key: monthKey },
   { kind: 'MONTH_REFLECTION_LAST', time: (p) => p.nightTime, offset: 30, on: (p) => p.lastCall && p.monthEnd, day: (d) => d.day === 1, key: prevMonthKey },
-  // Grimório: convite à hora escolhida; última chamada 45 min depois da noite (a seguir às outras).
-  { kind: 'GRIMOIRE', time: (p) => p.grimoireTime, offset: 0, on: (p) => p.grimoireEnabled, key: dayKey },
-  { kind: 'GRIMOIRE_LAST', time: (p) => p.nightTime, offset: 45, on: (p) => p.lastCall && p.grimoireEnabled, key: dayKey },
-  // F17: pesagem à hora escolhida no mundo do corpo.
-  { kind: 'WEIGH_IN', time: (p) => p.weighInTime ?? '00:00', offset: 0, on: (p) => !!p.weighInTime, key: dayKey },
+  // Diários: só três (manhã, corpo e noite). Os avisos do Grimório e da pesagem deixaram de ser enviados.
 ];
 
 /** Avisos cujo horário cai no slot actual (ainda sem olhar ao que está feito). */
@@ -118,10 +114,11 @@ function pending(kind: NotificationKind, s: NotificationState): boolean {
     case 'WEEK_REFLECTION_LAST': return !s.lastWeekReflectionDone;
     case 'MONTH_PLAN_LAST': return s.monthUnlocked !== false && !s.monthPlanDone;
     case 'MONTH_REFLECTION_LAST': return s.monthUnlocked !== false && !s.lastMonthReflectionDone;
-    case 'GRIMOIRE': return s.grimoire.lessonsLeft > 0 || s.grimoire.quizPending;
-    case 'GRIMOIRE_LAST': return s.grimoire.lessonsLeft > 0;
+    // Já não são agendados (diários reduzidos a manhã, corpo e noite).
+    case 'GRIMOIRE':
+    case 'GRIMOIRE_LAST': return false;
     // F15: os avisos de amigos não são agendados (enviados na hora pela acção).
-    case 'WEIGH_IN': return s.weighedToday === false;
+    case 'WEIGH_IN': return false;
     case 'FRIEND_REQUEST':
     case 'FRIEND_ACCEPTED':
     case 'REST_DONE':
@@ -139,7 +136,7 @@ export function dueNotifications(now: Date, tz: string, prefs: NotificationPrefs
 }
 
 /** Recuo automático (só nos avisos diários): ignorados 3 vezes seguidas passam a dia sim, dia não. */
-export const BACKOFF_KINDS: NotificationKind[] = ['MORNING', 'BODY', 'NIGHT', 'GRIMOIRE', 'GRIMOIRE_LAST'];
+export const BACKOFF_KINDS: NotificationKind[] = ['MORNING', 'BODY', 'NIGHT'];
 export const BACKOFF_AFTER = 3;
 
 export interface SentNotification {

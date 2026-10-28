@@ -4,6 +4,8 @@ import { toBirthUtc } from '@/lib/birth';
 import { buildDayFacts, buildPersonalDayFacts, buildPersonalPeriodFacts } from './facts';
 import { dayHoroscopeSchema, dayPersonalSchema, monthRitualsSchema } from './schemas';
 import { checkLeaks, checkSignMentions, salvageMonthRituals, validateDayHoroscope, validateDayPersonal, validateMonthRituals } from './validate';
+import { checkHeadlineRepeat, isSimilarHeadline } from './validate';
+import { build as dayPersonalBuild } from './prompts/dayPersonal';
 import dayPersonalValid from '../../../tests/fixtures/ai/day-personal.valid.json';
 import dayPersonalInvented from '../../../tests/fixtures/ai/day-personal.invented-transit.json';
 import ritualsValid from '../../../tests/fixtures/ai/month-rituals.valid.json';
@@ -110,5 +112,35 @@ describe('checkLeaks', () => {
   it('em inglês aceita os nomes em inglês', () => {
     expect(checkLeaks({ occasion: 'Full Moon in Aries' }, 'EN')).toBeNull();
     expect(checkLeaks({ note: 'VENUS stations retrograde' }, 'EN')).toMatch(/VENUS/);
+  });
+});
+
+describe('títulos repetidos da leitura do dia', () => {
+  const ontem = 'Corte a conversa antes que vire uma discussão interminável.';
+
+  it('o mesmo título com o fim trocado é repetido', () => {
+    expect(isSimilarHeadline('Corte a conversa antes que vire uma discussão que você não quer.', ontem)).toBe(true);
+    expect(isSimilarHeadline('Corta a conversa antes que vire uma discussão sem fim.', 'Corta a conversa antes que vire guerra.')).toBe(true);
+  });
+
+  it('acentos, maiúsculas e pontuação não contam', () => {
+    expect(isSimilarHeadline('DISCUSSÃO interminável, corte a conversa!', 'discussao interminavel corte a conversa')).toBe(true);
+  });
+
+  it('títulos diferentes passam', () => {
+    expect(isSimilarHeadline('Peça ajuda antes de precisar.', ontem)).toBe(false);
+    expect(isSimilarHeadline('Nem toda mensagem merece resposta hoje.', 'Você já sabe a resposta. Pare de perguntar.')).toBe(false);
+  });
+
+  it('checkHeadlineRepeat devolve a razão (com o título parecido) ou null', () => {
+    expect(checkHeadlineRepeat('Corte a conversa antes que doa.', [ontem])).toMatch(/too close.*Corte a conversa/);
+    expect(checkHeadlineRepeat('Peça ajuda antes de precisar.', [ontem])).toBeNull();
+    expect(checkHeadlineRepeat('Qualquer coisa.', [])).toBeNull();
+  });
+
+  it('o prompt do dia leva os títulos recentes', () => {
+    const facts = { date: '2026-10-28' } as unknown as Parameters<typeof dayPersonalBuild>[0];
+    expect(dayPersonalBuild(facts, 'PT_BR', 'NEUTRAL', [ontem]).user).toContain(ontem);
+    expect(dayPersonalBuild(facts, 'PT_BR').user).not.toContain('Headlines already used');
   });
 });

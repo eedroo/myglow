@@ -116,17 +116,6 @@ export async function clearBodyGoal(): Promise<BodyResult> {
   return ok();
 }
 
-export async function setWeighInReminder(enabled: boolean, time: string): Promise<BodyResult> {
-  const a = await access(enabled);
-  if ('ok' in a) return a;
-  const p = z.object({ enabled: z.boolean(), time: z.string().regex(/^([01]\d|2[0-3]):(00|15|30|45)$/) }).safeParse({ enabled, time });
-  if (!p.success) return fail();
-  const data = { weighInReminder: p.data.enabled, weighInTime: p.data.time };
-  await db.fitnessPrefs.upsert({ where: { userId: a.uid }, create: { userId: a.uid, ...data }, update: data });
-  refresh();
-  return ok();
-}
-
 /** O Guia passa a ler o corpo (médias, objectivo, treinos). Ligar exige o consentimento do Guia em vigor. */
 export async function setGuideIncludeBody(value: boolean): Promise<BodyResult> {
   const a = await access(false);

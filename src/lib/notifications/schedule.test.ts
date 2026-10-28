@@ -79,30 +79,19 @@ describe('dueNotifications', () => {
     expect(at('2026-03-29T07:05:00Z')).toEqual([{ kind: 'MORNING', periodKey: '2026-03-29' }]);
   });
 
-  describe('Grimório', () => {
-    const LESSONS = { ...TODO, grimoire: { lessonsLeft: 3, quizPending: false } };
+  it('Grimório: já não há avisos (nem convite, nem última chamada)', () => {
+    const LESSONS = { ...TODO, grimoire: { lessonsLeft: 3, quizPending: true } };
+    expect(at('2026-05-06T09:05:00Z', LX, PREFS, LESSONS)).toEqual([]);
+    expect(at('2026-05-06T21:20:00Z', LX, PREFS, LESSONS)).toEqual([]);
+  });
 
-    it('convite às 10:00 se há lições; sem lições nem quiz → nada', () => {
-      expect(at('2026-05-06T09:05:00Z', LX, PREFS, LESSONS)).toEqual([{ kind: 'GRIMOIRE', periodKey: '2026-05-06' }]);
-      expect(at('2026-05-06T09:05:00Z')).toEqual([]);
-    });
-
-    it('convite também quando só falta o quiz; hora configurável; desligado → nada', () => {
-      const quiz = { ...TODO, grimoire: { lessonsLeft: 0, quizPending: true } };
-      expect(at('2026-05-06T09:05:00Z', LX, PREFS, quiz)).toEqual([{ kind: 'GRIMOIRE', periodKey: '2026-05-06' }]);
-      expect(at('2026-05-06T10:35:00Z', LX, { ...PREFS, grimoireTime: '11:30' }, LESSONS)).toEqual([{ kind: 'GRIMOIRE', periodKey: '2026-05-06' }]);
-      expect(at('2026-05-06T09:05:00Z', LX, { ...PREFS, grimoireEnabled: false }, LESSONS)).toEqual([]);
-    });
-
-    it('última chamada 45 min depois da noite (22:15) só com lições por fazer', () => {
-      expect(at('2026-05-06T21:20:00Z', LX, PREFS, LESSONS)).toEqual([{ kind: 'GRIMOIRE_LAST', periodKey: '2026-05-06' }]);
-      expect(at('2026-05-06T21:20:00Z', LX, PREFS, { ...TODO, grimoire: { lessonsLeft: 0, quizPending: true } })).toEqual([]);
-      expect(at('2026-05-06T21:20:00Z', LX, { ...PREFS, lastCall: false }, LESSONS)).toEqual([]);
-    });
-
-    it('noite às 23:30 → a última chamada (00:15) ainda é do dia anterior', () => {
-      expect(at('2026-05-06T23:20:00Z', LX, { ...PREFS, nightTime: '23:30' }, LESSONS)).toEqual([{ kind: 'GRIMOIRE_LAST', periodKey: '2026-05-06' }]);
-    });
+  it('diários: só manhã, corpo e noite ao longo do dia', () => {
+    const kinds = new Set<string>();
+    for (let m = 0; m < 24 * 60; m += 15) {
+      const iso = new Date(Date.UTC(2026, 4, 6, 0, m) - 60 * 60_000).toISOString(); // Lisboa (WEST, UTC+1)
+      at(iso, LX, { ...PREFS, weighInTime: '08:00' }, { ...TODO, weighedToday: false }).forEach((d) => kinds.add(d.kind));
+    }
+    expect([...kinds].sort()).toEqual(['BODY', 'MORNING', 'NIGHT']);
   });
 
   it('corpo e noite nos seus horários', () => {
@@ -140,19 +129,6 @@ describe('applyBackoff', () => {
     expect(applyBackoff(todo, h, today)).toEqual(todo);
     const week = [{ kind: 'WEEK_START' as const, periodKey: 'W2026-05-10' }];
     expect(applyBackoff(week, [], today)).toEqual(week);
-  });
-});
-
-describe('lembrete de pesagem (F17)', () => {
-  const weigh = { ...PREFS, weighInTime: '08:00' };
-  it('à hora escolhida, só sem registo hoje', () => {
-    expect(at('2026-05-06T07:05:00Z', LX, weigh, { ...TODO, weighedToday: false }).map((d) => d.kind)).toContain('WEIGH_IN');
-    expect(at('2026-05-06T07:05:00Z', LX, weigh, { ...TODO, weighedToday: true }).map((d) => d.kind)).not.toContain('WEIGH_IN');
-  });
-  it('desligado (sem hora) ou sem estado conhecido não sai', () => {
-    expect(at('2026-05-06T07:05:00Z', LX, PREFS, { ...TODO, weighedToday: false }).map((d) => d.kind)).not.toContain('WEIGH_IN');
-    expect(at('2026-05-06T07:05:00Z', LX, weigh, TODO).map((d) => d.kind)).not.toContain('WEIGH_IN');
-    expect(at('2026-05-06T07:05:00Z', LX, { ...weigh, enabled: false }, { ...TODO, weighedToday: false })).toEqual([]);
   });
 });
 

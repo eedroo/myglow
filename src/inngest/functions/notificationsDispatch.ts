@@ -6,9 +6,6 @@ import { readyRecapUrls } from '@/lib/recap/server';
 import { notificationContext, notificationState } from '@/lib/notifications/queries';
 import { deliver } from '@/lib/notifications/send';
 import { reportJobFailure } from '../sentry';
-import { getEntitlements } from '@/lib/entitlements/server';
-import { hasWellbeingConsent } from '@/lib/account/consent';
-import { toDbDate } from '@/lib/dates';
 
 const BATCH = 500;
 const ACTIVE_DAYS = 30;
@@ -39,15 +36,13 @@ export const notificationsDispatch = inngest.createFunction(
       const batch: { users: DueUser[]; last: string | null } = await step.run(`batch-${n}`, async () => {
         const users = await db.user.findMany({
           where: { onboardedAt: { not: null }, lastActiveAt: { gte: since }, notificationPrefs: { is: { enabled: true } } },
-          select: { id: true, timezone: true, locale: true, hemisphere: true, notificationPrefs: true, fitnessPrefs: { select: { weighInReminder: true, weighInTime: true } } },
+          select: { id: true, timezone: true, locale: true, hemisphere: true, notificationPrefs: true },
           orderBy: { id: 'asc' },
           take: BATCH,
           ...(cursor && { cursor: { id: cursor }, skip: 1 }),
         });
         const withSlot = users.flatMap((u) => {
-          // F17: o horário da pesagem entra já aqui; acesso e consentimento confirmam-se no passo do utilizador.
-          const weighInTime = u.fitnessPrefs?.weighInReminder ? u.fitnessPrefs.weighInTime : null;
-          const c = u.notificationPrefs ? dueCandidates(now, u.timezone, { ...u.notificationPrefs, weighInTime }) : [];
+          const c = u.notificationPrefs ? dueCandidates(now, u.timezone, u.notificationPrefs) : [];
           return c.length ? [{ id: u.id, tz: u.timezone, locale: u.locale, hemisphere: u.hemisphere, date: c[0]!.date }] : [];
         });
         return { users: withSlot, last: users.length === BATCH ? users[users.length - 1]!.id : null };
@@ -62,17 +57,9 @@ export const notificationsDispatch = inngest.createFunction(
       // Um erro num utilizador não pode travar os avisos dos restantes (nem repetir a ronda inteira).
       sent += await step.run(`user-${u.id}`, async () => {
         try {
-          const base = await db.notificationPrefs.findUnique({ where: { userId: u.id } });
-          if (!base) return 0;
-          // F17: lembrete de pesagem só com body-pro, consentimento de bem-estar e o interruptor ligado.
-          const fp = await db.fitnessPrefs.findUnique({ where: { userId: u.id }, select: { weighInReminder: true, weighInTime: true } });
-          const weighInTime =
-            fp?.weighInReminder && (await getEntitlements(u.id)).features['body-pro'] && (await hasWellbeingConsent(u.id)) ? fp.weighInTime : null;
-          const prefs = { ...base, weighInTime };
-          const state = await notificationState(u.id, u.date, u.locale);
-          if (weighInTime) {
-            state.weighedToday = !!(await db.bodyWeightEntry.findUnique({ where: { userId_date: { userId: u.id, date: toDbDate(u.date) } }, select: { grams: true } }));
-          }
+          const prefs = await db.notificationPrefs.findUnique({ where: { userId: u.id } });
+          if (!prefs) return 0;
+          const state = await notificationState(u.id, u.date);
           const pendingNow = dueNotifications(now, u.tz, prefs, state);
           // Recuo automático: só para os diários; olha para as duas últimas semanas desses tipos.
           const daily = pendingNow.filter((d) => BACKOFF_KINDS.includes(d.kind)).map((d) => d.kind);
@@ -90,7 +77,7 @@ export const notificationsDispatch = inngest.createFunction(
           const recapUrl = recapKinds.week || recapKinds.month ? await readyRecapUrls(u.id, u.date, recapKinds) : undefined;
           let count = 0;
           for (const d of todo) {
-            const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, { ...ctx, periodKey: d.periodKey, grimoire: state.grimoire, recapUrl }) });
+            const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, { ...ctx, periodKey: d.periodKey, recapUrl }) });
             if (res !== 'duplicate') count++;
           }
           return count;

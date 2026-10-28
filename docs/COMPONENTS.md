@@ -620,7 +620,7 @@ Peso diário com média semanal, objectivo em linguagem neutra, recordes e evolu
 | `WeightList` | client | `weight-entry.css` | `mg-weight-list`, `__row`, `__delete` | registos (data e kg), deslizar para a esquerda (ou botão) para apagar |
 | `BodyGoalSheet` | client | `goal.css` | `mg-goal-sheet` | direcção (Ganhar · Manter · Perder em `SegmentedControl`), ritmo de `GOAL_RATES` ("+0,25 kg por semana"), alvo opcional; remover objectivo |
 | `BodyGoalCard` | server | `goal.css` | `mg-goal-card` | "Objectivo: ganhar 0,25 kg/semana" · "Esta semana: +0,3 kg (dentro do ritmo)" · "Faltam 2,0 kg (≈ 8 semanas)" |
-| `WeighInReminder` | client | `goal.css` | `mg-weighin` | interruptor e hora do lembrete de pesagem |
+| ~~`WeighInReminder`~~ | — | — | — | apagado: os avisos diários ficaram em três (manhã, corpo e noite), sem lembrete de pesagem |
 | `BodyGuideCard` | client | `goal.css` | `mg-goal-card` | convite para o Guia ler também o corpo (`setGuideIncludeBody`); desligar |
 | `ExerciseTabs` | client | `ex-list.css` (reutiliza `mg-ex-tabs`) | `mg-ex-tabs`, `__tab` | Séries · Evolução · Recordes no topo do exercício |
 | `CompareBlock` | server | `compare.css` | `mg-compare`, `__row`, `__bar`, `__delta` | "Comparado com a anterior": séries, reps, volume, kg/rep com barra de cor, valor, seta e % |

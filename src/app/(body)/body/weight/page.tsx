@@ -12,7 +12,6 @@ import { WeightEntrySheet } from '@/components/body/WeightEntrySheet';
 import { WeightList } from '@/components/body/WeightList';
 import { BodyGoalCard } from '@/components/body/BodyGoalCard';
 import { BodyGoalSheet } from '@/components/body/BodyGoalSheet';
-import { WeighInReminder } from '@/components/body/WeighInReminder';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('body.weight');
@@ -60,7 +59,6 @@ export default async function WeightRoute({ searchParams }: { searchParams: { ne
           />
         </div>
         {d.goal && d.status && <BodyGoalCard goal={d.goal} status={d.status} />}
-        <WeighInReminder enabled={d.reminder.enabled} time={d.reminder.time} />
         <h2 className="mg-body-section-title">{t('entries')}</h2>
         <WeightList points={d.points} />
       </div>

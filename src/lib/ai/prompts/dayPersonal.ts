@@ -15,12 +15,18 @@ const HEADLINE_EXAMPLES: Record<Locale, string> = {
 const VOICE =
   'Voice for this reading: a sharp, honest friend who knows astrology. Short declarative sentences. Concrete, everyday situations (messages, plans, people, work, rest, habits) instead of abstract imagery. A little wit and edge is welcome; say what is true even if slightly uncomfortable, but never cruel, never fatalistic, never fear-based.';
 
-/** Leitura pessoal do dia: trânsitos ao mapa natal. */
-export function build(facts: PersonalDayFacts, locale: Locale, pronouns: Pronouns = 'NEUTRAL'): PromptPair {
+/**
+ * Leitura pessoal do dia: trânsitos ao mapa natal. `recentHeadlines` = títulos dos últimos dias (só o que a IA escreveu,
+ * nada do diário), para o título de hoje não repetir a ideia de ontem quando os trânsitos lentos se mantêm.
+ */
+export function build(facts: PersonalDayFacts, locale: Locale, pronouns: Pronouns = 'NEUTRAL', recentHeadlines: string[] = []): PromptPair {
+  const recent = recentHeadlines.length
+    ? `\nHeadlines already used on the previous days: ${recentHeadlines.map((h) => JSON.stringify(h)).join(', ')}. Slow transits repeat for weeks, so today's headline must come from what is specific to today (the Moon's house and today's fastest aspects) and must not repeat any of these ideas, main verbs or opening words.`
+    : '';
   return {
     system: systemPrompt(locale, pronouns),
     user: userPrompt(
-      `Write a personal reading for ${facts.date} based on the transits to this person's natal chart ("aspects"), the house the Moon transits ("moonTransitHouse", whole-sign; ignore if null) and the sky of the day. If "moonSignUncertain" is true, do not rely on the natal Moon sign.\n${VOICE}`,
+      `Write a personal reading for ${facts.date} based on the transits to this person's natal chart ("aspects"), the house the Moon transits ("moonTransitHouse", whole-sign; ignore if null) and the sky of the day. If "moonSignUncertain" is true, do not rely on the natal Moon sign.\n${VOICE}${recent}`,
       [
         `headline [60]: one striking sentence that reads like a verdict or a direct instruction for the day, grounded in today's transits. Tone references only, never reuse them: ${HEADLINE_EXAMPLES[locale]}. No planet, sign or aspect names, no questions, no tides/waters/light metaphors, no emojis`,
         'reading [650]: the personal reading. Open with the most concrete point of the day, then explain how the transits touch this person\'s chart and what to do (or not do) about it, in plain language and short sentences',

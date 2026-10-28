@@ -122,12 +122,47 @@ export function validateDayHoroscope(data: DayHoroscope, facts: DayFacts & { sig
   );
 }
 
-export function validateDayPersonal(data: DayPersonal, facts: PersonalDayFacts): ValidationResult {
+export function validateDayPersonal(data: DayPersonal, facts: PersonalDayFacts, recentHeadlines: string[] = []): ValidationResult {
   const labels = new Set(facts.aspects.map((a) => a.label));
   return first(
     checkLabels(data, labels, data.transits.map((t) => t.label)),
     checkSignMentions(data, withNatal(allowedForDay(facts), facts.natal)),
+    checkHeadlineRepeat(data.headline, recentHeadlines),
   );
+}
+
+// ─── Títulos repetidos ─────────────────────────────────────────────────────────────────────────────
+
+/** Palavras de um título, sem acentos nem pontuação ("Corte a conversa…" → ['corte', 'a', 'conversa', …]). */
+const headlineWords = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLocaleLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean);
+
+/**
+ * O título do dia não pode repetir um dos últimos dias: os trânsitos lentos duram semanas e a IA tendia a dar quase
+ * o mesmo título ("Corte a conversa antes que vire uma discussão interminável" / "…que você não quer"). Igual se
+ * começa pelas mesmas 3 palavras ou se partilha metade ou mais das palavras.
+ */
+export function isSimilarHeadline(a: string, b: string): boolean {
+  const wa = headlineWords(a);
+  const wb = headlineWords(b);
+  if (!wa.length || !wb.length) return false;
+  if (wa.length >= 3 && wb.length >= 3 && wa.slice(0, 3).join(' ') === wb.slice(0, 3).join(' ')) return true;
+  const sa = new Set(wa);
+  const sb = new Set(wb);
+  const inter = [...sa].filter((w) => sb.has(w)).length;
+  return inter / new Set([...sa, ...sb]).size >= 0.5;
+}
+
+export function checkHeadlineRepeat(headline: string, recent: string[]): ValidationResult {
+  const twin = recent.find((r) => isSimilarHeadline(headline, r));
+  return twin
+    ? `headline too close to a recent one ("${twin}"): write a different idea with a different main verb and opening words`
+    : null;
 }
 
 export function validateWeekEnergy(data: WeekEnergy, facts: PeriodFacts & { sign: ZodiacSign }): ValidationResult {

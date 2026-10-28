@@ -89,7 +89,16 @@ export async function prepareUserPrompt(
 
   if (kind === 'DAY_PERSONAL') {
     const facts = buildPersonalDayFacts({ date: from, tz, hemisphere, chart });
-    return { kind, locale, schema, prompt: dayPersonal.build(facts, locale, pronouns), validate: (d) => V.validateDayPersonal(d, facts) };
+    const recent = await recentDayHeadlines(userId, locale, from);
+    return {
+      kind, locale, schema, prompt: dayPersonal.build(facts, locale, pronouns, recent),
+      validate: (d) => V.validateDayPersonal(d, facts, recent),
+      // Duas tentativas com o título ainda parecido: fica a leitura (o título é o menor dos males).
+      salvage: (d) => {
+        const parsed = schema.safeParse(d);
+        return parsed.success && V.validateDayPersonal(parsed.data as never, facts) === null && V.checkLeaks(parsed.data, locale) === null ? parsed.data : null;
+      },
+    };
   }
 
   const facts = buildPersonalPeriodFacts({ from, to, tz, hemisphere, chart });
@@ -105,6 +114,25 @@ export async function prepareUserPrompt(
         salvage: (d) => V.salvageMonthRituals(d, facts, locale),
       };
   }
+}
+
+/** Títulos da leitura do dia dos 7 dias anteriores (mesma língua), para não se repetirem. */
+const RECENT_HEADLINE_DAYS = 7;
+async function recentDayHeadlines(userId: string, locale: Locale, date: DateISO): Promise<string[]> {
+  // Sem histórico (ou se a leitura falhar) gera-se na mesma, só sem esta ajuda.
+  const rows = await Promise.resolve()
+    .then(() =>
+      db.userAiContent.findMany({
+        where: { userId, kind: 'DAY_PERSONAL', locale, periodStart: { gte: toDbDate(addDays(date, -RECENT_HEADLINE_DAYS)), lt: toDbDate(date) } },
+        orderBy: { periodStart: 'desc' },
+        select: { payload: true },
+      }),
+    )
+    .catch(() => []);
+  return rows.flatMap((r) => {
+    const h = (r.payload as { headline?: unknown } | null)?.headline;
+    return typeof h === 'string' && h.trim() ? [h.trim()] : [];
+  });
 }
 
 // ─── Chamada com retry ─────────────────────────────────────────────────────────────────────────────

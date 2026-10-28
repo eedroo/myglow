@@ -27,16 +27,14 @@ export interface WeightPageData {
   thisWeekCount: number;
   goal: { direction: 'GAIN' | 'MAINTAIN' | 'LOSE'; weeklyRateGrams: number; targetGrams: number | null; startGrams: number; startedAt: string } | null;
   status: GoalStatus | null;
-  reminder: { enabled: boolean; time: string };
 }
 
 export async function getWeightData(userId: string): Promise<WeightPageData> {
   const tz = await userTz(userId);
   const today = todayInTz(tz);
-  const [rows, goal, prefs] = await Promise.all([
+  const [rows, goal] = await Promise.all([
     db.bodyWeightEntry.findMany({ where: { userId, date: { gte: toDbDate(addDays(today, -400)) } }, orderBy: { date: 'asc' }, select: { date: true, grams: true } }),
     db.bodyGoal.findUnique({ where: { userId } }),
-    db.fitnessPrefs.findUnique({ where: { userId }, select: { weighInReminder: true, weighInTime: true } }),
   ]);
   const points = rows.map((r) => ({ date: fromDbDate(r.date), grams: r.grams }));
   const week = weekStartOf(today);
@@ -52,7 +50,6 @@ export async function getWeightData(userId: string): Promise<WeightPageData> {
     thisWeekCount: points.filter((p) => p.date >= week).length,
     goal: g,
     status: g ? goalStatus(g, thisWeekAvg, lastWeekAvg) : null,
-    reminder: { enabled: prefs?.weighInReminder ?? false, time: prefs?.weighInTime ?? '08:00' },
   };
 }
 

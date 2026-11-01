@@ -47,3 +47,22 @@ export function suggestPeriodFlow(i: {
   if (!i.planFilled && isWindowOpen(xpWindow(s.plan, i.periodStart, i.tz), i.now)) return s.flows[0];
   return null;
 }
+
+/**
+ * Abrir sozinho o modo passo a passo ao entrar na app (uma vez por fluxo e dia):
+ * - a manhã na primeira abertura do dia, se ainda está por fazer (até à hora do aviso da noite);
+ * - a noite a partir da hora do aviso da noite, se ainda está por fazer.
+ * O corpo nunca abre sozinho (faz-se a qualquer hora). Partes não aplicáveis (jornada) não abrem.
+ */
+export function autoOpenFlow(i: {
+  localTime: string;
+  nightTime: string;
+  progress: DayProgress;
+  startedToday: GuidedFlow[];
+}): GuidedFlow | null {
+  const now = minutes(i.localTime);
+  const night = now >= minutes(i.nightTime);
+  const { progress: p } = i;
+  if (night) return p.applicable.night && !p.night && !i.startedToday.includes('DAY_NIGHT') ? 'DAY_NIGHT' : null;
+  return p.applicable.morning && !p.morning && !i.startedToday.includes('DAY_MORNING') ? 'DAY_MORNING' : null;
+}

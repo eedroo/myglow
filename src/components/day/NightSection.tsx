@@ -16,17 +16,21 @@ interface NightSectionProps {
   /** F19: banimento e ritual só depois de desbloqueados na jornada. */
   showBanish?: boolean;
   showRitual?: boolean;
+  /** Dentro da secção recolhível do Hoje: sem cabeçalho próprio (o título e o passo a passo estão na secção). */
+  embedded?: boolean;
 }
 
-export function NightSection({ data, setField, onTextBlur, current, guidedBase, showBanish = true, showRitual = true }: NightSectionProps) {
+export function NightSection({ data, setField, onTextBlur, current, guidedBase, showBanish = true, showRitual = true, embedded = false }: NightSectionProps) {
   const t = useTranslations('day');
   return (
     <section className={current ? 'mg-period mg-period--night mg-period--current' : 'mg-period mg-period--night'}>
-      <SectionHeader
-        title={t('night.title')}
-        icon="moon-crescent"
-        action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/night`} label={t('guidedNight')} /> : undefined}
-      />
+      {!embedded && (
+        <SectionHeader
+          title={t('night.title')}
+          icon="moon-crescent"
+          action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/night`} label={t('guidedNight')} /> : undefined}
+        />
+      )}
       {showBanish && (
       <CheckTile
         icon="feather"

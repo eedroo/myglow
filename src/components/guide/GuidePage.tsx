@@ -13,6 +13,7 @@ import { GuideReportView } from './GuideReportView';
 import { GuideFeedback } from './GuideFeedback';
 import { GuideRegenerate } from './GuideRegenerate';
 import { GuideMarkRead } from './GuideMarkRead';
+import { GuideNextPlan } from './GuideNextPlan';
 
 /** Uma leitura do Guia: cabeçalho e corpo conforme o estado (o acesso já foi verificado pela rota). */
 export async function GuidePage({ userId, period, timezone }: { userId: string; period: RecapPeriod; timezone: string }) {
@@ -53,6 +54,8 @@ export async function GuidePage({ userId, period, timezone }: { userId: string; 
           {state.canRegenerate && <GuideRegenerate kind={period.kind} periodKey={period.key} generatedAt={state.generatedAt} />}
         </>
       )}
+      {/* Retrospectiva → Guia → planear o período seguinte. */}
+      {state.status !== 'no-consent' && <GuideNextPlan userId={userId} period={period} />}
     </article>
   );
 }

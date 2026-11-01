@@ -244,6 +244,14 @@
     "motto": "Motto"
   },
   "day": {
+    "focus": {
+      "morning": "Morning",
+      "body": "Body",
+      "night": "Night",
+      "done": "Done",
+      "todo": "To do",
+      "bodyCount": "{n} of 3"
+    },
     "guidedNight": "Guided evening",
     "guidedMorning": "Guided morning",
     "title": "Today",
@@ -1061,7 +1069,7 @@
         "text": "A new way to live your journal. Here's what changed."
       },
       "guided": {
-        "title": "Guided mode",
+        "title": "Step by step",
         "text": "One step at a time, morning and night."
       },
       "journey": {
@@ -1548,9 +1556,13 @@
     "start": "Start",
     "counter": "{index} of {total}",
     "steps": {
+      "morning": {
+        "title": "Your morning",
+        "text": "Tap Morning to open it: intention, banishing and ritual. Every morning the app opens it with you, step by step."
+      },
       "journey": {
         "title": "Your journey",
-        "text": "New steps open as you practise. After 3 days of intention and gratitude, you'll learn to let go."
+        "text": "New steps open as you practise. After 3 days of intention and gratitude, you'll learn to let go. That's all for now!"
       },
       "welcome": {
         "title": "Let's live your first day together",
@@ -1578,11 +1590,11 @@
       },
       "body": {
         "title": "Look after your body",
-        "text": "Water, stretching and exercise. Mark them through the day as you go."
+        "text": "Water, stretching and workout, whenever suits you. Tap to open and tick as you go."
       },
       "night": {
         "title": "At night, close the day",
-        "text": "At night, close your day with gratitude and your mood."
+        "text": "Tap Night to close your day with gratitude and your mood. At your night reminder time, the app opens it with you."
       },
       "glow": {
         "title": "Your Glow",
@@ -1718,6 +1730,11 @@
     }
   },
   "guide": {
+    "next": {
+      "text": "With what you've seen here, the next step is planning what comes next.",
+      "week": "Plan next week",
+      "month": "Plan {month}"
+    },
     "name": "Guide",
     "profileLink": "{name} readings",
     "header": {
@@ -1965,7 +1982,7 @@
     },
     "doneButton": "Done",
     "labels": {
-      "close": "Close guided mode",
+      "close": "Close step by step",
       "back": "Back",
       "skip": "Skip",
       "continue": "Continue"
@@ -2000,24 +2017,24 @@
       "hint": "Step by step, one screen at a time."
     },
     "settings": {
-      "autoOpen": "Open Today in guided mode",
-      "autoOpenHint": "When you open Today, the part of the day you still have to do opens on its own, once per part and per day."
+      "autoOpen": "Open Morning and Night step by step",
+      "autoOpenHint": "The first time you open the app each day, Morning opens; at your night reminder time, Night opens. Only if they are still to do. Body never opens on its own."
     },
     "flows": {
       "DAY_MORNING": {
-        "label": "Guided morning",
+        "label": "Morning, step by step",
         "start": "Start your morning ✨",
         "closing": "Morning done",
         "short": "your morning"
       },
       "DAY_BODY": {
-        "label": "Guided body",
+        "label": "Body, step by step",
         "start": "Care for your body",
         "closing": "Body cared for",
         "short": "care for your body"
       },
       "DAY_NIGHT": {
-        "label": "Guided evening",
+        "label": "Night, step by step",
         "start": "Close your day",
         "closing": "Day closed",
         "short": "close your day"

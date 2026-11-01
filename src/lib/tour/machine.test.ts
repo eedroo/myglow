@@ -12,61 +12,59 @@ describe('máquina do guia', () => {
     expect(currentStep(startTour())?.target).toBeNull();
   });
 
-  it('em intention, next é ignorado; intention-saved avança para banish', () => {
-    expect(reduceTour(at('intention'), 'next')).toEqual(at('intention'));
-    expect(reduceTour(at('intention'), 'intention-saved')).toEqual(at('banish'));
+  it('só o Hoje: abertura, leitura, Manhã, Corpo, Noite, Glow e jornada', () => {
+    expect(TOUR_STEPS.map((s) => s.id)).toEqual(['welcome', 'reading', 'morning', 'body', 'night', 'glow', 'journey']);
+    expect(TOUR_STEPS.every((s) => s.route === '/today')).toBe(true);
   });
 
-  it('skip avança passos opcionais e é ignorado nos obrigatórios', () => {
-    expect(reduceTour(at('wake'), 'skip')).toEqual(at('body'));
-    expect(reduceTour(at('sky'), 'skip')).toEqual(at('sky'));
-    expect(reduceTour(at('first-lesson'), 'skip')).toEqual(at('first-lesson'));
+  it('next avança; skip não faz nada (não há passos opcionais)', () => {
+    expect(reduceTour(at('reading'), 'next')).toEqual(at('morning'));
+    expect(reduceTour(at('morning'), 'skip')).toEqual(at('morning'));
   });
 
   it('pause mantém o passo; em pausa só resume faz efeito', () => {
-    const paused = reduceTour(at('banish'), 'pause');
-    expect(paused).toEqual(at('banish', 'paused'));
-    expect(reduceTour(paused, 'morning-banish-done')).toEqual(paused);
-    expect(reduceTour(paused, 'resume')).toEqual(at('banish'));
+    const paused = reduceTour(at('morning'), 'pause');
+    expect(paused).toEqual(at('morning', 'paused'));
+    expect(reduceTour(paused, 'next')).toEqual(paused);
+    expect(reduceTour(paused, 'resume')).toEqual(at('morning'));
   });
 
   it('back volta um passo (nunca antes do primeiro)', () => {
-    expect(reduceTour(at('reading'), 'back')).toEqual(at('sky'));
+    expect(reduceTour(at('morning'), 'back')).toEqual(at('reading'));
     expect(reduceTour(at('welcome'), 'back')).toEqual(at('welcome'));
   });
 
-  it('abrir a primeira lição termina o guia; depois disso nada muda', () => {
-    const done = reduceTour(at('first-lesson'), 'lesson-opened');
+  it('o último passo (jornada) termina o guia; depois disso nada muda', () => {
+    const done = reduceTour(at('journey'), 'next');
     expect(done.status).toBe('done');
     expect(reduceTour(done, 'resume')).toEqual(done);
     expect(currentStep(done)).toBeNull();
     expect(reduceTour(IDLE_TOUR, 'next')).toEqual(IDLE_TOUR);
   });
 
-  it('o percurso completo com as acções reais termina em done', () => {
+  it('o percurso completo termina em done', () => {
     let s = startTour();
     for (const step of TOUR_STEPS) s = reduceTour(s, step.advanceOn);
     expect(s.status).toBe('done');
   });
 
-  it('progress em banish → 5 de 14 (com o passo da jornada)', () => {
-    expect(progress(at('banish'))).toEqual({ index: 5, total: 14 });
+  it('progress na Manhã → 3 de 7', () => {
+    expect(progress(at('morning'))).toEqual({ index: 3, total: 7 });
   });
 
   describe('jornada (F19)', () => {
     const stage1 = { available: unlockedSections(NEW_JOURNEY), journeyCard: true };
 
-    it('etapa 1 salta banish, wake e body; o total conta só os visíveis', () => {
-      expect(visibleSteps(stage1).some((s) => ['banish', 'wake', 'body'].includes(s.id))).toBe(false);
-      expect(reduceTour(at('intention'), 'intention-saved', stage1)).toEqual(at('night'));
-      expect(reduceTour(at('night'), 'back', stage1)).toEqual(at('intention'));
-      expect(progress(at('night'), stage1)).toEqual({ index: 5, total: 11 });
+    it('etapa 1 salta o Corpo; o total conta só os visíveis', () => {
+      expect(visibleSteps(stage1).some((s) => s.id === 'body')).toBe(false);
+      expect(reduceTour(at('morning'), 'next', stage1)).toEqual(at('night'));
+      expect(reduceTour(at('night'), 'back', stage1)).toEqual(at('morning'));
+      expect(progress(at('night'), stage1)).toEqual({ index: 4, total: 6 });
     });
 
-    it('passo "A sua jornada" antes do separador da Semana; sem cartão salta-se', () => {
+    it('sem cartão da jornada, o Glow é o último passo', () => {
       expect(reduceTour(at('glow'), 'next', stage1)).toEqual(at('journey'));
-      expect(reduceTour(at('journey'), 'next', stage1)).toEqual(at('week-tab'));
-      expect(reduceTour(at('glow'), 'next', { journeyCard: false })).toEqual(at('week-tab'));
+      expect(reduceTour(at('glow'), 'next', { journeyCard: false }).status).toBe('done');
     });
 
     it('passo gravado que deixou de se ver: Continuar passa à frente', () => {
@@ -118,12 +116,16 @@ describe('máquina do guia', () => {
 
   it('estado gravado: passo + pausa, concluído, ou ainda não começou (e passos desconhecidos)', () => {
     const d = new Date();
-    expect(tourStateFromDb({ tourStep: 'week', tourPausedAt: null, tourCompletedAt: null })).toEqual(at('week'));
-    expect(tourStateFromDb({ tourStep: 'week', tourPausedAt: d, tourCompletedAt: null })).toEqual(at('week', 'paused'));
+    expect(tourStateFromDb({ tourStep: 'night', tourPausedAt: null, tourCompletedAt: null })).toEqual(at('night'));
+    expect(tourStateFromDb({ tourStep: 'night', tourPausedAt: d, tourCompletedAt: null })).toEqual(at('night', 'paused'));
     expect(tourStateFromDb({ tourStep: null, tourPausedAt: null, tourCompletedAt: d })).toEqual({ stepId: null, status: 'done' });
     expect(tourStateFromDb({ tourStep: null, tourPausedAt: null, tourCompletedAt: null })).toEqual(IDLE_TOUR);
     expect(tourStateFromDb({ tourStep: 'antigo', tourPausedAt: null, tourCompletedAt: null })).toEqual(IDLE_TOUR);
     // Passos retirados (dentro da lição): quem lá estava já tinha aberto a primeira lição.
     expect(tourStateFromDb({ tourStep: 'in-lesson', tourPausedAt: null, tourCompletedAt: null })).toEqual({ stepId: null, status: 'done' });
+    // v2: quem estava num passo retirado (Semana, Grimório, campos do diário) conta como concluído.
+    for (const old of ['week', 'grimoire-tab', 'first-lesson', 'intention', 'sky']) {
+      expect(tourStateFromDb({ tourStep: old, tourPausedAt: null, tourCompletedAt: null })).toEqual({ stepId: null, status: 'done' });
+    }
   });
 });

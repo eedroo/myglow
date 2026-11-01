@@ -31,9 +31,7 @@ import { RecapAutoOpen } from '@/components/recap/RecapAutoOpen';
 import { getActiveSessionBrief } from '@/lib/fitness/queries';
 import { ActiveSessionPill } from '@/components/body/ActiveSessionPill';
 import { GuidedAutoOpen } from '@/components/guided/GuidedAutoOpen';
-import { dayGuided } from '@/lib/guided/server';
-import { routeSegment } from '@/lib/guided/flows';
-import { getDailyEntry } from '@/lib/daily/queries';
+import { autoOpenHref } from '@/lib/guided/server';
 import { getJourney, tourJourney } from '@/lib/journey/server';
 import { getJourneyLessons } from '@/lib/journey/content';
 import { shouldShowWhatsNew } from '@/lib/journey/announcements';
@@ -100,16 +98,11 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   // Sem esperar: nunca atrasa nem parte a página.
   if (glow) touchActivity(session.user.id, glow.timezone, glow.lastActiveAt);
 
-  // F18: "Abrir o Hoje no modo guiado": o fluxo sugerido, uma vez por fluxo e dia, abaixo do guia, das políticas, da
-  // subida de nível, das novidades e da retrospectiva.
+  // Passo a passo ao entrar: a manhã na primeira abertura do dia e a noite à hora do aviso da noite (nunca o corpo),
+  // uma vez por fluxo e dia, abaixo do guia, das políticas, da subida de nível, das novidades e da retrospectiva.
   let guidedHref: string | null = null;
   if (glow?.guidedAutoOpen && !recapHref && !journeyBlocks && !policyPending && announcements.length === 0 && levelFor(xpTotal).level <= glow.levelSeen && tourStateFromDb(glow).status !== 'active') {
-    const today = todayInTz(glow.timezone);
-    const entry = await getDailyEntry(session.user.id, today);
-    const g = await dayGuided(session.user.id, { date: today, today, tz: glow.timezone, entry, wellbeing: !!glow.wellbeingConsentAt });
-    if (g.suggested && !(await db.guidedRun.findUnique({ where: { userId_flow_periodKey: { userId: session.user.id, flow: g.suggested, periodKey: today } }, select: { flow: true } }))) {
-      guidedHref = `/guided/day/${today}/${routeSegment(g.suggested)}`;
-    }
+    guidedHref = await autoOpenHref(session.user.id, { tz: glow.timezone, wellbeing: !!glow.wellbeingConsentAt }).catch(() => null);
   }
 
   // F16: sessão de treino em curso → pílula no Hoje para voltar a ela.

@@ -32,3 +32,18 @@
   font-size: var(--text-sm);
   color: var(--text-muted);
 }
+
+/* GuideNextPlan: no fim da leitura, planear o período seguinte */
+.mg-guide-next {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: var(--border-width) solid var(--glass-border);
+}
+
+.mg-guide-next__text {
+  margin: 0;
+  color: var(--text-secondary);
+}

@@ -219,11 +219,11 @@ Compõem primitivos; não têm CSS próprio além de `field.css` (`mg-form-error
 
 ### Diário — F2 (`src/components/day/`)
 
-Mobile: coluna única pela ordem abaixo. ≥ 768 px: grelha de 2 colunas que espelha o diário em papel
-(Manhã | Como me senti; Noite | Gratidão + Humor; restantes a toda a largura).
+Três secções recolhíveis (`DayFocusSection`): Manhã (intenção, banimento, ritual, sono, como acordei), Corpo (`BodyFocusBar`) e Noite (banimento, ritual, gratidão e humor, reflexão, resumo). Cada uma abre por baixo, na mesma página.
 
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
+| `DayFocusSection` | client | `day-focus.css` | `mg-day-focus`, `--current`, `--done`, `__summary`, `__icon`, `__title`, `__status`, `__chevron`, `__body`, `__actions` | Hoje e dias passados: o diário em três secções recolhíveis (Manhã, Corpo, Noite) com `<details>`; o resumo mostra o estado (feito, por fazer, 2 de 3) e, aberta, tudo o que a secção tem por baixo (com o botão do passo a passo) |
 | `DayPage` | server | — | — | carrega utilizador, entrada, mapa natal e céu; compõe a página |
 | `DayNav` | client | `day-nav.css` | `mg-day-nav`, `__btn`, `__btn--disabled`, `__label`, `__today` | ← data longa → (`<Link>`); botão "Hoje" quando não é hoje; → desactivado em hoje |
 | `DailyHeader` | server | `daily-header.css` | `mg-daily-header`, `__strips`, `__date` | `MoonPhaseStrip` + `ZodiacStrip` (signo da lua ao meio-dia) + `DateBadge` |
@@ -478,7 +478,7 @@ Plano lido do servidor por pedido (`getEntitlements`, `cache()` do React; nunca 
 
 ### Guia interactivo — F11 (`src/components/tour/`, lógica em `src/lib/tour/`)
 
-Substitui a apresentação de slides (`/welcome` redirecciona para `/today`). Máquina de estados pura (`machine.ts`: `startTour`, `reduceTour`, `currentStep`, `isOnStepRoute`, `progress`, `tourStateFromDb`), 13 passos em `steps.ts` (abrir a primeira lição termina o guia), alvos por `data-tour`, acções reais via `bus.ts` (`emitTourEvent`/`onTourEvent`; guarda os eventos dos últimos 3 s até alguém ouvir). Persistência: `saveTourState`/`restartTour` (`actions/tour.ts`; campos `tourStep`, `tourStartedAt`, `tourPausedAt`, `tourCompletedAt`). Espera que fechem os diálogos abertos (`dialog[open]`: termos, nível, novidades, avisos).
+Substitui a apresentação de slides (`/welcome` redirecciona para `/today`). Máquina de estados pura (`machine.ts`: `startTour`, `reduceTour`, `currentStep`, `isOnStepRoute`, `progress`, `tourStateFromDb`), 7 passos em `steps.ts`, só no Hoje (abertura, leitura, Manhã, Corpo, Noite, Glow e jornada; o último termina o guia; passos antigos contam como concluídos), alvos por `data-tour`, acções reais via `bus.ts` (`emitTourEvent`/`onTourEvent`; guarda os eventos dos últimos 3 s até alguém ouvir). Persistência: `saveTourState`/`restartTour` (`actions/tour.ts`; campos `tourStep`, `tourStartedAt`, `tourPausedAt`, `tourCompletedAt`). Espera que fechem os diálogos abertos (`dialog[open]`: termos, nível, novidades, avisos).
 
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
@@ -518,6 +518,7 @@ Leitura escrita, semanal e mensal, feita por IA a partir do diário: a primeira 
 
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
+| `GuideNextPlan` | server | `guide.css` | `mg-guide-next`, `__text` | fim da leitura do Guia (semana ou mês): "Planear a próxima semana" / "Planear novembro", que abre o passo a passo do plano do período seguinte (o mês só com o Mês desbloqueado) |
 | `GuidePage` | server | `guide.css` | `mg-guide`, `__header`, `__title`, `__meta` | cabeçalho com o nome, o período e a data de geração; corpo conforme o estado (`GuideConsent`, `GuidePending`, `GuideInsufficient`, `GuideSupport`, `GuideReportView`, falha); marca como lida |
 | `GuideConsent` | client | `guide-consent.css` | `mg-guide-consent`, `__list`, `__actions` | o que é enviado e o que não é, quem processa, como desligar, não substitui ajuda profissional; checkbox + "Activar o {nome}" → `giveGuideConsent` |
 | `GuideReportView` | server | `guide-report.css` | `mg-guide-report`, `__section`, `__item`, `__evidence`, `__focus`, `__status` | abertura; continuar; pode melhorar; padrões; as suas áreas (ícone da área + estado sem cores de bom/mau); 3 focos numerados; encorajamento; datas de `evidence` como etiquetas com link para `/day/[date]` |
@@ -659,7 +660,7 @@ Um passo por ecrã, com a linguagem da retrospectiva. Cada passo grava pelos hoo
 | `StepClosing` | client | `guided-step.css` | `mg-step-closing` | brilho dourado, título, o que ficou feito, Glow ganho (`RecapCountUp`), próximo fluxo sugerido e "Voltar" |
 | `GuidedStartCard` | server | `guided-start.css` | `mg-guided-start`, `--morning`, `--body`, `--night` | no Hoje, abaixo do `DailySkyCard`: o fluxo sugerido (`suggestDayFlow`); some com tudo feito ou com o onboarding guiado activo |
 | `GuidedSectionButton` | client | `guided-start.css` | `mg-guided-btn` | ícone "passo a passo" ao lado do título das secções Manhã, Corpo e Noite, e botão no cabeçalho da Semana, Mês e Ano |
-| `GuidedAutoOpen` | client | — | — | com `guidedAutoOpen`, abre o fluxo sugerido no Hoje uma vez por fluxo e dia (sem `GuidedRun`), abaixo das outras prioridades |
+| `GuidedAutoOpen` | client | — | — | com `guidedAutoOpen` (ligado por defeito), ao entrar no Hoje abre a Manhã passo a passo na primeira abertura do dia e a Noite a partir da hora do aviso da noite, se estiverem por fazer (`autoOpenFlow`); nunca o Corpo; uma vez por fluxo e dia (`GuidedRun`), abaixo das outras prioridades |
 | `GuidedSettings` | client | `guided-start.css` | — | definições → Diário: "Abrir o Hoje no modo guiado" |
 | `DailyReadingGate` | client | `reading.css` | `mg-reading-gate`, `__actions` | Hoje (F18): antes da leitura do dia pergunta "agora ou à noite?" uma vez por dia; à noite (depois das 18:00) a leitura aparece; durante o dia mostra que espera, com "Ver agora" |
 

@@ -15,6 +15,9 @@ import { ReflectionCard } from './ReflectionCard';
 import { SaveStatus } from './SaveStatus';
 import { WakeMoodCard } from './WakeMoodCard';
 import { WellbeingNotice } from '@/components/account/WellbeingNotice';
+import { GuidedSectionButton } from '@/components/guided/GuidedSectionButton';
+import { computeDayProgress, type ProgressEntry } from '@/lib/daily/progress';
+import { DayFocusSection } from './DayFocusSection';
 import type { SectionKey } from '@/lib/guided/sections';
 
 interface DayViewProps {
@@ -43,100 +46,139 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, sugges
   const has = (k: SectionKey) => !unlocked || unlocked.includes(k);
   const morning = { banish: has('morningBanish'), ritual: has('morningRitual'), sleep: wellbeing && has('sleep') };
   const night = { banish: has('nightBanish'), ritual: has('nightRitual') };
+  // Estado de cada parte (relativo ao que a jornada abriu): mostrado no resumo de cada secção recolhida.
+  const progress = computeDayProgress(date, data as unknown as ProgressEntry, { wellbeing, available: unlocked ? new Set(unlocked) : undefined });
+  const sections = { morning: progress.applicable.morning, body: progress.applicable.body, night: progress.applicable.night };
 
   return (
     <div className="mg-day">
       <SaveStatus status={status} />
-      <div className="mg-day__grid">
-        <div className="mg-day__cell mg-day__cell--intention">
-          {planNote}
-          {has('intention') && (
-            <IntentionCard
-              value={data.intention}
-              onChange={(v) => setField('intention', v)}
-              onBlur={onBlur}
-              suggestion={suggestions?.intention}
-            />
-          )}
-        </div>
-        {(morning.banish || morning.ritual || morning.sleep) && (
-          <div className="mg-day__cell mg-day__cell--morning">
-            <MorningSection
-              data={data}
-              setField={setField}
-              onTextBlur={onBlur}
-              sleepGoalMinutes={sleepGoalMinutes}
-              current={currentPeriod === 'morning'}
-              banishSuggestion={suggestions?.banish}
-              showSleep={morning.sleep}
-              showBanish={morning.banish}
-              showRitual={morning.ritual}
-              guidedBase={guidedBase}
-            />
-          </div>
-        )}
-        {has('wakeMood') && (
-          <div className="mg-day__cell mg-day__cell--wake">
-            {wellbeing ? (
-              <WakeMoodCard
-                mood={data.wakeMood}
-                note={data.wakeNote}
-                onMoodChange={(v) => setField('wakeMood', v)}
-                onNoteChange={(v) => setField('wakeNote', v)}
-                onNoteBlur={onBlur}
+      {/* O dia em três partes recolhidas; cada uma abre por baixo, na mesma página. */}
+      {sections.morning && (
+        <DayFocusSection
+          id="manha"
+          icon="sun"
+          title={t('day.focus.morning')}
+          status={progress.morning ? t('day.focus.done') : t('day.focus.todo')}
+          done={progress.morning}
+          current={currentPeriod === 'morning'}
+          tour="focus-morning"
+          action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/morning`} label={t('day.guidedMorning')} showLabel /> : undefined}
+        >
+          <div className="mg-day__cell mg-day__cell--intention">
+            {planNote}
+            {has('intention') && (
+              <IntentionCard
+                value={data.intention}
+                onChange={(v) => setField('intention', v)}
+                onBlur={onBlur}
+                suggestion={suggestions?.intention}
               />
-            ) : (
-              <WellbeingNotice />
             )}
           </div>
-        )}
-        {has('body') && (
+          {(morning.banish || morning.ritual || morning.sleep) && (
+            <div className="mg-day__cell mg-day__cell--morning">
+              <MorningSection
+                data={data}
+                setField={setField}
+                onTextBlur={onBlur}
+                sleepGoalMinutes={sleepGoalMinutes}
+                current={currentPeriod === 'morning'}
+                banishSuggestion={suggestions?.banish}
+                showSleep={morning.sleep}
+                showBanish={morning.banish}
+                showRitual={morning.ritual}
+                guidedBase={guidedBase}
+                embedded
+              />
+            </div>
+          )}
+          {has('wakeMood') && (
+            <div className="mg-day__cell mg-day__cell--wake">
+              {wellbeing ? (
+                <WakeMoodCard
+                  mood={data.wakeMood}
+                  note={data.wakeNote}
+                  onMoodChange={(v) => setField('wakeMood', v)}
+                  onNoteChange={(v) => setField('wakeNote', v)}
+                  onNoteBlur={onBlur}
+                />
+              ) : (
+                <WellbeingNotice />
+              )}
+            </div>
+          )}
+        </DayFocusSection>
+      )}
+      {sections.body && (
+        <DayFocusSection
+          id="corpo"
+          icon="stretch"
+          title={t('day.focus.body')}
+          status={progress.body ? t('day.focus.done') : t('day.focus.bodyCount', { n: progress.bodyChecks })}
+          done={progress.body}
+          current={currentPeriod === 'body'}
+          tour="focus-body"
+        >
           <div className="mg-day__cell mg-day__cell--body">
             <BodyFocusBar data={data} setField={setField} current={currentPeriod === 'body'} guidedBase={guidedBase} />
           </div>
-        )}
-        {(night.banish || night.ritual) && (
-          <div className="mg-day__cell mg-day__cell--night">
-            <NightSection
-              data={data}
-              setField={setField}
-              onTextBlur={onBlur}
-              current={currentPeriod === 'night'}
-              guidedBase={guidedBase}
-              showBanish={night.banish}
-              showRitual={night.ritual}
-            />
-          </div>
-        )}
-        {has('gratitude') && (
-          /* F19: o passo "noite" do guia aponta para a gratidão (a secção da noite só abre na etapa 2). */
-          <div className="mg-day__cell mg-day__cell--gratitude" data-tour="night-section">
-            <GratitudeMoodCard
-              gratitude={data.gratitude}
-              mood={data.mood}
-              onGratitudeChange={(v) => setField('gratitude', v)}
-              onGratitudeBlur={onBlur}
-              onMoodChange={(v) => setField('mood', v)}
-              showMood={wellbeing && has('mood')}
-            />
-          </div>
-        )}
-        {has('reflection') && (
-          <div className="mg-day__cell mg-day__cell--reflection">
-            <ReflectionCard
-              value={data.reflection}
-              onChange={(v) => setField('reflection', v)}
-              onBlur={onBlur}
-              hint={suggestions?.reflection}
-            />
-          </div>
-        )}
-        {has('summary') && (
-          <div className="mg-day__cell mg-day__cell--summary">
-            <DaySummaryCard value={data.summary} onChange={(v) => setField('summary', v)} onBlur={onBlur} />
-          </div>
-        )}
-      </div>
+        </DayFocusSection>
+      )}
+      {sections.night && (
+        <DayFocusSection
+          id="noite"
+          icon="moon-crescent"
+          title={t('day.focus.night')}
+          status={progress.night ? t('day.focus.done') : t('day.focus.todo')}
+          done={progress.night}
+          current={currentPeriod === 'night'}
+          tour="focus-night"
+          action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/night`} label={t('day.guidedNight')} showLabel /> : undefined}
+        >
+          {(night.banish || night.ritual) && (
+            <div className="mg-day__cell mg-day__cell--night">
+              <NightSection
+                data={data}
+                setField={setField}
+                onTextBlur={onBlur}
+                current={currentPeriod === 'night'}
+                guidedBase={guidedBase}
+                showBanish={night.banish}
+                showRitual={night.ritual}
+                embedded
+              />
+            </div>
+          )}
+          {has('gratitude') && (
+            <div className="mg-day__cell mg-day__cell--gratitude">
+              <GratitudeMoodCard
+                gratitude={data.gratitude}
+                mood={data.mood}
+                onGratitudeChange={(v) => setField('gratitude', v)}
+                onGratitudeBlur={onBlur}
+                onMoodChange={(v) => setField('mood', v)}
+                showMood={wellbeing && has('mood')}
+              />
+            </div>
+          )}
+          {has('reflection') && (
+            <div className="mg-day__cell mg-day__cell--reflection">
+              <ReflectionCard
+                value={data.reflection}
+                onChange={(v) => setField('reflection', v)}
+                onBlur={onBlur}
+                hint={suggestions?.reflection}
+              />
+            </div>
+          )}
+          {has('summary') && (
+            <div className="mg-day__cell mg-day__cell--summary">
+              <DaySummaryCard value={data.summary} onChange={(v) => setField('summary', v)} onBlur={onBlur} />
+            </div>
+          )}
+        </DayFocusSection>
+      )}
       {status === 'error' && errorKey && (
         <Toast variant="error" message={t(errorKey)} closeLabel={t('common.close')} duration={0} />
       )}

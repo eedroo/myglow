@@ -244,6 +244,14 @@
     "motto": "Lema"
   },
   "day": {
+    "focus": {
+      "morning": "Manhã",
+      "body": "Corpo",
+      "night": "Noite",
+      "done": "Feito",
+      "todo": "Por fazer",
+      "bodyCount": "{n} de 3"
+    },
     "guidedNight": "Noite passo a passo",
     "guidedMorning": "Manhã passo a passo",
     "title": "Hoje",
@@ -1061,7 +1069,7 @@
         "text": "Uma nova forma de viveres o teu diário. Vê o que mudou."
       },
       "guided": {
-        "title": "Modo guiado",
+        "title": "Passo a passo",
         "text": "Um passo de cada vez, de manhã e à noite."
       },
       "journey": {
@@ -1548,9 +1556,13 @@
     "start": "Começar",
     "counter": "{index} de {total}",
     "steps": {
+      "morning": {
+        "title": "A tua manhã",
+        "text": "Toca na Manhã para a abrir: intenção, banimento e ritual. Todas as manhãs a app abre-a contigo, passo a passo."
+      },
       "journey": {
         "title": "A tua jornada",
-        "text": "Vão abrir novos passos à medida que praticas. Com 3 dias de intenção e gratidão, aprendes a soltar."
+        "text": "Novos passos vão abrir à medida que praticas. Com 3 dias de intenção e gratidão, aprendes a soltar. Por agora é tudo!"
       },
       "welcome": {
         "title": "Vamos viver o teu primeiro dia juntos",
@@ -1578,11 +1590,11 @@
       },
       "body": {
         "title": "Cuida do corpo",
-        "text": "Água, alongamentos e treino. Marca ao longo do dia, à medida que fores fazendo."
+        "text": "Água, alongamentos e treino, à hora que quiseres. Toca para abrir e vai marcando."
       },
       "night": {
         "title": "À noite, fecha o dia",
-        "text": "À noite, fecha o dia com gratidão e o teu humor."
+        "text": "Toca na Noite para fechar o dia com gratidão e o teu humor. À hora do aviso da noite, a app abre-a contigo."
       },
       "glow": {
         "title": "O teu Glow",
@@ -1718,6 +1730,11 @@
     }
   },
   "guide": {
+    "next": {
+      "text": "Com o que viste aqui, o passo seguinte é planear o que vem a seguir.",
+      "week": "Planear a próxima semana",
+      "month": "Planear {month}"
+    },
     "name": "Guia",
     "profileLink": "Leituras do {name}",
     "header": {
@@ -1965,7 +1982,7 @@
     },
     "doneButton": "Feito",
     "labels": {
-      "close": "Fechar o modo guiado",
+      "close": "Fechar o passo a passo",
       "back": "Voltar",
       "skip": "Saltar",
       "continue": "Continuar"
@@ -2000,24 +2017,24 @@
       "hint": "Passo a passo, um ecrã de cada vez."
     },
     "settings": {
-      "autoOpen": "Abrir o Hoje no modo guiado",
-      "autoOpenHint": "Ao entrar no Hoje abre sozinho o momento do dia que falta, uma vez por momento e por dia."
+      "autoOpen": "Abrir a Manhã e a Noite passo a passo",
+      "autoOpenHint": "Na primeira vez que abres a app no dia, abre a Manhã; à hora do aviso da noite, abre a Noite. Só se ainda estiverem por fazer. O Corpo nunca abre sozinho."
     },
     "flows": {
       "DAY_MORNING": {
-        "label": "Manhã guiada",
+        "label": "Manhã passo a passo",
         "start": "Começar a manhã ✨",
         "closing": "Manhã feita",
         "short": "a manhã"
       },
       "DAY_BODY": {
-        "label": "Corpo guiado",
+        "label": "Corpo passo a passo",
         "start": "Cuidar do corpo",
         "closing": "Corpo cuidado",
         "short": "cuidar do corpo"
       },
       "DAY_NIGHT": {
-        "label": "Noite guiada",
+        "label": "Noite passo a passo",
         "start": "Fechar o dia",
         "closing": "Dia fechado",
         "short": "fechar o dia"

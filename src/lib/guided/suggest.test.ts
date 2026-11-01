@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { DayProgress } from '@/lib/daily/progress';
-import { suggestDayFlow, suggestPeriodFlow } from './suggest';
+import { autoOpenFlow, suggestDayFlow, suggestPeriodFlow } from './suggest';
 
 const prefs = { morningTime: '08:00', bodyTime: '13:00', nightTime: '21:00' };
 const progress = (p: Partial<DayProgress>): DayProgress => ({ date: '2026-10-28', hasEntry: true, morning: false, body: false, bodyChecks: 0, night: false, level: 'partial', applicable: { morning: true, body: true, night: true }, ...p });
@@ -44,5 +44,27 @@ describe('suggestDayFlow com a jornada (F19)', () => {
     const p = progress({ morning: true, applicable: { morning: true, body: false, night: true } });
     expect(suggestDayFlow({ localTime: '13:30', prefs, progress: p })).toBeNull();
     expect(suggestDayFlow({ localTime: '10:00', prefs, progress: p })).toBeNull();
+  });
+});
+
+describe('autoOpenFlow', () => {
+  const base = { nightTime: '21:00', startedToday: [] as ('DAY_MORNING' | 'DAY_NIGHT')[] };
+  it('primeira abertura do dia com a manhã por fazer → manhã (mesmo à tarde)', () => {
+    expect(autoOpenFlow({ ...base, localTime: '07:30', progress: progress({}) })).toBe('DAY_MORNING');
+    expect(autoOpenFlow({ ...base, localTime: '16:00', progress: progress({}) })).toBe('DAY_MORNING');
+  });
+  it('manhã feita ou já aberta hoje → nada (o corpo nunca abre sozinho)', () => {
+    expect(autoOpenFlow({ ...base, localTime: '13:00', progress: progress({ morning: true }) })).toBeNull();
+    expect(autoOpenFlow({ ...base, localTime: '09:00', progress: progress({}), startedToday: ['DAY_MORNING'] })).toBeNull();
+  });
+  it('a partir da hora da noite → noite, se por fazer e ainda não aberta', () => {
+    expect(autoOpenFlow({ ...base, localTime: '21:00', progress: progress({ morning: true }) })).toBe('DAY_NIGHT');
+    expect(autoOpenFlow({ ...base, localTime: '22:30', progress: progress({}) })).toBe('DAY_NIGHT');
+    expect(autoOpenFlow({ ...base, localTime: '22:30', progress: progress({ night: true }) })).toBeNull();
+    expect(autoOpenFlow({ ...base, localTime: '22:30', progress: progress({}), startedToday: ['DAY_NIGHT'] })).toBeNull();
+  });
+  it('partes não aplicáveis na jornada não abrem', () => {
+    const p = progress({ applicable: { morning: false, body: false, night: false } });
+    expect(autoOpenFlow({ ...base, localTime: '08:00', progress: p })).toBeNull();
   });
 });

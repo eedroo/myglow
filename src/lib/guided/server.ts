@@ -2,14 +2,14 @@ import 'server-only';
 import { db } from '@/lib/db';
 import { getEntitlements } from '@/lib/entitlements/server';
 import { todayInTz, type DateISO } from '@/lib/dates';
-import { addDays, formatTimeInTz } from '@/lib/dates';
-import { computeDayProgress, type ProgressEntry } from '@/lib/daily/progress';
+import { addDays, formatTimeInTz, toDbDate } from '@/lib/dates';
+import { computeDayProgress, PROGRESS_SELECT, type ProgressEntry } from '@/lib/daily/progress';
 import { isWindowOpen, xpWindow } from '@/lib/xp/rules';
 import { tourStateFromDb } from '@/lib/tour/machine';
 import type { DailyEntryData } from '@/types/daily';
 import type { GuidedFlow } from '@prisma/client';
 import type { SectionContext } from './sections';
-import { suggestDayFlow } from './suggest';
+import { autoOpenFlow, suggestDayFlow } from './suggest';
 import { getJourney } from '@/lib/journey/server';
 
 /** Modo guiado (F18): dados comuns das rotas `/guided/*`. */
@@ -51,4 +51,26 @@ export async function dayGuided(
   if (user && tourStateFromDb(user).status === 'active') return { base, suggested: null };
   const progress = computeDayProgress(i.date, i.entry as unknown as ProgressEntry, { wellbeing: i.wellbeing, available: journey.sections });
   return { base, suggested: suggestDayFlow({ localTime: formatTimeInTz(now.toISOString(), i.tz), prefs: prefs ?? DEFAULT_TIMES, progress }) };
+}
+
+/**
+ * Ao entrar no Hoje: o fluxo que abre sozinho (manhã na primeira abertura do dia, noite à hora do aviso da noite) ou
+ * null. Uma vez por fluxo e dia: o `GuidedRun` criado ao abrir impede repetir.
+ */
+export async function autoOpenHref(userId: string, i: { tz: string; wellbeing: boolean; now?: Date }): Promise<string | null> {
+  const now = i.now ?? new Date();
+  const today = todayInTz(i.tz, now) as DateISO;
+  const [entry, prefs, runs, journey] = await Promise.all([
+    db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(today) } }, select: PROGRESS_SELECT }),
+    db.notificationPrefs.findUnique({ where: { userId }, select: { nightTime: true } }),
+    db.guidedRun.findMany({ where: { userId, periodKey: today, flow: { in: ['DAY_MORNING', 'DAY_NIGHT'] } }, select: { flow: true } }),
+    getJourney(userId),
+  ]);
+  const flow = autoOpenFlow({
+    localTime: formatTimeInTz(now.toISOString(), i.tz),
+    nightTime: prefs?.nightTime ?? DEFAULT_TIMES.nightTime,
+    progress: computeDayProgress(today, entry, { wellbeing: i.wellbeing, available: journey.sections }),
+    startedToday: runs.map((r) => r.flow),
+  });
+  return flow ? `/guided/day/${today}/${flow === 'DAY_MORNING' ? 'morning' : 'night'}` : null;
 }

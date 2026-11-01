@@ -19,25 +19,21 @@ export interface TourStep {
 
 export const TOUR_STEPS: TourStep[] = [
   { id: 'welcome', route: '/today', target: null, advanceOn: 'next' },
-  { id: 'sky', route: '/today', target: 'sky-card', advanceOn: 'next' },
   { id: 'reading', route: '/today', target: 'reading-card', advanceOn: 'next' },
-  { id: 'intention', route: '/today', target: 'intention', advanceOn: 'intention-saved', optional: true },
-  { id: 'banish', route: '/today', target: 'morning-banish', advanceOn: 'morning-banish-done', optional: true, section: 'morningBanish' },
-  { id: 'wake', route: '/today', target: 'wake-mood', advanceOn: 'wake-mood-set', optional: true, section: 'wakeMood' },
-  { id: 'body', route: '/today', target: 'body-focus', advanceOn: 'next', section: 'body' },
-  { id: 'night', route: '/today', target: 'night-section', advanceOn: 'next' },
+  // O dia em três partes recolhidas (Manhã, Corpo, Noite): o guia mostra cada uma e termina no Hoje.
+  { id: 'morning', route: '/today', target: 'focus-morning', advanceOn: 'next' },
+  { id: 'body', route: '/today', target: 'focus-body', advanceOn: 'next', section: 'body' },
+  { id: 'night', route: '/today', target: 'focus-night', advanceOn: 'next' },
   { id: 'glow', route: '/today', target: 'avatar', advanceOn: 'next', placement: 'bottom' },
-  // F19: a jornada (some quando já não há cartão: etapa 5 ou tudo desbloqueado).
+  // F19: a jornada (some quando já não há cartão: etapa 5 ou tudo desbloqueado). Último passo.
   { id: 'journey', route: '/today', target: 'journey-card', advanceOn: 'next' },
-  { id: 'week-tab', route: '/today', target: 'nav-week', advanceOn: 'next', placement: 'top' }, // "Continuar" navega para /week
-  { id: 'week', route: '/week', target: 'week-intention', advanceOn: 'week-intention-saved', optional: true },
-  { id: 'grimoire-tab', route: '/week', target: 'nav-grimoire', advanceOn: 'next', placement: 'top' }, // navega para /grimoire
-  // Último passo: abrir a lição termina o guia (dentro da lição o balão tapava as perguntas).
-  { id: 'first-lesson', route: '/grimoire', target: 'lesson-current', advanceOn: 'lesson-opened' },
 ];
 
-/** Passos que existiram até à v1 do guia (dentro da lição): quem lá estava conta como concluído. */
-export const RETIRED_FINAL_STEPS = ['in-lesson', 'done'];
+/**
+ * Passos que já não existem: quem lá estava conta como concluído (v1: dentro da lição; v2: os do diário campo a campo,
+ * Semana e Grimório, antes de o guia ficar só no Hoje).
+ */
+export const RETIRED_FINAL_STEPS = ['in-lesson', 'done', 'sky', 'intention', 'banish', 'wake', 'week-tab', 'week', 'grimoire-tab', 'first-lesson'];
 
 export type TourStepId = (typeof TOUR_STEPS)[number]['id'];
 export const isTourStepId = (id: string | null | undefined): id is string => !!id && TOUR_STEPS.some((s) => s.id === id);

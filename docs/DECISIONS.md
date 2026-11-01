@@ -99,6 +99,7 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 
 ## Onboarding guiado (Fase 11)
 - O guia interactivo substitui a apresentação de slides: 13 passos, máquina de estados pura (`src/lib/tour/`), alvos marcados por `data-tour`, avança com as acções reais da pessoa, pausável e retomável entre dispositivos (estado gravado no utilizador).
+- **Onboarding guiado só no Hoje:** 7 passos (abertura, leitura, Manhã, Corpo, Noite, Glow no avatar e a jornada). Já não leva à Semana nem ao Grimório; quem estava num passo retirado fica com o guia concluído.
 - Termina ao abrir a primeira lição do Grimório (sem balões dentro da lição). É para todos os utilizadores.
 
 ## Premium e operação (Fase 12)
@@ -164,6 +165,10 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Gravação:** cada passo grava com os hooks existentes; a vista normal continua igual.
 - **Sugestão do fluxo:** pela hora (diário, a partir dos horários das notificações) e pelas janelas de Glow (períodos).
 - **Notificações** abrem o fluxo guiado.
+- **Nomes:** "Guia" é só a leitura da IA sobre a semana ou o mês; o modo de um passo por ecrã chama-se "passo a passo" (Manhã, Corpo e Noite passo a passo).
+- **Abrir sozinho:** na primeira abertura do dia abre a Manhã passo a passo (se estiver por fazer); a partir da hora do aviso da noite, a Noite. O Corpo nunca abre sozinho. Uma vez por fluxo e dia; ligado por defeito, desligável nas definições.
+- **Hoje em três partes:** Manhã, Corpo e Noite recolhidas; tocar abre por baixo, na mesma página.
+- **Do Guia ao plano:** a leitura do Guia termina com o botão para planear a semana ou o mês seguinte.
 - **Abrir sozinho:** opção nas definições, desligada por defeito.
 - **Disponibilidade:** `isSectionAvailable` decide que passos aparecem (consentimento, premium e, na Fase 19, desbloqueio).
 - **Corpo:** a barra do mundo do corpo tem 4 itens (Treinos · Sessões · Dia · Corpo); os exercícios abrem-se a partir de Treinos.

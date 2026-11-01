@@ -21,6 +21,8 @@ interface MorningSectionProps {
   /** F19: banimento e ritual só depois de desbloqueados na jornada. */
   showBanish?: boolean;
   showRitual?: boolean;
+  /** Dentro da secção recolhível do Hoje: sem cabeçalho próprio (o título e o passo a passo estão na secção). */
+  embedded?: boolean;
 }
 
 export function MorningSection({
@@ -34,15 +36,18 @@ export function MorningSection({
   guidedBase,
   showBanish = true,
   showRitual = true,
+  embedded = false,
 }: MorningSectionProps) {
   const t = useTranslations('day');
   return (
     <section className={current ? 'mg-period mg-period--morning mg-period--current' : 'mg-period mg-period--morning'}>
-      <SectionHeader
-        title={t('morning.title')}
-        icon="sun"
-        action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/morning`} label={t('guidedMorning')} /> : undefined}
-      />
+      {!embedded && (
+        <SectionHeader
+          title={t('morning.title')}
+          icon="sun"
+          action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/morning`} label={t('guidedMorning')} /> : undefined}
+        />
+      )}
       {showBanish && (
       <CheckTile
         icon="tea-cup"

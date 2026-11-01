@@ -234,7 +234,7 @@ model User {
   guideIncludeBody Boolean           @default(false)
   // F18: modo guiado
   guidedRuns       GuidedRun[]
-  guidedAutoOpen   Boolean           @default(false) // abrir o fluxo sugerido ao entrar no Hoje (uma vez por fluxo e dia)
+  guidedAutoOpen   Boolean           @default(true) // ao entrar: manhã na 1.ª abertura do dia, noite à hora do aviso (uma vez por fluxo e dia)
   // F19: jornada da metodologia (etapas 1–5; o que está desbloqueado vem de src/lib/journey)
   journeyStage         Int             @default(1)
   journeyAllUnlockedAt DateTime? // "desbloquear tudo"

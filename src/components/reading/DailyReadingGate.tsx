@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { setReadingChoice } from '@/actions/daily';
 import { readingGate } from '@/lib/daily/readingChoice';
@@ -12,9 +13,13 @@ import { Button } from '@/components/ui/Button';
 export function DailyReadingGate({ date, initialChoice, isNight, children }: { date: string; initialChoice: 'NOW' | 'NIGHT' | null; isNight: boolean; children: ReactNode }) {
   const t = useTranslations('reading.gate');
   const [choice, setChoice] = useState(initialChoice);
+  const router = useRouter();
   const choose = (c: 'NOW' | 'NIGHT') => {
     setChoice(c);
-    void setReadingChoice(date, c).catch(() => {});
+    // "À noite": a leitura passa da Manhã para a Noite no Hoje (o refresh move-a).
+    void setReadingChoice(date, c)
+      .then(() => (c === 'NIGHT' ? router.refresh() : undefined))
+      .catch(() => {});
   };
   const gate = readingGate({ choice, isToday: true, isNight });
   if (gate === 'show') return <>{children}</>;

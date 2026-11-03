@@ -24,7 +24,10 @@ export async function generateMetadata({ params }: { params: { flow: string } })
 }
 
 /** Diário no modo guiado: só hoje e ontem (ontem enquanto a janela do Glow do dia estiver aberta). */
-export default async function GuidedDayRoute({ params }: { params: { date: string; flow: string } }) {
+/** Para onde volta ao fechar quando vem de outro sítio (só o resumo de uma sessão de treino). */
+const BACK_RE = /^\/body\/sessions\/[\w-]+\?done=1$/;
+
+export default async function GuidedDayRoute({ params, searchParams }: { params: { date: string; flow: string }; searchParams: { back?: string } }) {
   const session = await auth();
   if (!session?.user) redirect('/login');
   const flow = flowFromRoute('day', params.flow);
@@ -68,7 +71,7 @@ export default async function GuidedDayRoute({ params }: { params: { date: strin
       readingChoice={choice}
       planNote={planNote?.text.trim() || undefined}
       dailyWeightGrams={weighIn?.grams ?? null}
-      closeHref={date === g.today ? '/today' : `/day/${date}`}
+      closeHref={searchParams.back && BACK_RE.test(searchParams.back) ? searchParams.back : date === g.today ? '/today' : `/day/${date}`}
       intro={<StepIntro icon={intro.icon} eyebrow={formatLongDate(date, locale)} title={intro.title} lines={[moon]} cta={intro.cta} />}
       {...(reading && {
         reading: { node: <DailyReadingCard personal={reading.personal} pending={reading.pending} />, pending: reading.personal.status !== 'ready' },

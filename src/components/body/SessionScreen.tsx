@@ -192,7 +192,8 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
     try {
       const res = await endSession(session.id);
       if (!res.ok) return setError(te(res.error));
-      router.push(`/body/sessions/${res.data.id}?done=1`);
+      // Corpo passo a passo (água e alongamento) e depois o resumo; ou logo o resumo.
+      router.push(res.data.next);
     } catch {
       setError(t('offlineFinish'));
     } finally {

@@ -13,6 +13,7 @@ import { findTemplate } from '@/lib/fitness/templates';
 import { getFitnessPrefs, recomputeExercisePrs, usableExercise } from '@/lib/fitness/queries';
 import { diaryChecksFor, restEndsAt, validateSet } from '@/lib/fitness/session';
 import { activeSession, logSetFor, sendRestEvent, type SetPayload } from '@/lib/fitness/write';
+import { getJourney } from '@/lib/journey/server';
 
 /**
  * Acções do Foco no corpo (F16). Todas: sessão, `requireFeature('body-pro')` (sem acesso → 404), Zod e
@@ -490,8 +491,12 @@ export async function setSessionNotes(sessionId: string, notes: string): Promise
   return ok();
 }
 
-/** Termina: grava o fim e marca os checks do diário pelo caminho normal do diário (o Glow do dia conta). */
-export async function endSession(sessionId: string): Promise<FitnessResult<{ id: string }>> {
+/**
+ * Termina: grava o fim e marca os checks do diário pelo caminho normal do diário (o Glow do dia conta).
+ * `next`: com a sessão de hoje e o Corpo ainda por completar, o Corpo passo a passo (água e alongamento; o treino já
+ * vem marcado), que volta ao resumo da sessão; senão, o resumo.
+ */
+export async function endSession(sessionId: string): Promise<FitnessResult<{ id: string; next: string }>> {
   const uid = await userId();
   if (!uid) return fail('common.errors.unauthorized');
   if (!id.safeParse(sessionId).success) return fail();
@@ -508,12 +513,23 @@ export async function endSession(sessionId: string): Promise<FitnessResult<{ id:
   // Só marca, nunca desmarca. Um dia futuro (fuso mudou entretanto) fica de fora.
   const date = fromDbDate(s.date);
   const user = await db.user.findUnique({ where: { id: uid }, select: { timezone: true } });
-  if ((checks.workoutDone || checks.stretchDone) && compareDates(date, todayInTz(user?.timezone ?? 'UTC')) <= 0) {
+  const today = todayInTz(user?.timezone ?? 'UTC');
+  if ((checks.workoutDone || checks.stretchDone) && compareDates(date, today) <= 0) {
     await patchDailyEntry(date, { ...(checks.workoutDone && { workoutDone: true }), ...(checks.stretchDone && { stretchDone: true }) });
   }
   refresh();
   revalidatePath('/today');
-  return { ok: true, data: { id: s.id } };
+  const summary = `/body/sessions/${encodeURIComponent(s.id)}?done=1`;
+  let next = summary;
+  if (date === today) {
+    const [entry, journey] = await Promise.all([
+      db.dailyEntry.findUnique({ where: { userId_date: { userId: uid, date: toDbDate(date) } }, select: { stretchDone: true, workoutDone: true, waterDone: true } }),
+      getJourney(uid).catch(() => null),
+    ]);
+    const bodyDone = !!entry?.stretchDone && !!entry.workoutDone && !!entry.waterDone;
+    if (!bodyDone && journey?.sections.has('body')) next = `/guided/day/${date}/body?back=${encodeURIComponent(summary)}`;
+  }
+  return { ok: true, data: { id: s.id, next } };
 }
 
 /** Descarta uma sessão sem séries. */

@@ -73,6 +73,22 @@ export async function DayPage({ date }: { date: DateISO }) {
   // F18: modo guiado (hoje e ontem) e o fluxo sugerido para esta hora.
   const guided = await dayGuided(userId, { date, today, tz: user.timezone, entry, wellbeing: !!user.wellbeingConsentAt });
 
+  // A leitura do dia vive dentro da Manhã ou da Noite, conforme a escolha do dia (agora ou à noite); sem escolha, na
+  // Manhã (é lá que a pergunta aparece). O ritual do dia vai com ela.
+  const readingChoice = await getReadingChoice(userId, date);
+  const readingNode = (
+    <>
+      {isToday && reading.personal.status !== 'unavailable' ? (
+        <DailyReadingGate date={date} initialChoice={readingChoice} isNight={getDayPeriod(new Date(), user.timezone) === 'night'}>
+          <DailyReadingCard personal={reading.personal} pending={reading.pending} />
+        </DailyReadingGate>
+      ) : (
+        <DailyReadingCard personal={reading.personal} pending={reading.pending} />
+      )}
+      {reading.ritualToday && <RitualTodayCard ritual={reading.ritualToday} locale={appLocale} />}
+    </>
+  );
+
   const phaseLabels = Object.fromEntries(MOON_PHASE_ORDER.map((p) => [p, ta(`phases.${p}`)])) as Record<MoonPhase, string>;
   const signLabels = Object.fromEntries(ZODIAC_ORDER.map((s) => [s, ta(`signs.${s}`)])) as Record<ZodiacSign, string>;
 
@@ -98,15 +114,6 @@ export async function DayPage({ date }: { date: DateISO }) {
       />
       <DailySkyCard sky={sky} natal={natal} isToday={isToday} />
       <GuidedStartCard flow={guided.suggested} date={date} />
-      {/* F18: hoje, a leitura do dia agora ou à noite (pergunta diária). */}
-      {isToday && reading.personal.status !== 'unavailable' ? (
-        <DailyReadingGate date={date} initialChoice={await getReadingChoice(userId, date)} isNight={getDayPeriod(new Date(), user.timezone) === 'night'}>
-          <DailyReadingCard personal={reading.personal} pending={reading.pending} />
-        </DailyReadingGate>
-      ) : (
-        <DailyReadingCard personal={reading.personal} pending={reading.pending} />
-      )}
-      {reading.ritualToday && <RitualTodayCard ritual={reading.ritualToday} locale={appLocale} />}
       {shouldShowPrompt({
         firstDay: todayInTz(user.timezone, user.createdAt),
         today,
@@ -121,6 +128,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         wellbeing={!!user.wellbeingConsentAt}
         planNote={planNote?.text.trim() ? <DayPlanNote text={planNote.text.trim()} weekHref={weekChip.href} /> : undefined}
         guidedBase={guided.base}
+        reading={{ node: readingNode, in: readingChoice === 'NIGHT' ? 'night' : 'morning' }}
         unlocked={[...journey.sections]}
         currentPeriod={isToday ? getDayPeriod(new Date(), user.timezone) : null}
         suggestions={

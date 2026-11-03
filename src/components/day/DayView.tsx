@@ -32,6 +32,8 @@ interface DayViewProps {
   wellbeing: boolean;
   /** O texto do planner da Semana para este dia (`DayPlanNote`), acima da intenção. */
   planNote?: ReactNode;
+  /** A leitura do dia (e o ritual) dentro da Manhã ou da Noite, conforme a escolha do dia. */
+  reading?: { node: ReactNode; in: 'morning' | 'night' };
   /** F18: base das rotas do modo guiado (`/guided/day/{date}`) quando o dia ainda o permite. */
   guidedBase?: string | null;
   /** F19: secções desbloqueadas na jornada; as outras não aparecem (os dados ficam). Sem isto, tudo. */
@@ -39,7 +41,7 @@ interface DayViewProps {
 }
 
 /** Cartões interactivos do diário com gravação automática. */
-export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions, wellbeing, planNote, guidedBase, unlocked }: DayViewProps) {
+export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions, wellbeing, planNote, guidedBase, unlocked, reading }: DayViewProps) {
   const t = useTranslations();
   const { data, setField, status, errorKey, flush } = useDailyAutosave(date, initial);
   const onBlur = () => void flush();
@@ -65,6 +67,7 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, sugges
           tour="focus-morning"
           action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/morning`} label={t('day.guidedMorning')} showLabel /> : undefined}
         >
+          {reading?.in === 'morning' && reading.node}
           <div className="mg-day__cell mg-day__cell--intention">
             {planNote}
             {has('intention') && (
@@ -136,6 +139,7 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, sugges
           tour="focus-night"
           action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/night`} label={t('day.guidedNight')} showLabel /> : undefined}
         >
+          {reading?.in === 'night' && reading.node}
           {(night.banish || night.ritual) && (
             <div className="mg-day__cell mg-day__cell--night">
               <NightSection

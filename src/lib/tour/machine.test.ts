@@ -12,13 +12,13 @@ describe('máquina do guia', () => {
     expect(currentStep(startTour())?.target).toBeNull();
   });
 
-  it('só o Hoje: abertura, leitura, Manhã, Corpo, Noite, Glow e jornada', () => {
-    expect(TOUR_STEPS.map((s) => s.id)).toEqual(['welcome', 'reading', 'morning', 'body', 'night', 'glow', 'journey']);
+  it('só o Hoje: abertura, Manhã, Corpo, Noite, Glow e jornada', () => {
+    expect(TOUR_STEPS.map((s) => s.id)).toEqual(['welcome', 'morning', 'body', 'night', 'glow', 'journey']);
     expect(TOUR_STEPS.every((s) => s.route === '/today')).toBe(true);
   });
 
   it('next avança; skip não faz nada (não há passos opcionais)', () => {
-    expect(reduceTour(at('reading'), 'next')).toEqual(at('morning'));
+    expect(reduceTour(at('welcome'), 'next')).toEqual(at('morning'));
     expect(reduceTour(at('morning'), 'skip')).toEqual(at('morning'));
   });
 
@@ -30,7 +30,7 @@ describe('máquina do guia', () => {
   });
 
   it('back volta um passo (nunca antes do primeiro)', () => {
-    expect(reduceTour(at('morning'), 'back')).toEqual(at('reading'));
+    expect(reduceTour(at('morning'), 'back')).toEqual(at('welcome'));
     expect(reduceTour(at('welcome'), 'back')).toEqual(at('welcome'));
   });
 
@@ -48,8 +48,8 @@ describe('máquina do guia', () => {
     expect(s.status).toBe('done');
   });
 
-  it('progress na Manhã → 3 de 7', () => {
-    expect(progress(at('morning'))).toEqual({ index: 3, total: 7 });
+  it('progress na Manhã → 2 de 6', () => {
+    expect(progress(at('morning'))).toEqual({ index: 2, total: 6 });
   });
 
   describe('jornada (F19)', () => {
@@ -59,7 +59,7 @@ describe('máquina do guia', () => {
       expect(visibleSteps(stage1).some((s) => s.id === 'body')).toBe(false);
       expect(reduceTour(at('morning'), 'next', stage1)).toEqual(at('night'));
       expect(reduceTour(at('night'), 'back', stage1)).toEqual(at('morning'));
-      expect(progress(at('night'), stage1)).toEqual({ index: 4, total: 6 });
+      expect(progress(at('night'), stage1)).toEqual({ index: 3, total: 5 });
     });
 
     it('sem cartão da jornada, o Glow é o último passo', () => {
@@ -124,7 +124,7 @@ describe('máquina do guia', () => {
     // Passos retirados (dentro da lição): quem lá estava já tinha aberto a primeira lição.
     expect(tourStateFromDb({ tourStep: 'in-lesson', tourPausedAt: null, tourCompletedAt: null })).toEqual({ stepId: null, status: 'done' });
     // v2: quem estava num passo retirado (Semana, Grimório, campos do diário) conta como concluído.
-    for (const old of ['week', 'grimoire-tab', 'first-lesson', 'intention', 'sky']) {
+    for (const old of ['week', 'grimoire-tab', 'first-lesson', 'intention', 'sky', 'reading']) {
       expect(tourStateFromDb({ tourStep: old, tourPausedAt: null, tourCompletedAt: null })).toEqual({ stepId: null, status: 'done' });
     }
   });

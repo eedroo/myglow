@@ -478,7 +478,7 @@ Plano lido do servidor por pedido (`getEntitlements`, `cache()` do React; nunca 
 
 ### Guia interactivo — F11 (`src/components/tour/`, lógica em `src/lib/tour/`)
 
-Substitui a apresentação de slides (`/welcome` redirecciona para `/today`). Máquina de estados pura (`machine.ts`: `startTour`, `reduceTour`, `currentStep`, `isOnStepRoute`, `progress`, `tourStateFromDb`), 7 passos em `steps.ts`, só no Hoje (abertura, leitura, Manhã, Corpo, Noite, Glow e jornada; o último termina o guia; passos antigos contam como concluídos), alvos por `data-tour`, acções reais via `bus.ts` (`emitTourEvent`/`onTourEvent`; guarda os eventos dos últimos 3 s até alguém ouvir). Persistência: `saveTourState`/`restartTour` (`actions/tour.ts`; campos `tourStep`, `tourStartedAt`, `tourPausedAt`, `tourCompletedAt`). Espera que fechem os diálogos abertos (`dialog[open]`: termos, nível, novidades, avisos).
+Substitui a apresentação de slides (`/welcome` redirecciona para `/today`). Máquina de estados pura (`machine.ts`: `startTour`, `reduceTour`, `currentStep`, `isOnStepRoute`, `progress`, `tourStateFromDb`), 6 passos em `steps.ts`, só no Hoje (abertura, Manhã com a leitura, Corpo, Noite, Glow e jornada; o último termina o guia; passos antigos contam como concluídos), alvos por `data-tour`, acções reais via `bus.ts` (`emitTourEvent`/`onTourEvent`; guarda os eventos dos últimos 3 s até alguém ouvir). Persistência: `saveTourState`/`restartTour` (`actions/tour.ts`; campos `tourStep`, `tourStartedAt`, `tourPausedAt`, `tourCompletedAt`). Espera que fechem os diálogos abertos (`dialog[open]`: termos, nível, novidades, avisos).
 
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|

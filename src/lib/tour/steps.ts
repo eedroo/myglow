@@ -19,8 +19,8 @@ export interface TourStep {
 
 export const TOUR_STEPS: TourStep[] = [
   { id: 'welcome', route: '/today', target: null, advanceOn: 'next' },
-  { id: 'reading', route: '/today', target: 'reading-card', advanceOn: 'next' },
-  // O dia em três partes recolhidas (Manhã, Corpo, Noite): o guia mostra cada uma e termina no Hoje.
+  // O dia em três partes recolhidas (Manhã, Corpo, Noite): o guia mostra cada uma e termina no Hoje. A leitura vive
+  // dentro da Manhã (ou da Noite, se ficou para a noite).
   { id: 'morning', route: '/today', target: 'focus-morning', advanceOn: 'next' },
   { id: 'body', route: '/today', target: 'focus-body', advanceOn: 'next', section: 'body' },
   { id: 'night', route: '/today', target: 'focus-night', advanceOn: 'next' },
@@ -33,7 +33,7 @@ export const TOUR_STEPS: TourStep[] = [
  * Passos que já não existem: quem lá estava conta como concluído (v1: dentro da lição; v2: os do diário campo a campo,
  * Semana e Grimório, antes de o guia ficar só no Hoje).
  */
-export const RETIRED_FINAL_STEPS = ['in-lesson', 'done', 'sky', 'intention', 'banish', 'wake', 'week-tab', 'week', 'grimoire-tab', 'first-lesson'];
+export const RETIRED_FINAL_STEPS = ['in-lesson', 'done', 'sky', 'intention', 'banish', 'wake', 'week-tab', 'week', 'grimoire-tab', 'first-lesson', 'reading'];
 
 export type TourStepId = (typeof TOUR_STEPS)[number]['id'];
 export const isTourStepId = (id: string | null | undefined): id is string => !!id && TOUR_STEPS.some((s) => s.id === id);

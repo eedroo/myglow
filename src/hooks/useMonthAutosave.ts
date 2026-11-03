@@ -4,7 +4,7 @@ import { useCallback, useRef, useState } from 'react';
 import type { ProjectArea } from '@prisma/client';
 import { patchMonth } from '@/actions/planner';
 import { mergePlanPatches } from '@/lib/planner/patch';
-import type { MonthPatch, MonthPlanData } from '@/types/planner';
+import type { MonthPatch, MonthPlanData, MoonField } from '@/types/planner';
 import { useAutosaveQueue, type AutosaveOptions, type SaveOk } from './useAutosaveQueue';
 import { useGlow } from '@/components/glow/GlowProvider';
 
@@ -36,7 +36,7 @@ export function useMonthAutosave(initial: MonthPlanData, opts: AutosaveOptions =
   });
 
   const setText = useCallback(
-    (key: 'intention' | 'reflection', value: string) => {
+    (key: 'intention' | 'reflection' | MoonField, value: string) => {
       setData((d) => ({ ...d, [key]: value }));
       queue({ [key]: value }, 'debounced');
     },

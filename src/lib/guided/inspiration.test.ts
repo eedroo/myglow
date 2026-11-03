@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { SkyEvent } from '@/lib/astro/skyEvents';
-import { areaInspiration, periodMoments, ritualsIn, SUGGESTION } from './inspiration';
+import { areaInspiration, periodMoments, ritualsIn, SUGGESTION, moonPhaseInspiration } from './inspiration';
 
 const ev = (e: Partial<SkyEvent> & { type: SkyEvent['type']; date: string }) => ({ at: `${e.date}T12:00:00Z`, ...e }) as SkyEvent;
 
@@ -33,5 +33,26 @@ describe('inspiração para planear', () => {
     expect(areas.PROFESSIONAL).toEqual({ note: 'Fecha o que ficou aberto.', rituals: [] });
     expect(areas.MAGIC!.rituals[0]!.title).toBe('Semear');
     expect(areas.LEISURE).toBeUndefined();
+  });
+});
+
+describe('moonPhaseInspiration', () => {
+  const m = (date: string, kind: 'NEW_MOON' | 'FIRST_QUARTER' | 'FULL_MOON' | 'LAST_QUARTER', sign: 'SCORPIO' | 'LEO' | 'TAURUS' | 'AQUARIUS') =>
+    ({ date, kind, sign, key: null }) as const;
+  const moments = [m('2026-11-01', 'LAST_QUARTER', 'LEO'), m('2026-11-09', 'NEW_MOON', 'SCORPIO'), m('2026-11-17', 'FIRST_QUARTER', 'AQUARIUS'), m('2026-11-24', 'FULL_MOON', 'TAURUS')];
+  const ritual = (id: string, date: string) => ({ id, title: id, date, occasion: '', intention: '', area: 'MAGIC' as const });
+
+  it('cada fase com as datas, a área do signo e os rituais até à fase seguinte', () => {
+    const r = moonPhaseInspiration(moments, [ritual('r1', '2026-11-10'), ritual('r2', '2026-11-25'), ritual('r3', '2026-11-03')], [{ area: 'MAGIC', note: 'Intuição alta' }], '2026-11-30');
+    expect(r.moonNew).toMatchObject({ area: 'MAGIC', note: 'Intuição alta', rituals: [{ id: 'r1' }] });
+    expect(r.moonNew!.moments.map((x) => x.date)).toEqual(['2026-11-09']);
+    expect(r.moonFull).toMatchObject({ area: 'PERSONAL', note: null, rituals: [{ id: 'r2' }] });
+    expect(r.moonWaning).toMatchObject({ area: 'LEISURE', rituals: [{ id: 'r3' }] });
+    expect(r.moonWaxing!.area).toBe('STUDIES');
+  });
+
+  it('sabbats e estações não contam; fase ausente no mês fica de fora', () => {
+    const r = moonPhaseInspiration([{ date: '2026-11-01', kind: 'SABBAT', sign: null, key: 'SAMHAIN' }, moments[1]!], [], [], '2026-11-30');
+    expect(Object.keys(r)).toEqual(['moonNew']);
   });
 });

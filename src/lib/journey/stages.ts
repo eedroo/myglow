@@ -72,7 +72,7 @@ export const ALWAYS_SECTIONS: SectionKey[] = ['reading', 'nightReading', 'dailyW
 
 /** Secções do Mês e do Ano (abrem com o planner). */
 export const PLANNER_SECTIONS: Record<PlannerKey, SectionKey[]> = {
-  month: ['monthIntention', 'monthProjects', 'monthReflection'],
+  month: ['monthIntention', 'monthMoon', 'monthProjects', 'monthReflection'],
   year: ['yearWord', 'yearIntention', 'yearProjects', 'yearReflection'],
 };
 

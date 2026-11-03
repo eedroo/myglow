@@ -270,6 +270,7 @@ Partilhados por semana, mês e ano. Os três primeiros substituem `WeekIntention
 
 | Componente | Tipo | CSS | Classes | Props / conteúdo |
 |---|---|---|---|---|
+| `MoonIntentionsCard` | client | `projects.css` | `mg-projects`, `mg-project` (reutiliza) | Mês: intenção por lua (Nova: começar; Crescente: fazer crescer; Cheia: celebrar; Minguante: soltar), um campo por fase com o ícone da fase |
 | `PeriodIntentionCard` | client | `day.css` | `mg-intention`, `__head`, `__label` | `{ id; label; placeholder?; value; onChange; onBlur; rows? }` — sparkles + label + `LinedTextArea` |
 | `PeriodProjectsCard` | client | `projects.css` | `mg-projects`, `mg-projects--compact`, `__header`, `__grid` | `{ title; values: Record<ProjectArea,string>; onChange; onBlur; compact?; idPrefix? }` — 5 áreas, 3+2 ou coluna única (`compact`) |
 | `ProjectIntentionCard` | client | `projects.css` | `mg-project`, `__head`, `__icon`, `__label`, `__text` | ícone da área (MAGIC `cauldron`, PERSONAL `heart`, LEISURE `lotus`, PROFESSIONAL `briefcase`, STUDIES `book-open`; mapa em `lib/icons.ts`) + `LinedTextArea`; F6: `note?` (`__note`) com o foco sugerido pela leitura da semana |

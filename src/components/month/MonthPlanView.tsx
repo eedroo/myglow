@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { SaveStatus } from '@/components/day/SaveStatus';
 import { PeriodIntentionCard } from '@/components/period/PeriodIntentionCard';
 import { PeriodProjectsCard } from '@/components/period/PeriodProjectsCard';
+import { MoonIntentionsCard } from '@/components/period/MoonIntentionsCard';
 import { PeriodReflectionCard } from '@/components/period/PeriodReflectionCard';
 import { Toast } from '@/components/ui/Toast';
 import { useMonthAutosave } from '@/hooks/useMonthAutosave';
@@ -55,6 +56,12 @@ export function MonthPlanView({ initial, slots }: MonthPlanViewProps) {
           />
         </div>
         <div className="mg-month__cell">
+          {/* Intenção por lua antes das metas por área (como no passo a passo). */}
+          <MoonIntentionsCard
+            values={{ moonNew: data.moonNew, moonWaxing: data.moonWaxing, moonFull: data.moonFull, moonWaning: data.moonWaning }}
+            onChange={setText}
+            onBlur={onBlur}
+          />
           <PeriodProjectsCard
             title={t('month.projects')}
             values={data.projects}

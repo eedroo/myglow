@@ -450,6 +450,25 @@
     }
   },
   "month": {
+    "moon": {
+      "title": "Intenção por lua",
+      "moonNew": {
+        "label": "Lua Nova · começar",
+        "placeholder": "O que vou começar…"
+      },
+      "moonWaxing": {
+        "label": "Crescente · fazer crescer",
+        "placeholder": "O que vou fazer crescer…"
+      },
+      "moonFull": {
+        "label": "Lua Cheia · celebrar",
+        "placeholder": "O que quero celebrar…"
+      },
+      "moonWaning": {
+        "label": "Minguante · soltar",
+        "placeholder": "O que vou soltar…"
+      }
+    },
     "title": "Mês",
     "nav": {
       "label": "Navegar entre os meses",
@@ -1962,6 +1981,8 @@
   },
   "guided": {
     "inspo": {
+      "moonAreaNote": "Esta fase combina com a área {area}: {note}",
+      "moonArea": "Esta fase combina com a área {area}.",
       "title": "Inspiração",
       "fromReading": "Da sua leitura: {text}",
       "ritualLine": "{date} · Ritual {title}: {intention}",
@@ -1988,6 +2009,10 @@
       "continue": "Continuar"
     },
     "done": {
+      "moonWaning": "Lua Minguante",
+      "moonFull": "Lua Cheia",
+      "moonWaxing": "Lua Crescente",
+      "moonNew": "Lua Nova",
       "dailyWeight": "Peso de hoje",
       "intention": "Intenção",
       "morningBanish": "Banimento da manhã",
@@ -2117,6 +2142,30 @@
       "thisIntention": "Sua intenção: \"{text}\""
     },
     "steps": {
+      "moonWaning": {
+        "title": "Lua Minguante: o que você vai soltar?",
+        "help": "Com a lua minguando, o que você quer diminuir, terminar ou deixar ir?",
+        "placeholder": "Na lua minguante quero soltar…",
+        "phase": "Lua Minguante"
+      },
+      "moonFull": {
+        "title": "Lua Cheia: o que você quer celebrar?",
+        "help": "A lua cheia ilumina. O que você quer ver realizado, agradecer ou trazer à luz?",
+        "placeholder": "Na lua cheia quero celebrar…",
+        "phase": "Lua Cheia"
+      },
+      "moonWaxing": {
+        "title": "Lua Crescente: o que você vai fazer crescer?",
+        "help": "Com a lua crescendo, o que precisa de ação e de passos pequenos todos os dias?",
+        "placeholder": "Na lua crescente quero fazer crescer…",
+        "phase": "Lua Crescente"
+      },
+      "moonNew": {
+        "title": "Lua Nova: o que você vai começar?",
+        "help": "A lua nova abre um ciclo. Uma intenção para semear este mês.",
+        "placeholder": "Na lua nova quero começar…",
+        "phase": "Lua Nova"
+      },
       "dailyWeight": {"title": "Seu peso de hoje", "help": "Opcional. Pese-se de manhã, antes de comer, para comparar dias parecidos."},
       "periodReading": {"title": "Antes de planejar"},
       "reading": {

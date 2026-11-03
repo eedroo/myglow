@@ -17,7 +17,7 @@ import { useMonthAutosave } from '@/hooks/useMonthAutosave';
 import { useYearAutosave } from '@/hooks/useYearAutosave';
 import type { DailyEntryData, DailyField } from '@/types/daily';
 import type { WeekData } from '@/types/week';
-import type { MonthPlanData, YearPlanData } from '@/types/planner';
+import type { MonthPlanData, MoonField, YearPlanData } from '@/types/planner';
 import { SlidePlayer, type Slide } from '@/components/slides/SlidePlayer';
 import { StepBanish } from './StepBanish';
 import { StepBodyChecks } from './StepBodyChecks';
@@ -56,15 +56,16 @@ interface RunnerProps {
   planNote?: string;
 }
 
+const MOON_ICON: Record<MoonField, MagicIconName> = { moonNew: 'phase-new', moonWaxing: 'phase-first-quarter', moonFull: 'phase-full', moonWaning: 'phase-last-quarter' };
 const AREA_ICON: Record<ProjectArea, MagicIconName> = { MAGIC: 'sparkles', PERSONAL: 'heart', LEISURE: 'lotus', PROFESSIONAL: 'briefcase', STUDIES: 'book-open' };
 const MAX: Record<string, number> = {
   intention: 2000, gratitude: 2000, reflection: 10000, summary: 4000, morningBanishName: 80, nightBanishName: 80,
 };
 const LIMITS: Record<string, Record<string, number>> = {
   DAY: { intention: 500, gratitude: 2000, reflection: 4000, summary: 4000 },
-  WEEK: { intention: 1000, reflection: 4000, projects: 500 },
-  MONTH: { intention: 1000, reflection: 6000, projects: 500 },
-  YEAR: { intention: 2000, reflection: 10000, projects: 500 },
+  WEEK: { intention: 1000, reflection: 4000, projects: 1000 },
+  MONTH: { intention: 1000, reflection: 6000, projects: 1000, moonNew: 1000, moonWaxing: 1000, moonFull: 1000, moonWaning: 1000 },
+  YEAR: { intention: 2000, reflection: 10000, projects: 1000 },
 };
 const NEXT: Partial<Record<GuidedFlow, GuidedFlow>> = { DAY_MORNING: 'DAY_BODY', DAY_BODY: 'DAY_NIGHT' };
 const THEME: Record<string, string> = { DAY_MORNING: 'morning', DAY_BODY: 'body', DAY_NIGHT: 'night' };
@@ -140,12 +141,19 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
             onBlur={onBlur}
             maxLength={max}
             {...(s.area && { area: { icon: AREA_ICON[s.area], name: tp(`areas.${s.area}`) } })}
+            {...(s.section === 'monthMoon' && { area: { icon: MOON_ICON[s.field as MoonField], name: inspiration?.moon?.[s.field as MoonField]?.label ?? t(`steps.${s.id}.phase`) } })}
             {...(planIntention && s.field === 'intention'
               ? { inspiration: { title: t('steps.intention.fromPlanner'), items: [planIntention] } }
               : inspiration && {
                   inspiration: {
                     title: t('inspo.title'),
-                    items: s.area ? (inspiration.areas[s.area] ?? []) : s.field === 'intention' ? inspiration.intention : [],
+                    items: s.area
+                      ? (inspiration.areas[s.area] ?? [])
+                      : s.section === 'monthMoon'
+                        ? (inspiration.moon?.[s.field as MoonField]?.items ?? [])
+                        : s.field === 'intention'
+                          ? inspiration.intention
+                          : [],
                   },
                 })}
           />
@@ -350,8 +358,17 @@ export function GuidedMonthRunner({ initial, ...props }: RunnerProps & { initial
   const { data, setText, setProject, flush } = useMonthAutosave(initial, { onXp });
   const store = useMemo<GuidedStore>(
     () => ({
-      values: { intention: data.intention, reflection: data.reflection, ...flatProjects(data.projects) },
-      set: (f, v) => (f.startsWith('projects.') ? setProject(f.slice(9) as ProjectArea, String(v ?? '')) : setText(f as 'intention' | 'reflection', String(v ?? ''))),
+      values: {
+        intention: data.intention,
+        reflection: data.reflection,
+        moonNew: data.moonNew,
+        moonWaxing: data.moonWaxing,
+        moonFull: data.moonFull,
+        moonWaning: data.moonWaning,
+        ...flatProjects(data.projects),
+      },
+      set: (f, v) =>
+        f.startsWith('projects.') ? setProject(f.slice(9) as ProjectArea, String(v ?? '')) : setText(f as 'intention' | 'reflection' | MoonField, String(v ?? '')),
       flush,
     }),
     [data, setText, setProject, flush],

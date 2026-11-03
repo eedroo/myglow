@@ -63,3 +63,12 @@ describe('buildFlow com a jornada (F19)', () => {
     expect(buildFlow('WEEK_PLAN', { ...all, unlocked }).some((s) => s.section === 'weekProjects')).toBe(false);
   });
 });
+
+describe('plano do mês: intenção por lua', () => {
+  it('as 4 fases (opcionais) vêm depois da intenção e antes das metas por área', () => {
+    const ids = buildFlow('MONTH_PLAN', all).map((s) => s.id);
+    expect(ids.slice(0, 7)).toEqual(['intro', 'periodReading', 'monthIntention', 'moonNew', 'moonWaxing', 'moonFull', 'moonWaning']);
+    expect(ids[7]).toBe('monthProjects-MAGIC');
+    expect(buildFlow('MONTH_PLAN', all).filter((s) => s.section === 'monthMoon').every((s) => s.optional)).toBe(true);
+  });
+});

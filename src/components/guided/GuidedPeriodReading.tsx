@@ -5,13 +5,15 @@ import { addDays, formatDayMonth, type DateISO } from '@/lib/dates';
 import { monthOf } from '@/lib/weeks';
 import { getCachedSkyEvents } from '@/lib/astro/skyCache';
 import { getMonthReading, getWeekReading } from '@/lib/ai/queries';
-import { areaInspiration, periodMoments, ritualsIn, SUGGESTION, type PeriodRitual, type SkyMoment } from '@/lib/guided/inspiration';
+import { areaInspiration, moonPhaseInspiration, periodMoments, ritualsIn, SUGGESTION, type MoonField, type PeriodRitual, type SkyMoment } from '@/lib/guided/inspiration';
 import type { AppLocale } from '@/i18n/locales';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 
 export interface PeriodInspiration {
   intention: string[];
   areas: Partial<Record<ProjectArea, string[]>>;
+  /** Mês: por fase da lua, a data e o signo (`label`) e o que inspira essa intenção (área, nota da leitura, rituais). */
+  moon?: Partial<Record<MoonField, { label: string; items: string[] }>>;
 }
 
 type Kind = 'WEEK' | 'MONTH' | 'YEAR';
@@ -73,6 +75,19 @@ export async function periodGuidance(i: {
     areas: Object.fromEntries(
       Object.entries(areas).map(([area, a]) => [area, [...(a!.note ? [a!.note] : []), ...a!.rituals.map(ritualLine)]]),
     ) as PeriodInspiration['areas'],
+    ...(i.kind === 'MONTH' && {
+      moon: Object.fromEntries(
+        Object.entries(moonPhaseInspiration(moments, periodRituals, personal?.focusAreas ?? [], i.to)).map(([field, p]) => {
+          const label = p!.moments.map((m) => `${formatDayMonth(m.date, i.locale)} · ${momentName(m)}`).join(' · ');
+          const area = p!.area ? tp(`areas.${p!.area}`) : null;
+          const items = [
+            ...(area ? [p!.note ? t('moonAreaNote', { area, note: p!.note }) : t('moonArea', { area })] : []),
+            ...p!.rituals.map(ritualLine),
+          ];
+          return [field, { label, items }];
+        }),
+      ) as PeriodInspiration['moon'],
+    }),
   };
 
   const node = (

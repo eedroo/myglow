@@ -376,6 +376,11 @@ model Month {
   month      Int
   intention  String?
   reflection String?
+  // Intenção por lua: o que começar (nova), fazer crescer (crescente), celebrar (cheia) e soltar (minguante)
+  moonNew    String?
+  moonWaxing String?
+  moonFull   String?
+  moonWaning String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 

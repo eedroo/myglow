@@ -250,7 +250,10 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       reflection: w.reflection,
       dayNotes: w.dayNotes.map((n) => ({ date: day(n.date), text: n.text })),
     })),
-    months: data.months.map((m) => ({ year: m.year, month: m.month, intention: m.intention, reflection: m.reflection })),
+    months: data.months.map((m) => ({
+      year: m.year, month: m.month, intention: m.intention, reflection: m.reflection,
+      moonNew: m.moonNew, moonWaxing: m.moonWaxing, moonFull: m.moonFull, moonWaning: m.moonWaning,
+    })),
     years: data.years.map((y) => ({ year: y.year, word: y.word, intention: y.intention, reflection: y.reflection })),
     projectIntentions: data.projectIntentions.map((pi) => ({
       period: pi.period,

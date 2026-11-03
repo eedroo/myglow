@@ -57,7 +57,14 @@ export async function patchMonth(year: number, month: number, patch: MonthPatch)
   const parsed = monthPatchSchema.safeParse(patch);
   if (!parsed.success) return { ok: false, error: 'planner.errors.invalid' };
   const p = parsed.data;
-  const fields = { intention: emptyToNull(p.intention), reflection: emptyToNull(p.reflection) };
+  const fields = {
+    intention: emptyToNull(p.intention),
+    reflection: emptyToNull(p.reflection),
+    moonNew: emptyToNull(p.moonNew),
+    moonWaxing: emptyToNull(p.moonWaxing),
+    moonFull: emptyToNull(p.moonFull),
+    moonWaning: emptyToNull(p.moonWaning),
+  };
 
   const row = await db.$transaction(async (tx) => {
     const m = await tx.month.upsert({

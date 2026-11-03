@@ -450,6 +450,25 @@
     }
   },
   "month": {
+    "moon": {
+      "title": "Moon intentions",
+      "moonNew": {
+        "label": "New Moon · begin",
+        "placeholder": "What I'll begin…"
+      },
+      "moonWaxing": {
+        "label": "Waxing · grow",
+        "placeholder": "What I'll grow…"
+      },
+      "moonFull": {
+        "label": "Full Moon · celebrate",
+        "placeholder": "What I want to celebrate…"
+      },
+      "moonWaning": {
+        "label": "Waning · let go",
+        "placeholder": "What I'll let go of…"
+      }
+    },
     "title": "Month",
     "nav": {
       "label": "Move between months",
@@ -1962,6 +1981,8 @@
   },
   "guided": {
     "inspo": {
+      "moonAreaNote": "This phase goes well with your {area} area: {note}",
+      "moonArea": "This phase goes well with your {area} area.",
       "title": "Inspiration",
       "fromReading": "From your reading: {text}",
       "ritualLine": "{date} · {title} ritual: {intention}",
@@ -1988,6 +2009,10 @@
       "continue": "Continue"
     },
     "done": {
+      "moonWaning": "Waning Moon",
+      "moonFull": "Full Moon",
+      "moonWaxing": "Waxing Moon",
+      "moonNew": "New Moon",
       "dailyWeight": "Today's weight",
       "intention": "Intention",
       "morningBanish": "Morning banishing",
@@ -2117,6 +2142,30 @@
       "thisIntention": "Your intention: \"{text}\""
     },
     "steps": {
+      "moonWaning": {
+        "title": "Waning Moon: what will you let go?",
+        "help": "As the moon wanes, what do you want to reduce, finish or release?",
+        "placeholder": "As the moon wanes I want to let go of…",
+        "phase": "Waning Moon"
+      },
+      "moonFull": {
+        "title": "Full Moon: what do you want to celebrate?",
+        "help": "The full moon lights things up. What do you want to see done, give thanks for or bring to light?",
+        "placeholder": "At the full moon I want to celebrate…",
+        "phase": "Full Moon"
+      },
+      "moonWaxing": {
+        "title": "Waxing Moon: what will you grow?",
+        "help": "As the moon grows, what needs action and small daily steps?",
+        "placeholder": "As the moon waxes I want to grow…",
+        "phase": "Waxing Moon"
+      },
+      "moonNew": {
+        "title": "New Moon: what will you begin?",
+        "help": "The new moon opens a cycle. One intention to plant this month.",
+        "placeholder": "At the new moon I want to begin…",
+        "phase": "New Moon"
+      },
       "dailyWeight": {"title": "Today's weight", "help": "Optional. Weigh yourself in the morning, before eating, so days compare fairly."},
       "periodReading": {"title": "Before you plan"},
       "reading": {

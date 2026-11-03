@@ -34,3 +34,8 @@
   flex: 1 1 auto;
   min-height: calc(var(--leading-lined) * 3);
 }
+
+/* Intenção por lua e metas por área na mesma coluna */
+.mg-month__cell {
+  gap: var(--space-4);
+}

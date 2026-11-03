@@ -72,3 +72,60 @@ export function areaInspiration(focusAreas: { area: ProjectArea; note: string }[
   for (const r of rituals) (out[r.area] ??= { note: null, rituals: [] }).rituals.push(r);
   return out;
 }
+
+// ─── Intenção por lua (plano do mês) ──────────────────────────────────────────────────────────────
+
+export type MoonField = 'moonNew' | 'moonWaxing' | 'moonFull' | 'moonWaning';
+
+/** Cada fase principal da lua e o campo da intenção que lhe corresponde. */
+export const MOON_FIELD: Partial<Record<MomentKind, MoonField>> = {
+  NEW_MOON: 'moonNew',
+  FIRST_QUARTER: 'moonWaxing',
+  FULL_MOON: 'moonFull',
+  LAST_QUARTER: 'moonWaning',
+};
+
+/**
+ * A área com que a energia do signo da lua mais combina (para sugerir onde pôr a intenção dessa fase).
+ * Fogo e Capricórnio puxam pelo trabalho; Gémeos, Sagitário e Aquário pela mente; Touro e Caranguejo pelo que é
+ * pessoal; Leão e Balança pelo prazer e pelos outros; Escorpião e Peixes pela magia; Virgem pela rotina do trabalho.
+ */
+export const SIGN_AREA: Record<ZodiacSign, ProjectArea> = {
+  ARIES: 'PROFESSIONAL', TAURUS: 'PERSONAL', GEMINI: 'STUDIES', CANCER: 'PERSONAL', LEO: 'LEISURE', VIRGO: 'PROFESSIONAL',
+  LIBRA: 'LEISURE', SCORPIO: 'MAGIC', SAGITTARIUS: 'STUDIES', CAPRICORN: 'PROFESSIONAL', AQUARIUS: 'STUDIES', PISCES: 'MAGIC',
+};
+
+export interface MoonPhaseInspiration {
+  /** As datas dessa fase no mês (pode haver duas luas cheias, por exemplo), com o signo. */
+  moments: SkyMoment[];
+  /** Área com que a energia da fase combina (pelo signo da primeira ocorrência). */
+  area: ProjectArea | null;
+  /** Nota da leitura pessoal para essa área, se houver. */
+  note: string | null;
+  /** Rituais do mês entre essa fase e a fase seguinte. */
+  rituals: PeriodRitual[];
+}
+
+/**
+ * Para cada fase principal da lua no mês: as datas, a área que combina, a nota da leitura para essa área e os rituais
+ * que caem nessa fase (da data da fase até à fase seguinte). Fases sem ocorrência no mês ficam de fora.
+ */
+export function moonPhaseInspiration(
+  moments: SkyMoment[],
+  rituals: PeriodRitual[],
+  focusAreas: { area: ProjectArea; note: string }[],
+  to: DateISO,
+): Partial<Record<MoonField, MoonPhaseInspiration>> {
+  const phases = moments.filter((m) => MOON_FIELD[m.kind]).sort((a, b) => compareDates(a.date, b.date));
+  const out: Partial<Record<MoonField, MoonPhaseInspiration>> = {};
+  phases.forEach((m, i) => {
+    const field = MOON_FIELD[m.kind]!;
+    const end = phases[i + 1]?.date ?? null;
+    const inWindow = (r: PeriodRitual) => compareDates(r.date, m.date) >= 0 && (end ? compareDates(r.date, end) < 0 : compareDates(r.date, to) <= 0);
+    const entry = (out[field] ??= { moments: [], area: m.sign ? SIGN_AREA[m.sign] : null, note: null, rituals: [] });
+    entry.moments.push(m);
+    entry.rituals.push(...rituals.filter(inWindow));
+  });
+  for (const e of Object.values(out)) e.note = focusAreas.find((f) => f.area === e.area)?.note ?? null;
+  return out;
+}

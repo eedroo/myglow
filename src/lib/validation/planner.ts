@@ -1,10 +1,12 @@
 import { ProjectArea } from '@prisma/client';
 import { z } from 'zod';
 
-const projects = z.array(z.object({ area: z.nativeEnum(ProjectArea), text: z.string().max(500) })).max(5);
+const projects = z.array(z.object({ area: z.nativeEnum(ProjectArea), text: z.string().max(1000) })).max(5);
+/** Intenção por lua (mês): nova, crescente, cheia e minguante. */
+const moon = z.string().max(1000);
 
 export const monthPatchSchema = z
-  .object({ intention: z.string().max(1000), reflection: z.string().max(6000), projects })
+  .object({ intention: z.string().max(1000), reflection: z.string().max(6000), projects, moonNew: moon, moonWaxing: moon, moonFull: moon, moonWaning: moon })
   .partial()
   .strict()
   .refine((p) => Object.keys(p).length > 0);

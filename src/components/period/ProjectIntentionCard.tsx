@@ -32,7 +32,7 @@ export function ProjectIntentionCard({ id, area, rows = 3, value, onChange, onBl
         id={id}
         className="mg-project__text"
         rows={rows}
-        maxLength={500}
+        maxLength={1000}
         value={value}
         placeholder={t('placeholder')}
         onChange={(e) => onChange(e.target.value)}

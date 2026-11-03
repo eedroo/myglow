@@ -169,6 +169,7 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Abrir sozinho:** na primeira abertura do dia abre a Manhã passo a passo (se estiver por fazer); a partir da hora do aviso da noite, a Noite. O Corpo nunca abre sozinho. Uma vez por fluxo e dia; ligado por defeito, desligável nas definições.
 - **Hoje em três partes:** Manhã, Corpo e Noite recolhidas; tocar abre por baixo, na mesma página. A leitura do dia fica dentro da Manhã ou, se a pessoa a deixou para a noite, dentro da Noite.
 - **Do Guia ao plano:** a leitura do Guia termina com o botão para planear a semana ou o mês seguinte.
+- **Intenção por lua (mês):** no plano do mês, depois da intenção e antes das metas por área, uma intenção para cada fase (Nova: começar; Crescente: fazer crescer; Cheia: celebrar; Minguante: soltar), com as datas e o signo de cada fase, a área com que a energia combina e os rituais dessa fase. Também na página do Mês. Metas por área com até 1000 caracteres.
 - **Abrir sozinho:** opção nas definições, desligada por defeito.
 - **Disponibilidade:** `isSectionAvailable` decide que passos aparecem (consentimento, premium e, na Fase 19, desbloqueio).
 - **Corpo:** a barra do mundo do corpo tem 4 itens (Treinos · Sessões · Dia · Corpo); os exercícios abrem-se a partir de Treinos.

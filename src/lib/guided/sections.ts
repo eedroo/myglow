@@ -6,7 +6,7 @@ export type SectionKey =
   | 'reading' | 'nightReading' | 'intention' | 'morningBanish' | 'morningRitual' | 'sleep' | 'wakeMood'
   | 'body' | 'dailyWeight' | 'nightBanish' | 'nightRitual' | 'gratitude' | 'mood' | 'reflection' | 'summary'
   | 'weekIntention' | 'weekProjects' | 'weekWeight' | 'weekReflection'
-  | 'monthIntention' | 'monthProjects' | 'monthReflection'
+  | 'monthIntention' | 'monthMoon' | 'monthProjects' | 'monthReflection'
   | 'yearWord' | 'yearIntention' | 'yearProjects' | 'yearReflection';
 
 export interface SectionContext {

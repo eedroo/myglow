@@ -14,13 +14,25 @@ export interface MonthPlanData {
   intention: string;
   reflection: string;
   projects: Projects;
+  /** Intenção por lua (nova, crescente, cheia, minguante). */
+  moonNew: string;
+  moonWaxing: string;
+  moonFull: string;
+  moonWaning: string;
   updatedAt: string | null;
 }
+
+export const MOON_FIELDS = ['moonNew', 'moonWaxing', 'moonFull', 'moonWaning'] as const;
+export type MoonField = (typeof MOON_FIELDS)[number];
 
 export interface MonthPatch {
   intention?: string;
   reflection?: string;
   projects?: ProjectsPatch;
+  moonNew?: string;
+  moonWaxing?: string;
+  moonFull?: string;
+  moonWaning?: string;
 }
 
 export interface YearPlanData {

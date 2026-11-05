@@ -1,7 +1,7 @@
 import type { FeatureRollout } from '@prisma/client';
 
 /** Funcionalidades premium (F12). Sem linha em `FeatureFlag`, vale o `defaultRollout` daqui. */
-export type FeatureKey = 'guide' | 'body-pro';
+export type FeatureKey = 'guide' | 'body-pro' | 'oculto';
 
 export interface FeatureDef {
   key: FeatureKey;
@@ -12,6 +12,8 @@ export interface FeatureDef {
 export const FEATURES: Record<FeatureKey, FeatureDef> = {
   guide: { key: 'guide', defaultRollout: 'PREMIUM', phase: 14 },
   'body-pro': { key: 'body-pro', defaultRollout: 'PREMIUM', phase: 16 },
+  // Grimório Oculto: escondido para todos; o admin liberta pessoa a pessoa (excepção por utilizador).
+  oculto: { key: 'oculto', defaultRollout: 'HIDDEN', phase: 20 },
 };
 
 export const FEATURE_KEYS = Object.keys(FEATURES) as FeatureKey[];

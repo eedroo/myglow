@@ -144,6 +144,9 @@ export function SlidePlayer({
     setBusy(true);
     try {
       await onBeforeAdvance?.();
+    } catch {
+      // Gravação recusada (ex.: o diário do treino): fica no mesmo slide, com o erro mostrado pelo próprio passo.
+      return;
     } finally {
       setBusy(false);
     }

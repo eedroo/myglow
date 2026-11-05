@@ -2470,6 +2470,103 @@
       "close": "Agora não"
     }
   },
+  "oculto": {
+    "eyebrow": "Grimório Oculto",
+    "doorTitle": "Grimório Oculto",
+    "doorHint": "O treino do caos. Só para quem foi chamado.",
+    "todayTitle": "Grimório Oculto",
+    "todayHint": "Sessão {day} de 5 · {minutes} min · {title}",
+    "where": "Fase {phase} · {phaseTitle} · Semana {week}",
+    "attempt": "tentativa {n}",
+    "startSession": "Começar a sessão {day} · {title} · {minutes} min",
+    "comeBack": "Sessão de hoje feita. A próxima fica para amanhã.",
+    "waitingNext": "Semana concluída. A próxima fase está a ser preparada e aparece aqui assim que estiver pronta.",
+    "reviewEarly": "Já passou uma semana. Avaliar agora com o que foi feito",
+    "aboutWeek": "Sobre esta semana",
+    "objective": "Objectivo:",
+    "sessions": "Sessões",
+    "minutes": "{n} min",
+    "done": "feita",
+    "reviewDay": "Revisão: o programa avalia a semana pelo seu diário",
+    "restDay": "Descanso",
+    "challenges": "Desafios do dia a dia",
+    "path": "O caminho",
+    "phaseWeeks": "Semanas {from} a {to}",
+    "soon": "Esta semana ainda está a ser escrita.",
+    "soonShort": "em breve",
+    "session": {
+      "label": "Sessão do Grimório Oculto",
+      "close": "Sair da sessão",
+      "eyebrow": "Semana {week} · {title} · Sessão {day}",
+      "prep": "Preparação",
+      "how": "Como fazer",
+      "main": "Exercício principal · {minutes} min",
+      "observe": "Observação",
+      "observeHelp": "Fica alguns minutos só a observar o corpo e a mente, sem exercício.",
+      "diary": "Diário do treino",
+      "diaryHelp": "O programa usa o que escreves aqui para decidir se a semana está consolidada.",
+      "fields": {
+        "minutes": "Quanto tempo conseguiste de facto (minutos, alvo {goal})",
+        "concentration": "Concentração: {n} de 10",
+        "difficulty": "Principal dificuldade",
+        "difficultyPlaceholder": "O impulso ou a distração que mais apareceu…",
+        "notes": "Observações",
+        "notesPlaceholder": "O que percebeste, o que mudou…"
+      },
+      "start": "Começar",
+      "pause": "Pausar",
+      "resume": "Continuar",
+      "finish": "Terminar",
+      "timerDone": "Feito",
+      "remaining": "Tempo restante",
+      "continue": "Continuar",
+      "backStep": "Voltar",
+      "skip": "Saltar",
+      "doneTitle": "Sessão registada",
+      "doneText": "Volta amanhã para a próxima. Cada sessão conta.",
+      "back": "Voltar ao Grimório Oculto",
+      "errors": {
+        "minutes": "Escreve os minutos em número, por exemplo 7."
+      }
+    },
+    "review": {
+      "title": "Revisão da semana {week}",
+      "intro": "O programa lê o teu diário do treino desta semana e diz se estás pronto para avançar ou se vale a pena repetir.",
+      "run": "Avaliar a semana",
+      "levels": {
+        "beginner": "Em aprendizagem",
+        "consistent": "Consistente",
+        "consolidated": "Consolidado"
+      },
+      "advanceTitle": "Pronto para avançar",
+      "repeatTitle": "Vale a pena repetir esta semana",
+      "metrics": {
+        "sessions": "{n} de 5 sessões",
+        "best": "Melhor sessão: {best} de {goal} min",
+        "focus": "Concentração média: {avg} de 10",
+        "diary": "{n} registos com texto no diário"
+      },
+      "reasons": {
+        "sessions": "Faltaram sessões: o mínimo é 4 de 5.",
+        "goal": "O tempo ainda não chegou perto do alvo da semana.",
+        "diary": "O diário ficou curto: escreve a dificuldade ou as observações em pelo menos 4 sessões.",
+        "focus": "A concentração ficou baixa e não melhorou ao longo da semana."
+      },
+      "repeatText": "Repetir não é voltar atrás. É consolidar a base antes do próximo passo. Os registos anteriores ficam guardados.",
+      "advanceText": "A semana {week} está aberta.",
+      "waitingText": "Concluíste a última semana disponível. A próxima fase aparece aqui em breve.",
+      "repeatCta": "Repetir a semana",
+      "advanceCta": "Começar a semana {week}",
+      "ok": "Ok"
+    },
+    "errors": {
+      "invalid": "Algo no diário não está certo. Confirma os campos.",
+      "unavailable": "O Grimório Oculto não está disponível.",
+      "notToday": "Esta sessão não está disponível agora. Uma sessão por dia, por ordem.",
+      "reviewNotReady": "A avaliação abre com as 5 sessões feitas ou depois de uma semana.",
+      "offline": "Sem ligação. Tenta de novo."
+    }
+  },
   "fitness": {
     "muscles": {
       "abdominals": "Abdominais",

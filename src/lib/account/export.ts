@@ -1,5 +1,5 @@
 import type {
-  BodyGoal, BodyWeightEntry, GuidedRun, JourneyUnlock,
+  BodyGoal, BodyWeightEntry, GuidedRun, JourneyUnlock, OcultoProgress, OcultoReview, OcultoSession,
   BirthProfile, CourseProgress, DailyEntry, Exercise, FitnessPrefs, FitnessProgram, FitnessSession, FitnessWorkout, GuideReport, LessonProgress, Month, NotificationLog, NotificationPrefs,
   ProjectIntention, RecapView, SessionSet, User, UserActiveDay, UserAiContent, Week, WeekDayNote, WorkoutItem, XpEvent, Year,
 } from '@prisma/client';
@@ -57,6 +57,8 @@ export interface ExportSource {
   guidedRuns: GuidedRun[];
   /** F19: desbloqueios da jornada. */
   journeyUnlocks: JourneyUnlock[];
+  /** Grimório Oculto: progresso, diário do treino e avaliações (opcional: só quem o tem). */
+  oculto?: { progress: OcultoProgress | null; sessions: OcultoSession[]; reviews: OcultoReview[] };
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -118,6 +120,14 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
     blocks: data.blocks.map((b) => ({ name: b.name, createdAt: iso(b.createdAt) })),
     guidedRuns: data.guidedRuns.map((g) => ({ flow: g.flow, periodKey: g.periodKey, startedAt: iso(g.startedAt), completedAt: iso(g.completedAt) })),
     journeyUnlocks: data.journeyUnlocks.map((j) => ({ unlockId: j.unlockId, unlockedAt: iso(j.unlockedAt), ceremonySeenAt: iso(j.ceremonySeenAt) })),
+    oculto: data.oculto && {
+      progress: data.oculto.progress && { week: data.oculto.progress.week, attempt: data.oculto.progress.attempt, startedAt: iso(data.oculto.progress.startedAt) },
+      sessions: data.oculto.sessions.map((s) => ({
+        week: s.week, attempt: s.attempt, day: s.day, date: day(s.date), plannedSec: s.plannedSec, actualSec: s.actualSec, concentration: s.concentration,
+        difficulty: s.difficulty, notes: s.notes, experience: s.experience, interpretation: s.interpretation, evidence: s.evidence, dream: s.dream,
+      })),
+      reviews: data.oculto.reviews.map((r) => ({ week: r.week, attempt: r.attempt, result: r.result, reasons: r.reasons, createdAt: iso(r.createdAt) })),
+    },
     fitness: {
       prefs: data.fitness.prefs && {
         defaultRestSec: data.fitness.prefs.defaultRestSec,

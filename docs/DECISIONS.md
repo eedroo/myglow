@@ -187,6 +187,15 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Desbloquear tudo:** disponível em `/journey` e nas definições → Diário.
 - **`FirstStepsCard`** substituído pelo `JourneyCard`.
 
+## Grimório Oculto
+- **Acesso:** recurso `oculto`, escondido para todos (incluindo premium); o admin liberta pessoa a pessoa (excepção por utilizador). Para os outros não existe: sem porta no Grimório e `/oculto` dá 404.
+- **Conteúdo:** "Treino do Caos", 24 semanas em 6 fases baseadas nos métodos de Peter J. Carroll (Liber Null & Psychonaut), escrito por nós (não é transcrição dos livros), em `content/oculto`. **Excepção à regra das 3 línguas:** o conteúdo do treino é só pt-BR; a interface (`messages/*.json`, namespace `oculto`) existe nas 3 línguas.
+- **Semana:** 5 sessões (uma por dia, por ordem, nos dias que a pessoa quiser), revisão e descanso. Sessão passo a passo: preparação, exercício principal com timer, observação, diário do treino.
+- **Timer:** a esfera de luz da própria pessoa; conta pelo relógio (instante do fim), mantém o ecrã aceso e toca um sino no fim.
+- **Avaliação automática** pelo diário do treino (`evaluateWeek`): pelo menos 4 sessões, a melhor a 80 % do tempo alvo, 4 registos com texto e concentração que não fique baixa sem melhorar. Senão, repete a semana (nova tentativa, os registos ficam).
+- **Segurança:** sem hiperventilação, retenção forçada, privação de sono ou substâncias.
+- **No Hoje:** só para quem tem o recurso, a sessão do dia aparece dentro da Manhã.
+
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.
 - Componente `MagicIcon` + registo `src/lib/icons.ts` com `ready` e fallback lucide. Inventário em `myglow/icones.md`.

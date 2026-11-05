@@ -1,0 +1,18 @@
+{
+  "id": "treino-do-caos",
+  "title": "Treino do Caos",
+  "subtitle": "24 semanas de disciplina, consciência e prática, baseadas nos métodos de Peter J. Carroll (Liber Null & Psychonaut).",
+  "phases": [
+    { "phase": 1, "title": "Fundamentos", "source": "Liber MMM", "goal": "Disciplina corporal e domínio da atenção.", "weeks": [1, 2, 3, 4] },
+    { "phase": 2, "title": "Controle da mente", "source": "Liber MMM", "goal": "Concentração, imaginação e consciência dos sonhos.", "weeks": [5, 6, 7, 8] },
+    { "phase": 3, "title": "Operações mágicas", "source": "Liber LUX", "goal": "Gnose, simbolismo, divinação e sigilos.", "weeks": [9, 10, 11, 12] },
+    { "phase": 4, "title": "Transformação", "source": "Liber NOX", "goal": "Identidade, crenças e o Alfabeto do Desejo.", "weeks": [13, 14, 15, 16] },
+    { "phase": 5, "title": "Modelos e cosmologia", "source": "Liber AOM", "goal": "Paradigmas pessoais e o símbolo do caos.", "weeks": [17, 18, 19, 20] },
+    { "phase": 6, "title": "Psychonaut", "source": "Psychonaut", "goal": "Integração e experimentação autônoma.", "weeks": [21, 22, 23, 24] }
+  ],
+  "care": [
+    "Nada de hiperventilação, retenção forçada da respiração, privação de sono ou substâncias. Nenhum exercício deste programa precisa disso.",
+    "Se sentir tontura, dor ou mal-estar, pare e volte a respirar normalmente. Desconforto não é sinal de progresso.",
+    "Isto é um treino de atenção e de autoconhecimento. Não substitui acompanhamento médico ou psicológico."
+  ]
+}

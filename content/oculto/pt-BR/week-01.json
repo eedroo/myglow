@@ -1,0 +1,46 @@
+{
+  "week": 1,
+  "phase": 1,
+  "title": "Imobilidade",
+  "subtitle": "Ficar parado por escolha",
+  "competence": "Disciplina e autocontrole",
+  "intro": [
+    "O primeiro exercício parece simples e é revelador: ficar imóvel de propósito, observando os impulsos que normalmente fazem você se mexer sem perceber.",
+    "Coçar o rosto, mudar as pernas de posição, mexer os dedos, ajeitar as costas, abrir os olhos, pegar o celular. Em poucos minutos sentado, o corpo pede dezenas de pequenos movimentos.",
+    "A tarefa desta semana não é aguentar dor nem forçar o corpo. É aprender a escolher quando agir, em vez de responder a cada impulso no instante em que ele aparece."
+  ],
+  "objective": "Reconhecer os impulsos do corpo sem reagir automaticamente e chegar a 15 minutos de imobilidade confortável.",
+  "howTo": {
+    "prep": [
+      "Escolha um lugar tranquilo onde ninguém vai interromper.",
+      "Sente numa cadeira ou numa almofada, com a coluna reta sem rigidez.",
+      "Mãos sobre as coxas, pés apoiados ou pernas cruzadas com conforto.",
+      "Olhos fechados ou entreabertos, como preferir.",
+      "Celular no modo silencioso, longe da mão."
+    ],
+    "steps": [
+      "Quando o timer começar, fique imóvel.",
+      "Observe as sensações do corpo, uma de cada vez.",
+      "Quando vier a vontade de mexer, reconheça o impulso: só perceba que ele está ali.",
+      "Não reaja logo. Deixe o impulso passar, se for possível.",
+      "Não precisa brigar com os pensamentos nesta semana. A tarefa é só o corpo."
+    ],
+    "care": [
+      "Se houver dor, dormência forte ou desconforto real, ajuste a posição. Imobilidade não é sofrimento.",
+      "Mexeu? Tudo bem. Anote no diário e volte à imobilidade."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Conhecer os impulsos", "mainMinutes": 5, "observeMinutes": 5, "focus": "Perceber quantos impulsos aparecem em 5 minutos.", "cues": [] },
+    { "day": 2, "title": "Movimentos automáticos", "mainMinutes": 7, "observeMinutes": 5, "focus": "Notar quais movimentos você faria sem perceber.", "cues": [] },
+    { "day": 3, "title": "Adiar a reação", "mainMinutes": 10, "observeMinutes": 5, "focus": "Quando vier um impulso, espere três respirações antes de decidir.", "cues": [{ "at": 0.5, "text": "Metade do caminho. Continue imóvel." }] },
+    { "day": 4, "title": "Sustentar a postura", "mainMinutes": 12, "observeMinutes": 5, "focus": "Manter a postura do início ao fim, sem ajustes desnecessários.", "cues": [{ "at": 0.5, "text": "Metade do caminho. Note onde o corpo pede movimento." }] },
+    { "day": 5, "title": "Consolidar", "mainMinutes": 15, "observeMinutes": 5, "focus": "Quinze minutos de imobilidade confortável.", "cues": [{ "at": 0.33, "text": "Um terço. O corpo está mais quieto?" }, { "at": 0.66, "text": "Dois terços. Só mais um pouco." }] }
+  ],
+  "challenges": [
+    { "title": "Movimentos no dia a dia", "text": "Durante o dia, perceba quantas vezes você se mexe sem necessidade. Não precisa impedir. Só reconheça." },
+    { "title": "Escolha ou reação?", "text": "Quando sentir vontade de pegar o celular, mudar de posição ou largar uma tarefa, pare um segundo e pergunte: estou fazendo isto porque escolhi ou porque reagi?" },
+    { "title": "Sem julgamento", "text": "Não classifique a sessão como boa ou ruim. Se mexeu, anote. Se distraiu, anote. O objetivo é conhecer como você funciona hoje." }
+  ],
+  "next": { "title": "Semana 2 · Respiração", "text": "A seguir: usar a respiração como âncora da atenção." }
+}

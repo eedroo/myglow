@@ -241,6 +241,10 @@ model User {
   journeyMappedAt      DateTime? // utilizadores anteriores à F19, mapeados pelo histórico na migração
   announcementSeen     String[]        @default([]) // anúncios em slides já vistos (ex.: 'v2')
   journeyUnlocks       JourneyUnlock[]
+  // Grimório Oculto: treino de magia do caos (só com o recurso 'oculto', liberado pelo admin)
+  ocultoProgress       OcultoProgress?
+  ocultoSessions       OcultoSession[]
+  ocultoReviews        OcultoReview[]
 }
 
 enum FeedbackKind {
@@ -893,4 +897,58 @@ model JourneyUnlock {
 model Announcement {
   key         String   @id
   publishedAt DateTime @default(now())
+}
+
+// Grimório Oculto: treino de magia do caos em 24 semanas (conteúdo em content/oculto). Só para quem tem o recurso
+// 'oculto' (liberado pelo admin, pessoa a pessoa).
+enum OcultoReviewResult {
+  ADVANCE
+  REPEAT
+}
+
+model OcultoProgress {
+  userId        String   @id
+  week          Int      @default(1)
+  attempt       Int      @default(1) // 2, 3… quando a semana se repete
+  weekStartedAt DateTime @default(now())
+  startedAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Uma sessão do treino, gravada no fim (diário do treino).
+model OcultoSession {
+  id             String   @id @default(cuid())
+  userId         String
+  week           Int
+  attempt        Int
+  day            Int // 1–5
+  date           DateTime @db.Date // dia local
+  plannedSec     Int // tempo pedido no exercício principal
+  actualSec      Int // tempo que a pessoa diz ter conseguido
+  concentration  Int // 1–10
+  difficulty     String?
+  notes          String?
+  experience     String? // a partir da Fase III: o que aconteceu
+  interpretation String? // o que acredito que aconteceu
+  evidence       String? // o que consigo verificar
+  dream          String? // semana dos sonhos
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, week, attempt, day])
+  @@index([userId, date])
+}
+
+// Avaliação automática de uma semana (pelo diário do treino).
+model OcultoReview {
+  id        String             @id @default(cuid())
+  userId    String
+  week      Int
+  attempt   Int
+  result    OcultoReviewResult
+  reasons   String[]
+  createdAt DateTime           @default(now())
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, week, attempt])
 }

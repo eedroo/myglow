@@ -23,13 +23,17 @@ describe('direitos', () => {
   it('buildEntitlements: sem linha de FeatureFlag usa o defaultRollout (PREMIUM)', () => {
     expect(buildEntitlements({ plan: 'FREE', planExpiresAt: null }, {}, {}, now)).toEqual({
       plan: 'FREE',
-      features: { guide: false, 'body-pro': false },
+      features: { guide: false, 'body-pro': false, oculto: false },
     });
     expect(buildEntitlements({ plan: 'PREMIUM', planExpiresAt: null }, {}, {}, now).features.guide).toBe(true);
+    // Grimório Oculto: escondido mesmo para premium; só com a excepção do admin.
+    expect(buildEntitlements({ plan: 'PREMIUM', planExpiresAt: null }, {}, {}, now).features.oculto).toBe(false);
+    expect(buildEntitlements({ plan: 'FREE', planExpiresAt: null }, {}, { oculto: true }, now).features.oculto).toBe(true);
     // Excepção por pessoa com a funcionalidade escondida para todos.
     expect(buildEntitlements({ plan: 'FREE', planExpiresAt: null }, { guide: 'HIDDEN' }, { guide: true }, now).features).toEqual({
       guide: true,
       'body-pro': false,
+      oculto: false,
     });
     // Premium expirado conta como grátis.
     expect(buildEntitlements({ plan: 'PREMIUM', planExpiresAt: yesterday }, {}, {}, now).plan).toBe('FREE');

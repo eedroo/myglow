@@ -2470,6 +2470,103 @@
       "close": "Not now"
     }
   },
+  "oculto": {
+    "eyebrow": "Hidden Grimoire",
+    "doorTitle": "Hidden Grimoire",
+    "doorHint": "The chaos training. Only for those who were called.",
+    "todayTitle": "Hidden Grimoire",
+    "todayHint": "Session {day} of 5 · {minutes} min · {title}",
+    "where": "Phase {phase} · {phaseTitle} · Week {week}",
+    "attempt": "attempt {n}",
+    "startSession": "Start session {day} · {title} · {minutes} min",
+    "comeBack": "Today's session is done. The next one is tomorrow.",
+    "waitingNext": "Week complete. The next phase is being prepared and will show up here when it's ready.",
+    "reviewEarly": "A week has passed. Review now with what you did",
+    "aboutWeek": "About this week",
+    "objective": "Goal:",
+    "sessions": "Sessions",
+    "minutes": "{n} min",
+    "done": "done",
+    "reviewDay": "Review: the program assesses the week from your journal",
+    "restDay": "Rest",
+    "challenges": "Everyday challenges",
+    "path": "The path",
+    "phaseWeeks": "Weeks {from} to {to}",
+    "soon": "This week is still being written.",
+    "soonShort": "coming soon",
+    "session": {
+      "label": "Hidden Grimoire session",
+      "close": "Leave the session",
+      "eyebrow": "Week {week} · {title} · Session {day}",
+      "prep": "Preparation",
+      "how": "How to do it",
+      "main": "Main exercise · {minutes} min",
+      "observe": "Observation",
+      "observeHelp": "Spend a few minutes just observing your body and mind, with no exercise.",
+      "diary": "Training journal",
+      "diaryHelp": "The program uses what you write here to decide whether the week is consolidated.",
+      "fields": {
+        "minutes": "How long you actually managed (minutes, goal {goal})",
+        "concentration": "Focus: {n} out of 10",
+        "difficulty": "Main difficulty",
+        "difficultyPlaceholder": "The urge or distraction that showed up most…",
+        "notes": "Notes",
+        "notesPlaceholder": "What you noticed, what changed…"
+      },
+      "start": "Start",
+      "pause": "Pause",
+      "resume": "Resume",
+      "finish": "Finish",
+      "timerDone": "Done",
+      "remaining": "Time left",
+      "continue": "Continue",
+      "backStep": "Back",
+      "skip": "Skip",
+      "doneTitle": "Session logged",
+      "doneText": "Come back tomorrow for the next one. Every session counts.",
+      "back": "Back to the Hidden Grimoire",
+      "errors": {
+        "minutes": "Write the minutes as a number, for example 7."
+      }
+    },
+    "review": {
+      "title": "Week {week} review",
+      "intro": "The program reads this week's training journal and tells you whether you're ready to move on or should repeat it.",
+      "run": "Review the week",
+      "levels": {
+        "beginner": "Learning",
+        "consistent": "Consistent",
+        "consolidated": "Consolidated"
+      },
+      "advanceTitle": "Ready to move on",
+      "repeatTitle": "Worth repeating this week",
+      "metrics": {
+        "sessions": "{n} of 5 sessions",
+        "best": "Best session: {best} of {goal} min",
+        "focus": "Average focus: {avg} out of 10",
+        "diary": "{n} journal entries with text"
+      },
+      "reasons": {
+        "sessions": "Some sessions are missing: at least 4 of 5.",
+        "goal": "Your time isn't close to this week's goal yet.",
+        "diary": "The journal is thin: write the difficulty or notes in at least 4 sessions.",
+        "focus": "Focus stayed low and didn't improve over the week."
+      },
+      "repeatText": "Repeating isn't going backwards. It's building the base before the next step. Your earlier entries are kept.",
+      "advanceText": "Week {week} is open.",
+      "waitingText": "You finished the last available week. The next phase will show up here soon.",
+      "repeatCta": "Repeat the week",
+      "advanceCta": "Start week {week}",
+      "ok": "OK"
+    },
+    "errors": {
+      "invalid": "Something in the journal isn't right. Check the fields.",
+      "unavailable": "The Hidden Grimoire isn't available.",
+      "notToday": "This session isn't available right now. One session a day, in order.",
+      "reviewNotReady": "The review opens once all 5 sessions are done or after a week.",
+      "offline": "No connection. Try again."
+    }
+  },
   "fitness": {
     "muscles": {
       "abdominals": "Abs",

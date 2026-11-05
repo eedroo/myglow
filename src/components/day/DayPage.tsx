@@ -31,6 +31,7 @@ import { dayGuided } from '@/lib/guided/server';
 import { GuidedStartCard } from '@/components/guided/GuidedStartCard';
 import { getJourney } from '@/lib/journey/server';
 import { JourneyCard } from '@/components/journey-path/JourneyCard';
+import { OcultoTodayItem } from '@/components/oculto/OcultoTodayItem';
 
 /** Página de um dia do diário (hoje ou passado). */
 export async function DayPage({ date }: { date: DateISO }) {
@@ -129,6 +130,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         planNote={planNote?.text.trim() ? <DayPlanNote text={planNote.text.trim()} weekHref={weekChip.href} /> : undefined}
         guidedBase={guided.base}
         reading={{ node: readingNode, in: readingChoice === 'NIGHT' ? 'night' : 'morning' }}
+        morningExtra={isToday ? <OcultoTodayItem userId={userId} /> : undefined}
         unlocked={[...journey.sections]}
         currentPeriod={isToday ? getDayPeriod(new Date(), user.timezone) : null}
         suggestions={

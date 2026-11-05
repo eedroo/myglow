@@ -1,0 +1,43 @@
+{
+  "week": 2,
+  "phase": 1,
+  "title": "Respiração",
+  "subtitle": "A respiração como âncora",
+  "competence": "Atenção sustentada",
+  "intro": [
+    "Na primeira semana você treinou o controle dos movimentos. Agora a atenção vai para algo que acontece o tempo todo, sem precisar de você: a respiração.",
+    "A respiração vira o objeto da concentração. O desafio é observá-la sem controlar o ritmo, sem acelerar nem desacelerar de propósito, sem esperar nada da experiência e sem seguir os pensamentos que aparecem.",
+    "Não há competição para respirar mais devagar nem retenções longas. A respiração fica natural e confortável. O que se treina é a estabilidade da atenção."
+  ],
+  "objective": "Acompanhar a respiração de forma contínua até 15 minutos, reconhecendo as distrações e voltando a ela sem frustração.",
+  "howTo": {
+    "prep": [
+      "A mesma postura da semana 1: estável e confortável.",
+      "Alguns segundos de imobilidade antes de começar.",
+      "Deixe a respiração encontrar o próprio ritmo."
+    ],
+    "steps": [
+      "Sinta o ar entrando e saindo.",
+      "Perceba onde a respiração se mostra mais: narinas, peito ou abdômen.",
+      "Quando a mente se distrair, perceba que distraiu e volte para a respiração.",
+      "Voltar é o exercício. Cada retorno conta."
+    ],
+    "care": [
+      "Não respire mais fundo do que o natural e não segure o ar.",
+      "Se sentir tontura, abra os olhos e respire normalmente."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Reconhecimento", "mainMinutes": 5, "observeMinutes": 5, "focus": "Identificar o início e o fim de cada ciclo, sem modificar a respiração.", "cues": [] },
+    { "day": 2, "title": "Continuidade", "mainMinutes": 7, "observeMinutes": 5, "focus": "Acompanhar inspiração e expiração e perceber as pequenas pausas naturais.", "cues": [] },
+    { "day": 3, "title": "Um só ponto", "mainMinutes": 10, "observeMinutes": 5, "focus": "Escolher um único ponto (narinas, peito ou abdômen) e ficar nele.", "cues": [{ "at": 0.5, "text": "Ainda no mesmo ponto?" }] },
+    { "day": 4, "title": "Observar sem interferir", "mainMinutes": 12, "observeMinutes": 5, "focus": "Deixar a respiração acontecer sozinha. Observar não é controlar.", "cues": [{ "at": 0.5, "text": "Você está observando ou controlando?" }] },
+    { "day": 5, "title": "Concentração sustentada", "mainMinutes": 15, "observeMinutes": 5, "focus": "Quinze minutos com a respiração, voltando sempre que precisar.", "cues": [{ "at": 0.33, "text": "Um terço. Volte ao ar." }, { "at": 0.66, "text": "Dois terços. Mais um pouco." }] }
+  ],
+  "challenges": [
+    { "title": "Distração no dia a dia", "text": "Numa tarefa comum, perceba quando a atenção escapa e traga-a de volta de propósito." },
+    { "title": "O corpo que respira", "text": "Perceba como o corpo acompanha a respiração: abdômen, peito, a passagem do ar nas narinas." },
+    { "title": "Emoção e respiração", "text": "Observe se o seu estado emocional parece acompanhar mudanças naturais na respiração, sem tentar provocá-las." }
+  ],
+  "next": { "title": "Semana 3 · Não-pensamento", "text": "A seguir: deixar de ser levado automaticamente pelos pensamentos." }
+}

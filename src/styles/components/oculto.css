@@ -1,0 +1,287 @@
+/* Grimório Oculto: página, sessão passo a passo, avaliação, porta no Grimório e item no Hoje. Sempre noturno. */
+
+.mg-oculto,
+.mg-oculto-player {
+  --text-primary: var(--oculto-ink);
+  --text-secondary: var(--oculto-ink-soft);
+  --text-muted: var(--oculto-ink-soft);
+  --guided-glow: var(--oculto-glow);
+}
+
+.mg-oculto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--oculto-bg);
+  color: var(--oculto-ink);
+  box-shadow: var(--shadow-card);
+}
+
+.mg-oculto__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+  filter: drop-shadow(0 0 18px var(--oculto-glow));
+}
+
+.mg-oculto__eyebrow {
+  margin: 0;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--oculto-spark);
+}
+
+.mg-oculto__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+}
+
+.mg-oculto__subtitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-regular);
+}
+
+.mg-oculto__text,
+.mg-oculto__care p {
+  margin: 0;
+  line-height: var(--leading-normal);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto__error {
+  margin: 0;
+  color: var(--danger);
+}
+
+.mg-oculto__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--oculto-line);
+  border-radius: var(--radius-md);
+}
+
+.mg-oculto__cta {
+  margin-top: var(--space-2);
+}
+
+.mg-oculto__more summary {
+  cursor: pointer;
+  color: var(--oculto-ink-soft);
+  font-size: var(--text-sm);
+}
+
+.mg-oculto__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-4);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto__sessions,
+.mg-oculto__phases {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-oculto__session,
+.mg-oculto__phase {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.mg-oculto__mark {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: var(--border-width) solid var(--oculto-line);
+  border-radius: 50%;
+  font-size: var(--text-xs);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto__session--done .mg-oculto__mark {
+  border-color: var(--oculto-spark);
+  background: var(--oculto-spark);
+  color: var(--oculto-ink);
+}
+
+.mg-oculto__session--next .mg-oculto__mark,
+.mg-oculto__phase--current .mg-oculto__mark {
+  border-color: var(--oculto-spark);
+  color: var(--oculto-spark);
+  box-shadow: 0 0 12px var(--oculto-glow);
+}
+
+.mg-oculto__session--rest,
+.mg-oculto__phase--locked {
+  opacity: 0.6;
+}
+
+.mg-oculto__session-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.mg-oculto__meta {
+  font-size: var(--text-xs);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto__care {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+/* Sessão passo a passo */
+.mg-oculto-player {
+  background: var(--oculto-bg);
+  color: var(--oculto-ink);
+}
+
+.mg-oculto-step__label {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--oculto-spark);
+}
+
+.mg-oculto-step__list,
+.mg-oculto-step__care {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-5);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto-step__care {
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-6);
+  border: var(--border-width) solid var(--oculto-line);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+}
+
+.mg-oculto-step--timer {
+  align-items: center;
+  text-align: center;
+}
+
+.mg-oculto-step__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto-step__range {
+  width: 100%;
+  accent-color: var(--oculto-spark);
+}
+
+.mg-oculto-step--done {
+  align-items: center;
+  text-align: center;
+}
+
+.mg-oculto-step__orb {
+  width: 120px;
+  height: 120px;
+  filter: drop-shadow(0 0 28px var(--oculto-glow));
+}
+
+/* Avaliação */
+.mg-oculto-review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-oculto-review__level {
+  margin: 0;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--oculto-spark);
+}
+
+.mg-oculto-review__metrics,
+.mg-oculto-review__reasons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding-left: var(--space-4);
+  color: var(--oculto-ink-soft);
+}
+
+/* Porta no Grimório e item no Hoje */
+.mg-oculto-door,
+.mg-oculto-today {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--oculto-line);
+  border-radius: var(--radius-lg);
+  background: var(--oculto-bg);
+  color: var(--oculto-ink);
+  text-decoration: none;
+  box-shadow: var(--shadow-card);
+}
+
+.mg-oculto-today {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.mg-oculto-door:focus-visible,
+.mg-oculto-today:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-oculto-door__text,
+.mg-oculto-today__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mg-oculto-door__title,
+.mg-oculto-today__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.mg-oculto-door__hint,
+.mg-oculto-today__hint {
+  font-size: var(--text-sm);
+  color: var(--oculto-ink-soft);
+}

@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/shell/PageHeader';
 import { GrimoireMap } from '@/components/grimoire/GrimoireMap';
 import { ComingSoonGrimoire } from '@/components/grimoire/ComingSoonGrimoire';
 import { contentPrefsFor, getGrimoireState, type GrimoireNotice } from '@/lib/grimoire/queries';
+import { OcultoDoor } from '@/components/oculto/OcultoDoor';
 
 const NOTICES: GrimoireNotice[] = ['locked', 'daily_limit', 'course_locked', 'not_found'];
 
@@ -32,6 +33,8 @@ export default async function GrimoirePage({ searchParams }: { searchParams: { n
     <>
       <PageHeader title={t('title')} />
       {state.comingSoon ? <ComingSoonGrimoire /> : <GrimoireMap state={state} notice={notice} />}
+      {/* Só para quem o admin liberou: a porta do Grimório Oculto. */}
+      <OcultoDoor userId={session.user.id} />
     </>
   );
 }

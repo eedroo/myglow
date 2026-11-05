@@ -1,0 +1,92 @@
+/* OcultoTimer: a esfera da pessoa no centro e uma faísca por minuto à volta */
+
+.mg-oculto-timer {
+  --oculto-progress: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.mg-oculto-timer__stage {
+  position: relative;
+  width: min(78vw, 300px);
+  aspect-ratio: 1;
+}
+
+.mg-oculto-timer__orb {
+  position: absolute;
+  inset: 22%;
+  opacity: calc(0.55 + var(--oculto-progress) * 0.45);
+  filter: drop-shadow(0 0 calc(12px + var(--oculto-progress) * 36px) var(--oculto-glow));
+  transform: scale(calc(0.86 + var(--oculto-progress) * 0.14));
+  transition: opacity 1s linear, filter 1s linear, transform 1s linear;
+}
+
+.mg-oculto-timer--running .mg-oculto-timer__orb svg {
+  animation: mg-oculto-pulse 6s ease-in-out infinite;
+}
+
+.mg-oculto-timer__orb svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mg-oculto-timer__sparks {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Cada faísca num ponto do círculo (ângulo = i / n de uma volta, começando no topo) */
+.mg-oculto-timer__spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--oculto-spark-off);
+  transform: rotate(calc(var(--i) / var(--n) * 1turn)) translateY(calc(min(78vw, 300px) / -2 + 8px));
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+
+.mg-oculto-timer__spark--on {
+  background: var(--oculto-spark);
+  box-shadow: 0 0 10px var(--oculto-spark);
+}
+
+.mg-oculto-timer__time {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl, var(--text-2xl));
+  font-variant-numeric: tabular-nums;
+  color: var(--oculto-ink);
+}
+
+.mg-oculto-timer__cue {
+  min-height: 1.5em;
+  margin: 0;
+  font-style: italic;
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto-timer__actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+@keyframes mg-oculto-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-oculto-timer--running .mg-oculto-timer__orb svg { animation: none; }
+  .mg-oculto-timer__orb,
+  .mg-oculto-timer__spark { transition: none; }
+}

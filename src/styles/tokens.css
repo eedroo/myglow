@@ -111,6 +111,14 @@
   --guided-bg-night: radial-gradient(ellipse at 50% -10%, #C9C3E6 0%, #E4DEEF 45%, #EFE9F1 100%);
   --guided-bg-period: radial-gradient(ellipse at 50% -10%, #F3DFB1 0%, #F8EEDB 50%, #F4EADB 100%);
   --guided-glow: rgba(212, 166, 74, 0.45);
+  /* Grimório Oculto: sempre noite (o treino pede penumbra) */
+  --oculto-bg: radial-gradient(ellipse at 50% 20%, #2A2350 0%, #141128 55%, #08070F 100%);
+  --oculto-ink: #EDE6FF;
+  --oculto-ink-soft: rgba(237, 230, 255, 0.72);
+  --oculto-line: rgba(237, 230, 255, 0.18);
+  --oculto-glow: rgba(180, 156, 255, 0.55);
+  --oculto-spark: #F3D98B;
+  --oculto-spark-off: rgba(237, 230, 255, 0.16);
 
   /* Raios */
   --radius-sm: 10px;
@@ -268,4 +276,11 @@
   --guided-bg-night: radial-gradient(ellipse at 50% -10%, #2C2F5E 0%, #171A33 50%, #0C0D19 100%);
   --guided-bg-period: radial-gradient(ellipse at 50% -10%, #4A3B1F 0%, #231C10 50%, #15110B 100%);
   --guided-glow: rgba(246, 196, 69, 0.35);
+  --oculto-bg: radial-gradient(ellipse at 50% 20%, #2A2350 0%, #141128 55%, #08070F 100%);
+  --oculto-ink: #EDE6FF;
+  --oculto-ink-soft: rgba(237, 230, 255, 0.72);
+  --oculto-line: rgba(237, 230, 255, 0.18);
+  --oculto-glow: rgba(180, 156, 255, 0.55);
+  --oculto-spark: #F3D98B;
+  --oculto-spark-off: rgba(237, 230, 255, 0.16);
 }

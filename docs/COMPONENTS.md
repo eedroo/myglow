@@ -679,3 +679,16 @@ A metodologia em 5 etapas (`STAGES`): o que está bloqueado não aparece, mas os
 | `WhatsNew` | client | `whats-new-v2.css` | `mg-whats-new-v2`, `__icon`, `__title`, `__text` | slides "Chegou a MYGLOW v2" (`SlidePlayer`), uma vez, a quem foi mapeado e só depois de o admin publicar o anúncio |
 | `AnnouncementsCard` (`admin/`) | client | `admin.css` | `mg-admin__actions` | `/admin`: "Publicar anúncio v2" (slides, caixa e push a todos) |
 | `JourneyAdminCard` (`admin/`) | server | `admin.css` | — | `/admin`: utilizadores por etapa, mediana de dias até cada etapa, % que desbloqueou tudo, mini-lições vistas vs dispensadas |
+
+### Grimório Oculto (`src/components/oculto/`, lógica em `src/lib/oculto/`, rotas `/oculto` e `/oculto/sessao`)
+
+Treino de magia do caos em 24 semanas (conteúdo em `content/oculto`, só pt-BR), só com o recurso `oculto` liberado pelo admin pessoa a pessoa. Fundo sempre noturno (`--oculto-*`). A avaliação da semana é automática, pelo diário do treino (`evaluateWeek`).
+
+| Componente | Tipo | CSS | Classes | Conteúdo |
+|---|---|---|---|---|
+| `OcultoHome` | server | `oculto.css` | `mg-oculto`, `__hero`, `__eyebrow`, `__title`, `__cta`, `__section`, `__list`, `__sessions`, `__session`, `--done`, `--next`, `__phases`, `__phase`, `--current`, `--locked`, `__care` | `/oculto`: fase e semana actuais, a próxima sessão (ou "volte amanhã" / avaliar a semana), introdução e objectivo, as 5 sessões, desafios, cuidados e o caminho das 6 fases |
+| `OcultoSessionPlayer` | client | `oculto.css` | `mg-oculto-player`, `mg-oculto-step` | sessão passo a passo (`SlidePlayer`): preparação, exercício principal com timer, observação com timer, diário do treino (tempo, concentração 1 a 10, dificuldade, observações) e fecho |
+| `OcultoTimer` | client | `oculto-timer.css` | `mg-oculto-timer`, `__orb`, `__sparks`, `__spark--on`, `__time`, `__cue`, `__actions` | a esfera de luz da pessoa no centro, a pulsar e a ganhar brilho com o tempo; uma faísca acende por minuto; frases suaves (`cues`); ecrã sempre aceso (Wake Lock), sino e vibração no fim; conta pelo relógio (continua certo depois de sair da app) |
+| `OcultoReviewPanel` | client | `oculto.css` | `mg-oculto-review`, `__level`, `__metrics`, `__reasons` | avaliação automática da semana: resultado (avança ou repete), nível, números da semana e o que faltou |
+| `OcultoDoor` | server | `oculto.css` | `mg-oculto-door` | no fim do mapa do Grimório, só para quem tem o recurso: a porta para o Grimório Oculto |
+| `OcultoTodayItem` | server | `oculto.css` | `mg-oculto-today` | dentro da Manhã do Hoje, só com o recurso e com sessão por fazer hoje: "Grimório Oculto · Sessão 2 de 5 · 7 min" |

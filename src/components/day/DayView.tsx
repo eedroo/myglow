@@ -34,6 +34,8 @@ interface DayViewProps {
   planNote?: ReactNode;
   /** A leitura do dia (e o ritual) dentro da Manhã ou da Noite, conforme a escolha do dia. */
   reading?: { node: ReactNode; in: 'morning' | 'night' };
+  /** Hoje: o que mais entra na Manhã (ex.: a sessão do Grimório Oculto, só para quem o tem). */
+  morningExtra?: ReactNode;
   /** F18: base das rotas do modo guiado (`/guided/day/{date}`) quando o dia ainda o permite. */
   guidedBase?: string | null;
   /** F19: secções desbloqueadas na jornada; as outras não aparecem (os dados ficam). Sem isto, tudo. */
@@ -41,7 +43,7 @@ interface DayViewProps {
 }
 
 /** Cartões interactivos do diário com gravação automática. */
-export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions, wellbeing, planNote, guidedBase, unlocked, reading }: DayViewProps) {
+export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, suggestions, wellbeing, planNote, guidedBase, unlocked, reading, morningExtra }: DayViewProps) {
   const t = useTranslations();
   const { data, setField, status, errorKey, flush } = useDailyAutosave(date, initial);
   const onBlur = () => void flush();
@@ -68,6 +70,7 @@ export function DayView({ date, initial, sleepGoalMinutes, currentPeriod, sugges
           action={guidedBase ? <GuidedSectionButton href={`${guidedBase}/morning`} label={t('day.guidedMorning')} showLabel /> : undefined}
         >
           {reading?.in === 'morning' && reading.node}
+          {morningExtra}
           <div className="mg-day__cell mg-day__cell--intention">
             {planNote}
             {has('intention') && (

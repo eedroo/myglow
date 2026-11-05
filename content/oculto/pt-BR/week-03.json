@@ -1,0 +1,43 @@
+{
+  "week": 3,
+  "phase": 1,
+  "title": "Não-pensamento",
+  "subtitle": "Não seguir cada pensamento",
+  "competence": "Observação mental",
+  "intro": [
+    "Este é um dos exercícios centrais do sistema. Você senta em silêncio e observa os pensamentos que aparecem, sem desenvolver histórias a partir deles.",
+    "Não se trata de eliminar os pensamentos para sempre. Isso não acontece. Trata-se de perceber o momento em que você foi levado por um pensamento e voltar ao silêncio.",
+    "No começo os intervalos de silêncio serão curtos, de poucos segundos. É assim mesmo. Os tempos desta semana são menores por isso."
+  ],
+  "objective": "Perceber quando um pensamento começa a puxar a atenção e voltar ao silêncio, por até 12 minutos.",
+  "howTo": {
+    "prep": [
+      "A postura das semanas anteriores.",
+      "Um minuto acompanhando a respiração para assentar.",
+      "Decida, antes de começar, que nenhum pensamento precisa de resposta agora."
+    ],
+    "steps": [
+      "Observe a mente como quem olha para um céu: pensamentos passam como nuvens.",
+      "Quando perceber que está dentro de uma história (um plano, uma lembrança, uma conversa imaginada), solte-a.",
+      "Volte ao silêncio, ou à respiração se precisar de um apoio.",
+      "Não se irrite com os pensamentos. Perceber que se distraiu já é o treino acontecendo."
+    ],
+    "care": [
+      "Se aparecer algo difícil de sentir, pode abrir os olhos e voltar à respiração. Você não precisa enfrentar tudo numa sessão.",
+      "Não force o silêncio com tensão no rosto ou no corpo."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Ver os pensamentos", "mainMinutes": 3, "observeMinutes": 5, "focus": "Só perceber quantos pensamentos aparecem.", "cues": [] },
+    { "day": 2, "title": "Soltar a história", "mainMinutes": 5, "observeMinutes": 5, "focus": "Perceber quando um pensamento vira história e soltar.", "cues": [] },
+    { "day": 3, "title": "Intervalos de silêncio", "mainMinutes": 7, "observeMinutes": 5, "focus": "Notar os pequenos intervalos entre um pensamento e outro.", "cues": [{ "at": 0.5, "text": "Onde está a sua atenção agora?" }] },
+    { "day": 4, "title": "Voltar sem esforço", "mainMinutes": 10, "observeMinutes": 5, "focus": "Voltar ao silêncio sem irritação, quantas vezes for preciso.", "cues": [{ "at": 0.5, "text": "Se está numa história, solte-a." }] },
+    { "day": 5, "title": "Sustentar o silêncio", "mainMinutes": 12, "observeMinutes": 5, "focus": "Doze minutos observando a mente.", "cues": [{ "at": 0.33, "text": "Um terço. Volte ao silêncio." }, { "at": 0.66, "text": "Dois terços. Só observe." }] }
+  ],
+  "challenges": [
+    { "title": "O pensamento que volta", "text": "Anote no diário o pensamento que mais se repetiu durante a semana. Só anote, sem analisar." },
+    { "title": "Uma tarefa de cada vez", "text": "Escolha uma atividade do dia (comer, tomar banho, caminhar) e faça só ela, percebendo quando a mente sai para outro lugar." },
+    { "title": "Pausa antes de responder", "text": "Numa conversa, antes de responder, perceba o primeiro pensamento que surgiu. Depois escolha o que dizer." }
+  ],
+  "next": { "title": "Semana 4 · Integração", "text": "A seguir: juntar imobilidade, respiração e silêncio numa só prática." }
+}

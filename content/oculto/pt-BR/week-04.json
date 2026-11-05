@@ -1,0 +1,43 @@
+{
+  "week": 4,
+  "phase": 1,
+  "title": "Integração",
+  "subtitle": "Corpo, respiração e silêncio juntos",
+  "competence": "Consolidação das competências",
+  "intro": [
+    "Nesta semana as três práticas viram uma só: o corpo fica imóvel, a atenção pousa na respiração e, aos poucos, a mente se aquieta.",
+    "O timer vai sugerindo a passagem de uma etapa para a outra. Se uma delas estiver difícil num dia, fique mais tempo nela.",
+    "No fim desta semana termina a Fase I. O desafio do mês é ficar 15 minutos numa postura confortável, com atenção, sem reagir a cada impulso."
+  ],
+  "objective": "Sustentar 15 minutos de prática integrada: imobilidade, respiração e não-pensamento.",
+  "howTo": {
+    "prep": [
+      "A postura que funcionou melhor para você nas últimas semanas.",
+      "Celular no silencioso, longe da mão.",
+      "Uma intenção simples para a sessão: só praticar."
+    ],
+    "steps": [
+      "Primeiro terço: imobilidade. Perceba os impulsos do corpo e deixe-os passar.",
+      "Segundo terço: respiração. A atenção pousa no ar que entra e sai.",
+      "Último terço: silêncio. Observe os pensamentos sem segui-los.",
+      "Distraiu? Volte para a etapa em que está."
+    ],
+    "care": [
+      "Ajuste a postura se houver dor. A prática integrada não precisa de esforço extra.",
+      "Respiração sempre natural."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Primeira integração", "mainMinutes": 10, "observeMinutes": 5, "focus": "Sentir a passagem do corpo para a respiração e da respiração para o silêncio.", "cues": [{ "at": 0.33, "text": "Agora, a respiração." }, { "at": 0.66, "text": "Agora, o silêncio." }] },
+    { "day": 2, "title": "Transições suaves", "mainMinutes": 12, "observeMinutes": 5, "focus": "Mudar de etapa sem perder a imobilidade.", "cues": [{ "at": 0.33, "text": "Agora, a respiração." }, { "at": 0.66, "text": "Agora, o silêncio." }] },
+    { "day": 3, "title": "A etapa mais difícil", "mainMinutes": 15, "observeMinutes": 5, "focus": "Perceber qual das três etapas é a mais difícil para você.", "cues": [{ "at": 0.33, "text": "Agora, a respiração." }, { "at": 0.66, "text": "Agora, o silêncio." }] },
+    { "day": 4, "title": "Estabilidade", "mainMinutes": 15, "observeMinutes": 5, "focus": "Quinze minutos com a mesma qualidade do início ao fim.", "cues": [{ "at": 0.33, "text": "Agora, a respiração." }, { "at": 0.66, "text": "Agora, o silêncio." }] },
+    { "day": 5, "title": "Desafio do mês", "mainMinutes": 15, "observeMinutes": 5, "focus": "Quinze minutos de postura, atenção e silêncio. Fecho da Fase I.", "cues": [{ "at": 0.33, "text": "Agora, a respiração." }, { "at": 0.66, "text": "Agora, o silêncio." }] }
+  ],
+  "challenges": [
+    { "title": "Três respirações", "text": "Antes de começar algo importante no dia, pare para três respirações conscientes." },
+    { "title": "Um minuto parado", "text": "Uma vez por dia, fique um minuto imóvel onde estiver, observando o corpo." },
+    { "title": "Rever o mês", "text": "Releia o diário das quatro semanas e anote o que mudou entre a primeira sessão e a última." }
+  ],
+  "next": { "title": "Fase II · Controle da mente", "text": "A seguir: concentração em sons, objetos e imagens, e o diário dos sonhos." }
+}

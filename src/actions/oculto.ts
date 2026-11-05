@@ -41,9 +41,17 @@ export async function saveOcultoSession(input: z.input<typeof sessionSchema>): P
   if (p.data.week !== state.week || p.data.day !== state.status.next || !state.status.canPractice) return { ok: false, error: 'oculto.errors.notToday' };
   const def = state.content.sessions.find((s) => s.day === p.data.day)!;
   const { week, day, ...fields } = p.data;
-  await db.ocultoSession.create({
-    data: { userId, week, attempt: state.attempt, day, date: toDbDate(state.today), plannedSec: def.mainMinutes * 60, ...fields },
+  const date = toDbDate(state.today);
+  const create = db.ocultoSession.create({
+    data: { userId, week, attempt: state.attempt, day, date, plannedSec: def.mainMinutes * 60, ...fields },
   });
+  // Semana dos sonhos: o sonho escrito no diário do treino é o mesmo da Manhã do Hoje.
+  if (state.content.dreamJournal && fields.dream) {
+    const text = fields.dream;
+    await db.$transaction([create, db.ocultoDream.upsert({ where: { userId_date: { userId, date } }, create: { userId, date, text }, update: { text } })]);
+  } else {
+    await create;
+  }
   refresh();
   return { ok: true, data: undefined };
 }
@@ -75,4 +83,30 @@ export async function reviewOcultoWeek(): Promise<Result<WeekReview & { nextWeek
   ]);
   refresh();
   return { ok: true, data: { ...review, nextWeek: next } };
+}
+
+const dreamSchema = z.object({ text: z.string().trim().max(2000) });
+
+/**
+ * Sonho de hoje, escrito na Manhã do Hoje (semanas com `dreamJournal`). Também actualiza a sessão de hoje do treino,
+ * se já foi feita, para que o diário e o Hoje mostrem o mesmo texto. Texto vazio apaga.
+ */
+export async function saveOcultoDream(input: z.input<typeof dreamSchema>): Promise<Result> {
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: 'common.errors.unauthorized' };
+  const userId = session.user.id;
+  const p = dreamSchema.safeParse(input);
+  if (!p.success) return { ok: false, error: 'oculto.errors.invalid' };
+  const state = await getOculto(userId);
+  if (!state?.content?.dreamJournal) return { ok: false, error: 'oculto.errors.unavailable' };
+  const date = toDbDate(state.today);
+  const text = p.data.text;
+  await db.$transaction([
+    text
+      ? db.ocultoDream.upsert({ where: { userId_date: { userId, date } }, create: { userId, date, text }, update: { text } })
+      : db.ocultoDream.deleteMany({ where: { userId, date } }),
+    db.ocultoSession.updateMany({ where: { userId, week: state.week, attempt: state.attempt, date }, data: { dream: text || null } }),
+  ]);
+  refresh();
+  return { ok: true, data: undefined };
 }

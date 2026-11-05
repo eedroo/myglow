@@ -195,6 +195,8 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Avaliação automática** pelo diário do treino (`evaluateWeek`): pelo menos 4 sessões, a melhor a 80 % do tempo alvo, 4 registos com texto e concentração que não fique baixa sem melhorar. Senão, repete a semana (nova tentativa, os registos ficam).
 - **Segurança:** sem hiperventilação, retenção forçada, privação de sono ou substâncias.
 - **No Hoje:** só para quem tem o recurso, a sessão do dia aparece dentro da Manhã.
+- **Fase II (semanas 5 a 8):** som, objecto, visualização e sonhos. Na semana dos sonhos (`dreamJournal`), o sonho escreve-se uma vez (Manhã do Hoje ou diário do treino) e aparece nos dois (`OcultoDream`, um por dia); conta como registo do diário na avaliação.
+- **Reiniciar:** o admin pode apagar todo o progresso de uma pessoa (sessões, avaliações, sonhos) na ficha do utilizador; volta à semana 1.
 
 ## Ícones
 - 3D dourados (PNG gerados à mão) para destaque; glifos planos para fases/signos; lucide para UI de linha.

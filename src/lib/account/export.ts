@@ -1,5 +1,5 @@
 import type {
-  BodyGoal, BodyWeightEntry, GuidedRun, JourneyUnlock, OcultoProgress, OcultoReview, OcultoSession,
+  BodyGoal, BodyWeightEntry, GuidedRun, JourneyUnlock, OcultoDream, OcultoProgress, OcultoReview, OcultoSession,
   BirthProfile, CourseProgress, DailyEntry, Exercise, FitnessPrefs, FitnessProgram, FitnessSession, FitnessWorkout, GuideReport, LessonProgress, Month, NotificationLog, NotificationPrefs,
   ProjectIntention, RecapView, SessionSet, User, UserActiveDay, UserAiContent, Week, WeekDayNote, WorkoutItem, XpEvent, Year,
 } from '@prisma/client';
@@ -58,7 +58,7 @@ export interface ExportSource {
   /** F19: desbloqueios da jornada. */
   journeyUnlocks: JourneyUnlock[];
   /** Grimório Oculto: progresso, diário do treino e avaliações (opcional: só quem o tem). */
-  oculto?: { progress: OcultoProgress | null; sessions: OcultoSession[]; reviews: OcultoReview[] };
+  oculto?: { progress: OcultoProgress | null; sessions: OcultoSession[]; reviews: OcultoReview[]; dreams?: OcultoDream[] };
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -127,6 +127,7 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
         difficulty: s.difficulty, notes: s.notes, experience: s.experience, interpretation: s.interpretation, evidence: s.evidence, dream: s.dream,
       })),
       reviews: data.oculto.reviews.map((r) => ({ week: r.week, attempt: r.attempt, result: r.result, reasons: r.reasons, createdAt: iso(r.createdAt) })),
+      dreams: (data.oculto.dreams ?? []).map((d) => ({ date: day(d.date), text: d.text })),
     },
     fitness: {
       prefs: data.fitness.prefs && {

@@ -11,6 +11,8 @@ export interface SessionLog {
   concentration: number;
   difficulty: string | null;
   notes: string | null;
+  /** Sonho registado nesse dia (semanas com `dreamJournal`). */
+  dream?: string | null;
 }
 
 export const DAYS_PER_WEEK = 5;
@@ -54,7 +56,7 @@ export interface WeekReview {
  * Avaliação automática da semana, a partir do diário do treino:
  * - sessões: pelo menos 4 das 5;
  * - tempo: a melhor sessão chega a 80 % do tempo alvo mais alto da semana;
- * - diário: pelo menos 4 registos com dificuldade ou observações escritas;
+ * - diário: pelo menos 4 registos com dificuldade, observações ou sonho escritos;
  * - foco: concentração média abaixo de 4 e sem melhoria da primeira para a última sessão pede repetição.
  * Sem nada a faltar: avança (consolidado com concentração média 7 ou mais). Os critérios podem vir da semana.
  */
@@ -66,7 +68,7 @@ export function evaluateWeek(week: Pick<OcultoWeek, 'sessions' | 'criteria'>, lo
   const goalSec = Math.max(...week.sessions.map((s) => s.mainMinutes * 60));
   const bestSec = byDay.reduce((m, l) => Math.max(m, l.actualSec), 0);
   const avg = byDay.length ? Math.round((byDay.reduce((s, l) => s + l.concentration, 0) / byDay.length) * 10) / 10 : null;
-  const diaryCount = byDay.filter((l) => filled(l.difficulty) || filled(l.notes)).length;
+  const diaryCount = byDay.filter((l) => filled(l.difficulty) || filled(l.notes) || filled(l.dream)).length;
   const sessions = new Set(byDay.map((l) => l.day)).size;
 
   const reasons: ReviewReason[] = [];

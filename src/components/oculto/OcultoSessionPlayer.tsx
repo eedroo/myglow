@@ -17,6 +17,9 @@ interface Props {
   session: OcultoSessionDef;
   howTo: OcultoWeek['howTo'];
   orb: OrbSigns | null;
+  /** Semana dos sonhos: o diário ganha o campo do sonho (o mesmo da Manhã do Hoje). */
+  dreamJournal?: boolean;
+  initialDream?: string | null;
 }
 
 const clearTimers = (base: string) => {
@@ -31,7 +34,7 @@ const clearTimers = (base: string) => {
  * Sessão do Grimório Oculto, passo a passo: preparação, exercício principal (timer com a esfera), observação (timer
  * curto), diário do treino e fecho. O diário grava a sessão; o programa avalia a semana a partir dele.
  */
-export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb }: Props) {
+export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, dreamJournal = false, initialDream = null }: Props) {
   const t = useTranslations('oculto.session');
   const te = useTranslations();
   const router = useRouter();
@@ -43,6 +46,7 @@ export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb }: Pr
   const [concentration, setConcentration] = useState(5);
   const [difficulty, setDifficulty] = useState('');
   const [notes, setNotes] = useState('');
+  const [dream, setDream] = useState(initialDream ?? '');
   const [error, setError] = useState<string | null>(null);
 
   const timerLabels = { start: t('start'), pause: t('pause'), resume: t('resume'), finish: t('finish'), done: t('timerDone'), remaining: t('remaining') };
@@ -60,7 +64,7 @@ export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb }: Pr
       setError(t('errors.minutes'));
       throw new Error('minutes');
     }
-    const res = await saveOcultoSession({ week, day: session.day, actualSec: actual, concentration, difficulty, notes }).catch(() => ({ ok: false as const, error: 'oculto.errors.offline' }));
+    const res = await saveOcultoSession({ week, day: session.day, actualSec: actual, concentration, difficulty, notes, ...(dreamJournal ? { dream } : {}) }).catch(() => ({ ok: false as const, error: 'oculto.errors.offline' }));
     if (!res.ok) {
       setError(te(res.error));
       throw new Error(res.error);
@@ -144,6 +148,13 @@ export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb }: Pr
             <span>{t('fields.concentration', { n: concentration })}</span>
             <input type="range" min={1} max={10} step={1} value={concentration} onChange={(e) => setConcentration(Number(e.target.value))} className="mg-oculto-step__range" />
           </label>
+          {dreamJournal && (
+            <label className="mg-oculto-step__field">
+              <span>{t('fields.dream')}</span>
+              <textarea className="mg-input" rows={4} maxLength={2000} value={dream} placeholder={t('fields.dreamPlaceholder')} onChange={(e) => setDream(e.target.value)} />
+              <span className="mg-oculto-step__hint">{t('fields.dreamShared')}</span>
+            </label>
+          )}
           <label className="mg-oculto-step__field">
             <span>{t('fields.difficulty')}</span>
             <textarea className="mg-input" rows={2} maxLength={2000} value={difficulty} placeholder={t('fields.difficultyPlaceholder')} onChange={(e) => setDifficulty(e.target.value)} />

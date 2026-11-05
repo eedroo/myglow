@@ -1,0 +1,44 @@
+{
+  "week": 8,
+  "phase": 2,
+  "title": "Sonhos",
+  "subtitle": "Lembrar, registrar e reconhecer padrões",
+  "competence": "Consciência dos sonhos",
+  "dreamJournal": true,
+  "intro": [
+    "A última semana da Fase II leva a atenção para o sono. A maior parte dos sonhos se perde nos primeiros minutos depois de acordar. O treino desta semana é recuperá-los e registrá-los.",
+    "A sessão é feita logo ao acordar, antes do celular e antes de levantar: alguns minutos imóvel, de olhos fechados, puxando de volta o que sonhou. Mesmo um fragmento, uma cor ou uma sensação contam.",
+    "Esta semana o campo Sonho aparece também na Manhã do Hoje. O que você escrever lá ou no diário do treino fica nos dois lugares. Com os dias, aparecem padrões e símbolos que se repetem, e um dia talvez você perceba, dentro do sonho, que está sonhando."
+  ],
+  "objective": "Lembrar e registrar algum sonho (ou fragmento) em pelo menos 4 manhãs da semana.",
+  "howTo": {
+    "prep": [
+      "Na noite anterior, antes de dormir, diga a si mesmo com calma: amanhã eu vou lembrar dos meus sonhos.",
+      "Ao acordar, não pegue o celular e não se levante ainda.",
+      "Fique na mesma posição em que acordou, se for confortável."
+    ],
+    "steps": [
+      "De olhos fechados, deixe a última imagem do sono voltar.",
+      "Puxe o fio: o que veio antes? Onde você estava? Quem estava lá? O que sentia?",
+      "Não julgue nem interprete agora. Só recupere.",
+      "Depois, escreva no diário tudo o que lembrou, mesmo que seja pouco."
+    ],
+    "care": [
+      "Nada de despertar no meio da noite nem cortar horas de sono para lembrar dos sonhos. Durma o normal.",
+      "Se um sonho foi difícil, escreva só o que quiser. O diário é seu."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "O primeiro fragmento", "mainMinutes": 5, "observeMinutes": 0, "focus": "Lembrar qualquer coisa do sono: uma imagem, uma cor, uma sensação.", "cues": [] },
+    { "day": 2, "title": "Puxar o fio", "mainMinutes": 5, "observeMinutes": 0, "focus": "A partir do fragmento, recuperar o que veio antes.", "cues": [] },
+    { "day": 3, "title": "Lugares e pessoas", "mainMinutes": 7, "observeMinutes": 0, "focus": "Reparar onde o sonho acontecia e quem estava nele.", "cues": [{ "at": 0.5, "text": "Onde você estava? Quem estava lá?" }] },
+    { "day": 4, "title": "O que se repete", "mainMinutes": 7, "observeMinutes": 0, "focus": "Comparar com os sonhos dos dias anteriores: há símbolos que voltam?", "cues": [{ "at": 0.5, "text": "Algo aqui já apareceu antes?" }] },
+    { "day": 5, "title": "Intenção de lucidez", "mainMinutes": 10, "observeMinutes": 0, "focus": "Recuperar o sonho e escolher um sinal que, se aparecer de novo, vai lembrar você de que está sonhando.", "cues": [{ "at": 0.5, "text": "Escolha um sinal para reconhecer o próximo sonho." }] }
+  ],
+  "challenges": [
+    { "title": "Caderno ao lado da cama", "text": "Deixe um caderno ou o celular em modo avião ao lado da cama, só para anotar o sonho assim que acordar." },
+    { "title": "Pergunta durante o dia", "text": "Algumas vezes por dia, pergunte a si mesmo com sinceridade: estou sonhando? Olhe à volta antes de responder." },
+    { "title": "O símbolo que volta", "text": "No fim da semana, releia os sonhos e anote no diário o símbolo, o lugar ou a pessoa que mais se repetiu." }
+  ],
+  "next": { "title": "Fase III · Operações mágicas", "text": "A seguir: gnose, divinação e sigilos." }
+}

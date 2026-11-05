@@ -75,3 +75,19 @@ export async function setFeatureRollout(key: string, rollout: 'HIDDEN' | 'PREMIU
   revalidatePath('/admin/features');
   return { ok: true };
 }
+
+/** Grimório Oculto: recomeça o treino de uma pessoa do zero (apaga sessões, sonhos, avaliações e progresso). */
+export async function resetOculto(id: string): Promise<AdminResult> {
+  await requireAdmin();
+  const p = userId.safeParse(id);
+  if (!p.success) return { ok: false, error: 'Dados inválidos.' };
+  await db.$transaction([
+    db.ocultoSession.deleteMany({ where: { userId: p.data } }),
+    db.ocultoDream.deleteMany({ where: { userId: p.data } }),
+    db.ocultoReview.deleteMany({ where: { userId: p.data } }),
+    db.ocultoProgress.deleteMany({ where: { userId: p.data } }),
+  ]);
+  revalidatePath(`/admin/users/${p.data}`);
+  revalidatePath('/oculto', 'layout');
+  return { ok: true };
+}

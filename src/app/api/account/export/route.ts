@@ -48,6 +48,7 @@ export async function GET() {
       ocultoProgress: true,
       ocultoSessions: { orderBy: { createdAt: 'asc' } },
       ocultoReviews: { orderBy: { createdAt: 'asc' } },
+      ocultoDreams: { orderBy: { date: 'asc' } },
     },
   });
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -88,7 +89,7 @@ export async function GET() {
     },
     guidedRuns: user.guidedRuns,
     journeyUnlocks: user.journeyUnlocks,
-    oculto: { progress: user.ocultoProgress, sessions: user.ocultoSessions, reviews: user.ocultoReviews },
+    oculto: { progress: user.ocultoProgress, sessions: user.ocultoSessions, reviews: user.ocultoReviews, dreams: user.ocultoDreams },
   });
 
   return new NextResponse(JSON.stringify(data, null, 2), {

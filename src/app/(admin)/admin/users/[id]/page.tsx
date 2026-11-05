@@ -8,6 +8,7 @@ import { AdminTable } from '@/components/admin/AdminTable';
 import { planLabel } from '@/components/admin/UserTable';
 import { UserPlanForm } from '@/components/admin/UserPlanForm';
 import { FeatureOverrideRow } from '@/components/admin/FeatureOverrideRow';
+import { OcultoResetButton } from '@/components/admin/OcultoResetButton';
 
 const date = (d: Date | null) => (d ? d.toISOString().slice(0, 10) : '–');
 
@@ -23,7 +24,11 @@ export default async function AdminUserPage({ params }: { params: { id: string }
     },
   });
   if (!user) notFound();
-  const ent = await getEntitlements(user.id);
+  const [ent, oculto, ocultoSessions] = await Promise.all([
+    getEntitlements(user.id),
+    db.ocultoProgress.findUnique({ where: { userId: user.id }, select: { week: true, attempt: true } }),
+    db.ocultoSession.count({ where: { userId: user.id } }),
+  ]);
   const overrides = new Map(user.featureOverrides.map((o) => [o.key, o.enabled]));
 
   return (
@@ -67,6 +72,14 @@ export default async function AdminUserPage({ params }: { params: { id: string }
           <FeatureOverrideRow key={key} userId={user.id} featureKey={key} override={overrides.get(key) ?? null} effective={ent.features[key]} />
         ))}
       </GlassCard>
+      {(ent.features.oculto || oculto) && (
+        <GlassCard title="Grimório Oculto">
+          <p className="mg-admin__note">
+            {oculto ? `Semana ${oculto.week}, tentativa ${oculto.attempt} · ${ocultoSessions} sessões registadas` : 'Ainda não começou.'}
+          </p>
+          {oculto && <OcultoResetButton userId={user.id} />}
+        </GlassCard>
+      )}
     </>
   );
 }

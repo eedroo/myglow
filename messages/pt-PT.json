@@ -2471,6 +2471,13 @@
     }
   },
   "oculto": {
+    "dream": {
+      "title": "Sonho desta noite",
+      "hint": "Escreve logo ao acordar, nem que seja só um fragmento. Fica também no diário do treino.",
+      "placeholder": "Onde estavas, quem lá estava, o que sentias…",
+      "saving": "A gravar…",
+      "saved": "Sonho gravado."
+    },
     "eyebrow": "Grimório Oculto",
     "doorTitle": "Grimório Oculto",
     "doorHint": "O treino do caos. Só para quem foi chamado.",
@@ -2506,6 +2513,9 @@
       "diary": "Diário do treino",
       "diaryHelp": "O programa usa o que escreves aqui para decidir se a semana está consolidada.",
       "fields": {
+        "dream": "Sonho desta noite",
+        "dreamPlaceholder": "O que te lembraste, nem que seja só um fragmento…",
+        "dreamShared": "Fica também na Manhã do Hoje.",
         "minutes": "Quanto tempo conseguiste de facto (minutos, alvo {goal})",
         "concentration": "Concentração: {n} de 10",
         "difficulty": "Principal dificuldade",

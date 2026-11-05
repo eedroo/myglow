@@ -1,0 +1,43 @@
+{
+  "week": 7,
+  "phase": 2,
+  "title": "Visualização",
+  "subtitle": "Construir uma imagem e mantê-la",
+  "competence": "Imaginação dirigida",
+  "intro": [
+    "Agora o objeto sai da frente dos olhos e passa a existir só na mente. Visualizar é construir uma imagem por dentro e sustentá-la, sem que ela se desfaça nem se transforme sozinha.",
+    "Começamos simples: uma forma geométrica, depois uma esfera de cor, depois uma imagem com mais detalhes. É normal a imagem aparecer fraca, piscar ou mudar. O treino é voltar a ela e reconstruí-la.",
+    "Esta capacidade é a base do que vem depois: sigilos, símbolos e trabalhos com intenção dependem de conseguir sustentar uma imagem com clareza."
+  ],
+  "objective": "Sustentar uma imagem mental simples, estável e nítida, por até 12 minutos.",
+  "howTo": {
+    "prep": [
+      "Olhos fechados, na postura das semanas anteriores.",
+      "Um minuto de respiração para assentar.",
+      "Saiba antes de começar qual imagem vai construir hoje."
+    ],
+    "steps": [
+      "Construa a imagem devagar: primeiro o contorno, depois a cor, depois o brilho.",
+      "Mantenha-a no centro da mente, sem deixá-la mudar de forma ou de cor.",
+      "Se ela se desfizer ou se transformar, recomece a construção sem pressa.",
+      "No fim, deixe a imagem se dissolver e abra os olhos devagar."
+    ],
+    "care": [
+      "Se aparecerem imagens que incomodam, abra os olhos, respire e volte à forma simples do dia.",
+      "Não aperte os olhos nem franza a testa para ver melhor. A imagem vem com calma, não com força."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Um triângulo", "mainMinutes": 3, "observeMinutes": 5, "focus": "Visualizar um triângulo simples, de linhas claras.", "cues": [] },
+    { "day": 2, "title": "Uma esfera de cor", "mainMinutes": 5, "observeMinutes": 5, "focus": "Visualizar uma esfera de uma única cor, parada no centro.", "cues": [] },
+    { "day": 3, "title": "A esfera que brilha", "mainMinutes": 7, "observeMinutes": 5, "focus": "Dar brilho à esfera e mantê-lo sem que a cor mude.", "cues": [{ "at": 0.5, "text": "A esfera continua da mesma cor?" }] },
+    { "day": 4, "title": "Um objeto conhecido", "mainMinutes": 10, "observeMinutes": 5, "focus": "Reproduzir na mente o objeto da semana passada, com os detalhes.", "cues": [{ "at": 0.5, "text": "Reconstrua o que se desfez." }] },
+    { "day": 5, "title": "Imagem sustentada", "mainMinutes": 12, "observeMinutes": 5, "focus": "Doze minutos com a mesma imagem, estável.", "cues": [{ "at": 0.33, "text": "Um terço. Mantenha a forma." }, { "at": 0.66, "text": "Dois terços. Mantenha a cor." }] }
+  ],
+  "challenges": [
+    { "title": "Desenhar depois", "text": "Depois da sessão, desenhe num papel a imagem que visualizou, como ela apareceu de verdade, não como deveria ser." },
+    { "title": "Lembrar um lugar", "text": "Uma vez por dia, feche os olhos e reconstrua um lugar conhecido com o máximo de detalhes que conseguir." },
+    { "title": "A imagem que foge", "text": "Anote no diário o que mais faz a imagem se desfazer: pensamentos, sons, sensações, cansaço." }
+  ],
+  "next": { "title": "Semana 8 · Sonhos", "text": "A seguir: lembrar e registrar os sonhos." }
+}

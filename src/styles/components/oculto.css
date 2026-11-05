@@ -285,3 +285,39 @@
   font-size: var(--text-sm);
   color: var(--oculto-ink-soft);
 }
+
+.mg-oculto-step__hint {
+  font-size: var(--text-xs);
+  color: var(--oculto-ink-soft);
+}
+
+/* Sonho desta noite (semana dos sonhos), na Manhã do Hoje */
+.mg-oculto-dream {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--oculto-line);
+  border-radius: var(--radius-md);
+  background: var(--oculto-bg);
+  color: var(--oculto-ink);
+  box-shadow: var(--shadow-card);
+}
+
+.mg-oculto-dream__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: inherit;
+}
+
+.mg-oculto-dream__hint,
+.mg-oculto-dream__status {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto-dream__status:empty {
+  display: none;
+}

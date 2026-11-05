@@ -2471,6 +2471,13 @@
     }
   },
   "oculto": {
+    "dream": {
+      "title": "Last night's dream",
+      "hint": "Write it as soon as you wake up, even if it is only a fragment. It also goes into your training diary.",
+      "placeholder": "Where you were, who was there, how it felt…",
+      "saving": "Saving…",
+      "saved": "Dream saved."
+    },
     "eyebrow": "Hidden Grimoire",
     "doorTitle": "Hidden Grimoire",
     "doorHint": "The chaos training. Only for those who were called.",
@@ -2506,6 +2513,9 @@
       "diary": "Training journal",
       "diaryHelp": "The program uses what you write here to decide whether the week is consolidated.",
       "fields": {
+        "dream": "Last night's dream",
+        "dreamPlaceholder": "Whatever you remember, even just a fragment…",
+        "dreamShared": "It also shows up in Today’s Morning.",
         "minutes": "How long you actually managed (minutes, goal {goal})",
         "concentration": "Focus: {n} out of 10",
         "difficulty": "Main difficulty",

@@ -11,7 +11,7 @@ const nextConfig = {
   experimental: {
     instrumentationHook: true,
     // O Grimório, as Novidades, os documentos legais e as mini-lições da jornada (F19) lêem content/ do disco no servidor: incluir os ficheiros no bundle das funções.
-    outputFileTracingIncludes: { '/**': ['./content/grimoire/**/*', './content/whats-new.json', './content/legal/**/*', './content/journey/**/*'] },
+    outputFileTracingIncludes: { '/**': ['./content/grimoire/**/*', './content/whats-new.json', './content/legal/**/*', './content/journey/**/*', './content/oculto/**/*'] },
   },
   async headers() {
     return [

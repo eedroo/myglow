@@ -1,0 +1,44 @@
+{
+  "week": 6,
+  "phase": 2,
+  "title": "Concentração num objeto",
+  "subtitle": "Um ponto, um objeto, toda a atenção",
+  "competence": "Foco visual",
+  "intro": [
+    "Depois do som, o objeto da concentração passa a ser algo que se vê: uma vela apagada, uma pedra, um ponto marcado na parede, uma fruta, um símbolo simples desenhado num papel.",
+    "Você olha para o objeto e mantém a atenção nele, sem deixar que pensamentos ou outros estímulos a arrastem. Os olhos ficam suaves, sem esforço, e piscam quando precisam.",
+    "É comum o objeto parecer mudar: bordas que tremem, cores que se alteram, a vista que embaça. Não é preciso interpretar nada disso. Perceba e continue no objeto."
+  ],
+  "objective": "Manter a atenção num objeto simples por até 15 minutos, com o olhar relaxado.",
+  "howTo": {
+    "prep": [
+      "Escolha um objeto simples e use o mesmo a semana toda.",
+      "Coloque-o à altura dos olhos, a mais ou menos um braço de distância.",
+      "Luz suave e constante, sem brilho nos olhos.",
+      "A postura das semanas anteriores."
+    ],
+    "steps": [
+      "Quando o timer começar, pouse o olhar no objeto.",
+      "Observe a forma, as bordas, a cor, as sombras.",
+      "Quando um pensamento puxar a atenção, perceba e volte ao objeto.",
+      "Pisque normalmente. Se os olhos cansarem, feche-os por alguns segundos e mantenha a imagem do objeto na mente."
+    ],
+    "care": [
+      "Não use velas acesas para olhar fixamente durante muito tempo, nem fontes de luz forte.",
+      "Olhos secos ou doloridos: feche-os e descanse. Não force o olhar."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Escolher o objeto", "mainMinutes": 5, "observeMinutes": 5, "focus": "Olhar para o objeto como se fosse a primeira vez.", "cues": [] },
+    { "day": 2, "title": "Olhar relaxado", "mainMinutes": 7, "observeMinutes": 5, "focus": "Manter o olhar suave, sem esforço nos olhos e no rosto.", "cues": [] },
+    { "day": 3, "title": "Os detalhes", "mainMinutes": 10, "observeMinutes": 5, "focus": "Ir da forma geral aos detalhes sem sair do objeto.", "cues": [{ "at": 0.5, "text": "Volte ao objeto." }] },
+    { "day": 4, "title": "Olhos fechados", "mainMinutes": 12, "observeMinutes": 5, "focus": "Nos últimos minutos, fechar os olhos e manter a imagem do objeto.", "cues": [{ "at": 0.75, "text": "Feche os olhos e mantenha o objeto na mente." }] },
+    { "day": 5, "title": "Foco sustentado", "mainMinutes": 15, "observeMinutes": 5, "focus": "Quinze minutos num único objeto.", "cues": [{ "at": 0.33, "text": "Um terço. Olhar suave." }, { "at": 0.66, "text": "Dois terços. Continue no objeto." }] }
+  ],
+  "challenges": [
+    { "title": "Um objeto por dia", "text": "Escolha um objeto do seu dia (a caneca, uma planta) e olhe para ele um minuto inteiro, com atenção total." },
+    { "title": "Uma coisa de cada vez", "text": "Ao trabalhar ou estudar, deixe aberto só o que está usando e perceba quantas vezes o olhar procura outra coisa." },
+    { "title": "O que o objeto fez", "text": "Anote no diário o que mudou na sua percepção do objeto ao longo da semana." }
+  ],
+  "next": { "title": "Semana 7 · Visualização", "text": "A seguir: construir e sustentar imagens na mente." }
+}

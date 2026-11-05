@@ -44,18 +44,24 @@ describe('evaluateWeek', () => {
     const better = [1, 2, 3, 4, 5].map((d) => log(d, { actualSec: 900, concentration: d === 5 ? 5 : 2 }));
     expect(evaluateWeek(week, better).result).toBe('ADVANCE');
   });
+  it('na semana dos sonhos, o sonho conta como registo do diário', () => {
+    const logs = [1, 2, 3, 4].map((d) => log(d, { actualSec: 900, difficulty: null, dream: 'uma casa azul' }));
+    expect(evaluateWeek(week, logs).metrics.diaryCount).toBe(4);
+    expect(evaluateWeek(week, logs).reasons).not.toContain('diary');
+  });
 });
 
 describe('conteúdo (content/oculto)', () => {
-  it('programa e Fase I válidos, semanas 1 a 4 escritas', () => {
+  it('programa, Fase I e Fase II válidos, semanas 1 a 8 escritas', () => {
     expect(getProgram().phases).toHaveLength(6);
-    expect(availableWeeks()).toEqual([1, 2, 3, 4]);
-    for (const w of [1, 2, 3, 4]) expect(getWeek(w)!.sessions.map((s) => s.day)).toEqual([1, 2, 3, 4, 5]);
-    expect(getWeek(5)).toBeNull();
-    expect(nextWeek(1, availableWeeks())).toBe(2);
-    expect(nextWeek(4, availableWeeks())).toBeNull();
+    expect(availableWeeks()).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    for (const w of availableWeeks()) expect(getWeek(w)!.sessions.map((s) => s.day)).toEqual([1, 2, 3, 4, 5]);
+    expect(getWeek(9)).toBeNull();
+    expect(nextWeek(4, availableWeeks())).toBe(5);
+    expect(nextWeek(8, availableWeeks())).toBeNull();
+    expect(availableWeeks().filter((w) => getWeek(w)!.dreamJournal)).toEqual([8]);
   });
   it('sem travessões nem "presença"', () => {
-    for (const w of [1, 2, 3, 4]) expect(JSON.stringify(getWeek(w))).not.toMatch(/—|presen/i);
+    for (const w of availableWeeks()) expect(JSON.stringify(getWeek(w))).not.toMatch(/—|presen/i);
   });
 });

@@ -462,6 +462,7 @@ Só para os emails em `ADMIN_EMAILS` (`requireAdmin()` em `lib/admin.ts`; os out
 | `UserPlanForm` | client | `admin.css` | `mg-admin-form` | plano FREE/PREMIUM, origem MANUAL/GIFT, data de fim opcional → `setUserPlan` |
 | `FeatureOverrideRow` | client | `admin.css` | `mg-admin-row` | por funcionalidade: seguir regra · forçar ligado · forçar desligado → `setFeatureOverride` |
 | `FeatureRolloutRow` | client | `admin.css` | `mg-admin-row` | por funcionalidade: fase, HIDDEN · PREMIUM · ALL, nº de excepções → `setFeatureRollout` |
+| `OcultoResetButton` | client | `admin.css` | `mg-admin__actions` | na ficha do utilizador, cartão "Grimório Oculto" (semana, tentativa, sessões): confirma e apaga todo o progresso, sessões, avaliações e sonhos → `resetOculto` (volta à semana 1) |
 | `FeedbackList` | server | `admin.css` | `mg-admin-feedback`, `__item`, `__meta`, `__message` | feedback mais recente primeiro, tipo, página, data e email com `mailto:` |
 
 ### Premium — F12 (`src/components/premium/`)
@@ -687,8 +688,9 @@ Treino de magia do caos em 24 semanas (conteúdo em `content/oculto`, só pt-BR)
 | Componente | Tipo | CSS | Classes | Conteúdo |
 |---|---|---|---|---|
 | `OcultoHome` | server | `oculto.css` | `mg-oculto`, `__hero`, `__eyebrow`, `__title`, `__cta`, `__section`, `__list`, `__sessions`, `__session`, `--done`, `--next`, `__phases`, `__phase`, `--current`, `--locked`, `__care` | `/oculto`: fase e semana actuais, a próxima sessão (ou "volte amanhã" / avaliar a semana), introdução e objectivo, as 5 sessões, desafios, cuidados e o caminho das 6 fases |
-| `OcultoSessionPlayer` | client | `oculto.css` | `mg-oculto-player`, `mg-oculto-step` | sessão passo a passo (`SlidePlayer`): preparação, exercício principal com timer, observação com timer, diário do treino (tempo, concentração 1 a 10, dificuldade, observações) e fecho |
+| `OcultoSessionPlayer` | client | `oculto.css` | `mg-oculto-player`, `mg-oculto-step` | sessão passo a passo (`SlidePlayer`): preparação, exercício principal com timer, observação com timer, diário do treino (tempo, concentração 1 a 10, dificuldade, observações; nas semanas com `dreamJournal`, também o sonho, partilhado com o Hoje) e fecho |
 | `OcultoTimer` | client | `oculto-timer.css` | `mg-oculto-timer`, `__orb`, `__sparks`, `__spark--on`, `__time`, `__cue`, `__actions` | a esfera de luz da pessoa no centro, a pulsar e a ganhar brilho com o tempo; uma faísca acende por minuto; frases suaves (`cues`); ecrã sempre aceso (Wake Lock), sino e vibração no fim; conta pelo relógio (continua certo depois de sair da app) |
 | `OcultoReviewPanel` | client | `oculto.css` | `mg-oculto-review`, `__level`, `__metrics`, `__reasons` | avaliação automática da semana: resultado (avança ou repete), nível, números da semana e o que faltou |
 | `OcultoDoor` | server | `oculto.css` | `mg-oculto-door` | no fim do mapa do Grimório, só para quem tem o recurso: a porta para o Grimório Oculto |
 | `OcultoTodayItem` | server | `oculto.css` | `mg-oculto-today` | dentro da Manhã do Hoje, só com o recurso e com sessão por fazer hoje: "Grimório Oculto · Sessão 2 de 5 · 7 min" |
+| `OcultoDreamCard` | client | `oculto.css` | `mg-oculto-dream`, `__title`, `__hint`, `__status` | dentro da Manhã do Hoje, só com o recurso e numa semana com `dreamJournal` (semana 8): campo "Sonho desta noite" que grava ao sair do campo (`saveOcultoDream`); o mesmo texto aparece no diário do treino da sessão do dia e vice-versa |

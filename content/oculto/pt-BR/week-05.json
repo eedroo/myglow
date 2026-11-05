@@ -1,0 +1,44 @@
+{
+  "week": 5,
+  "phase": 2,
+  "title": "Concentração num som",
+  "subtitle": "Ouvir sem pensar sobre o que se ouve",
+  "competence": "Atenção sustentada num estímulo",
+  "intro": [
+    "A Fase I treinou o corpo, a respiração e o silêncio. A Fase II leva essa base para a concentração: manter a atenção num único estímulo, de propósito, por um tempo cada vez maior.",
+    "Esta semana o objeto é um som. Pode ser contínuo (um ventilador, chuva, ruído branco, uma nota longa) ou repetitivo (um relógio, um metrônomo, um sino a cada poucos segundos).",
+    "O desafio é perceber o som sem analisá-lo, sem associar memórias ou imagens a ele e sem dar nome ao que se ouve. Quando a atenção escapar para um pensamento ou outro barulho, você percebe e volta para o som."
+  ],
+  "objective": "Manter a atenção num único som por até 15 minutos, voltando a ele sempre que a mente sair.",
+  "howTo": {
+    "prep": [
+      "Escolha o seu som antes de começar e use o mesmo a semana toda.",
+      "A postura da Fase I, estável e confortável.",
+      "Um minuto de respiração para assentar.",
+      "Volume baixo: o som precisa de atenção para ser ouvido, não pode tomar conta do espaço."
+    ],
+    "steps": [
+      "Quando o timer começar, leve toda a atenção para o som.",
+      "Ouça a textura, o ritmo, as pequenas variações. Só ouça.",
+      "Se aparecer uma associação (de onde vem, do que lembra), solte e volte ao som.",
+      "Outros barulhos vão aparecer. Perceba, não os siga, volte ao seu som."
+    ],
+    "care": [
+      "Nada de volume alto ou sons incômodos. O exercício é de atenção, não de resistência.",
+      "Se o som cansar demais, troque por outro no dia seguinte e anote no diário."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Encontrar o som", "mainMinutes": 5, "observeMinutes": 5, "focus": "Conhecer o som escolhido e perceber quantas vezes a atenção sai dele.", "cues": [] },
+    { "day": 2, "title": "Sem dar nome", "mainMinutes": 7, "observeMinutes": 5, "focus": "Ouvir sem descrever o som com palavras na cabeça.", "cues": [] },
+    { "day": 3, "title": "Os outros barulhos", "mainMinutes": 10, "observeMinutes": 5, "focus": "Perceber os barulhos à volta sem trocar de objeto.", "cues": [{ "at": 0.5, "text": "Ainda no mesmo som?" }] },
+    { "day": 4, "title": "Ouvir por dentro", "mainMinutes": 12, "observeMinutes": 5, "focus": "Notar as pequenas variações do som, como se ele fosse novo a cada segundo.", "cues": [{ "at": 0.5, "text": "Ouça como se fosse a primeira vez." }] },
+    { "day": 5, "title": "Atenção sustentada", "mainMinutes": 15, "observeMinutes": 5, "focus": "Quinze minutos com um único som.", "cues": [{ "at": 0.33, "text": "Um terço. Volte ao som." }, { "at": 0.66, "text": "Dois terços. Só ouça." }] }
+  ],
+  "challenges": [
+    { "title": "Escuta no dia a dia", "text": "Uma vez por dia, pare um minuto e ouça um som do ambiente (a chaleira, a rua, a chuva) como se fosse o exercício." },
+    { "title": "Uma conversa inteira", "text": "Numa conversa, escute a outra pessoa até o fim sem preparar a resposta enquanto ela fala." },
+    { "title": "O som que distrai", "text": "Anote no diário qual barulho mais tirou você do exercício e o que ele puxou na mente." }
+  ],
+  "next": { "title": "Semana 6 · Concentração num objeto", "text": "A seguir: manter o olhar e a atenção num objeto simples." }
+}

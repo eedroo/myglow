@@ -25,6 +25,8 @@ export interface OcultoState {
   reviews: { week: number; attempt: number; result: 'ADVANCE' | 'REPEAT'; createdAt: string }[];
   /** Avaliação já feita desta semana e tentativa (ex.: avançou na última semana escrita e espera pela seguinte). */
   currentReview: { result: 'ADVANCE' | 'REPEAT'; reasons: string[] } | null;
+  /** Sonho de hoje (só nas semanas com `dreamJournal`). */
+  todayDream: string | null;
 }
 
 /** Estado do treino (cria o progresso na primeira visita). null sem o recurso. */
@@ -40,14 +42,19 @@ export async function getOculto(userId: string): Promise<OcultoState | null> {
   ]);
   const logs: SessionLog[] = rows.map((r) => ({
     day: r.day, date: fromDbDate(r.date), plannedSec: r.plannedSec, actualSec: r.actualSec, concentration: r.concentration,
-    difficulty: r.difficulty, notes: r.notes,
+    difficulty: r.difficulty, notes: r.notes, dream: r.dream,
   }));
+  const content = getWeek(progress.week);
+  const dream = content?.dreamJournal
+    ? await db.ocultoDream.findUnique({ where: { userId_date: { userId, date: toDbDate(today) } }, select: { text: true } })
+    : null;
   return {
     program: getProgram(),
     available: availableWeeks(),
     week: progress.week,
     attempt: progress.attempt,
-    content: getWeek(progress.week),
+    content,
+    todayDream: dream?.text ?? null,
     logs,
     status: weekStatus({ logs, today, daysSinceStart: daysBetween(todayInTz(user.timezone, progress.weekStartedAt), today) }),
     today,

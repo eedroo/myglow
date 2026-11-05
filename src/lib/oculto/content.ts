@@ -44,6 +44,8 @@ export const weekSchema = z.object({
   /** Critérios da avaliação automática (por defeito: 4 sessões, 80 % do tempo alvo, 4 registos com texto). */
   criteria: z.object({ minSessions: z.number().int(), goalRatio: z.number(), minDiary: z.number().int() }).partial().optional(),
   next: z.object({ title: text, text }).optional(),
+  /** Semana dos sonhos: o diário do treino ganha o campo do sonho, partilhado com a Manhã do Hoje. */
+  dreamJournal: z.boolean().optional(),
 });
 
 export type OcultoProgram = z.infer<typeof programSchema>;

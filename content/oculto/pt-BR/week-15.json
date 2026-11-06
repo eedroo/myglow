@@ -1,0 +1,51 @@
+{
+  "week": 15,
+  "phase": 4,
+  "title": "Crença aleatória",
+  "subtitle": "Usar uma crença como ferramenta",
+  "competence": "Flexibilidade de crença",
+  "operationsJournal": true,
+  "beliefs": [
+    { "title": "Estoicismo", "text": "Só importa o que depende de mim. O resto eu aceito." },
+    { "title": "Animismo", "text": "Tudo à minha volta tem uma alma e uma intenção: a casa, as plantas, os objetos." },
+    { "title": "Sincronicidade", "text": "Nada é coincidência. Tudo o que acontece é um sinal para mim." },
+    { "title": "Acaso puro", "text": "Tudo é coincidência. Nada do que acontece tem sentido escondido." },
+    { "title": "Astrologia", "text": "O céu de cada dia molda o meu dia: a Lua, os planetas e os signos." },
+    { "title": "Karma", "text": "Cada coisa que eu faço volta para mim, cedo ou tarde." }
+  ],
+  "intro": [
+    "Um dos exercícios mais conhecidos de Carroll: em vez de escolher no que acreditar, deixe o acaso escolher. Um dado sorteia uma crença e, durante a semana, você vive como se ela fosse verdade.",
+    "O objetivo não é converter-se a nada. É perceber como uma crença muda a forma de interpretar o que acontece e, no fim, conseguir sair dela e olhar para trás com distância.",
+    "O dado é lançado uma vez, na primeira sessão, e a crença fica a mesma até o fim da semana. Se a semana se repetir, o dado é lançado de novo."
+  ],
+  "objective": "Viver a semana dentro da crença sorteada, interpretar o dia a partir dela e, no último dia, sair dela e comparar.",
+  "howTo": {
+    "prep": [
+      "Na primeira sessão, lance o dado. A crença que sair é a sua até o fim da semana.",
+      "Antes de cada sessão, leia a frase da crença em voz baixa."
+    ],
+    "steps": [
+      "Entre em gnose inibitória por alguns minutos.",
+      "Traga a frase da crença ao centro e deixe-a tomar conta, como se sempre tivesse sido verdade.",
+      "Reveja o dia de ontem a partir dela: como esta crença explicaria o que aconteceu?",
+      "No diário, a experiência é o que aconteceu; a interpretação é o que a crença diz sobre isso."
+    ],
+    "care": [
+      "Nada de decisões importantes, de saúde ou de dinheiro com base na crença da semana.",
+      "Se a crença deixar você ansioso ou fechado, mantenha o exercício só durante as sessões."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "O dado", "mainMinutes": 10, "observeMinutes": 5, "focus": "Lançar o dado e entrar na crença pela primeira vez.", "cues": [{ "at": 0.5, "text": "Como se fosse verdade." }] },
+    { "day": 2, "title": "O dia pela crença", "mainMinutes": 10, "observeMinutes": 5, "focus": "Rever o dia de ontem como a crença o explicaria.", "cues": [{ "at": 0.5, "text": "O que a crença diz sobre ontem?" }] },
+    { "day": 3, "title": "Agir pela crença", "mainMinutes": 10, "observeMinutes": 5, "focus": "Escolher uma pequena ação de hoje que a crença pediria.", "cues": [{ "at": 0.5, "text": "O que ela pede de você hoje?" }] },
+    { "day": 4, "title": "Sem dúvida", "mainMinutes": 12, "observeMinutes": 5, "focus": "Ficar dentro da crença mesmo quando a mente quiser discutir.", "cues": [{ "at": 0.5, "text": "Sem discutir. Só dentro." }] },
+    { "day": 5, "title": "Sair da crença", "mainMinutes": 12, "observeMinutes": 5, "focus": "Deixar a crença de lado e comparar como a semana pareceu dentro e fora dela.", "cues": [{ "at": 0.5, "text": "Agora solte a crença." }] }
+  ],
+  "challenges": [
+    { "title": "Uma situação, duas leituras", "text": "Escolha um acontecimento da semana e escreva como a sua visão de sempre e a crença sorteada o explicariam." },
+    { "title": "O que ficou útil", "text": "No fim, anote uma coisa útil desta crença que você quer guardar, mesmo sem acreditar nela." },
+    { "title": "O que resistiu", "text": "Anote em que momento foi mais difícil ficar dentro da crença." }
+  ],
+  "next": { "title": "Semana 16 · Alfabeto do Desejo", "text": "A seguir: criar os seus próprios símbolos para o que move você." }
+}

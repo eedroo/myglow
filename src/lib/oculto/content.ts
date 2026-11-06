@@ -50,6 +50,10 @@ export const weekSchema = z.object({
   operationsJournal: z.boolean().optional(),
   /** Semana dos sigilos: ajudante que reduz as letras da intenção (não grava nada). */
   sigilHelper: z.boolean().optional(),
+  /** Semana da crença aleatória: as faces do dado (sorteio no servidor, uma vez por semana e tentativa). */
+  beliefs: z.array(z.object({ title: text, text })).min(2).max(12).optional(),
+  /** Alfabeto do Desejo: a partir desta semana, a pessoa cria e guarda os seus símbolos. */
+  alphabet: z.boolean().optional(),
 });
 
 export type OcultoProgram = z.infer<typeof programSchema>;

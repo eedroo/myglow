@@ -7,6 +7,8 @@ import { db } from '@/lib/db';
 import { toDbDate } from '@/lib/dates';
 import { getOculto } from '@/lib/oculto/server';
 import { evaluateWeek, nextWeek, type WeekReview } from '@/lib/oculto/rules';
+import { GLYPH_LIMIT, strokesSchema } from '@/lib/oculto/glyph';
+import { randomInt } from 'node:crypto';
 
 type Result<T = undefined> = { ok: true; data: T } | { ok: false; error: string };
 
@@ -76,9 +78,9 @@ export async function reviewOcultoWeek(): Promise<Result<WeekReview & { nextWeek
       update: { result: review.result, reasons: review.reasons },
     }),
     ...(review.result === 'REPEAT'
-      ? [db.ocultoProgress.update({ where: { userId }, data: { attempt: state.attempt + 1, weekStartedAt: new Date() } })]
+      ? [db.ocultoProgress.update({ where: { userId }, data: { attempt: state.attempt + 1, weekStartedAt: new Date(), belief: null } })]
       : next
-        ? [db.ocultoProgress.update({ where: { userId }, data: { week: next, attempt: 1, weekStartedAt: new Date() } })]
+        ? [db.ocultoProgress.update({ where: { userId }, data: { week: next, attempt: 1, weekStartedAt: new Date(), belief: null } })]
         : []),
   ]);
   refresh();
@@ -107,6 +109,68 @@ export async function saveOcultoDream(input: z.input<typeof dreamSchema>): Promi
       : db.ocultoDream.deleteMany({ where: { userId, date } }),
     db.ocultoSession.updateMany({ where: { userId, week: state.week, attempt: state.attempt, date }, data: { dream: text || null } }),
   ]);
+  refresh();
+  return { ok: true, data: undefined };
+}
+
+/** Semana da crença aleatória: lança o dado (no servidor), uma vez por semana e tentativa. Devolve o índice. */
+export async function rollOcultoBelief(): Promise<Result<{ belief: number }>> {
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: 'common.errors.unauthorized' };
+  const userId = session.user.id;
+  const state = await getOculto(userId);
+  const faces = state?.content?.beliefs;
+  if (!state || !faces) return { ok: false, error: 'oculto.errors.unavailable' };
+  if (state.belief !== null) return { ok: true, data: { belief: state.belief } };
+  const belief = randomInt(faces.length);
+  // Só grava se ainda não havia crença (dois toques ao mesmo tempo ficam com a primeira).
+  const r = await db.ocultoProgress.updateMany({ where: { userId, week: state.week, attempt: state.attempt, belief: null }, data: { belief } });
+  if (r.count === 0) {
+    const p = await db.ocultoProgress.findUnique({ where: { userId }, select: { belief: true } });
+    if (p?.belief == null) return { ok: false, error: 'oculto.errors.invalid' };
+    refresh();
+    return { ok: true, data: { belief: p.belief } };
+  }
+  refresh();
+  return { ok: true, data: { belief } };
+}
+
+const glyphSchema = z.object({
+  id: z.string().min(1).max(40).optional(),
+  name: z.string().trim().min(1).max(40),
+  meaning: z.string().trim().max(300).optional().transform((v) => (v ? v : null)),
+  strokes: strokesSchema,
+});
+
+/** Alfabeto do Desejo: cria ou edita um símbolo (só a partir da semana do alfabeto; até GLYPH_LIMIT). */
+export async function saveOcultoGlyph(input: z.input<typeof glyphSchema>): Promise<Result<{ id: string }>> {
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: 'common.errors.unauthorized' };
+  const userId = session.user.id;
+  const p = glyphSchema.safeParse(input);
+  if (!p.success) return { ok: false, error: 'oculto.errors.invalid' };
+  const state = await getOculto(userId);
+  if (!state?.alphabetOpen) return { ok: false, error: 'oculto.errors.unavailable' };
+  const { id, name, meaning, strokes } = p.data;
+  if (id) {
+    const r = await db.ocultoGlyph.updateMany({ where: { id, userId }, data: { name, meaning, strokes } });
+    if (r.count === 0) return { ok: false, error: 'oculto.errors.invalid' };
+    refresh();
+    return { ok: true, data: { id } };
+  }
+  if (state.glyphs.length >= GLYPH_LIMIT) return { ok: false, error: 'oculto.errors.glyphLimit' };
+  const g = await db.ocultoGlyph.create({ data: { userId, name, meaning, strokes }, select: { id: true } });
+  refresh();
+  return { ok: true, data: { id: g.id } };
+}
+
+/** Alfabeto do Desejo: apaga um símbolo da própria pessoa. */
+export async function deleteOcultoGlyph(id: string): Promise<Result> {
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: 'common.errors.unauthorized' };
+  const p = z.string().min(1).max(40).safeParse(id);
+  if (!p.success) return { ok: false, error: 'oculto.errors.invalid' };
+  await db.ocultoGlyph.deleteMany({ where: { id: p.data, userId: session.user.id } });
   refresh();
   return { ok: true, data: undefined };
 }

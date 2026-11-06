@@ -246,6 +246,7 @@ model User {
   ocultoSessions       OcultoSession[]
   ocultoReviews        OcultoReview[]
   ocultoDreams         OcultoDream[]
+  ocultoGlyphs         OcultoGlyph[]
 }
 
 enum FeedbackKind {
@@ -913,7 +914,22 @@ model OcultoProgress {
   attempt       Int      @default(1) // 2, 3… quando a semana se repete
   weekStartedAt DateTime @default(now())
   startedAt     DateTime @default(now())
+  belief        Int? // semana da crença aleatória: índice sorteado em `beliefs` (null até lançar o dado)
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Alfabeto do Desejo: símbolos pessoais (nome, significado, traços normalizados 0–100).
+model OcultoGlyph {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  meaning   String?
+  strokes   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
 
 // Uma sessão do treino, gravada no fim (diário do treino).

@@ -2471,6 +2471,31 @@
     }
   },
   "oculto": {
+    "alphabet": {
+      "title": "Alfabeto do Desejo",
+      "help": "Os teus símbolos para as forças que te movem. Ficam guardados aqui e servem para as próximas fases.",
+      "empty": "Ainda não há símbolos. Começa pela força que mais pesa agora.",
+      "add": "Novo símbolo",
+      "edit": "Editar {name}",
+      "pad": "Quadro para desenhar o símbolo",
+      "undo": "Desfazer traço",
+      "clear": "Limpar",
+      "name": "Nome da força",
+      "namePlaceholder": "Coragem, medo, liberdade…",
+      "meaning": "O que significa para ti",
+      "meaningPlaceholder": "Em poucas palavras…",
+      "save": "Guardar símbolo",
+      "cancel": "Cancelar",
+      "delete": "Apagar",
+      "confirmDelete": "Apagar o símbolo «{name}»?",
+      "missing": "Desenha o símbolo e dá-lhe um nome."
+    },
+    "belief": {
+      "title": "O dado da crença",
+      "help": "Lança o dado uma vez. Das {n} crenças possíveis, a que sair é a tua até ao fim da semana.",
+      "roll": "Lançar o dado",
+      "yours": "A tua crença desta semana · face {n}"
+    },
     "sigil": {
       "title": "Construir o sigilo",
       "intention": "A tua intenção, numa frase",
@@ -2585,6 +2610,7 @@
       "ok": "Ok"
     },
     "errors": {
+      "glyphLimit": "Chegaste ao limite de símbolos. Apaga um para criares outro.",
       "invalid": "Algo no diário não está certo. Confirma os campos.",
       "unavailable": "O Grimório Oculto não está disponível.",
       "notToday": "Esta sessão não está disponível agora. Uma sessão por dia, por ordem.",

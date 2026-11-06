@@ -1,0 +1,43 @@
+{
+  "week": 13,
+  "phase": 4,
+  "title": "O Duplo",
+  "subtitle": "Ver a si mesmo de fora",
+  "competence": "Auto-observação",
+  "operationsJournal": true,
+  "intro": [
+    "A Fase IV muda o alvo do treino: depois da atenção, da gnose e dos sigilos, o objeto de trabalho passa a ser você. Quem é esse que pratica, que hábitos e crenças o movem, e o quanto disso pode mudar.",
+    "O primeiro exercício é o Duplo: construir na imaginação uma imagem completa de si mesmo e observá-la de fora, como se fosse outra pessoa. Não é preciso acreditar num segundo corpo. É uma ferramenta de imaginação para ganhar distância de si.",
+    "Durante o dia, o Duplo vira um hábito: de vez em quando, olhe para o que está fazendo como se fosse um observador na sala. O que essa pessoa está fazendo? Por quê?"
+  ],
+  "objective": "Visualizar o Duplo com clareza por até 15 minutos e registrar, todos os dias, pelo menos um momento de auto-observação de fora.",
+  "howTo": {
+    "prep": [
+      "Postura estável, olhos fechados, um minuto de gnose inibitória para assentar.",
+      "Lembre como você está vestido hoje, o seu rosto, a sua postura."
+    ],
+    "steps": [
+      "Construa a sua imagem à sua frente, a alguns passos, sentada como você está.",
+      "Vá aos detalhes: roupa, mãos, expressão, respiração. Use a visualização da Fase II.",
+      "Observe essa figura sem julgar, como se fosse a primeira vez que a vê.",
+      "No fim, deixe a imagem se dissolver e volte a sentir o próprio corpo antes de abrir os olhos."
+    ],
+    "care": [
+      "Se a sensação de estar fora de si incomodar, abra os olhos, toque no chão e nas mãos e respire normalmente.",
+      "O objetivo é observar com gentileza. Se a autocrítica tomar conta, anote e volte ao exercício no dia seguinte."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "A figura à frente", "mainMinutes": 7, "observeMinutes": 5, "focus": "Construir a sua imagem à sua frente, com o máximo de detalhes.", "cues": [{ "at": 0.5, "text": "As mãos. A expressão." }] },
+    { "day": 2, "title": "Os detalhes", "mainMinutes": 10, "observeMinutes": 5, "focus": "Manter a figura estável e acrescentar detalhes sem que ela se desfaça.", "cues": [{ "at": 0.5, "text": "Reconstrua o que se apagou." }] },
+    { "day": 3, "title": "Dar a volta", "mainMinutes": 12, "observeMinutes": 5, "focus": "Ver o Duplo de lado, de costas, de cima.", "cues": [{ "at": 0.33, "text": "Agora de lado." }, { "at": 0.66, "text": "Agora de costas." }] },
+    { "day": 4, "title": "O observador", "mainMinutes": 12, "observeMinutes": 5, "focus": "Perceber como se sente quem observa, e não só o que é observado.", "cues": [{ "at": 0.5, "text": "Quem está olhando?" }] },
+    { "day": 5, "title": "O Duplo no dia", "mainMinutes": 15, "observeMinutes": 5, "focus": "Ver o Duplo fazendo o que você fez hoje, cena a cena.", "cues": [{ "at": 0.33, "text": "A manhã." }, { "at": 0.66, "text": "A tarde." }] }
+  ],
+  "challenges": [
+    { "title": "Testemunha", "text": "Três vezes por dia, olhe para o que está fazendo como se fosse alguém na sala. Anote um desses momentos no diário." },
+    { "title": "O hábito que você não via", "text": "No fim da semana, escreva um gesto, frase ou reação que você só percebeu olhando de fora." },
+    { "title": "Experiência e interpretação", "text": "Separe o que o Duplo fez (experiência) do que você concluiu sobre si mesmo (interpretação)." }
+  ],
+  "next": { "title": "Semana 14 · Transmogrificação", "text": "A seguir: vestir, por um tempo, uma qualidade que não é sua." }
+}

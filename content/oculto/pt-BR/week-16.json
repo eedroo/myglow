@@ -1,0 +1,44 @@
+{
+  "week": 16,
+  "phase": 4,
+  "title": "Alfabeto do Desejo",
+  "subtitle": "Uma linguagem de símbolos só sua",
+  "competence": "Simbolismo pessoal",
+  "operationsJournal": true,
+  "alphabet": true,
+  "intro": [
+    "O último exercício da Fase IV é criar o seu Alfabeto do Desejo: um conjunto de símbolos próprios para as forças que movem você, como ambição, medo, desejo, criatividade, liberdade, calma.",
+    "Não são símbolos tradicionais tirados de um livro. Cada um nasce de olhar para dentro: como essa força aparece no seu corpo, que forma, que movimento ela tem. Depois você a desenha.",
+    "O alfabeto fica guardado no Grimório Oculto e cresce com o tempo. Nas fases seguintes ele vira matéria-prima: em sigilos, em operações e no seu paradigma pessoal."
+  ],
+  "objective": "Criar pelo menos 5 símbolos pessoais, cada um com nome, significado e desenho, e usar um deles numa sessão de gnose.",
+  "howTo": {
+    "prep": [
+      "Comece com as forças que mais pesam na sua vida agora. Não é preciso ter todas de uma vez.",
+      "O alfabeto fica na preparação de cada sessão e na página do Grimório Oculto."
+    ],
+    "steps": [
+      "Em quietude, chame uma força pelo nome e deixe-a aparecer no corpo: onde está, que tamanho tem, para onde se move.",
+      "Deixe vir uma forma simples que traduza esse movimento.",
+      "Desenhe a forma no alfabeto, dê-lhe o nome e escreva em poucas palavras o que significa para você.",
+      "Simplifique até o desenho caber num traço rápido, como uma letra."
+    ],
+    "care": [
+      "Forças difíceis (medo, raiva) também cabem no alfabeto. Se trouxerem desconforto, desenhe-as com calma, um dia de cada vez.",
+      "O alfabeto é só seu. Ninguém mais vê o que está nele."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "As forças", "mainMinutes": 10, "observeMinutes": 5, "focus": "Listar as forças que mais movem você agora e escolher a primeira.", "cues": [{ "at": 0.5, "text": "Onde ela está no corpo?" }] },
+    { "day": 2, "title": "A primeira forma", "mainMinutes": 10, "observeMinutes": 5, "focus": "Encontrar a forma da primeira força e desenhá-la no alfabeto.", "cues": [{ "at": 0.5, "text": "Que movimento ela tem?" }] },
+    { "day": 3, "title": "Mais letras", "mainMinutes": 10, "observeMinutes": 5, "focus": "Criar mais dois símbolos, um de uma força leve e um de uma força difícil.", "cues": [{ "at": 0.5, "text": "Agora a próxima força." }] },
+    { "day": 4, "title": "Simplificar", "mainMinutes": 10, "observeMinutes": 5, "focus": "Rever os símbolos e simplificá-los até cada um caber num traço rápido.", "cues": [{ "at": 0.5, "text": "Menos traços." }] },
+    { "day": 5, "title": "Usar o alfabeto", "mainMinutes": 12, "observeMinutes": 5, "focus": "Escolher um símbolo do alfabeto e mantê-lo no centro em gnose.", "cues": [{ "at": 0.5, "text": "Só o símbolo." }] }
+  ],
+  "challenges": [
+    { "title": "Desafio da fase", "text": "Um pequeno sistema pessoal de símbolos para desejos, emoções, motivações e conflitos internos." },
+    { "title": "Símbolo no dia", "text": "Quando uma força aparecer durante o dia, desenhe o símbolo dela com o dedo, discretamente, e anote." },
+    { "title": "Pares", "text": "Repare se há símbolos que costumam aparecer juntos ou em conflito, e escreva sobre isso." }
+  ],
+  "next": { "title": "Fase V · Modelos e cosmologia", "text": "A seguir: paradigmas pessoais e o símbolo do caos." }
+}

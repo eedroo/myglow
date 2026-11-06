@@ -4,6 +4,8 @@ import { getTranslations } from 'next-intl/server';
 import type { OcultoState } from '@/lib/oculto/server';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 import { OcultoReviewPanel } from './OcultoReviewPanel';
+import { OcultoBeliefDie } from './OcultoBeliefDie';
+import { OcultoAlphabet } from './OcultoAlphabet';
 
 /** `/oculto`: onde a pessoa está no treino, a próxima sessão, a semana e o caminho das 6 fases. */
 export async function OcultoHome({ state }: { state: OcultoState }) {
@@ -48,6 +50,7 @@ export async function OcultoHome({ state }: { state: OcultoState }) {
                 <OcultoReviewPanel week={week} />
               </details>
             )}
+            {content.beliefs && <OcultoBeliefDie beliefs={content.beliefs} initial={state.belief} />}
           </section>
 
           <section className="mg-oculto__section">
@@ -98,6 +101,12 @@ export async function OcultoHome({ state }: { state: OcultoState }) {
         <section className="mg-oculto__section">
           <p className="mg-oculto__text">{t('soon')}</p>
         </section>
+      )}
+
+      {state.alphabetOpen && (
+        <div className="mg-oculto__section" id="alfabeto">
+          <OcultoAlphabet initial={state.glyphs} />
+        </div>
       )}
 
       <section className="mg-oculto__section">

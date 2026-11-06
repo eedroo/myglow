@@ -31,6 +31,9 @@ export default async function OcultoSessionRoute() {
       initialDream={state.todayDream}
       operationsJournal={!!state.content.operationsJournal}
       sigilHelper={!!state.content.sigilHelper}
+      beliefs={state.content.beliefs}
+      belief={state.belief}
+      glyphs={state.content.alphabet ? state.glyphs : null}
     />
   );
 }

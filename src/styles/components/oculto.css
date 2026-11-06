@@ -367,3 +367,123 @@
   border-color: var(--oculto-spark);
   box-shadow: 0 0 var(--space-2) var(--oculto-glow);
 }
+
+/* Alfabeto do Desejo (Fase IV) */
+.mg-oculto-glyph {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  fill: none;
+  stroke: var(--oculto-ink);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 2px var(--oculto-glow));
+}
+
+.mg-oculto-pad {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mg-oculto-pad__canvas {
+  width: min(100%, 280px);
+  aspect-ratio: 1;
+  margin-inline: auto;
+  border: var(--border-width) dashed var(--oculto-line);
+  border-radius: var(--radius-md);
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.mg-oculto-pad__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.mg-oculto-alphabet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-oculto-alphabet__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-oculto-alphabet__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--oculto-line);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--oculto-ink);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.mg-oculto-alphabet__item:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-oculto-alphabet__item .mg-oculto-glyph {
+  width: 56px;
+}
+
+.mg-oculto-alphabet__name {
+  font-family: var(--font-display);
+}
+
+.mg-oculto-alphabet__meaning,
+.mg-oculto-alphabet__empty {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto-alphabet__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Crença aleatória (semana 15) */
+.mg-oculto-belief {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--oculto-line);
+  border-radius: var(--radius-md);
+}
+
+.mg-oculto-belief__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--oculto-ink);
+}
+
+.mg-oculto-belief__text {
+  margin: 0;
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto-belief__die {
+  vertical-align: -3px;
+}

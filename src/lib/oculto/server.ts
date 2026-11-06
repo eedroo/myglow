@@ -4,6 +4,7 @@ import { fromDbDate, toDbDate, todayInTz, type DateISO } from '@/lib/dates';
 import { getEntitlements } from '@/lib/entitlements/server';
 import { availableWeeks, getProgram, getWeek, type OcultoProgram, type OcultoWeek } from './content';
 import { weekStatus, type SessionLog } from './rules';
+import { parseStrokes, type Strokes } from './glyph';
 
 /** Grimório Oculto: só com o recurso 'oculto' (liberado pelo admin). */
 export async function hasOculto(userId: string): Promise<boolean> {
@@ -27,6 +28,23 @@ export interface OcultoState {
   currentReview: { result: 'ADVANCE' | 'REPEAT'; reasons: string[] } | null;
   /** Sonho de hoje (só nas semanas com `dreamJournal`). */
   todayDream: string | null;
+  /** Crença sorteada desta semana e tentativa (índice em `content.beliefs`), ou null até lançar o dado. */
+  belief: number | null;
+  /** Alfabeto do Desejo aberto (a semana actual já passou pela primeira semana com `alphabet`). */
+  alphabetOpen: boolean;
+  glyphs: OcultoGlyphView[];
+}
+
+export interface OcultoGlyphView {
+  id: string;
+  name: string;
+  meaning: string | null;
+  strokes: Strokes;
+}
+
+/** Primeira semana escrita com o Alfabeto do Desejo (null se ainda não há). */
+export function alphabetWeek(available: number[]): number | null {
+  return available.find((w) => getWeek(w)?.alphabet) ?? null;
 }
 
 /** Estado do treino (cria o progresso na primeira visita). null sem o recurso. */
@@ -49,13 +67,22 @@ export async function getOculto(userId: string): Promise<OcultoState | null> {
   const dream = content?.dreamJournal
     ? await db.ocultoDream.findUnique({ where: { userId_date: { userId, date: toDbDate(today) } }, select: { text: true } })
     : null;
+  const available = availableWeeks();
+  const firstAlphabet = alphabetWeek(available);
+  const alphabetOpen = firstAlphabet !== null && progress.week >= firstAlphabet;
+  const glyphs = alphabetOpen
+    ? await db.ocultoGlyph.findMany({ where: { userId }, orderBy: { createdAt: 'asc' }, select: { id: true, name: true, meaning: true, strokes: true } })
+    : [];
   return {
     program: getProgram(),
-    available: availableWeeks(),
+    available,
     week: progress.week,
     attempt: progress.attempt,
     content,
     todayDream: dream?.text ?? null,
+    belief: content?.beliefs && progress.belief !== null && progress.belief < content.beliefs.length ? progress.belief : null,
+    alphabetOpen,
+    glyphs: glyphs.map((g) => ({ id: g.id, name: g.name, meaning: g.meaning, strokes: parseStrokes(g.strokes) })),
     logs,
     status: weekStatus({ logs, today, daysSinceStart: daysBetween(todayInTz(user.timezone, progress.weekStartedAt), today) }),
     today,

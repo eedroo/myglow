@@ -2471,6 +2471,31 @@
     }
   },
   "oculto": {
+    "alphabet": {
+      "title": "Alphabet of Desire",
+      "help": "Your own symbols for the forces that move you. They stay here and feed the next phases.",
+      "empty": "No symbols yet. Start with the force that weighs most right now.",
+      "add": "New symbol",
+      "edit": "Edit {name}",
+      "pad": "Canvas to draw the symbol",
+      "undo": "Undo stroke",
+      "clear": "Clear",
+      "name": "Name of the force",
+      "namePlaceholder": "Courage, fear, freedom…",
+      "meaning": "What it means to you",
+      "meaningPlaceholder": "In a few words…",
+      "save": "Save symbol",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "confirmDelete": "Delete the symbol \"{name}\"?",
+      "missing": "Draw the symbol and give it a name."
+    },
+    "belief": {
+      "title": "The belief die",
+      "help": "Roll the die once. Out of {n} possible beliefs, the one that comes up is yours until the end of the week.",
+      "roll": "Roll the die",
+      "yours": "Your belief this week · face {n}"
+    },
     "sigil": {
       "title": "Build the sigil",
       "intention": "Your intention, in one sentence",
@@ -2585,6 +2610,7 @@
       "ok": "OK"
     },
     "errors": {
+      "glyphLimit": "You have reached the symbol limit. Delete one to create another.",
       "invalid": "Something in the journal isn't right. Check the fields.",
       "unavailable": "The Hidden Grimoire isn't available.",
       "notToday": "This session isn't available right now. One session a day, in order.",

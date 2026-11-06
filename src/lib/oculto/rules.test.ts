@@ -56,17 +56,21 @@ describe('evaluateWeek', () => {
 });
 
 describe('conteúdo (content/oculto)', () => {
-  it('programa e Fases I a III válidos, semanas 1 a 12 escritas', () => {
+  it('programa e Fases I a IV válidos, semanas 1 a 16 escritas', () => {
     expect(getProgram().phases).toHaveLength(6);
-    expect(availableWeeks()).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    expect(availableWeeks()).toEqual(Array.from({ length: 16 }, (_, i) => i + 1));
     for (const w of availableWeeks()) expect(getWeek(w)!.sessions.map((s) => s.day)).toEqual([1, 2, 3, 4, 5]);
-    expect(getWeek(13)).toBeNull();
+    expect(getWeek(17)).toBeNull();
     expect(nextWeek(4, availableWeeks())).toBe(5);
     expect(nextWeek(8, availableWeeks())).toBe(9);
-    expect(nextWeek(12, availableWeeks())).toBeNull();
+    expect(nextWeek(12, availableWeeks())).toBe(13);
+    expect(nextWeek(16, availableWeeks())).toBeNull();
     expect(availableWeeks().filter((w) => getWeek(w)!.dreamJournal)).toEqual([8]);
-    expect(availableWeeks().filter((w) => getWeek(w)!.operationsJournal)).toEqual([9, 10, 11, 12]);
+    expect(availableWeeks().filter((w) => getWeek(w)!.operationsJournal)).toEqual([9, 10, 11, 12, 13, 14, 15, 16]);
     expect(availableWeeks().filter((w) => getWeek(w)!.sigilHelper)).toEqual([12]);
+    expect(availableWeeks().filter((w) => getWeek(w)!.beliefs)).toEqual([15]);
+    expect(getWeek(15)!.beliefs).toHaveLength(6);
+    expect(availableWeeks().filter((w) => getWeek(w)!.alphabet)).toEqual([16]);
   });
   it('sem travessões nem "presença"', () => {
     for (const w of availableWeeks()) expect(JSON.stringify(getWeek(w))).not.toMatch(/—|presen/i);

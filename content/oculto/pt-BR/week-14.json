@@ -1,0 +1,44 @@
+{
+  "week": 14,
+  "phase": 4,
+  "title": "Transmogrificação",
+  "subtitle": "Vestir uma qualidade, por um tempo",
+  "competence": "Flexibilidade de identidade",
+  "operationsJournal": true,
+  "intro": [
+    "Transmogrificação é assumir, de propósito e por um tempo, as características de outra figura: um arquétipo, um personagem ou uma qualidade que você quer ter. A ideia de fundo é que identidade e comportamento são mais maleáveis do que parecem.",
+    "Escolha uma qualidade para a semana toda: a confiança de quem fala em público sem medo, a disciplina de um atleta, a curiosidade de um artista, a calma de um estrategista. Dê a ela uma figura, real ou imaginada.",
+    "Nas sessões você constrói essa figura e entra nela: postura, respiração, voz interior. Fora das sessões, você a veste por alguns minutos numa situação real e observa o que muda."
+  ],
+  "objective": "Entrar na figura escolhida durante a sessão e vesti-la pelo menos uma vez por dia numa situação real, registrando o que mudou.",
+  "howTo": {
+    "prep": [
+      "Escolha uma qualidade e uma figura que a mostre bem. Use a mesma a semana toda.",
+      "Escolha qualidades que façam bem a você e a quem está à volta.",
+      "Espaço para ficar em pé e mudar de postura."
+    ],
+    "steps": [
+      "Comece sentado e visualize a figura à sua frente, como o Duplo da semana passada.",
+      "Observe como ela respira, como se mexe, como olha.",
+      "Levante-se e entre nela: copie a postura, a respiração, o ritmo dos gestos.",
+      "No fim, saia da figura de forma clara: sacuda as mãos, diga o seu nome e volte à sua postura."
+    ],
+    "care": [
+      "A figura é uma roupa, não uma substituição. Sempre termine saindo dela de forma consciente.",
+      "Nada de figuras ligadas a dano, raiva contra alguém ou comportamentos de risco."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Escolher a figura", "mainMinutes": 7, "observeMinutes": 5, "focus": "Definir a qualidade e visualizar a figura com clareza.", "cues": [{ "at": 0.5, "text": "Como ela respira?" }] },
+    { "day": 2, "title": "A postura", "mainMinutes": 10, "observeMinutes": 5, "focus": "Em pé, copiar a postura e a respiração da figura.", "cues": [{ "at": 0.4, "text": "Levante-se e entre na postura." }, { "at": 0.9, "text": "Saia da figura." }] },
+    { "day": 3, "title": "A voz interior", "mainMinutes": 10, "observeMinutes": 5, "focus": "Ouvir como a figura pensaria uma situação do seu dia.", "cues": [{ "at": 0.5, "text": "O que ela diria agora?" }, { "at": 0.9, "text": "Saia da figura." }] },
+    { "day": 4, "title": "Em movimento", "mainMinutes": 12, "observeMinutes": 5, "focus": "Andar pelo espaço como a figura, com o ritmo dela.", "cues": [{ "at": 0.4, "text": "Ande como ela." }, { "at": 0.9, "text": "Saia da figura." }] },
+    { "day": 5, "title": "Entrar e sair", "mainMinutes": 12, "observeMinutes": 5, "focus": "Entrar e sair da figura várias vezes, cada vez mais depressa.", "cues": [{ "at": 0.33, "text": "Saia. Agora entre de novo." }, { "at": 0.66, "text": "Saia. Agora entre de novo." }, { "at": 0.9, "text": "Saia de vez." }] }
+  ],
+  "challenges": [
+    { "title": "Cinco minutos reais", "text": "Uma vez por dia, vista a figura por cinco minutos numa situação real (uma reunião, uma conversa, um treino)." },
+    { "title": "O que os outros viram", "text": "Se alguém comentar alguma mudança em você, anote em Evidência." },
+    { "title": "O que ficou", "text": "No fim da semana, escreva que pedaço da figura continuou com você mesmo sem chamar." }
+  ],
+  "next": { "title": "Semana 15 · Crença aleatória", "text": "A seguir: um dado escolhe a crença que você vai usar durante a semana." }
+}

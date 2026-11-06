@@ -1,0 +1,45 @@
+{
+  "week": 12,
+  "phase": 3,
+  "title": "Sigilos",
+  "subtitle": "Intenção, símbolo, lançamento e esquecimento",
+  "competence": "Operação simbólica completa",
+  "operationsJournal": true,
+  "sigilHelper": true,
+  "intro": [
+    "O sigilo é a técnica mais conhecida da magia do caos. Uma intenção é escrita numa frase, as letras são reduzidas e combinadas num desenho que já não lembra a frase. Esse símbolo é lançado em gnose e depois esquecido de propósito.",
+    "Esta semana é uma operação completa, do começo ao fim: definir a intenção, construir o sigilo, lançá-lo, esquecê-lo e, no último dia, avaliar o que aconteceu com honestidade.",
+    "Vale separar dois efeitos. Como ferramenta de foco, motivação e mudança de hábito, o sigilo tem um efeito psicológico real. Qualquer efeito além disso é algo para observar e registrar, não para assumir. É por isso que o diário pede evidência."
+  ],
+  "objective": "Realizar uma operação com sigilo do começo ao fim e avaliá-la pelo que ficou registrado no diário.",
+  "howTo": {
+    "prep": [
+      "Escolha uma intenção pequena, positiva e sobre você mesmo, com resultado observável em poucos dias (por exemplo: eu durmo cedo esta semana).",
+      "Nada de intenções sobre outras pessoas.",
+      "Papel, caneta e um lugar tranquilo."
+    ],
+    "steps": [
+      "Escreva a intenção numa frase afirmativa, como algo que já acontece.",
+      "Reduza as letras: tire as repetidas e as vogais (o ajudante abaixo faz isso por você).",
+      "Combine as letras que sobraram num único desenho e simplifique até ele não lembrar mais nenhuma letra.",
+      "Nos dias seguintes, siga as instruções de cada sessão: lançar, esquecer e avaliar."
+    ],
+    "care": [
+      "Se a intenção trouxer ansiedade ou obsessão, escolha outra mais leve. O objetivo é soltar, não se prender.",
+      "Isto não substitui ações concretas: se a intenção é dormir cedo, apague a luz cedo também."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "A intenção", "mainMinutes": 10, "observeMinutes": 5, "focus": "Escrever a intenção, reduzir as letras e fazer o primeiro esboço do sigilo no papel.", "cues": [{ "at": 0.5, "text": "Simplifique o desenho." }] },
+    { "day": 2, "title": "O símbolo", "mainMinutes": 10, "observeMinutes": 5, "focus": "Redesenhar o sigilo até ele ficar simples e sem lembrar a frase; depois olhar para ele em quietude.", "cues": [{ "at": 0.6, "text": "Só o símbolo." }] },
+    { "day": 3, "title": "O lançamento", "mainMinutes": 12, "observeMinutes": 5, "focus": "Entrar em gnose (inibitória ou excitatória), manter o sigilo no centro no auge do foco e depois guardá-lo ou destruí-lo.", "cues": [{ "at": 0.5, "text": "Entre no estado." }, { "at": 0.8, "text": "Agora o sigilo. Depois, solte." }] },
+    { "day": 4, "title": "O esquecimento", "mainMinutes": 10, "observeMinutes": 5, "focus": "Fazer uma concentração da Fase II sem relação com a intenção e anotar se ela voltou à mente.", "cues": [{ "at": 0.5, "text": "Volte ao objeto da concentração." }] },
+    { "day": 5, "title": "A avaliação", "mainMinutes": 10, "observeMinutes": 5, "focus": "Reler os registros, comparar a intenção com o que aconteceu e escrever a evidência.", "cues": [] }
+  ],
+  "challenges": [
+    { "title": "Desafio da fase", "text": "Uma operação simbólica completa: intenção definida, procedimento registrado e avaliação depois, separando experiência, interpretação e evidência." },
+    { "title": "Uma semana depois", "text": "Volte ao diário sete dias depois do lançamento e veja se a avaliação mudou." },
+    { "title": "O que você fez", "text": "Liste as ações concretas que você tomou a favor da intenção. Elas também contam como parte do resultado." }
+  ],
+  "next": { "title": "Fase IV · Transformação", "text": "A seguir: identidade, crenças e o Alfabeto do Desejo." }
+}

@@ -43,6 +43,7 @@ export async function getOculto(userId: string): Promise<OcultoState | null> {
   const logs: SessionLog[] = rows.map((r) => ({
     day: r.day, date: fromDbDate(r.date), plannedSec: r.plannedSec, actualSec: r.actualSec, concentration: r.concentration,
     difficulty: r.difficulty, notes: r.notes, dream: r.dream,
+    experience: r.experience, interpretation: r.interpretation, evidence: r.evidence,
   }));
   const content = getWeek(progress.week);
   const dream = content?.dreamJournal

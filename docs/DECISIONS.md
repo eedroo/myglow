@@ -196,6 +196,7 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 - **Segurança:** sem hiperventilação, retenção forçada, privação de sono ou substâncias.
 - **No Hoje:** só para quem tem o recurso, a sessão do dia aparece dentro da Manhã.
 - **Fase II (semanas 5 a 8):** som, objecto, visualização e sonhos. Na semana dos sonhos (`dreamJournal`), o sonho escreve-se uma vez (Manhã do Hoje ou diário do treino) e aparece nos dois (`OcultoDream`, um por dia); conta como registo do diário na avaliação.
+- **Fase III (semanas 9 a 12):** gnose inibitória, gnose excitatória (só ritmo e movimento moderados, sem hiperventilação), divinação e sigilos. Com `operationsJournal`, o diário separa experiência (o que aconteceu), interpretação (o que se acha que significa) e evidência (o que se verifica); qualquer um conta como registo. A intenção do sigilo nunca é gravada: o ajudante só reduz as letras no ecrã.
 - **Reiniciar:** o admin pode apagar todo o progresso de uma pessoa (sessões, avaliações, sonhos) na ficha do utilizador; volta à semana 1.
 
 ## Ícones

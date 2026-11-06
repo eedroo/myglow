@@ -1,0 +1,44 @@
+{
+  "week": 9,
+  "phase": 3,
+  "title": "Gnose inibitória",
+  "subtitle": "Silêncio profundo com uma única intenção",
+  "competence": "Estado de gnose pela quietude",
+  "operationsJournal": true,
+  "intro": [
+    "A Fase III leva tudo o que você treinou até aqui para a prática mágica. A base dela é a gnose: um estado em que o pensamento discursivo quase para e a atenção fica inteira num só ponto. É nesse estado que, na magia do caos, se lança uma intenção.",
+    "Há duas vias para chegar lá. Esta semana é a inibitória: imobilidade, respiração calma e silêncio mental, como nas Fases I e II, só que mais fundo e com um foco único no centro, uma palavra simples ou um símbolo.",
+    "A partir de agora, o diário separa três coisas: a experiência (o que de fato aconteceu), a interpretação (o que você acha que aquilo significa) e a evidência (o que dá para verificar fora da sua cabeça). Manter isso separado é parte do treino."
+  ],
+  "objective": "Entrar num estado de quietude profunda e manter uma única palavra ou símbolo no centro da atenção por até 15 minutos.",
+  "howTo": {
+    "prep": [
+      "Escolha uma palavra curta e neutra (por exemplo: calma, luz, agora) ou um símbolo simples. Use o mesmo a semana toda.",
+      "Postura estável, olhos fechados, um minuto de respiração calma.",
+      "Celular em modo avião, nenhuma interrupção prevista."
+    ],
+    "steps": [
+      "Deixe o corpo imóvel como na semana 1 e a respiração solta como na semana 2.",
+      "Traga a palavra ou o símbolo para o centro da mente e deixe todo o resto se apagar à volta.",
+      "Quando um pensamento aparecer, não discuta com ele. Volte ao centro.",
+      "Perceba os momentos em que o pensamento some de vez e sobra só o foco. Esse é o estado que você está treinando."
+    ],
+    "care": [
+      "Respiração sempre natural. Nada de prender o ar ou respirar mais rápido para mudar o estado.",
+      "Se surgir ansiedade, abra os olhos, mexa as mãos e volte só quando estiver tranquilo."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "O centro", "mainMinutes": 7, "observeMinutes": 5, "focus": "Escolher a palavra ou o símbolo e mantê-lo no centro.", "cues": [] },
+    { "day": 2, "title": "Apagar as bordas", "mainMinutes": 10, "observeMinutes": 5, "focus": "Deixar sons, sensações e pensamentos se apagarem à volta do centro.", "cues": [{ "at": 0.5, "text": "Só o centro." }] },
+    { "day": 3, "title": "Sem comentário", "mainMinutes": 12, "observeMinutes": 5, "focus": "Perceber o pensamento sem responder a ele.", "cues": [{ "at": 0.5, "text": "Volte ao centro sem comentar." }] },
+    { "day": 4, "title": "O momento de silêncio", "mainMinutes": 15, "observeMinutes": 5, "focus": "Reconhecer os instantes em que sobra só o foco.", "cues": [{ "at": 0.33, "text": "Imóvel." }, { "at": 0.66, "text": "Só o centro." }] },
+    { "day": 5, "title": "Gnose sustentada", "mainMinutes": 15, "observeMinutes": 5, "focus": "Entrar no estado mais cedo e ficar nele por mais tempo.", "cues": [{ "at": 0.33, "text": "Um terço." }, { "at": 0.66, "text": "Dois terços." }] }
+  ],
+  "challenges": [
+    { "title": "Três registros separados", "text": "No diário, escreva sempre a experiência, a interpretação e a evidência em campos diferentes, mesmo que a evidência seja \"nenhuma\"." },
+    { "title": "Um minuto de centro", "text": "Uma vez por dia, fora da sessão, feche os olhos e volte à sua palavra por um minuto." },
+    { "title": "O que te tira", "text": "Anote o tipo de pensamento que mais interrompe o silêncio: planos, memórias, julgamentos, sensações." }
+  ],
+  "next": { "title": "Semana 10 · Gnose excitatória", "text": "A seguir: chegar ao mesmo foco pela intensidade, com movimento e ritmo." }
+}

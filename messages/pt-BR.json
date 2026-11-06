@@ -2471,6 +2471,15 @@
     }
   },
   "oculto": {
+    "sigil": {
+      "title": "Construir o sigilo",
+      "intention": "A sua intenção, numa frase",
+      "placeholder": "Eu durmo cedo esta semana",
+      "private": "Fica só nesta tela. Não é gravada.",
+      "unique": "1. Sem letras repetidas",
+      "final": "2. Sem vogais: as letras do desenho",
+      "draw": "3. Combine estas letras num único desenho no papel e simplifique até não lembrar nenhuma letra."
+    },
     "dream": {
       "title": "Sonho desta noite",
       "hint": "Escreva logo ao acordar, mesmo que seja só um fragmento. Fica também no diário do treino.",
@@ -2513,6 +2522,12 @@
       "diary": "Diário do treino",
       "diaryHelp": "O programa usa o que você escreve aqui para decidir se a semana está consolidada.",
       "fields": {
+        "experience": "Experiência: o que de fato aconteceu",
+        "experiencePlaceholder": "Só os fatos: o que você fez, viu, sentiu…",
+        "interpretation": "Interpretação: o que você acha que significa",
+        "interpretationPlaceholder": "A sua leitura do que aconteceu…",
+        "evidence": "Evidência: o que dá para verificar",
+        "evidencePlaceholder": "O que alguém de fora poderia confirmar. Pode ser \"nenhuma ainda\".",
         "dream": "Sonho desta noite",
         "dreamPlaceholder": "O que você lembrou, mesmo que seja só um fragmento…",
         "dreamShared": "Fica também na Manhã do Hoje.",

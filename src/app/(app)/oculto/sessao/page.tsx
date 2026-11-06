@@ -20,5 +20,17 @@ export default async function OcultoSessionRoute() {
   const def = state.content?.sessions.find((s) => s.day === state.status.next);
   if (!state.content || !def || !state.status.canPractice || state.currentReview?.result === 'ADVANCE') redirect('/oculto');
   const orb = await ownOrb(session.user.id).catch(() => null);
-  return <OcultoSessionPlayer week={state.week} weekTitle={state.content.title} session={def} howTo={state.content.howTo} orb={orb} dreamJournal={!!state.content.dreamJournal} initialDream={state.todayDream} />;
+  return (
+    <OcultoSessionPlayer
+      week={state.week}
+      weekTitle={state.content.title}
+      session={def}
+      howTo={state.content.howTo}
+      orb={orb}
+      dreamJournal={!!state.content.dreamJournal}
+      initialDream={state.todayDream}
+      operationsJournal={!!state.content.operationsJournal}
+      sigilHelper={!!state.content.sigilHelper}
+    />
+  );
 }

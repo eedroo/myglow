@@ -321,3 +321,49 @@
 .mg-oculto-dream__status:empty {
   display: none;
 }
+
+/* Ajudante de sigilos (semana 12), na preparação da sessão */
+.mg-oculto-sigil {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-oculto-sigil__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding-left: var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto-sigil__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mg-oculto-sigil__letters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.mg-oculto-sigil__letter {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2rem;
+  height: 2rem;
+  border: var(--border-width) solid var(--oculto-line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--oculto-ink);
+}
+
+.mg-oculto-sigil__letter--final {
+  border-color: var(--oculto-spark);
+  box-shadow: 0 0 var(--space-2) var(--oculto-glow);
+}

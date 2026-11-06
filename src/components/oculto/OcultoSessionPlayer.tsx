@@ -10,6 +10,7 @@ import { LightOrb } from '@/components/friends/LightOrb';
 import type { OrbSigns } from '@/lib/friends/orb';
 import type { OcultoSessionDef, OcultoWeek } from '@/lib/oculto/content';
 import { OcultoTimer } from './OcultoTimer';
+import { OcultoSigilHelper } from './OcultoSigilHelper';
 
 interface Props {
   week: number;
@@ -20,6 +21,10 @@ interface Props {
   /** Semana dos sonhos: o diário ganha o campo do sonho (o mesmo da Manhã do Hoje). */
   dreamJournal?: boolean;
   initialDream?: string | null;
+  /** Operações mágicas: experiência, interpretação e evidência em vez das observações. */
+  operationsJournal?: boolean;
+  /** Semana dos sigilos: ajudante na preparação. */
+  sigilHelper?: boolean;
 }
 
 const clearTimers = (base: string) => {
@@ -34,7 +39,7 @@ const clearTimers = (base: string) => {
  * Sessão do Grimório Oculto, passo a passo: preparação, exercício principal (timer com a esfera), observação (timer
  * curto), diário do treino e fecho. O diário grava a sessão; o programa avalia a semana a partir dele.
  */
-export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, dreamJournal = false, initialDream = null }: Props) {
+export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, dreamJournal = false, initialDream = null, operationsJournal = false, sigilHelper = false }: Props) {
   const t = useTranslations('oculto.session');
   const te = useTranslations();
   const router = useRouter();
@@ -47,6 +52,9 @@ export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, drea
   const [difficulty, setDifficulty] = useState('');
   const [notes, setNotes] = useState('');
   const [dream, setDream] = useState(initialDream ?? '');
+  const [experience, setExperience] = useState('');
+  const [interpretation, setInterpretation] = useState('');
+  const [evidence, setEvidence] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const timerLabels = { start: t('start'), pause: t('pause'), resume: t('resume'), finish: t('finish'), done: t('timerDone'), remaining: t('remaining') };
@@ -64,7 +72,7 @@ export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, drea
       setError(t('errors.minutes'));
       throw new Error('minutes');
     }
-    const res = await saveOcultoSession({ week, day: session.day, actualSec: actual, concentration, difficulty, notes, ...(dreamJournal ? { dream } : {}) }).catch(() => ({ ok: false as const, error: 'oculto.errors.offline' }));
+    const res = await saveOcultoSession({ week, day: session.day, actualSec: actual, concentration, difficulty, ...(operationsJournal ? { experience, interpretation, evidence } : { notes }), ...(dreamJournal ? { dream } : {}) }).catch(() => ({ ok: false as const, error: 'oculto.errors.offline' }));
     if (!res.ok) {
       setError(te(res.error));
       throw new Error(res.error);
@@ -94,6 +102,7 @@ export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, drea
               <li key={x}>{x}</li>
             ))}
           </ol>
+          {sigilHelper && <OcultoSigilHelper />}
           {howTo.care.length > 0 && (
             <ul className="mg-oculto-step__care">
               {howTo.care.map((x) => (
@@ -159,10 +168,27 @@ export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, drea
             <span>{t('fields.difficulty')}</span>
             <textarea className="mg-input" rows={2} maxLength={2000} value={difficulty} placeholder={t('fields.difficultyPlaceholder')} onChange={(e) => setDifficulty(e.target.value)} />
           </label>
-          <label className="mg-oculto-step__field">
-            <span>{t('fields.notes')}</span>
-            <textarea className="mg-input" rows={3} maxLength={2000} value={notes} placeholder={t('fields.notesPlaceholder')} onChange={(e) => setNotes(e.target.value)} />
-          </label>
+          {operationsJournal ? (
+            <>
+              <label className="mg-oculto-step__field">
+                <span>{t('fields.experience')}</span>
+                <textarea className="mg-input" rows={3} maxLength={2000} value={experience} placeholder={t('fields.experiencePlaceholder')} onChange={(e) => setExperience(e.target.value)} />
+              </label>
+              <label className="mg-oculto-step__field">
+                <span>{t('fields.interpretation')}</span>
+                <textarea className="mg-input" rows={2} maxLength={2000} value={interpretation} placeholder={t('fields.interpretationPlaceholder')} onChange={(e) => setInterpretation(e.target.value)} />
+              </label>
+              <label className="mg-oculto-step__field">
+                <span>{t('fields.evidence')}</span>
+                <textarea className="mg-input" rows={2} maxLength={2000} value={evidence} placeholder={t('fields.evidencePlaceholder')} onChange={(e) => setEvidence(e.target.value)} />
+              </label>
+            </>
+          ) : (
+            <label className="mg-oculto-step__field">
+              <span>{t('fields.notes')}</span>
+              <textarea className="mg-input" rows={3} maxLength={2000} value={notes} placeholder={t('fields.notesPlaceholder')} onChange={(e) => setNotes(e.target.value)} />
+            </label>
+          )}
           {error && (
             <p className="mg-step__error" role="alert">
               {error}

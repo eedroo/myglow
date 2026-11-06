@@ -46,6 +46,10 @@ export const weekSchema = z.object({
   next: z.object({ title: text, text }).optional(),
   /** Semana dos sonhos: o diário do treino ganha o campo do sonho, partilhado com a Manhã do Hoje. */
   dreamJournal: z.boolean().optional(),
+  /** Operações mágicas (Fase III em diante): o diário separa experiência, interpretação e evidência. */
+  operationsJournal: z.boolean().optional(),
+  /** Semana dos sigilos: ajudante que reduz as letras da intenção (não grava nada). */
+  sigilHelper: z.boolean().optional(),
 });
 
 export type OcultoProgram = z.infer<typeof programSchema>;

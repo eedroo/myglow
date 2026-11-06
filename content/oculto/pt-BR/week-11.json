@@ -1,0 +1,44 @@
+{
+  "week": 11,
+  "phase": 3,
+  "title": "Divinação",
+  "subtitle": "Perguntar, ler o símbolo e conferir depois",
+  "competence": "Interpretação simbólica com registro",
+  "operationsJournal": true,
+  "intro": [
+    "Divinação é usar um sistema de símbolos, sorteados ao acaso, para olhar uma pergunta de outro ângulo. Pode ser um baralho que você já tenha, uma moeda, uma página aberta ao acaso num livro ou formas vistas nas nuvens ou na borra do café.",
+    "O método conta mais do que o sistema: entrar em quietude, fazer uma pergunta clara, sortear, interpretar e escrever tudo antes de saber a resposta. Só assim dá para conferir depois, sem a memória reescrever o que você achou.",
+    "Esta semana o campo Evidência ganha importância. Na interpretação vai o que o símbolo parece dizer. Na evidência, mais tarde, vai o que de fato aconteceu."
+  ],
+  "objective": "Fazer uma leitura por dia com pergunta clara, registrar a interpretação antes do resultado e conferir no fim da semana.",
+  "howTo": {
+    "prep": [
+      "Escolha o seu sistema e use o mesmo a semana toda: baralho, moeda, livro ao acaso ou outro.",
+      "Escreva a pergunta antes de começar. Prefira perguntas sobre os próximos dias, que dê para conferir.",
+      "Alguns minutos de gnose inibitória para acalmar a mente."
+    ],
+    "steps": [
+      "Na quietude, mantenha a pergunta no centro por alguns instantes.",
+      "Sorteie o símbolo sem pensar: tire a carta, abra o livro, lance a moeda.",
+      "Olhe o símbolo e deixe vir a primeira impressão, antes de qualquer análise.",
+      "Depois analise e escreva no diário: o que saiu (experiência) e o que você acha que significa (interpretação)."
+    ],
+    "care": [
+      "Nada de usar a leitura para decisões de saúde, dinheiro ou relações importantes. É um exercício de percepção.",
+      "Se a leitura deixar você ansioso, lembre-se: é um símbolo sorteado. Anote a sensação e siga."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Uma pergunta clara", "mainMinutes": 10, "observeMinutes": 5, "focus": "Formular uma pergunta concreta, que dê para conferir nos próximos dias.", "cues": [{ "at": 0.5, "text": "Agora sorteie o símbolo." }] },
+    { "day": 2, "title": "A primeira impressão", "mainMinutes": 10, "observeMinutes": 5, "focus": "Escrever a primeira impressão antes de analisar o símbolo.", "cues": [{ "at": 0.5, "text": "Agora sorteie o símbolo." }] },
+    { "day": 3, "title": "Símbolo e contexto", "mainMinutes": 10, "observeMinutes": 5, "focus": "Ligar o símbolo à pergunta sem forçar o sentido.", "cues": [{ "at": 0.5, "text": "Agora sorteie o símbolo." }] },
+    { "day": 4, "title": "Leitura às cegas", "mainMinutes": 10, "observeMinutes": 5, "focus": "Escrever a pergunta num papel dobrado, sortear sem saber qual é e só depois abrir.", "cues": [{ "at": 0.5, "text": "Agora sorteie o símbolo." }] },
+    { "day": 5, "title": "Conferir", "mainMinutes": 10, "observeMinutes": 5, "focus": "Reler as leituras dos dias anteriores e escrever, em Evidência, o que de fato aconteceu.", "cues": [] }
+  ],
+  "challenges": [
+    { "title": "Placar honesto", "text": "No dia 5, conte quantas leituras acertaram, quantas erraram e quantas eram vagas demais para conferir." },
+    { "title": "Perguntas melhores", "text": "Reescreva uma pergunta vaga da semana de forma que a resposta pudesse ser verificada." },
+    { "title": "O símbolo que voltou", "text": "Anote se algum símbolo apareceu mais de uma vez e em que situação." }
+  ],
+  "next": { "title": "Semana 12 · Sigilos", "text": "A seguir: transformar uma intenção num símbolo, lançá-lo e esquecê-lo." }
+}

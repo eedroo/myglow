@@ -1,0 +1,45 @@
+{
+  "week": 10,
+  "phase": 3,
+  "title": "Gnose excitatória",
+  "subtitle": "Foco pela intensidade, em segurança",
+  "competence": "Estado de gnose pelo ritmo",
+  "operationsJournal": true,
+  "intro": [
+    "A segunda via da gnose é a excitatória: em vez de silenciar a mente pela quietude, você a ocupa por completo com intensidade. Ritmo, movimento e som repetido tomam tanto espaço que o pensamento comum não cabe.",
+    "Aqui a intensidade é segura e moderada: balançar o corpo, bater palmas ou os pés num ritmo, dançar no lugar, repetir um som ou uma palavra em voz baixa. Nada de levar o corpo ao limite.",
+    "Cada sessão termina com um momento de quietude logo depois do pico. Muitos praticantes percebem que é ali, quando o movimento para, que o foco fica mais limpo."
+  ],
+  "objective": "Usar ritmo e movimento para ocupar a mente por completo e, logo a seguir, manter a quietude com o foco no centro.",
+  "howTo": {
+    "prep": [
+      "Um espaço livre à volta, chão firme e roupa confortável.",
+      "Escolha um ritmo simples (palmas, pés, balanço) e, se quiser, uma palavra ou som curto para repetir.",
+      "Música só se for instrumental e com batida constante."
+    ],
+    "steps": [
+      "Comece devagar e vá aumentando o ritmo aos poucos, até ele ocupar toda a atenção.",
+      "Mantenha o ritmo sem pensar nele. Se a mente comentar, entre mais no movimento.",
+      "Na fração final do tempo, pare de uma vez e fique imóvel, de olhos fechados.",
+      "Na quietude, leve a atenção para a palavra ou o símbolo da semana passada."
+    ],
+    "care": [
+      "Nada de hiperventilar, girar até ficar tonto ou ir até a exaustão. Respire pelo nariz sempre que possível.",
+      "Problemas cardíacos, de pressão, de equilíbrio ou gravidez: troque o movimento por palmas sentado, num ritmo suave.",
+      "Tontura, dor ou falta de ar: pare, sente-se e respire normalmente."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Encontrar o ritmo", "mainMinutes": 5, "observeMinutes": 5, "focus": "Achar um ritmo que o corpo consiga manter sem esforço.", "cues": [{ "at": 0.8, "text": "Pare. Imóvel." }] },
+    { "day": 2, "title": "Entrar no ritmo", "mainMinutes": 7, "observeMinutes": 5, "focus": "Deixar o ritmo ocupar a atenção até o pensamento sumir.", "cues": [{ "at": 0.8, "text": "Pare. Imóvel." }] },
+    { "day": 3, "title": "Som e movimento", "mainMinutes": 8, "observeMinutes": 5, "focus": "Juntar ao movimento uma palavra ou som repetido em voz baixa.", "cues": [{ "at": 0.5, "text": "Mais fundo no ritmo." }, { "at": 0.8, "text": "Pare. Imóvel." }] },
+    { "day": 4, "title": "O pico e a quietude", "mainMinutes": 10, "observeMinutes": 5, "focus": "Perceber o que acontece com o foco logo depois de parar.", "cues": [{ "at": 0.5, "text": "Mantenha o ritmo." }, { "at": 0.8, "text": "Pare. Só o centro." }] },
+    { "day": 5, "title": "Comparar as vias", "mainMinutes": 10, "observeMinutes": 5, "focus": "Notar a diferença entre o foco desta semana e o da semana passada.", "cues": [{ "at": 0.5, "text": "Mantenha o ritmo." }, { "at": 0.8, "text": "Pare. Só o centro." }] }
+  ],
+  "challenges": [
+    { "title": "Qual via é a sua", "text": "No fim da semana, escreva qual das duas vias (quietude ou intensidade) leva você mais depressa ao foco, e com que evidência." },
+    { "title": "Ritmo no dia a dia", "text": "Ao caminhar, sincronize os passos com a respiração por alguns minutos e perceba o que acontece com o pensamento." },
+    { "title": "Corpo depois", "text": "Anote como o corpo fica depois de cada sessão: energia, cansaço, calma." }
+  ],
+  "next": { "title": "Semana 11 · Divinação", "text": "A seguir: fazer perguntas, ler símbolos e conferir depois." }
+}

@@ -2471,6 +2471,22 @@
     }
   },
   "oculto": {
+    "paradigm": {
+      "title": "My paradigm",
+      "help": "Your working view of the world, written with your eyes open. It stays here and can change whenever you like.",
+      "name": "Name (optional)",
+      "namePlaceholder": "A name for your paradigm",
+      "premises": "Premises",
+      "premisesPlaceholder": "What you choose to believe when you practise, and why…",
+      "symbols": "Symbols from your alphabet",
+      "noSymbols": "Create symbols in the Alphabet of Desire to pick them here.",
+      "practices": "Practices",
+      "practicesPlaceholder": "The practices that belong to your paradigm…",
+      "limits": "Limits",
+      "limitsPlaceholder": "Where it should not be used, and what would make you revise it…",
+      "save": "Save paradigm",
+      "saved": "Paradigm saved."
+    },
     "alphabet": {
       "title": "Alphabet of Desire",
       "help": "Your own symbols for the forces that move you. They stay here and feed the next phases.",
@@ -2536,6 +2552,7 @@
     "soon": "This week is still being written.",
     "soonShort": "coming soon",
     "session": {
+      "chaosphere": "The eight-arrowed star: one centre, eight directions",
       "label": "Hidden Grimoire session",
       "close": "Leave the session",
       "eyebrow": "Week {week} · {title} · Session {day}",

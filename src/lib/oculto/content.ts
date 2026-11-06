@@ -54,6 +54,10 @@ export const weekSchema = z.object({
   beliefs: z.array(z.object({ title: text, text })).min(2).max(12).optional(),
   /** Alfabeto do Desejo: a partir desta semana, a pessoa cria e guarda os seus símbolos. */
   alphabet: z.boolean().optional(),
+  /** Semana da Chaosphere: o símbolo na preparação. */
+  chaosphere: z.boolean().optional(),
+  /** Paradigma pessoal: a partir desta semana, a pessoa escreve e guarda o seu paradigma. */
+  paradigm: z.boolean().optional(),
 });
 
 export type OcultoProgram = z.infer<typeof programSchema>;

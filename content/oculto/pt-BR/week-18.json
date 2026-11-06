@@ -1,0 +1,44 @@
+{
+  "week": 18,
+  "phase": 5,
+  "title": "Transubstanciação",
+  "subtitle": "Carregar a matéria com uma qualidade",
+  "competence": "Ritual simbólico com objeto",
+  "operationsJournal": true,
+  "intro": [
+    "Transubstanciação é a ideia de que uma coisa comum pode ser carregada com um significado, ou uma qualidade, por meio de um ritual. É uma das operações mais antigas e aparece em muitas tradições.",
+    "Esta semana o objeto é simples: um copo de água. Em gnose, você escolhe uma qualidade do seu Alfabeto do Desejo, carrega a água com ela e depois bebe, prestando atenção ao que muda.",
+    "Para separar o efeito do ritual do efeito da expectativa, há um dia com água comum, sem carga, e um dia às cegas. Tudo vai para o diário."
+  ],
+  "objective": "Realizar o ritual de transubstanciação por cinco dias, incluindo um controle e um teste às cegas, e comparar os registros.",
+  "howTo": {
+    "prep": [
+      "Um copo de água limpa, um lugar tranquilo.",
+      "Escolha uma qualidade do seu Alfabeto do Desejo para a semana (por exemplo: calma, coragem, foco).",
+      "Tenha o símbolo dela desenhado num papel ou aberto no Grimório Oculto."
+    ],
+    "steps": [
+      "Entre em gnose, inibitória ou excitatória, como na Fase III.",
+      "Segure o copo com as duas mãos e mantenha o símbolo da qualidade no centro da mente.",
+      "Imagine a qualidade passando para a água até ela parecer cheia.",
+      "Beba devagar e fique alguns minutos observando o corpo e o humor."
+    ],
+    "care": [
+      "Só água limpa. Nada de bebidas alcoólicas ou outras substâncias.",
+      "A qualidade escolhida deve ser algo bom para você. Nada de rituais sobre outras pessoas."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "O primeiro copo", "mainMinutes": 10, "observeMinutes": 5, "focus": "Fazer o ritual completo pela primeira vez e observar o que muda depois de beber.", "cues": [{ "at": 0.5, "text": "Agora a qualidade passa para a água." }, { "at": 0.85, "text": "Beba devagar." }] },
+    { "day": 2, "title": "Mais nítido", "mainMinutes": 10, "observeMinutes": 5, "focus": "Repetir o ritual com o símbolo mais nítido e a gnose mais funda.", "cues": [{ "at": 0.5, "text": "Agora a qualidade passa para a água." }, { "at": 0.85, "text": "Beba devagar." }] },
+    { "day": 3, "title": "O controle", "mainMinutes": 10, "observeMinutes": 5, "focus": "Fazer o mesmo, mas sem carregar a água. Só beber com atenção e comparar.", "cues": [{ "at": 0.85, "text": "Beba devagar." }] },
+    { "day": 4, "title": "Às cegas", "mainMinutes": 10, "observeMinutes": 5, "focus": "Preparar dois copos, carregar só um, marcar por baixo e misturar a posição. Beber de um sem saber qual é.", "cues": [{ "at": 0.85, "text": "Beba e anote antes de olhar a marca." }] },
+    { "day": 5, "title": "Comparar", "mainMinutes": 10, "observeMinutes": 5, "focus": "Fazer o ritual mais uma vez e comparar os quatro dias anteriores no diário.", "cues": [{ "at": 0.5, "text": "Agora a qualidade passa para a água." }] }
+  ],
+  "challenges": [
+    { "title": "Placar às cegas", "text": "No dia 4, escreva em Evidência se você adivinhou qual copo bebeu antes de olhar a marca." },
+    { "title": "Expectativa", "text": "Compare o dia 3 (sem carga) com os outros. A diferença foi grande, pequena ou nenhuma?" },
+    { "title": "No dia a dia", "text": "Escolha uma refeição da semana para comer em silêncio, com atenção, como um pequeno ritual." }
+  ],
+  "next": { "title": "Semana 19 · Chaosphere", "text": "A seguir: o símbolo central da magia do caos." }
+}

@@ -1,0 +1,44 @@
+{
+  "week": 20,
+  "phase": 5,
+  "title": "Aeonics",
+  "subtitle": "Paradigmas que mudam, e o seu",
+  "competence": "Construção de um paradigma pessoal",
+  "operationsJournal": true,
+  "paradigm": true,
+  "intro": [
+    "Aeonics é a leitura de Carroll sobre como as visões de mundo mudam ao longo da história: épocas em que tudo tinha alma, épocas guiadas por uma religião única, épocas que só aceitam o que se mede, e a ideia de que estamos entrando numa época em que se usa cada visão como ferramenta.",
+    "É um modelo especulativo, não uma lição de história. O que interessa aqui é a pergunta que ele abre: quais são as premissas da sua própria visão de mundo, de onde vieram e quais você escolheria agora, de olhos abertos?",
+    "O desafio da Fase V é escrever o seu paradigma pessoal de trabalho: as premissas, os símbolos (do seu Alfabeto do Desejo), as práticas e, principalmente, os limites. Ele fica guardado no Grimório Oculto e você pode revê-lo sempre que quiser."
+  ],
+  "objective": "Escrever o seu paradigma pessoal, com premissas, símbolos, práticas e limites, e testá-lo numa sessão de gnose.",
+  "howTo": {
+    "prep": [
+      "Releia os diários das semanas de crença aleatória (15) e de modelos (17 a 19).",
+      "O seu paradigma fica na preparação desta semana e na página do Grimório Oculto."
+    ],
+    "steps": [
+      "Em quietude, olhe para a sua visão de mundo como olhou para o Duplo: de fora.",
+      "Pergunte de onde vem cada coisa em que você acredita: família, escola, experiência, escolha.",
+      "Escreva no seu paradigma o que você quer manter, o que quer trocar e onde ele não deve ser usado.",
+      "Volte à gnose e use o paradigma por alguns minutos, como fez com a crença sorteada."
+    ],
+    "care": [
+      "Um paradigma pessoal não substitui a medicina, a psicologia nem as suas responsabilidades. Escreva isso nos limites.",
+      "Não precisa ficar pronto esta semana. Ele foi feito para mudar."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Os paradigmas", "mainMinutes": 10, "observeMinutes": 5, "focus": "Reconhecer em você traços de cada grande visão de mundo: a que tudo tem alma, a religiosa, a que só aceita o que se mede.", "cues": [{ "at": 0.5, "text": "Onde cada uma aparece em você?" }] },
+    { "day": 2, "title": "As premissas", "mainMinutes": 10, "observeMinutes": 5, "focus": "Listar no paradigma as premissas com que você escolhe trabalhar.", "cues": [{ "at": 0.5, "text": "De onde vem esta premissa?" }] },
+    { "day": 3, "title": "Símbolos e práticas", "mainMinutes": 10, "observeMinutes": 5, "focus": "Escolher os símbolos do alfabeto e as práticas que fazem parte do seu paradigma.", "cues": [{ "at": 0.5, "text": "Que símbolo carrega isto?" }] },
+    { "day": 4, "title": "Os limites", "mainMinutes": 10, "observeMinutes": 5, "focus": "Escrever onde o paradigma não deve ser usado e o que faria você revê-lo.", "cues": [{ "at": 0.5, "text": "Onde ele não serve?" }] },
+    { "day": 5, "title": "Viver o paradigma", "mainMinutes": 15, "observeMinutes": 5, "focus": "Gnose com o paradigma no centro e, depois, revisão do texto.", "cues": [{ "at": 0.33, "text": "Dentro do seu paradigma." }, { "at": 0.66, "text": "O que ajustar?" }] }
+  ],
+  "challenges": [
+    { "title": "Desafio da fase", "text": "Construir um paradigma pessoal de trabalho, explicitando as suas premissas, símbolos e limites." },
+    { "title": "Experiência, crença e evidência", "text": "Para cada premissa, escreva se ela vem de experiência, de crença ou de evidência." },
+    { "title": "Revisão marcada", "text": "Escolha uma data, daqui a um mês, para reler e ajustar o seu paradigma." }
+  ],
+  "next": { "title": "Fase VI · Psychonaut", "text": "A seguir: níveis de consciência, paradigmas mágicos e o projeto final." }
+}

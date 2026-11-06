@@ -34,6 +34,8 @@ export default async function OcultoSessionRoute() {
       beliefs={state.content.beliefs}
       belief={state.belief}
       glyphs={state.content.alphabet ? state.glyphs : null}
+      chaosphere={!!state.content.chaosphere}
+      paradigm={state.content.paradigm ? { initial: state.paradigm, glyphs: state.glyphs } : null}
     />
   );
 }

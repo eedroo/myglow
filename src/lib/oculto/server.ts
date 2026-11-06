@@ -33,6 +33,9 @@ export interface OcultoState {
   /** Alfabeto do Desejo aberto (a semana actual já passou pela primeira semana com `alphabet`). */
   alphabetOpen: boolean;
   glyphs: OcultoGlyphView[];
+  /** Paradigma pessoal aberto (a semana actual já passou pela primeira semana com `paradigm`). */
+  paradigmOpen: boolean;
+  paradigm: OcultoParadigmView | null;
 }
 
 export interface OcultoGlyphView {
@@ -42,9 +45,22 @@ export interface OcultoGlyphView {
   strokes: Strokes;
 }
 
+export interface OcultoParadigmView {
+  name: string;
+  premises: string;
+  symbols: string[];
+  practices: string;
+  limits: string;
+}
+
+/** Primeira semana escrita com uma marca (alfabeto, paradigma…), ou null se ainda não há. */
+export function firstWeekWith(available: number[], flag: 'alphabet' | 'paradigm'): number | null {
+  return available.find((w) => getWeek(w)?.[flag]) ?? null;
+}
+
 /** Primeira semana escrita com o Alfabeto do Desejo (null se ainda não há). */
 export function alphabetWeek(available: number[]): number | null {
-  return available.find((w) => getWeek(w)?.alphabet) ?? null;
+  return firstWeekWith(available, 'alphabet');
 }
 
 /** Estado do treino (cria o progresso na primeira visita). null sem o recurso. */
@@ -73,6 +89,9 @@ export async function getOculto(userId: string): Promise<OcultoState | null> {
   const glyphs = alphabetOpen
     ? await db.ocultoGlyph.findMany({ where: { userId }, orderBy: { createdAt: 'asc' }, select: { id: true, name: true, meaning: true, strokes: true } })
     : [];
+  const firstParadigm = firstWeekWith(available, 'paradigm');
+  const paradigmOpen = firstParadigm !== null && progress.week >= firstParadigm;
+  const paradigm = paradigmOpen ? await db.ocultoParadigm.findUnique({ where: { userId } }) : null;
   return {
     program: getProgram(),
     available,
@@ -82,6 +101,15 @@ export async function getOculto(userId: string): Promise<OcultoState | null> {
     todayDream: dream?.text ?? null,
     belief: content?.beliefs && progress.belief !== null && progress.belief < content.beliefs.length ? progress.belief : null,
     alphabetOpen,
+    paradigmOpen,
+    paradigm: paradigm && {
+      name: paradigm.name ?? '',
+      premises: paradigm.premises ?? '',
+      // Só símbolos que ainda existem no alfabeto.
+      symbols: paradigm.symbols.filter((id) => glyphs.some((g) => g.id === id)),
+      practices: paradigm.practices ?? '',
+      limits: paradigm.limits ?? '',
+    },
     glyphs: glyphs.map((g) => ({ id: g.id, name: g.name, meaning: g.meaning, strokes: parseStrokes(g.strokes) })),
     logs,
     status: weekStatus({ logs, today, daysSinceStart: daysBetween(todayInTz(user.timezone, progress.weekStartedAt), today) }),

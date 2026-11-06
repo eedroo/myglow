@@ -1,0 +1,45 @@
+{
+  "week": 19,
+  "phase": 5,
+  "title": "Chaosphere",
+  "subtitle": "Oito direções a partir de um centro",
+  "competence": "Contemplação de um símbolo de potencial",
+  "operationsJournal": true,
+  "chaosphere": true,
+  "intro": [
+    "A estrela de oito pontas é o símbolo mais reconhecido da magia do caos: um centro do qual saem oito setas, para todas as direções. Simboliza o caos como fonte de possibilidades, antes de qualquer forma se fixar.",
+    "Esta semana o símbolo é o objeto da contemplação. Primeiro você o observa, depois o constrói na mente, depois se coloca no centro dele e, por fim, usa cada seta para olhar uma possibilidade diferente da sua vida.",
+    "Tudo o que você treinou converge aqui: a concentração num objeto, a visualização, a gnose e o diário que separa o que aconteceu do que você acha que aquilo significa."
+  ],
+  "objective": "Visualizar a estrela de oito pontas com estabilidade e usá-la para explorar oito possibilidades de uma situação real.",
+  "howTo": {
+    "prep": [
+      "Olhe o símbolo abaixo por um minuto antes de fechar os olhos.",
+      "Postura estável e um minuto de gnose inibitória.",
+      "Para o dia 4, tenha em mente uma situação real em que você se sente com poucas saídas."
+    ],
+    "steps": [
+      "Construa o círculo central e, a partir dele, as oito setas, uma a uma.",
+      "Mantenha a estrela inteira, estável, como fez com as imagens da semana 7.",
+      "Coloque-se no centro e sinta as oito direções abertas à sua volta.",
+      "No fim, deixe a estrela se dissolver e volte ao corpo."
+    ],
+    "care": [
+      "Se a sensação de abertura ficar grande demais ou trouxer ansiedade, volte para o círculo central e respire.",
+      "As possibilidades do dia 4 são para pensar, não para agir no impulso."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Olhar o símbolo", "mainMinutes": 7, "observeMinutes": 5, "focus": "Concentração de olhos abertos na estrela, como o objeto da semana 6.", "cues": [{ "at": 0.5, "text": "Volte ao centro da estrela." }] },
+    { "day": 2, "title": "Construir na mente", "mainMinutes": 10, "observeMinutes": 5, "focus": "De olhos fechados, construir a estrela seta a seta e mantê-la inteira.", "cues": [{ "at": 0.5, "text": "As oito setas, inteiras." }] },
+    { "day": 3, "title": "No centro", "mainMinutes": 12, "observeMinutes": 5, "focus": "Colocar-se no centro da estrela e sentir as oito direções abertas.", "cues": [{ "at": 0.5, "text": "Você é o centro." }] },
+    { "day": 4, "title": "Oito saídas", "mainMinutes": 12, "observeMinutes": 5, "focus": "Levar uma situação real ao centro e deixar cada seta mostrar uma possibilidade diferente.", "cues": [{ "at": 0.25, "text": "Primeira seta." }, { "at": 0.5, "text": "Siga para a próxima." }, { "at": 0.75, "text": "As que faltam." }] },
+    { "day": 5, "title": "O símbolo vivo", "mainMinutes": 15, "observeMinutes": 5, "focus": "Gnose sustentada com a estrela no centro, sem tarefa, só contemplação.", "cues": [{ "at": 0.33, "text": "Um terço." }, { "at": 0.66, "text": "Dois terços." }] }
+  ],
+  "challenges": [
+    { "title": "As oito saídas", "text": "Depois do dia 4, escreva as oito possibilidades que apareceram, mesmo as que parecem absurdas." },
+    { "title": "Uma seta no mundo", "text": "Escolha uma das possibilidades e dê um passo pequeno e concreto nessa direção durante a semana." },
+    { "title": "O seu símbolo", "text": "Desenhe no Alfabeto do Desejo uma versão sua da estrela, com o que ela significa para você." }
+  ],
+  "next": { "title": "Semana 20 · Aeonics", "text": "A seguir: os grandes paradigmas e o seu paradigma pessoal." }
+}

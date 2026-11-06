@@ -6,6 +6,7 @@ import { MagicIcon } from '@/components/ui/MagicIcon';
 import { OcultoReviewPanel } from './OcultoReviewPanel';
 import { OcultoBeliefDie } from './OcultoBeliefDie';
 import { OcultoAlphabet } from './OcultoAlphabet';
+import { OcultoParadigm } from './OcultoParadigm';
 
 /** `/oculto`: onde a pessoa está no treino, a próxima sessão, a semana e o caminho das 6 fases. */
 export async function OcultoHome({ state }: { state: OcultoState }) {
@@ -106,6 +107,12 @@ export async function OcultoHome({ state }: { state: OcultoState }) {
       {state.alphabetOpen && (
         <div className="mg-oculto__section" id="alfabeto">
           <OcultoAlphabet initial={state.glyphs} />
+        </div>
+      )}
+
+      {state.paradigmOpen && (
+        <div className="mg-oculto__section" id="paradigma">
+          <OcultoParadigm initial={state.paradigm} glyphs={state.glyphs} />
         </div>
       )}
 

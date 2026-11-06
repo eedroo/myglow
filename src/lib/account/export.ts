@@ -1,5 +1,5 @@
 import type {
-  BodyGoal, BodyWeightEntry, GuidedRun, JourneyUnlock, OcultoDream, OcultoGlyph, OcultoProgress, OcultoReview, OcultoSession,
+  BodyGoal, BodyWeightEntry, GuidedRun, JourneyUnlock, OcultoDream, OcultoGlyph, OcultoParadigm, OcultoProgress, OcultoReview, OcultoSession,
   BirthProfile, CourseProgress, DailyEntry, Exercise, FitnessPrefs, FitnessProgram, FitnessSession, FitnessWorkout, GuideReport, LessonProgress, Month, NotificationLog, NotificationPrefs,
   ProjectIntention, RecapView, SessionSet, User, UserActiveDay, UserAiContent, Week, WeekDayNote, WorkoutItem, XpEvent, Year,
 } from '@prisma/client';
@@ -58,7 +58,7 @@ export interface ExportSource {
   /** F19: desbloqueios da jornada. */
   journeyUnlocks: JourneyUnlock[];
   /** Grimório Oculto: progresso, diário do treino e avaliações (opcional: só quem o tem). */
-  oculto?: { progress: OcultoProgress | null; sessions: OcultoSession[]; reviews: OcultoReview[]; dreams?: OcultoDream[]; glyphs?: OcultoGlyph[] };
+  oculto?: { progress: OcultoProgress | null; sessions: OcultoSession[]; reviews: OcultoReview[]; dreams?: OcultoDream[]; glyphs?: OcultoGlyph[]; paradigm?: OcultoParadigm | null };
 }
 
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -128,6 +128,12 @@ export function buildExport(data: ExportSource, now: Date = new Date()) {
       })),
       reviews: data.oculto.reviews.map((r) => ({ week: r.week, attempt: r.attempt, result: r.result, reasons: r.reasons, createdAt: iso(r.createdAt) })),
       dreams: (data.oculto.dreams ?? []).map((d) => ({ date: day(d.date), text: d.text })),
+      paradigm: data.oculto.paradigm
+        ? {
+            name: data.oculto.paradigm.name, premises: data.oculto.paradigm.premises, practices: data.oculto.paradigm.practices, limits: data.oculto.paradigm.limits,
+            symbols: data.oculto.paradigm.symbols.map((id) => data.oculto?.glyphs?.find((g) => g.id === id)?.name ?? id), updatedAt: iso(data.oculto.paradigm.updatedAt),
+          }
+        : null,
       alphabet: (data.oculto.glyphs ?? []).map((g) => ({ name: g.name, meaning: g.meaning, strokes: g.strokes, createdAt: iso(g.createdAt) })),
     },
     fitness: {

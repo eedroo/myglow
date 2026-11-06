@@ -487,3 +487,85 @@
 .mg-oculto-belief__die {
   vertical-align: -3px;
 }
+
+/* Chaosphere (semana 19) */
+.mg-oculto-chaosphere {
+  display: block;
+  width: min(100%, 200px);
+  margin-inline: auto;
+  fill: none;
+  stroke: var(--oculto-ink);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px var(--oculto-glow));
+}
+
+/* Paradigma pessoal (Fase V) */
+.mg-oculto-paradigm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-oculto-paradigm__fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.mg-oculto-paradigm__fieldset legend {
+  margin-bottom: var(--space-2);
+  padding: 0;
+}
+
+.mg-oculto-paradigm__symbols {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: var(--space-2);
+}
+
+.mg-oculto-paradigm__symbol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--oculto-line);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--oculto-ink-soft);
+  font: inherit;
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+.mg-oculto-paradigm__symbol .mg-oculto-glyph {
+  width: 40px;
+  opacity: 0.6;
+}
+
+.mg-oculto-paradigm__symbol--on {
+  border-color: var(--oculto-spark);
+  color: var(--oculto-ink);
+  box-shadow: 0 0 var(--space-2) var(--oculto-glow);
+}
+
+.mg-oculto-paradigm__symbol--on .mg-oculto-glyph {
+  opacity: 1;
+}
+
+.mg-oculto-paradigm__symbol:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mg-oculto-paradigm__status {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--oculto-ink-soft);
+}
+
+.mg-oculto-paradigm__status:empty {
+  display: none;
+}

@@ -2471,6 +2471,22 @@
     }
   },
   "oculto": {
+    "paradigm": {
+      "title": "Meu paradigma",
+      "help": "A sua visão de mundo de trabalho, escrita de olhos abertos. Fica guardada aqui e pode mudar sempre que você quiser.",
+      "name": "Nome (opcional)",
+      "namePlaceholder": "Um nome para o seu paradigma",
+      "premises": "Premissas",
+      "premisesPlaceholder": "Em que você escolhe acreditar quando pratica, e por quê…",
+      "symbols": "Símbolos do seu alfabeto",
+      "noSymbols": "Crie símbolos no Alfabeto do Desejo para escolhê-los aqui.",
+      "practices": "Práticas",
+      "practicesPlaceholder": "As práticas que fazem parte do seu paradigma…",
+      "limits": "Limites",
+      "limitsPlaceholder": "Onde ele não deve ser usado, e o que faria você revê-lo…",
+      "save": "Guardar paradigma",
+      "saved": "Paradigma guardado."
+    },
     "alphabet": {
       "title": "Alfabeto do Desejo",
       "help": "Os seus símbolos para as forças que movem você. Ficam guardados aqui e servem para as próximas fases.",
@@ -2536,6 +2552,7 @@
     "soon": "Esta semana ainda está sendo escrita.",
     "soonShort": "em breve",
     "session": {
+      "chaosphere": "A estrela de oito setas: um centro e oito direções",
       "label": "Sessão do Grimório Oculto",
       "close": "Sair da sessão",
       "eyebrow": "Semana {week} · {title} · Sessão {day}",

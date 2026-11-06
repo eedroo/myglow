@@ -13,7 +13,9 @@ import { OcultoTimer } from './OcultoTimer';
 import { OcultoSigilHelper } from './OcultoSigilHelper';
 import { OcultoBeliefDie } from './OcultoBeliefDie';
 import { OcultoAlphabet } from './OcultoAlphabet';
-import type { OcultoGlyphView } from '@/lib/oculto/server';
+import { OcultoChaosphere } from './OcultoChaosphere';
+import { OcultoParadigm } from './OcultoParadigm';
+import type { OcultoGlyphView, OcultoParadigmView } from '@/lib/oculto/server';
 
 interface Props {
   week: number;
@@ -33,6 +35,10 @@ interface Props {
   belief?: number | null;
   /** Semana do Alfabeto do Desejo: os símbolos, para criar e rever na preparação. */
   glyphs?: OcultoGlyphView[] | null;
+  /** Semana da Chaosphere: o símbolo na preparação. */
+  chaosphere?: boolean;
+  /** Semana do paradigma: o formulário na preparação (com os símbolos do alfabeto). */
+  paradigm?: { initial: OcultoParadigmView | null; glyphs: OcultoGlyphView[] } | null;
 }
 
 const clearTimers = (base: string) => {
@@ -47,7 +53,7 @@ const clearTimers = (base: string) => {
  * Sessão do Grimório Oculto, passo a passo: preparação, exercício principal (timer com a esfera), observação (timer
  * curto), diário do treino e fecho. O diário grava a sessão; o programa avalia a semana a partir dele.
  */
-export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, dreamJournal = false, initialDream = null, operationsJournal = false, sigilHelper = false, beliefs, belief = null, glyphs = null }: Props) {
+export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, dreamJournal = false, initialDream = null, operationsJournal = false, sigilHelper = false, beliefs, belief = null, glyphs = null, chaosphere = false, paradigm = null }: Props) {
   const t = useTranslations('oculto.session');
   const te = useTranslations();
   const router = useRouter();
@@ -112,7 +118,9 @@ export function OcultoSessionPlayer({ week, weekTitle, session, howTo, orb, drea
           </ol>
           {beliefs && <OcultoBeliefDie beliefs={beliefs} initial={belief} />}
           {sigilHelper && <OcultoSigilHelper />}
+          {chaosphere && <OcultoChaosphere label={t('chaosphere')} />}
           {glyphs && <OcultoAlphabet initial={glyphs} />}
+          {paradigm && <OcultoParadigm initial={paradigm.initial} glyphs={paradigm.glyphs} />}
           {howTo.care.length > 0 && (
             <ul className="mg-oculto-step__care">
               {howTo.care.map((x) => (

@@ -174,3 +174,28 @@ export async function deleteOcultoGlyph(id: string): Promise<Result> {
   refresh();
   return { ok: true, data: undefined };
 }
+
+const paraText = (max: number) => z.string().trim().max(max).optional().transform((v) => (v ? v : null));
+const paradigmSchema = z.object({
+  name: paraText(80),
+  premises: paraText(3000),
+  symbols: z.array(z.string().min(1).max(40)).max(GLYPH_LIMIT).default([]),
+  practices: paraText(3000),
+  limits: paraText(3000),
+});
+
+/** Paradigma pessoal (Fase V em diante): grava o texto e os símbolos escolhidos (só do próprio alfabeto). */
+export async function saveOcultoParadigm(input: z.input<typeof paradigmSchema>): Promise<Result> {
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: 'common.errors.unauthorized' };
+  const userId = session.user.id;
+  const p = paradigmSchema.safeParse(input);
+  if (!p.success) return { ok: false, error: 'oculto.errors.invalid' };
+  const state = await getOculto(userId);
+  if (!state?.paradigmOpen) return { ok: false, error: 'oculto.errors.unavailable' };
+  const own = new Set(state.glyphs.map((g) => g.id));
+  const data = { ...p.data, symbols: [...new Set(p.data.symbols)].filter((id) => own.has(id)) };
+  await db.ocultoParadigm.upsert({ where: { userId }, create: { userId, ...data }, update: data });
+  refresh();
+  return { ok: true, data: undefined };
+}

@@ -1,0 +1,44 @@
+{
+  "week": 17,
+  "phase": 5,
+  "title": "Aetherics",
+  "subtitle": "Energia como modelo de trabalho",
+  "competence": "Usar um modelo sem confundi-lo com a realidade",
+  "operationsJournal": true,
+  "intro": [
+    "A Fase V sai da prática pura e entra nos modelos: as ideias que usamos para explicar por que a magia funcionaria. Carroll propõe vários, e o primeiro é o modelo de energia, a ideia de que há uma força sutil que se pode sentir, juntar e dirigir.",
+    "Esta semana você trabalha dentro desse modelo, como fez com a crença sorteada: sente, imagina e dirige essa energia nas sessões. A pergunta não é se ela existe, mas se o modelo é útil para você e para quê.",
+    "O diário fica mais importante do que nunca: a experiência (o que sentiu no corpo), a interpretação (energia, atenção, circulação, sugestão) e a evidência (o que dá para verificar)."
+  ],
+  "objective": "Trabalhar dentro do modelo de energia durante a semana e, no fim, avaliar com honestidade para que ele serve e onde falha.",
+  "howTo": {
+    "prep": [
+      "Sentado, coluna direita, mãos livres no colo.",
+      "Alguns minutos de gnose inibitória para assentar.",
+      "Esfregue as palmas das mãos por alguns segundos antes de começar."
+    ],
+    "steps": [
+      "Afaste as mãos uns poucos centímetros e perceba o que sente entre elas: calor, formigamento, pressão.",
+      "Imagine essa sensação como uma esfera de luz entre as mãos e deixe-a crescer devagar.",
+      "Leve a esfera para dentro do corpo, para o peito ou o ventre, e sinta-a espalhar.",
+      "No fim, deixe a imagem se dissolver e sinta o corpo como ele é."
+    ],
+    "care": [
+      "Respiração natural do início ao fim. Não é preciso forçar nada para sentir.",
+      "Se não sentir nada, registre isso também. Ausência de sensação é um resultado válido."
+    ]
+  },
+  "sessions": [
+    { "day": 1, "title": "Entre as mãos", "mainMinutes": 7, "observeMinutes": 5, "focus": "Perceber o que se sente entre as palmas, sem dar nome ainda.", "cues": [{ "at": 0.5, "text": "Afaste um pouco as mãos." }] },
+    { "day": 2, "title": "A esfera", "mainMinutes": 10, "observeMinutes": 5, "focus": "Dar à sensação a forma de uma esfera de luz e deixá-la crescer.", "cues": [{ "at": 0.5, "text": "A esfera cresce devagar." }] },
+    { "day": 3, "title": "Para dentro", "mainMinutes": 10, "observeMinutes": 5, "focus": "Levar a esfera para o corpo e acompanhar por onde ela se espalha.", "cues": [{ "at": 0.5, "text": "Agora para o peito." }] },
+    { "day": 4, "title": "Dirigir", "mainMinutes": 12, "observeMinutes": 5, "focus": "Mover a sensação de um ponto do corpo para outro, devagar, de propósito.", "cues": [{ "at": 0.33, "text": "Para as mãos." }, { "at": 0.66, "text": "Para os pés." }] },
+    { "day": 5, "title": "Avaliar o modelo", "mainMinutes": 12, "observeMinutes": 5, "focus": "Repetir a prática e depois escrever para que o modelo de energia serviu e onde falhou.", "cues": [{ "at": 0.5, "text": "O que o modelo explica? O que não explica?" }] }
+  ],
+  "challenges": [
+    { "title": "Três explicações", "text": "Escreva três explicações diferentes para o que sentiu entre as mãos: energia, atenção e circulação, por exemplo." },
+    { "title": "Teste às cegas", "text": "Se houver alguém em casa, peça para a pessoa aproximar a mão da sua sem avisar quando. Anote acertos e erros em Evidência." },
+    { "title": "Modelo útil", "text": "Anote uma situação do dia em que pensar em energia ajudou você a agir melhor." }
+  ],
+  "next": { "title": "Semana 18 · Transubstanciação", "text": "A seguir: carregar uma coisa simples com uma qualidade e observar o efeito." }
+}

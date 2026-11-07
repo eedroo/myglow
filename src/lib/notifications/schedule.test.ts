@@ -34,21 +34,43 @@ describe('dueNotifications', () => {
     expect(dueCandidates(new Date('2026-05-06T07:05:00Z'), LX, { ...PREFS, enabled: false })).toEqual([]);
   });
 
-  it('domingo 08:20 com plano por fazer → WEEK_START', () => {
-    expect(at('2026-05-03T07:20:00Z')).toEqual([{ kind: 'WEEK_START', periodKey: 'W2026-05-03' }]);
-    expect(at('2026-05-03T07:20:00Z', LX, PREFS, { ...TODO, weekPlanDone: true })).toEqual([]);
+  it('domingo 08:05: WEEK_START no lugar da manhã (plano ou reflexão da semana que passou por fazer)', () => {
+    expect(at('2026-05-03T07:05:00Z')).toEqual([{ kind: 'WEEK_START', periodKey: 'W2026-05-03' }]);
+    // Só a reflexão da semana que passou por fazer: continua a sair.
+    expect(at('2026-05-03T07:05:00Z', LX, PREFS, { ...TODO, weekPlanDone: true })).toEqual([{ kind: 'WEEK_START', periodKey: 'W2026-05-03' }]);
+    // Tudo feito: volta o aviso normal da manhã.
+    expect(at('2026-05-03T07:05:00Z', LX, PREFS, { ...TODO, weekPlanDone: true, lastWeekReflectionDone: true })).toEqual([
+      { kind: 'MORNING', periodKey: '2026-05-03' },
+    ]);
+    expect(at('2026-05-03T07:20:00Z')).toEqual([]);
   });
 
-  it('sábado 21:50 com reflexão por fazer → WEEK_END da semana (domingo)', () => {
-    expect(at('2026-05-09T20:50:00Z')).toEqual([{ kind: 'WEEK_END', periodKey: 'W2026-05-03' }]);
+  it('a reflexão já não tem aviso ao sábado nem no último dia do mês', () => {
+    expect(at('2026-05-09T20:50:00Z')).toEqual([]);
+    expect(at('2026-05-31T21:05:00Z')).toEqual([]);
   });
 
-  it('último dia do mês 22:05 com reflexão por fazer → MONTH_END', () => {
-    expect(at('2026-05-31T21:05:00Z')).toEqual([{ kind: 'MONTH_END', periodKey: 'M2026-05' }]);
+  it('dia 1 às 08:05: MONTH_START no lugar da manhã', () => {
+    expect(at('2026-06-01T07:05:00Z')).toEqual([{ kind: 'MONTH_START', periodKey: 'M2026-06' }]);
+    expect(at('2026-06-01T07:05:00Z', LX, PREFS, { ...TODO, monthUnlocked: false })).toEqual([{ kind: 'MORNING', periodKey: '2026-06-01' }]);
   });
 
-  it('dia 1 às 08:30 → MONTH_START', () => {
-    expect(at('2026-06-01T07:35:00Z')).toEqual([{ kind: 'MONTH_START', periodKey: 'M2026-06' }]);
+  it('dia 1 num domingo: só MONTH_START (leva a semana e a manhã)', () => {
+    expect(at('2026-11-01T08:05:00Z')).toEqual([{ kind: 'MONTH_START', periodKey: 'M2026-11' }]);
+  });
+
+  it('abriu o planeamento da próxima semana: quinta 21:45, só com o plano por fazer', () => {
+    const state = { ...TODO, nextWeekPlanDone: false };
+    expect(at('2026-05-07T20:50:00Z', LX, PREFS, state)).toEqual([{ kind: 'WEEK_PLAN_OPEN', periodKey: 'W2026-05-10' }]);
+    expect(at('2026-05-07T20:50:00Z', LX, PREFS, { ...state, nextWeekPlanDone: true })).toEqual([]);
+    expect(at('2026-05-07T20:50:00Z', LX, { ...PREFS, weekStart: false }, state)).toEqual([]);
+  });
+
+  it('abriu o planeamento do mês seguinte: 7 dias antes do dia 1, 22:00', () => {
+    const state = { ...TODO, nextMonthPlanDone: false };
+    expect(at('2026-05-25T21:05:00Z', LX, PREFS, state)).toEqual([{ kind: 'MONTH_PLAN_OPEN', periodKey: 'M2026-06' }]);
+    expect(at('2026-05-24T21:05:00Z', LX, PREFS, state)).toEqual([]);
+    expect(at('2026-05-25T21:05:00Z', LX, PREFS, { ...state, monthUnlocked: false })).toEqual([]);
   });
 
   it('última chamada do plano da semana: terça 21:45', () => {
@@ -75,8 +97,10 @@ describe('dueNotifications', () => {
     expect(at('2026-05-06T11:05:00Z', 'America/Sao_Paulo')).toEqual([{ kind: 'MORNING', periodKey: '2026-05-06' }]);
   });
 
-  it('mudança de hora: 2026-03-29 08:05 WEST → MORNING', () => {
-    expect(at('2026-03-29T07:05:00Z')).toEqual([{ kind: 'MORNING', periodKey: '2026-03-29' }]);
+  it('mudança de hora: 2026-03-29 (domingo) 08:05 WEST → aviso da manhã à hora certa', () => {
+    expect(at('2026-03-29T07:05:00Z', LX, PREFS, { ...TODO, weekPlanDone: true, lastWeekReflectionDone: true })).toEqual([
+      { kind: 'MORNING', periodKey: '2026-03-29' },
+    ]);
   });
 
   it('Grimório: já não há avisos (nem convite, nem última chamada)', () => {

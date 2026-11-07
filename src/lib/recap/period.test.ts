@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dueRecap, isWorthShowing, monthRecapPeriod, weekRecapPeriod } from './period';
+import { chainPeriod, dueRecap, isWorthShowing, monthRecapPeriod, weekRecapPeriod } from './period';
 
 const base = { accountCreatedDay: '2026-01-01', seen: [], blocked: false };
 
@@ -57,5 +57,16 @@ describe('isWorthShowing', () => {
   it('pelo menos 2 dias registados', () => {
     expect(isWorthShowing(1)).toBe(false);
     expect(isWorthShowing(2)).toBe(true);
+  });
+});
+
+describe('chainPeriod', () => {
+  it('domingo → semana que passou; dia 1 → mês que passou; outros dias → nada', () => {
+    expect(chainPeriod('2026-11-08')).toMatchObject({ kind: 'WEEK', key: '2026-11-01' });
+    expect(chainPeriod('2026-12-01')).toMatchObject({ kind: 'MONTH', key: '2026-11' });
+    expect(chainPeriod('2026-11-10')).toBeNull();
+  });
+  it('dia 1 num domingo: só o mês', () => {
+    expect(chainPeriod('2026-11-01')).toMatchObject({ kind: 'MONTH', key: '2026-10' });
   });
 });

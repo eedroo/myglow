@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { DayLevel } from '@/lib/daily/progress';
 import { HABIT_KEYS, weightFromPoints, type HabitCount, type HabitKey, type PeriodStats } from '@/lib/stats/period';
-import { buildRecap, type RecapInput, type RecapSlide } from './build';
-import { weekRecapPeriod } from './period';
+import { buildRecap, type RecapInput, type RecapSlide, nextPeriodKey } from './build';
+import { weekRecapPeriod, monthRecapPeriod } from './period';
 
 const habits = (patch: Partial<Record<HabitKey, number>> = {}) =>
   Object.fromEntries(HABIT_KEYS.map((k) => [k, { done: patch[k] ?? 0, of: 7 }])) as Record<HabitKey, HabitCount>;
@@ -97,7 +97,14 @@ describe('buildRecap', () => {
   });
 
   it('guideAccess passa para o closing (locked, consent, pending, ready)', () => {
-    expect(find(buildRecap(input({ guideAccess: 'locked' })), 'closing')).toMatchObject({ guide: 'locked', nextHref: '/week' });
+    expect(find(buildRecap(input({ guideAccess: 'locked' })), 'closing')).toMatchObject({
+      guide: 'locked',
+      periodKey: '2026-10-18',
+      nextHref: '/week/2026-10-25',
+      planHref: '/guided/week/2026-10-25/plan',
+      nextPlanned: false,
+    });
+    expect(find(buildRecap(input({ nextPlanned: true })), 'closing')?.nextPlanned).toBe(true);
     for (const guideAccess of ['consent', 'pending', 'ready'] as const) {
       expect(find(buildRecap(input({ guideAccess })), 'closing')?.guide).toBe(guideAccess);
     }
@@ -126,5 +133,12 @@ describe('peso diário na retrospectiva (F17, body-pro)', () => {
     const weight = weightFromPoints([{ weekStart: '2026-10-11', grams: 76400 }, { weekStart: '2026-10-18', grams: 76650 }]);
     const s = buildRecap(input({ stats: stats({ weight }) }));
     expect(find(s, 'body')?.weight).toEqual({ firstGrams: 76400, lastGrams: 76650, points: [76400, 76650] });
+  });
+});
+
+describe('nextPeriodKey', () => {
+  it('semana → domingo seguinte; mês → mês seguinte (passa o ano)', () => {
+    expect(nextPeriodKey(weekRecapPeriod('2026-10-25'))).toBe('2026-11-01');
+    expect(nextPeriodKey(monthRecapPeriod('2026-12'))).toBe('2027-01');
   });
 });

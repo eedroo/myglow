@@ -54,6 +54,8 @@ interface RunnerProps {
   readingChoice?: 'NOW' | 'NIGHT' | null;
   /** Manhã: o que ficou escrito para hoje no planner da Semana (a intenção parte daí, sem sugestão da IA). */
   planNote?: string;
+  /** Domingo e dia 1: no fim da manhã, a retrospectiva do período que passou (com a reflexão). */
+  recapAfter?: { kind: 'WEEK' | 'MONTH'; href: string } | null;
 }
 
 const MOON_ICON: Record<MoonField, MagicIconName> = { moonNew: 'phase-new', moonWaxing: 'phase-first-quarter', moonFull: 'phase-full', moonWaning: 'phase-last-quarter' };
@@ -71,7 +73,7 @@ const NEXT: Partial<Record<GuidedFlow, GuidedFlow>> = { DAY_MORNING: 'DAY_BODY',
 const THEME: Record<string, string> = { DAY_MORNING: 'morning', DAY_BODY: 'body', DAY_NIGHT: 'night' };
 const glowOf = (xp: XpResult) => xp.awards.reduce((n, a) => n + a.points, 0);
 
-function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, reading, ritual, weightAverage, inspiration, readingChoice = null, planNote, store, glow }: RunnerProps & { store: GuidedStore; glow: number }) {
+function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, reading, ritual, weightAverage, inspiration, readingChoice = null, planNote, recapAfter = null, store, glow }: RunnerProps & { store: GuidedStore; glow: number }) {
   const t = useTranslations('guided');
   const td = useTranslations('day');
   const tp = useTranslations('projects');
@@ -267,6 +269,11 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
             glowLabel={t('closing.glow')}
             next={next ? { label: t('closing.next', { flow: t(`flows.${next}.short`) }), href: `${routeBase}/${routeSegment(next)}` } : null}
             back={{ label: t(`closing.back.${kind}`), href: closeHref }}
+            lead={
+              recapAfter
+                ? { title: t(`closing.recap.${recapAfter.kind}.title`), label: t(`closing.recap.${recapAfter.kind}.label`), href: recapAfter.href }
+                : null
+            }
           />
         );
       }

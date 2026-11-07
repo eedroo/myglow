@@ -5,29 +5,27 @@ import { useTranslations } from 'next-intl';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 import { Button } from '@/components/ui/Button';
 import { PremiumLock } from '@/components/premium/PremiumLock';
-import { XP_POINTS } from '@/lib/xp/rules';
+import { RecapReflection } from './RecapReflection';
 import type { RecapSlideProps } from './RecapSlideView';
 
 interface RecapClosingProps extends RecapSlideProps<'closing'> {
   onClose: () => void;
   guideInterested: boolean;
-  /** Página do período, onde fica a reflexão. */
-  periodHref: string;
   /** F14: leitura do Guia deste período. */
   guideHref: string;
 }
 
-/** Último slide: a porta para o Guia, planear o período novo e a reflexão (se ainda der Glow). */
-export function RecapClosing({ slide, onClose, guideInterested, periodHref, guideHref }: RecapClosingProps) {
+/** Último slide: a reflexão (se ainda der Glow), a porta para o Guia e planear (ou abrir) o período novo. */
+export function RecapClosing({ slide, onClose, guideInterested, guideHref }: RecapClosingProps) {
   const t = useTranslations('recap.closing');
   const name = useTranslations('guide')('name');
   const isWeek = slide.kind === 'WEEK';
-  const reflectionHref = `${periodHref}#${isWeek ? 'week-reflection' : 'month-reflection'}`;
-  const points = XP_POINTS[isWeek ? 'WEEK_REFLECTION' : 'MONTH_REFLECTION'];
   return (
     <div className="mg-recap-closing">
       <h2 className="mg-recap-slide__title">{t('title')}</h2>
       <p className="mg-recap-slide__text">{t(isWeek ? 'weekText' : 'monthText')}</p>
+      {/* A reflexão do período que passou fecha aqui mesmo, enquanto der Glow. */}
+      {slide.reflectionCta && <RecapReflection kind={slide.kind} periodKey={slide.periodKey} />}
       {slide.guide === 'locked' ? (
         <PremiumLock title={t('guideTitle', { name })} teaser={t(isWeek ? 'guideTeaserWeek' : 'guideTeaserMonth')} interested={guideInterested} />
       ) : (
@@ -41,14 +39,10 @@ export function RecapClosing({ slide, onClose, guideInterested, periodHref, guid
         </section>
       )}
       <div className="mg-recap-closing__actions">
-        <Link href={slide.nextHref} className="mg-btn mg-btn--primary mg-btn--block">
-          {t(isWeek ? 'planWeek' : 'planMonth')}
+        {/* Já planeado: reforço para abrir o período; senão, planear no passo a passo. */}
+        <Link href={slide.nextPlanned ? slide.nextHref : slide.planHref} className="mg-btn mg-btn--primary mg-btn--block">
+          {t(slide.nextPlanned ? (isWeek ? 'openWeek' : 'openMonth') : isWeek ? 'planWeek' : 'planMonth')}
         </Link>
-        {slide.reflectionCta && (
-          <Link href={reflectionHref} className="mg-btn mg-btn--subtle mg-btn--block">
-            {t('reflection', { points })}
-          </Link>
-        )}
         <Button variant="ghost" block onClick={onClose}>
           {t('close')}
         </Button>

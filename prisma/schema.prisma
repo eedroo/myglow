@@ -144,6 +144,9 @@ enum NotificationKind {
   // F19: novo passo da jornada (periodKey = unlockId) e anúncios publicados no admin (periodKey = ex. 'v2')
   JOURNEY_UNLOCK
   ANNOUNCEMENT
+  // Abriu a janela do planeamento da semana (quinta) e do mês seguintes (7 dias antes do dia 1)
+  WEEK_PLAN_OPEN
+  MONTH_PLAN_OPEN
 }
 
 model User {

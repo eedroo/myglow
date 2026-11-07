@@ -60,7 +60,8 @@ export function RecapPlayer({ kind, periodKey, slides, locale, timezone, closeHr
       onClose={close}
       slides={slides.map((slide, i) => ({
         id: `${slide.type}-${i}`,
-        interactive: false,
+        // O fecho com a caixa da reflexão é interactivo (sem toque/deslizar a avançar por cima do texto).
+        interactive: slide.type === 'closing' && slide.reflectionCta,
         content: view(slide, i),
         // Só o seguinte ao actual é pré-carregado (como antes).
         ...(i === index + 1 && { preload: view(slide, i, true) }),

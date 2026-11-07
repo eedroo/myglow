@@ -824,6 +824,14 @@
   },
   "notifications": {
     "push": {
+      "monthPlanOpen": {
+        "title": "Já podes planear {month}",
+        "body": "Define a intenção e as metas com calma e ganha {points} Glow."
+      },
+      "weekPlanOpen": {
+        "title": "O planeamento da próxima semana abriu",
+        "body": "Planeia com calma até terça e ganha {points} Glow."
+      },
       "announcement": {
         "v2": {
           "title": "A MYGLOW v2 chegou ✨",
@@ -870,6 +878,7 @@
         "body": "Gratidão, humor e reflexão esperam por ti."
       },
       "weekStart": {
+        "recapMorningBody": "Começa o domingo pelo teu dia; no fim, a retrospectiva e a reflexão da semana que passou.",
           "readyBody": "O tema da tua semana chegou. Que tal planear a semana?",
           "recapBody": "A tua retrospectiva está pronta. Vê-a e planeia a semana.",
         "title": "Uma semana nova começa",
@@ -880,6 +889,7 @@
         "body": "Escreve a tua reflexão até domingo e ganha {points} Glow."
       },
       "monthStart": {
+        "recapMorningBody": "Começa o dia 1 pelo teu dia; no fim, a retrospectiva e a reflexão do mês que passou.",
           "readyBody": "O teu mês está pronto{rituals, plural, =0 {} one {, com # ritual} other {, com # rituais}}. Define a tua intenção.",
           "recapBody": "A retrospectiva do teu mês está pronta. Vê-a e planeia o mês.",
         "title": "Um mês novo começa",
@@ -938,10 +948,10 @@
       "grimoire": "Grimório",
       "time": "Hora de {label}",
       "periods": "Semana e mês",
-      "weekStart": "Início da semana",
-      "weekEnd": "Fim da semana",
-      "monthStart": "Início do mês",
-      "monthEnd": "Fim do mês",
+      "weekStart": "Planeamento e retrospectiva da semana",
+      "weekEnd": "Última chamada da reflexão da semana",
+      "monthStart": "Planeamento e retrospectiva do mês",
+      "monthEnd": "Última chamada da reflexão do mês",
       "lastCall": "Última chamada",
       "lastCallHint": "Um último aviso perto do fim do prazo (semana, mês e lições do Grimório), só se ainda faltar.",
       "hint": "Os avisos só chegam se ainda houver algo por fazer. De manhã, ao domingo e no dia 1, trazem a tua leitura quando já está pronta.",
@@ -1725,6 +1735,18 @@
       "intention": "«{intention}»"
     },
     "closing": {
+      "openMonth": "Abrir o mês",
+      "openWeek": "Abrir a semana",
+      "reflectionBox": {
+        "titleWeek": "Reflexão da semana que passou",
+        "titleMonth": "Reflexão do mês que passou",
+        "hint": "O que ficou desta etapa? Escreve aqui mesmo (+{points} Glow).",
+        "placeholderWeek": "O que resultou, o que pesou, o que levas para a próxima semana…",
+        "placeholderMonth": "O que resultou, o que pesou, o que levas para o próximo mês…",
+        "save": "Guardar a reflexão",
+        "saved": "Reflexão guardada.",
+        "savedGlow": "Reflexão guardada. +{points} Glow"
+      },
       "title": "E agora?",
       "weekText": "Começa uma semana nova.",
       "monthText": "Começa um mês novo.",
@@ -1750,6 +1772,9 @@
   },
   "guide": {
     "next": {
+      "plannedText": "O próximo passo já está planeado. Que tal dar uma vista de olhos antes de começar?",
+      "openMonth": "Abrir {month}",
+      "openWeek": "Abrir a próxima semana",
       "text": "Com o que viste aqui, o passo seguinte é planear o que vem a seguir.",
       "week": "Planear a próxima semana",
       "month": "Planear {month}"
@@ -2287,6 +2312,16 @@
       }
     },
     "closing": {
+      "recap": {
+        "WEEK": {
+          "title": "E a semana que passou?",
+          "label": "Ver a retrospectiva e reflectir"
+        },
+        "MONTH": {
+          "title": "E o mês que passou?",
+          "label": "Ver a retrospectiva e reflectir"
+        }
+      },
       "glow": "Glow",
       "next": "Mais tarde: {flow}",
       "back": {

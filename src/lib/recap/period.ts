@@ -98,3 +98,13 @@ export const MIN_DAYS_TOUCHED = 2;
 export function isWorthShowing(daysTouched: number): boolean {
   return daysTouched >= MIN_DAYS_TOUCHED;
 }
+
+/**
+ * Depois do passo a passo da manhã, o período a fechar hoje: no dia 1, o mês que passou; ao domingo, a semana que
+ * passou (no dia 1 que calha a um domingo, só o mês; a semana fica no botão da Semana). Noutros dias, nada.
+ */
+export function chainPeriod(today: DateISO): RecapPeriod | null {
+  if (today.slice(8, 10) === '01') return previousMonthPeriod(today);
+  if (isSunday(today)) return previousWeekPeriod(today);
+  return null;
+}

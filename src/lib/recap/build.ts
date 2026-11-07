@@ -2,7 +2,8 @@ import type { AppLocale } from '@/i18n/locales';
 import type { SectionKey } from '@/lib/guided/sections';
 import type { MoonEvent } from '@/lib/astro/moonCalendar';
 import type { RetrogradePeriod, SkyEvent } from '@/lib/astro/skyEvents';
-import { compareDates, type DateISO } from '@/lib/dates';
+import { addDays, compareDates, type DateISO } from '@/lib/dates';
+import { addMonths, monthKey, parseMonthKey } from '@/lib/weeks';
 import type { DayLevel } from '@/lib/daily/progress';
 import type { MagicIconName } from '@/lib/icons';
 import type { HabitCount, PeriodStats } from '@/lib/stats/period';
@@ -46,6 +47,8 @@ export interface RecapInput {
   retrogrades: RetrogradePeriod[]; // MONTH apenas
   /** F19: secções desbloqueadas na jornada; os slides de secções bloqueadas não aparecem. Sem isto, tudo. */
   available?: Set<SectionKey>;
+  /** O período seguinte já está planeado (mesmo critério do Glow): o fecho abre-o em vez de o planear. */
+  nextPlanned?: boolean;
 }
 
 export type RecapSlide =
@@ -66,7 +69,19 @@ export type RecapSlide =
   | { type: 'grimoire'; lessons: number; coursesCompleted: RecapCourse[] }
   | { type: 'sky'; moonEvents: MoonEvent[]; skyEvents: SkyEvent[]; retrogrades: RetrogradePeriod[] }
   | { type: 'highlight'; date: DateISO; intention: string | null }
-  | { type: 'closing'; kind: RecapKindKey; guide: GuideAccess; reflectionCta: boolean; nextHref: string };
+  | {
+      type: 'closing';
+      kind: RecapKindKey;
+      /** Chave do período (domingo ou YYYY-MM), para gravar a reflexão no próprio slide. */
+      periodKey: string;
+      guide: GuideAccess;
+      /** Reflexão por escrever e janela do Glow aberta: a caixa da reflexão aparece no fecho. */
+      reflectionCta: boolean;
+      /** Período seguinte: abrir (já planeado) ou planear no passo a passo. */
+      nextHref: string;
+      planHref: string;
+      nextPlanned: boolean;
+    };
 
 export type RecapSlideType = RecapSlide['type'];
 
@@ -89,6 +104,14 @@ export function pickHighlight(levels: { date: DateISO; level: DayLevel }[]): Dat
       .sort(compareDates)
       .pop() ?? null;
   return latest('complete') ?? latest('partial');
+}
+
+/** Período a seguir ao da retrospectiva: o domingo seguinte ou o mês seguinte (YYYY-MM). */
+export function nextPeriodKey(period: RecapPeriod): string {
+  if (period.kind === 'WEEK') return addDays(period.from, 7);
+  const { year, month } = parseMonthKey(period.key);
+  const n = addMonths(year, month, 1);
+  return monthKey(n.year, n.month);
 }
 
 export function buildRecap(i: RecapInput): RecapSlide[] {
@@ -154,12 +177,16 @@ export function buildRecap(i: RecapInput): RecapSlide[] {
   if (best) slides.push({ type: 'highlight', date: best, intention: i.dayIntentions[best] ?? null });
 
   const reflectionSource = isMonth ? 'MONTH_REFLECTION' : 'WEEK_REFLECTION';
+  const next = nextPeriodKey(period);
   slides.push({
     type: 'closing',
     kind: period.kind,
+    periodKey: period.key,
     guide: i.guideAccess,
     reflectionCta: i.reflectionEmpty && isWindowOpen(xpWindow(reflectionSource, period.from, i.tz), i.now),
-    nextHref: isMonth ? '/month' : '/week',
+    nextHref: isMonth ? `/month/${next}` : `/week/${next}`,
+    planHref: isMonth ? `/guided/month/${next}/plan` : `/guided/week/${next}/plan`,
+    nextPlanned: !!i.nextPlanned,
   });
 
   return slides;

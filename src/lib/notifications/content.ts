@@ -1,5 +1,7 @@
 import type { Locale, MoonPhase, NotificationKind, ZodiacSign } from '@prisma/client';
-import type { DateISO } from '@/lib/dates';
+import { DateTime } from 'luxon';
+import { addDays, formatMonthName, type DateISO } from '@/lib/dates';
+import { dbToAppLocale } from '@/i18n/locales';
 import type { SabbatKey } from '@/lib/astro/skyEvents';
 import { XP_POINTS } from '@/lib/xp/rules';
 import { weekStartOf } from '@/lib/weeks';
@@ -47,6 +49,8 @@ export interface NotificationContext {
   grimoire?: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
   /** F13: retrospectiva elegível e por ver (WEEK_START e MONTH_START): o aviso abre-a. */
   recapUrl?: { week?: string; month?: string };
+  /** Domingo e dia 1: a manhã ainda por fazer (o aviso abre a manhã, que leva à retrospectiva no fim). */
+  morningPending?: boolean;
   /** F15: primeiro nome de quem pediu ou aceitou a amizade. */
   friendName?: string;
   /** F16: exercício da próxima série (aviso de fim de descanso). */
@@ -124,15 +128,14 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       url = dayFlow('night');
       break;
     case 'WEEK_START':
+      // Domingo: o dia primeiro; no fim da manhã, a retrospectiva e a reflexão da semana que passou.
       title = ctx.weekHeadline ?? t('notifications.push.weekStart.title');
-      body = ctx.weekHeadline
-        ? t('notifications.push.weekStart.readyBody')
-        : t('notifications.push.weekStart.body', { points: XP_POINTS.WEEK_PLAN });
-      url = weekFlow('plan');
-      if (ctx.recapUrl?.week) {
-        body = t('notifications.push.weekStart.recapBody');
-        url = ctx.recapUrl.week;
-      }
+      body = ctx.recapUrl?.week
+        ? t(ctx.morningPending ? 'notifications.push.weekStart.recapMorningBody' : 'notifications.push.weekStart.recapBody')
+        : ctx.weekHeadline
+          ? t('notifications.push.weekStart.readyBody')
+          : t('notifications.push.weekStart.body', { points: XP_POINTS.WEEK_PLAN });
+      url = ctx.morningPending ? dayFlow('morning') : (ctx.recapUrl?.week ?? weekFlow('plan'));
       break;
     case 'WEEK_END':
       title = t('notifications.push.weekEnd.title');
@@ -140,16 +143,27 @@ export function buildNotification(kind: NotificationKind, ctx: NotificationConte
       url = weekFlow('close');
       break;
     case 'MONTH_START':
+      // Dia 1: o dia primeiro; no fim da manhã, a retrospectiva e a reflexão do mês que passou.
       title = ctx.monthHeadline ?? t('notifications.push.monthStart.title');
-      body = ctx.monthHeadline
-        ? t('notifications.push.monthStart.readyBody', { rituals: ctx.monthRituals ?? 0 })
-        : t('notifications.push.monthStart.body', { points: XP_POINTS.MONTH_PLAN });
-      url = monthFlow('plan');
-      if (ctx.recapUrl?.month) {
-        body = t('notifications.push.monthStart.recapBody');
-        url = ctx.recapUrl.month;
-      }
+      body = ctx.recapUrl?.month
+        ? t(ctx.morningPending ? 'notifications.push.monthStart.recapMorningBody' : 'notifications.push.monthStart.recapBody')
+        : ctx.monthHeadline
+          ? t('notifications.push.monthStart.readyBody', { rituals: ctx.monthRituals ?? 0 })
+          : t('notifications.push.monthStart.body', { points: XP_POINTS.MONTH_PLAN });
+      url = ctx.morningPending ? dayFlow('morning') : (ctx.recapUrl?.month ?? monthFlow('plan'));
       break;
+    case 'WEEK_PLAN_OPEN':
+      title = t('notifications.push.weekPlanOpen.title');
+      body = t('notifications.push.weekPlanOpen.body', { points: XP_POINTS.WEEK_PLAN });
+      url = `/guided/week/${addDays(weekStartOf(ctx.date), 7)}/plan`;
+      break;
+    case 'MONTH_PLAN_OPEN': {
+      const next = DateTime.fromISO(ctx.date).plus({ months: 1 });
+      title = t('notifications.push.monthPlanOpen.title', { month: formatMonthName(next.year, next.month, dbToAppLocale(ctx.locale)) });
+      body = t('notifications.push.monthPlanOpen.body', { points: XP_POINTS.MONTH_PLAN });
+      url = `/guided/month/${next.toFormat('yyyy-MM')}/plan`;
+      break;
+    }
     case 'MONTH_END':
       title = t('notifications.push.monthEnd.title');
       body = t('notifications.push.monthEnd.body', { points: XP_POINTS.MONTH_REFLECTION });

@@ -219,3 +219,8 @@ Diário mágico + planner + grimório astrológico. PWA, PT-PT, PT-BR e EN (cada
 5. Gamificação (XP, níveis, streaks)
 6. IA (horóscopo, energias dia/semana/mês, rituais)
 7. Notificações push + preferências
+
+## Ritmo da semana e do mês (pedido do utilizador, pós-v2)
+- **Domingo e dia 1:** primeiro o passo a passo da manhã; no fim dele, a retrospectiva do período que passou (`recapAfterMorning`, só se puder mostrar-se e estiver por ver ou com a reflexão por escrever). No dia 1 que calha a um domingo, só a do mês. Com a abertura automática ligada e a manhã por fazer, a manhã abre antes da retrospectiva.
+- **Reflexão no fim da retrospectiva:** a caixa da reflexão fica no último slide enquanto a janela do Glow estiver aberta (as janelas não mudam: semana sexta a domingo, mês último dia −6 até ao dia 1). Depois, "Planejar" o período seguinte no passo a passo ou, já planeado, "Abrir a semana/o mês"; o mesmo reforço no fim do Guia.
+- **Avisos:** domingo e dia 1, `WEEK_START`/`MONTH_START` saem à hora da manhã e substituem o aviso da manhã (abrem a manhã passo a passo se estiver por fazer; senão a retrospectiva ou o plano); o do mês leva o da semana. A reflexão deixa de ter aviso ao sábado e no último dia do mês (`WEEK_END`/`MONTH_END` já não saem; os interruptores "fim" passam a controlar só a última chamada). Novos: `WEEK_PLAN_OPEN` (quinta, 15 min depois da noite) e `MONTH_PLAN_OPEN` (7 dias antes do dia 1, 30 min depois da noite), quando abre a janela do plano do período seguinte e ele ainda não está feito; abrem o passo a passo do plano.

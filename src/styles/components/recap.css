@@ -4,3 +4,22 @@
   z-index: var(--z-recap);
   background: var(--bg-base);
 }
+
+/* Fecho da retrospectiva: a reflexão do período escrita no próprio slide */
+.mg-recap-reflection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  text-align: left;
+}
+
+.mg-recap-reflection__input {
+  width: 100%;
+}
+
+.mg-recap-reflection__done {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}

@@ -6,7 +6,7 @@ import { MAX_BODY, MAX_TITLE, MOON_EMOJI, buildNotification, dailyVariant, testN
 
 const LOCALES: Locale[] = ['PT_PT', 'PT_BR', 'EN'];
 const KINDS: NotificationKind[] = [
-  'MORNING', 'BODY', 'NIGHT', 'WEEK_START', 'WEEK_END', 'MONTH_START', 'MONTH_END',
+  'MORNING', 'BODY', 'NIGHT', 'WEEK_START', 'WEEK_END', 'MONTH_START', 'MONTH_END', 'WEEK_PLAN_OPEN', 'MONTH_PLAN_OPEN',
   'WEEK_PLAN_LAST', 'WEEK_REFLECTION_LAST', 'MONTH_PLAN_LAST', 'MONTH_REFLECTION_LAST', 'GRIMOIRE', 'GRIMOIRE_LAST',
   'FRIEND_REQUEST', 'FRIEND_ACCEPTED',
 ];
@@ -198,5 +198,21 @@ describe('avisos com conteúdo (v6)', () => {
         }
       }
     }
+  });
+});
+
+describe('domingo e dia 1, e abriu o planeamento', () => {
+  const sunday = { date: '2026-05-03', tz: 'Europe/Lisbon' };
+  it('com a manhã por fazer, WEEK_START e MONTH_START abrem a manhã passo a passo', () => {
+    const recapUrl = { week: '/recap/week/2026-04-26?auto=1', month: '/recap/month/2026-04?auto=1' };
+    expect(buildNotification('WEEK_START', { ...sunday, locale: 'PT_BR', recapUrl, morningPending: true }).url).toBe('/guided/day/2026-05-03/morning');
+    expect(buildNotification('WEEK_START', { ...sunday, locale: 'PT_BR', recapUrl, morningPending: false }).url).toBe(recapUrl.week);
+    expect(buildNotification('MONTH_START', { date: '2026-05-01', tz: 'Europe/Lisbon', locale: 'EN', recapUrl, morningPending: true }).url).toBe('/guided/day/2026-05-01/morning');
+  });
+  it('WEEK_PLAN_OPEN abre o planeamento da próxima semana; MONTH_PLAN_OPEN o do mês seguinte, com o nome do mês', () => {
+    expect(buildNotification('WEEK_PLAN_OPEN', { date: '2026-05-07', tz: 'Europe/Lisbon', locale: 'PT_BR' }).url).toBe('/guided/week/2026-05-10/plan');
+    const m = buildNotification('MONTH_PLAN_OPEN', { date: '2026-12-25', tz: 'Europe/Lisbon', locale: 'PT_PT' });
+    expect(m.url).toBe('/guided/month/2027-01/plan');
+    expect(m.title.toLowerCase()).toContain('janeiro');
   });
 });

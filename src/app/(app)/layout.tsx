@@ -99,10 +99,13 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   if (glow) touchActivity(session.user.id, glow.timezone, glow.lastActiveAt);
 
   // Passo a passo ao entrar: a manhã na primeira abertura do dia e a noite à hora do aviso da noite (nunca o corpo),
-  // uma vez por fluxo e dia, abaixo do guia, das políticas, da subida de nível, das novidades e da retrospectiva.
+  // uma vez por fluxo e dia, abaixo do guia, das políticas, da subida de nível e das novidades; a retrospectiva só passa
+  // à frente da noite (de manhã abre primeiro o dia e o fecho da manhã leva à retrospectiva).
   let guidedHref: string | null = null;
-  if (glow?.guidedAutoOpen && !recapHref && !journeyBlocks && !policyPending && announcements.length === 0 && levelFor(xpTotal).level <= glow.levelSeen && tourStateFromDb(glow).status !== 'active') {
+  if (glow?.guidedAutoOpen && !journeyBlocks && !policyPending && announcements.length === 0 && levelFor(xpTotal).level <= glow.levelSeen && tourStateFromDb(glow).status !== 'active') {
     guidedHref = await autoOpenHref(session.user.id, { tz: glow.timezone, wellbeing: !!glow.wellbeingConsentAt }).catch(() => null);
+    if (recapHref && !guidedHref?.endsWith('/morning')) guidedHref = null;
+    else if (guidedHref) recapHref = null;
   }
 
   // F16: sessão de treino em curso → pílula no Hoje para voltar a ela.

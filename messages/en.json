@@ -824,6 +824,14 @@
   },
   "notifications": {
     "push": {
+      "monthPlanOpen": {
+        "title": "You can now plan {month}",
+        "body": "Set your intention and goals at your own pace and earn {points} Glow."
+      },
+      "weekPlanOpen": {
+        "title": "Planning for next week is open",
+        "body": "Plan at your own pace by Tuesday and earn {points} Glow."
+      },
       "announcement": {
         "v2": {
           "title": "MYGLOW v2 is here ✨",
@@ -870,6 +878,7 @@
         "body": "Gratitude, mood and reflection are waiting for you."
       },
       "weekStart": {
+        "recapMorningBody": "Start Sunday with your day; at the end, your recap and a reflection on the week that ended.",
           "readyBody": "Your theme for the week is here. Ready to plan your week?",
           "recapBody": "Your recap is ready. Take a look and plan your week.",
         "title": "A new week begins",
@@ -880,6 +889,7 @@
         "body": "Write your reflection by Sunday and earn {points} Glow."
       },
       "monthStart": {
+        "recapMorningBody": "Start the 1st with your day; at the end, your recap and a reflection on the month that ended.",
           "readyBody": "Your month is ready{rituals, plural, =0 {} one {, with # ritual} other {, with # rituals}}. Set your intention.",
           "recapBody": "Your month in review is ready. Take a look and plan your month.",
         "title": "A new month begins",
@@ -938,10 +948,10 @@
       "grimoire": "Grimoire",
       "time": "{label} time",
       "periods": "Week and month",
-      "weekStart": "Start of the week",
-      "weekEnd": "End of the week",
-      "monthStart": "Start of the month",
-      "monthEnd": "End of the month",
+      "weekStart": "Weekly planning and recap",
+      "weekEnd": "Last call for the weekly reflection",
+      "monthStart": "Monthly planning and recap",
+      "monthEnd": "Last call for the monthly reflection",
       "lastCall": "Last call",
       "lastCallHint": "One last reminder near the deadline (week, month and Grimoire lessons), only if something is still missing.",
       "hint": "Reminders only arrive if something is still left to do. In the morning, on Sundays and on the 1st, they bring your reading once it's ready.",
@@ -1725,6 +1735,18 @@
       "intention": "“{intention}”"
     },
     "closing": {
+      "openMonth": "Open the month",
+      "openWeek": "Open the week",
+      "reflectionBox": {
+        "titleWeek": "Reflection on last week",
+        "titleMonth": "Reflection on last month",
+        "hint": "What stayed with you? Write it right here (+{points} Glow).",
+        "placeholderWeek": "What worked, what weighed on you, what you take into next week…",
+        "placeholderMonth": "What worked, what weighed on you, what you take into next month…",
+        "save": "Save reflection",
+        "saved": "Reflection saved.",
+        "savedGlow": "Reflection saved. +{points} Glow"
+      },
       "title": "What now?",
       "weekText": "A new week begins.",
       "monthText": "A new month begins.",
@@ -1750,6 +1772,9 @@
   },
   "guide": {
     "next": {
+      "plannedText": "Your next step is already planned. Take a look before you begin?",
+      "openMonth": "Open {month}",
+      "openWeek": "Open next week",
       "text": "With what you've seen here, the next step is planning what comes next.",
       "week": "Plan next week",
       "month": "Plan {month}"
@@ -2287,6 +2312,16 @@
       }
     },
     "closing": {
+      "recap": {
+        "WEEK": {
+          "title": "And the week that just ended?",
+          "label": "See the recap and reflect"
+        },
+        "MONTH": {
+          "title": "And the month that just ended?",
+          "label": "See the recap and reflect"
+        }
+      },
       "glow": "Glow",
       "next": "Later: {flow}",
       "back": {

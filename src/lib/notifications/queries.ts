@@ -24,7 +24,10 @@ export async function notificationState(userId: string, date: DateISO): Promise<
   const monthStart = toDbDate(`${date.slice(0, 7)}-01`);
   const prevWeekStart = toDbDate(addDays(weekStartOf(date), -7));
   const prev = addMonths(year, month, -1);
-  const [entry, week, weekProjects, monthRow, monthProjects, prevWeek, prevMonth, wellbeing, journey] = await Promise.all([
+  const nextWeekStart = toDbDate(addDays(weekStartOf(date), 7));
+  const next = addMonths(year, month, 1);
+  const nextMonthStart = toDbDate(`${next.year}-${String(next.month).padStart(2, '0')}-01`);
+  const [entry, week, weekProjects, monthRow, monthProjects, prevWeek, prevMonth, wellbeing, journey, nextWeek, nextWeekProjects, nextMonth, nextMonthProjects] = await Promise.all([
     db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(date) } }, select: PROGRESS_SELECT }),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: weekStart } }, select: { intention: true, reflection: true } }),
     db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: weekStart } }),
@@ -35,6 +38,10 @@ export async function notificationState(userId: string, date: DateISO): Promise<
     hasWellbeingConsent(userId),
     // F19: só se lembra o que a jornada já abriu (sem corpo antes da etapa 4; sem Mês antes de o desbloquear).
     loadJourney(userId),
+    db.week.findUnique({ where: { userId_startDate: { userId, startDate: nextWeekStart } }, select: { intention: true } }),
+    db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: nextWeekStart } }),
+    db.month.findUnique({ where: { userId_year_month: { userId, year: next.year, month: next.month } }, select: { intention: true } }),
+    db.projectIntention.count({ where: { userId, period: 'MONTH', periodStart: nextMonthStart } }),
   ]);
   return {
     day: computeDayProgress(date, entry, { wellbeing, available: journey.sections }),
@@ -45,6 +52,8 @@ export async function notificationState(userId: string, date: DateISO): Promise<
     monthReflectionDone: reflectionMet(monthRow?.reflection ?? ''),
     lastWeekReflectionDone: reflectionMet(prevWeek?.reflection ?? ''),
     lastMonthReflectionDone: reflectionMet(prevMonth?.reflection ?? ''),
+    nextWeekPlanDone: planMet(nextWeek?.intention ?? '', nextWeekProjects),
+    nextMonthPlanDone: planMet(nextMonth?.intention ?? '', nextMonthProjects),
   };
 }
 

@@ -15,8 +15,9 @@ import { getEntitlements } from '@/lib/entitlements/server';
 import { getGuideEntryStatus } from '@/lib/guide/queries';
 import { publishedCourses } from '@/lib/grimoire/queries';
 import { dbToAppLocale, isAppLocale } from '@/i18n/locales';
-import type { RecapCourse, RecapInput } from './build';
-import { isRecapAvailable, isWorthShowing, previousMonthPeriod, previousWeekPeriod, type RecapKindKey, type RecapPeriod } from './period';
+import { nextPeriodKey, type RecapCourse, type RecapInput } from './build';
+import { planMet } from '@/lib/xp/rules';
+import { chainPeriod, isRecapAvailable, isWorthShowing, previousMonthPeriod, previousWeekPeriod, type RecapKindKey, type RecapPeriod } from './period';
 
 /** Retrospectiva (F13): recolha de dados. Só lê, excepto `markRecapSeen`/`markRecapCompleted`. */
 
@@ -179,7 +180,27 @@ export async function getRecapInput(userId: string, period: RecapPeriod): Promis
     skyEvents,
     retrogrades,
     available,
+    nextPlanned: await nextPeriodPlanned(userId, period),
   };
+}
+
+/** O período a seguir ao da retrospectiva já está planeado (intenção + ≥ 2 áreas, como o Glow). */
+export async function nextPeriodPlanned(userId: string, period: RecapPeriod): Promise<boolean> {
+  const next = nextPeriodKey(period);
+  if (period.kind === 'WEEK') {
+    const startDate = toDbDate(next);
+    const [row, projects] = await Promise.all([
+      db.week.findUnique({ where: { userId_startDate: { userId, startDate } }, select: { intention: true } }),
+      db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: startDate } }),
+    ]);
+    return planMet(row?.intention ?? '', projects);
+  }
+  const { year, month } = parseMonthKey(next);
+  const [row, projects] = await Promise.all([
+    db.month.findUnique({ where: { userId_year_month: { userId, year, month } }, select: { intention: true } }),
+    db.projectIntention.count({ where: { userId, period: 'MONTH', periodStart: toDbDate(`${next}-01`) } }),
+  ]);
+  return planMet(row?.intention ?? '', projects);
 }
 
 const viewKey = (userId: string, period: RecapPeriod) => ({
@@ -246,4 +267,30 @@ export async function readyRecapUrls(userId: string, today: DateISO, kinds: { we
   if (kinds.week) out.week = await check(previousWeekPeriod(today));
   if (kinds.month) out.month = await check(previousMonthPeriod(today));
   return out;
+}
+
+/** Reflexão do período por escrever. */
+export async function periodReflectionEmpty(userId: string, period: RecapPeriod): Promise<boolean> {
+  const row =
+    period.kind === 'WEEK'
+      ? await db.week.findUnique({ where: { userId_startDate: { userId, startDate: toDbDate(period.from) } }, select: { reflection: true } })
+      : await (async () => {
+          const { year, month } = parseMonthKey(period.key);
+          return db.month.findUnique({ where: { userId_year_month: { userId, year, month } }, select: { reflection: true } });
+        })();
+  return !row?.reflection?.trim();
+}
+
+/**
+ * Domingo e dia 1: depois do passo a passo da manhã, a retrospectiva do período que passou (com a reflexão no fim),
+ * se puder mostrar-se e ainda estiver por ver ou com a reflexão por escrever.
+ */
+export async function recapAfterMorning(userId: string, today: DateISO): Promise<{ kind: RecapKindKey; href: string } | null> {
+  const period = chainPeriod(today);
+  if (!period) return null;
+  const user = await db.user.findUnique({ where: { id: userId }, select: { id: true, timezone: true, createdAt: true } });
+  if (!user || !(await isRecapShowable(user, period))) return null;
+  const [seen, empty] = await Promise.all([hasSeenRecap(userId, period), periodReflectionEmpty(userId, period)]);
+  if (seen && !empty) return null;
+  return { kind: period.kind, href: `/recap/${period.kind === 'WEEK' ? 'week' : 'month'}/${period.key}` };
 }

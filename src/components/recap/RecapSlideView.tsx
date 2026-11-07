@@ -56,7 +56,6 @@ function SlideBody({ slide, kind, periodKey, locale, timezone, onClose, guideInt
           {...common}
           onClose={onClose}
           guideInterested={guideInterested}
-          periodHref={kind === 'WEEK' ? `/week/${periodKey}` : `/month/${periodKey}`}
           guideHref={`/guide/${kind === 'WEEK' ? 'week' : 'month'}/${periodKey}`}
         />
       );

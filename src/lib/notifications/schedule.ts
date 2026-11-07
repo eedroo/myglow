@@ -29,6 +29,9 @@ export interface NotificationState {
   /** Reflexões do período anterior (a última chamada de domingo e do dia 1 fecha a semana/mês que acabou). */
   lastWeekReflectionDone: boolean;
   lastMonthReflectionDone: boolean;
+  /** Plano da semana e do mês seguintes (os avisos de "abriu o planeamento", à quinta e 7 dias antes do dia 1). */
+  nextWeekPlanDone?: boolean;
+  nextMonthPlanDone?: boolean;
   /** Grimório no dia (já não há avisos do Grimório; fica para o texto de avisos antigos). */
   grimoire?: { lessonsLeft: number; quizPending: boolean; next?: { lesson: string; minutes: number; hooks: string[] } };
   /** F17: já há peso registado hoje (o lembrete de pesagem só sai se for false). */
@@ -56,6 +59,7 @@ export const dayKey = (date: DateISO) => date;
 export const weekKey = (sunday: DateISO) => `W${sunday}`;
 export const monthKey = (date: DateISO) => `M${date.slice(0, 7)}`;
 const prevMonthKey = (date: DateISO) => monthKey(DateTime.fromISO(date).minus({ months: 1 }).toISODate()!);
+const nextMonthKey = (date: DateISO) => monthKey(DateTime.fromISO(date).plus({ months: 1 }).toISODate()!);
 
 interface Rule {
   kind: NotificationKind;
@@ -70,10 +74,13 @@ const RULES: Rule[] = [
   { kind: 'MORNING', time: (p) => p.morningTime, offset: 0, on: (p) => p.morningEnabled, key: dayKey },
   { kind: 'BODY', time: (p) => p.bodyTime, offset: 0, on: (p) => p.bodyEnabled, key: dayKey },
   { kind: 'NIGHT', time: (p) => p.nightTime, offset: 0, on: (p) => p.nightEnabled, key: dayKey },
-  { kind: 'WEEK_START', time: (p) => p.morningTime, offset: 15, on: (p) => p.weekStart, day: (d) => d.weekday === 7, key: weekKey },
-  { kind: 'WEEK_END', time: (p) => p.nightTime, offset: 15, on: (p) => p.weekEnd, day: (d) => d.weekday === 6, key: (d) => weekKey(weekStartOf(d)) },
-  { kind: 'MONTH_START', time: (p) => p.morningTime, offset: 30, on: (p) => p.monthStart, day: (d) => d.day === 1, key: monthKey },
-  { kind: 'MONTH_END', time: (p) => p.nightTime, offset: 30, on: (p) => p.monthEnd, day: (d) => d.day === d.daysInMonth, key: monthKey },
+  // Domingo e dia 1: no lugar do aviso da manhã (mesma hora), abre o dia e, no fim da manhã, a retrospectiva e a
+  // reflexão do período que passou. A reflexão já não tem aviso próprio no sábado nem no último dia do mês.
+  { kind: 'WEEK_START', time: (p) => p.morningTime, offset: 0, on: (p) => p.weekStart, day: (d) => d.weekday === 7, key: weekKey },
+  { kind: 'MONTH_START', time: (p) => p.morningTime, offset: 0, on: (p) => p.monthStart, day: (d) => d.day === 1, key: monthKey },
+  // Abriu o planeamento do período seguinte (início da janela do Glow): quinta à noite e 7 dias antes do dia 1.
+  { kind: 'WEEK_PLAN_OPEN', time: (p) => p.nightTime, offset: 15, on: (p) => p.weekStart, day: (d) => d.weekday === 4, key: (d) => weekKey(addDays(weekStartOf(d), 7)) },
+  { kind: 'MONTH_PLAN_OPEN', time: (p) => p.nightTime, offset: 30, on: (p) => p.monthStart, day: (d) => d.plus({ days: 7 }).day === 1, key: nextMonthKey },
   // Última chamada: no último dia da janela do Glow, à noite (+15/+30 min para não coincidir com os outros).
   { kind: 'WEEK_PLAN_LAST', time: (p) => p.nightTime, offset: 15, on: (p) => p.lastCall && p.weekStart, day: (d) => d.weekday === 2, key: (d) => weekKey(weekStartOf(d)) },
   { kind: 'WEEK_REFLECTION_LAST', time: (p) => p.nightTime, offset: 15, on: (p) => p.lastCall && p.weekEnd, day: (d) => d.weekday === 7, key: (d) => weekKey(addDays(d, -7)) },
@@ -106,10 +113,12 @@ function pending(kind: NotificationKind, s: NotificationState): boolean {
     case 'MORNING': return s.day.applicable.morning && !s.day.morning;
     case 'BODY': return s.day.applicable.body && !s.day.body;
     case 'NIGHT': return s.day.applicable.night && !s.day.night;
-    case 'WEEK_START': return !s.weekPlanDone;
-    case 'WEEK_END': return !s.weekReflectionDone;
-    case 'MONTH_START': return s.monthUnlocked !== false && !s.monthPlanDone;
-    case 'MONTH_END': return s.monthUnlocked !== false && !s.monthReflectionDone;
+    case 'WEEK_START': return !s.weekPlanDone || !s.lastWeekReflectionDone;
+    case 'MONTH_START': return s.monthUnlocked !== false && (!s.monthPlanDone || !s.lastMonthReflectionDone);
+    case 'WEEK_PLAN_OPEN': return s.nextWeekPlanDone === false;
+    case 'MONTH_PLAN_OPEN': return s.monthUnlocked !== false && s.nextMonthPlanDone === false;
+    case 'WEEK_END':
+    case 'MONTH_END': return false; // já não saem (a reflexão passou para o domingo e o dia 1)
     case 'WEEK_PLAN_LAST': return !s.weekPlanDone;
     case 'WEEK_REFLECTION_LAST': return !s.lastWeekReflectionDone;
     case 'MONTH_PLAN_LAST': return s.monthUnlocked !== false && !s.monthPlanDone;
@@ -130,9 +139,11 @@ function pending(kind: NotificationKind, s: NotificationState): boolean {
 
 /** Avisos devidos agora: no slot certo e só se ainda houver algo por fazer. */
 export function dueNotifications(now: Date, tz: string, prefs: NotificationPrefsInput, state: NotificationState): DueNotification[] {
-  return dueCandidates(now, tz, prefs)
-    .filter((c) => pending(c.kind, state))
-    .map(({ kind, periodKey }) => ({ kind, periodKey }));
+  const todo = dueCandidates(now, tz, prefs).filter((c) => pending(c.kind, state));
+  // Um só aviso de manhã: o do mês leva o da semana e o do dia; o da semana leva o do dia (abrem a manhã primeiro).
+  const has = (k: NotificationKind) => todo.some((c) => c.kind === k);
+  const drop = new Set<NotificationKind>(has('MONTH_START') ? ['WEEK_START', 'MORNING'] : has('WEEK_START') ? ['MORNING'] : []);
+  return todo.filter((c) => !drop.has(c.kind)).map(({ kind, periodKey }) => ({ kind, periodKey }));
 }
 
 /** Recuo automático (só nos avisos diários): ignorados 3 vezes seguidas passam a dia sim, dia não. */

@@ -297,3 +297,21 @@
   padding: 0;
   list-style: none;
 }
+
+/* Fecho da manhã ao domingo e no dia 1: a retrospectiva do período que passou em destaque */
+.mg-step-closing__lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+}
+
+.mg-step-closing__lead-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}

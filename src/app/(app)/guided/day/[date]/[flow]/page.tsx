@@ -15,6 +15,7 @@ import { DailyReadingCard } from '@/components/reading/DailyReadingCard';
 import { RitualTodayCard } from '@/components/reading/RitualTodayCard';
 import { StepIntro } from '@/components/guided/StepIntro';
 import { GuidedDayRunner } from '@/components/guided/GuidedRunner';
+import { recapAfterMorning } from '@/lib/recap/server';
 
 export async function generateMetadata({ params }: { params: { flow: string } }): Promise<Metadata> {
   const flow = flowFromRoute('day', params.flow);
@@ -46,11 +47,13 @@ export default async function GuidedDayRoute({ params, searchParams }: { params:
   const reading = flow === 'DAY_MORNING' || readingAtNight ? await getDayReading(session.user.id, date) : null;
   // Manhã: a intenção parte do que ficou escrito para hoje no planner da Semana; com o Foco no corpo, pesa-se no fim.
   const morning = flow === 'DAY_MORNING';
-  const [planNote, weighIn] = await Promise.all([
+  const [planNote, weighIn, recapAfter] = await Promise.all([
     morning ? db.weekDayNote.findFirst({ where: { date: toDbDate(date), week: { userId: session.user.id } }, select: { text: true } }) : null,
     morning && g.ctx.hasBodyPro && g.ctx.hasWellbeingConsent
       ? db.bodyWeightEntry.findUnique({ where: { userId_date: { userId: session.user.id, date: toDbDate(date) } }, select: { grams: true } })
       : null,
+    // Domingo e dia 1: no fim da manhã, a retrospectiva do período que passou.
+    morning && date === g.today ? recapAfterMorning(session.user.id, date).catch(() => null) : null,
   ]);
   const sky = getDailySky(date, g.user.timezone);
   const moon = `${ta(`phases.${sky.moon.phase}`)} · ${ta(`signs.${sky.moon.signAtNoon}`)}`;
@@ -70,6 +73,7 @@ export default async function GuidedDayRoute({ params, searchParams }: { params:
       ctx={{ ...g.ctx, readingAtNight }}
       readingChoice={choice}
       planNote={planNote?.text.trim() || undefined}
+      recapAfter={recapAfter}
       dailyWeightGrams={weighIn?.grams ?? null}
       closeHref={searchParams.back && BACK_RE.test(searchParams.back) ? searchParams.back : date === g.today ? '/today' : `/day/${date}`}
       intro={<StepIntro icon={intro.icon} eyebrow={formatLongDate(date, locale)} title={intro.title} lines={[moon]} cta={intro.cta} />}

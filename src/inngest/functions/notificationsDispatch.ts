@@ -77,7 +77,7 @@ export const notificationsDispatch = inngest.createFunction(
           const recapUrl = recapKinds.week || recapKinds.month ? await readyRecapUrls(u.id, u.date, recapKinds) : undefined;
           let count = 0;
           for (const d of todo) {
-            const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, { ...ctx, periodKey: d.periodKey, recapUrl }) });
+            const res = await deliver(u.id, { ...d, ...buildNotification(d.kind, { ...ctx, periodKey: d.periodKey, recapUrl, morningPending: state.day.applicable.morning && !state.day.morning }) });
             if (res !== 'duplicate') count++;
           }
           return count;

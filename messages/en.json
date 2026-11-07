@@ -2039,6 +2039,10 @@
       "yearReflection": "Year reflection"
     },
     "card": {
+      "bodyPro": {
+        "title": "Open Body focus",
+        "hint": "Today's workout, your weight and your muscle map."
+      },
       "hint": "Step by step, one screen at a time."
     },
     "settings": {

@@ -32,6 +32,7 @@ import { GuidedStartCard } from '@/components/guided/GuidedStartCard';
 import { getJourney } from '@/lib/journey/server';
 import { JourneyCard } from '@/components/journey-path/JourneyCard';
 import { OcultoTodayItem } from '@/components/oculto/OcultoTodayItem';
+import { getEntitlements } from '@/lib/entitlements/server';
 
 /** Página de um dia do diário (hoje ou passado). */
 export async function DayPage({ date }: { date: DateISO }) {
@@ -72,7 +73,10 @@ export async function DayPage({ date }: { date: DateISO }) {
   };
 
   // F18: modo guiado (hoje e ontem) e o fluxo sugerido para esta hora.
-  const guided = await dayGuided(userId, { date, today, tz: user.timezone, entry, wellbeing: !!user.wellbeingConsentAt });
+  const [guided, ent] = await Promise.all([
+    dayGuided(userId, { date, today, tz: user.timezone, entry, wellbeing: !!user.wellbeingConsentAt }),
+    getEntitlements(userId),
+  ]);
 
   // A leitura do dia vive dentro da Manhã ou da Noite, conforme a escolha do dia (agora ou à noite); sem escolha, na
   // Manhã (é lá que a pergunta aparece). O ritual do dia vai com ela.
@@ -114,7 +118,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         glowNote={<GlowWindowNote period="day" periodStart={date} timezone={user.timezone} today={today} earned={dayAwards} />}
       />
       <DailySkyCard sky={sky} natal={natal} isToday={isToday} />
-      <GuidedStartCard flow={guided.suggested} date={date} />
+      <GuidedStartCard flow={guided.suggested} date={date} bodyPro={!!ent.features['body-pro']} />
       {shouldShowPrompt({
         firstDay: todayInTz(user.timezone, user.createdAt),
         today,

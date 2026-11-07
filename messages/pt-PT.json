@@ -2039,6 +2039,10 @@
       "yearReflection": "Reflexão do ano"
     },
     "card": {
+      "bodyPro": {
+        "title": "Abrir o Foco no corpo",
+        "hint": "O treino de hoje, o peso e o teu mapa muscular."
+      },
       "hint": "Passo a passo, um ecrã de cada vez."
     },
     "settings": {

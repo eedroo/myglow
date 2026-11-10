@@ -20,7 +20,7 @@
         { "id": "night", "icon": "moon-crescent", "title": "Ritual da noite", "text": "Um gesto que diga ao corpo que o dia terminou: baixar as luzes, escrever, respirar." },
         { "id": "wake", "icon": "bed", "title": "Como você acordou", "text": "A partir de agora você também registra como acordou e se dormiu o que queria. Com o tempo, aparecem padrões.", "only": "wellbeing" },
         { "id": "care", "icon": "candle", "title": "Com cuidado", "text": "Velas sempre vigiadas e nada ingerido. Magia é cuidado." },
-        { "id": "areas", "icon": "zodiac-wheel", "title": "Intenções por área", "text": "Na Semana, também abrem as intenções por área: Magic, Pessoal, Lazer, Profissional e Estudos." },
+        { "id": "areas", "icon": "zodiac-wheel", "title": "A semana, dia a dia", "text": "No plano da semana, você escreve uma intenção para cada dia, com sugestões pela energia do céu de cada um." },
         { "id": "try", "icon": "sparkles", "title": "Experimente hoje", "text": "Escolha o seu ritual da manhã e faça-o uma vez. Amanhã fica mais fácil." }
       ],
       "tryLabel": "Escolher o meu ritual",

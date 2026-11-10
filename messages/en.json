@@ -161,7 +161,7 @@
     "settings": "Settings",
     "pages": {
       "today": { "title": "Today", "subtitle": "Your intention, your rituals and your reflection for the day." },
-      "week": { "title": "Week", "subtitle": "Plan your week by area and keep track of your body." },
+      "week": { "title": "Week", "subtitle": "Plan your week day by day and keep track of your body." },
       "month": { "title": "Month", "subtitle": "Lunar cycles, intentions and your monthly review." },
       "year": { "title": "Year", "subtitle": "Your word of the year and the vision that guides you." }
     }
@@ -400,8 +400,8 @@
       "month": "See the month"
     },
     "intention": {
-      "label": "This week's intention",
-      "placeholder": "This week I want to…"
+      "label": "Week brainstorm",
+      "placeholder": "Everything you want for this week, area by area…"
     },
     "sky": {
       "title": "The Moon this week",
@@ -2006,6 +2006,34 @@
   },
   "guided": {
     "inspo": {
+      "areaNote": "{area}: {note}",
+      "monthGoal": "In your month, {area}: “{text}”",
+      "dayMonthMoon": {
+        "moonNew": "In your month, your new moon intention: “{text}”",
+        "moonWaxing": "In your month, your waxing moon intention: “{text}”",
+        "moonFull": "In your month, your full moon intention: “{text}”",
+        "moonWaning": "In your month, your waning moon intention: “{text}”"
+      },
+      "dayPhase": {
+        "new": "New moon: good for starting something small.",
+        "waxing": "Waxing moon: help what you started grow.",
+        "full": "Full moon: finish, celebrate and share.",
+        "waning": "Waning moon: wrap up, tidy and let go."
+      },
+      "daySign": {
+        "ARIES": "Moon in {sign}: energy to start, decide and get moving.",
+        "TAURUS": "Moon in {sign}: good for the body, home, money and steady habits.",
+        "GEMINI": "Moon in {sign}: conversations, study, errands and loose ideas.",
+        "CANCER": "Moon in {sign}: family, home, care and rest.",
+        "LEO": "Moon in {sign}: create, show your work and have fun.",
+        "VIRGO": "Moon in {sign}: organise, routines, health and details.",
+        "LIBRA": "Moon in {sign}: partnerships, agreements, beauty and balance.",
+        "SCORPIO": "Moon in {sign}: depth, magic, focus and letting go of what weighs on you.",
+        "SAGITTARIUS": "Moon in {sign}: learn, plan ahead and break the routine.",
+        "CAPRICORN": "Moon in {sign}: serious work, goals and commitments.",
+        "AQUARIUS": "Moon in {sign}: friends, new ideas and group projects.",
+        "PISCES": "Moon in {sign}: intuition, art, spirituality and rest."
+      },
       "moonAreaNote": "This phase goes well with your {area} area: {note}",
       "moonArea": "This phase goes well with your {area} area.",
       "title": "Inspiration",
@@ -2034,6 +2062,7 @@
       "continue": "Continue"
     },
     "done": {
+      "weekDays": "Days planned",
       "moonWaning": "Waning Moon",
       "moonFull": "Full Moon",
       "moonWaxing": "Waxing Moon",
@@ -2171,6 +2200,11 @@
       "thisIntention": "Your intention: \"{text}\""
     },
     "steps": {
+      "weekDays": {
+        "title": "Intention for the day",
+        "help": "What do you want for this day? Let the day's energy and your brainstorm inspire you.",
+        "placeholder": "On this day I want…"
+      },
       "moonWaning": {
         "title": "Waning Moon: what will you let go?",
         "help": "As the moon wanes, what do you want to reduce, finish or release?",
@@ -2266,8 +2300,9 @@
         "placeholder": "A day of…"
       },
       "weekIntention": {
-        "title": "This week's intention",
-        "help": "How do you want this week to feel? One sentence is enough."
+        "placeholder": "Magic: … · Personal: … · Leisure: … · Work: … · Study: …",
+        "title": "Your week brainstorm",
+        "help": "Write everything you want for this week, area by area: Magic, Personal, Leisure, Work and Study. Then you spread it across the days."
       },
       "weekProjects": {
         "title": "For this area, this week",
@@ -2462,7 +2497,7 @@
       "3": {
         "name": "Rituals",
         "next": "rituals",
-        "opens": "Morning and night rituals, sleep, how you woke up and intentions by area in your Week",
+        "opens": "Morning and night ritual, sleep, how you woke up and your week planned day by day",
         "practice": "a ritual"
       },
       "4": {

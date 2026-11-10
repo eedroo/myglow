@@ -29,6 +29,7 @@ import { StepText } from './StepText';
 import { StepWeight } from './StepWeight';
 import { StepWord } from './StepWord';
 import type { PeriodInspiration } from './GuidedPeriodReading';
+import { weekDays } from '@/lib/weeks';
 
 /** O que cada adaptador dá ao runner: valores achatados, gravar um campo e gravar já o pendente. */
 interface GuidedStore {
@@ -65,7 +66,7 @@ const MAX: Record<string, number> = {
 };
 const LIMITS: Record<string, Record<string, number>> = {
   DAY: { intention: 500, gratitude: 2000, reflection: 4000, summary: 4000 },
-  WEEK: { intention: 1000, reflection: 4000, projects: 1000 },
+  WEEK: { intention: 3000, reflection: 4000, projects: 1000 },
   MONTH: { intention: 1000, reflection: 6000, projects: 1000, moonNew: 1000, moonWaxing: 1000, moonFull: 1000, moonWaning: 1000 },
   YEAR: { intention: 2000, reflection: 10000, projects: 1000 },
 };
@@ -131,7 +132,7 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
           </StepReading>
         );
       case 'text': {
-        const max = s.area ? LIMITS[kind]!.projects! : (LIMITS[kind]![s.field!] ?? MAX[s.field!] ?? 2000);
+        const max = s.area ? LIMITS[kind]!.projects! : s.section === 'weekDays' ? 1000 : (LIMITS[kind]![s.field!] ?? MAX[s.field!] ?? 2000);
         return (
           <StepText
             id={`guided-${s.id}`}
@@ -144,6 +145,7 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
             maxLength={max}
             {...(s.area && { area: { icon: AREA_ICON[s.area], name: tp(`areas.${s.area}`) } })}
             {...(s.section === 'monthMoon' && { area: { icon: MOON_ICON[s.field as MoonField], name: inspiration?.moon?.[s.field as MoonField]?.label ?? t(`steps.${s.id}.phase`) } })}
+            {...(s.section === 'weekDays' && s.day !== undefined && { area: { icon: 'sun' as MagicIconName, name: inspiration?.days?.[s.day]?.label ?? '' } })}
             {...(planIntention && s.field === 'intention'
               ? { inspiration: { title: t('steps.intention.fromPlanner'), items: [planIntention] } }
               : inspiration && {
@@ -153,6 +155,8 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
                       ? (inspiration.areas[s.area] ?? [])
                       : s.section === 'monthMoon'
                         ? (inspiration.moon?.[s.field as MoonField]?.items ?? [])
+                        : s.section === 'weekDays' && s.day !== undefined
+                          ? (inspiration.days?.[s.day]?.items ?? [])
                         : s.field === 'intention'
                           ? inspiration.intention
                           : [],
@@ -259,7 +263,7 @@ function GuidedRunner({ flow, periodKey, routeBase, ctx, closeHref, intro, readi
           />
         );
       case 'closing': {
-        const items = steps.filter((x) => x.section && x.kind !== 'reading' && isStepDone(x, values)).map((x) => t(`done.${x.area ? x.section : x.id}`, { area: x.area ? tp(`areas.${x.area}`) : '' }));
+        const items = steps.filter((x) => x.section && x.kind !== 'reading' && isStepDone(x, values)).map((x) => t(`done.${x.area || x.section === 'weekDays' ? x.section : x.id}`, { area: x.area ? tp(`areas.${x.area}`) : '' }));
         const next = NEXT[flow];
         return (
           <StepClosing
@@ -343,18 +347,27 @@ const flatProjects = (projects: Record<string, string>) => Object.fromEntries(Ob
 /** Semana: planear (intenção, áreas e peso) e fechar (reflexão). */
 export function GuidedWeekRunner({ initial, ...props }: RunnerProps & { initial: WeekData }) {
   const { glow, onXp } = useGlowSum();
-  const { data, setText, setWeight, setProject, flush } = useWeekAutosave(initial, { onXp });
+  const { data, setText, setWeight, setDayNote, setProject, flush } = useWeekAutosave(initial, { onXp });
+  // Intenção dia a dia: `day.0` (domingo) a `day.6` (sábado) são as notas dos dias no planner da Semana.
+  const days = useMemo(() => weekDays(props.periodKey), [props.periodKey]);
   const store = useMemo<GuidedStore>(
     () => ({
-      values: { intention: data.intention, reflection: data.reflection, weightGrams: data.weightGrams, ...flatProjects(data.projects) },
+      values: {
+        intention: data.intention,
+        reflection: data.reflection,
+        weightGrams: data.weightGrams,
+        ...flatProjects(data.projects),
+        ...Object.fromEntries(days.map((d, i) => [`day.${i}`, data.dayNotes[d] ?? ''])),
+      },
       set: (f, v) => {
-        if (f.startsWith('projects.')) setProject(f.slice(9) as ProjectArea, String(v ?? ''));
+        if (f.startsWith('day.')) setDayNote(days[Number(f.slice(4))]!, String(v ?? ''));
+        else if (f.startsWith('projects.')) setProject(f.slice(9) as ProjectArea, String(v ?? ''));
         else if (f === 'weightGrams') setWeight((v as number | null) ?? null);
         else setText(f as 'intention' | 'reflection', String(v ?? ''));
       },
       flush,
     }),
-    [data, setText, setWeight, setProject, flush],
+    [data, setText, setWeight, setDayNote, setProject, flush, days],
   );
   return <GuidedRunner {...props} store={store} glow={glow} />;
 }

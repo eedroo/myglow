@@ -80,23 +80,24 @@ describe('candidatos', () => {
 
   const week = { start: '2026-05-03', now: new Date('2026-05-04T12:00:00Z'), tz: TZ };
 
-  it('semana: intenção + 1 projecto não chega para WEEK_PLAN; + 2 chega', () => {
-    expect(weekCandidates({ ...week, intention: 'Foco', projectsFilled: 1, reflection: '' })).toEqual([]);
-    expect(weekCandidates({ ...week, intention: 'Foco', projectsFilled: 2, reflection: '' })).toEqual([
+  it('semana: intenção + 2 dias não chega para WEEK_PLAN; + 3 dias chega; dias sem intenção não chegam', () => {
+    expect(weekCandidates({ ...week, intention: 'Foco', daysFilled: 2, reflection: '' })).toEqual([]);
+    expect(weekCandidates({ ...week, intention: '', daysFilled: 7, reflection: '' })).toEqual([]);
+    expect(weekCandidates({ ...week, intention: 'Foco', daysFilled: 3, reflection: '' })).toEqual([
       { source: 'WEEK_PLAN', periodStart: '2026-05-03', points: 20 },
     ]);
   });
 
   it('semana: reflexão de 19 caracteres não conta; 20 conta (na janela da reflexão)', () => {
     const friday = new Date('2026-05-08T12:00:00Z');
-    expect(weekCandidates({ ...week, now: friday, intention: '', projectsFilled: 0, reflection: 'a'.repeat(19) })).toEqual([]);
-    expect(weekCandidates({ ...week, now: friday, intention: '', projectsFilled: 0, reflection: `  ${'a'.repeat(20)}  ` })).toEqual([
+    expect(weekCandidates({ ...week, now: friday, intention: '', daysFilled: 0, reflection: 'a'.repeat(19) })).toEqual([]);
+    expect(weekCandidates({ ...week, now: friday, intention: '', daysFilled: 0, reflection: `  ${'a'.repeat(20)}  ` })).toEqual([
       { source: 'WEEK_REFLECTION', periodStart: '2026-05-03', points: 30 },
     ]);
   });
 
   it('reflexão fora da janela (terça) não conta', () => {
-    expect(weekCandidates({ ...week, intention: '', projectsFilled: 0, reflection: 'a'.repeat(40) })).toEqual([]);
+    expect(weekCandidates({ ...week, intention: '', daysFilled: 0, reflection: 'a'.repeat(40) })).toEqual([]);
   });
 });
 

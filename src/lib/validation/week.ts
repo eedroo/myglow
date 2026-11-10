@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const weekPatchSchema = z
   .object({
     title: z.string().max(80),
-    intention: z.string().max(1000),
+    intention: z.string().max(3000), // o brainstorm da semana
     weightGrams: z.number().int().min(20_000).max(400_000).nullable(),
     reflection: z.string().max(4000),
     dayNotes: z

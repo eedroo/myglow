@@ -20,7 +20,7 @@
         { "id": "night", "icon": "moon-crescent", "title": "Night ritual", "text": "A gesture that tells your body the day is over: dimming the lights, writing, breathing." },
         { "id": "wake", "icon": "bed", "title": "How you woke up", "text": "From now on you also log how you woke up and whether you got the sleep you wanted. Over time, patterns show up.", "only": "wellbeing" },
         { "id": "care", "icon": "candle", "title": "With care", "text": "Never leave a candle unattended, and don't swallow anything. Magic is care." },
-        { "id": "areas", "icon": "zodiac-wheel", "title": "Intentions by area", "text": "Your Week now also opens intentions by area: Magic, Personal, Leisure, Work and Study." },
+        { "id": "areas", "icon": "zodiac-wheel", "title": "Your week, day by day", "text": "When you plan your week, you write an intention for each day, with suggestions from that day's sky." },
         { "id": "try", "icon": "sparkles", "title": "Try it today", "text": "Choose your morning ritual and do it once. Tomorrow it gets easier." }
       ],
       "tryLabel": "Choose my ritual",

@@ -52,7 +52,7 @@ export async function patchWeek(start: DateISO, patch: WeekPatch): Promise<Patch
       weekCandidates({
         start,
         intention: week.intention ?? '',
-        projectsFilled: await db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: startDate } }),
+        daysFilled: await db.weekDayNote.count({ where: { week: { userId, startDate } } }),
         reflection: week.reflection ?? '',
         now: new Date(),
         tz: user.timezone,

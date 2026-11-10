@@ -16,7 +16,7 @@ import { getGuideEntryStatus } from '@/lib/guide/queries';
 import { publishedCourses } from '@/lib/grimoire/queries';
 import { dbToAppLocale, isAppLocale } from '@/i18n/locales';
 import { nextPeriodKey, type RecapCourse, type RecapInput } from './build';
-import { planMet } from '@/lib/xp/rules';
+import { planMet, weekPlanMet } from '@/lib/xp/rules';
 import { chainPeriod, isRecapAvailable, isWorthShowing, previousMonthPeriod, previousWeekPeriod, type RecapKindKey, type RecapPeriod } from './period';
 
 /** Retrospectiva (F13): recolha de dados. Só lê, excepto `markRecapSeen`/`markRecapCompleted`. */
@@ -184,16 +184,16 @@ export async function getRecapInput(userId: string, period: RecapPeriod): Promis
   };
 }
 
-/** O período a seguir ao da retrospectiva já está planeado (intenção + ≥ 2 áreas, como o Glow). */
+/** O período a seguir ao da retrospectiva já está planeado (como o Glow: semana com intenção + ≥ 3 dias; mês com intenção + ≥ 2 áreas). */
 export async function nextPeriodPlanned(userId: string, period: RecapPeriod): Promise<boolean> {
   const next = nextPeriodKey(period);
   if (period.kind === 'WEEK') {
     const startDate = toDbDate(next);
-    const [row, projects] = await Promise.all([
+    const [row, days] = await Promise.all([
       db.week.findUnique({ where: { userId_startDate: { userId, startDate } }, select: { intention: true } }),
-      db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: startDate } }),
+      db.weekDayNote.count({ where: { week: { userId, startDate } } }),
     ]);
-    return planMet(row?.intention ?? '', projects);
+    return weekPlanMet(row?.intention ?? '', days);
   }
   const { year, month } = parseMonthKey(next);
   const [row, projects] = await Promise.all([

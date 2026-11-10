@@ -1,4 +1,4 @@
-import type { ProjectArea, ZodiacSign } from '@prisma/client';
+import type { MoonPhase, ProjectArea, ZodiacSign } from '@prisma/client';
 import { compareDates, type DateISO } from '@/lib/dates';
 import type { SkyEvent } from '@/lib/astro/skyEvents';
 
@@ -128,4 +128,53 @@ export function moonPhaseInspiration(
   });
   for (const e of Object.values(out)) e.note = focusAreas.find((f) => f.area === e.area)?.note ?? null;
   return out;
+}
+
+// ─── Plano da semana, dia a dia ───────────────────────────────────────────────────────────────────
+
+/** Tom da fase da lua do dia: começar, fazer crescer, celebrar ou soltar (texto em `guided.inspo.dayPhase.*`). */
+export type PhaseTone = 'new' | 'waxing' | 'full' | 'waning';
+
+export const PHASE_TONE: Record<MoonPhase, PhaseTone> = {
+  NEW_MOON: 'new',
+  WAXING_CRESCENT: 'waxing',
+  FIRST_QUARTER: 'waxing',
+  WAXING_GIBBOUS: 'waxing',
+  FULL_MOON: 'full',
+  WANING_GIBBOUS: 'waning',
+  LAST_QUARTER: 'waning',
+  WANING_CRESCENT: 'waning',
+};
+
+export interface WeekDayInspiration {
+  date: DateISO;
+  /** Signo da lua ao meio-dia (energia do dia, texto em `guided.inspo.daySign.*`). */
+  sign: ZodiacSign;
+  tone: PhaseTone;
+  /** Momentos do céu nesse dia (fases principais, sabbats, estações, eclipses). */
+  moments: SkyMoment[];
+  /** Intenções da lua escritas no plano do mês para as fases principais que caem nesse dia. */
+  monthMoon: { field: MoonField; text: string }[];
+  rituals: PeriodRitual[];
+}
+
+/**
+ * Para cada dia da semana: a energia (signo e tom da lua), os momentos do céu, o que a pessoa escreveu no plano do
+ * mês para a fase da lua que cai nesse dia (ex.: a intenção da lua nova) e os rituais do dia.
+ */
+export function weekDayInspiration(
+  days: { date: DateISO; sign: ZodiacSign; phase: MoonPhase }[],
+  moments: SkyMoment[],
+  monthMoon: (date: DateISO, field: MoonField) => string | null,
+  rituals: PeriodRitual[],
+): WeekDayInspiration[] {
+  return days.map((d) => {
+    const today = moments.filter((m) => m.date === d.date);
+    const fromMonth = today
+      .map((m) => MOON_FIELD[m.kind])
+      .filter((f): f is MoonField => !!f)
+      .map((field) => ({ field, text: monthMoon(d.date, field)?.trim() ?? '' }))
+      .filter((x) => x.text !== '');
+    return { date: d.date, sign: d.sign, tone: PHASE_TONE[d.phase], moments: today, monthMoon: fromMonth, rituals: rituals.filter((r) => r.date === d.date) };
+  });
 }

@@ -17,6 +17,8 @@ export interface GuidedStep {
   section: SectionKey | null;
   field?: string;
   area?: ProjectArea;
+  /** Plano da semana: o dia (0 = domingo) do passo da intenção dia a dia. */
+  day?: number;
   optional: boolean;
 }
 
@@ -25,6 +27,10 @@ export const GUIDED_FLOWS: GuidedFlow[] = ['DAY_MORNING', 'DAY_BODY', 'DAY_NIGHT
 const step = (id: string, kind: StepKind, section: SectionKey, field?: string, optional = false): GuidedStep => ({ id, kind, section, ...(field && { field }), optional });
 const areas = (section: SectionKey): GuidedStep[] =>
   PROJECT_AREAS.map((area) => ({ id: `${section}-${area}`, kind: 'text', section, field: `projects.${area}`, area, optional: true }));
+
+/** Plano da semana: um passo por dia (domingo a sábado), com o campo `day.N` (intenção desse dia no planner). */
+const weekDaySteps = (): GuidedStep[] =>
+  Array.from({ length: 7 }, (_, day) => ({ id: `weekDay-${day}`, kind: 'text' as const, section: 'weekDays' as const, field: `day.${day}`, day, optional: true }));
 
 const MIDDLE: Record<GuidedFlow, GuidedStep[]> = {
   DAY_MORNING: [
@@ -48,7 +54,15 @@ const MIDDLE: Record<GuidedFlow, GuidedStep[]> = {
     step('summary', 'text', 'summary', 'summary', true),
   ],
   // Antes de planear: a leitura pessoal do período, as datas e fases da lua e os rituais.
-  WEEK_PLAN: [step('periodReading', 'reading', 'reading'), step('weekIntention', 'text', 'weekIntention', 'intention'), ...areas('weekProjects'), step('weekWeight', 'weight', 'weekWeight', 'weightGrams', true)],
+  // A intenção da semana é o grande brainstorm (com dicas por área); depois, a intenção de cada dia. As áreas da semana
+  // ficaram guardadas (`HIDDEN_SECTIONS`), por isso não aparecem.
+  WEEK_PLAN: [
+    step('periodReading', 'reading', 'reading'),
+    step('weekIntention', 'text', 'weekIntention', 'intention'),
+    ...weekDaySteps(),
+    ...areas('weekProjects'),
+    step('weekWeight', 'weight', 'weekWeight', 'weightGrams', true),
+  ],
   WEEK_CLOSE: [step('weekReflection', 'text', 'weekReflection', 'reflection')],
   MONTH_PLAN: [
     step('periodReading', 'reading', 'reading'),

@@ -10,6 +10,7 @@ import type { ProjectArea } from '@prisma/client';
 import { getEntitlements } from '@/lib/entitlements/server';
 import { weeklyWeightAverages } from '@/lib/body/queries';
 import { getJourney } from '@/lib/journey/server';
+import { HIDDEN_SECTIONS } from '@/lib/guided/sections';
 
 /** Tudo o que a página da semana precisa. Não cria registos. */
 export async function getWeekPageData(userId: string, start: DateISO, tz: string): Promise<WeekPageData> {
@@ -66,7 +67,7 @@ export async function getWeekPageData(userId: string, start: DateISO, tz: string
     previousWeightGrams: previous?.weightGrams ?? null,
     wellbeing,
     today,
-    showProjects: journey.sections.has('weekProjects'),
+    showProjects: journey.sections.has('weekProjects') && !HIDDEN_SECTIONS.includes('weekProjects'),
   };
 }
 

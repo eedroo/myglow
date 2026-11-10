@@ -46,6 +46,8 @@ export const DAY_MAX_POINTS = DAY_SOURCES.reduce((sum, s) => sum + XP_POINTS[s],
 export const REFLECTION_MIN_CHARS = 20;
 /** Mínimo de projectos/metas preenchidos para um plano contar. */
 export const PLAN_MIN_PROJECTS = 2;
+/** Semana planeada: a intenção da semana e a intenção de pelo menos 3 dos 7 dias (as áreas da semana ficaram guardadas). */
+export const WEEK_PLAN_MIN_DAYS = 3;
 
 const local = (date: DateISO, tz: string) => DateTime.fromISO(date, { zone: tz }).startOf('day');
 const win = (opens: DateTime, closes: DateTime): XpWindow => ({ opens: opens.toUTC().toJSDate(), closes: closes.toUTC().toJSDate() });
@@ -86,6 +88,7 @@ const reflectionCounts = (s: string) => s.trim().length >= REFLECTION_MIN_CHARS;
 
 /** Critério de "plano feito" (semana/mês/ano) — também usado pelos lembretes. */
 export const planMet = (intention: string, projectsFilled: number) => filled(intention) && projectsFilled >= PLAN_MIN_PROJECTS;
+export const weekPlanMet = (intention: string, daysFilled: number) => filled(intention) && daysFilled >= WEEK_PLAN_MIN_DAYS;
 /** Critério de "reflexão feita" — também usado pelos lembretes. */
 export const reflectionMet = reflectionCounts;
 
@@ -108,13 +111,14 @@ export function dayCandidates(i: { date: DateISO; progress: DayProgress; now: Da
 export function weekCandidates(i: {
   start: DateISO;
   intention: string;
-  projectsFilled: number;
+  /** Dias da semana com intenção escrita (`WeekDayNote`). */
+  daysFilled: number;
   reflection: string;
   now: Date;
   tz: string;
 }): XpCandidate[] {
   const met: WindowedSource[] = [];
-  if (filled(i.intention) && i.projectsFilled >= PLAN_MIN_PROJECTS) met.push('WEEK_PLAN');
+  if (weekPlanMet(i.intention, i.daysFilled)) met.push('WEEK_PLAN');
   if (reflectionCounts(i.reflection)) met.push('WEEK_REFLECTION');
   return pick(met, i.start, i.now, i.tz);
 }

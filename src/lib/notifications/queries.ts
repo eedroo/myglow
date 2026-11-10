@@ -7,7 +7,7 @@ import { addMonths, monthOf, weekStartOf } from '@/lib/weeks';
 import { computeDayProgress, PROGRESS_SELECT } from '@/lib/daily/progress';
 import { hasWellbeingConsent } from '@/lib/account/consent';
 import { loadJourney } from '@/lib/journey/server';
-import { planMet, reflectionMet } from '@/lib/xp/rules';
+import { planMet, reflectionMet, weekPlanMet } from '@/lib/xp/rules';
 import { getDailyMoon } from '@/lib/astro/moon';
 import { getSkyEvents, type SabbatKey } from '@/lib/astro/skyEvents';
 import { getRituals } from '@/lib/ai/queries';
@@ -27,10 +27,10 @@ export async function notificationState(userId: string, date: DateISO): Promise<
   const nextWeekStart = toDbDate(addDays(weekStartOf(date), 7));
   const next = addMonths(year, month, 1);
   const nextMonthStart = toDbDate(`${next.year}-${String(next.month).padStart(2, '0')}-01`);
-  const [entry, week, weekProjects, monthRow, monthProjects, prevWeek, prevMonth, wellbeing, journey, nextWeek, nextWeekProjects, nextMonth, nextMonthProjects] = await Promise.all([
+  const [entry, week, weekDays, monthRow, monthProjects, prevWeek, prevMonth, wellbeing, journey, nextWeek, nextWeekDays, nextMonth, nextMonthProjects] = await Promise.all([
     db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(date) } }, select: PROGRESS_SELECT }),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: weekStart } }, select: { intention: true, reflection: true } }),
-    db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: weekStart } }),
+    db.weekDayNote.count({ where: { week: { userId, startDate: weekStart } } }),
     db.month.findUnique({ where: { userId_year_month: { userId, year, month } }, select: { intention: true, reflection: true } }),
     db.projectIntention.count({ where: { userId, period: 'MONTH', periodStart: monthStart } }),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: prevWeekStart } }, select: { reflection: true } }),
@@ -39,20 +39,20 @@ export async function notificationState(userId: string, date: DateISO): Promise<
     // F19: só se lembra o que a jornada já abriu (sem corpo antes da etapa 4; sem Mês antes de o desbloquear).
     loadJourney(userId),
     db.week.findUnique({ where: { userId_startDate: { userId, startDate: nextWeekStart } }, select: { intention: true } }),
-    db.projectIntention.count({ where: { userId, period: 'WEEK', periodStart: nextWeekStart } }),
+    db.weekDayNote.count({ where: { week: { userId, startDate: nextWeekStart } } }),
     db.month.findUnique({ where: { userId_year_month: { userId, year: next.year, month: next.month } }, select: { intention: true } }),
     db.projectIntention.count({ where: { userId, period: 'MONTH', periodStart: nextMonthStart } }),
   ]);
   return {
     day: computeDayProgress(date, entry, { wellbeing, available: journey.sections }),
     monthUnlocked: journey.planners.has('month'),
-    weekPlanDone: planMet(week?.intention ?? '', weekProjects),
+    weekPlanDone: weekPlanMet(week?.intention ?? '', weekDays),
     weekReflectionDone: reflectionMet(week?.reflection ?? ''),
     monthPlanDone: planMet(monthRow?.intention ?? '', monthProjects),
     monthReflectionDone: reflectionMet(monthRow?.reflection ?? ''),
     lastWeekReflectionDone: reflectionMet(prevWeek?.reflection ?? ''),
     lastMonthReflectionDone: reflectionMet(prevMonth?.reflection ?? ''),
-    nextWeekPlanDone: planMet(nextWeek?.intention ?? '', nextWeekProjects),
+    nextWeekPlanDone: weekPlanMet(nextWeek?.intention ?? '', nextWeekDays),
     nextMonthPlanDone: planMet(nextMonth?.intention ?? '', nextMonthProjects),
   };
 }

@@ -253,9 +253,9 @@ Referência: página "Semana" do diário em papel. Mobile em coluna (título, in
 |---|---|---|---|---|
 | `WeekPage` | server | — | — | carrega `getWeekPageData`, compõe a página |
 | `WeekNav` | server | `week-nav.css` | `mg-week-nav`, `__btn`, `__btn--disabled`, `__center`, `__label`, `__links`, `__link` | ← → entre semanas, intervalo "3–9 mai 2026", "Esta semana" quando não é a actual, link para o mês |
-| `WeekView` | client | `week.css` | `mg-week`, `__grid`, `__cell--*` | `useWeekAutosave` + cartões interactivos + `SaveStatus` + `Toast` de erro |
+| `WeekView` | client | `week.css` | `mg-week`, `__grid`, `__cell--*` | `useWeekAutosave` + cartões interactivos + `SaveStatus` + `Toast` de erro; a intenção é o "Brainstorm da semana" (5 linhas, até 3000); o cartão das áreas fica escondido (`HIDDEN_SECTIONS`, os textos gravados ficam) |
 | `WeekTitleCard` | client | `week-title.css` | `mg-week-title`, `__label`, `__input` | faixa com `moon-crescent` e `sun`; input sem borda; placeholder "Semana {n} · {mês}" |
-| `PeriodIntentionCard` | client | `day.css` | `mg-intention` | ver "Cartões de período" — "Intenção da semana" |
+| `PeriodIntentionCard` | client | `day.css` | `mg-intention` | ver "Cartões de período" — "Brainstorm da semana" |
 | `WeekSkyCard` | server | `week-sky.css` | `mg-week-sky`, `__title`, `__list`, `__event`, `__when` | eventos lunares da semana (glifo + "Lua Cheia em Escorpião · ter, 18:23"); sem eventos: fase dominante |
 | `WeekDayRow` | client | `week-day.css` | `mg-week-day`, `__icon`, `__label`, `__date`, `__moon`, `__text`, `__progress`, `--today`, `--future` | ícone planetário do dia, abreviatura, número, glifo da lua, `LinedTextArea` 2, `DayProgressDots` com link (não em futuros) |
 | `WeightCard` | client | `weight.css` | `mg-weight`, `__head`, `__input`, `__unit`, `__delta` | `scale` + "Meu peso da semana" + `WeightInput` + delta face à semana anterior (neutro, sem cor de bom/mau) |
@@ -653,7 +653,7 @@ Um passo por ecrã, com a linguagem da retrospectiva. Cada passo grava pelos hoo
 | `StepIntro` | server | `guided-step.css` | `mg-step-intro` | saudação, data, lua (fase e signo) ou título do período e a intenção anterior |
 | `StepReading` | client | `guided-step.css` | `mg-step-reading`, `--pending` | manhã: "Quer a leitura agora ou à noite?" (grava `readingChoice`); agora mostra a leitura, à noite avança e ela aparece no fecho do dia (`nightReading`); planear: a leitura do período aberta logo |
 | `GuidedPeriodReading` (`periodGuidance`) | server | `guided-step.css` | `mg-guided-reading`, `__list` | antes de planear: leitura pessoal do período, datas e fases da lua com sugestão, rituais; e a inspiração por passo (intenção e áreas) |
-| `StepText` | client | `guided-step.css` | `mg-step-text`, `__area`, `__inspo` | título, ajuda, `textarea` grande com autofocus, contador perto do limite; ícone e nome da área |
+| `StepText` | client | `guided-step.css` | `mg-step-text`, `__area`, `__inspo` | título, ajuda, `textarea` grande com autofocus, contador perto do limite; ícone e nome da área (no plano da semana, o dia: data por extenso, com as sugestões da energia do dia, dos momentos do céu, da intenção da lua do mês e dos rituais) |
 | `StepBanish` | client | `guided-step.css` | `mg-step-banish` | nome do banimento + "Feito" grande |
 | `StepCheck` | client | `guided-step.css` | `mg-step-check`, `__toggle--on` | ícone grande, pergunta e botão de alternar; ritual sugerido (`RitualTodayCard`) quando existe |
 | `StepScale` | client | `guided-step.css` | `mg-step-scale` | as 5 carinhas do diário (`MoodScale`) e a nota opcional do "como acordou" |

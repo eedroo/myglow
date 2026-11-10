@@ -22,10 +22,16 @@ describe('buildFlow', () => {
     expect(buildFlow('DAY_NIGHT', all)[1]!.id).toBe('nightBanish');
     expect(buildFlow('DAY_NIGHT', { ...all, readingAtNight: true })[1]!.id).toBe('nightReading');
   });
-  it('semana: 5 áreas opcionais', () => {
-    const areas = buildFlow('WEEK_PLAN', all).filter((s) => s.section === 'weekProjects');
-    expect(areas).toHaveLength(5);
-    expect(areas.every((s) => s.optional && s.kind === 'text')).toBe(true);
+  it('semana: brainstorm da semana e depois os 7 dias (opcionais); as áreas da semana ficam escondidas', () => {
+    const flow = buildFlow('WEEK_PLAN', all);
+    const days = flow.filter((s) => s.section === 'weekDays');
+    expect(days.map((s) => s.field)).toEqual(['day.0', 'day.1', 'day.2', 'day.3', 'day.4', 'day.5', 'day.6']);
+    expect(days.every((s) => s.optional && s.kind === 'text')).toBe(true);
+    expect(flow.findIndex((s) => s.id === 'weekIntention')).toBeLessThan(flow.findIndex((s) => s.id === 'weekDay-0'));
+    expect(flow.filter((s) => s.section === 'weekProjects')).toHaveLength(0);
+    // Com a jornada: os dias vão com a intenção da semana.
+    expect(buildFlow('WEEK_PLAN', { ...all, unlocked: new Set(['weekIntention']) }).filter((s) => s.section === 'weekDays')).toHaveLength(7);
+    expect(buildFlow('WEEK_PLAN', { ...all, unlocked: new Set(['intention']) }).filter((s) => s.section === 'weekDays')).toHaveLength(0);
   });
   it('planear começa pela leitura do período; o ano segue com a palavra', () => {
     for (const f of ['WEEK_PLAN', 'MONTH_PLAN', 'YEAR_PLAN'] as const) expect(buildFlow(f, all)[1]!.id).toBe('periodReading');

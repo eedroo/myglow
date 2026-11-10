@@ -1,11 +1,14 @@
 import type { ReactNode } from 'react';
 import type { Hemisphere, ProjectArea } from '@prisma/client';
 import { getTranslations } from 'next-intl/server';
-import { addDays, formatDayMonth, type DateISO } from '@/lib/dates';
+import { addDays, formatDayMonth, formatLongDate, toDbDate, type DateISO } from '@/lib/dates';
+import { db } from '@/lib/db';
+import { getDailySky } from '@/lib/astro/sky';
+import { weekDays } from '@/lib/weeks';
 import { monthOf } from '@/lib/weeks';
 import { getCachedSkyEvents } from '@/lib/astro/skyCache';
 import { getMonthReading, getWeekReading } from '@/lib/ai/queries';
-import { areaInspiration, moonPhaseInspiration, periodMoments, ritualsIn, SUGGESTION, type MoonField, type PeriodRitual, type SkyMoment } from '@/lib/guided/inspiration';
+import { areaInspiration, moonPhaseInspiration, periodMoments, ritualsIn, SUGGESTION, weekDayInspiration, type MoonField, type PeriodRitual, type SkyMoment } from '@/lib/guided/inspiration';
 import type { AppLocale } from '@/i18n/locales';
 import { MagicIcon } from '@/components/ui/MagicIcon';
 
@@ -14,6 +17,28 @@ export interface PeriodInspiration {
   areas: Partial<Record<ProjectArea, string[]>>;
   /** Mês: por fase da lua, a data e o signo (`label`) e o que inspira essa intenção (área, nota da leitura, rituais). */
   moon?: Partial<Record<MoonField, { label: string; items: string[] }>>;
+  /** Semana: por dia (domingo a sábado), a data (`label`) e as sugestões pela energia do dia e pelo plano do mês. */
+  days?: { label: string; items: string[] }[];
+}
+
+/** Os meses que a semana toca, com as intenções da lua e as metas por área já escritas no plano do mês. */
+async function weekMonths(userId: string, from: DateISO, to: DateISO) {
+  const months = [monthOf(from), monthOf(to)].filter((m, i, a) => i === 0 || m.month !== a[0]!.month);
+  return Promise.all(
+    months.map(async (m) => {
+      const [row, goals] = await Promise.all([
+        db.month.findUnique({
+          where: { userId_year_month: { userId, year: m.year, month: m.month } },
+          select: { moonNew: true, moonWaxing: true, moonFull: true, moonWaning: true },
+        }),
+        db.projectIntention.findMany({
+          where: { userId, period: 'MONTH', periodStart: toDbDate(`${m.year}-${String(m.month).padStart(2, '0')}-01`) },
+          select: { area: true, text: true },
+        }),
+      ]);
+      return { ...m, moon: row, goals: goals.filter((g) => g.text.trim() !== '') };
+    }),
+  );
 }
 
 type Kind = 'WEEK' | 'MONTH' | 'YEAR';
@@ -54,6 +79,7 @@ export async function periodGuidance(i: {
   ]);
   const personal = personalState.status === 'ready' ? personalState.data : null;
   const moments = periodMoments(events, i.from, i.to, { moonPhases: i.kind !== 'YEAR' });
+  const months = i.kind === 'WEEK' ? await weekMonths(i.userId, i.from, i.to) : [];
 
   const momentName = (m: SkyMoment) => {
     if (m.kind === 'SABBAT') return ts(`sabbats.${m.key}.name` as 'sabbats.SAMHAIN.name');
@@ -67,11 +93,46 @@ export async function periodGuidance(i: {
   const ritualLine = (r: PeriodRitual) => t('ritualLine', { date: formatDayMonth(r.date, i.locale), title: r.title, intention: r.intention });
 
   const areas = areaInspiration(personal?.focusAreas ?? [], periodRituals);
+  // Semana: o brainstorm traz as metas do mês por área e as notas da leitura por área.
+  const brainstorm =
+    i.kind === 'WEEK'
+      ? [
+          ...months.flatMap((m) => m.goals.map((g) => t('monthGoal', { area: tp(`areas.${g.area}`), text: g.text.trim() }))),
+          ...(personal?.focusAreas ?? []).map((f) => t('areaNote', { area: tp(`areas.${f.area}`), note: f.note })),
+        ]
+      : [];
+  const monthMoon = (date: DateISO, field: MoonField) => {
+    const m = months.find((x) => x.year === Number(date.slice(0, 4)) && x.month === Number(date.slice(5, 7)));
+    return m?.moon?.[field] ?? null;
+  };
+  const days =
+    i.kind === 'WEEK'
+      ? weekDayInspiration(
+          weekDays(i.from).map((date) => {
+            const sky = getDailySky(date, i.tz);
+            return { date, sign: sky.moon.signAtNoon, phase: sky.moon.phase };
+          }),
+          moments,
+          monthMoon,
+          periodRituals,
+        ).map((d) => ({
+          label: formatLongDate(d.date, i.locale),
+          items: [
+            ...d.monthMoon.map((x) => t(`dayMonthMoon.${x.field}`, { text: x.text })),
+            ...d.moments.map((m) => `${momentName(m)}: ${t(`suggest.${SUGGESTION[m.kind]}`)}`),
+            t(`daySign.${d.sign}`, { sign: ta(`signs.${d.sign}`) }),
+            t(`dayPhase.${d.tone}`),
+            ...d.rituals.map(ritualLine),
+          ],
+        }))
+      : undefined;
   const inspiration: PeriodInspiration = {
     intention: [
       ...(personal ? [t('fromReading', { text: personal.headline })] : []),
       ...moments.filter((m) => m.kind === 'NEW_MOON' || m.kind === 'SABBAT' || m.kind === 'SOLAR_ECLIPSE').slice(0, 2).map(momentLine),
+      ...brainstorm,
     ],
+    ...(days && { days }),
     areas: Object.fromEntries(
       Object.entries(areas).map(([area, a]) => [area, [...(a!.note ? [a!.note] : []), ...a!.rituals.map(ritualLine)]]),
     ) as PeriodInspiration['areas'],

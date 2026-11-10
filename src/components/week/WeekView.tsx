@@ -80,6 +80,8 @@ export function WeekView({
             value={data.intention}
             onChange={(v) => setText('intention', v)}
             onBlur={onBlur}
+            rows={5}
+            maxLength={3000}
           />
         </div>
         <div className="mg-week__cell mg-week__cell--sky">{sky}</div>

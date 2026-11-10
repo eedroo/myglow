@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { SkyEvent } from '@/lib/astro/skyEvents';
-import { areaInspiration, periodMoments, ritualsIn, SUGGESTION, moonPhaseInspiration } from './inspiration';
+import { areaInspiration, periodMoments, ritualsIn, SUGGESTION, moonPhaseInspiration, weekDayInspiration, PHASE_TONE } from './inspiration';
 
 const ev = (e: Partial<SkyEvent> & { type: SkyEvent['type']; date: string }) => ({ at: `${e.date}T12:00:00Z`, ...e }) as SkyEvent;
 
@@ -54,5 +54,27 @@ describe('moonPhaseInspiration', () => {
   it('sabbats e estações não contam; fase ausente no mês fica de fora', () => {
     const r = moonPhaseInspiration([{ date: '2026-11-01', kind: 'SABBAT', sign: null, key: 'SAMHAIN' }, moments[1]!], [], [], '2026-11-30');
     expect(Object.keys(r)).toEqual(['moonNew']);
+  });
+});
+
+describe('weekDayInspiration', () => {
+  const days = [
+    { date: '2026-11-08', sign: 'ARIES' as const, phase: 'WAXING_GIBBOUS' as const },
+    { date: '2026-11-09', sign: 'TAURUS' as const, phase: 'NEW_MOON' as const },
+  ];
+  const moments = [{ date: '2026-11-09', kind: 'NEW_MOON' as const, sign: 'SCORPIO' as const, key: null }];
+  const ritual = { id: 'r', title: 'Ritual', date: '2026-11-09', occasion: 'x', intention: 'y', area: 'MAGIC' as const };
+  it('energia do dia, momentos e rituais do próprio dia', () => {
+    const out = weekDayInspiration(days, moments, () => null, [ritual]);
+    expect(out[0]).toMatchObject({ date: '2026-11-08', sign: 'ARIES', tone: 'waxing', moments: [], monthMoon: [], rituals: [] });
+    expect(out[1]).toMatchObject({ tone: 'new', moments, rituals: [ritual] });
+  });
+  it('a intenção da lua nova escrita no mês aparece no dia da lua nova', () => {
+    const out = weekDayInspiration(days, moments, (d, f) => (d === '2026-11-09' && f === 'moonNew' ? ' Começar o curso ' : null), []);
+    expect(out[1]!.monthMoon).toEqual([{ field: 'moonNew', text: 'Começar o curso' }]);
+    expect(out[0]!.monthMoon).toEqual([]);
+  });
+  it('todas as fases têm tom', () => {
+    expect(Object.keys(PHASE_TONE)).toHaveLength(8);
   });
 });

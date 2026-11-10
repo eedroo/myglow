@@ -161,7 +161,7 @@
     "settings": "Configurações",
     "pages": {
       "today": { "title": "Hoje", "subtitle": "Sua intenção, seus rituais e sua reflexão do dia." },
-      "week": { "title": "Semana", "subtitle": "Planeje a semana por áreas e acompanhe o seu corpo." },
+      "week": { "title": "Semana", "subtitle": "Planeje a semana dia a dia e acompanhe o seu corpo." },
       "month": { "title": "Mês", "subtitle": "Ciclos lunares, intenções e balanço do mês." },
       "year": { "title": "Ano", "subtitle": "Sua palavra do ano e a visão que guia você." }
     }
@@ -400,8 +400,8 @@
       "month": "Ver o mês"
     },
     "intention": {
-      "label": "Intenção da semana",
-      "placeholder": "Nesta semana eu quero…"
+      "label": "Brainstorm da semana",
+      "placeholder": "Tudo o que você quer para esta semana, área a área…"
     },
     "sky": {
       "title": "A lua nesta semana",
@@ -2006,6 +2006,34 @@
   },
   "guided": {
     "inspo": {
+      "areaNote": "{area}: {note}",
+      "monthGoal": "No seu mês, {area}: «{text}»",
+      "dayMonthMoon": {
+        "moonNew": "No seu mês, a intenção para a lua nova: «{text}»",
+        "moonWaxing": "No seu mês, a intenção para a lua crescente: «{text}»",
+        "moonFull": "No seu mês, a intenção para a lua cheia: «{text}»",
+        "moonWaning": "No seu mês, a intenção para a lua minguante: «{text}»"
+      },
+      "dayPhase": {
+        "new": "Lua nova: bom para começar algo pequeno.",
+        "waxing": "Lua crescente: faça crescer o que já começou.",
+        "full": "Lua cheia: conclua, celebre e mostre.",
+        "waning": "Lua minguante: termine, arrume e solte."
+      },
+      "daySign": {
+        "ARIES": "Lua em {sign}: energia para começar, decidir e se mexer.",
+        "TAURUS": "Lua em {sign}: bom para o corpo, a casa, o dinheiro e o que pede constância.",
+        "GEMINI": "Lua em {sign}: conversas, estudos, recados e ideias soltas.",
+        "CANCER": "Lua em {sign}: família, casa, cuidado e descanso.",
+        "LEO": "Lua em {sign}: criar, mostrar o seu trabalho e se divertir.",
+        "VIRGO": "Lua em {sign}: organizar, rotina, saúde e detalhes.",
+        "LIBRA": "Lua em {sign}: parcerias, acordos, beleza e equilíbrio.",
+        "SCORPIO": "Lua em {sign}: profundidade, magia, foco e soltar o que pesa.",
+        "SAGITTARIUS": "Lua em {sign}: aprender, planejar longe e sair da rotina.",
+        "CAPRICORN": "Lua em {sign}: trabalho sério, metas e compromissos.",
+        "AQUARIUS": "Lua em {sign}: amigos, ideias novas e projetos em grupo.",
+        "PISCES": "Lua em {sign}: intuição, arte, espiritualidade e descanso."
+      },
       "moonAreaNote": "Esta fase combina com a área {area}: {note}",
       "moonArea": "Esta fase combina com a área {area}.",
       "title": "Inspiração",
@@ -2034,6 +2062,7 @@
       "continue": "Continuar"
     },
     "done": {
+      "weekDays": "Dias planejados",
       "moonWaning": "Lua Minguante",
       "moonFull": "Lua Cheia",
       "moonWaxing": "Lua Crescente",
@@ -2171,6 +2200,11 @@
       "thisIntention": "Sua intenção: \"{text}\""
     },
     "steps": {
+      "weekDays": {
+        "title": "A intenção do dia",
+        "help": "O que você quer para este dia? Use a energia do dia e o seu brainstorm como inspiração.",
+        "placeholder": "Neste dia eu quero…"
+      },
       "moonWaning": {
         "title": "Lua Minguante: o que você vai soltar?",
         "help": "Com a lua minguando, o que você quer diminuir, terminar ou deixar ir?",
@@ -2266,8 +2300,9 @@
         "placeholder": "Um dia de…"
       },
       "weekIntention": {
-        "title": "A intenção da semana",
-        "help": "Como você quer que esta semana seja? Uma frase basta."
+        "placeholder": "Magic: … · Pessoal: … · Lazer: … · Profissional: … · Estudos: …",
+        "title": "O brainstorm da semana",
+        "help": "Escreva tudo o que você quer para esta semana, área a área: Magic, Pessoal, Lazer, Profissional e Estudos. Depois você reparte isso pelos dias."
       },
       "weekProjects": {
         "title": "Para esta área, esta semana",
@@ -2462,7 +2497,7 @@
       "3": {
         "name": "Rituais",
         "next": "os rituais",
-        "opens": "Ritual da manhã e da noite, sono, como você acordou e intenções por área na Semana",
+        "opens": "Ritual da manhã e da noite, sono, como você acordou e a semana planejada dia a dia",
         "practice": "ritual"
       },
       "4": {

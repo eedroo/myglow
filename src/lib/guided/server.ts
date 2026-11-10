@@ -9,7 +9,7 @@ import { tourStateFromDb } from '@/lib/tour/machine';
 import type { DailyEntryData } from '@/types/daily';
 import type { GuidedFlow } from '@prisma/client';
 import type { SectionContext } from './sections';
-import { autoOpenFlow, suggestDayFlow } from './suggest';
+import { autoOpenTarget, earlyHoursSuggestion, isEarlyHours, suggestDayFlow } from './suggest';
 import { getJourney } from '@/lib/journey/server';
 
 /** Modo guiado (F18): dados comuns das rotas `/guided/*`. */
@@ -37,7 +37,7 @@ const DEFAULT_TIMES = { morningTime: '08:00', bodyTime: '13:00', nightTime: '21:
 export async function dayGuided(
   userId: string,
   i: { date: DateISO; today: DateISO; tz: string; entry: DailyEntryData; wellbeing: boolean; now?: Date },
-): Promise<{ base: string | null; suggested: GuidedFlow | null }> {
+): Promise<{ base: string | null; suggested: GuidedFlow | null; suggestedDate?: DateISO }> {
   const now = i.now ?? new Date();
   const allowed = i.date === i.today || (i.date === addDays(i.today, -1) && isWindowOpen(xpWindow('DAY_MORNING', i.date, i.tz), now));
   if (!allowed) return { base: null, suggested: null };
@@ -50,27 +50,48 @@ export async function dayGuided(
   ]);
   if (user && tourStateFromDb(user).status === 'active') return { base, suggested: null };
   const progress = computeDayProgress(i.date, i.entry as unknown as ProgressEntry, { wellbeing: i.wellbeing, available: journey.sections });
-  return { base, suggested: suggestDayFlow({ localTime: formatTimeInTz(now.toISOString(), i.tz), prefs: prefs ?? DEFAULT_TIMES, progress }) };
+  const localTime = formatTimeInTz(now.toISOString(), i.tz);
+  const times = prefs ?? DEFAULT_TIMES;
+  // Madrugada: em vez da manhã do dia novo, a noite de ontem (se ainda estiver por fazer).
+  if (isEarlyHours(localTime, times.morningTime)) {
+    const yesterday = addDays(i.today, -1);
+    const y = await db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(yesterday) } }, select: PROGRESS_SELECT });
+    const suggested = earlyHoursSuggestion({
+      localTime,
+      morningTime: times.morningTime,
+      yesterday: computeDayProgress(yesterday, y, { wellbeing: i.wellbeing, available: journey.sections }),
+    });
+    return { base, suggested, ...(suggested && { suggestedDate: yesterday }) };
+  }
+  return { base, suggested: suggestDayFlow({ localTime, prefs: times, progress }) };
 }
 
 /**
- * Ao entrar no Hoje: o fluxo que abre sozinho (manhã na primeira abertura do dia, noite à hora do aviso da noite) ou
- * null. Uma vez por fluxo e dia: o `GuidedRun` criado ao abrir impede repetir.
+ * Ao entrar no Hoje: o fluxo que abre sozinho (manhã na primeira abertura do dia, a partir das 06:00; noite à hora do
+ * aviso da noite; na madrugada, a noite de ontem) ou null. Uma vez por fluxo e dia: o `GuidedRun` criado ao abrir impede repetir.
  */
 export async function autoOpenHref(userId: string, i: { tz: string; wellbeing: boolean; now?: Date }): Promise<string | null> {
   const now = i.now ?? new Date();
   const today = todayInTz(i.tz, now) as DateISO;
-  const [entry, prefs, runs, journey] = await Promise.all([
+  const yesterday = addDays(today, -1);
+  const [entry, yEntry, prefs, runs, journey] = await Promise.all([
     db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(today) } }, select: PROGRESS_SELECT }),
-    db.notificationPrefs.findUnique({ where: { userId }, select: { nightTime: true } }),
-    db.guidedRun.findMany({ where: { userId, periodKey: today, flow: { in: ['DAY_MORNING', 'DAY_NIGHT'] } }, select: { flow: true } }),
+    db.dailyEntry.findUnique({ where: { userId_date: { userId, date: toDbDate(yesterday) } }, select: PROGRESS_SELECT }),
+    db.notificationPrefs.findUnique({ where: { userId }, select: { morningTime: true, nightTime: true } }),
+    db.guidedRun.findMany({ where: { userId, periodKey: { in: [today, yesterday] }, flow: { in: ['DAY_MORNING', 'DAY_NIGHT'] } }, select: { flow: true, periodKey: true } }),
     getJourney(userId),
   ]);
-  const flow = autoOpenFlow({
+  const opts = { wellbeing: i.wellbeing, available: journey.sections };
+  const target = autoOpenTarget({
     localTime: formatTimeInTz(now.toISOString(), i.tz),
+    morningTime: prefs?.morningTime ?? DEFAULT_TIMES.morningTime,
     nightTime: prefs?.nightTime ?? DEFAULT_TIMES.nightTime,
-    progress: computeDayProgress(today, entry, { wellbeing: i.wellbeing, available: journey.sections }),
-    startedToday: runs.map((r) => r.flow),
+    progress: computeDayProgress(today, entry, opts),
+    startedToday: runs.filter((r) => r.periodKey === today).map((r) => r.flow),
+    // A noite de ontem só na madrugada (a janela do Glow do dia de ontem ainda está aberta).
+    yesterday: { progress: computeDayProgress(yesterday, yEntry, opts), started: runs.filter((r) => r.periodKey === yesterday).map((r) => r.flow) },
   });
-  return flow ? `/guided/day/${today}/${flow === 'DAY_MORNING' ? 'morning' : 'night'}` : null;
+  if (!target) return null;
+  const date = target.day === 'yesterday' ? yesterday : today;
+  return `/guided/day/${date}/${target.flow === 'DAY_MORNING' ? 'morning' : 'night'}`;
 }

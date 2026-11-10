@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { DayProgress } from '@/lib/daily/progress';
-import { autoOpenFlow, suggestDayFlow, suggestPeriodFlow } from './suggest';
+import { autoOpenFlow, autoOpenTarget, earlyHoursSuggestion, isEarlyHours, suggestDayFlow, suggestPeriodFlow } from './suggest';
 
 const prefs = { morningTime: '08:00', bodyTime: '13:00', nightTime: '21:00' };
 const progress = (p: Partial<DayProgress>): DayProgress => ({ date: '2026-10-28', hasEntry: true, morning: false, body: false, bodyChecks: 0, night: false, level: 'partial', applicable: { morning: true, body: true, night: true }, ...p });
@@ -66,5 +66,33 @@ describe('autoOpenFlow', () => {
   it('partes não aplicáveis na jornada não abrem', () => {
     const p = progress({ applicable: { morning: false, body: false, night: false } });
     expect(autoOpenFlow({ ...base, localTime: '08:00', progress: p })).toBeNull();
+  });
+});
+
+describe('madrugada', () => {
+  it('até às 05:59 (ou até ao aviso da manhã, se for mais cedo) é madrugada', () => {
+    expect(isEarlyHours('01:00', '08:00')).toBe(true);
+    expect(isEarlyHours('05:59', '08:00')).toBe(true);
+    expect(isEarlyHours('06:00', '08:00')).toBe(false);
+    expect(isEarlyHours('05:30', '05:15')).toBe(false);
+    expect(isEarlyHours('05:00', '05:15')).toBe(true);
+  });
+  it('à 1 da manhã: nada do dia novo; abre a noite de ontem se estiver por fazer', () => {
+    const today = progress({});
+    const base = { localTime: '01:00', morningTime: '08:00', nightTime: '21:00', progress: today, startedToday: [] as ('DAY_MORNING' | 'DAY_NIGHT')[] };
+    expect(suggestDayFlow({ localTime: '01:00', prefs, progress: today })).toBeNull();
+    expect(autoOpenTarget({ ...base, yesterday: { progress: progress({ morning: true }), started: [] } })).toEqual({ flow: 'DAY_NIGHT', day: 'yesterday' });
+    expect(autoOpenTarget({ ...base, yesterday: { progress: progress({ night: true }), started: [] } })).toBeNull();
+    expect(autoOpenTarget({ ...base, yesterday: { progress: progress({}), started: ['DAY_NIGHT'] } })).toBeNull();
+    expect(autoOpenTarget({ ...base, yesterday: null })).toBeNull();
+  });
+  it('às 06:00 volta ao normal: a manhã de hoje', () => {
+    const y = { progress: progress({}), started: [] };
+    expect(autoOpenTarget({ localTime: '06:00', morningTime: '08:00', nightTime: '21:00', progress: progress({}), startedToday: [], yesterday: y })).toEqual({ flow: 'DAY_MORNING', day: 'today' });
+  });
+  it('sugestão do Hoje na madrugada: a noite de ontem por fazer', () => {
+    expect(earlyHoursSuggestion({ localTime: '02:00', morningTime: '08:00', yesterday: progress({}) })).toBe('DAY_NIGHT');
+    expect(earlyHoursSuggestion({ localTime: '02:00', morningTime: '08:00', yesterday: progress({ night: true }) })).toBeNull();
+    expect(earlyHoursSuggestion({ localTime: '07:00', morningTime: '08:00', yesterday: progress({}) })).toBeNull();
   });
 });

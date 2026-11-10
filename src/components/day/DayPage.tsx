@@ -118,7 +118,7 @@ export async function DayPage({ date }: { date: DateISO }) {
         glowNote={<GlowWindowNote period="day" periodStart={date} timezone={user.timezone} today={today} earned={dayAwards} />}
       />
       <DailySkyCard sky={sky} natal={natal} isToday={isToday} />
-      <GuidedStartCard flow={guided.suggested} date={date} bodyPro={!!ent.features['body-pro']} />
+      <GuidedStartCard flow={guided.suggested} date={guided.suggestedDate ?? date} bodyPro={!!ent.features['body-pro']} />
       {shouldShowPrompt({
         firstDay: todayInTz(user.timezone, user.createdAt),
         today,

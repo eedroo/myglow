@@ -10,12 +10,25 @@ const minutes = (hhmm: string) => {
   return (h ?? 0) * 60 + (m ?? 0);
 };
 
+/** Fim da madrugada: às 06:00, ou mais cedo se o aviso da manhã for antes disso. */
+export const DAWN = '06:00';
+
+/**
+ * Madrugada (da meia-noite até às 05:59, ou até à hora do aviso da manhã se for mais cedo): ainda conta como a noite
+ * do dia anterior para o passo a passo; a manhã do dia novo só abre e só se sugere depois disso.
+ */
+export function isEarlyHours(localTime: string, morningTime: string): boolean {
+  return minutes(localTime) < Math.min(minutes(DAWN), minutes(morningTime));
+}
+
 export function suggestDayFlow(i: {
   localTime: string;
   prefs: { morningTime: string; bodyTime: string; nightTime: string };
   progress: DayProgress;
 }): GuidedFlow | null {
   const now = minutes(i.localTime);
+  // Madrugada: nada do dia novo (a noite de ontem é sugerida à parte, em `dayGuided`).
+  if (isEarlyHours(i.localTime, i.prefs.morningTime)) return null;
   // F19: uma parte do dia ainda bloqueada na jornada conta como feita (nada de "Cuidar do corpo" antes da etapa 4).
   const { applicable } = i.progress;
   const morning = i.progress.morning || !applicable.morning;
@@ -65,4 +78,30 @@ export function autoOpenFlow(i: {
   const { progress: p } = i;
   if (night) return p.applicable.night && !p.night && !i.startedToday.includes('DAY_NIGHT') ? 'DAY_NIGHT' : null;
   return p.applicable.morning && !p.morning && !i.startedToday.includes('DAY_MORNING') ? 'DAY_MORNING' : null;
+}
+
+/**
+ * O que abre sozinho ao entrar, com a madrugada: até ao fim dela abre a noite de ontem (se ainda está por fazer e não
+ * foi aberta), nunca a manhã do dia novo; depois disso, `autoOpenFlow` para hoje.
+ */
+export function autoOpenTarget(i: {
+  localTime: string;
+  morningTime: string;
+  nightTime: string;
+  progress: DayProgress;
+  startedToday: GuidedFlow[];
+  yesterday: { progress: DayProgress; started: GuidedFlow[] } | null;
+}): { flow: GuidedFlow; day: 'today' | 'yesterday' } | null {
+  if (isEarlyHours(i.localTime, i.morningTime)) {
+    const y = i.yesterday;
+    return y && y.progress.applicable.night && !y.progress.night && !y.started.includes('DAY_NIGHT') ? { flow: 'DAY_NIGHT', day: 'yesterday' } : null;
+  }
+  const flow = autoOpenFlow(i);
+  return flow ? { flow, day: 'today' } : null;
+}
+
+/** Na madrugada, a sugestão do Hoje é a noite de ontem, se ainda está por fazer. */
+export function earlyHoursSuggestion(i: { localTime: string; morningTime: string; yesterday: DayProgress | null }): GuidedFlow | null {
+  if (!isEarlyHours(i.localTime, i.morningTime) || !i.yesterday) return null;
+  return i.yesterday.applicable.night && !i.yesterday.night ? 'DAY_NIGHT' : null;
 }

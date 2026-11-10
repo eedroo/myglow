@@ -400,7 +400,7 @@
       "month": "See the month"
     },
     "intention": {
-      "label": "Week brainstorm",
+      "label": "This week's intention",
       "placeholder": "Everything you want for this week, area by area…"
     },
     "sky": {
@@ -2301,7 +2301,7 @@
       },
       "weekIntention": {
         "placeholder": "Magic: … · Personal: … · Leisure: … · Work: … · Study: …",
-        "title": "Your week brainstorm",
+        "title": "This week's intention",
         "help": "Write everything you want for this week, area by area: Magic, Personal, Leisure, Work and Study. Then you spread it across the days."
       },
       "weekProjects": {

@@ -253,9 +253,9 @@ Referência: página "Semana" do diário em papel. Mobile em coluna (título, in
 |---|---|---|---|---|
 | `WeekPage` | server | — | — | carrega `getWeekPageData`, compõe a página |
 | `WeekNav` | server | `week-nav.css` | `mg-week-nav`, `__btn`, `__btn--disabled`, `__center`, `__label`, `__links`, `__link` | ← → entre semanas, intervalo "3–9 mai 2026", "Esta semana" quando não é a actual, link para o mês |
-| `WeekView` | client | `week.css` | `mg-week`, `__grid`, `__cell--*` | `useWeekAutosave` + cartões interactivos + `SaveStatus` + `Toast` de erro; a intenção é o "Brainstorm da semana" (5 linhas, até 3000); o cartão das áreas fica escondido (`HIDDEN_SECTIONS`, os textos gravados ficam) |
+| `WeekView` | client | `week.css` | `mg-week`, `__grid`, `__cell--*` | `useWeekAutosave` + cartões interactivos + `SaveStatus` + `Toast` de erro; a intenção da semana serve de brainstorm (5 linhas, até 3000); o cartão das áreas fica escondido (`HIDDEN_SECTIONS`, os textos gravados ficam) |
 | `WeekTitleCard` | client | `week-title.css` | `mg-week-title`, `__label`, `__input` | faixa com `moon-crescent` e `sun`; input sem borda; placeholder "Semana {n} · {mês}" |
-| `PeriodIntentionCard` | client | `day.css` | `mg-intention` | ver "Cartões de período" — "Brainstorm da semana" |
+| `PeriodIntentionCard` | client | `day.css` | `mg-intention` | ver "Cartões de período" — "Intenção da semana" |
 | `WeekSkyCard` | server | `week-sky.css` | `mg-week-sky`, `__title`, `__list`, `__event`, `__when` | eventos lunares da semana (glifo + "Lua Cheia em Escorpião · ter, 18:23"); sem eventos: fase dominante |
 | `WeekDayRow` | client | `week-day.css` | `mg-week-day`, `__icon`, `__label`, `__date`, `__moon`, `__text`, `__progress`, `--today`, `--future` | ícone planetário do dia, abreviatura, número, glifo da lua, `LinedTextArea` 2, `DayProgressDots` com link (não em futuros) |
 | `WeightCard` | client | `weight.css` | `mg-weight`, `__head`, `__input`, `__unit`, `__delta` | `scale` + "Meu peso da semana" + `WeightInput` + delta face à semana anterior (neutro, sem cor de bom/mau) |

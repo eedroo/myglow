@@ -400,7 +400,7 @@
       "month": "Ver o mês"
     },
     "intention": {
-      "label": "Brainstorm da semana",
+      "label": "Intenção da semana",
       "placeholder": "Tudo o que queres para esta semana, área a área…"
     },
     "sky": {
@@ -2301,7 +2301,7 @@
       },
       "weekIntention": {
         "placeholder": "Magic: … · Pessoal: … · Lazer: … · Profissional: … · Estudos: …",
-        "title": "O brainstorm da semana",
+        "title": "A intenção da semana",
         "help": "Escreve tudo o que queres para esta semana, área a área: Magic, Pessoal, Lazer, Profissional e Estudos. Depois repartes isso pelos dias."
       },
       "weekProjects": {

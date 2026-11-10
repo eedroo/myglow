@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  focusExercise,
   formatClock,
   autoEndAt, canStartSession, diaryChecksFor, elapsed, prefillSet, remainingRest, restEndsAt, restFor, validateSet,
 } from './session';
@@ -96,5 +97,27 @@ describe('formatClock', () => {
     expect(formatClock(125)).toBe('02:05');
     expect(formatClock(3725)).toBe('1:02:05');
     expect(formatClock(-3)).toBe('00:00');
+  });
+});
+
+describe('focusExercise', () => {
+  const items = [
+    { id: 'a', targetSets: 3, done: 3 },
+    { id: 'b', targetSets: 3, done: 0 },
+    { id: 'c', targetSets: 3, done: 0 },
+  ];
+  it('cumpridas as séries do exercício, o foco passa ao seguinte (mesmo durante o descanso)', () => {
+    expect(focusExercise(items, 'a')).toBe('b');
+  });
+  it('ainda a meio, fica no mesmo', () => {
+    expect(focusExercise([{ id: 'a', targetSets: 3, done: 2 }, ...items.slice(1)], 'a')).toBe('a');
+  });
+  it('sem nada registado: o primeiro por fazer; depois do último, volta aos anteriores por fazer', () => {
+    expect(focusExercise(items, null)).toBe('b');
+    expect(focusExercise([{ id: 'a', targetSets: 3, done: 1 }, { id: 'b', targetSets: 2, done: 2 }], 'b')).toBe('a');
+  });
+  it('sem alvo de séries: o último registado continua em foco; tudo feito → nenhum', () => {
+    expect(focusExercise([{ id: 'a', targetSets: null, done: 2 }, { id: 'b', targetSets: null, done: 0 }], 'a')).toBe('a');
+    expect(focusExercise([{ id: 'a', targetSets: 1, done: 1 }], 'a')).toBeNull();
   });
 });

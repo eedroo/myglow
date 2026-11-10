@@ -62,7 +62,7 @@
   background: var(--body-surface);
 }
 
-.mg-session-ex--resting {
+.mg-session-ex--current {
   border-color: var(--body-accent);
 }
 
@@ -94,10 +94,8 @@
 }
 
 .mg-set-row {
-  display: grid;
-  grid-template-columns: 2.5ch 1fr 1fr auto;
-  align-items: center;
-  gap: var(--space-3);
+  display: flex;
+  width: 100%;
   min-height: 48px;
   padding: 0 var(--space-2);
   border: 0;
@@ -122,6 +120,11 @@
 .mg-set-row__reps { color: var(--metric-reps); }
 .mg-set-row__kg { color: var(--metric-kg); }
 .mg-set-row__time { color: var(--metric-time); }
+
+.mg-session-ex__sets > li + li .mg-set-row {
+  border-top: var(--border-width) solid var(--glass-border);
+  border-radius: 0;
+}
 
 .mg-set-row--pending {
   opacity: 0.6;

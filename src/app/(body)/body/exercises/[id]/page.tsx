@@ -40,13 +40,15 @@ export default async function ExerciseRoute({ params }: { params: { id: string }
   const { view } = detail;
   return (
     <>
-      <BodyHeader title={view.name} backHref="/body/exercises" backLabel={t('nav.exercises')} />
+      {/* Voltar regressa a onde se veio (sessão, treino, mapa, biblioteca); só sem histórico vai à biblioteca. */}
+      <BodyHeader title={view.name} backHref="/body/exercises" historyBack />
       <div className="mg-body-shell__main">
-        <ExerciseDetail exercise={view} level={detail.level} />
-        {view.source === 'CUSTOM' && !detail.archived && (
-          <CustomExerciseForm exercise={{ id: view.id, name: view.name, measure: view.measure, primaryMuscles: view.primaryMuscles, equipment: view.equipment }} />
-        )}
-        {!detail.archived && <AddToWorkout exerciseId={view.id} workouts={workouts.map((w) => ({ id: w.id, label: `${w.program.name} · ${w.name}` }))} />}
+        <ExerciseDetail exercise={view} level={detail.level}>
+          {!detail.archived && <AddToWorkout exerciseId={view.id} workouts={workouts.map((w) => ({ id: w.id, label: `${w.program.name} · ${w.name}` }))} />}
+          {view.source === 'CUSTOM' && !detail.archived && (
+            <CustomExerciseForm exercise={{ id: view.id, name: view.name, measure: view.measure, primaryMuscles: view.primaryMuscles, equipment: view.equipment }} />
+          )}
+        </ExerciseDetail>
         {/* F17: Séries (histórico + comparação com a anterior) · Evolução · Recordes */}
         <ExerciseTabs
           sets={

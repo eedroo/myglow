@@ -9,6 +9,7 @@ import { isAppLocale, intlLocale } from '@/i18n/locales';
 import { Button } from '@/components/ui/Button';
 import { NumberStepper } from './NumberStepper';
 import { PrTrophy } from './PrTrophy';
+import { SetLine } from './SetLine';
 
 export type SetValues = Omit<SetInput, 'exerciseId'>;
 
@@ -60,10 +61,13 @@ export function SetRow({
   pending,
   prKinds = [],
   fresh = false,
+  at = null,
   onSave,
   onDelete,
 }: {
   n: number;
+  /** Quando foi feita (ISO), para a hora na linha. */
+  at?: string | null;
   measure: ExerciseMeasure;
   values: SetValues;
   pending?: boolean;
@@ -134,14 +138,13 @@ export function SetRow({
           setEditing(true);
         }}
       >
-        <span className="mg-set-row__n">{n}</span>
-        {values.durationSec != null ? (
-          <span className="mg-set-row__time">{t('secondsShort', { n: values.durationSec })}</span>
-        ) : (
-          <span className="mg-set-row__reps">{values.reps != null ? t('repsShort', { n: values.reps }) : ''}</span>
-        )}
-        <span className="mg-set-row__kg">{values.weightGrams != null ? t('kgShort', { kg: kg(values.weightGrams) }) : ''}</span>
-        {prKinds.length ? <PrTrophy kinds={prKinds} fresh={fresh} /> : <span aria-hidden="true">{pending ? '…' : '✓'}</span>}
+        <SetLine
+          time={at ? new Date(at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : null}
+          reps={values.durationSec != null ? null : (values.reps ?? null)}
+          kg={values.durationSec == null && values.weightGrams != null ? kg(values.weightGrams) : null}
+          seconds={values.durationSec ?? null}
+          end={prKinds.length ? <PrTrophy kinds={prKinds} fresh={fresh} /> : <span aria-hidden="true">{pending ? '…' : '✓'}</span>}
+        />
       </button>
     </li>
   );

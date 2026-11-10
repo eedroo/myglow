@@ -3,7 +3,30 @@
 .mg-ex-detail {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-2);
+}
+
+.mg-ex-detail__summary {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.mg-ex-detail__more {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mg-ex-detail__more > summary {
+  width: fit-content;
+  padding: var(--space-1) 0;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.mg-ex-detail__more[open] > summary {
+  margin-bottom: var(--space-3);
 }
 
 .mg-ex-detail__meta {
@@ -41,7 +64,21 @@
 
 .mg-ex-history__date {
   margin: 0 0 var(--space-1);
+  font-size: var(--text-xs);
   font-weight: var(--weight-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.mg-ex-history__sets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-ex-history__sets > li + li {
+  border-top: var(--border-width) solid var(--glass-border);
 }
 
 .mg-ex-history__row {

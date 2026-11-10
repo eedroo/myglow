@@ -118,3 +118,18 @@ export function autoEndAt(i: { startedAt: Date; lastSetAt: Date | null; now: Dat
 export function setVolumeGrams(s: { reps: number | null; weightGrams: number | null }): number {
   return (s.reps ?? 0) * (s.weightGrams ?? 0);
 }
+
+/**
+ * O exercício em foco na sessão (a borda acesa): o último em que se registou uma série, enquanto ainda faltam séries
+ * para o alvo; cumprido o alvo, o seguinte que ainda tem séries por fazer (depois, os anteriores). Sem nada
+ * registado, o primeiro por fazer. Sem alvo de séries, um exercício conta como feito com uma série, excepto o último
+ * registado (pode continuar). Tudo feito: nenhum.
+ */
+export function focusExercise(items: { id: string; targetSets: number | null; done: number }[], lastId: string | null): string | null {
+  const idx = lastId ? items.findIndex((i) => i.id === lastId) : -1;
+  const pending = (i: { id: string; targetSets: number | null; done: number }) =>
+    i.targetSets != null ? i.done < i.targetSets : i.id === lastId || i.done === 0;
+  if (idx >= 0 && pending(items[idx]!)) return items[idx]!.id;
+  const order = idx >= 0 ? [...items.slice(idx + 1), ...items.slice(0, idx)] : items;
+  return order.find((i) => i.id !== lastId && pending(i))?.id ?? null;
+}

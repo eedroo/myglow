@@ -13,7 +13,7 @@ import {
   skipRest,
   updateSet,
 } from '@/actions/fitness';
-import { elapsed, validateSet } from '@/lib/fitness/session';
+import { elapsed, focusExercise, validateSet } from '@/lib/fitness/session';
 import type { ActiveSessionView, ExerciseView } from '@/lib/fitness/types';
 import { Button } from '@/components/ui/Button';
 import { ExercisePicker } from './ExercisePicker';
@@ -169,15 +169,28 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
       pending: false,
       prKinds: s.prKinds,
       fresh: s.id in freshPrs,
+      at: s.completedAt,
       ...(s.reps != null && { reps: s.reps }),
       ...(s.weightGrams != null && { weightGrams: s.weightGrams }),
       ...(s.durationSec != null && { durationSec: s.durationSec }),
     }));
     const queued = queue
       .filter((q) => q.exerciseId === exerciseId && !serverIds.has(q.id))
-      .map(({ id, reps, weightGrams, durationSec }) => ({ id, pending: !(id in freshPrs), prKinds: freshPrs[id] ?? [], fresh: id in freshPrs, reps, weightGrams, durationSec }));
+      .map(({ id, reps, weightGrams, durationSec, completedAt }) => ({ id, pending: !(id in freshPrs), prKinds: freshPrs[id] ?? [], fresh: id in freshPrs, at: completedAt, reps, weightGrams, durationSec }));
     return [...done, ...queued];
   };
+
+  // Exercício em foco: o último com série registada; cumpridas as séries do alvo, passa logo ao seguinte.
+  const lastLogged = (() => {
+    const recent = [...queue].reverse().find((q) => !serverIds.has(q.id))?.exerciseId;
+    if (recent) return recent;
+    const done = session.items.flatMap((i) => i.doneSets.map((s) => ({ id: i.exercise.id, at: s.completedAt })));
+    return rest?.exerciseId ?? done.sort((a, b) => b.at.localeCompare(a.at))[0]?.id ?? null;
+  })();
+  const focusId = focusExercise(
+    session.items.map((i) => ({ id: i.exercise.id, targetSets: i.target.sets, done: shown(i.exercise.id).length })),
+    lastLogged,
+  );
 
   const restName = rest?.exerciseId ? (session.items.find((i) => i.exercise.id === rest.exerciseId)?.exercise.name ?? null) : null;
   const totalSets = session.items.reduce((n, i) => n + i.doneSets.length, 0) + queue.filter((q) => !serverIds.has(q.id)).length;
@@ -262,7 +275,7 @@ export function SessionScreen({ session, exercises, keepAwake }: { session: Acti
           key={item.exercise.id}
           item={item}
           sets={shown(item.exercise.id)}
-          resting={rest?.exerciseId === item.exercise.id}
+          current={focusId === item.exercise.id}
           onLog={(v) => log(item.exercise.id, item.target.restSec, v)}
           onUpdate={async (setId, v) => {
             const res = await updateSet(setId, { reps: v.reps ?? null, weightGrams: v.weightGrams ?? null, durationSec: v.durationSec ?? null });

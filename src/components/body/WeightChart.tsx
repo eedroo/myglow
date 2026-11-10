@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { compareDates, formatDayMonth, fromDbDate, toDbDate, type DateISO } from '@/lib/dates';
-import { rangeBounds, rollingAverage, type WeightPoint, type WeightRange } from '@/lib/body/weight';
+import { rangeBounds, type WeightPoint, type WeightRange } from '@/lib/body/weight';
 import { formatGramsAsKg } from '@/lib/weight';
 import { isAppLocale, intlLocale } from '@/i18n/locales';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
@@ -22,7 +22,7 @@ function ticks(min: number, max: number): number[] {
   return out;
 }
 
-/** Gráfico do peso: pontos diários, tendência de 7 dias e linha do alvo; toque mostra data e kg. */
+/** Gráfico do peso: as pesagens ligadas por uma linha que passa por cada ponto e a linha do alvo; toque mostra data e kg. */
 export function WeightChart({ points, today, targetGrams }: { points: WeightPoint[]; today: DateISO; targetGrams: number | null }) {
   const t = useTranslations('body.weight');
   const raw = useLocale();
@@ -34,9 +34,8 @@ export function WeightChart({ points, today, targetGrams }: { points: WeightPoin
   const view = useMemo(() => {
     const { from, to } = rangeBounds(range, today);
     const inRange = (p: WeightPoint) => compareDates(p.date, from) >= 0 && compareDates(p.date, to) <= 0;
-    const shown = points.filter(inRange);
-    const trend = rollingAverage(points).filter(inRange);
-    const all = [...shown.map((p) => p.grams), ...trend.map((p) => p.grams), ...(targetGrams != null ? [targetGrams] : [])];
+    const shown = points.filter(inRange).sort((a, b) => compareDates(a.date, b.date));
+    const all = [...shown.map((p) => p.grams), ...(targetGrams != null ? [targetGrams] : [])];
     const lo = Math.min(...all) - 300;
     const hi = Math.max(...all) + 300;
     const t0 = toDbDate(from).getTime();
@@ -44,7 +43,7 @@ export function WeightChart({ points, today, targetGrams }: { points: WeightPoin
     const x = (d: DateISO) => PAD.l + ((toDbDate(d).getTime() - t0) / Math.max(t1 - t0, DAY)) * (W - PAD.l - PAD.r);
     const y = (g: number) => PAD.t + (1 - (g - lo) / (hi - lo)) * (H - PAD.t - PAD.b);
     const xTicks = [0, 1, 2, 3].map((i) => fromDbDate(new Date(Math.round((t0 + ((t1 - t0) * i) / 3) / DAY) * DAY)));
-    return { shown, trend, lo, hi, x, y, xTicks };
+    return { shown, lo, hi, x, y, xTicks };
   }, [points, range, today, targetGrams]);
 
   const pick = (clientX: number, rect: DOMRect) => {
@@ -101,7 +100,8 @@ export function WeightChart({ points, today, targetGrams }: { points: WeightPoin
           {targetGrams != null && targetGrams > view.lo && targetGrams < view.hi && (
             <line className="mg-weight-chart__goal" x1={PAD.l} x2={W - PAD.r} y1={view.y(targetGrams)} y2={view.y(targetGrams)} />
           )}
-          <polyline className="mg-weight-chart__trend" points={view.trend.map((p) => `${view.x(p.date)},${view.y(p.grams)}`).join(' ')} />
+          {/* A linha liga as pesagens (por data), passando por cada ponto. */}
+          <polyline className="mg-weight-chart__trend" points={view.shown.map((p) => `${view.x(p.date)},${view.y(p.grams)}`).join(' ')} />
           {view.shown.map((p, i) => (
             <circle key={p.date} className={`mg-weight-chart__point${i === active ? ' mg-weight-chart__point--active' : ''}`} cx={view.x(p.date)} cy={view.y(p.grams)} r={i === active ? 5 : 3.5} />
           ))}

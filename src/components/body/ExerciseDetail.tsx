@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { formatGramsAsKg } from '@/lib/weight';
@@ -6,11 +7,12 @@ import { isAppLocale, intlLocale } from '@/i18n/locales';
 import type { ExerciseHistoryGroup, ExerciseView } from '@/lib/fitness/types';
 import { formatClock } from '@/lib/fitness/session';
 import { PrTrophy } from './PrTrophy';
+import { SetLine } from './SetLine';
 
 /** "+4:02" (descanso antes desta série). */
 const restText = (sec: number | null) => (sec === null ? '' : `+${formatClock(sec).replace(/^00:/, '0:').replace(/^0(\d):/, '$1:')}`);
 
-/** Histórico do exercício por data: hora, descanso antes, reps e kg (ou tempo). */
+/** Histórico do exercício por data: as séries em linhas (hora, descanso antes, reps e kg ou tempo), da mais recente para a mais antiga. */
 export async function ExerciseHistory({ groups, timezone }: { groups: ExerciseHistoryGroup[]; timezone: string }) {
   const [t, raw] = await Promise.all([getTranslations('fitness.history'), getLocale()]);
   const locale = isAppLocale(raw) ? raw : 'pt-PT';
@@ -21,24 +23,20 @@ export async function ExerciseHistory({ groups, timezone }: { groups: ExerciseHi
       {groups.map((g) => (
         <li key={g.sessionId} className="mg-ex-history__group">
           <h3 className="mg-ex-history__date">{formatLongDate(g.date, locale)}</h3>
-          {g.sets.map((s, i) => (
-            <div key={s.id} className="mg-ex-history__row">
-              <span className="mg-set-row__n">{i + 1}</span>
-              <span className="mg-ex-history__time">{time.format(new Date(s.time))}</span>
-              <span className="mg-ex-history__rest">{restText(s.restBeforeSec)}</span>
-              <span>
-                {s.durationSec != null && <span className="mg-metric--time">{t('seconds', { n: s.durationSec })}</span>}
-                {s.reps != null && <span className="mg-metric--reps">{t('reps', { n: s.reps })}</span>}
-                {s.weightGrams != null && (
-                  <>
-                    {' · '}
-                    <span className="mg-metric--kg">{t('kg', { kg: formatGramsAsKg(s.weightGrams, intlLocale(locale)) })}</span>
-                  </>
-                )}
-              </span>
-              <PrTrophy kinds={s.prKinds} size={16} />
-            </div>
-          ))}
+          <ol className="mg-ex-history__sets">
+            {[...g.sets].reverse().map((s) => (
+              <li key={s.id}>
+                <SetLine
+                  time={time.format(new Date(s.time))}
+                  rest={restText(s.restBeforeSec) || null}
+                  reps={s.durationSec != null ? null : s.reps}
+                  kg={s.durationSec == null && s.weightGrams != null ? formatGramsAsKg(s.weightGrams, intlLocale(locale)) : null}
+                  seconds={s.durationSec}
+                  end={<PrTrophy kinds={s.prKinds} size={16} />}
+                />
+              </li>
+            ))}
+          </ol>
         </li>
       ))}
     </ul>
@@ -72,28 +70,37 @@ export async function ExerciseHowTo({ images, instructions, name }: { images: st
   );
 }
 
-/** Cabeçalho do exercício: músculos, equipamento, categoria. */
-export async function ExerciseDetail({ exercise, level }: { exercise: ExerciseView; level: string | null }) {
+/**
+ * Debaixo do nome: uma linha curta (músculo principal · equipamento). O resto (todos os músculos, categoria, medida,
+ * nível e as acções, como "Adicionar a um treino") fica em "Detalhes", fechado.
+ */
+export async function ExerciseDetail({ exercise, level, children }: { exercise: ExerciseView; level: string | null; children?: ReactNode }) {
   const t = await getTranslations('fitness');
   const label = (ns: 'muscles' | 'equipment' | 'categories', k: string) => (t.has(`${ns}.${k}`) ? t(`${ns}.${k}`) : k);
+  const summary = [exercise.primaryMuscles[0] && label('muscles', exercise.primaryMuscles[0]), label('equipment', exercise.equipment ?? 'none')].filter(Boolean).join(' · ');
   return (
     <section className="mg-ex-detail">
-      <div className="mg-ex-detail__meta">
-        {exercise.primaryMuscles.map((m) => (
-          <span key={m} className="mg-ex-detail__tag">
-            {label('muscles', m)}
-          </span>
-        ))}
-        {exercise.secondaryMuscles.map((m) => (
-          <span key={m} className="mg-ex-detail__tag">
-            {t('exercises.secondary', { muscle: label('muscles', m) })}
-          </span>
-        ))}
-        <span className="mg-ex-detail__tag">{label('equipment', exercise.equipment ?? 'none')}</span>
-        <span className="mg-ex-detail__tag">{label('categories', exercise.category)}</span>
-        <span className="mg-ex-detail__tag">{t(`measures.${exercise.measure}`)}</span>
-        {level && t.has(`levels.${level}`) && <span className="mg-ex-detail__tag">{t(`levels.${level}`)}</span>}
-      </div>
+      <p className="mg-ex-detail__summary">{summary}</p>
+      <details className="mg-ex-detail__more">
+        <summary>{t('exercises.details')}</summary>
+        <div className="mg-ex-detail__meta">
+          {exercise.primaryMuscles.map((m) => (
+            <span key={m} className="mg-ex-detail__tag">
+              {label('muscles', m)}
+            </span>
+          ))}
+          {exercise.secondaryMuscles.map((m) => (
+            <span key={m} className="mg-ex-detail__tag">
+              {t('exercises.secondary', { muscle: label('muscles', m) })}
+            </span>
+          ))}
+          <span className="mg-ex-detail__tag">{label('equipment', exercise.equipment ?? 'none')}</span>
+          <span className="mg-ex-detail__tag">{label('categories', exercise.category)}</span>
+          <span className="mg-ex-detail__tag">{t(`measures.${exercise.measure}`)}</span>
+          {level && t.has(`levels.${level}`) && <span className="mg-ex-detail__tag">{t(`levels.${level}`)}</span>}
+        </div>
+        {children}
+      </details>
     </section>
   );
 }

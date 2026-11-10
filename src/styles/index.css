@@ -147,6 +147,7 @@
 @import './components/ex-list.css';
 @import './components/ex-detail.css';
 @import './components/session.css';
+@import './components/set-line.css';
 @import './components/rest.css';
 @import './components/session-summary.css';
 @import './components/day-strip.css';

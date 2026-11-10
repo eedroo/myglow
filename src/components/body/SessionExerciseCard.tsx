@@ -1,8 +1,11 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { prefillSet } from '@/lib/fitness/session';
+import { compareWithPrevious, summarize } from '@/lib/fitness/progress';
+import { CompareCard } from './CompareCard';
 import type { ActiveSessionView } from '@/lib/fitness/types';
 import { SetInputRow, SetRow, useKg, type SetValues } from './SetRow';
 import { useTargetText } from './WorkoutItemRow';
@@ -13,20 +16,23 @@ export interface ShownSet extends SetValues {
   pending: boolean;
   prKinds: string[];
   fresh: boolean;
+  /** Quando foi feita (ISO). */
+  at?: string;
 }
 
 /** Um exercício na sessão: alvo, "Última vez", séries feitas e a próxima. */
 export function SessionExerciseCard({
   item,
   sets,
-  resting,
+  current,
   onLog,
   onUpdate,
   onDelete,
 }: {
   item: Item;
   sets: ShownSet[];
-  resting: boolean;
+  /** Em foco: o exercício que se está a fazer (passa ao seguinte quando as séries do alvo estão feitas). */
+  current: boolean;
   onLog: (v: SetValues) => string | null;
   onUpdate: (setId: string, v: SetValues) => Promise<string | null>;
   onDelete: (setId: string) => Promise<void>;
@@ -47,10 +53,17 @@ export function SessionExerciseCard({
         )
         .join(', ')
     : null;
+  // O foco acabou de passar para este exercício: traz o cartão para a vista (não na primeira abertura).
+  const ref = useRef<HTMLElement>(null);
+  const was = useRef(current);
+  useEffect(() => {
+    if (current && !was.current) ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    was.current = current;
+  }, [current]);
   const prefill = prefillSet({ doneInSession: sets.map((s) => ({ exerciseId: exercise.id, ...s })), last: item.last, target: item.target });
 
   return (
-    <article className={`mg-session-ex${resting ? ' mg-session-ex--resting' : ''}`}>
+    <article ref={ref} className={`mg-session-ex${current ? ' mg-session-ex--current' : ''}`} aria-current={current ? 'step' : undefined}>
       <h2 className="mg-session-ex__name">
         <Link href={`/body/exercises/${encodeURIComponent(exercise.id)}`}>{exercise.name}</Link>
       </h2>
@@ -60,6 +73,8 @@ export function SessionExerciseCard({
         </p>
       )}
       {last && <p className="mg-session-ex__last">{t('lastTime', { sets: last })}</p>}
+      {/* Assim que há uma série: comparado com a última vez. */}
+      {sets.length > 0 && item.last && <CompareCard comparison={compareWithPrevious(summarize(sets), summarize(item.last.sets.map((x) => ({ reps: x.reps ?? undefined, weightGrams: x.weightGrams ?? undefined, durationSec: x.durationSec ?? undefined }))))} />}
       {sets.length > 0 && (
         <ol className="mg-session-ex__sets">
           {sets.map((s, i) => (
@@ -71,6 +86,7 @@ export function SessionExerciseCard({
               pending={s.pending}
               prKinds={s.prKinds}
               fresh={s.fresh}
+              at={s.at ?? null}
               onSave={(v) => onUpdate(s.id, v)}
               onDelete={() => onDelete(s.id)}
             />

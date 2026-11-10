@@ -588,14 +588,15 @@ Módulo premium (`body-pro`) com navegação própria, inspirado no Setgraph: bi
 | `ExerciseList` / `ExerciseRow` | client | `ex-list.css` | `mg-ex-list`, `mg-ex-row` | biblioteca e os meus, com miniatura, músculos e equipamento; separador "Os meus" |
 | `ExerciseFilters` | client | `ex-list.css` | `mg-ex-filters` | músculo, equipamento, categoria |
 | `CustomExerciseForm` | client | `ex-list.css` | `mg-ex-form` | exercício próprio: nome, como se regista, músculos, equipamento; arquivar; `onCreated`, `initialOpen`, `initialName`, `onCancel` para usar dentro do `ExercisePicker` |
-| `ExerciseDetail` | server | `ex-detail.css` | `mg-ex-detail` | cabeçalho com músculos e equipamento; histórico; como se faz; "Adicionar a um treino" |
-| `ExerciseHistory` | server | `ex-detail.css` | `mg-ex-history`, `__group`, `__row` | por data: hora, descanso antes (+4:02), reps e kg |
+| `ExerciseDetail` | server | `ex-detail.css` | `mg-ex-detail`, `__summary`, `__more`, `__tags` | debaixo do nome, uma linha curta (músculo principal · equipamento); o resto (todos os músculos, categoria, medida, nível, "Adicionar a um treino" e editar o exercício próprio) num `<details>` "Detalhes" fechado |
+| `ExerciseHistory` | server | `ex-detail.css` | `mg-ex-history`, `__group`, `__date` | por data (dia da semana em destaque), as séries em `SetLine`, da mais recente para a mais antiga |
+| `SetLine` | server/client | `set-line.css` | `mg-set-line`, `__time`, `__rest`, `__metric`, `__num`, `__unit`, `__end` | uma série numa linha: hora (e descanso antes) à esquerda; à direita o número grande com a unidade pequena (reps na cor das reps, kg na cor dos kg, ou segundos) e o fim (✓, troféu ou …) |
 | `ExerciseHowTo` | server | `ex-detail.css` | `mg-ex-howto`, `__images` | imagens e instruções na língua da pessoa |
 | `AddToWorkout` | client | `ex-detail.css` | `mg-add-to-workout` | escolhe o treino e acrescenta o exercício |
 | `SessionScreen` | client | `session.css` | `mg-session`, `__top`, `__list` | sessão activa: nome, cronómetro total, Terminar e ⋯ (notas, descartar), cartões dos exercícios, "+ Exercício", descanso; fila de gravação sem rede; wake lock; `visibilitychange` → `setClientHidden` |
 | `SessionTimer` | client | `session.css` | `mg-session-timer` | cronómetro total grande a partir de `startedAt` |
 | `SessionExerciseCard` | client | `session.css` | `mg-session-ex`, `__target`, `__last` | nome, alvo, "Última vez: 60 kg × 10, 10, 9", séries feitas e a próxima |
-| `SetRow` | client | `session.css` | `mg-set-row`, `__n`, `__reps`, `__kg`, `__time` | série feita (toque para editar ou apagar) |
+| `SetRow` | client | `session.css` | `mg-set-row` | série feita em `SetLine` (com a hora), toque para editar ou apagar |
 | `SetInputRow` | client | `session.css` | `mg-set-input` | próxima série pré-preenchida (`prefillSet`) com steppers e "Feita ✓" |
 | `NumberStepper` | client | `session.css` | `mg-stepper`, `__btn`, `__value` | − / valor (teclado numérico ao tocar) / + |
 | `sessionQueue` | client (módulo) | — | — | fila de séries sem rede no dispositivo (id do cliente e hora real), reenviada ao voltar a rede |
@@ -619,7 +620,7 @@ Peso diário com média semanal, objectivo em linguagem neutra, recordes e evolu
 | `BodyWeightCard` | server | `weight-card.css` | `mg-weight-card`, `__value`, `__delta` | último peso e média da semana com a diferença (seta neutra) → `/body/weight` |
 | `MuscleMap` | client | `muscle-map.css` | `mg-muscle-map`, `__views`, `__view`, `__shape--{just,mid,rested,neutral}`, `__glow`, `__legend` | SVG próprio (formas de `mapShapes.ts`) frente e costas, com gradiente, cantos suaves, brilho a pulsar nos músculos acabados de treinar e teclado; cores `--recovery-just`, `--recovery-mid`, `--recovery-rested`; tocar num músculo abre a `MuscleExercisesSheet` |
 | `MuscleExercisesSheet` | client | `muscle-map.css` | `mg-muscle-sheet` | últimos exercícios do músculo, com data e link |
-| `WeightChart` | client | `weight-chart.css` | `mg-weight-chart`, `__point`, `__trend`, `__goal`, `__axis`, `__tip` | SVG responsivo: pontos diários vazios, tendência de 7 dias, linha tracejada do alvo, 4 a 5 marcas por eixo; toque num ponto mostra data e kg; selector M · 6M · A (`SegmentedControl`); períodos Semana (por defeito), Mês e 6 meses |
+| `WeightChart` | client | `weight-chart.css` | `mg-weight-chart`, `__point`, `__trend`, `__goal`, `__axis`, `__tip` | SVG responsivo: pontos diários vazios ligados por uma linha que passa por cada pesagem, linha tracejada do alvo, 4 a 5 marcas por eixo; toque num ponto mostra data e kg; selector M · 6M · A (`SegmentedControl`); períodos Semana (por defeito), Mês e 6 meses |
 | `WeightEntrySheet` | client | `weight-entry.css` | `mg-weight-entry` | folha (`dialog`): data (hoje por defeito), kg com teclado decimal, "Guardar"; abre sozinha com `?new=1` |
 | `WeightList` | client | `weight-entry.css` | `mg-weight-list`, `__row`, `__delete` | registos (data e kg), deslizar para a esquerda (ou botão) para apagar |
 | `BodyGoalSheet` | client | `goal.css` | `mg-goal-sheet` | direcção (Ganhar · Manter · Perder em `SegmentedControl`), ritmo de `GOAL_RATES` ("+0,25 kg por semana"), alvo opcional; remover objectivo |
@@ -627,7 +628,8 @@ Peso diário com média semanal, objectivo em linguagem neutra, recordes e evolu
 | ~~`WeighInReminder`~~ | — | — | — | apagado: os avisos diários ficaram em três (manhã, corpo e noite), sem lembrete de pesagem |
 | `BodyGuideCard` | client | `goal.css` | `mg-goal-card` | convite para o Guia ler também o corpo (`setGuideIncludeBody`); desligar |
 | `ExerciseTabs` | client | `ex-list.css` (reutiliza `mg-ex-tabs`) | `mg-ex-tabs`, `__tab` | Séries · Evolução · Recordes no topo do exercício |
-| `CompareBlock` | server | `compare.css` | `mg-compare`, `__row`, `__bar`, `__delta` | "Comparado com a anterior": séries, reps, volume, kg/rep com barra de cor, valor, seta e % |
+| `CompareBlock` | server | — | — | na página do exercício: a última sessão contra a anterior, em `CompareCard` |
+| `CompareCard` | server/client | `compare.css` | `mg-compare`, `__head`, `__grid`, `__cell`, `__bar`, `__label`, `__value`, `__delta`, `--up` | cartão "Comparado com a anterior": grelha 2×2 (séries, reps, volume, kg por rep), cada uma com barra de cor, nome, valor e variação com ▲/▼ e % (▲ em verde quando sobe; o resto neutro); também em cada exercício da sessão, contra a última vez, assim que há uma série |
 | `ExerciseProgressChart` | client | `ex-chart.css` | `mg-ex-chart` | SVG de linha por sessão; selector melhor peso · e1RM · volume |
 | `ExerciseRecords` | server | `ex-records.css` | `mg-ex-records`, `__row` | melhor peso, melhor e1RM, máx. reps por peso, com datas |
 | `PrTrophy` | client | `pr.css` | `mg-pr`, `--fresh` | troféu dourado (`--pr-gold`); animação curta só sem `prefers-reduced-motion` |

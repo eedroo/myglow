@@ -3,14 +3,15 @@
 Plano para tirar o Foco no corpo (treinos, sessões, exercícios, peso e meta) do MYGLOW e fazer dele um app próprio,
 com repositório e projeto Vercel próprios. Escrito a partir do código do MYGLOW no commit `73f7028`.
 
-## 1. Decisões a tomar antes de começar
+## 1. Decisões (tomadas)
 
-| # | Decisão | Opções | Recomendação |
-|---|---|---|---|
-| 1 | Contas | **A.** Contas próprias no app novo (banco e login separados). **B.** Mesma conta do MYGLOW (mesmo banco ou login único entre domínios). | **A.** O app fica realmente independente. As contas atuais passam por uma migração única pelo e-mail (ver §5). |
-| 2 | O que o MYGLOW perde | Hoje, terminar um treino marca "Treino" no diário, o peso aparece na Semana, na Retrospectiva e no Guia, e a manhã passo a passo pede o peso. | Cortar tudo na v1. O Corpo do MYGLOW volta a ser só os 3 checks (alongamento, treino, água), que já existem para todos. Uma ponte por API pode vir depois (§8). |
-| 3 | Plano e pagamento | Hoje `body-pro` é premium no MYGLOW (liberado à mão pelo admin). | O app novo começa com o seu próprio interruptor de premium no admin. Quem tem `body-pro` hoje entra como premium. |
-| 4 | Nome e domínio | | A definir (ex.: `corpo.myglow.app` ou um domínio próprio). Usado em `APP_URL`, `AUTH_URL`, e-mails e PWA. |
+| # | Decisão | Escolha |
+|---|---|---|
+| 1 | Contas | Contas próprias no app novo: banco e login separados do MYGLOW. |
+| 2 | O que o MYGLOW perde | Tudo o que é do Foco no corpo. O Corpo do MYGLOW volta a ser só os 3 checks (água, treino, alongamento), para todos (§3). |
+| 3 | Utilizadores | Só a pessoa dona do projeto usava o Foco no corpo: não há migração de contas nem aviso a utilizadores (§5). |
+| 4 | Premium | O app novo tem o seu próprio interruptor de premium no admin (a dona do projeto é admin). |
+| 5 | Nome e domínio | A definir no outro chat. |
 
 ## 2. O que vai para o app novo
 
@@ -65,22 +66,18 @@ Começar com um Postgres novo (Neon, como o MYGLOW) e uma migração inicial lim
 - Base: `User` só com o que o app usa (e-mail, nome, `passwordHash`, `locale`, `timezone`, `theme`, verificação de e-mail, termos e privacidade, plano, `wellbeingConsentAt`, `createdAt`), tokens de verificação e recuperação, `PushSubscription`, `NotificationLog` (para o `REST_DONE`), `FeatureOverride` (premium manual).
 - Peso e meta são dados de saúde: manter o consentimento de bem-estar antes de mostrar ou gravar peso, como no MYGLOW.
 
-## 5. Migração das contas e dos dados (uma vez)
+## 5. Dados (só da dona do projeto)
 
-1. Escolher quem migra: utilizadores do MYGLOW com qualquer `FitnessSession`, `BodyWeightEntry`, `BodyGoal`, `FitnessProgram` ou exercício próprio.
-2. Script `scripts/migrate-from-myglow.ts` no repositório novo, com `MYGLOW_DATABASE_URL` (só leitura) e `DATABASE_URL` (o novo):
-   - cria o `User` pelo e-mail, copiando `passwordHash` (bcrypt), `locale`, `timezone`, `theme`, `emailVerifiedAt`, `wellbeingConsentAt`; quem tinha `body-pro` recebe premium;
-   - copia os exercícios próprios (`source = CUSTOM`) com os mesmos ids; os da biblioteca vêm do seed, com os mesmos ids;
-   - copia programas, treinos, itens, sessões, séries, pesagens e meta, mantendo os ids;
-   - é idempotente (upsert por id) e mostra no fim quantos registos copiou por tabela.
-3. Correr o seed da biblioteca no banco novo antes do script.
-4. Avisar quem migra (e-mail ou anúncio no MYGLOW): o mesmo e-mail e senha servem no app novo. Atualizar a Política de Privacidade dos dois apps (os dados passam para outro serviço do mesmo responsável).
-5. Só apagar as tabelas do corpo no MYGLOW depois de conferir os números e com um backup feito.
+Ninguém além da dona do projeto usava o Foco no corpo, por isso não há migração de contas. Há duas opções:
+- **Começar do zero** no app novo (mais simples).
+- **Copiar só os dados dela**: um script `scripts/copy-my-data.ts` no repositório novo, com `MYGLOW_DATABASE_URL` (só leitura) e `DATABASE_URL` (o novo), que pega no utilizador pelo e-mail e copia exercícios próprios, programas, treinos, sessões, séries, pesagens e meta, mantendo os ids (os exercícios da biblioteca vêm do seed, com os mesmos ids). As duas ligações são postas pela própria pessoa no terminal ou na Vercel, nunca no chat.
+
+Só depois de o app novo estar no ar (e os dados copiados, se for o caso) é que se tira o Foco no corpo do MYGLOW (§3), e só mais tarde se apagam as tabelas do corpo no banco do MYGLOW, com backup.
 
 ## 6. Vercel e serviços do app novo
 
-1. Repositório GitHub novo (ex.: `eedroo/foco-no-corpo`).
-2. Projeto Vercel novo ligado a esse repositório; Build Command `prisma generate && prisma migrate deploy && tsx prisma/seed-exercises.ts && next build`.
+1. Repositório GitHub novo (já criado), com o Claude GitHub App instalado.
+2. Projeto Vercel novo ligado a esse repositório. O banco pode ser criado pela própria Vercel (separador Storage → Neon), que põe as variáveis no projeto sozinha; o Prisma usa `DATABASE_URL` (com pooling) e `DIRECT_URL` (sem pooling, para as migrações), por isso copiar a variável sem pooling que a integração cria (`DATABASE_URL_UNPOOLED`) para `DIRECT_URL`. O primeiro deploy só passa depois de o banco existir. Build Command `prisma generate && prisma migrate deploy && tsx prisma/seed-exercises.ts && next build`.
 3. Variáveis de ambiente (configurar na Vercel; nada disto vai para o repositório nem para o chat):
    - `DATABASE_URL`, `DIRECT_URL` (Neon novo);
    - `AUTH_SECRET` (novo), `AUTH_URL`, `APP_URL` (domínio novo);
@@ -103,8 +100,8 @@ Começar com um Postgres novo (Neon, como o MYGLOW) e uma migração inicial lim
 4. Trazer as rotas e os componentes (sem o prefixo `/body`), as mensagens e o CSS.
 5. Onboarding próprio (hoje `body/welcome`), definições, exportação de dados e apagar conta.
 6. Deploy na Vercel com as variáveis (§6) e teste num telemóvel (treino, descanso com push, peso e meta).
-7. Script de migração (§5): ensaio num banco de teste e depois a sério.
-8. No MYGLOW: anúncio "O Foco no corpo mudou de casa" com link; depois tirar os pontos de ligação (§3) num commit; por fim, depois de um período de segurança, uma migração que apaga as tabelas do corpo.
+7. Se se quiser manter o histórico: o script de cópia dos dados da dona do projeto (§5).
+8. No MYGLOW (no chat do MYGLOW, não no do app novo): tirar os pontos de ligação (§3) num commit, voltando o Corpo aos 3 checks; mais tarde, com backup, uma migração que apaga as tabelas do corpo.
 
 ## 8. Depois (opcional): ponte entre os dois apps
 
@@ -114,7 +111,9 @@ em vez de partilhar o banco.
 
 ## 9. Texto para começar o outro chat
 
+Abrir a sessão nova com os dois repositórios selecionados (`eedroo/myglow` para ler e o repositório novo para escrever).
+
 > Vamos criar o app independente "Foco no corpo" a partir do MYGLOW. Lê `docs/FOCO-NO-CORPO-SEPARACAO.md` no
-> repositório `eedroo/myglow` (branch `claude/myglow-fase-1-fundacoes-9il6hz`) e segue a ordem da secção 7.
-> Decisões: [preencher a tabela da secção 1]. O repositório novo é `eedroo/<nome>`. Nunca me peças chaves nem senhas no
-> chat: as variáveis vão direto para a Vercel.
+> repositório `eedroo/myglow` (branch `claude/myglow-fase-1-fundacoes-9il6hz`) e segue a ordem da secção 7, com as
+> decisões da secção 1. O código novo vai para o repositório `eedroo/<nome>`. Não mexas no MYGLOW. Nunca me peças
+> chaves nem senhas no chat: as variáveis vão direto para a Vercel.
